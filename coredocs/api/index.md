@@ -1,10 +1,3 @@
----
-_tocPath: api/toc.html
-_tocRel: toc.html
-_navPath: toc.html
-_navRel: ../toc.html
----
-
 # .NET Core API Reference
 
 These documents cover the API reference for .NET Core. You can use the search function 
