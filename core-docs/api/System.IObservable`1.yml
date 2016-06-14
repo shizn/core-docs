@@ -13,22 +13,28 @@ items:
   type: Interface
   source:
     remote:
-      path: src/mscorlib/src/System/IObservable.cs
+      path: src/System.Runtime/ref/System.Runtime.cs
       branch: master
-      repo: https://github.com/dotnet/coreclr.git
+      repo: https://github.com/dotnet/corefx.git
     id: IObservable
-    path: src/mscorlib/src/System/IObservable.cs
-    startLine: 18
+    path: src/System.Runtime/ref/System.Runtime.cs
+    startLine: 1187
   assemblies:
   - System.Runtime
   namespace: System
-  summary: Defines a provider for push-based notification.
+  summary: "\n<p>Defines a provider for push-based notification.</p>\n"
+  remarks: "\n<p>The <xref href=\"System.IObserver`1\" data-throw-if-not-resolved=\"false\"></xref> and <xref href=\"System.IObservable`1\" data-throw-if-not-resolved=\"false\"></xref> interfaces provide a generalized mechanism for push-based notification, also known as the observer design pattern. The <xref href=\"System.IObservable`1\" data-throw-if-not-resolved=\"false\"></xref> interface represents the class that sends notifications (the provider); the <xref href=\"System.IObserver`1\" data-throw-if-not-resolved=\"false\"></xref> interface represents the class that receives them (the observer). <em>T</em> represents the class that provides the notification information. In some push-based notifications, the <xref href=\"System.IObserver`1\" data-throw-if-not-resolved=\"false\"></xref> implementation and <em>T</em> can represent the same type.</p>\n<p>The provider must implement a single method, <xref href=\"System.IObservable`1.Subscribe(System.IObserver{`0})\" data-throw-if-not-resolved=\"false\"></xref>, that indicates that an observer wants to receive push-based notifications. Callers to the method pass an instance of the observer. The method returns an <xref href=\"System.IDisposable\" data-throw-if-not-resolved=\"false\"></xref> implementation that enables observers to cancel notifications at any time before the provider has stopped sending them.</p>\n<p>At any given time, a given provider may have zero, one, or multiple observers. The provider is responsible for storing references to observers and ensuring that they are valid before it sends notifications. The <xref href=\"System.IObservable`1\" data-throw-if-not-resolved=\"false\"></xref> interface does not make any assumptions about the number of observers or the order in which notifications are sent.</p>\n<p>The provider sends the following three kinds of notifications to the observer by calling <xref href=\"System.IObserver`1\" data-throw-if-not-resolved=\"false\"></xref> methods: </p>\n<ul><li>\n<p>The current data. The provider can call the <xref href=\"System.IObserver`1.OnNext(`0)\" data-throw-if-not-resolved=\"false\"></xref> method to pass the observer a <em>T</em> object that has current data, changed data, or fresh data.</p>\n</li><li>\n<p>An error condition. The provider can call the <xref href=\"System.IObserver`1.OnError(System.Exception)\" data-throw-if-not-resolved=\"false\"></xref> method to notify the observer that some error condition has occurred.</p>\n</li><li>\n<p>No further data. The provider can call the <xref href=\"System.IObserver`1.OnCompleted\" data-throw-if-not-resolved=\"false\"></xref> method to notify the observer that it has finished sending notifications.</p>\n</li></ul>\n"
+  example:
+  - "\n<p>The following example illustrates the observer design pattern. It defines a <code>Location</code> class that contains latitude and longitude information.</p>System.IObserver.Class#5<p>The <code>LocationTracker</code> class provides the <xref href=\"System.IObservable`1\" data-throw-if-not-resolved=\"false\"></xref> implementation. Its <code>TrackLocation</code> method is passed a nullable <code>Location</code> object that contains the latitude and longitude data. If the <code>Location</code> value is not <strong>null</strong>, the <code>TrackLocation</code> method calls the <xref href=\"System.IObserver`1.OnNext(`0)\" data-throw-if-not-resolved=\"false\"></xref> method of each observer.</p>System.IObserver.Class#6<p>If the <code>Location</code> value is <strong>null</strong>, the <code>TrackLocation</code> method instantiates a <code>LocationUnknownException</code> object, which is shown in the following example. It then calls each observer's <xref href=\"System.IObserver`1.OnError(System.Exception)\" data-throw-if-not-resolved=\"false\"></xref> method and passes it the <code>LocationUnknownException</code> object. Note that <code>LocationUnknownException</code> derives from <xref href=\"System.Exception\" data-throw-if-not-resolved=\"false\"></xref>, but does not add any new members.</p>System.IObserver.Class#7<p>Observers register to receive notifications from a <code>TrackLocation</code> object by calling its <xref href=\"System.IObservable`1.Subscribe(System.IObserver{`0})\" data-throw-if-not-resolved=\"false\"></xref> method, which assigns a reference to the observer object to a private generic <xref href=\"System.Collections.Generic.List`1\" data-throw-if-not-resolved=\"false\"></xref> object. The method returns an <code>Unsubscriber</code> object, which is an <xref href=\"System.IDisposable\" data-throw-if-not-resolved=\"false\"></xref> implementation that enables observers to stop receiving notifications. The <code>LocationTracker</code> class also includes an <code>EndTransmission</code> method. When no further location data is available, the method calls each observer's <xref href=\"System.IObserver`1.OnCompleted\" data-throw-if-not-resolved=\"false\"></xref> method and then clears the internal list of observers.</p><p>In this example, the <code>LocationReporter</code> class provides the <xref href=\"System.IObserver`1\" data-throw-if-not-resolved=\"false\"></xref> implementation. It displays information about the current location to the console. Its constructor includes a <em>name</em> parameter, which enables the <code>LocationReporter</code> instance to identify itself in its string output. It also includes a <code>Subscribe</code> method, which wraps a call to the provider's <xref href=\"System.IObservable`1.Subscribe(System.IObserver{`0})\" data-throw-if-not-resolved=\"false\"></xref> method. This allows the method to assign the returned <xref href=\"System.IDisposable\" data-throw-if-not-resolved=\"false\"></xref> reference to a private variable. The <code>LocationReporter</code> class also includes an <code>Unsubscribe</code> method, which calls the <xref href=\"System.IDisposable.Dispose\" data-throw-if-not-resolved=\"false\"></xref> method of the object that is returned by the <xref href=\"System.IObservable`1.Subscribe(System.IObserver{`0})\" data-throw-if-not-resolved=\"false\"></xref> method. The following code defines the <code>LocationReporter</code> class. </p>System.IObserver.Class#8<p>The following code then instantiates the provider and the observer.</p>System.IObserver.Class#9"
   syntax:
     content: public interface IObservable<out T>
     content.vb: Public Interface IObservable(Of Out T)
     typeParameters:
     - id: T
-      description: The object that provides notification information.This type parameter is covariant. That is, you can use either the type you specified or any type that is more derived. For more information about covariance and contravariance, see Covariance and Contravariance in Generics.
+      description: "\n<p>The object that provides notification information.</p>\n"
+  seealso:
+  - type: System.IObserver`1
+    commentId: T:System.IObserver`1
   modifiers.csharp:
   - public
   - interface
@@ -49,26 +55,32 @@ items:
   type: Method
   source:
     remote:
-      path: src/mscorlib/src/System/IObservable.cs
+      path: src/System.Runtime/ref/System.Runtime.cs
       branch: master
-      repo: https://github.com/dotnet/coreclr.git
+      repo: https://github.com/dotnet/corefx.git
     id: Subscribe
-    path: src/mscorlib/src/System/IObservable.cs
-    startLine: 20
+    path: src/System.Runtime/ref/System.Runtime.cs
+    startLine: 1189
   assemblies:
   - System.Runtime
   namespace: System
-  summary: Notifies the provider that an observer is to receive notifications.
+  summary: "\n<p>Notifies the provider that an observer is to receive notifications.</p>\n"
+  remarks: "\n<p>The <xref href=\"System.IObservable`1.Subscribe(System.IObserver{`0})\" data-throw-if-not-resolved=\"false\"></xref> method must be called to register an observer for push-based notifications. A typical implementation of the <xref href=\"System.IObservable`1.Subscribe(System.IObserver{`0})\" data-throw-if-not-resolved=\"false\"></xref> method does the following:</p>\n<ul><li>\n<p>It stores a reference to the observer in a collection object, such as a <xref href=\"System.Collections.Generic.List`1\" data-throw-if-not-resolved=\"false\"></xref> object.</p>\n</li><li>\n<p>It returns a reference to an <xref href=\"System.IDisposable\" data-throw-if-not-resolved=\"false\"></xref> interface. This enables observers to unsubscribe (that is, to stop receiving notifications) before the provider has finished sending them and called the subscriber's <xref href=\"System.IObserver`1.OnCompleted\" data-throw-if-not-resolved=\"false\"></xref> method.</p>\n</li></ul>\n<p>At any given time, a particular instance of an <xref href=\"System.IObservable`1\" data-throw-if-not-resolved=\"false\"></xref> implementation is responsible for handling all subscriptions and notifying all subscribers. Unless the documentation for a particular <xref href=\"System.IObservable`1\" data-throw-if-not-resolved=\"false\"></xref> implementation indicates otherwise, observers should make no assumptions about the <xref href=\"System.IObservable`1\" data-throw-if-not-resolved=\"false\"></xref> implementation, such as the order of notifications that multiple observers will receive.</p>\n"
+  example:
+  - "\n<p>The following example illustrates the <xref href=\"System.IObservable`1.Subscribe(System.IObserver{`0})\" data-throw-if-not-resolved=\"false\"></xref> method for an application that reports latitude and longitude information. It defines an <xref href=\"System.Collections.Generic.IList`1\" data-throw-if-not-resolved=\"false\"></xref> collection object that stores references to all observers. It also returns a private class named <code>Unsubscriber</code> that implements the <xref href=\"System.IDisposable\" data-throw-if-not-resolved=\"false\"></xref> interface and enables subscribers to stop receiving event notifications.  See the Example section of the <xref href=\"System.IObservable`1\" data-throw-if-not-resolved=\"false\"></xref> topic for the complete example.</p>System.IObserver.Class#13"
   syntax:
     content: IDisposable Subscribe(IObserver<T> observer)
     content.vb: Function Subscribe(observer As IObserver(Of T)) As IDisposable
     parameters:
     - id: observer
       type: System.IObserver{{T}}
-      description: The object that is to receive notifications.
+      description: "\n<p>The object that is to receive notifications.</p>\n"
     return:
       type: System.IDisposable
-      description: A reference to an interface that allows observers to stop receiving notifications before the provider has finished sending them.
+      description: "\n<p>A reference to an interface that allows observers to stop receiving notifications before the provider has finished sending them.</p>\n"
+  seealso:
+  - type: System.IObserver`1
+    commentId: T:System.IObserver`1
   fullName.vb: System.IObservable(Of T).Subscribe(System.IObserver(Of T))
   name.vb: Subscribe(IObserver(Of T))
 references:
@@ -111,17 +123,18 @@ references:
 - uid: System.IObserver`1
   parent: System
   isExternal: false
-  name: IObserver<>
-  fullName: System.IObserver<>
-  fullname.vb: System.IObserver(Of )
-  name.vb: IObserver(Of )
+  name: IObserver<T>
+  fullName: System.IObserver<T>
+  fullname.vb: System.IObserver(Of T)
+  name.vb: IObserver(Of T)
   spec.csharp:
   - uid: System.IObserver`1
     name: IObserver
     fullName: System.IObserver
   - name: <
     fullName: <
-  - {}
+  - name: T
+    fullName: T
   - name: '>'
     fullName: '>'
   spec.vb:
@@ -130,6 +143,7 @@ references:
     fullName: System.IObserver
   - name: '(Of '
     fullName: '(Of '
-  - {}
+  - name: T
+    fullName: T
   - name: )
     fullName: )

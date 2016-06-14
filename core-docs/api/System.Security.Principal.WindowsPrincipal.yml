@@ -27,12 +27,15 @@ items:
   assemblies:
   - System.Security.Principal.Windows
   namespace: System.Security.Principal
-  summary: Enables code to check the Windows group membership of a Windows user.
+  summary: "\n<p>Enables code to check the Windows group membership of a Windows user.</p>\n"
+  remarks: "\n<p>The <xref href=\"System.Security.Principal.WindowsPrincipal\" data-throw-if-not-resolved=\"false\"></xref> class is primarily used to check the role of a Windows user. The <see cref=\"Overload:System.Security.Principal.WindowsPrincipal.IsInRole\"></see> method overloads let you check the user role by using different role contexts.</p>\n"
+  example:
+  - "\n<p>The following example demonstrates how to use the <see cref=\"Overload:System.Security.Principal.WindowsPrincipal.IsInRole\"></see> method overloads. The <xref href=\"System.Security.Principal.WindowsBuiltInRole\" data-throw-if-not-resolved=\"false\"></xref> enumeration is used as the source for the relative identifiers (RIDs) that identify the built-in roles. The RIDs are used to determine the roles of the current principal.</p>System.Security.Principal.WindowsBuiltInRole Example#1"
   syntax:
-    content: 'public class WindowsPrincipal : Claims.ClaimsPrincipal'
+    content: 'public class WindowsPrincipal : ClaimsPrincipal'
     content.vb: >-
       Public Class WindowsPrincipal
-          Inherits Claims.ClaimsPrincipal
+          Inherits ClaimsPrincipal
   inheritance:
   - System.Object
   modifiers.csharp:
@@ -62,18 +65,19 @@ items:
   assemblies:
   - System.Security.Principal.Windows
   namespace: System.Security.Principal
-  summary: Initializes a new instance of the <xref href="System.Security.Principal.WindowsPrincipal" data-throw-if-not-resolved="false"></xref> class by using the specified <xref href="System.Security.Principal.WindowsIdentity" data-throw-if-not-resolved="false"></xref> object.
+  summary: "\n<p>Initializes a new instance of the <xref href=\"System.Security.Principal.WindowsPrincipal\" data-throw-if-not-resolved=\"false\"></xref> class by using the specified <xref href=\"System.Security.Principal.WindowsIdentity\" data-throw-if-not-resolved=\"false\"></xref> object.</p>\n"
+  example:
+  - "\n<p>The following example creates a new <xref href=\"System.Security.Principal.WindowsPrincipal\" data-throw-if-not-resolved=\"false\"></xref> object from the current <xref href=\"System.Security.Principal.WindowsIdentity\" data-throw-if-not-resolved=\"false\"></xref> object.</p>Classic WindowsPrincipal.WindowsPrincipal Example#1"
   syntax:
     content: public WindowsPrincipal(WindowsIdentity ntIdentity)
     content.vb: Public Sub New(ntIdentity As WindowsIdentity)
     parameters:
     - id: ntIdentity
       type: System.Security.Principal.WindowsIdentity
-      description: 'The object from which to construct the new instance of <xref href="System.Security.Principal.WindowsPrincipal" data-throw-if-not-resolved="false"></xref>. '
   exceptions:
   - type: System.ArgumentNullException
     commentId: T:System.ArgumentNullException
-    description: "\n<em>ntIdentity</em> is null. "
+    description: "\n<p>\n<em>ntIdentity</em> is <strong>null</strong>. </p>\n"
   modifiers.csharp:
   - public
   modifiers.vb:
@@ -99,14 +103,15 @@ items:
   assemblies:
   - System.Security.Principal.Windows
   namespace: System.Security.Principal
-  summary: Gets the identity of the current principal.
+  summary: "\n<p>Gets the identity of the current principal.</p>\n"
+  example:
+  - "\n<p>The following example retrieves the name of the user by using the <xref href=\"System.Security.Principal.WindowsPrincipal.Identity\" data-throw-if-not-resolved=\"false\"></xref> property of the <xref href=\"System.Security.Principal.WindowsPrincipal\" data-throw-if-not-resolved=\"false\"></xref> object.</p>Classic WindowsPrincipal.Identity Example#1"
   syntax:
     content: public override IIdentity Identity { get; }
     content.vb: Public Overrides ReadOnly Property Identity As IIdentity
     parameters: []
     return:
-      type: System.Security.Principal.IIdentity
-      description: The <xref href="System.Security.Principal.WindowsIdentity" data-throw-if-not-resolved="false"></xref> object of the current principal.
+      type: IIdentity
   modifiers.csharp:
   - public
   - override
@@ -136,17 +141,18 @@ items:
   assemblies:
   - System.Security.Principal.Windows
   namespace: System.Security.Principal
-  summary: Determines whether the current principal belongs to the Windows user group with the specified relative identifier (RID).
+  summary: "\n<p>Determines whether the current principal belongs to the Windows user group with the specified relative identifier (RID).</p>\n"
+  remarks: "\n<p>When testing for newly created role information, such as a new user or a new group, it is important to log out and log in to force the propagation of role information within the domain. Not doing so can cause the <see cref=\"Overload:System.Security.Principal.WindowsPrincipal.IsInRole\"></see> test to return <strong>false</strong>. This method is not supported on Windows 98 or Windows Millennium Edition.</p>\n<p>For performance reasons, the <xref href=\"System.Security.Principal.WindowsPrincipal.IsInRole(System.Security.Principal.SecurityIdentifier)\" data-throw-if-not-resolved=\"false\"></xref> overload is recommended as the preferable overload for determining the user's role.</p>\n<p>In Windows Vista, User Account Control (UAC) determines the privileges of a user. If you are a member of the Built-in Administrators group, you are assigned two run-time access tokens: a standard user access token and an administrator access token. By default, you are in the standard user role. When you attempt to perform a task that requires administrative privileges, you can dynamically elevate your role by using the Consent dialog box. The code that executes the <see cref=\"Overload:System.Security.Principal.WindowsPrincipal.IsInRole\"></see> method does not display the Consent dialog box. The code returns false if you are in the standard user role, even if you are in the Built-in Administrators group. You can elevate your privileges before you execute the code by right-clicking the application icon and indicating that you want to run as an administrator.</p>\n<p>Relative identifiers (RIDs) are components of a Windows user group's security identifier (SID) and are supported to help prevent cross-platform localization issues. Many user accounts, local groups, and global groups have a default RID value that is constant across all versions of Windows. </p>\n<p>For example, the RID for the BUILTIN\\Administrators role is 0x220. Using 0x220 as the input parameter for the <xref href=\"System.Security.Principal.WindowsPrincipal.IsInRole(System.Security.Principal.SecurityIdentifier)\" data-throw-if-not-resolved=\"false\"></xref> method results in <strong>true</strong> being returned if the current principal is an administrator. </p>\n<p>The following tables list the default RID values.</p>\n<p>Built-in users</p>\n<p>RID</p>\n<table><tbody><tr><td>\n<p>DOMAINNAME\\Administrator</p>\n</td><td>\n<p>0x1F4</p>\n</td></tr><tr><td>\n<p>DOMAINNAME\\Guest</p>\n</td><td>\n<p>0x1F5</p>\n</td></tr></tbody></table>\n<p>Built-in global groups</p>\n<p>RID</p>\n<table><tbody><tr><td>\n<p>DOMAINNAME\\Domain Admins</p>\n</td><td>\n<p>0x200</p>\n</td></tr><tr><td>\n<p>DOMAINNAME\\Domain Users   </p>\n</td><td>\n<p>0x201</p>\n</td></tr><tr><td>\n<p>DOMAINNAME\\Domain Guests     </p>\n</td><td>\n<p>0x202</p>\n</td></tr></tbody></table>\n<p>Built-in local groups</p>\n<p>RID</p>\n<table><tbody><tr><td>\n<p>BUILTIN\\Administrators    </p>\n</td><td>\n<p>0x220</p>\n</td></tr><tr><td>\n<p>BUILTIN\\Users         </p>\n</td><td>\n<p>0x221</p>\n</td></tr><tr><td>\n<p>BUILTIN\\Guests      </p>\n</td><td>\n<p>0x222</p>\n</td></tr><tr><td>\n<p>BUILTIN\\Account Operators  </p>\n</td><td>\n<p>0x224</p>\n</td></tr><tr><td>\n<p>BUILTIN\\Server Operators   </p>\n</td><td>\n<p>0x225</p>\n</td></tr><tr><td>\n<p>BUILTIN\\Print Operators    </p>\n</td><td>\n<p>0x226</p>\n</td></tr><tr><td>\n<p>BUILTIN\\Backup Operators  </p>\n</td><td>\n<p>0x227</p>\n</td></tr><tr><td>\n<p>BUILTIN\\Replicator        </p>\n</td><td>\n<p>0x228</p>\n</td></tr></tbody></table>\n"
+  example:
+  - "\n<p>The following code example demonstrates the use of  the <see cref=\"Overload:System.Security.Principal.WindowsPrincipal.IsInRole\"></see> methods. The <xref href=\"System.Security.Principal.WindowsBuiltInRole\" data-throw-if-not-resolved=\"false\"></xref> enumeration is used as the source for the RIDs that identify the built-in roles. The RIDs are used to determine the roles of the current principal.</p>System.Security.Principal.WindowsBuiltInRole Example#1"
   syntax:
     content: public virtual bool IsInRole(int rid)
     content.vb: Public Overridable Function IsInRole(rid As Integer) As Boolean
     parameters:
     - id: rid
       type: System.Int32
-      description: "The RID of the Windows user group in which to check for the principal’s membership status. "
     return:
       type: System.Boolean
-      description: true if the current principal is a member of the specified Windows user group, that is, in a particular role; otherwise, false.
   modifiers.csharp:
   - public
   - virtual
@@ -174,24 +180,25 @@ items:
   assemblies:
   - System.Security.Principal.Windows
   namespace: System.Security.Principal
-  summary: Determines whether the current principal belongs to the Windows user group with the specified security identifier (SID).
+  summary: "\n<p>Determines whether the current principal belongs to the Windows user group with the specified security identifier (SID).</p>\n"
+  remarks: "\n<p>The <xref href=\"System.Security.Principal.SecurityIdentifier\" data-throw-if-not-resolved=\"false\"></xref> uniquely identifies a user or group on Windows 2000, Windows Server, and Windows XP implementations. When testing for newly created role information, such as a new user or a new group, it is important to log out and log in to force the propagation of role information within the domain. Not doing so can cause the <see cref=\"Overload:System.Security.Principal.WindowsPrincipal.IsInRole\"></see> test to return <strong>false</strong>. This method is not supported on Windows 98 or Windows Millennium Edition.</p>\n<p>In Windows Vista, User Account Control (UAC) determines the privileges of a user. If you are a member of the Built-in Administrators group, you are assigned two run-time access tokens: a standard user access token and an administrator access token. By default, you are in the standard user role. When you attempt to perform a task that requires administrative privileges, you can dynamically elevate your role by using the Consent dialog box. The code that executes the <see cref=\"Overload:System.Security.Principal.WindowsPrincipal.IsInRole\"></see> method does not display the Consent dialog box. The code returns false if you are in the standard user role, even if you are in the Built-in Administrators group. You can elevate your privileges before you execute the code by right-clicking the application icon and indicating that you want to run as an administrator.</p>\n<p>For performance reasons, this is the preferable overload to determine a user's role.</p>\n"
+  example:
+  - "\n<p>The following code example demonstrates the use of the <xref href=\"System.Security.Principal.WindowsPrincipal.IsInRole(System.Security.Principal.SecurityIdentifier)\" data-throw-if-not-resolved=\"false\"></xref> method. The <xref href=\"System.Security.Principal.WellKnownSidType.BuiltinAdministratorsSid\" data-throw-if-not-resolved=\"false\"></xref> enumeration value is used to determine whether the current principal is an administrator. For the full code example, see the <xref href=\"System.Security.Principal.WindowsPrincipal.IsInRole(System.Int32)\" data-throw-if-not-resolved=\"false\"></xref> method.</p>System.Security.Principal.WindowsBuiltInRole Example#5"
   syntax:
     content: public virtual bool IsInRole(SecurityIdentifier sid)
     content.vb: Public Overridable Function IsInRole(sid As SecurityIdentifier) As Boolean
     parameters:
     - id: sid
       type: System.Security.Principal.SecurityIdentifier
-      description: A <xref href="System.Security.Principal.SecurityIdentifier" data-throw-if-not-resolved="false"></xref>  that uniquely identifies a Windows user group.
     return:
       type: System.Boolean
-      description: true if the current principal is a member of the specified Windows user group; otherwise, false.
   exceptions:
   - type: System.ArgumentNullException
     commentId: T:System.ArgumentNullException
-    description: "\n<em>sid</em> is null."
+    description: "\n<p>\n<em>sid</em> is <strong>null</strong>.</p>\n"
   - type: System.Security.SecurityException
     commentId: T:System.Security.SecurityException
-    description: Windows returned a Win32 error.
+    description: "\n<p>Windows returned a Win32 error.</p>\n"
   modifiers.csharp:
   - public
   - virtual
@@ -219,21 +226,22 @@ items:
   assemblies:
   - System.Security.Principal.Windows
   namespace: System.Security.Principal
-  summary: Determines whether the current principal belongs to the Windows user group with the specified <xref href="System.Security.Principal.WindowsBuiltInRole" data-throw-if-not-resolved="false"></xref>.
+  summary: "\n<p>Determines whether the current principal belongs to the Windows user group with the specified <xref href=\"System.Security.Principal.WindowsBuiltInRole\" data-throw-if-not-resolved=\"false\"></xref>.</p>\n"
+  remarks: "\n<p>When testing for newly created role information, such as a new user or a new group, it is important to log out and log in to force the propagation of role information within the domain. Not doing so can cause the <see cref=\"Overload:System.Security.Principal.WindowsPrincipal.IsInRole\"></see> test to return <strong>false</strong>. This method is not supported on Windows 98 or Windows Millennium Edition.</p>\n<p>For performance reasons, the <xref href=\"System.Security.Principal.WindowsPrincipal.IsInRole(System.Security.Principal.SecurityIdentifier)\" data-throw-if-not-resolved=\"false\"></xref> overload is recommended as the preferable overload for determining the user's role.</p>\n<p>In Windows Vista, User Account Control (UAC) determines the privileges of a user. If you are a member of the Built-in Administrators group, you are assigned two run-time access tokens: a standard user access token and an administrator access token. By default, you are in the standard user role. When you attempt to perform a task that requires administrative privileges, you can dynamically elevate your role by using the Consent dialog box. The code that executes the <see cref=\"Overload:System.Security.Principal.WindowsPrincipal.IsInRole\"></see> method does not display the Consent dialog box. The code returns false if you are in the standard user role, even if you are in the Built-in Administrators group. You can elevate your privileges before you execute the code by right-clicking the application icon and indicating that you want to run as an administrator.</p>\n"
+  example:
+  - "\n<p>The following example uses the <xref href=\"System.Security.Principal.WindowsBuiltInRole\" data-throw-if-not-resolved=\"false\"></xref> enumeration is used to determine whether the current principal is an <xref href=\"System.Security.Principal.WindowsBuiltInRole.Administrator\" data-throw-if-not-resolved=\"false\"></xref>. For the full code example, see the <xref href=\"System.Security.Principal.WindowsPrincipal.IsInRole(System.Int32)\" data-throw-if-not-resolved=\"false\"></xref> method.</p>System.Security.Principal.WindowsBuiltInRole Example#4"
   syntax:
     content: public virtual bool IsInRole(WindowsBuiltInRole role)
     content.vb: Public Overridable Function IsInRole(role As WindowsBuiltInRole) As Boolean
     parameters:
     - id: role
       type: System.Security.Principal.WindowsBuiltInRole
-      description: 'One of the <xref href="System.Security.Principal.WindowsBuiltInRole" data-throw-if-not-resolved="false"></xref> values. '
     return:
       type: System.Boolean
-      description: true if the current principal is a member of the specified Windows user group; otherwise, false.
   exceptions:
   - type: System.ArgumentException
     commentId: T:System.ArgumentException
-    description: "\n<em>role</em> is not a valid <xref href=\"System.Security.Principal.WindowsBuiltInRole\" data-throw-if-not-resolved=\"false\"></xref> value."
+    description: "\n<p>\n<em>role</em> is not a valid <xref href=\"System.Security.Principal.WindowsBuiltInRole\" data-throw-if-not-resolved=\"false\"></xref> value.</p>\n"
   modifiers.csharp:
   - public
   - virtual
@@ -261,17 +269,24 @@ items:
   assemblies:
   - System.Security.Principal.Windows
   namespace: System.Security.Principal
-  summary: Determines whether the current principal belongs to the Windows user group with the specified name.
+  summary: "\n<p>Determines whether the current principal belongs to the Windows user group with the specified name.</p>\n"
+  remarks: "\n<p>When testing for newly created role information, such as a new user or a new group, it is important to log out and log in to force the propagation of role information within the domain. Not doing so can cause the <see cref=\"Overload:System.Security.Principal.WindowsPrincipal.IsInRole\"></see> test to return <strong>false</strong>. This method is not supported on Windows 98 or Windows Millennium Edition.</p>\n<p>For performance reasons, the <xref href=\"System.Security.Principal.WindowsPrincipal.IsInRole(System.Security.Principal.SecurityIdentifier)\" data-throw-if-not-resolved=\"false\"></xref> overload is recommended as the preferable overload for determining the user's role.</p>\n<p>In Windows Vista, User Account Control (UAC) determines the privileges of a user. If you are a member of the Built-in Administrators group, you are assigned two run-time access tokens: a standard user access token and an administrator access token. By default, you are in the standard user role. When you attempt to perform a task that requires administrative privileges, you can dynamically elevate your role by using the Consent dialog box. The code that executes the <see cref=\"Overload:System.Security.Principal.WindowsPrincipal.IsInRole\"></see> method does not display the Consent dialog box. The code returns false if you are in the standard user role, even if you are in the Built-in Administrators group. You can elevate your privileges before you execute the code by right-clicking the application icon and indicating that you want to run as an administrator.</p>\n<p>For built-in roles, the <em>role</em> string should be in the form \"BUILTIN\\RoleNameHere\". For example, to test for membership in the Windows administrator role, the string representing the role should be \"BUILTIN\\Administrators\". Note that the backslash might need to be escaped. The following table lists the built-in roles.</p>\n<p>The spelling for the BUILTIN roles in string format differs from the spelling used in the <xref href=\"System.Security.Principal.WindowsBuiltInRole\" data-throw-if-not-resolved=\"false\"></xref> enumeration. For example, the spelling for an administrator in the enumeration is \"Administrator\", not \"Administrators\". When using this overload, use the spelling for the role from the following table.</p>\n<p>Built-in local groups</p>\n<p>For machine-specific roles, the <em>role</em> string should be in the form \"MachineName\\RoleNameHere\".</p>\n<p>For domain-specific roles, the <em>role</em> string should be in the form \"DomainName\\RoleNameHere\"; for example, <code>\"SomeDomain\\Domain Users</code>\". </p>\n<p>In the .NET Framework version 1.0, the <em>role</em> parameter is case-sensitive. In the .NET Framework version 1.1 and later, the <em>role</em> parameter is case-insensitive.</p>\n"
+  example:
+  - "\n<p>The following code example demonstrates the use of the <xref href=\"System.Security.Principal.WindowsPrincipal.IsInRole(System.String)\" data-throw-if-not-resolved=\"false\"></xref> method. </p>\n<p>The strings <code>BUILTIN\\Administrators</code> and <code>BUILTIN\\Users</code> are used to determine whether the current principal is an administrator or a user. For the full code example, see the <xref href=\"System.Security.Principal.WindowsPrincipal.IsInRole(System.Int32)\" data-throw-if-not-resolved=\"false\"></xref> method.</p>System.Security.Principal.WindowsBuiltInRole Example#3"
   syntax:
     content: public override bool IsInRole(string role)
     content.vb: Public Overrides Function IsInRole(role As String) As Boolean
     parameters:
     - id: role
       type: System.String
-      description: 'The name of the Windows user group for which to check membership. '
     return:
       type: System.Boolean
-      description: true if the current principal is a member of the specified Windows user group; otherwise, false.
+  seealso:
+  - type: System.Security.Principal.WindowsBuiltInRole
+    commentId: T:System.Security.Principal.WindowsBuiltInRole
+  see:
+  - type: System.Security.Permissions.SecurityPermission
+    commentId: T:System.Security.Permissions.SecurityPermission
   modifiers.csharp:
   - public
   - override
@@ -300,7 +315,7 @@ references:
 - uid: System.Security.Principal.IIdentity
   parent: System.Security.Principal
   isExternal: false
-  name: Principal.IIdentity
+  name: IIdentity
   fullName: System.Security.Principal.IIdentity
 - uid: System.Int32
   parent: System
@@ -315,7 +330,7 @@ references:
 - uid: System.Security.Principal.SecurityIdentifier
   parent: System.Security.Principal
   isExternal: false
-  name: Principal.SecurityIdentifier
+  name: SecurityIdentifier
   fullName: System.Security.Principal.SecurityIdentifier
 - uid: System.Security.Principal.WindowsBuiltInRole
   parent: System.Security.Principal

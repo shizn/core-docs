@@ -38,7 +38,10 @@ items:
   assemblies:
   - Microsoft.Win32.Registry.AccessControl
   namespace: System.Security.AccessControl
-  summary: Represents the Windows access control security for a registry key. This class cannot be inherited.
+  summary: "\n<p>Represents the Windows access control security for a registry key. This class cannot be inherited.</p>\n"
+  remarks: "\n<p>A <xref href=\"System.Security.AccessControl.RegistrySecurity\" data-throw-if-not-resolved=\"false\"></xref> object specifies access rights for a registry key, and also specifies how access attempts are audited. Access rights to the registry key are expressed as rules, with each access rule represented by a <xref href=\"System.Security.AccessControl.RegistryAccessRule\" data-throw-if-not-resolved=\"false\"></xref> object. Each auditing rule is represented by a <xref href=\"System.Security.AccessControl.RegistryAuditRule\" data-throw-if-not-resolved=\"false\"></xref> object.</p>\n<p>This mirrors the underlying Windows security system, in which each securable object has at most one discretionary access control list (DACL) that controls access to the secured object, and at most one system access control list (SACL) that specifies which access attempts are audited. The DACL and SACL are ordered lists of access control entries (ACE) that specify access and auditing for users and groups. A <xref href=\"System.Security.AccessControl.RegistryAccessRule\" data-throw-if-not-resolved=\"false\"></xref> or <xref href=\"System.Security.AccessControl.RegistryAuditRule\" data-throw-if-not-resolved=\"false\"></xref> object might represent more than one ACE.</p>\n<p>Windows access control security can only be applied to registry keys. It cannot be applied to individual key/value pairs stored in a key. </p>\n<p>The <xref href=\"System.Security.AccessControl.RegistrySecurity\" data-throw-if-not-resolved=\"false\"></xref>, <xref href=\"System.Security.AccessControl.RegistryAccessRule\" data-throw-if-not-resolved=\"false\"></xref>, and <xref href=\"System.Security.AccessControl.RegistryAuditRule\" data-throw-if-not-resolved=\"false\"></xref> classes hide the implementation details of ACLs and ACEs. They allow you to ignore the seventeen different ACE types and the complexity of correctly maintaining inheritance and propagation of access rights. These objects are also designed to prevent the following common access control errors:</p>\n<ul><li>\n<p>Creating a security descriptor with a null DACL. A null reference to a DACL allows any user to add access rules to an object, potentially creating a denial-of-service attack. A new <xref href=\"System.Security.AccessControl.RegistrySecurity\" data-throw-if-not-resolved=\"false\"></xref> object always starts with an empty DACL, which denies all access for all users.</p>\n</li><li>\n<p>Violating the canonical ordering of ACEs. If the ACE list in the DACL is not kept in the canonical order, users might inadvertently be given access to the secured object. For example, denied access rights must always appear before allowed access rights. <xref href=\"System.Security.AccessControl.RegistrySecurity\" data-throw-if-not-resolved=\"false\"></xref> objects maintain the correct order internally. </p>\n</li><li>\n<p>Manipulating security descriptor flags, which should be under resource manager control only. </p>\n</li><li>\n<p>Creating invalid combinations of ACE flags.</p>\n</li><li>\n<p>Manipulating inherited ACEs. Inheritance and propagation are handled by the resource manager, in response to changes you make to access and audit rules. </p>\n</li><li>\n<p>Inserting meaningless ACEs into ACLs.</p>\n</li></ul>\n<p>The only capabilities not supported by the .NET security objects are dangerous activities that should be avoided by the majority of application developers, such as the following:</p>\n<ul><li>\n<p>Low-level tasks that are normally performed by the resource manager.</p>\n</li><li>\n<p>Adding or removing access control entries in ways that do not maintain the canonical ordering. </p>\n</li></ul>\n<p>To modify Windows access control security for a registry key, use the <xref href=\"Microsoft.Win32.RegistryKey.GetAccessControl\" data-throw-if-not-resolved=\"false\"></xref> method to get the <xref href=\"System.Security.AccessControl.RegistrySecurity\" data-throw-if-not-resolved=\"false\"></xref> object. Modify the security object by adding and removing rules, and then use the <xref href=\"Microsoft.Win32.RegistryKey.SetAccessControl(System.Security.AccessControl.RegistrySecurity)\" data-throw-if-not-resolved=\"false\"></xref> method to reattach it. </p>\n<p>Changes you make to a <xref href=\"System.Security.AccessControl.RegistrySecurity\" data-throw-if-not-resolved=\"false\"></xref> object do not affect the access levels of the registry key until you call the <xref href=\"Microsoft.Win32.RegistryKey.SetAccessControl(System.Security.AccessControl.RegistrySecurity)\" data-throw-if-not-resolved=\"false\"></xref> method to assign the altered security object to the registry key.</p>\n<p>To copy access control security from one registry key to another, use the <xref href=\"Microsoft.Win32.RegistryKey.GetAccessControl\" data-throw-if-not-resolved=\"false\"></xref> method to get a <xref href=\"System.Security.AccessControl.RegistrySecurity\" data-throw-if-not-resolved=\"false\"></xref> object representing the access and audit rules for the first registry key, and then use the <xref href=\"Microsoft.Win32.RegistryKey.SetAccessControl(System.Security.AccessControl.RegistrySecurity)\" data-throw-if-not-resolved=\"false\"></xref> method to assign those rules to the second registry key. You can also assign the rules to a second registry key with an <see cref=\"Overload:Microsoft.Win32.RegistryKey.OpenSubKey\"></see> or <see cref=\"Overload:Microsoft.Win32.RegistryKey.CreateSubKey\"></see> method that takes a <xref href=\"System.Security.AccessControl.RegistrySecurity\" data-throw-if-not-resolved=\"false\"></xref> object parameter.</p>\n<p>Users with an investment in the security descriptor definition language (SDDL) can use the <xref href=\"System.Security.AccessControl.ObjectSecurity.SetSecurityDescriptorSddlForm(System.String)\" data-throw-if-not-resolved=\"false\"></xref> method to set access rules for a registry key, and the <xref href=\"System.Security.AccessControl.ObjectSecurity.GetSecurityDescriptorSddlForm(System.Security.AccessControl.AccessControlSections)\" data-throw-if-not-resolved=\"false\"></xref> method to obtain a string that represents the access rules in SDDL format. This is not recommended for new development.</p>\n"
+  example:
+  - "\n<p>This section contains two code examples. The first example shows how compatible rules merge when added and removed, and the second shows how inheritance and propagation flags affect the addition and deletion of rules.</p>\n<p>Example 1</p>\n<p>The following code example shows how the <xref href=\"System.Security.AccessControl.RegistrySecurity.RemoveAccessRule(System.Security.AccessControl.RegistryAccessRule)\" data-throw-if-not-resolved=\"false\"></xref> method removes rights from a compatible rule, and how the <xref href=\"System.Security.AccessControl.RegistrySecurity.AddAccessRule(System.Security.AccessControl.RegistryAccessRule)\" data-throw-if-not-resolved=\"false\"></xref> method merges rights with compatible rules.</p>\n<p>The example creates a <xref href=\"System.Security.AccessControl.RegistrySecurity\" data-throw-if-not-resolved=\"false\"></xref> object and adds a rule that allows the current user <xref href=\"System.Security.AccessControl.RegistryRights.ReadKey\" data-throw-if-not-resolved=\"false\"></xref> rights. The example then creates a rule that grants the user <xref href=\"System.Security.AccessControl.RegistryRights.SetValue\" data-throw-if-not-resolved=\"false\"></xref>, with the same inheritance and propagation rights as the first rule, and uses the <xref href=\"System.Security.AccessControl.RegistrySecurity.RemoveAccessRule(System.Security.AccessControl.RegistryAccessRule)\" data-throw-if-not-resolved=\"false\"></xref> method to remove this new rule from the <xref href=\"System.Security.AccessControl.RegistrySecurity\" data-throw-if-not-resolved=\"false\"></xref> object. <xref href=\"System.Security.AccessControl.RegistryRights.SetValue\" data-throw-if-not-resolved=\"false\"></xref> is a constituent of <xref href=\"System.Security.AccessControl.RegistryRights.ReadKey\" data-throw-if-not-resolved=\"false\"></xref>, so it is removed from the compatible rule. The rules in the <xref href=\"System.Security.AccessControl.RegistrySecurity\" data-throw-if-not-resolved=\"false\"></xref> object are displayed, showing the remaining constituents of <xref href=\"System.Security.AccessControl.RegistryRights.ReadKey\" data-throw-if-not-resolved=\"false\"></xref>.</p>\n<p>The example code then calls the <xref href=\"System.Security.AccessControl.RegistrySecurity.AddAccessRule(System.Security.AccessControl.RegistryAccessRule)\" data-throw-if-not-resolved=\"false\"></xref> method to merge the <xref href=\"System.Security.AccessControl.RegistryRights.SetValue\" data-throw-if-not-resolved=\"false\"></xref> right back into the rule in the <xref href=\"System.Security.AccessControl.RegistrySecurity\" data-throw-if-not-resolved=\"false\"></xref> object.</p>\n<p>This example does not attach the security object to a <xref href=\"Microsoft.Win32.RegistryKey\" data-throw-if-not-resolved=\"false\"></xref> object. The second example in this section attaches a security object, and so do the examples in <see cref=\"Overload:Microsoft.Win32.RegistryKey.GetAccessControl\"></see> and <xref href=\"Microsoft.Win32.RegistryKey.SetAccessControl(System.Security.AccessControl.RegistrySecurity)\" data-throw-if-not-resolved=\"false\"></xref>.</p>System.Security.AccessControl.RegistrySecurity.RemoveAccessRule#1<p>Example 2</p><p>The following code example demonstrates access rules with inheritance and propagation. The example creates a <xref href=\"System.Security.AccessControl.RegistrySecurity\" data-throw-if-not-resolved=\"false\"></xref> object, then creates and adds two rules that have the <xref href=\"System.Security.AccessControl.InheritanceFlags.ContainerInherit\" data-throw-if-not-resolved=\"false\"></xref> flag. The first rule has no propagation flags, while the second has <xref href=\"System.Security.AccessControl.PropagationFlags.NoPropagateInherit\" data-throw-if-not-resolved=\"false\"></xref> and <xref href=\"System.Security.AccessControl.PropagationFlags.InheritOnly\" data-throw-if-not-resolved=\"false\"></xref>. </p><p>The program displays the rules in the <xref href=\"System.Security.AccessControl.RegistrySecurity\" data-throw-if-not-resolved=\"false\"></xref> object, and then uses the <xref href=\"System.Security.AccessControl.RegistrySecurity\" data-throw-if-not-resolved=\"false\"></xref> object to create a subkey. The program creates a child subkey and a grandchild subkey, then displays the security for each subkey. Finally, the program deletes the test keys.</p>System.Security.AccessControl.RegistryAccessRule.ctor2#1"
   syntax:
     content: 'public sealed class RegistrySecurity : NativeObjectSecurity'
     content.vb: >-
@@ -75,7 +78,8 @@ items:
   assemblies:
   - Microsoft.Win32.Registry.AccessControl
   namespace: System.Security.AccessControl
-  summary: Initializes a new instance of the <xref href="System.Security.AccessControl.RegistrySecurity" data-throw-if-not-resolved="false"></xref> class with default values.
+  summary: "\n<p>Initializes a new instance of the <xref href=\"System.Security.AccessControl.RegistrySecurity\" data-throw-if-not-resolved=\"false\"></xref> class with default values.</p>\n"
+  remarks: "\n<p>A new <xref href=\"System.Security.AccessControl.RegistrySecurity\" data-throw-if-not-resolved=\"false\"></xref> object always starts with an empty discretionary access list (DACL), which denies all access for all users.</p>\n"
   syntax:
     content: public RegistrySecurity()
     content.vb: Public Sub New
@@ -104,14 +108,14 @@ items:
   assemblies:
   - Microsoft.Win32.Registry.AccessControl
   namespace: System.Security.AccessControl
-  summary: Gets the enumeration type that the <xref href="System.Security.AccessControl.RegistrySecurity" data-throw-if-not-resolved="false"></xref> class uses to represent access rights.
+  summary: "\n<p>Gets the enumeration type that the <xref href=\"System.Security.AccessControl.RegistrySecurity\" data-throw-if-not-resolved=\"false\"></xref> class uses to represent access rights.</p>\n"
+  remarks: "\n<p>Classes that derive from the <xref href=\"System.Security.AccessControl.ObjectSecurity\" data-throw-if-not-resolved=\"false\"></xref> class override the <xref href=\"System.Security.AccessControl.ObjectSecurity.AccessRightType\" data-throw-if-not-resolved=\"false\"></xref> property and return the type they use to represent access rights. When you work with arrays or collections that contain multiple types of security objects, use this property to determine the correct enumeration type to use with each security object.</p>\n"
   syntax:
     content: public override Type AccessRightType { get; }
     content.vb: Public Overrides ReadOnly Property AccessRightType As Type
     parameters: []
     return:
-      type: System.Type
-      description: A <xref href="System.Type" data-throw-if-not-resolved="false"></xref> object representing the <xref href="System.Security.AccessControl.RegistryRights" data-throw-if-not-resolved="false"></xref> enumeration.
+      type: Type
   modifiers.csharp:
   - public
   - override
@@ -141,14 +145,14 @@ items:
   assemblies:
   - Microsoft.Win32.Registry.AccessControl
   namespace: System.Security.AccessControl
-  summary: Gets the type that the <xref href="System.Security.AccessControl.RegistrySecurity" data-throw-if-not-resolved="false"></xref> class uses to represent access rules.
+  summary: "\n<p>Gets the type that the <xref href=\"System.Security.AccessControl.RegistrySecurity\" data-throw-if-not-resolved=\"false\"></xref> class uses to represent access rules.</p>\n"
+  remarks: "\n<p>Classes that derive from the <xref href=\"System.Security.AccessControl.ObjectSecurity\" data-throw-if-not-resolved=\"false\"></xref> class override the <xref href=\"System.Security.AccessControl.ObjectSecurity.AccessRuleType\" data-throw-if-not-resolved=\"false\"></xref> property and return the type they use to represent access rules. When you work with arrays or collections that contain multiple types of security objects, use this property to determine the correct access rule type to use with each security object.</p>\n"
   syntax:
     content: public override Type AccessRuleType { get; }
     content.vb: Public Overrides ReadOnly Property AccessRuleType As Type
     parameters: []
     return:
-      type: System.Type
-      description: A <xref href="System.Type" data-throw-if-not-resolved="false"></xref> object representing the <xref href="System.Security.AccessControl.RegistryAccessRule" data-throw-if-not-resolved="false"></xref> class.
+      type: Type
   modifiers.csharp:
   - public
   - override
@@ -178,14 +182,14 @@ items:
   assemblies:
   - Microsoft.Win32.Registry.AccessControl
   namespace: System.Security.AccessControl
-  summary: Gets the type that the <xref href="System.Security.AccessControl.RegistrySecurity" data-throw-if-not-resolved="false"></xref> class uses to represent audit rules.
+  summary: "\n<p>Gets the type that the <xref href=\"System.Security.AccessControl.RegistrySecurity\" data-throw-if-not-resolved=\"false\"></xref> class uses to represent audit rules.</p>\n"
+  remarks: "\n<p>Classes that derive from the <xref href=\"System.Security.AccessControl.ObjectSecurity\" data-throw-if-not-resolved=\"false\"></xref> class override the <xref href=\"System.Security.AccessControl.ObjectSecurity.AuditRuleType\" data-throw-if-not-resolved=\"false\"></xref> property and return the type they use to represent audit rights. When you work with arrays or collections that contain multiple types of security objects, use this property to determine the correct audit rule type to use with each security object.</p>\n"
   syntax:
     content: public override Type AuditRuleType { get; }
     content.vb: Public Overrides ReadOnly Property AuditRuleType As Type
     parameters: []
     return:
-      type: System.Type
-      description: A <xref href="System.Type" data-throw-if-not-resolved="false"></xref> object representing the <xref href="System.Security.AccessControl.RegistryAuditRule" data-throw-if-not-resolved="false"></xref> class.
+      type: Type
   modifiers.csharp:
   - public
   - override
@@ -215,42 +219,43 @@ items:
   assemblies:
   - Microsoft.Win32.Registry.AccessControl
   namespace: System.Security.AccessControl
-  summary: Creates a new access control rule for the specified user, with the specified access rights, access control, and flags.
+  summary: "\n<p>Creates a new access control rule for the specified user, with the specified access rights, access control, and flags.</p>\n"
+  remarks: "\n<p>The recommended way to create access control rules is to use the constructors of the <xref href=\"System.Security.AccessControl.RegistryAccessRule\" data-throw-if-not-resolved=\"false\"></xref> class.</p>\n<p>Although you can specify the <xref href=\"System.Security.AccessControl.InheritanceFlags.ObjectInherit\" data-throw-if-not-resolved=\"false\"></xref> flag, there is no point in doing so. For the purposes of access control, the name/value pairs in a subkey are not separate objects. The access rights to name/value pairs are controlled by the rights of the subkey. Furthermore, since all subkeys are containers (that is, they can contain other subkeys), they are not affected by the <xref href=\"System.Security.AccessControl.InheritanceFlags.ObjectInherit\" data-throw-if-not-resolved=\"false\"></xref> flag. Finally, specifying the <xref href=\"System.Security.AccessControl.InheritanceFlags.ObjectInherit\" data-throw-if-not-resolved=\"false\"></xref> flag needlessly complicates the maintenance of rules, because it interferes with the normal combination of compatible rules.</p>\n"
   syntax:
     content: public override AccessRule AccessRuleFactory(Principal.IdentityReference identityReference, int accessMask, bool isInherited, InheritanceFlags inheritanceFlags, PropagationFlags propagationFlags, AccessControlType type)
     content.vb: Public Overrides Function AccessRuleFactory(identityReference As Principal.IdentityReference, accessMask As Integer, isInherited As Boolean, inheritanceFlags As InheritanceFlags, propagationFlags As PropagationFlags, type As AccessControlType) As AccessRule
     parameters:
     - id: identityReference
       type: System.Security.Principal.IdentityReference
-      description: An <xref href="System.Security.Principal.IdentityReference" data-throw-if-not-resolved="false"></xref> that identifies the user or group the rule applies to.
+      description: "\n<p>An <xref href=\"System.Security.Principal.IdentityReference\" data-throw-if-not-resolved=\"false\"></xref> that identifies the user or group the rule applies to.</p>\n"
     - id: accessMask
       type: System.Int32
-      description: A bitwise combination of <xref href="System.Security.AccessControl.RegistryRights" data-throw-if-not-resolved="false"></xref> values specifying the access rights to allow or deny, cast to an integer.
+      description: "\n<p>A bitwise combination of <xref href=\"System.Security.AccessControl.RegistryRights\" data-throw-if-not-resolved=\"false\"></xref> values specifying the access rights to allow or deny, cast to an integer.</p>\n"
     - id: isInherited
       type: System.Boolean
-      description: A Boolean value specifying whether the rule is inherited.
+      description: "\n<p>A Boolean value specifying whether the rule is inherited.</p>\n"
     - id: inheritanceFlags
       type: System.Security.AccessControl.InheritanceFlags
-      description: A bitwise combination of <xref href="System.Security.AccessControl.InheritanceFlags" data-throw-if-not-resolved="false"></xref> values specifying how the rule is inherited by subkeys.
+      description: "\n<p>A bitwise combination of <xref href=\"System.Security.AccessControl.InheritanceFlags\" data-throw-if-not-resolved=\"false\"></xref> values specifying how the rule is inherited by subkeys.</p>\n"
     - id: propagationFlags
       type: System.Security.AccessControl.PropagationFlags
-      description: A bitwise combination of <xref href="System.Security.AccessControl.PropagationFlags" data-throw-if-not-resolved="false"></xref> values that modify the way the rule is inherited by subkeys. Meaningless if the value of <em>inheritanceFlags</em> is <xref href="System.Security.AccessControl.InheritanceFlags.None" data-throw-if-not-resolved="false"></xref>.
+      description: "\n<p>A bitwise combination of <xref href=\"System.Security.AccessControl.PropagationFlags\" data-throw-if-not-resolved=\"false\"></xref> values that modify the way the rule is inherited by subkeys. Meaningless if the value of <em>inheritanceFlags</em> is <xref href=\"System.Security.AccessControl.InheritanceFlags.None\" data-throw-if-not-resolved=\"false\"></xref>.</p>\n"
     - id: type
       type: System.Security.AccessControl.AccessControlType
-      description: One of the <xref href="System.Security.AccessControl.AccessControlType" data-throw-if-not-resolved="false"></xref> values specifying whether the rights are allowed or denied.
+      description: "\n<p>One of the <xref href=\"System.Security.AccessControl.AccessControlType\" data-throw-if-not-resolved=\"false\"></xref> values specifying whether the rights are allowed or denied.</p>\n"
     return:
       type: System.Security.AccessControl.AccessRule
-      description: A <xref href="System.Security.AccessControl.RegistryAccessRule" data-throw-if-not-resolved="false"></xref> object representing the specified rights for the specified user.
+      description: "\n<p>A <xref href=\"System.Security.AccessControl.RegistryAccessRule\" data-throw-if-not-resolved=\"false\"></xref> object representing the specified rights for the specified user.</p>\n"
   exceptions:
   - type: System.ArgumentOutOfRangeException
     commentId: T:System.ArgumentOutOfRangeException
-    description: "\n<em>accessMask</em>, <em>inheritanceFlags</em>, <em>propagationFlags</em>, or <em>type</em> specifies an invalid value."
+    description: "\n<p>\n<em>accessMask</em>, <em>inheritanceFlags</em>, <em>propagationFlags</em>, or <em>type</em> specifies an invalid value.</p>\n"
   - type: System.ArgumentNullException
     commentId: T:System.ArgumentNullException
-    description: "\n<em>identityReference</em> is null. -or-<em>accessMask</em> is zero."
+    description: "\n<p>\n<em>identityReference</em> is <strong>null</strong>. </p>\n<p>-or-</p>\n<p>\n<em>accessMask</em> is zero.</p>\n"
   - type: System.ArgumentException
     commentId: T:System.ArgumentException
-    description: "\n<em>identityReference</em> is neither of type <xref href=\"System.Security.Principal.SecurityIdentifier\" data-throw-if-not-resolved=\"false\"></xref>, nor of a type such as <xref href=\"System.Security.Principal.NTAccount\" data-throw-if-not-resolved=\"false\"></xref> that can be converted to type <xref href=\"System.Security.Principal.SecurityIdentifier\" data-throw-if-not-resolved=\"false\"></xref>."
+    description: "\n<p>\n<em>identityReference</em> is neither of type <xref href=\"System.Security.Principal.SecurityIdentifier\" data-throw-if-not-resolved=\"false\"></xref>, nor of a type such as <xref href=\"System.Security.Principal.NTAccount\" data-throw-if-not-resolved=\"false\"></xref> that can be converted to type <xref href=\"System.Security.Principal.SecurityIdentifier\" data-throw-if-not-resolved=\"false\"></xref>.</p>\n"
   modifiers.csharp:
   - public
   - override
@@ -278,18 +283,20 @@ items:
   assemblies:
   - Microsoft.Win32.Registry.AccessControl
   namespace: System.Security.AccessControl
-  summary: Searches for a matching access control with which the new rule can be merged. If none are found, adds the new rule.
+  summary: "\n<p>Searches for a matching access control with which the new rule can be merged. If none are found, adds the new rule.</p>\n"
+  remarks: "\n<p>The <xref href=\"System.Security.AccessControl.RegistrySecurity.AddAccessRule(System.Security.AccessControl.RegistryAccessRule)\" data-throw-if-not-resolved=\"false\"></xref> method searches for rules with the same user or group and the same <xref href=\"System.Security.AccessControl.AccessControlType\" data-throw-if-not-resolved=\"false\"></xref> as <em>rule</em>. If none are found, <em>rule</em> is added. If a matching rule is found, the rights in <em>rule</em> are merged with the existing rule.</p>\n<p>Rules cannot be merged if they have different inheritance flags. For example, if a user is allowed read access with no inheritance flags, and <xref href=\"System.Security.AccessControl.RegistrySecurity.AddAccessRule(System.Security.AccessControl.RegistryAccessRule)\" data-throw-if-not-resolved=\"false\"></xref> is used to add a rule giving the user write access with inheritance for subkeys (<xref href=\"System.Security.AccessControl.InheritanceFlags.ContainerInherit\" data-throw-if-not-resolved=\"false\"></xref>), the two rules cannot be merged. </p>\n<p>Rules with different <xref href=\"System.Security.AccessControl.AccessControlType\" data-throw-if-not-resolved=\"false\"></xref> values are never merged.</p>\n<p>Rules express rights in the most economical way. For example, if a user has <xref href=\"System.Security.AccessControl.RegistryRights.QueryValues\" data-throw-if-not-resolved=\"false\"></xref>, <xref href=\"System.Security.AccessControl.RegistryRights.Notify\" data-throw-if-not-resolved=\"false\"></xref> and <xref href=\"System.Security.AccessControl.RegistryRights.ReadPermissions\" data-throw-if-not-resolved=\"false\"></xref> rights, and you add a rule allowing <xref href=\"System.Security.AccessControl.RegistryRights.EnumerateSubKeys\" data-throw-if-not-resolved=\"false\"></xref> rights, the user has all the constituent parts of <xref href=\"System.Security.AccessControl.RegistryRights.ReadKey\" data-throw-if-not-resolved=\"false\"></xref> rights. If you query the user's rights, you will see a rule containing <xref href=\"System.Security.AccessControl.RegistryRights.ReadKey\" data-throw-if-not-resolved=\"false\"></xref> rights. Similarly, if you remove <xref href=\"System.Security.AccessControl.RegistryRights.EnumerateSubKeys\" data-throw-if-not-resolved=\"false\"></xref> rights, the other constituents of <xref href=\"System.Security.AccessControl.RegistryRights.ReadKey\" data-throw-if-not-resolved=\"false\"></xref> rights will reappear.</p>\n"
+  example:
+  - "\n<p>The following code example creates registry access rules and adds them to a <xref href=\"System.Security.AccessControl.RegistrySecurity\" data-throw-if-not-resolved=\"false\"></xref> object, showing how rules that allow and deny rights remain separate, while compatible rules of the same kind are merged.</p>\n<p>This example does not attach the security object to a <xref href=\"Microsoft.Win32.RegistryKey\" data-throw-if-not-resolved=\"false\"></xref> object. Examples that attach security objects can be found in <see cref=\"Overload:Microsoft.Win32.RegistryKey.GetAccessControl\"></see> and <xref href=\"Microsoft.Win32.RegistryKey.SetAccessControl(System.Security.AccessControl.RegistrySecurity)\" data-throw-if-not-resolved=\"false\"></xref>.</p>\n<p>A code example that demonstrates inheritance and propagation flags can be found in the <xref href=\"System.Security.AccessControl.RegistryAccessRule\" data-throw-if-not-resolved=\"false\"></xref> class.</p>System.Security.AccessControl.RegistrySecurity.AddAccessRule#1"
   syntax:
     content: public void AddAccessRule(RegistryAccessRule rule)
     content.vb: Public Sub AddAccessRule(rule As RegistryAccessRule)
     parameters:
     - id: rule
       type: System.Security.AccessControl.RegistryAccessRule
-      description: The access control rule to add.
   exceptions:
   - type: System.ArgumentNullException
     commentId: T:System.ArgumentNullException
-    description: "\n<em>rule</em> is null."
+    description: "\n<p>\n<em>rule</em> is <strong>null</strong>.</p>\n"
   modifiers.csharp:
   - public
   modifiers.vb:
@@ -315,14 +322,14 @@ items:
   assemblies:
   - Microsoft.Win32.Registry.AccessControl
   namespace: System.Security.AccessControl
-  summary: Searches for an audit rule with which the new rule can be merged. If none are found, adds the new rule.
+  summary: "\n<p>Searches for an audit rule with which the new rule can be merged. If none are found, adds the new rule.</p>\n"
+  remarks: "\n<p>The <xref href=\"System.Security.AccessControl.RegistrySecurity.AddAuditRule(System.Security.AccessControl.RegistryAuditRule)\" data-throw-if-not-resolved=\"false\"></xref> method searches for rules with the same user or group as <em>rule</em>. If none are found, <em>rule</em> is added. If a matching rule is found, the flags in <em>rule</em> are merged into the existing rule.</p>\n<p>Rules cannot be merged if they have different inheritance flags. For example, if failed attempts to write to a key are audited for a particular user, with no inheritance flags, and <xref href=\"System.Security.AccessControl.RegistrySecurity.AddAuditRule(System.Security.AccessControl.RegistryAuditRule)\" data-throw-if-not-resolved=\"false\"></xref> is used to add a rule specifying that failed attempts to change permissions are to be audited for the same user, but with inheritance for subkeys (<xref href=\"System.Security.AccessControl.InheritanceFlags.ContainerInherit\" data-throw-if-not-resolved=\"false\"></xref>), the two rules cannot be merged. </p>\n"
   syntax:
     content: public void AddAuditRule(RegistryAuditRule rule)
     content.vb: Public Sub AddAuditRule(rule As RegistryAuditRule)
     parameters:
     - id: rule
       type: System.Security.AccessControl.RegistryAuditRule
-      description: The audit rule to add. The user specified by this rule determines the search.
   modifiers.csharp:
   - public
   modifiers.vb:
@@ -348,42 +355,45 @@ items:
   assemblies:
   - Microsoft.Win32.Registry.AccessControl
   namespace: System.Security.AccessControl
-  summary: Creates a new audit rule, specifying the user the rule applies to, the access rights to audit, the inheritance and propagation of the rule, and the outcome that triggers the rule.
+  summary: "\n<p>Creates a new audit rule, specifying the user the rule applies to, the access rights to audit, the inheritance and propagation of the rule, and the outcome that triggers the rule.</p>\n"
+  remarks: "\n<p>The recommended way to create audit rules is to use the constructors of the <xref href=\"System.Security.AccessControl.RegistryAuditRule\" data-throw-if-not-resolved=\"false\"></xref> class.</p>\n<p>Although you can specify the <xref href=\"System.Security.AccessControl.InheritanceFlags.ObjectInherit\" data-throw-if-not-resolved=\"false\"></xref> flag, there is no point in doing so. For the purposes of audit control, the name/value pairs in a subkey are not separate objects. The audit rights to name/value pairs are controlled by the rights of the subkey. Furthermore, since all subkeys are containers (that is, they can contain other subkeys), they are not affected by the <xref href=\"System.Security.AccessControl.InheritanceFlags.ObjectInherit\" data-throw-if-not-resolved=\"false\"></xref> flag. Finally, specifying the <xref href=\"System.Security.AccessControl.InheritanceFlags.ObjectInherit\" data-throw-if-not-resolved=\"false\"></xref> flag needlessly complicates the maintenance of rules, because it interferes with the normal combination of compatible rules.</p>\n"
+  example:
+  - 
   syntax:
     content: public override AuditRule AuditRuleFactory(Principal.IdentityReference identityReference, int accessMask, bool isInherited, InheritanceFlags inheritanceFlags, PropagationFlags propagationFlags, AuditFlags flags)
     content.vb: Public Overrides Function AuditRuleFactory(identityReference As Principal.IdentityReference, accessMask As Integer, isInherited As Boolean, inheritanceFlags As InheritanceFlags, propagationFlags As PropagationFlags, flags As AuditFlags) As AuditRule
     parameters:
     - id: identityReference
       type: System.Security.Principal.IdentityReference
-      description: An <xref href="System.Security.Principal.IdentityReference" data-throw-if-not-resolved="false"></xref> that identifies the user or group the rule applies to.
+      description: "\n<p>An <xref href=\"System.Security.Principal.IdentityReference\" data-throw-if-not-resolved=\"false\"></xref> that identifies the user or group the rule applies to.</p>\n"
     - id: accessMask
       type: System.Int32
-      description: A bitwise combination of <xref href="System.Security.AccessControl.RegistryRights" data-throw-if-not-resolved="false"></xref> values specifying the access rights to audit, cast to an integer.
+      description: "\n<p>A bitwise combination of <xref href=\"System.Security.AccessControl.RegistryRights\" data-throw-if-not-resolved=\"false\"></xref> values specifying the access rights to audit, cast to an integer.</p>\n"
     - id: isInherited
       type: System.Boolean
-      description: A Boolean value specifying whether the rule is inherited.
+      description: "\n<p>A Boolean value specifying whether the rule is inherited.</p>\n"
     - id: inheritanceFlags
       type: System.Security.AccessControl.InheritanceFlags
-      description: A bitwise combination of <xref href="System.Security.AccessControl.InheritanceFlags" data-throw-if-not-resolved="false"></xref> values specifying how the rule is inherited by subkeys.
+      description: "\n<p>A bitwise combination of <xref href=\"System.Security.AccessControl.InheritanceFlags\" data-throw-if-not-resolved=\"false\"></xref> values specifying how the rule is inherited by subkeys.</p>\n"
     - id: propagationFlags
       type: System.Security.AccessControl.PropagationFlags
-      description: A bitwise combination of <xref href="System.Security.AccessControl.PropagationFlags" data-throw-if-not-resolved="false"></xref> values that modify the way the rule is inherited by subkeys. Meaningless if the value of <em>inheritanceFlags</em> is <xref href="System.Security.AccessControl.InheritanceFlags.None" data-throw-if-not-resolved="false"></xref>.
+      description: "\n<p>A bitwise combination of <xref href=\"System.Security.AccessControl.PropagationFlags\" data-throw-if-not-resolved=\"false\"></xref> values that modify the way the rule is inherited by subkeys. Meaningless if the value of <em>inheritanceFlags</em> is <xref href=\"System.Security.AccessControl.InheritanceFlags.None\" data-throw-if-not-resolved=\"false\"></xref>.</p>\n"
     - id: flags
       type: System.Security.AccessControl.AuditFlags
-      description: A bitwise combination of <xref href="System.Security.AccessControl.AuditFlags" data-throw-if-not-resolved="false"></xref> values specifying whether to audit successful access, failed access, or both.
+      description: "\n<p>A bitwise combination of <xref href=\"System.Security.AccessControl.AuditFlags\" data-throw-if-not-resolved=\"false\"></xref> values specifying whether to audit successful access, failed access, or both.</p>\n"
     return:
       type: System.Security.AccessControl.AuditRule
-      description: A <xref href="System.Security.AccessControl.RegistryAuditRule" data-throw-if-not-resolved="false"></xref> object representing the specified audit rule for the specified user, with the specified flags. The return type of the method is the base class, <xref href="System.Security.AccessControl.AuditRule" data-throw-if-not-resolved="false"></xref>, but the return value can be cast safely to the derived class.
+      description: "\n<p>A <xref href=\"System.Security.AccessControl.RegistryAuditRule\" data-throw-if-not-resolved=\"false\"></xref> object representing the specified audit rule for the specified user, with the specified flags. The return type of the method is the base class, <xref href=\"System.Security.AccessControl.AuditRule\" data-throw-if-not-resolved=\"false\"></xref>, but the return value can be cast safely to the derived class.</p>\n"
   exceptions:
   - type: System.ArgumentOutOfRangeException
     commentId: T:System.ArgumentOutOfRangeException
-    description: "\n<em>accessMask</em>, <em>inheritanceFlags</em>, <em>propagationFlags</em>, or <em>flags</em> specifies an invalid value."
+    description: "\n<p>\n<em>accessMask</em>, <em>inheritanceFlags</em>, <em>propagationFlags</em>, or <em>flags</em> specifies an invalid value.</p>\n"
   - type: System.ArgumentNullException
     commentId: T:System.ArgumentNullException
-    description: "\n<em>identityReference</em> is null. -or-<em>accessMask</em> is zero."
+    description: "\n<p>\n<em>identityReference</em> is <strong>null</strong>. </p>\n<p>-or-</p>\n<p>\n<em>accessMask</em> is zero.</p>\n"
   - type: System.ArgumentException
     commentId: T:System.ArgumentException
-    description: "\n<em>identityReference</em> is neither of type <xref href=\"System.Security.Principal.SecurityIdentifier\" data-throw-if-not-resolved=\"false\"></xref>, nor of a type such as <xref href=\"System.Security.Principal.NTAccount\" data-throw-if-not-resolved=\"false\"></xref> that can be converted to type <xref href=\"System.Security.Principal.SecurityIdentifier\" data-throw-if-not-resolved=\"false\"></xref>."
+    description: "\n<p>\n<em>identityReference</em> is neither of type <xref href=\"System.Security.Principal.SecurityIdentifier\" data-throw-if-not-resolved=\"false\"></xref>, nor of a type such as <xref href=\"System.Security.Principal.NTAccount\" data-throw-if-not-resolved=\"false\"></xref> that can be converted to type <xref href=\"System.Security.Principal.SecurityIdentifier\" data-throw-if-not-resolved=\"false\"></xref>.</p>\n"
   modifiers.csharp:
   - public
   - override
@@ -411,21 +421,22 @@ items:
   assemblies:
   - Microsoft.Win32.Registry.AccessControl
   namespace: System.Security.AccessControl
-  summary: Searches for an access control rule with the same user and <xref href="System.Security.AccessControl.AccessControlType" data-throw-if-not-resolved="false"></xref> (allow or deny) as the specified access rule, and with compatible inheritance and propagation flags; if such a rule is found, the rights contained in the specified access rule are removed from it.
+  summary: "\n<p>Searches for an access control rule with the same user and <xref href=\"System.Security.AccessControl.AccessControlType\" data-throw-if-not-resolved=\"false\"></xref> (allow or deny) as the specified access rule, and with compatible inheritance and propagation flags; if such a rule is found, the rights contained in the specified access rule are removed from it.</p>\n"
+  remarks: "\n<p>The current <xref href=\"System.Security.AccessControl.RegistrySecurity\" data-throw-if-not-resolved=\"false\"></xref> is searched for a rule that has the same user and the same <xref href=\"System.Security.AccessControl.AccessControlType\" data-throw-if-not-resolved=\"false\"></xref> value as <em>rule</em>. If no such rule is found, no action is taken, and the method returns <strong>false</strong>. If matching rules are found, their inheritance and compatibility flags are checked for compatibility with the flags specified in <em>rule</em>. If no compatible rule is found, no action is taken, and the method returns <strong>false</strong>. If a rule with compatible flags is found, the rights specified in <em>rule</em> are removed from the compatible rule, and the method returns <strong>true</strong>. If <em>rule</em> specifies rights not contained in the compatible rule, no action is taken with respect to those rights. If all rights are removed from the compatible rule, the entire rule is removed from the current <xref href=\"System.Security.AccessControl.RegistrySecurity\" data-throw-if-not-resolved=\"false\"></xref> object. </p>\n"
+  example:
+  - "\n<p>The following code example shows how the <xref href=\"System.Security.AccessControl.RegistrySecurity.RemoveAccessRule(System.Security.AccessControl.RegistryAccessRule)\" data-throw-if-not-resolved=\"false\"></xref> method removes rights from a compatible rule, and how the <xref href=\"System.Security.AccessControl.RegistrySecurity.AddAccessRule(System.Security.AccessControl.RegistryAccessRule)\" data-throw-if-not-resolved=\"false\"></xref> method merges rights with compatible rules.</p>\n<p>The example creates a <xref href=\"System.Security.AccessControl.RegistrySecurity\" data-throw-if-not-resolved=\"false\"></xref> object and adds a rule that allows the current user <xref href=\"System.Security.AccessControl.RegistryRights.ReadKey\" data-throw-if-not-resolved=\"false\"></xref> rights. The example then creates a rule that grants the user <xref href=\"System.Security.AccessControl.RegistryRights.SetValue\" data-throw-if-not-resolved=\"false\"></xref>, with the same inheritance and propagation rights as the first rule, and uses the <xref href=\"System.Security.AccessControl.RegistrySecurity.RemoveAccessRule(System.Security.AccessControl.RegistryAccessRule)\" data-throw-if-not-resolved=\"false\"></xref> method to remove this new rule from the <xref href=\"System.Security.AccessControl.RegistrySecurity\" data-throw-if-not-resolved=\"false\"></xref> object. <xref href=\"System.Security.AccessControl.RegistryRights.SetValue\" data-throw-if-not-resolved=\"false\"></xref> is a constituent of <xref href=\"System.Security.AccessControl.RegistryRights.ReadKey\" data-throw-if-not-resolved=\"false\"></xref>, so it is removed from the compatible rule. The rules in the <xref href=\"System.Security.AccessControl.RegistrySecurity\" data-throw-if-not-resolved=\"false\"></xref> object are displayed, showing the remaining constituents of <xref href=\"System.Security.AccessControl.RegistryRights.ReadKey\" data-throw-if-not-resolved=\"false\"></xref>.</p>\n<p>The example code then calls the <xref href=\"System.Security.AccessControl.RegistrySecurity.RemoveAccessRule(System.Security.AccessControl.RegistryAccessRule)\" data-throw-if-not-resolved=\"false\"></xref> method to merge the <xref href=\"System.Security.AccessControl.RegistryRights.SetValue\" data-throw-if-not-resolved=\"false\"></xref> right back into the rule in the <xref href=\"System.Security.AccessControl.RegistrySecurity\" data-throw-if-not-resolved=\"false\"></xref> object.</p>\n<p>This example does not attach the security object to a <xref href=\"Microsoft.Win32.RegistryKey\" data-throw-if-not-resolved=\"false\"></xref> object. The second example in this section attaches a security object, and so do the examples in <see cref=\"Overload:Microsoft.Win32.RegistryKey.GetAccessControl\"></see><xref href=\"Microsoft.Win32.RegistryKey.SetAccessControl(System.Security.AccessControl.RegistrySecurity)\" data-throw-if-not-resolved=\"false\"></xref>.</p>System.Security.AccessControl.RegistrySecurity.RemoveAccessRule#1"
   syntax:
     content: public bool RemoveAccessRule(RegistryAccessRule rule)
     content.vb: Public Function RemoveAccessRule(rule As RegistryAccessRule) As Boolean
     parameters:
     - id: rule
       type: System.Security.AccessControl.RegistryAccessRule
-      description: A <xref href="System.Security.AccessControl.RegistryAccessRule" data-throw-if-not-resolved="false"></xref> that specifies the user and <xref href="System.Security.AccessControl.AccessControlType" data-throw-if-not-resolved="false"></xref> to search for, and a set of inheritance and propagation flags that a matching rule, if found, must be compatible with. Specifies the rights to remove from the compatible rule, if found.
     return:
       type: System.Boolean
-      description: true if a compatible rule is found; otherwise false.
   exceptions:
   - type: System.ArgumentNullException
     commentId: T:System.ArgumentNullException
-    description: "\n<em>rule</em> is null."
+    description: "\n<p>\n<em>rule</em> is <strong>null</strong>.</p>\n"
   modifiers.csharp:
   - public
   modifiers.vb:
@@ -451,18 +462,20 @@ items:
   assemblies:
   - Microsoft.Win32.Registry.AccessControl
   namespace: System.Security.AccessControl
-  summary: Searches for all access control rules with the same user and <xref href="System.Security.AccessControl.AccessControlType" data-throw-if-not-resolved="false"></xref> (allow or deny) as the specified rule and, if found, removes them.
+  summary: "\n<p>Searches for all access control rules with the same user and <xref href=\"System.Security.AccessControl.AccessControlType\" data-throw-if-not-resolved=\"false\"></xref> (allow or deny) as the specified rule and, if found, removes them.</p>\n"
+  remarks: "\n<p>The current <xref href=\"System.Security.AccessControl.RegistrySecurity\" data-throw-if-not-resolved=\"false\"></xref> is searched for rules that have the same user and the same <xref href=\"System.Security.AccessControl.AccessControlType\" data-throw-if-not-resolved=\"false\"></xref> value as <em>rule</em>. Any rights, inheritance flags, or propagation flags specified by <em>rule</em> are ignored when performing this search. If no matching rules are found, no action is taken.</p>\n<p>For example, if a user has multiple rules that allow various rights with different inheritance and propagation flags, you can remove all those rules by creating a <xref href=\"System.Security.AccessControl.RegistryAccessRule\" data-throw-if-not-resolved=\"false\"></xref> object that specifies the user and <xref href=\"System.Security.AccessControl.AccessControlType.Allow\" data-throw-if-not-resolved=\"false\"></xref>, with any arbitrary rights and flags, and passing that rule to the <xref href=\"System.Security.AccessControl.RegistrySecurity.RemoveAccessRuleAll(System.Security.AccessControl.RegistryAccessRule)\" data-throw-if-not-resolved=\"false\"></xref> method. </p>\n"
+  example:
+  - "\n<p>The following code example shows that the <xref href=\"System.Security.AccessControl.RegistrySecurity.RemoveAccessRuleAll(System.Security.AccessControl.RegistryAccessRule)\" data-throw-if-not-resolved=\"false\"></xref> method removes all rules that match user and <xref href=\"System.Security.AccessControl.AccessControlType\" data-throw-if-not-resolved=\"false\"></xref>, ignoring rights and flags.</p>\n<p>The example creates a <xref href=\"System.Security.AccessControl.RegistrySecurity\" data-throw-if-not-resolved=\"false\"></xref> object and adds rules that allow and deny various rights for the current user, with different inheritance and propagation flags. The example then creates a new rule that allows the current user to take ownership, and passes that rule to the <xref href=\"System.Security.AccessControl.RegistrySecurity.RemoveAccessRuleAll(System.Security.AccessControl.RegistryAccessRule)\" data-throw-if-not-resolved=\"false\"></xref> method to remove the two rules that allow access.</p>\n<p>This example does not attach the security object to a <xref href=\"Microsoft.Win32.RegistryKey\" data-throw-if-not-resolved=\"false\"></xref> object. See the <see cref=\"Overload:Microsoft.Win32.RegistryKey.GetAccessControl\"></see> method and the <xref href=\"Microsoft.Win32.RegistryKey.SetAccessControl(System.Security.AccessControl.RegistrySecurity)\" data-throw-if-not-resolved=\"false\"></xref> method.</p>System.Security.AccessControl.RegistrySecurity.RemoveAccessRuleAll#1"
   syntax:
     content: public void RemoveAccessRuleAll(RegistryAccessRule rule)
     content.vb: Public Sub RemoveAccessRuleAll(rule As RegistryAccessRule)
     parameters:
     - id: rule
       type: System.Security.AccessControl.RegistryAccessRule
-      description: A <xref href="System.Security.AccessControl.RegistryAccessRule" data-throw-if-not-resolved="false"></xref> that specifies the user and <xref href="System.Security.AccessControl.AccessControlType" data-throw-if-not-resolved="false"></xref> to search for. Any rights, inheritance flags, or propagation flags specified by this rule are ignored.
   exceptions:
   - type: System.ArgumentNullException
     commentId: T:System.ArgumentNullException
-    description: "\n<em>rule</em> is null."
+    description: "\n<p>\n<em>rule</em> is <strong>null</strong>.</p>\n"
   modifiers.csharp:
   - public
   modifiers.vb:
@@ -488,18 +501,20 @@ items:
   assemblies:
   - Microsoft.Win32.Registry.AccessControl
   namespace: System.Security.AccessControl
-  summary: Searches for an access control rule that exactly matches the specified rule and, if found, removes it.
+  summary: "\n<p>Searches for an access control rule that exactly matches the specified rule and, if found, removes it.</p>\n"
+  remarks: "\n<p>The rule is removed only if it exactly matches <em>rule</em> in all details, including flags. Other rules with the same user and <xref href=\"System.Security.AccessControl.AccessControlType\" data-throw-if-not-resolved=\"false\"></xref> are not affected.</p>\n<p>A rule represents one or more underlying access control entries (ACE), and these entries are split or combined as necessary when you modify the access security rules for a user. Thus, a rule might no longer exist in the specific form it had when it was added, and in that case the <xref href=\"System.Security.AccessControl.RegistrySecurity.RemoveAccessRuleSpecific(System.Security.AccessControl.RegistryAccessRule)\" data-throw-if-not-resolved=\"false\"></xref> method cannot remove it. </p>\n"
+  example:
+  - "\n<p>The following code example shows that the <xref href=\"System.Security.AccessControl.RegistrySecurity.RemoveAccessRuleSpecific(System.Security.AccessControl.RegistryAccessRule)\" data-throw-if-not-resolved=\"false\"></xref> method removes a rule only if it matches exactly.</p>\n<p>The example creates two rules that allow different rights. The rules have compatible inheritance and propagation flags, so when the second rule is added it merges with the first. The example calls the <xref href=\"System.Security.AccessControl.RegistrySecurity.RemoveAccessRuleSpecific(System.Security.AccessControl.RegistryAccessRule)\" data-throw-if-not-resolved=\"false\"></xref> method, specifying the first rule, but because the rules are merged there is no rule that matches. The example then calls the <xref href=\"System.Security.AccessControl.RegistrySecurity.RemoveAccessRule(System.Security.AccessControl.RegistryAccessRule)\" data-throw-if-not-resolved=\"false\"></xref> method to the remove the second rule from the merged rule, and finally calls the <xref href=\"System.Security.AccessControl.RegistrySecurity.RemoveAccessRuleSpecific(System.Security.AccessControl.RegistryAccessRule)\" data-throw-if-not-resolved=\"false\"></xref> method to remove the first rule.</p>\n<p>This example does not attach the security object to a <xref href=\"Microsoft.Win32.RegistryKey\" data-throw-if-not-resolved=\"false\"></xref> object. See the <see cref=\"Overload:Microsoft.Win32.RegistryKey.GetAccessControl\"></see> method and the <xref href=\"Microsoft.Win32.RegistryKey.SetAccessControl(System.Security.AccessControl.RegistrySecurity)\" data-throw-if-not-resolved=\"false\"></xref> method.</p>System.Security.AccessControl.RegistrySecurity.RemoveAccessRuleSpecific#1"
   syntax:
     content: public void RemoveAccessRuleSpecific(RegistryAccessRule rule)
     content.vb: Public Sub RemoveAccessRuleSpecific(rule As RegistryAccessRule)
     parameters:
     - id: rule
       type: System.Security.AccessControl.RegistryAccessRule
-      description: The <xref href="System.Security.AccessControl.RegistryAccessRule" data-throw-if-not-resolved="false"></xref> to remove.
   exceptions:
   - type: System.ArgumentNullException
     commentId: T:System.ArgumentNullException
-    description: "\n<em>rule</em> is null."
+    description: "\n<p>\n<em>rule</em> is <strong>null</strong>.</p>\n"
   modifiers.csharp:
   - public
   modifiers.vb:
@@ -525,21 +540,20 @@ items:
   assemblies:
   - Microsoft.Win32.Registry.AccessControl
   namespace: System.Security.AccessControl
-  summary: Searches for an audit control rule with the same user as the specified rule, and with compatible inheritance and propagation flags; if a compatible rule is found, the rights contained in the specified rule are removed from it.
+  summary: "\n<p>Searches for an audit control rule with the same user as the specified rule, and with compatible inheritance and propagation flags; if a compatible rule is found, the rights contained in the specified rule are removed from it.</p>\n"
+  remarks: "\n<p>The current <xref href=\"System.Security.AccessControl.RegistrySecurity\" data-throw-if-not-resolved=\"false\"></xref> is searched for an audit rule that has the same user as <em>rule</em>. If no such rule is found, no action is taken, and the method returns <strong>false</strong>. If matching rules are found, their inheritance and compatibility flags are checked for compatibility with the flags specified in <em>rule</em>. If no compatible rule is found, no action is taken, and the method returns <strong>false</strong>. If a rule with compatible flags is found, the rights specified in <em>rule</em> are removed from the compatible rule, and the method returns <strong>true</strong>. If <em>rule</em> specifies rights not contained in the compatible rule, no action is taken with respect to those rights. If all rights are removed from the compatible rule, the entire rule is removed from the current <xref href=\"System.Security.AccessControl.RegistrySecurity\" data-throw-if-not-resolved=\"false\"></xref> object. </p>\n"
   syntax:
     content: public bool RemoveAuditRule(RegistryAuditRule rule)
     content.vb: Public Function RemoveAuditRule(rule As RegistryAuditRule) As Boolean
     parameters:
     - id: rule
       type: System.Security.AccessControl.RegistryAuditRule
-      description: A <xref href="System.Security.AccessControl.RegistryAuditRule" data-throw-if-not-resolved="false"></xref> that specifies the user to search for, and a set of inheritance and propagation flags that a matching rule, if found, must be compatible with. Specifies the rights to remove from the compatible rule, if found.
     return:
       type: System.Boolean
-      description: true if a compatible rule is found; otherwise, false.
   exceptions:
   - type: System.ArgumentNullException
     commentId: T:System.ArgumentNullException
-    description: "\n<em>rule</em> is null."
+    description: "\n<p>\n<em>rule</em> is <strong>null</strong>.</p>\n"
   modifiers.csharp:
   - public
   modifiers.vb:
@@ -565,18 +579,18 @@ items:
   assemblies:
   - Microsoft.Win32.Registry.AccessControl
   namespace: System.Security.AccessControl
-  summary: Searches for all audit rules with the same user as the specified rule and, if found, removes them.
+  summary: "\n<p>Searches for all audit rules with the same user as the specified rule and, if found, removes them.</p>\n"
+  remarks: "\n<p>The current <xref href=\"System.Security.AccessControl.RegistrySecurity\" data-throw-if-not-resolved=\"false\"></xref> is searched for audit rules that have the same user as <em>rule</em>. Any rights, inheritance flags, or propagation flags specified by <em>rule</em> are ignored when performing this search. If no matching rules are found, no action is taken. </p>\n"
   syntax:
     content: public void RemoveAuditRuleAll(RegistryAuditRule rule)
     content.vb: Public Sub RemoveAuditRuleAll(rule As RegistryAuditRule)
     parameters:
     - id: rule
       type: System.Security.AccessControl.RegistryAuditRule
-      description: A <xref href="System.Security.AccessControl.RegistryAuditRule" data-throw-if-not-resolved="false"></xref> that specifies the user to search for. Any rights, inheritance flags, or propagation flags specified by this rule are ignored.
   exceptions:
   - type: System.ArgumentNullException
     commentId: T:System.ArgumentNullException
-    description: "\n<em>rule</em> is null."
+    description: "\n<p>\n<em>rule</em> is <strong>null</strong>.</p>\n"
   modifiers.csharp:
   - public
   modifiers.vb:
@@ -602,18 +616,18 @@ items:
   assemblies:
   - Microsoft.Win32.Registry.AccessControl
   namespace: System.Security.AccessControl
-  summary: Searches for an audit rule that exactly matches the specified rule and, if found, removes it.
+  summary: "\n<p>Searches for an audit rule that exactly matches the specified rule and, if found, removes it.</p>\n"
+  remarks: "\n<p>The rule is removed only if it exactly matches <em>rule</em> in all details, including flags. Other audit rules for the same user are not affected.</p>\n<p>A rule represents one or more underlying access control entries (ACE), and these entries are split or combined as necessary when you modify the audit security rules for a user. Thus, a rule might no longer exist in the specific form it had when it was added, and in that case the <xref href=\"System.Security.AccessControl.RegistrySecurity.RemoveAuditRuleSpecific(System.Security.AccessControl.RegistryAuditRule)\" data-throw-if-not-resolved=\"false\"></xref> method cannot remove it. </p>\n"
   syntax:
     content: public void RemoveAuditRuleSpecific(RegistryAuditRule rule)
     content.vb: Public Sub RemoveAuditRuleSpecific(rule As RegistryAuditRule)
     parameters:
     - id: rule
       type: System.Security.AccessControl.RegistryAuditRule
-      description: The <xref href="System.Security.AccessControl.RegistryAuditRule" data-throw-if-not-resolved="false"></xref> to be removed.
   exceptions:
   - type: System.ArgumentNullException
     commentId: T:System.ArgumentNullException
-    description: "\n<em>rule</em> is null."
+    description: "\n<p>\n<em>rule</em> is <strong>null</strong>.</p>\n"
   modifiers.csharp:
   - public
   modifiers.vb:
@@ -639,14 +653,16 @@ items:
   assemblies:
   - Microsoft.Win32.Registry.AccessControl
   namespace: System.Security.AccessControl
-  summary: Removes all access control rules with the same user as the specified rule, regardless of <xref href="System.Security.AccessControl.AccessControlType" data-throw-if-not-resolved="false"></xref>, and then adds the specified rule.
+  summary: "\n<p>Removes all access control rules with the same user as the specified rule, regardless of <xref href=\"System.Security.AccessControl.AccessControlType\" data-throw-if-not-resolved=\"false\"></xref>, and then adds the specified rule.</p>\n"
+  remarks: "\n<p>If there are no access rules whose user matches the specified rule, <em>rule</em> is added.</p>\n"
+  example:
+  - "\n<p>The following code example shows how the <xref href=\"System.Security.AccessControl.RegistrySecurity.ResetAccessRule(System.Security.AccessControl.RegistryAccessRule)\" data-throw-if-not-resolved=\"false\"></xref> method replaces all rules for the matching user with the rule specified for the match.</p>\n<p>The example creates a <xref href=\"System.Security.AccessControl.RegistrySecurity\" data-throw-if-not-resolved=\"false\"></xref> object and adds rules that allow and deny various rights for the current user, with different inheritance and propagation flags. The example then creates a new rule that allows the current user only to read the key, and uses the <xref href=\"System.Security.AccessControl.RegistrySecurity.ResetAccessRule(System.Security.AccessControl.RegistryAccessRule)\" data-throw-if-not-resolved=\"false\"></xref> method to remove the all rules for the user and replace them with the new rule.</p>\n<p>This example does not attach the security object to a <xref href=\"Microsoft.Win32.RegistryKey\" data-throw-if-not-resolved=\"false\"></xref> object. See the <see cref=\"Overload:Microsoft.Win32.RegistryKey.GetAccessControl\"></see> method and the <xref href=\"Microsoft.Win32.RegistryKey.SetAccessControl(System.Security.AccessControl.RegistrySecurity)\" data-throw-if-not-resolved=\"false\"></xref> method.</p>System.Security.AccessControl.RegistrySecurity.ResetAccessRule#1"
   syntax:
     content: public void ResetAccessRule(RegistryAccessRule rule)
     content.vb: Public Sub ResetAccessRule(rule As RegistryAccessRule)
     parameters:
     - id: rule
       type: System.Security.AccessControl.RegistryAccessRule
-      description: The <xref href="System.Security.AccessControl.RegistryAccessRule" data-throw-if-not-resolved="false"></xref> to add. The user specified by this rule determines the rules to remove before this rule is added.
   modifiers.csharp:
   - public
   modifiers.vb:
@@ -672,18 +688,20 @@ items:
   assemblies:
   - Microsoft.Win32.Registry.AccessControl
   namespace: System.Security.AccessControl
-  summary: Removes all access control rules with the same user and <xref href="System.Security.AccessControl.AccessControlType" data-throw-if-not-resolved="false"></xref> (allow or deny) as the specified rule, and then adds the specified rule.
+  summary: "\n<p>Removes all access control rules with the same user and <xref href=\"System.Security.AccessControl.AccessControlType\" data-throw-if-not-resolved=\"false\"></xref> (allow or deny) as the specified rule, and then adds the specified rule.</p>\n"
+  remarks: "\n<p>If the specified rule has <xref href=\"System.Security.AccessControl.AccessControlType.Allow\" data-throw-if-not-resolved=\"false\"></xref>, the effect of this method is to remove all <xref href=\"System.Security.AccessControl.AccessControlType.Allow\" data-throw-if-not-resolved=\"false\"></xref> rules for the specified user, replacing them with the specified rule. If the specified rule has <xref href=\"System.Security.AccessControl.AccessControlType.Deny\" data-throw-if-not-resolved=\"false\"></xref>, all <xref href=\"System.Security.AccessControl.AccessControlType.Deny\" data-throw-if-not-resolved=\"false\"></xref> rules for the specified user are replaced with the specified rule.</p>\n<p>If there are no rules whose user and <xref href=\"System.Security.AccessControl.AccessControlType\" data-throw-if-not-resolved=\"false\"></xref> match the specified rule, <em>rule</em> is added.</p>\n"
+  example:
+  - "\n<p>The following code example shows that the <xref href=\"System.Security.AccessControl.RegistrySecurity.SetAccessRule(System.Security.AccessControl.RegistryAccessRule)\" data-throw-if-not-resolved=\"false\"></xref> method removes all rules that match both the user and the <xref href=\"System.Security.AccessControl.AccessControlType\" data-throw-if-not-resolved=\"false\"></xref> of <em>rule</em>, ignoring rights and flags, and replaces them with <em>rule</em>.</p>\n<p>The example creates a <xref href=\"System.Security.AccessControl.RegistrySecurity\" data-throw-if-not-resolved=\"false\"></xref> object and adds rules that allow and deny various rights for the current user, with different inheritance and propagation flags. The example then creates a new rule that allows the current user only to read the key, and uses the <xref href=\"System.Security.AccessControl.RegistrySecurity.SetAccessRule(System.Security.AccessControl.RegistryAccessRule)\" data-throw-if-not-resolved=\"false\"></xref> method to remove the two rules that allow access and to replace them with the new rule. The rule that denies access is not affected.</p>\n<p>This example does not attach the security object to a <xref href=\"Microsoft.Win32.RegistryKey\" data-throw-if-not-resolved=\"false\"></xref> object. See the <see cref=\"Overload:Microsoft.Win32.RegistryKey.GetAccessControl\"></see> method and the <xref href=\"Microsoft.Win32.RegistryKey.SetAccessControl(System.Security.AccessControl.RegistrySecurity)\" data-throw-if-not-resolved=\"false\"></xref> method.</p>System.Security.AccessControl.RegistrySecurity.SetAccessRule#1"
   syntax:
     content: public void SetAccessRule(RegistryAccessRule rule)
     content.vb: Public Sub SetAccessRule(rule As RegistryAccessRule)
     parameters:
     - id: rule
       type: System.Security.AccessControl.RegistryAccessRule
-      description: The <xref href="System.Security.AccessControl.RegistryAccessRule" data-throw-if-not-resolved="false"></xref> to add. The user and <xref href="System.Security.AccessControl.AccessControlType" data-throw-if-not-resolved="false"></xref> of this rule determine the rules to remove before this rule is added.
   exceptions:
   - type: System.ArgumentNullException
     commentId: T:System.ArgumentNullException
-    description: "\n<em>rule</em> is null."
+    description: "\n<p>\n<em>rule</em> is <strong>null</strong>.</p>\n"
   modifiers.csharp:
   - public
   modifiers.vb:
@@ -709,18 +727,18 @@ items:
   assemblies:
   - Microsoft.Win32.Registry.AccessControl
   namespace: System.Security.AccessControl
-  summary: Removes all audit rules with the same user as the specified rule, regardless of the <xref href="System.Security.AccessControl.AuditFlags" data-throw-if-not-resolved="false"></xref> value, and then adds the specified rule.
+  summary: "\n<p>Removes all audit rules with the same user as the specified rule, regardless of the <xref href=\"System.Security.AccessControl.AuditFlags\" data-throw-if-not-resolved=\"false\"></xref> value, and then adds the specified rule.</p>\n"
+  remarks: "\n<p>If there are no audit rules whose user matches the specified rule, <em>rule</em> is added.</p>\n"
   syntax:
     content: public void SetAuditRule(RegistryAuditRule rule)
     content.vb: Public Sub SetAuditRule(rule As RegistryAuditRule)
     parameters:
     - id: rule
       type: System.Security.AccessControl.RegistryAuditRule
-      description: The <xref href="System.Security.AccessControl.RegistryAuditRule" data-throw-if-not-resolved="false"></xref> to add. The user specified by this rule determines the rules to remove before this rule is added.
   exceptions:
   - type: System.ArgumentNullException
     commentId: T:System.ArgumentNullException
-    description: "\n<em>rule</em> is null."
+    description: "\n<p>\n<em>rule</em> is <strong>null</strong>.</p>\n"
   modifiers.csharp:
   - public
   modifiers.vb:

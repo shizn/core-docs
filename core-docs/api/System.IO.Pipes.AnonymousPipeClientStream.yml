@@ -27,12 +27,12 @@ items:
   assemblies:
   - System.IO.Pipes
   namespace: System.IO.Pipes
-  summary: Exposes the client side of an anonymous pipe stream, which supports both synchronous and asynchronous read and write operations.
   syntax:
-    content: 'public sealed class AnonymousPipeClientStream : PipeStream'
+    content: 'public sealed class AnonymousPipeClientStream : PipeStream, Stream'
     content.vb: >-
       Public NotInheritable Class AnonymousPipeClientStream
           Inherits PipeStream
+          Implements Stream
   inheritance:
   - System.Object
   - System.IO.Pipes.PipeStream
@@ -88,30 +88,14 @@ items:
   assemblies:
   - System.IO.Pipes
   namespace: System.IO.Pipes
-  summary: Initializes a new instance of the <xref href="System.IO.Pipes.AnonymousPipeClientStream" data-throw-if-not-resolved="false"></xref> class from the specified handle.
   syntax:
     content: public AnonymousPipeClientStream(PipeDirection direction, SafePipeHandle safePipeHandle)
     content.vb: Public Sub New(direction As PipeDirection, safePipeHandle As SafePipeHandle)
     parameters:
     - id: direction
       type: System.IO.Pipes.PipeDirection
-      description: One of the enumeration values that determines the direction of the pipe.Anonymous pipes can only be in one direction, so <em>direction</em> cannot be set to <xref href="System.IO.Pipes.PipeDirection.InOut" data-throw-if-not-resolved="false"></xref>.
     - id: safePipeHandle
       type: Microsoft.Win32.SafeHandles.SafePipeHandle
-      description: A safe handle for the pipe that this <xref href="System.IO.Pipes.AnonymousPipeClientStream" data-throw-if-not-resolved="false"></xref> object will encapsulate.
-  exceptions:
-  - type: System.ArgumentException
-    commentId: T:System.ArgumentException
-    description: "\n<em>safePipeHandle </em>is not a valid handle."
-  - type: System.ArgumentNullException
-    commentId: T:System.ArgumentNullException
-    description: "\n<em>safePipeHandle</em> is null."
-  - type: System.NotSupportedException
-    commentId: T:System.NotSupportedException
-    description: "\n<em>direction</em> is set to <xref href=\"System.IO.Pipes.PipeDirection.InOut\" data-throw-if-not-resolved=\"false\"></xref>."
-  - type: System.IO.IOException
-    commentId: T:System.IO.IOException
-    description: An I/O error, such as a disk error, has occurred.-or-The stream has been closed.
   modifiers.csharp:
   - public
   modifiers.vb:
@@ -137,27 +121,14 @@ items:
   assemblies:
   - System.IO.Pipes
   namespace: System.IO.Pipes
-  summary: Initializes a new instance of the <xref href="System.IO.Pipes.AnonymousPipeClientStream" data-throw-if-not-resolved="false"></xref> class with the specified pipe direction and a string representation of the pipe handle.
   syntax:
     content: public AnonymousPipeClientStream(PipeDirection direction, string pipeHandleAsString)
     content.vb: Public Sub New(direction As PipeDirection, pipeHandleAsString As String)
     parameters:
     - id: direction
       type: System.IO.Pipes.PipeDirection
-      description: One of the enumeration values that determines the direction of the pipe.Anonymous pipes can only be in one direction, so <em>direction</em> cannot be set to <xref href="System.IO.Pipes.PipeDirection.InOut" data-throw-if-not-resolved="false"></xref>.
     - id: pipeHandleAsString
       type: System.String
-      description: A string that represents the pipe handle.
-  exceptions:
-  - type: System.ArgumentException
-    commentId: T:System.ArgumentException
-    description: "\n<em>pipeHandleAsString</em> is an invalid handle."
-  - type: System.ArgumentNullException
-    commentId: T:System.ArgumentNullException
-    description: "\n<em>pipeHandleAsString</em> is null."
-  - type: System.NotSupportedException
-    commentId: T:System.NotSupportedException
-    description: "\n<em>direction</em> is set to <xref href=\"System.IO.Pipes.PipeDirection.InOut\" data-throw-if-not-resolved=\"false\"></xref>."
   modifiers.csharp:
   - public
   modifiers.vb:
@@ -183,18 +154,12 @@ items:
   assemblies:
   - System.IO.Pipes
   namespace: System.IO.Pipes
-  summary: Initializes a new instance of the <xref href="System.IO.Pipes.AnonymousPipeClientStream" data-throw-if-not-resolved="false"></xref> class with the specified string representation of the pipe handle.
   syntax:
     content: public AnonymousPipeClientStream(string pipeHandleAsString)
     content.vb: Public Sub New(pipeHandleAsString As String)
     parameters:
     - id: pipeHandleAsString
       type: System.String
-      description: A string that represents the pipe handle.
-  exceptions:
-  - type: System.IO.IOException
-    commentId: T:System.IO.IOException
-    description: "\n<em>pipeHandleAsString</em> is not a valid pipe handle."
   modifiers.csharp:
   - public
   modifiers.vb:
@@ -220,28 +185,13 @@ items:
   assemblies:
   - System.IO.Pipes
   namespace: System.IO.Pipes
-  summary: Sets the reading mode for the <xref href="System.IO.Pipes.AnonymousPipeClientStream" data-throw-if-not-resolved="false"></xref> object.
   syntax:
     content: public override PipeTransmissionMode ReadMode { set; }
     content.vb: Public Overrides WriteOnly Property ReadMode As PipeTransmissionMode
     parameters: []
     return:
       type: System.IO.Pipes.PipeTransmissionMode
-      description: The <xref href="System.IO.Pipes.PipeTransmissionMode" data-throw-if-not-resolved="false"></xref> for the <xref href="System.IO.Pipes.AnonymousPipeClientStream" data-throw-if-not-resolved="false"></xref> object.
   overridden: System.IO.Pipes.PipeStream.ReadMode
-  exceptions:
-  - type: System.ArgumentOutOfRangeException
-    commentId: T:System.ArgumentOutOfRangeException
-    description: The transmission mode is not valid. For anonymous pipes, only <xref href="System.IO.Pipes.PipeTransmissionMode.Byte" data-throw-if-not-resolved="false"></xref> is supported.
-  - type: System.NotSupportedException
-    commentId: T:System.NotSupportedException
-    description: The transmission mode is <xref href="System.IO.Pipes.PipeTransmissionMode.Message" data-throw-if-not-resolved="false"></xref>.
-  - type: System.IO.IOException
-    commentId: T:System.IO.IOException
-    description: The connection is broken or another I/O error occurs.
-  - type: System.ObjectDisposedException
-    commentId: T:System.ObjectDisposedException
-    description: The pipe is closed.
   modifiers.csharp:
   - public
   - override
@@ -271,14 +221,12 @@ items:
   assemblies:
   - System.IO.Pipes
   namespace: System.IO.Pipes
-  summary: Gets the pipe transmission mode supported by the current pipe.
   syntax:
     content: public override PipeTransmissionMode TransmissionMode { get; }
     content.vb: Public Overrides ReadOnly Property TransmissionMode As PipeTransmissionMode
     parameters: []
     return:
       type: System.IO.Pipes.PipeTransmissionMode
-      description: The <xref href="System.IO.Pipes.PipeTransmissionMode" data-throw-if-not-resolved="false"></xref> supported by the current pipe.
   overridden: System.IO.Pipes.PipeStream.TransmissionMode
   modifiers.csharp:
   - public
@@ -309,7 +257,6 @@ items:
   assemblies:
   - System.IO.Pipes
   namespace: System.IO.Pipes
-  summary: Releases unmanaged resources and performs other cleanup operations before the <xref href="System.IO.Pipes.AnonymousPipeClientStream" data-throw-if-not-resolved="false"></xref> instance is reclaimed by garbage collection.
   syntax:
     content: protected void Finalize()
     content.vb: Protected Sub Finalize
@@ -876,30 +823,3 @@ references:
   isExternal: false
   name: TransmissionMode
   fullName: System.IO.Pipes.PipeStream.TransmissionMode
-- uid: System.ArgumentException
-  parent: System
-  isExternal: false
-  name: ArgumentException
-  fullName: System.ArgumentException
-- uid: System.ArgumentNullException
-  isExternal: false
-  name: ArgumentNullException
-  fullName: System.ArgumentNullException
-- uid: System.NotSupportedException
-  parent: System
-  isExternal: false
-  name: NotSupportedException
-  fullName: System.NotSupportedException
-- uid: System.IO.IOException
-  parent: System.IO
-  isExternal: false
-  name: IOException
-  fullName: System.IO.IOException
-- uid: System.ArgumentOutOfRangeException
-  isExternal: false
-  name: ArgumentOutOfRangeException
-  fullName: System.ArgumentOutOfRangeException
-- uid: System.ObjectDisposedException
-  isExternal: false
-  name: ObjectDisposedException
-  fullName: System.ObjectDisposedException

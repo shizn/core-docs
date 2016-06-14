@@ -14,21 +14,101 @@ items:
   type: Class
   source:
     remote:
-      path: src/mscorlib/src/System/Resources/NeutralResourcesLanguageAttribute.cs
+      path: src/System.Resources.ResourceManager/ref/System.Resources.ResourceManager.cs
       branch: master
-      repo: https://github.com/dotnet/coreclr.git
+      repo: https://github.com/dotnet/corefx.git
     id: NeutralResourcesLanguageAttribute
-    path: src/mscorlib/src/System/Resources/NeutralResourcesLanguageAttribute.cs
-    startLine: 27
+    path: src/System.Resources.ResourceManager/ref/System.Resources.ResourceManager.cs
+    startLine: 17
   assemblies:
   - System.Resources.ResourceManager
   namespace: System.Resources
-  summary: Informs the resource manager of an app's default culture. This class cannot be inherited.
+  summary: "\n<p>Informs the resource manager of an app's default culture. This class cannot be inherited.</p>\n"
+  example:
+  - >-
+    <p>The following example uses a simple "Hello World" app to illustrate the use of the <xref href="System.Resources.NeutralResourcesLanguageAttribute" data-throw-if-not-resolved="false"></xref> attribute to define a default or fallback culture. It requires the creation of separate resource files for the English (en), English (United States) (en-US), and French (France) (fr-FR) cultures. The following shows the contents of a text file named ExampleResources.txt for the English culture. </p>
+
+    <pre>
+
+    <code># Resources for the default (en) culture.
+
+    Greeting=Hello</code>
+
+    </pre>
+
+    <p>To use the resource file in an app, you must use the  to convert the file from its text (.txt) format to a binary (.resources) format as follows:</p>
+
+    <pre>
+
+    <code>resgen ExampleResources.txt</code>
+
+    </pre>
+
+    <p>When the app is compiled, the binary resource file will be embedded in the main app assembly.</p>
+
+    <p>The following shows the contents of a text file named ExampleResources.en-US.txt that provides resources for the English (United States) culture.</p>
+
+    <pre>
+
+    <code># Resources for the en-US culture.
+
+    Greeting=Hi</code>
+
+    </pre>
+
+    <p>The text file can be converted to a binary resources file by using the  at the command line as follows:</p>
+
+    <pre>
+
+    <code>resgen ExampleResources.en-US.txt ExampleResources.en-US.resources</code>
+
+    </pre>
+
+    <p>The binary resource file should then be compiled into an assembly by using  and placed in the en-US subdirectory of the app directory by issuing the following command:</p>
+
+    <pre>
+
+    <code>al /t:lib /embed:ExampleResources.en-US.resources /culture:en-US /out:en-us\Example.resources.dll</code>
+
+    </pre>
+
+    <p>The following shows the contents of a text file named ExampleResources.fr-FR.txt that provides resources for the French (France) culture.</p>
+
+    <pre>
+
+    <code># Resources for the fr-FR culture.
+
+    Greeting=Bonjour</code>
+
+    </pre>
+
+    <p>The text file can be converted to a binary resource file by using ResGen.exe at the command line as follows:</p>
+
+    <pre>
+
+    <code>resgen ExampleResources.fr-FR.txt ExampleResources.fr-FR.resources</code>
+
+    </pre>
+
+    <p>The binary resources file should then be compiled into an assembly by using Assembly Linker and placed in the fr-FR subdirectory of the app directory by issuing the following command:</p>
+
+    <pre>
+
+    <code>al /t:lib /embed:ExampleResources.fr-FR.resources /culture:fr-FR /out:fr-FR\Example.resources.dll</code>
+
+    </pre>
+
+    <p>The following example provides the executable code that sets the current culture, prompts for the user's name, and displays a localized string.</p>System.Globalization.NeutralResourcesLanguageAttribute#1<p>It can be compiled by using the following command in Visual Basic:</p><pre><code>vbc Example.vb /resource:ExampleResources.resources</code></pre><p>or by using the following command in C#:</p><pre><code>csc Example.cs /resource:ExampleResources.resources</code></pre>
   syntax:
     content: 'public sealed class NeutralResourcesLanguageAttribute : Attribute'
     content.vb: >-
       Public NotInheritable Class NeutralResourcesLanguageAttribute
           Inherits Attribute
+  seealso:
+  - type: System.Resources.UltimateResourceFallbackLocation
+    commentId: T:System.Resources.UltimateResourceFallbackLocation
+  - type: System.Resources.ResourceManager.FallbackLocation
+    commentId: P:System.Resources.ResourceManager.FallbackLocation
   inheritance:
   - System.Object
   modifiers.csharp:
@@ -51,27 +131,31 @@ items:
   type: Constructor
   source:
     remote:
-      path: src/mscorlib/src/System/Resources/NeutralResourcesLanguageAttribute.cs
+      path: src/System.Resources.ResourceManager/ref/System.Resources.ResourceManager.cs
       branch: master
-      repo: https://github.com/dotnet/coreclr.git
+      repo: https://github.com/dotnet/corefx.git
     id: .ctor
-    path: src/mscorlib/src/System/Resources/NeutralResourcesLanguageAttribute.cs
-    startLine: 34
+    path: src/System.Resources.ResourceManager/ref/System.Resources.ResourceManager.cs
+    startLine: 21
   assemblies:
   - System.Resources.ResourceManager
   namespace: System.Resources
-  summary: Initializes a new instance of the <xref href="System.Resources.NeutralResourcesLanguageAttribute" data-throw-if-not-resolved="false"></xref> class.
+  summary: "\n<p>Initializes a new instance of the <xref href=\"System.Resources.NeutralResourcesLanguageAttribute\" data-throw-if-not-resolved=\"false\"></xref> class.</p>\n"
+  remarks: "\n<p>For a detailed list of culture names, see <see href=\"http://go.microsoft.com/fwlink/?LinkId=200048\">National Language Support (NLS) API Reference</see> at the Go Global Developer Center. </p>\n"
   syntax:
     content: public NeutralResourcesLanguageAttribute(string cultureName)
     content.vb: Public Sub New(cultureName As String)
     parameters:
     - id: cultureName
       type: System.String
-      description: 'The name of the culture that the current assembly''s neutral resources were written in. '
+      description: "\n<p>The name of the culture that the current assembly's neutral resources were written in. </p>\n"
   exceptions:
   - type: System.ArgumentNullException
     commentId: T:System.ArgumentNullException
-    description: 'The <em>cultureName</em> parameter is null. '
+    description: "\n<p>The <em>cultureName</em> parameter is <strong>null</strong>. </p>\n"
+  seealso:
+  - type: System.Globalization.CultureInfo.Name
+    commentId: P:System.Globalization.CultureInfo.Name
   modifiers.csharp:
   - public
   modifiers.vb:
@@ -88,23 +172,27 @@ items:
   type: Property
   source:
     remote:
-      path: src/mscorlib/src/System/Resources/NeutralResourcesLanguageAttribute.cs
+      path: src/System.Resources.ResourceManager/ref/System.Resources.ResourceManager.cs
       branch: master
-      repo: https://github.com/dotnet/coreclr.git
+      repo: https://github.com/dotnet/corefx.git
     id: CultureName
-    path: src/mscorlib/src/System/Resources/NeutralResourcesLanguageAttribute.cs
-    startLine: 56
+    path: src/System.Resources.ResourceManager/ref/System.Resources.ResourceManager.cs
+    startLine: 22
   assemblies:
   - System.Resources.ResourceManager
   namespace: System.Resources
-  summary: Gets the culture name.
+  summary: "\n<p>Gets the culture name.</p>\n"
+  remarks: "\n<p>For a detailed list of culture names, see <see href=\"http://go.microsoft.com/fwlink/?LinkId=200048\">National Language Support (NLS) API Reference</see> at the Go Global Developer Center. </p>\n"
   syntax:
     content: public string CultureName { get; }
     content.vb: Public ReadOnly Property CultureName As String
     parameters: []
     return:
       type: System.String
-      description: The name of the default culture for the main assembly.
+      description: "\n<p>The name of the default culture for the main assembly.</p>\n"
+  seealso:
+  - type: System.Globalization.CultureInfo.Name
+    commentId: P:System.Globalization.CultureInfo.Name
   modifiers.csharp:
   - public
   - get

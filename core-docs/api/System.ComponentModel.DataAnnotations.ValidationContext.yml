@@ -31,7 +31,6 @@ items:
   assemblies:
   - System.ComponentModel.Annotations
   namespace: System.ComponentModel.DataAnnotations
-  summary: Describes the context in which a validation check is performed.
   syntax:
     content: 'public sealed class ValidationContext : IServiceProvider'
     content.vb: >-
@@ -68,14 +67,13 @@ items:
   assemblies:
   - System.ComponentModel.Annotations
   namespace: System.ComponentModel.DataAnnotations
-  summary: Initializes a new instance of the <xref href="System.ComponentModel.DataAnnotations.ValidationContext" data-throw-if-not-resolved="false"></xref> class using the specified object instance
   syntax:
     content: public ValidationContext(object instance)
     content.vb: Public Sub New(instance As Object)
     parameters:
     - id: instance
       type: System.Object
-      description: The object instance to validate. It cannot be null.
+      description: The object instance being validated.  It cannot be <code>null</code>.
   modifiers.csharp:
   - public
   modifiers.vb:
@@ -101,17 +99,14 @@ items:
   assemblies:
   - System.ComponentModel.Annotations
   namespace: System.ComponentModel.DataAnnotations
-  summary: Initializes a new instance of the <xref href="System.ComponentModel.DataAnnotations.ValidationContext" data-throw-if-not-resolved="false"></xref> class using the specified object and an optional property bag.
   syntax:
     content: public ValidationContext(object instance, Collections.Generic.IDictionary<object, object> items)
     content.vb: Public Sub New(instance As Object, items As Collections.Generic.IDictionary(Of Object, Object))
     parameters:
     - id: instance
       type: System.Object
-      description: The object instance to validate.  It cannot be null
     - id: items
       type: System.Collections.Generic.IDictionary{System.Object,System.Object}
-      description: An optional set of key/value pairs to make available to consumers.
   modifiers.csharp:
   - public
   modifiers.vb:
@@ -139,20 +134,16 @@ items:
   assemblies:
   - System.ComponentModel.Annotations
   namespace: System.ComponentModel.DataAnnotations
-  summary: 'Initializes a new instance of the <xref href="System.ComponentModel.DataAnnotations.ValidationContext" data-throw-if-not-resolved="false"></xref> class using the service provider and dictionary of service consumers. '
   syntax:
     content: public ValidationContext(object instance, IServiceProvider serviceProvider, Collections.Generic.IDictionary<object, object> items)
     content.vb: Public Sub New(instance As Object, serviceProvider As IServiceProvider, items As Collections.Generic.IDictionary(Of Object, Object))
     parameters:
     - id: instance
       type: System.Object
-      description: The object to validate. This parameter is required.
     - id: serviceProvider
       type: System.IServiceProvider
-      description: The object that implements the <xref href="System.IServiceProvider" data-throw-if-not-resolved="false"></xref> interface. This parameter is optional.
     - id: items
       type: System.Collections.Generic.IDictionary{System.Object,System.Object}
-      description: A dictionary of key/value pairs to make available to the service consumers. This parameter is optional.
   modifiers.csharp:
   - public
   modifiers.vb:
@@ -180,14 +171,13 @@ items:
   assemblies:
   - System.ComponentModel.Annotations
   namespace: System.ComponentModel.DataAnnotations
-  summary: 'Gets or sets the name of the member to validate. '
   syntax:
     content: public string DisplayName { get; set; }
     content.vb: Public Property DisplayName As String
     parameters: []
     return:
       type: System.String
-      description: 'The name of the member to validate. '
+      description: "\n    If this name was not explicitly set, this property will consult an associated <xref href=\"System.ComponentModel.DataAnnotations.DisplayAttribute\" data-throw-if-not-resolved=\"false\"></xref>\n    to see if can use that instead.  Lacking that, it returns <xref href=\"System.ComponentModel.DataAnnotations.ValidationContext.MemberName\" data-throw-if-not-resolved=\"false\"></xref>.  The\n<xref href=\"System.ComponentModel.DataAnnotations.ValidationContext.ObjectInstance\" data-throw-if-not-resolved=\"false\"></xref>\ntype name will be used if MemberName has not been set.\n"
   modifiers.csharp:
   - public
   - get
@@ -215,14 +205,13 @@ items:
   assemblies:
   - System.ComponentModel.Annotations
   namespace: System.ComponentModel.DataAnnotations
-  summary: Gets the dictionary of key/value pairs that is associated with this context.
   syntax:
-    content: public Collections.Generic.IDictionary<object, object> Items { get; }
-    content.vb: Public ReadOnly Property Items As Collections.Generic.IDictionary(Of Object, Object)
+    content: public IDictionary<object, object> Items { get; }
+    content.vb: Public ReadOnly Property Items As IDictionary(Of Object, Object)
     parameters: []
     return:
-      type: System.Collections.Generic.IDictionary{System.Object,System.Object}
-      description: The dictionary of the key/value pairs for this context.
+      type: IDictionary{System.Object,System.Object}
+      description: "\n    This property will never be null, but the dictionary may be empty.  Changes made\n    to items in this dictionary will never affect the original dictionary specified in the constructor.\n"
   modifiers.csharp:
   - public
   - get
@@ -250,14 +239,13 @@ items:
   assemblies:
   - System.ComponentModel.Annotations
   namespace: System.ComponentModel.DataAnnotations
-  summary: 'Gets or sets the name of the member to validate. '
   syntax:
     content: public string MemberName { get; set; }
     content.vb: Public Property MemberName As String
     parameters: []
     return:
       type: System.String
-      description: 'The name of the member to validate. '
+      description: "\n    This name reflects the API name of the member being validated, not a localized name.  It should be set\n    only for property or parameter contexts.\n"
   modifiers.csharp:
   - public
   - get
@@ -285,14 +273,12 @@ items:
   assemblies:
   - System.ComponentModel.Annotations
   namespace: System.ComponentModel.DataAnnotations
-  summary: Gets the object to validate.
   syntax:
     content: public object ObjectInstance { get; }
     content.vb: Public ReadOnly Property ObjectInstance As Object
     parameters: []
     return:
       type: System.Object
-      description: The object to validate.
   modifiers.csharp:
   - public
   - get
@@ -320,14 +306,12 @@ items:
   assemblies:
   - System.ComponentModel.Annotations
   namespace: System.ComponentModel.DataAnnotations
-  summary: Gets the type of the object to validate.
   syntax:
     content: public Type ObjectType { get; }
     content.vb: Public ReadOnly Property ObjectType As Type
     parameters: []
     return:
-      type: System.Type
-      description: The type of the object to validate.
+      type: Type
   modifiers.csharp:
   - public
   - get
@@ -355,17 +339,14 @@ items:
   assemblies:
   - System.ComponentModel.Annotations
   namespace: System.ComponentModel.DataAnnotations
-  summary: Returns the service that provides custom validation.
   syntax:
     content: public object GetService(Type serviceType)
     content.vb: Public Function GetService(serviceType As Type) As Object
     parameters:
     - id: serviceType
       type: System.Type
-      description: The type of the service to use for validation.
     return:
       type: System.Object
-      description: An instance of the service, or null if the service is not available.
   modifiers.csharp:
   - public
   modifiers.vb:
@@ -391,14 +372,12 @@ items:
   assemblies:
   - System.ComponentModel.Annotations
   namespace: System.ComponentModel.DataAnnotations
-  summary: Initializes the <xref href="System.ComponentModel.DataAnnotations.ValidationContext" data-throw-if-not-resolved="false"></xref> using a service provider that can return service instances by type when GetService is called.
   syntax:
     content: public void InitializeServiceProvider(Func<Type, object> serviceProvider)
     content.vb: Public Sub InitializeServiceProvider(serviceProvider As Func(Of Type, Object))
     parameters:
     - id: serviceProvider
       type: System.Func{System.Type,System.Object}
-      description: The service provider.
   modifiers.csharp:
   - public
   modifiers.vb:
@@ -465,13 +444,13 @@ references:
     fullName: )
 - uid: System.Collections.Generic.IDictionary`2
   isExternal: false
-  name: Generic.IDictionary<, >
+  name: Collections.Generic.IDictionary<, >
   fullName: System.Collections.Generic.IDictionary<, >
   fullname.vb: System.Collections.Generic.IDictionary(Of , )
-  name.vb: Generic.IDictionary(Of , )
+  name.vb: Collections.Generic.IDictionary(Of , )
   spec.csharp:
   - uid: System.Collections.Generic.IDictionary`2
-    name: Generic.IDictionary
+    name: Collections.Generic.IDictionary
     fullName: System.Collections.Generic.IDictionary
   - name: <
     fullName: <
@@ -483,7 +462,7 @@ references:
     fullName: '>'
   spec.vb:
   - uid: System.Collections.Generic.IDictionary`2
-    name: Generic.IDictionary
+    name: Collections.Generic.IDictionary
     fullName: System.Collections.Generic.IDictionary
   - name: '(Of '
     fullName: '(Of '

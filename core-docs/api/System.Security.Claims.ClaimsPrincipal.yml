@@ -46,12 +46,24 @@ items:
   assemblies:
   - System.Security.Claims
   namespace: System.Security.Claims
-  summary: An <xref href="System.Security.Principal.IPrincipal" data-throw-if-not-resolved="false"></xref> implementation that supports multiple claims-based identities.
+  summary: "\n<p>An <xref href=\"System.Security.Principal.IPrincipal\" data-throw-if-not-resolved=\"false\"></xref> implementation that supports multiple claims-based identities.</p>\n"
+  remarks: "\n<p>Beginning with .NET Framework 4.5, Windows Identity Foundation (WIF) and claims-based identity have been fully integrated into the .NET Framework. This means that many classes that represent a principal in the .NET Framework now derive from <xref href=\"System.Security.Claims.ClaimsPrincipal\" data-throw-if-not-resolved=\"false\"></xref> rather than simply implementing the <xref href=\"System.Security.Principal.IPrincipal\" data-throw-if-not-resolved=\"false\"></xref> interface. In addition to implementing the <xref href=\"System.Security.Principal.IPrincipal\" data-throw-if-not-resolved=\"false\"></xref> interface, <xref href=\"System.Security.Claims.ClaimsPrincipal\" data-throw-if-not-resolved=\"false\"></xref> exposes properties and methods that are useful for working with claims.</p>\n<p>\n<xref href=\"System.Security.Claims.ClaimsPrincipal\" data-throw-if-not-resolved=\"false\"></xref> exposes a collection of identities, each of which is a <xref href=\"System.Security.Claims.ClaimsIdentity\" data-throw-if-not-resolved=\"false\"></xref>. In the common case, this collection, which is accessed through the <xref href=\"System.Security.Claims.ClaimsPrincipal.Identities\" data-throw-if-not-resolved=\"false\"></xref> property, will only have a single element.</p>\n<p>The introduction of <xref href=\"System.Security.Claims.ClaimsPrincipal\" data-throw-if-not-resolved=\"false\"></xref> in .NET 4.5 as the principal from which most principal classes derive does not force you to change anything in the way in which you deal with identity. It does, however open up more possibilities and offer more chances to exercise finer access control. For example:</p>\n<ul><li>\n<p>The application code itself can work directly with the claims contained in the current principal to drive extra authentication, authorization, and personalization tasks.</p>\n</li><li>\n<p>You can front your resources with a claims processing pipeline, which can deal with authentication requests and authorization policy even before execution reaches your code. For example, you can configure a web-based application or service with a custom claims authentication manager, an instance of a class that derives from the <xref href=\"System.Security.Claims.ClaimsAuthenticationManager\" data-throw-if-not-resolved=\"false\"></xref> class. When so configured, the request processing pipeline invokes the <xref href=\"System.Security.Claims.ClaimsAuthenticationManager.Authenticate(System.String,System.Security.Claims.ClaimsPrincipal)\" data-throw-if-not-resolved=\"false\"></xref> method on your claims authentication manager passing it a <xref href=\"System.Security.Claims.ClaimsPrincipal\" data-throw-if-not-resolved=\"false\"></xref> that represents the context of the incoming request. Your claims authentication manager can then perform authentication based on the values of the incoming claims. It can also filter, transform, or add claims to the incoming claim set. For example, it could be used to enrich the incoming claim set with new claims created from a local data source such as a local user profile</p>\n</li><li>\n<p>You can configure a web-based application with a custom claims authorization manager, an instance of a class that derives from the <xref href=\"System.Security.Claims.ClaimsAuthorizationManager\" data-throw-if-not-resolved=\"false\"></xref> class. When so configured, the request processing pipeline packages the incoming <xref href=\"System.Security.Claims.ClaimsPrincipal\" data-throw-if-not-resolved=\"false\"></xref> in an <xref href=\"System.Security.Claims.AuthorizationContext\" data-throw-if-not-resolved=\"false\"></xref> and invokes the <xref href=\"System.Security.Claims.ClaimsAuthorizationManager.CheckAccess(System.Security.Claims.AuthorizationContext)\" data-throw-if-not-resolved=\"false\"></xref> method on your claims authorization manager. Your claims authorization manager can then enforce authorization based on the incoming claims.</p>\n</li><li>\n<p>Inline claims-based code access checks can be performed by configuring your application with a custom claims authorization manager and using either the <xref href=\"System.IdentityModel.Services.ClaimsPrincipalPermission\" data-throw-if-not-resolved=\"false\"></xref> class to perform imperative access checks or the <xref href=\"System.IdentityModel.Services.ClaimsPrincipalPermissionAttribute\" data-throw-if-not-resolved=\"false\"></xref> to perform declarative access checks. Claims-based code access checks are performed inline, outside of the processing pipeline, and so are available to all applications as long as a claims authorization manager is configured.</p>\n</li></ul>\n<p>You can obtain a <xref href=\"System.Security.Claims.ClaimsPrincipal\" data-throw-if-not-resolved=\"false\"></xref> instance for the principal associated with a request in an RP application (or the principal under which a thread is executing) by casting the <xref href=\"System.Threading.Thread.CurrentPrincipal\" data-throw-if-not-resolved=\"false\"></xref> property to <xref href=\"System.Security.Claims.ClaimsPrincipal\" data-throw-if-not-resolved=\"false\"></xref>. The claims associated with an <xref href=\"System.Security.Claims.ClaimsPrincipal\" data-throw-if-not-resolved=\"false\"></xref> object are available through its <xref href=\"System.Security.Claims.ClaimsPrincipal.Claims\" data-throw-if-not-resolved=\"false\"></xref> property. The <xref href=\"System.Security.Claims.ClaimsPrincipal.Claims\" data-throw-if-not-resolved=\"false\"></xref> property returns all of the claims contained by the identities associated with the principal. In the uncommon case in which the <xref href=\"System.Security.Claims.ClaimsPrincipal\" data-throw-if-not-resolved=\"false\"></xref> contains multiple <xref href=\"System.Security.Claims.ClaimsIdentity\" data-throw-if-not-resolved=\"false\"></xref> instances, you can use the <xref href=\"System.Security.Claims.ClaimsPrincipal.Identities\" data-throw-if-not-resolved=\"false\"></xref> property or you can access the primary identity by using the <xref href=\"System.Security.Claims.ClaimsPrincipal.Identity\" data-throw-if-not-resolved=\"false\"></xref> property. <xref href=\"System.Security.Claims.ClaimsPrincipal\" data-throw-if-not-resolved=\"false\"></xref> provides several methods through which these claims may be searched and fully supports Language Integrated Query (LINQ). Identities can be added to the principal by using the <xref href=\"System.Security.Claims.ClaimsPrincipal.AddIdentities(System.Collections.Generic.IEnumerable{System.Security.Claims.ClaimsIdentity})\" data-throw-if-not-resolved=\"false\"></xref> or <xref href=\"System.Security.Claims.ClaimsPrincipal.AddIdentity(System.Security.Claims.ClaimsIdentity)\" data-throw-if-not-resolved=\"false\"></xref> methods.</p>\n<p>To add identities to the <xref href=\"System.Security.Claims.ClaimsPrincipal\" data-throw-if-not-resolved=\"false\"></xref>, a caller must have full trust. </p>\n<p>By default, WIF prioritizes <xref href=\"System.Security.Principal.WindowsIdentity\" data-throw-if-not-resolved=\"false\"></xref> objects when selecting the primary identity to return through the <xref href=\"System.Security.Claims.ClaimsPrincipal.Identity\" data-throw-if-not-resolved=\"false\"></xref> property. You can modify this behavior by supplying a delegate through the <xref href=\"System.Security.Claims.ClaimsPrincipal.PrimaryIdentitySelector\" data-throw-if-not-resolved=\"false\"></xref> property to perform the selection. The <xref href=\"System.Security.Claims.ClaimsPrincipal.ClaimsPrincipalSelector\" data-throw-if-not-resolved=\"false\"></xref> property provides similar functionality for the <xref href=\"System.Security.Claims.ClaimsPrincipal.Current\" data-throw-if-not-resolved=\"false\"></xref> property.</p>\n<p>In the claim-based model, whether a principal is in a specified role is determined by the claims presented by its underlying identities. The <xref href=\"System.Security.Claims.ClaimsPrincipal.IsInRole(System.String)\" data-throw-if-not-resolved=\"false\"></xref> method essentially examines each identity associated with the principal to determine whether it possesses a claim with the specified role value. The type of the claim (represented by its <xref href=\"System.Security.Claims.Claim.Type\" data-throw-if-not-resolved=\"false\"></xref> property) used to determine which claims should be examined during role checks is specified on an identity through its <xref href=\"System.Security.Claims.ClaimsIdentity.RoleClaimType\" data-throw-if-not-resolved=\"false\"></xref> property. Thus, the claims examined during role checks can be of a different type for different identities associated with the principal.</p>\n"
+  example:
+  - "\n<p>The following example extracts the claims presented by a user in an HTTP request and writes them to the HTTP response. The current user is read from the <xref href=\"System.Web.HttpContext\" data-throw-if-not-resolved=\"false\"></xref> as a <xref href=\"System.Security.Claims.ClaimsPrincipal\" data-throw-if-not-resolved=\"false\"></xref>. The claims are then read from it and then are written to the response. </p>\n<pre><code>ClaimsPrincipal principal = HttpContext.Current.User as ClaimsPrincipal;\nif (null != principal)\n{\nforeach (Claim claim in principal.Claims)\n{\nResponse.Write(\"CLAIM TYPE: \" + claim.Type + \"; CLAIM VALUE: \" + claim.Value + \"</br>\");\n}\n}</code></pre>\n"
   syntax:
     content: 'public class ClaimsPrincipal : IPrincipal'
     content.vb: >-
       Public Class ClaimsPrincipal
           Inherits IPrincipal
+  seealso:
+  - type: System.Security.Claims.Claim
+    commentId: T:System.Security.Claims.Claim
+  - type: System.Security.Claims.ClaimsIdentity
+    commentId: T:System.Security.Claims.ClaimsIdentity
+  - type: System.Security.Claims.ClaimsAuthenticationManager
+    commentId: T:System.Security.Claims.ClaimsAuthenticationManager
+  - type: System.Security.Claims.ClaimsAuthorizationManager
+    commentId: T:System.Security.Claims.ClaimsAuthorizationManager
   inheritance:
   - System.Object
   modifiers.csharp:
@@ -81,7 +93,8 @@ items:
   assemblies:
   - System.Security.Claims
   namespace: System.Security.Claims
-  summary: Initializes a new instance of the <xref href="System.Security.Claims.ClaimsPrincipal" data-throw-if-not-resolved="false"></xref> class.
+  summary: "\n<p>Initializes a new instance of the <xref href=\"System.Security.Claims.ClaimsPrincipal\" data-throw-if-not-resolved=\"false\"></xref> class.</p>\n"
+  remarks: "\n<p>No identities are associated with the new instance. (The <xref href=\"System.Security.Claims.ClaimsPrincipal.Identities\" data-throw-if-not-resolved=\"false\"></xref> collection is empty).</p>\n"
   syntax:
     content: public ClaimsPrincipal()
     content.vb: Public Sub New
@@ -110,18 +123,19 @@ items:
   assemblies:
   - System.Security.Claims
   namespace: System.Security.Claims
-  summary: Initializes a new instance of the <xref href="System.Security.Claims.ClaimsPrincipal" data-throw-if-not-resolved="false"></xref> class using the specified claims identities.
+  summary: "\n<p>Initializes a new instance of the <xref href=\"System.Security.Claims.ClaimsPrincipal\" data-throw-if-not-resolved=\"false\"></xref> class using the specified claims identities.</p>\n"
+  remarks: "\n<p>The <xref href=\"System.Security.Claims.ClaimsPrincipal.Identities\" data-throw-if-not-resolved=\"false\"></xref> collection is initialized with the specified identities. </p>\n"
   syntax:
     content: public ClaimsPrincipal(Collections.Generic.IEnumerable<ClaimsIdentity> identities)
     content.vb: Public Sub New(identities As Collections.Generic.IEnumerable(Of ClaimsIdentity))
     parameters:
     - id: identities
       type: System.Collections.Generic.IEnumerable{System.Security.Claims.ClaimsIdentity}
-      description: The identities from which to initialize the new claims principal.
+      description: "\n<p>The identities from which to initialize the new claims principal.</p>\n"
   exceptions:
   - type: System.ArgumentNullException
     commentId: T:System.ArgumentNullException
-    description: "\n<em>identities</em> is null."
+    description: "\n<p>\n<em>identities</em> is <strong>null</strong>.</p>\n"
   modifiers.csharp:
   - public
   modifiers.vb:
@@ -149,12 +163,14 @@ items:
   assemblies:
   - System.Security.Claims
   namespace: System.Security.Claims
+  summary: "\n<p></p>\n"
   syntax:
     content: public ClaimsPrincipal(IO.BinaryReader reader)
     content.vb: Public Sub New(reader As IO.BinaryReader)
     parameters:
     - id: reader
       type: System.IO.BinaryReader
+      description: "\n<p></p>\n"
   modifiers.csharp:
   - public
   modifiers.vb:
@@ -180,18 +196,19 @@ items:
   assemblies:
   - System.Security.Claims
   namespace: System.Security.Claims
-  summary: Initializes a new instance of the <xref href="System.Security.Claims.ClaimsPrincipal" data-throw-if-not-resolved="false"></xref> class from the specified identity.
+  summary: "\n<p>Initializes a new instance of the <xref href=\"System.Security.Claims.ClaimsPrincipal\" data-throw-if-not-resolved=\"false\"></xref> class from the specified identity.</p>\n"
+  remarks: "\n<p>If the specified identity is assignable from <xref href=\"System.Security.Claims.ClaimsIdentity\" data-throw-if-not-resolved=\"false\"></xref>, it is used to initialize the <xref href=\"System.Security.Claims.ClaimsPrincipal.Identities\" data-throw-if-not-resolved=\"false\"></xref> collection. Otherwise, a <xref href=\"System.Security.Claims.ClaimsIdentity\" data-throw-if-not-resolved=\"false\"></xref> is created using the specified identity and is used to initialize the collection.</p>\n"
   syntax:
     content: public ClaimsPrincipal(IIdentity identity)
     content.vb: Public Sub New(identity As IIdentity)
     parameters:
     - id: identity
       type: System.Security.Principal.IIdentity
-      description: The identity from which to initialize the new claims principal.
+      description: "\n<p>The identity from which to initialize the new claims principal.</p>\n"
   exceptions:
   - type: System.ArgumentNullException
     commentId: T:System.ArgumentNullException
-    description: "\n<em>identity</em> is null."
+    description: "\n<p>\n<em>identity</em> is <strong>null</strong>.</p>\n"
   modifiers.csharp:
   - public
   modifiers.vb:
@@ -217,18 +234,19 @@ items:
   assemblies:
   - System.Security.Claims
   namespace: System.Security.Claims
-  summary: Initializes a new instance of the <xref href="System.Security.Claims.ClaimsPrincipal" data-throw-if-not-resolved="false"></xref> class from the specified principal.
+  summary: "\n<p>Initializes a new instance of the <xref href=\"System.Security.Claims.ClaimsPrincipal\" data-throw-if-not-resolved=\"false\"></xref> class from the specified principal.</p>\n"
+  remarks: "\n<p>If the specified principal is assignable from <xref href=\"System.Security.Claims.ClaimsPrincipal\" data-throw-if-not-resolved=\"false\"></xref>, all of its identities are added to the <xref href=\"System.Security.Claims.ClaimsPrincipal.Identities\" data-throw-if-not-resolved=\"false\"></xref> collection. If the specified principal is not assignable from <xref href=\"System.Security.Claims.ClaimsPrincipal\" data-throw-if-not-resolved=\"false\"></xref>, a new <xref href=\"System.Security.Claims.ClaimsIdentity\" data-throw-if-not-resolved=\"false\"></xref> is created from the <xref href=\"System.Security.Principal.IIdentity\" data-throw-if-not-resolved=\"false\"></xref> in its <xref href=\"System.Security.Principal.IPrincipal.Identity\" data-throw-if-not-resolved=\"false\"></xref> property and added to the <xref href=\"System.Security.Claims.ClaimsPrincipal.Identities\" data-throw-if-not-resolved=\"false\"></xref> collection.</p>\n"
   syntax:
     content: public ClaimsPrincipal(IPrincipal principal)
     content.vb: Public Sub New(principal As IPrincipal)
     parameters:
     - id: principal
       type: System.Security.Principal.IPrincipal
-      description: The principal from which to initialize the new claims principal.
+      description: "\n<p>The principal from which to initialize the new claims principal.</p>\n"
   exceptions:
   - type: System.ArgumentNullException
     commentId: T:System.ArgumentNullException
-    description: "\n<em>principal</em> is null."
+    description: "\n<p>\n<em>principal</em> is <strong>null</strong>.</p>\n"
   modifiers.csharp:
   - public
   modifiers.vb:
@@ -254,14 +272,14 @@ items:
   assemblies:
   - System.Security.Claims
   namespace: System.Security.Claims
-  summary: Gets a collection that contains all of the claims from all of the claims identities associated with this claims principal.
+  summary: "\n<p>Gets a collection that contains all of the claims from all of the claims identities associated with this claims principal.</p>\n"
+  remarks: "\n<p>A claims principal has a collection of <xref href=\"System.Security.Claims.ClaimsIdentity\" data-throw-if-not-resolved=\"false\"></xref> objects that is accessible through the Identities property. Each <xref href=\"System.Security.Claims.ClaimsIdentity\" data-throw-if-not-resolved=\"false\"></xref> in the collection contains one or more claims. The <xref href=\"System.Security.Claims.ClaimsPrincipal.Claims\" data-throw-if-not-resolved=\"false\"></xref> property returns all of the claims from all of the claims identities in this collection.</p>\n<p>The <xref href=\"System.Security.Claims.ClaimsPrincipal.Claims\" data-throw-if-not-resolved=\"false\"></xref> property can be examined by custom implementations of the <xref href=\"System.Security.Claims.ClaimsAuthenticationManager\" data-throw-if-not-resolved=\"false\"></xref> class to make authentication decisions or to filter, transform, or enrich an incoming claim set; by custom implementations of the <xref href=\"System.Security.Claims.ClaimsAuthorizationManager\" data-throw-if-not-resolved=\"false\"></xref> class to enforce authorization policy; or by application code to make authorization decisions or to customize user experience based on the claims present in the collection.</p>\n"
   syntax:
-    content: public virtual Collections.Generic.IEnumerable<Claim> Claims { get; }
-    content.vb: Public Overridable ReadOnly Property Claims As Collections.Generic.IEnumerable(Of Claim)
+    content: public virtual IEnumerable<Claim> Claims { get; }
+    content.vb: Public Overridable ReadOnly Property Claims As IEnumerable(Of Claim)
     parameters: []
     return:
-      type: System.Collections.Generic.IEnumerable{System.Security.Claims.Claim}
-      description: The claims associated with this principal.
+      type: IEnumerable{System.Security.Claims.Claim}
   modifiers.csharp:
   - public
   - virtual
@@ -291,14 +309,20 @@ items:
   assemblies:
   - System.Security.Claims
   namespace: System.Security.Claims
-  summary: Gets and sets the delegate used to select the claims principal returned by the <xref href="System.Security.Claims.ClaimsPrincipal.Current" data-throw-if-not-resolved="false"></xref> property.
+  summary: "\n<p>Gets and sets the delegate used to select the claims principal returned by the <xref href=\"System.Security.Claims.ClaimsPrincipal.Current\" data-throw-if-not-resolved=\"false\"></xref> property.</p>\n"
+  remarks: "\n<p>You can set this property to override the default behavior of the <xref href=\"System.Security.Claims.ClaimsPrincipal.Current\" data-throw-if-not-resolved=\"false\"></xref> property.</p>\n"
   syntax:
     content: public static Func<ClaimsPrincipal> ClaimsPrincipalSelector { get; set; }
     content.vb: Public Shared Property ClaimsPrincipalSelector As Func(Of ClaimsPrincipal)
     parameters: []
     return:
-      type: System.Func{System.Security.Claims.ClaimsPrincipal}
-      description: The delegate. The default is null.
+      type: Func{System.Security.Claims.ClaimsPrincipal}
+  seealso:
+  - type: System.Security.Claims.ClaimsPrincipal.Current
+    commentId: P:System.Security.Claims.ClaimsPrincipal.Current
+  see:
+  - type: System.Security.SecurityCriticalAttribute
+    commentId: T:System.Security.SecurityCriticalAttribute
   modifiers.csharp:
   - public
   - static
@@ -328,14 +352,17 @@ items:
   assemblies:
   - System.Security.Claims
   namespace: System.Security.Claims
-  summary: Gets the current claims principal.
+  summary: "\n<p>Gets the current claims principal.</p>\n"
+  remarks: "\n<p>By default, <xref href=\"System.Threading.Thread.CurrentPrincipal\" data-throw-if-not-resolved=\"false\"></xref> is returned. You can change this behavior by setting the <xref href=\"System.Security.Claims.ClaimsPrincipal.ClaimsPrincipalSelector\" data-throw-if-not-resolved=\"false\"></xref> property to specify a delegate to be called to determine the current principal.</p>\n"
   syntax:
     content: public static ClaimsPrincipal Current { get; }
     content.vb: Public Shared ReadOnly Property Current As ClaimsPrincipal
     parameters: []
     return:
       type: System.Security.Claims.ClaimsPrincipal
-      description: The current claims principal.
+  seealso:
+  - type: System.Security.Claims.ClaimsPrincipal.ClaimsPrincipalSelector
+    commentId: P:System.Security.Claims.ClaimsPrincipal.ClaimsPrincipalSelector
   modifiers.csharp:
   - public
   - static
@@ -365,6 +392,7 @@ items:
   assemblies:
   - System.Security.Claims
   namespace: System.Security.Claims
+  summary: "\n<p></p>\n"
   syntax:
     content: protected virtual byte[] CustomSerializationData { get; }
     content.vb: Protected Overridable ReadOnly Property CustomSerializationData As Byte()
@@ -400,14 +428,14 @@ items:
   assemblies:
   - System.Security.Claims
   namespace: System.Security.Claims
-  summary: Gets a collection that contains all of the claims identities associated with this claims principal.
+  summary: "\n<p>Gets a collection that contains all of the claims identities associated with this claims principal.</p>\n"
+  remarks: "\n<p>In the common case, the collection contains only a single element.</p>\n<p>It is possible for the collection to contain some elements which are <strong>null</strong>.</p>\n"
   syntax:
-    content: public virtual Collections.Generic.IEnumerable<ClaimsIdentity> Identities { get; }
-    content.vb: Public Overridable ReadOnly Property Identities As Collections.Generic.IEnumerable(Of ClaimsIdentity)
+    content: public virtual IEnumerable<ClaimsIdentity> Identities { get; }
+    content.vb: Public Overridable ReadOnly Property Identities As IEnumerable(Of ClaimsIdentity)
     parameters: []
     return:
-      type: System.Collections.Generic.IEnumerable{System.Security.Claims.ClaimsIdentity}
-      description: The collection of claims identities.
+      type: IEnumerable{System.Security.Claims.ClaimsIdentity}
   modifiers.csharp:
   - public
   - virtual
@@ -437,14 +465,17 @@ items:
   assemblies:
   - System.Security.Claims
   namespace: System.Security.Claims
-  summary: Gets the primary claims identity associated with this claims principal.
+  summary: "\n<p>Gets the primary claims identity associated with this claims principal.</p>\n"
+  remarks: "\n<p>By default, the framework prioritizes identities of type <xref href=\"System.Security.Principal.WindowsIdentity\" data-throw-if-not-resolved=\"false\"></xref> when returning the identity. The first <xref href=\"System.Security.Principal.WindowsIdentity\" data-throw-if-not-resolved=\"false\"></xref> found in the <xref href=\"System.Security.Claims.ClaimsPrincipal.Identities\" data-throw-if-not-resolved=\"false\"></xref> collection is returned. If there is no <xref href=\"System.Security.Principal.WindowsIdentity\" data-throw-if-not-resolved=\"false\"></xref> in the collection, the first identity assignable from <xref href=\"System.Security.Claims.ClaimsIdentity\" data-throw-if-not-resolved=\"false\"></xref> is returned. If there is no <xref href=\"System.Security.Claims.ClaimsIdentity\" data-throw-if-not-resolved=\"false\"></xref>, <strong>null</strong> is returned. If the <xref href=\"System.Security.Claims.ClaimsPrincipal.Identities\" data-throw-if-not-resolved=\"false\"></xref> collection is empty, an <xref href=\"System.ArgumentNullException\" data-throw-if-not-resolved=\"false\"></xref> is thrown.</p>\n<p>You can change the default behavior by setting the <xref href=\"System.Security.Claims.ClaimsPrincipal.PrimaryIdentitySelector\" data-throw-if-not-resolved=\"false\"></xref> property to specify a delegate to be called to determine the identity.</p>\n"
   syntax:
     content: public virtual IIdentity Identity { get; }
     content.vb: Public Overridable ReadOnly Property Identity As IIdentity
     parameters: []
     return:
       type: System.Security.Principal.IIdentity
-      description: The primary claims identity associated with this claims principal.
+  seealso:
+  - type: System.Security.Claims.ClaimsPrincipal.PrimaryIdentitySelector
+    commentId: P:System.Security.Claims.ClaimsPrincipal.PrimaryIdentitySelector
   modifiers.csharp:
   - public
   - virtual
@@ -474,14 +505,20 @@ items:
   assemblies:
   - System.Security.Claims
   namespace: System.Security.Claims
-  summary: Gets and sets the delegate used to select the claims identity returned by the <xref href="System.Security.Claims.ClaimsPrincipal.Identity" data-throw-if-not-resolved="false"></xref> property.
+  summary: "\n<p>Gets and sets the delegate used to select the claims identity returned by the <xref href=\"System.Security.Claims.ClaimsPrincipal.Identity\" data-throw-if-not-resolved=\"false\"></xref> property.</p>\n"
+  remarks: "\n<p>You can set this property to override the default behavior of the <xref href=\"System.Security.Claims.ClaimsPrincipal.Identity\" data-throw-if-not-resolved=\"false\"></xref> property.</p>\n"
   syntax:
-    content: public static Func<Collections.Generic.IEnumerable<ClaimsIdentity>, ClaimsIdentity> PrimaryIdentitySelector { get; set; }
-    content.vb: Public Shared Property PrimaryIdentitySelector As Func(Of Collections.Generic.IEnumerable(Of ClaimsIdentity), ClaimsIdentity)
+    content: public static Func<IEnumerable<ClaimsIdentity>, ClaimsIdentity> PrimaryIdentitySelector { get; set; }
+    content.vb: Public Shared Property PrimaryIdentitySelector As Func(Of IEnumerable(Of ClaimsIdentity), ClaimsIdentity)
     parameters: []
     return:
-      type: System.Func{System.Collections.Generic.IEnumerable{System.Security.Claims.ClaimsIdentity},System.Security.Claims.ClaimsIdentity}
-      description: The delegate. The default is null.
+      type: Func{IEnumerable{System.Security.Claims.ClaimsIdentity},System.Security.Claims.ClaimsIdentity}
+  seealso:
+  - type: System.Security.Claims.ClaimsPrincipal.Identity
+    commentId: P:System.Security.Claims.ClaimsPrincipal.Identity
+  see:
+  - type: System.Security.SecurityCriticalAttribute
+    commentId: T:System.Security.SecurityCriticalAttribute
   modifiers.csharp:
   - public
   - static
@@ -511,18 +548,22 @@ items:
   assemblies:
   - System.Security.Claims
   namespace: System.Security.Claims
-  summary: Adds the specified claims identities to this claims principal.
+  summary: "\n<p>Adds the specified claims identities to this claims principal.</p>\n"
+  remarks: "\n<p>The identities are added to the <xref href=\"System.Security.Claims.ClaimsPrincipal.Identities\" data-throw-if-not-resolved=\"false\"></xref> collection.</p>\n"
   syntax:
     content: public virtual void AddIdentities(Collections.Generic.IEnumerable<ClaimsIdentity> identities)
     content.vb: Public Overridable Sub AddIdentities(identities As Collections.Generic.IEnumerable(Of ClaimsIdentity))
     parameters:
     - id: identities
       type: System.Collections.Generic.IEnumerable{System.Security.Claims.ClaimsIdentity}
-      description: The claims identities to add.
+      description: "\n<p>The claims identities to add.</p>\n"
   exceptions:
   - type: System.ArgumentNullException
     commentId: T:System.ArgumentNullException
-    description: "\n<em>identities</em> is null."
+    description: "\n<p>\n<em>identities</em> is <strong>null</strong>.</p>\n"
+  see:
+  - type: System.Security.SecurityCriticalAttribute
+    commentId: T:System.Security.SecurityCriticalAttribute
   modifiers.csharp:
   - public
   - virtual
@@ -552,18 +593,22 @@ items:
   assemblies:
   - System.Security.Claims
   namespace: System.Security.Claims
-  summary: Adds the specified claims identity to this claims principal.
+  summary: "\n<p>Adds the specified claims identity to this claims principal.</p>\n"
+  remarks: "\n<p>The identity is added to the <xref href=\"System.Security.Claims.ClaimsPrincipal.Identities\" data-throw-if-not-resolved=\"false\"></xref> collection.</p>\n"
   syntax:
     content: public virtual void AddIdentity(ClaimsIdentity identity)
     content.vb: Public Overridable Sub AddIdentity(identity As ClaimsIdentity)
     parameters:
     - id: identity
       type: System.Security.Claims.ClaimsIdentity
-      description: The claims identity to add.
+      description: the <xref href="System.Security.Claims.ClaimsIdentity" data-throw-if-not-resolved="false"></xref>add.
   exceptions:
   - type: System.ArgumentNullException
     commentId: T:System.ArgumentNullException
-    description: "\n<em>identity</em> is null."
+    description: "\n<p>\n<em>identity</em> is <strong>null</strong>.</p>\n"
+  see:
+  - type: System.Security.SecurityCriticalAttribute
+    commentId: T:System.Security.SecurityCriticalAttribute
   modifiers.csharp:
   - public
   - virtual
@@ -591,13 +636,12 @@ items:
   assemblies:
   - System.Security.Claims
   namespace: System.Security.Claims
-  summary: Returns a copy of this instance.
+  summary: "\n<p>Returns a copy of this instance.</p>\n"
   syntax:
     content: public virtual ClaimsPrincipal Clone()
     content.vb: Public Overridable Function Clone As ClaimsPrincipal
     return:
       type: System.Security.Claims.ClaimsPrincipal
-      description: A new copy of the <xref href="System.Security.Claims.ClaimsPrincipal" data-throw-if-not-resolved="false"></xref> object.
   modifiers.csharp:
   - public
   - virtual
@@ -625,17 +669,17 @@ items:
   assemblies:
   - System.Security.Claims
   namespace: System.Security.Claims
-  summary: Creates a new claims identity.
+  summary: "\n<p>Creates a new claims identity.</p>\n"
   syntax:
     content: protected virtual ClaimsIdentity CreateClaimsIdentity(IO.BinaryReader reader)
     content.vb: Protected Overridable Function CreateClaimsIdentity(reader As IO.BinaryReader) As ClaimsIdentity
     parameters:
     - id: reader
       type: System.IO.BinaryReader
-      description: The binary reader.
+      description: "\n<p>The binary reader.</p>\n"
     return:
       type: System.Security.Claims.ClaimsIdentity
-      description: The created claims identity.
+      description: "\n<p>The created claims identity.</p>\n"
   modifiers.csharp:
   - protected
   - virtual
@@ -663,21 +707,22 @@ items:
   assemblies:
   - System.Security.Claims
   namespace: System.Security.Claims
-  summary: Retrieves all of the claims that are matched by the specified predicate.
+  summary: "\n<p>Retrieves all of the claims that are matched by the specified predicate.</p>\n"
+  remarks: "\n<p>Returns claims from all identities associated with the claims principal.</p>\n"
   syntax:
     content: public virtual Collections.Generic.IEnumerable<Claim> FindAll(Predicate<Claim> match)
     content.vb: Public Overridable Function FindAll(match As Predicate(Of Claim)) As Collections.Generic.IEnumerable(Of Claim)
     parameters:
     - id: match
       type: System.Predicate{System.Security.Claims.Claim}
-      description: The function that performs the matching logic.
+      description: "\n<p>The function that performs the matching logic.</p>\n"
     return:
       type: System.Collections.Generic.IEnumerable{System.Security.Claims.Claim}
-      description: The matching claims.
+      description: "\n<p>The matching claims.</p>\n"
   exceptions:
   - type: System.ArgumentNullException
     commentId: T:System.ArgumentNullException
-    description: "\n<em>match</em> is null."
+    description: "\n<p>\n<em>match</em> is <strong>null</strong>.</p>\n"
   modifiers.csharp:
   - public
   - virtual
@@ -707,21 +752,22 @@ items:
   assemblies:
   - System.Security.Claims
   namespace: System.Security.Claims
-  summary: Retrieves all or the claims that have the specified claim type.
+  summary: "\n<p>Retrieves all or the claims that have the specified claim type.</p>\n"
+  remarks: "\n<p>Returns claims from all identities associated with the claims principal. The comparison is made using Ordinal case in-sensitive on <em>type</em>.</p>\n"
   syntax:
-    content: public virtual Collections.Generic.IEnumerable<Claim> FindAll(string type)
-    content.vb: Public Overridable Function FindAll(type As String) As Collections.Generic.IEnumerable(Of Claim)
+    content: public virtual IEnumerable<Claim> FindAll(string type)
+    content.vb: Public Overridable Function FindAll(type As String) As IEnumerable(Of Claim)
     parameters:
     - id: type
       type: System.String
-      description: The claim type against which to match claims.
+      description: The type of the claim to match.
     return:
-      type: System.Collections.Generic.IEnumerable{System.Security.Claims.Claim}
-      description: The matching claims.
+      type: IEnumerable{System.Security.Claims.Claim}
+      description: A <see cref="!:IEnumerable<Claim>"></see> of matched claims.
   exceptions:
   - type: System.ArgumentNullException
     commentId: T:System.ArgumentNullException
-    description: "\n<em>type</em> is null."
+    description: "\n<p>\n<em>type</em> is <strong>null</strong>.</p>\n"
   modifiers.csharp:
   - public
   - virtual
@@ -749,21 +795,21 @@ items:
   assemblies:
   - System.Security.Claims
   namespace: System.Security.Claims
-  summary: Retrieves the first claim that is matched by the specified predicate.
+  summary: "\n<p>Retrieves the first claim that is matched by the specified predicate.</p>\n"
   syntax:
     content: public virtual Claim FindFirst(Predicate<Claim> match)
     content.vb: Public Overridable Function FindFirst(match As Predicate(Of Claim)) As Claim
     parameters:
     - id: match
       type: System.Predicate{System.Security.Claims.Claim}
-      description: The function that performs the matching logic.
+      description: "\n<p>The function that performs the matching logic.</p>\n"
     return:
       type: System.Security.Claims.Claim
-      description: The first matching claim or null if no match is found.
+      description: "\n<p>The first matching claim or <strong>null</strong> if no match is found.</p>\n"
   exceptions:
   - type: System.ArgumentNullException
     commentId: T:System.ArgumentNullException
-    description: "\n<em>match</em> is null."
+    description: "\n<p>\n<em>match</em> is <strong>null</strong>.</p>\n"
   modifiers.csharp:
   - public
   - virtual
@@ -793,21 +839,21 @@ items:
   assemblies:
   - System.Security.Claims
   namespace: System.Security.Claims
-  summary: Retrieves the first claim with the specified claim type.
+  summary: "\n<p>Retrieves the first claim with the specified claim type.</p>\n"
   syntax:
     content: public virtual Claim FindFirst(string type)
     content.vb: Public Overridable Function FindFirst(type As String) As Claim
     parameters:
     - id: type
       type: System.String
-      description: The claim type to match.
+      description: The type of the claim to match.
     return:
       type: System.Security.Claims.Claim
-      description: The first matching claim or null if no match is found.
+      description: A <xref href="System.Security.Claims.Claim" data-throw-if-not-resolved="false"></xref>, null if nothing matches.
   exceptions:
   - type: System.ArgumentNullException
     commentId: T:System.ArgumentNullException
-    description: "\n<em>type</em> is null."
+    description: "\n<p>\n<em>type</em> is <strong>null</strong>.</p>\n"
   modifiers.csharp:
   - public
   - virtual
@@ -835,21 +881,21 @@ items:
   assemblies:
   - System.Security.Claims
   namespace: System.Security.Claims
-  summary: Determines whether any of the claims identities associated with this claims principal contains a claim that is matched by the specified predicate.
+  summary: "\n<p>Determines whether any of the claims identities associated with this claims principal contains a claim that is matched by the specified predicate.</p>\n"
   syntax:
     content: public virtual bool HasClaim(Predicate<Claim> match)
     content.vb: Public Overridable Function HasClaim(match As Predicate(Of Claim)) As Boolean
     parameters:
     - id: match
       type: System.Predicate{System.Security.Claims.Claim}
-      description: The function that performs the matching logic.
+      description: "\n<p>The function that performs the matching logic.</p>\n"
     return:
       type: System.Boolean
-      description: true if a matching claim exists; otherwise, false.
+      description: "\n<p>\n<strong>true</strong> if a matching claim exists; otherwise, <strong>false</strong>.</p>\n"
   exceptions:
   - type: System.ArgumentNullException
     commentId: T:System.ArgumentNullException
-    description: "\n<em>match</em> is null."
+    description: "\n<p>\n<em>match</em> is <strong>null</strong>.</p>\n"
   modifiers.csharp:
   - public
   - virtual
@@ -879,24 +925,25 @@ items:
   assemblies:
   - System.Security.Claims
   namespace: System.Security.Claims
-  summary: Determines whether any of the claims identities associated with this claims principal contains a claim with the specified claim type and value.
+  summary: "\n<p>Determines whether any of the claims identities associated with this claims principal contains a claim with the specified claim type and value.</p>\n"
+  remarks: "\n<p>Does not check the <xref href=\"System.Security.Claims.Claim.Issuer\" data-throw-if-not-resolved=\"false\"></xref> or <xref href=\"System.Security.Claims.Claim.OriginalIssuer\" data-throw-if-not-resolved=\"false\"></xref> properties. The comparison is made using Ordinal, case sensitive on value; case in-sensitive on type.</p>\n"
   syntax:
     content: public virtual bool HasClaim(string type, string value)
     content.vb: Public Overridable Function HasClaim(type As String, value As String) As Boolean
     parameters:
     - id: type
       type: System.String
-      description: The type of the claim to match.
+      description: the type of the claim to match.
     - id: value
       type: System.String
-      description: The value of the claim to match.
+      description: the value of the claim to match.
     return:
       type: System.Boolean
-      description: true if a matching claim exists; otherwise, false.
+      description: true if a claim is matched, false otherwise.
   exceptions:
   - type: System.ArgumentNullException
     commentId: T:System.ArgumentNullException
-    description: "\n<em>type</em> is null.-or-<em>value</em> is null."
+    description: "\n<p>\n<em>type</em> is <strong>null</strong>.</p>\n<p>-or-</p>\n<p>\n<em>value</em> is <strong>null</strong>.</p>\n"
   modifiers.csharp:
   - public
   - virtual
@@ -924,17 +971,18 @@ items:
   assemblies:
   - System.Security.Claims
   namespace: System.Security.Claims
-  summary: Returns a value that indicates whether the entity (user) represented by this claims principal is in the specified role.
+  summary: "\n<p>Returns a value that indicates whether the entity (user) represented by this claims principal is in the specified role.</p>\n"
+  remarks: "\n<p>The <xref href=\"System.Security.Claims.ClaimsPrincipal.IsInRole(System.String)\" data-throw-if-not-resolved=\"false\"></xref> method checks whether an identity that this claims principal possesses contains a claim of type <xref href=\"System.Security.Claims.ClaimsIdentity.RoleClaimType\" data-throw-if-not-resolved=\"false\"></xref> where the value of the claim is equal to the value specified by the <em>role</em> parameter.</p>\n<p>Each <xref href=\"System.Security.Claims.ClaimsIdentity\" data-throw-if-not-resolved=\"false\"></xref> has its own definition of the claim type that represents a role. This claim type can be accessed and set through the <xref href=\"System.Security.Claims.ClaimsIdentity.RoleClaimType\" data-throw-if-not-resolved=\"false\"></xref> property.</p>\n"
   syntax:
     content: public virtual bool IsInRole(string role)
     content.vb: Public Overridable Function IsInRole(role As String) As Boolean
     parameters:
     - id: role
       type: System.String
-      description: The role for which to check.
+      description: The role to check for.
     return:
       type: System.Boolean
-      description: true if claims principal is in the specified role; otherwise, false.
+      description: "'True' if a claim is found. Otherwise 'False'."
   modifiers.csharp:
   - public
   - virtual
@@ -962,12 +1010,14 @@ items:
   assemblies:
   - System.Security.Claims
   namespace: System.Security.Claims
+  summary: "\n<p></p>\n"
   syntax:
     content: public virtual void WriteTo(IO.BinaryWriter writer)
     content.vb: Public Overridable Sub WriteTo(writer As IO.BinaryWriter)
     parameters:
     - id: writer
       type: System.IO.BinaryWriter
+      description: "\n<p></p>\n"
   modifiers.csharp:
   - public
   - virtual
@@ -995,14 +1045,17 @@ items:
   assemblies:
   - System.Security.Claims
   namespace: System.Security.Claims
+  summary: "\n<p></p>\n"
   syntax:
     content: protected virtual void WriteTo(IO.BinaryWriter writer, byte[] userData)
     content.vb: Protected Overridable Sub WriteTo(writer As IO.BinaryWriter, userData As Byte())
     parameters:
     - id: writer
       type: System.IO.BinaryWriter
+      description: "\n<p></p>\n"
     - id: userData
       type: System.Byte[]
+      description: "\n<p></p>\n"
   modifiers.csharp:
   - protected
   - virtual
@@ -1091,7 +1144,7 @@ references:
 - uid: System.Security.Principal.IIdentity
   parent: System.Security.Principal
   isExternal: false
-  name: Principal.IIdentity
+  name: IIdentity
   fullName: System.Security.Principal.IIdentity
 - uid: System.Security.Principal
   isExternal: false

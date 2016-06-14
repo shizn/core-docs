@@ -17,21 +17,29 @@ items:
   type: Class
   source:
     remote:
-      path: src/mscorlib/src/System/Text/EncoderFallback.cs
+      path: src/System.Text.Encoding/ref/System.Text.Encoding.cs
       branch: master
-      repo: https://github.com/dotnet/coreclr.git
+      repo: https://github.com/dotnet/corefx.git
     id: EncoderFallback
-    path: src/mscorlib/src/System/Text/EncoderFallback.cs
-    startLine: 11
+    path: src/System.Text.Encoding/ref/System.Text.Encoding.cs
+    startLine: 84
   assemblies:
   - System.Text.Encoding
   namespace: System.Text
-  summary: 'Provides a failure-handling mechanism, called a fallback, for an input character that cannot be converted to an encoded output byte sequence. '
+  summary: "\n<p>Provides a failure-handling mechanism, called a fallback, for an input character that cannot be converted to an encoded output byte sequence. </p>\n"
+  remarks: "\n<p>An encoding maps a Unicode character to an encoded sequence of bytes. A particular encoding is represented by a type that is derived from the <xref href=\"System.Text.Encoding\" data-throw-if-not-resolved=\"false\"></xref> class. Specifically, a character is encoded to a byte sequence by calling the encoding type's <xref href=\"System.Text.Encoding.GetBytes(System.String)\" data-throw-if-not-resolved=\"false\"></xref> method, and the byte sequence is decoded to a character array or a string by calling the <xref href=\"System.Text.Encoding.GetChars(System.Byte[])\" data-throw-if-not-resolved=\"false\"></xref> or <xref href=\"System.Text.Encoding.GetString(System.Byte[])\" data-throw-if-not-resolved=\"false\"></xref> method. </p>\n<p>An encoding operation can fail if the input character cannot be represented by the encoding. For example, an <xref href=\"System.Text.ASCIIEncoding\" data-throw-if-not-resolved=\"false\"></xref> object cannot encode a character whose Unicode code point value is outside the range U+0000 to U+007F. </p>\n<p>When an encoding conversion cannot be performed, the .NET Framework provides a failure-handling mechanism called a fallback. Your application can use predefined .NET Framework encoder fallbacks, or it can create a custom encoder fallback derived from the <xref href=\"System.Text.EncoderFallback\" data-throw-if-not-resolved=\"false\"></xref> and <xref href=\"System.Text.EncoderFallbackBuffer\" data-throw-if-not-resolved=\"false\"></xref> classes. </p>\n<p>\n<xref href=\"System.Text.EncoderFallback\" data-throw-if-not-resolved=\"false\"></xref> and <xref href=\"System.Text.EncoderFallbackBuffer\" data-throw-if-not-resolved=\"false\"></xref> are the base classes for all encoding fallback handlers in the .NET Framework. They support the following three kinds of fallback handling mechanisms:</p>\n<ul><li>\n<p>Best-fit fallback, which maps valid Unicode characters that cannot be encoded to an approximate equivalent. For example, a best-fit fallback handler for the <xref href=\"System.Text.ASCIIEncoding\" data-throw-if-not-resolved=\"false\"></xref> class might map Æ (U+00C6) to AE (U+0041 + U+0045). A best-fit fallback handler might also be implemented to transliterate one alphabet (such as Cyrillic) to another (such as Latin or Roman). The .NET Framework does not provide any public best-fit fallback implementations.</p>\n</li><li>\n<p>Replacement fallback, which replaces each character that cannot be encoded with a predefined string. The .NET Framework provides a predefined replacement fallback handler. The <xref href=\"System.Text.EncoderReplacementFallback\" data-throw-if-not-resolved=\"false\"></xref> class replaces each byte sequence that cannot be decoded with a question mark character (\"?\", or U+003F) or a REPLACEMENT CHARACTER (U+FFFD). You can customize the replacement string by specifying a substitute in the call to the <xref href=\"System.Text.EncoderReplacementFallback.#ctor(System.String)\" data-throw-if-not-resolved=\"false\"></xref> constructor. After the substitute string is emitted, the encoding operation continues converting the remainder of the input.</p>\n</li><li>\n<p>Exception fallback, which throws an exception when a character cannot be encoded. The .NET Framework provides a predefined exception fallback handler. The <xref href=\"System.Text.EncoderExceptionFallback\" data-throw-if-not-resolved=\"false\"></xref> class throws an <xref href=\"System.Text.EncoderFallbackException\" data-throw-if-not-resolved=\"false\"></xref> when an invalid character is encountered, and the encoding operation terminates.</p>\n</li></ul>\n<p>If you choose to implement a custom solution, you must override the following abstract members of the <xref href=\"System.Text.EncoderFallback\" data-throw-if-not-resolved=\"false\"></xref> class:</p>\n<ul><li>\n<p>The <xref href=\"System.Text.EncoderFallback.CreateFallbackBuffer\" data-throw-if-not-resolved=\"false\"></xref> method, which returns a class instance derived from <xref href=\"System.Text.EncoderFallbackBuffer\" data-throw-if-not-resolved=\"false\"></xref>. Depending on the type of fallback handler that you are developing, the <xref href=\"System.Text.EncoderFallbackBuffer\" data-throw-if-not-resolved=\"false\"></xref> implementation is responsible for performing the mapping or replacement, or for throwing the exception.</p>\n</li><li>\n<p>The <xref href=\"System.Text.EncoderFallback.MaxCharCount\" data-throw-if-not-resolved=\"false\"></xref> property, which returns the maximum number of characters that the fallback implementation can return. For an exception fallback handler, its value should be zero.</p>\n</li></ul>\n<p>For more information about encoding, decoding, and fallback strategies, see Character Encoding in the .NET Framework.</p>\n"
   syntax:
     content: 'public abstract class EncoderFallback : object'
     content.vb: >-
       Public MustInherit Class EncoderFallback
           Inherits Object
+  seealso:
+  - type: System.Text.EncoderFallbackBuffer
+    commentId: T:System.Text.EncoderFallbackBuffer
+  - type: System.Text.EncoderReplacementFallback
+    commentId: T:System.Text.EncoderReplacementFallback
+  - type: System.Text.EncoderExceptionFallback
+    commentId: T:System.Text.EncoderExceptionFallback
   inheritance:
   - System.Object
   modifiers.csharp:
@@ -63,7 +71,7 @@ items:
   assemblies:
   - System.Text.Encoding
   namespace: System.Text
-  summary: Initializes a new instance of the <xref href="System.Text.EncoderFallback" data-throw-if-not-resolved="false"></xref> class.
+  summary: "\n<p>Initializes a new instance of the <xref href=\"System.Text.EncoderFallback\" data-throw-if-not-resolved=\"false\"></xref> class.</p>\n"
   syntax:
     content: protected EncoderFallback()
     content.vb: Protected Sub New
@@ -83,23 +91,23 @@ items:
   type: Property
   source:
     remote:
-      path: src/mscorlib/src/System/Text/EncoderFallback.cs
+      path: src/System.Text.Encoding/ref/System.Text.Encoding.cs
       branch: master
-      repo: https://github.com/dotnet/coreclr.git
+      repo: https://github.com/dotnet/corefx.git
     id: ExceptionFallback
-    path: src/mscorlib/src/System/Text/EncoderFallback.cs
-    startLine: 53
+    path: src/System.Text.Encoding/ref/System.Text.Encoding.cs
+    startLine: 87
   assemblies:
   - System.Text.Encoding
   namespace: System.Text
-  summary: Gets an object that throws an exception when an input character cannot be encoded.
+  summary: "\n<p>Gets an object that throws an exception when an input character cannot be encoded.</p>\n"
   syntax:
     content: public static EncoderFallback ExceptionFallback { get; }
     content.vb: Public Shared ReadOnly Property ExceptionFallback As EncoderFallback
     parameters: []
     return:
       type: System.Text.EncoderFallback
-      description: A type derived from the <xref href="System.Text.EncoderFallback" data-throw-if-not-resolved="false"></xref> class. The default value is a <xref href="System.Text.EncoderExceptionFallback" data-throw-if-not-resolved="false"></xref> object.
+      description: "\n<p>A type derived from the <xref href=\"System.Text.EncoderFallback\" data-throw-if-not-resolved=\"false\"></xref> class. The default value is a <xref href=\"System.Text.EncoderExceptionFallback\" data-throw-if-not-resolved=\"false\"></xref> object.</p>\n"
   modifiers.csharp:
   - public
   - static
@@ -120,23 +128,24 @@ items:
   type: Property
   source:
     remote:
-      path: src/mscorlib/src/System/Text/EncoderFallback.cs
+      path: src/System.Text.Encoding/ref/System.Text.Encoding.cs
       branch: master
-      repo: https://github.com/dotnet/coreclr.git
+      repo: https://github.com/dotnet/corefx.git
     id: MaxCharCount
-    path: src/mscorlib/src/System/Text/EncoderFallback.cs
-    startLine: 76
+    path: src/System.Text.Encoding/ref/System.Text.Encoding.cs
+    startLine: 88
   assemblies:
   - System.Text.Encoding
   namespace: System.Text
-  summary: When overridden in a derived class, gets the maximum number of characters the current <xref href="System.Text.EncoderFallback" data-throw-if-not-resolved="false"></xref> object can return.
+  summary: "\n<p>When overridden in a derived class, gets the maximum number of characters the current <xref href=\"System.Text.EncoderFallback\" data-throw-if-not-resolved=\"false\"></xref> object can return.</p>\n"
+  remarks: "\n<p>For an exception fallback handler, this property should return zero.</p>\n"
   syntax:
     content: public abstract int MaxCharCount { get; }
     content.vb: Public MustOverride ReadOnly Property MaxCharCount As Integer
     parameters: []
     return:
       type: System.Int32
-      description: The maximum number of characters the current <xref href="System.Text.EncoderFallback" data-throw-if-not-resolved="false"></xref> object can return.
+      description: "\n<p>The maximum number of characters the current <xref href=\"System.Text.EncoderFallback\" data-throw-if-not-resolved=\"false\"></xref> object can return.</p>\n"
   modifiers.csharp:
   - public
   - abstract
@@ -157,23 +166,23 @@ items:
   type: Property
   source:
     remote:
-      path: src/mscorlib/src/System/Text/EncoderFallback.cs
+      path: src/System.Text.Encoding/ref/System.Text.Encoding.cs
       branch: master
-      repo: https://github.com/dotnet/coreclr.git
+      repo: https://github.com/dotnet/corefx.git
     id: ReplacementFallback
-    path: src/mscorlib/src/System/Text/EncoderFallback.cs
-    startLine: 39
+    path: src/System.Text.Encoding/ref/System.Text.Encoding.cs
+    startLine: 89
   assemblies:
   - System.Text.Encoding
   namespace: System.Text
-  summary: Gets an object that outputs a substitute string in place of an input character that cannot be encoded.
+  summary: "\n<p>Gets an object that outputs a substitute string in place of an input character that cannot be encoded.</p>\n"
   syntax:
     content: public static EncoderFallback ReplacementFallback { get; }
     content.vb: Public Shared ReadOnly Property ReplacementFallback As EncoderFallback
     parameters: []
     return:
       type: System.Text.EncoderFallback
-      description: A type derived from the <xref href="System.Text.EncoderFallback" data-throw-if-not-resolved="false"></xref> class. The default value is a <xref href="System.Text.EncoderReplacementFallback" data-throw-if-not-resolved="false"></xref> object that replaces unknown input characters with the QUESTION MARK character ("?", U+003F).
+      description: "\n<p>A type derived from the <xref href=\"System.Text.EncoderFallback\" data-throw-if-not-resolved=\"false\"></xref> class. The default value is a <xref href=\"System.Text.EncoderReplacementFallback\" data-throw-if-not-resolved=\"false\"></xref> object that replaces unknown input characters with the QUESTION MARK character (\"?\", U+003F).</p>\n"
   modifiers.csharp:
   - public
   - static
@@ -194,22 +203,26 @@ items:
   type: Method
   source:
     remote:
-      path: src/mscorlib/src/System/Text/EncoderFallback.cs
+      path: src/System.Text.Encoding/ref/System.Text.Encoding.cs
       branch: master
-      repo: https://github.com/dotnet/coreclr.git
+      repo: https://github.com/dotnet/corefx.git
     id: CreateFallbackBuffer
-    path: src/mscorlib/src/System/Text/EncoderFallback.cs
-    startLine: 72
+    path: src/System.Text.Encoding/ref/System.Text.Encoding.cs
+    startLine: 90
   assemblies:
   - System.Text.Encoding
   namespace: System.Text
-  summary: 'When overridden in a derived class, initializes a new instance of the <xref href="System.Text.EncoderFallbackBuffer" data-throw-if-not-resolved="false"></xref> class. '
+  summary: "\n<p>When overridden in a derived class, initializes a new instance of the <xref href=\"System.Text.EncoderFallbackBuffer\" data-throw-if-not-resolved=\"false\"></xref> class. </p>\n"
+  remarks: "\n<p>This method returns an object derived from <xref href=\"System.Text.EncoderFallbackBuffer\" data-throw-if-not-resolved=\"false\"></xref> that is responsible for performing the fallback operation. For example, of the predefined <xref href=\"System.Text.EncoderFallback\" data-throw-if-not-resolved=\"false\"></xref> implementations in the .NET Framework, the <xref href=\"System.Text.EncoderReplacementFallback.CreateFallbackBuffer\" data-throw-if-not-resolved=\"false\"></xref> method returns an <xref href=\"System.Text.EncoderReplacementFallbackBuffer\" data-throw-if-not-resolved=\"false\"></xref> object, and the <xref href=\"System.Text.EncoderExceptionFallback.CreateFallbackBuffer\" data-throw-if-not-resolved=\"false\"></xref> method returns an <xref href=\"System.Text.EncoderExceptionFallbackBuffer\" data-throw-if-not-resolved=\"false\"></xref> object.</p>\n<p>The<xref href=\"System.Text.EncoderFallback.CreateFallbackBuffer\" data-throw-if-not-resolved=\"false\"></xref> method is called by an encoder when it encounters the first character that it is unable to encode. The <xref href=\"System.Text.EncoderFallbackBuffer\" data-throw-if-not-resolved=\"false\"></xref> object returned by this method provides the fallback implementation and is responsible for returning the byte array that replaces the character or characters that could not be encoded. </p>\n"
   syntax:
     content: public abstract EncoderFallbackBuffer CreateFallbackBuffer()
     content.vb: Public MustOverride Function CreateFallbackBuffer As EncoderFallbackBuffer
     return:
       type: System.Text.EncoderFallbackBuffer
-      description: An object that provides a fallback buffer for an encoder.
+      description: "\n<p>An object that provides a fallback buffer for an encoder.</p>\n"
+  seealso:
+  - type: System.Text.DecoderFallbackBuffer
+    commentId: T:System.Text.DecoderFallbackBuffer
   modifiers.csharp:
   - public
   - abstract

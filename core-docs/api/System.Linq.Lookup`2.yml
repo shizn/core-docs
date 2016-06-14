@@ -26,18 +26,15 @@ items:
   assemblies:
   - System.Linq
   namespace: System.Linq
-  summary: Represents a collection of keys each mapped to one or more values.
   syntax:
-    content: 'public class Lookup<TKey, TElement> : Collections.Generic.IEnumerable<IGrouping<TKey, TElement>>, ILookup<TKey, TElement>, Collections.Generic.IEnumerable<IGrouping<TKey, TElement>>, Collections.IEnumerable'
+    content: 'public class Lookup<TKey, TElement> : object, ILookup<TKey, TElement>, IIListProvider<IGrouping<TKey, TElement>>, IEnumerable<IGrouping<TKey, TElement>>'
     content.vb: >-
       Public Class Lookup(Of TKey, TElement)
-          Inherits Collections.Generic.IEnumerable(Of IGrouping(Of TKey, TElement))
-          Implements ILookup(Of TKey, TElement), Collections.Generic.IEnumerable(Of IGrouping(Of TKey, TElement)), Collections.IEnumerable
+          Inherits Object
+          Implements ILookup(Of TKey, TElement), IIListProvider(Of IGrouping(Of TKey, TElement)), IEnumerable(Of IGrouping(Of TKey, TElement))
     typeParameters:
     - id: TKey
-      description: The type of the keys in the <xref href="System.Linq.Lookup`2" data-throw-if-not-resolved="false"></xref>.
     - id: TElement
-      description: The type of the elements of each <xref href="System.Collections.Generic.IEnumerable`1" data-throw-if-not-resolved="false"></xref> value in the <xref href="System.Linq.Lookup`2" data-throw-if-not-resolved="false"></xref>.
   inheritance:
   - System.Object
   implements:
@@ -73,14 +70,12 @@ items:
   assemblies:
   - System.Linq
   namespace: System.Linq
-  summary: Gets the number of key/value collection pairs in the <xref href="System.Linq.Lookup`2" data-throw-if-not-resolved="false"></xref>.
   syntax:
     content: public int Count { get; }
     content.vb: Public ReadOnly Property Count As Integer
     parameters: []
     return:
       type: System.Int32
-      description: The number of key/value collection pairs in the <xref href="System.Linq.Lookup`2" data-throw-if-not-resolved="false"></xref>.
   implements:
   - System.Linq.ILookup{{TKey},{TElement}}.Count
   modifiers.csharp:
@@ -111,17 +106,14 @@ items:
   assemblies:
   - System.Linq
   namespace: System.Linq
-  summary: Gets the collection of values indexed by the specified key.
   syntax:
-    content: public Collections.Generic.IEnumerable<TElement> this[TKey key] { get; }
-    content.vb: Public ReadOnly Property Item(key As TKey) As Collections.Generic.IEnumerable(Of TElement)
+    content: public IEnumerable<TElement> this[TKey key] { get; }
+    content.vb: Public ReadOnly Property Item(key As TKey) As IEnumerable(Of TElement)
     parameters:
     - id: key
       type: '{TKey}'
-      description: The key of the desired collection of values.
     return:
-      type: System.Collections.Generic.IEnumerable{{TElement}}
-      description: The collection of values indexed by the specified key.
+      type: IEnumerable{{TElement}}
   implements:
   - System.Linq.ILookup{{TKey},{TElement}}.Item({TKey})
   modifiers.csharp:
@@ -153,20 +145,16 @@ items:
   assemblies:
   - System.Linq
   namespace: System.Linq
-  summary: Applies a transform function to each key and its associated values and returns the results.
   syntax:
     content: public Collections.Generic.IEnumerable<TResult> ApplyResultSelector<TResult>(Func<TKey, Collections.Generic.IEnumerable<TElement>, TResult> resultSelector)
     content.vb: Public Function ApplyResultSelector(Of TResult)(resultSelector As Func(Of TKey, Collections.Generic.IEnumerable(Of TElement), TResult)) As Collections.Generic.IEnumerable(Of TResult)
     parameters:
     - id: resultSelector
       type: System.Func{{TKey},System.Collections.Generic.IEnumerable{{TElement}},{TResult}}
-      description: A function to project a result value from each key and its associated values.
     typeParameters:
     - id: TResult
-      description: The type of the result values produced by <em>resultSelector</em>.
     return:
       type: System.Collections.Generic.IEnumerable{{TResult}}
-      description: A collection that contains one value for each key/value collection pair in the <xref href="System.Linq.Lookup`2" data-throw-if-not-resolved="false"></xref>.
   modifiers.csharp:
   - public
   modifiers.vb:
@@ -194,17 +182,14 @@ items:
   assemblies:
   - System.Linq
   namespace: System.Linq
-  summary: Determines whether a specified key is in the <xref href="System.Linq.Lookup`2" data-throw-if-not-resolved="false"></xref>.
   syntax:
     content: public bool Contains(TKey key)
     content.vb: Public Function Contains(key As TKey) As Boolean
     parameters:
     - id: key
       type: '{TKey}'
-      description: The key to find in the <xref href="System.Linq.Lookup`2" data-throw-if-not-resolved="false"></xref>.
     return:
       type: System.Boolean
-      description: true if <em>key</em> is in the <xref href="System.Linq.Lookup`2" data-throw-if-not-resolved="false"></xref>; otherwise, false.
   implements:
   - System.Linq.ILookup{{TKey},{TElement}}.Contains({TKey})
   modifiers.csharp:
@@ -233,13 +218,11 @@ items:
   assemblies:
   - System.Linq
   namespace: System.Linq
-  summary: Returns a generic enumerator that iterates through the <xref href="System.Linq.Lookup`2" data-throw-if-not-resolved="false"></xref>.
   syntax:
-    content: public Collections.Generic.IEnumerator<IGrouping<TKey, TElement>> GetEnumerator()
-    content.vb: Public Function GetEnumerator As Collections.Generic.IEnumerator(Of IGrouping(Of TKey, TElement))
+    content: public IEnumerator<IGrouping<TKey, TElement>> GetEnumerator()
+    content.vb: Public Function GetEnumerator As IEnumerator(Of IGrouping(Of TKey, TElement))
     return:
-      type: System.Collections.Generic.IEnumerator{System.Linq.IGrouping{{TKey},{TElement}}}
-      description: An enumerator for the <xref href="System.Linq.Lookup`2" data-throw-if-not-resolved="false"></xref>.
+      type: IEnumerator{System.Linq.IGrouping{{TKey},{TElement}}}
   modifiers.csharp:
   - public
   modifiers.vb:
@@ -343,7 +326,7 @@ references:
 - uid: System.Collections.IEnumerable
   parent: System.Collections
   isExternal: false
-  name: IEnumerable
+  name: Collections.IEnumerable
   fullName: System.Collections.IEnumerable
 - uid: System
   isExternal: false
@@ -352,22 +335,20 @@ references:
 - uid: System.Linq.ILookup`2
   parent: System.Linq
   isExternal: false
-  name: ILookup<TKey, TElement>
-  fullName: System.Linq.ILookup<TKey, TElement>
-  fullname.vb: System.Linq.ILookup(Of TKey, TElement)
-  name.vb: ILookup(Of TKey, TElement)
+  name: ILookup<, >
+  fullName: System.Linq.ILookup<, >
+  fullname.vb: System.Linq.ILookup(Of , )
+  name.vb: ILookup(Of , )
   spec.csharp:
   - uid: System.Linq.ILookup`2
     name: ILookup
     fullName: System.Linq.ILookup
   - name: <
     fullName: <
-  - name: TKey
-    fullName: TKey
+  - {}
   - name: ', '
     fullName: ', '
-  - name: TElement
-    fullName: TElement
+  - {}
   - name: '>'
     fullName: '>'
   spec.vb:
@@ -376,12 +357,10 @@ references:
     fullName: System.Linq.ILookup
   - name: '(Of '
     fullName: '(Of '
-  - name: TKey
-    fullName: TKey
+  - {}
   - name: ', '
     fullName: ', '
-  - name: TElement
-    fullName: TElement
+  - {}
   - name: )
     fullName: )
 - uid: System.Collections.Generic.IEnumerable`1
@@ -754,13 +733,13 @@ references:
 - uid: System.Collections.Generic.IEnumerator`1
   parent: System.Collections.Generic
   isExternal: false
-  name: Generic.IEnumerator<>
+  name: Collections.Generic.IEnumerator<>
   fullName: System.Collections.Generic.IEnumerator<>
   fullname.vb: System.Collections.Generic.IEnumerator(Of )
-  name.vb: Generic.IEnumerator(Of )
+  name.vb: Collections.Generic.IEnumerator(Of )
   spec.csharp:
   - uid: System.Collections.Generic.IEnumerator`1
-    name: Generic.IEnumerator
+    name: Collections.Generic.IEnumerator
     fullName: System.Collections.Generic.IEnumerator
   - name: <
     fullName: <
@@ -769,7 +748,7 @@ references:
     fullName: '>'
   spec.vb:
   - uid: System.Collections.Generic.IEnumerator`1
-    name: Generic.IEnumerator
+    name: Collections.Generic.IEnumerator
     fullName: System.Collections.Generic.IEnumerator
   - name: '(Of '
     fullName: '(Of '

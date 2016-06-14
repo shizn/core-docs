@@ -14,16 +14,34 @@ items:
   type: Class
   source:
     remote:
-      path: src/mscorlib/src/System/Runtime/CompilerServices/InternalsVisibleToAttribute.cs
+      path: src/System.Runtime/ref/System.Runtime.cs
       branch: master
-      repo: https://github.com/dotnet/coreclr.git
+      repo: https://github.com/dotnet/corefx.git
     id: InternalsVisibleToAttribute
-    path: src/mscorlib/src/System/Runtime/CompilerServices/InternalsVisibleToAttribute.cs
-    startLine: 12
+    path: src/System.Runtime/ref/System.Runtime.cs
+    startLine: 2918
   assemblies:
   - System.Runtime
   namespace: System.Runtime.CompilerServices
-  summary: Specifies that types that are ordinarily visible only within the current assembly are visible to a specified assembly.
+  summary: "\n<p>Specifies that types that are ordinarily visible only within the current assembly are visible to a specified assembly.</p>\n"
+  remarks: "\n<p>Ordinarily, types and members with <strong>internal</strong> scope (in C#) and <strong>friend</strong> scope (in Visual Basic) are visible only in the assembly in which they are defined. The <xref href=\"System.Runtime.CompilerServices.InternalsVisibleToAttribute\" data-throw-if-not-resolved=\"false\"></xref> attribute makes them also visible to the types in a specified assembly, which is known as a friend assembly.</p>\n<p>The attribute is applied at the assembly level. This means that it can be included at the beginning of a source code file, or it can be included in the AssemblyInfo file in a Visual Studio project. You can use the attribute to specify a single friend assembly that can access the internal types and members of the current assembly. You can define multiple friend assemblies in two ways. They can appear as individual assembly-level attributes, as the following example illustrates.</p>System.Runtime.CompilerServices.InternalsVisibleToAttribute#3<p>They can also appear with separate<xref href=\"System.Runtime.CompilerServices.InternalsVisibleToAttribute\" data-throw-if-not-resolved=\"false\"></xref> tags but a single <strong>assembly</strong> keyword, as the following example illustrates.</p>System.Runtime.CompilerServices.InternalsVisibleToAttribute#4<p>The friend assembly is identified by the <xref href=\"System.Runtime.CompilerServices.InternalsVisibleToAttribute.#ctor(System.String)\" data-throw-if-not-resolved=\"false\"></xref> constructor. Both the current assembly and the friend assembly must be unsigned, or both assemblies must be signed with a strong name.</p><p>If both assemblies are unsigned, the <em>assemblyName</em> argument consists of the name of the friend assembly, specified without a directory path or file name extension. </p><p>  If both assemblies are signed with a strong name, the argument to the <xref href=\"System.Runtime.CompilerServices.InternalsVisibleToAttribute.#ctor(System.String)\" data-throw-if-not-resolved=\"false\"></xref> constructor must consist of the name of the assembly without its directory path or file name extension, along with the full public key (and not its public key token). To get the full public key of a strong-named assembly, see the Getting the full public key section later in this article. For more information about using <xref href=\"System.Runtime.CompilerServices.InternalsVisibleToAttribute\" data-throw-if-not-resolved=\"false\"></xref> with strong-named assemblies, see the <xref href=\"System.Runtime.CompilerServices.InternalsVisibleToAttribute.#ctor(System.String)\" data-throw-if-not-resolved=\"false\"></xref> constructor.</p><p>Do not include values for the <xref href=\"System.Reflection.AssemblyName.CultureInfo\" data-throw-if-not-resolved=\"false\"></xref>, <xref href=\"System.Reflection.AssemblyName.Version\" data-throw-if-not-resolved=\"false\"></xref>, or <xref href=\"System.Reflection.AssemblyName.ProcessorArchitecture\" data-throw-if-not-resolved=\"false\"></xref> field in the argument; the Visual Basic, C#, and C++ compilers treat this as a compiler error. If you use a compiler that does not treat it as an error (such as the IL Assembler (ILAsm.exe)) and the assemblies are strong-named, a <xref href=\"System.MethodAccessException\" data-throw-if-not-resolved=\"false\"></xref> exception is thrown the first time the specified friend assembly accesses the assembly that contains the <xref href=\"System.Runtime.CompilerServices.InternalsVisibleToAttribute\" data-throw-if-not-resolved=\"false\"></xref> attribute.</p><p>For more information about how to use this attribute, see the following topics:</p><ul><li><p>Friend Assemblies (C++)</p></li><li><p>Friend Assemblies (C# and Visual Basic)</p></li></ul>"
+  example:
+  - >-
+    <p>
+
+    <strong>Signed assemblies</strong>
+
+    </p>
+
+    <p>The following example uses the <xref href="System.Runtime.CompilerServices.InternalsVisibleToAttribute" data-throw-if-not-resolved="false"></xref> attribute to make an <strong>internal</strong> method named <code>AppendDirectorySeparator</code> in a signed assembly visible to another signed assembly. It defines a <code>FileUtilities</code> class that includes an internal <code>AppendDirectorySeparator</code> method. The <xref href="System.Runtime.CompilerServices.InternalsVisibleToAttribute" data-throw-if-not-resolved="false"></xref> attribute is applied to the assembly that contains the <code>FileUtilities</code> class. The attribute allows an assembly named <code>Friend1</code> to access this internal member.</p>System.Runtime.CompilerServices.InternalsVisibleToAttribute#1<p>If the following example is compiled into a strong-named assembly named <code>Friend1</code>, the <code>Example.Main</code> method in <code>Friend1</code> can successfully call the <code>FileUtilities.AppendDirectorySeparator</code> method, although the method is internal to the <code>Assembly1</code> assembly. Note that if you are compiling in C# from the command line, you must use the /out compiler switch to ensure that the name of the friend assembly is available when the compiler binds to external references. </p>System.Runtime.CompilerServices.InternalsVisibleToAttribute#2
+  - >-
+    <p>
+
+    <strong>Unsigned assemblies</strong>
+
+    </p>
+
+    <p>The following example uses the <xref href="System.Runtime.CompilerServices.InternalsVisibleToAttribute" data-throw-if-not-resolved="false"></xref> attribute to make an <strong>internal</strong> member of an unsigned assembly visible to another unsigned assembly. The attribute ensures that the <strong>internal</strong><code>StringLib.IsFirstLetterUpperCase</code> method in an assembly named <code>UtilityLib</code> is visible to the code in an assembly named <code>Friend2</code>.  The following is the source code for UtilityLib.dll: </p>System.Runtime.CompilerServices.InternalsVisibleToAttribute#5<p>The following example provides the source code for the <code>Friend2</code> assembly. Note that if you are compiling in C# from the command line, you must use the /out compiler switch to ensure that the name of the friend assembly is available when the compiler binds to external references.   </p>System.Runtime.CompilerServices.InternalsVisibleToAttribute#6
   syntax:
     content: >-
       [AttributeUsage(AttributeTargets.Assembly, AllowMultiple = true, Inherited = false)]
@@ -78,23 +96,27 @@ items:
   type: Constructor
   source:
     remote:
-      path: src/mscorlib/src/System/Runtime/CompilerServices/InternalsVisibleToAttribute.cs
+      path: src/System.Runtime/ref/System.Runtime.cs
       branch: master
-      repo: https://github.com/dotnet/coreclr.git
+      repo: https://github.com/dotnet/corefx.git
     id: .ctor
-    path: src/mscorlib/src/System/Runtime/CompilerServices/InternalsVisibleToAttribute.cs
-    startLine: 18
+    path: src/System.Runtime/ref/System.Runtime.cs
+    startLine: 2921
   assemblies:
   - System.Runtime
   namespace: System.Runtime.CompilerServices
-  summary: 'Initializes a new instance of the <xref href="System.Runtime.CompilerServices.InternalsVisibleToAttribute" data-throw-if-not-resolved="false"></xref> class with the name of the specified friend assembly. '
+  summary: "\n<p>Initializes a new instance of the <xref href=\"System.Runtime.CompilerServices.InternalsVisibleToAttribute\" data-throw-if-not-resolved=\"false\"></xref> class with the name of the specified friend assembly. </p>\n"
+  remarks: "\n<p>The <xref href=\"System.Runtime.CompilerServices.InternalsVisibleToAttribute.#ctor(System.String)\" data-throw-if-not-resolved=\"false\"></xref> constructor defines a friend assembly, which is an assembly that has access to the internal types and members of the current assembly. </p>\n<p>Both the current assembly and the friend assembly must be unsigned, or both must be signed with a strong name. (For more information about strong-named assemblies, see Creating and Using Strong-Named Assemblies.) If both are unsigned, the <em>assemblyName</em> argument consists of the name of the friend assembly, specified without a directory path or file extension. If both are signed, <em>assemblyName</em> consists of the name of the friend assembly without its directory path or file name extension, along with its full public key (but not its public key token). The other components of a strong name, such as those that provide culture, version, or processor architecture information, cannot be specified in the <em>assemblyName</em> argument.</p>\n<p>If you use the C# compiler to compile the friend assembly, you must explicitly specify the name of the output file (.exe or .dll) by using the /out compiler option. This is required because the compiler has not yet generated the name for the assembly it is building at the time it is binding to external references. The /out compiler option is optional for the Visual Basic compiler, and the corresponding -out or -o compiler option should not be used when compiling friend assemblies with the F# compiler.</p>\n<p>You can use Sn.exe (Strong Name Tool) to retrieve the full public key from a strong-named key (.snk) file. To do this, you perform the following steps:</p>\n<ol><li>\n<p>Extract the public key from the strong-named key file to a separate file:</p>\n<p>Sn -p snk_fileoutfile</p>\n</li><li>\n<p>Display the full public key to the console:</p>\n<p>Sn -tp outfile</p>\n</li><li>\n<p>Copy and paste the full public key value into your source code.</p>\n</li></ol>\n<p>For more information about how to use the <xref href=\"System.Runtime.CompilerServices.InternalsVisibleToAttribute\" data-throw-if-not-resolved=\"false\"></xref> attribute, see the following topics:</p>\n<ul><li>\n<p>Friend Assemblies (C++)</p>\n</li><li>\n<p>Friend Assemblies (C# and Visual Basic)</p>\n</li></ul>\n"
+  example:
+  - "\n<p>\n<strong>Signed assemblies</strong>\n</p>\n<p>The following example uses the <xref href=\"System.Runtime.CompilerServices.InternalsVisibleToAttribute\" data-throw-if-not-resolved=\"false\"></xref> attribute to make an <strong>internal</strong> method named <code>AppendDirectorySeparator</code> in a signed assembly visible to another signed assembly. It defines a <code>FileUtilities</code> class that includes an internal <code>AppendDirectorySeparator</code> method. The <xref href=\"System.Runtime.CompilerServices.InternalsVisibleToAttribute\" data-throw-if-not-resolved=\"false\"></xref> attribute is applied to the assembly that contains the <code>FileUtilities</code> class. The attribute allows an assembly named <code>Friend1</code> to access this internal member.</p>System.Runtime.CompilerServices.InternalsVisibleToAttribute#1<p>If the following example is compiled into a strong-named assembly named <code>Friend1</code>, it can successfully call the <code>FileUtilities.AppendDirectorySeparator</code> method, even though the method is internal to the <code>Assembly1</code> assembly. Note that if you are compiling in C# from the command line, you must use the /out compiler switch to ensure that the name of the friend assembly is available when the compiler binds to external references. </p>System.Runtime.CompilerServices.InternalsVisibleToAttribute#2"
+  - "\n<p>The following example uses the <xref href=\"System.Runtime.CompilerServices.InternalsVisibleToAttribute\" data-throw-if-not-resolved=\"false\"></xref> attribute to make an <strong>internal</strong> member of an unsigned assembly visible to another unsigned assembly. The attribute ensures that the <strong>internal</strong><code>StringLib.IsFirstLetterUpperCase</code> method in an assembly named <code>UtilityLib</code> is visible to the code in an assembly named <code>Friend2</code>.  The following is the source code for UtilityLib.dll: </p>System.Runtime.CompilerServices.InternalsVisibleToAttribute#5<p><strong>Unsigned assemblies</strong></p><p>The following example provides the source code for the <code>Friend2</code> assembly. Note that if you are compiling in C# from the command line, you must use the /out compiler switch to ensure that the name of the friend assembly is available when the compiler binds to external references.   </p>System.Runtime.CompilerServices.InternalsVisibleToAttribute#6"
   syntax:
     content: public InternalsVisibleToAttribute(string assemblyName)
     content.vb: Public Sub New(assemblyName As String)
     parameters:
     - id: assemblyName
       type: System.String
-      description: The name of a friend assembly.
+      description: "\n<p>The name of a friend assembly.</p>\n"
   modifiers.csharp:
   - public
   modifiers.vb:
@@ -111,23 +133,24 @@ items:
   type: Property
   source:
     remote:
-      path: src/mscorlib/src/System/Runtime/CompilerServices/InternalsVisibleToAttribute.cs
+      path: src/System.Runtime/ref/System.Runtime.cs
       branch: master
-      repo: https://github.com/dotnet/coreclr.git
+      repo: https://github.com/dotnet/corefx.git
     id: AssemblyName
-    path: src/mscorlib/src/System/Runtime/CompilerServices/InternalsVisibleToAttribute.cs
-    startLine: 23
+    path: src/System.Runtime/ref/System.Runtime.cs
+    startLine: 2922
   assemblies:
   - System.Runtime
   namespace: System.Runtime.CompilerServices
-  summary: 'Gets the name of the friend assembly to which all types and type members that are marked with the internal keyword are to be made visible. '
+  summary: "\n<p>Gets the name of the friend assembly to which all types and type members that are marked with the <strong>internal</strong> keyword are to be made visible. </p>\n"
+  remarks: "\n<p>For more information about how to use the <xref href=\"System.Runtime.CompilerServices.InternalsVisibleToAttribute\" data-throw-if-not-resolved=\"false\"></xref> attribute, see the following topics:</p>\n<ul><li>\n<p>Friend Assemblies (C++)</p>\n</li><li>\n<p>Friend Assemblies (C# and Visual Basic)</p>\n</li></ul>\n"
   syntax:
     content: public string AssemblyName { get; }
     content.vb: Public ReadOnly Property AssemblyName As String
     parameters: []
     return:
       type: System.String
-      description: A string that represents the name of the friend assembly.
+      description: "\n<p>A string that represents the name of the friend assembly.</p>\n"
   modifiers.csharp:
   - public
   - get

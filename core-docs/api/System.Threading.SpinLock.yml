@@ -22,16 +22,19 @@ items:
   type: Struct
   source:
     remote:
-      path: src/mscorlib/src/System/Threading/SpinLock.cs
+      path: src/System.Threading/ref/System.Threading.cs
       branch: master
-      repo: https://github.com/dotnet/coreclr.git
+      repo: https://github.com/dotnet/corefx.git
     id: SpinLock
-    path: src/mscorlib/src/System/Threading/SpinLock.cs
-    startLine: 56
+    path: src/System.Threading/ref/System.Threading.cs
+    startLine: 284
   assemblies:
   - System.Threading
   namespace: System.Threading
-  summary: Provides a mutual exclusion lock primitive where a thread trying to acquire the lock waits in a loop repeatedly checking until the lock becomes available.
+  summary: "\n<p>Provides a mutual exclusion lock primitive where a thread trying to acquire the lock waits in a loop repeatedly checking until the lock becomes available.</p>\n"
+  remarks: "\n<p>For an example of how to use a Spin Lock, see How to: Use SpinLock for Low-Level Synchronization.</p>\n<p>Spin locks can be used for leaf-level locks where the object allocation implied by using a <xref href=\"System.Threading.Monitor\" data-throw-if-not-resolved=\"false\"></xref>, in size or due to garbage collection pressure, is overly expensive. A spin lock can be useful in to avoid blocking; however, if you expect a significant amount of blocking, you should probably not use spin locks due to excessive spinning. Spinning can be beneficial when locks are fine-grained and large in number (for example, a lock per node in a linked list) and also when lock hold-times are always extremely short. In general, while holding a spin lock, one should avoid any of these actions:</p>\n<ul><li>\n<p>blocking, </p>\n</li><li>\n<p>calling anything that itself may block, </p>\n</li><li>\n<p>holding more than one spin lock at once, </p>\n</li><li>\n<p>making dynamically dispatched calls (interface and virtuals), </p>\n</li><li>\n<p>making statically dispatched calls into any code one doesn't own, or </p>\n</li><li>\n<p>allocating memory. </p>\n</li></ul>\n<p>\n<xref href=\"System.Threading.SpinLock\" data-throw-if-not-resolved=\"false\"></xref> should only be used after you have been determined that doing so will improve an application's performance. It is also important to note that <xref href=\"System.Threading.SpinLock\" data-throw-if-not-resolved=\"false\"></xref> is a value type, for performance reasons. For this reason, you must be very careful not to accidentally copy a <xref href=\"System.Threading.SpinLock\" data-throw-if-not-resolved=\"false\"></xref> instance, as the two instances (the original and the copy) would then be completely independent of one another, which would likely lead to erroneous behavior of the application. If a <xref href=\"System.Threading.SpinLock\" data-throw-if-not-resolved=\"false\"></xref> instance must be passed around, it should be passed by reference rather than by value. </p>\n<p>Do not store <xref href=\"System.Threading.SpinLock\" data-throw-if-not-resolved=\"false\"></xref> instances in readonly fields. </p>\n"
+  example:
+  - "\n<p>The following example shows how to use a <xref href=\"System.Threading.SpinLock\" data-throw-if-not-resolved=\"false\"></xref>:</p>System.Threading.SpinLock#01"
   syntax:
     content: public struct SpinLock
     content.vb: Public Structure SpinLock
@@ -53,23 +56,26 @@ items:
   type: Constructor
   source:
     remote:
-      path: src/mscorlib/src/System/Threading/SpinLock.cs
+      path: src/System.Threading/ref/System.Threading.cs
       branch: master
-      repo: https://github.com/dotnet/coreclr.git
+      repo: https://github.com/dotnet/corefx.git
     id: .ctor
-    path: src/mscorlib/src/System/Threading/SpinLock.cs
-    startLine: 119
+    path: src/System.Threading/ref/System.Threading.cs
+    startLine: 287
   assemblies:
   - System.Threading
   namespace: System.Threading
-  summary: Initializes a new instance of the <xref href="System.Threading.SpinLock" data-throw-if-not-resolved="false"></xref> structure with the option to track thread IDs to improve debugging.
+  summary: "\n<p>Initializes a new instance of the <xref href=\"System.Threading.SpinLock\" data-throw-if-not-resolved=\"false\"></xref> structure with the option to track thread IDs to improve debugging.</p>\n"
+  remarks: "\n<p>The default constructor for <xref href=\"System.Threading.SpinLock\" data-throw-if-not-resolved=\"false\"></xref> tracks thread ownership.</p>\n"
+  example:
+  - "\n<p>The following example demonstrates how a SpinLock may be used.</p>\n<pre><code>// C#\npublic class MyType\n{\nprivate SpinLock _spinLock = new SpinLock();\n\npublic void DoWork()\n{\nbool lockTaken = false; \ntry\n{\n   _spinLock.Enter(ref lockTaken);\n   // do work here protected by the lock\n}\nfinally\n{\n    if (lockTaken) _spinLock.Exit();\n}\n}\n}</code></pre>\n<pre><code>' Visual Basic\n\nClass MyType\nPrivate _spinLock As New SpinLock()\n\nPublic Sub DoWork()\nDim lockTaken As Boolean = False\nTry\n _spinLock.Enter(lockTaken)\n ' do work here protected by the lock\nFinally\n If lockTaken Then _spinLock.Exit()\nEnd Try\nEnd Sub\nEnd Class</code></pre>\n"
   syntax:
     content: public SpinLock(bool enableThreadOwnerTracking)
     content.vb: Public Sub New(enableThreadOwnerTracking As Boolean)
     parameters:
     - id: enableThreadOwnerTracking
       type: System.Boolean
-      description: Whether to capture and use thread IDs for debugging purposes.
+      description: "\n<p>Whether to capture and use thread IDs for debugging purposes.</p>\n"
   modifiers.csharp:
   - public
   modifiers.vb:
@@ -86,23 +92,25 @@ items:
   type: Property
   source:
     remote:
-      path: src/mscorlib/src/System/Threading/SpinLock.cs
+      path: src/System.Threading/ref/System.Threading.cs
       branch: master
-      repo: https://github.com/dotnet/coreclr.git
+      repo: https://github.com/dotnet/corefx.git
     id: IsHeld
-    path: src/mscorlib/src/System/Threading/SpinLock.cs
-    startLine: 635
+    path: src/System.Threading/ref/System.Threading.cs
+    startLine: 288
   assemblies:
   - System.Threading
   namespace: System.Threading
-  summary: Gets whether the lock is currently held by any thread.
+  summary: "\n<p>Gets whether the lock is currently held by any thread.</p>\n"
+  example:
+  - 
   syntax:
     content: public bool IsHeld { get; }
     content.vb: Public ReadOnly Property IsHeld As Boolean
     parameters: []
     return:
       type: System.Boolean
-      description: true if the lock is currently held by any thread; otherwise false.
+      description: "\n<p>true if the lock is currently held by any thread; otherwise false.</p>\n"
   modifiers.csharp:
   - public
   - get
@@ -121,27 +129,30 @@ items:
   type: Property
   source:
     remote:
-      path: src/mscorlib/src/System/Threading/SpinLock.cs
+      path: src/System.Threading/ref/System.Threading.cs
       branch: master
-      repo: https://github.com/dotnet/coreclr.git
+      repo: https://github.com/dotnet/corefx.git
     id: IsHeldByCurrentThread
-    path: src/mscorlib/src/System/Threading/SpinLock.cs
-    startLine: 661
+    path: src/System.Threading/ref/System.Threading.cs
+    startLine: 289
   assemblies:
   - System.Threading
   namespace: System.Threading
-  summary: Gets whether the lock is held by the current thread.
+  summary: "\n<p>Gets whether the lock is held by the current thread.</p>\n"
+  remarks: "\n<p>If the lock was initialized to track owner threads, this will return whether the lock is acquired by the current thread. It is invalid to use this property when the lock was initialized to not track thread ownership.</p>\n"
+  example:
+  - 
   syntax:
     content: public bool IsHeldByCurrentThread { get; }
     content.vb: Public ReadOnly Property IsHeldByCurrentThread As Boolean
     parameters: []
     return:
       type: System.Boolean
-      description: true if the lock is held by the current thread; otherwise false.
+      description: "\n<p>true if the lock is held by the current thread; otherwise false.</p>\n"
   exceptions:
   - type: System.InvalidOperationException
     commentId: T:System.InvalidOperationException
-    description: Thread ownership tracking is disabled.
+    description: "\n<p>Thread ownership tracking is disabled.</p>\n"
   modifiers.csharp:
   - public
   - get
@@ -160,23 +171,25 @@ items:
   type: Property
   source:
     remote:
-      path: src/mscorlib/src/System/Threading/SpinLock.cs
+      path: src/System.Threading/ref/System.Threading.cs
       branch: master
-      repo: https://github.com/dotnet/coreclr.git
+      repo: https://github.com/dotnet/corefx.git
     id: IsThreadOwnerTrackingEnabled
-    path: src/mscorlib/src/System/Threading/SpinLock.cs
-    startLine: 675
+    path: src/System.Threading/ref/System.Threading.cs
+    startLine: 290
   assemblies:
   - System.Threading
   namespace: System.Threading
-  summary: Gets whether thread ownership tracking is enabled for this instance.
+  summary: "\n<p>Gets whether thread ownership tracking is enabled for this instance.</p>\n"
+  example:
+  - 
   syntax:
     content: public bool IsThreadOwnerTrackingEnabled { get; }
     content.vb: Public ReadOnly Property IsThreadOwnerTrackingEnabled As Boolean
     parameters: []
     return:
       type: System.Boolean
-      description: true if thread ownership tracking is enabled for this instance; otherwise false.
+      description: "\n<p>true if thread ownership tracking is enabled for this instance; otherwise false.</p>\n"
   modifiers.csharp:
   - public
   - get
@@ -195,30 +208,33 @@ items:
   type: Method
   source:
     remote:
-      path: src/mscorlib/src/System/Threading/SpinLock.cs
+      path: src/System.Threading/ref/System.Threading.cs
       branch: master
-      repo: https://github.com/dotnet/coreclr.git
+      repo: https://github.com/dotnet/corefx.git
     id: Enter
-    path: src/mscorlib/src/System/Threading/SpinLock.cs
-    startLine: 157
+    path: src/System.Threading/ref/System.Threading.cs
+    startLine: 291
   assemblies:
   - System.Threading
   namespace: System.Threading
-  summary: Acquires the lock in a reliable manner, such that even if an exception occurs within the method call, <em>lockTaken</em> can be examined reliably to determine whether the lock was acquired.
+  summary: "\n<p>Acquires the lock in a reliable manner, such that even if an exception occurs within the method call, <em>lockTaken</em> can be examined reliably to determine whether the lock was acquired.</p>\n"
+  remarks: "\n<p>\n<xref href=\"System.Threading.SpinLock\" data-throw-if-not-resolved=\"false\"></xref> is a non-reentrant lock, meaning that if a thread holds the lock, it is not allowed to enter the lock again. If thread ownership tracking is enabled (whether it's enabled is available through <xref href=\"System.Threading.SpinLock.IsThreadOwnerTrackingEnabled\" data-throw-if-not-resolved=\"false\"></xref>), an exception will be thrown when a thread tries to re-enter a lock it already holds. However, if thread ownership tracking is disabled, attempting to enter a lock already held will result in deadlock.</p>\n<p>If you call <xref href=\"System.Threading.SpinLock.Exit\" data-throw-if-not-resolved=\"false\"></xref> without having first called <xref href=\"System.Threading.SpinLock.Enter(System.Boolean@)\" data-throw-if-not-resolved=\"false\"></xref> the internal state of the <xref href=\"System.Threading.SpinLock\" data-throw-if-not-resolved=\"false\"></xref> can become corrupted.</p>\n"
+  example:
+  - 
   syntax:
     content: public void Enter(ref bool lockTaken)
     content.vb: Public Sub Enter(ByRef lockTaken As Boolean)
     parameters:
     - id: lockTaken
       type: System.Boolean
-      description: True if the lock is acquired; otherwise, false. <em>lockTaken</em> must be initialized to false prior to calling this method.
+      description: "\n<p>True if the lock is acquired; otherwise, false. <em>lockTaken</em> must be initialized to false prior to calling this method.</p>\n"
   exceptions:
   - type: System.ArgumentException
     commentId: T:System.ArgumentException
-    description: The <em>lockTaken</em> argument must be initialized to false prior to calling Enter.
+    description: "\n<p>The <em>lockTaken</em> argument must be initialized to false prior to calling Enter.</p>\n"
   - type: System.Threading.LockRecursionException
     commentId: T:System.Threading.LockRecursionException
-    description: Thread ownership tracking is enabled, and the current thread has already acquired this lock.
+    description: "\n<p>Thread ownership tracking is enabled, and the current thread has already acquired this lock.</p>\n"
   modifiers.csharp:
   - public
   modifiers.vb:
@@ -237,23 +253,26 @@ items:
   type: Method
   source:
     remote:
-      path: src/mscorlib/src/System/Threading/SpinLock.cs
+      path: src/System.Threading/ref/System.Threading.cs
       branch: master
-      repo: https://github.com/dotnet/coreclr.git
+      repo: https://github.com/dotnet/corefx.git
     id: Exit
-    path: src/mscorlib/src/System/Threading/SpinLock.cs
-    startLine: 544
+    path: src/System.Threading/ref/System.Threading.cs
+    startLine: 292
   assemblies:
   - System.Threading
   namespace: System.Threading
-  summary: Releases the lock.
+  summary: "\n<p>Releases the lock.</p>\n"
+  remarks: "\n<p>The default overload of <xref href=\"System.Threading.SpinLock.Exit\" data-throw-if-not-resolved=\"false\"></xref> provides the same behavior as if calling <xref href=\"System.Threading.SpinLock.Exit(System.Boolean)\" data-throw-if-not-resolved=\"false\"></xref> using true as the argument.</p>\n<p>If you call <xref href=\"System.Threading.SpinLock.Exit\" data-throw-if-not-resolved=\"false\"></xref> without having first called <xref href=\"System.Threading.SpinLock.Enter(System.Boolean@)\" data-throw-if-not-resolved=\"false\"></xref>  the internal state of the <xref href=\"System.Threading.SpinLock\" data-throw-if-not-resolved=\"false\"></xref> can become corrupted.</p>\n"
+  example:
+  - 
   syntax:
     content: public void Exit()
     content.vb: Public Sub Exit
   exceptions:
   - type: System.Threading.SynchronizationLockException
     commentId: T:System.Threading.SynchronizationLockException
-    description: Thread ownership tracking is enabled, and the current thread is not the owner of this lock.
+    description: "\n<p>Thread ownership tracking is enabled, and the current thread is not the owner of this lock.</p>\n"
   modifiers.csharp:
   - public
   modifiers.vb:
@@ -270,27 +289,30 @@ items:
   type: Method
   source:
     remote:
-      path: src/mscorlib/src/System/Threading/SpinLock.cs
+      path: src/System.Threading/ref/System.Threading.cs
       branch: master
-      repo: https://github.com/dotnet/coreclr.git
+      repo: https://github.com/dotnet/corefx.git
     id: Exit
-    path: src/mscorlib/src/System/Threading/SpinLock.cs
-    startLine: 575
+    path: src/System.Threading/ref/System.Threading.cs
+    startLine: 293
   assemblies:
   - System.Threading
   namespace: System.Threading
-  summary: Releases the lock.
+  summary: "\n<p>Releases the lock.</p>\n"
+  remarks: "\n<p>Calling <xref href=\"System.Threading.SpinLock.Exit(System.Boolean)\" data-throw-if-not-resolved=\"false\"></xref> with the <em>useMemoryBarrier</em> argument set to true will improve the fairness of the lock at the expense of some performance. The default <xref href=\"System.Threading.SpinLock.Exit\" data-throw-if-not-resolved=\"false\"></xref> overload behaves as if specifying true for <em>useMemoryBarrier</em>.</p>\n<p>If you call <xref href=\"System.Threading.SpinLock.Exit\" data-throw-if-not-resolved=\"false\"></xref> without having first called <xref href=\"System.Threading.SpinLock.Enter(System.Boolean@)\" data-throw-if-not-resolved=\"false\"></xref> the internal state of the <xref href=\"System.Threading.SpinLock\" data-throw-if-not-resolved=\"false\"></xref> can become corrupted.</p>\n"
+  example:
+  - 
   syntax:
     content: public void Exit(bool useMemoryBarrier)
     content.vb: Public Sub Exit(useMemoryBarrier As Boolean)
     parameters:
     - id: useMemoryBarrier
       type: System.Boolean
-      description: A Boolean value that indicates whether a memory fence should be issued in order to immediately publish the exit operation to other threads.
+      description: "\n<p>A Boolean value that indicates whether a memory fence should be issued in order to immediately publish the exit operation to other threads.</p>\n"
   exceptions:
   - type: System.Threading.SynchronizationLockException
     commentId: T:System.Threading.SynchronizationLockException
-    description: Thread ownership tracking is enabled, and the current thread is not the owner of this lock.
+    description: "\n<p>Thread ownership tracking is enabled, and the current thread is not the owner of this lock.</p>\n"
   modifiers.csharp:
   - public
   modifiers.vb:
@@ -307,30 +329,33 @@ items:
   type: Method
   source:
     remote:
-      path: src/mscorlib/src/System/Threading/SpinLock.cs
+      path: src/System.Threading/ref/System.Threading.cs
       branch: master
-      repo: https://github.com/dotnet/coreclr.git
+      repo: https://github.com/dotnet/corefx.git
     id: TryEnter
-    path: src/mscorlib/src/System/Threading/SpinLock.cs
-    startLine: 189
+    path: src/System.Threading/ref/System.Threading.cs
+    startLine: 294
   assemblies:
   - System.Threading
   namespace: System.Threading
-  summary: Attempts to acquire the lock in a reliable manner, such that even if an exception occurs within the method call, <em>lockTaken</em> can be examined reliably to determine whether the lock was acquired.
+  summary: "\n<p>Attempts to acquire the lock in a reliable manner, such that even if an exception occurs within the method call, <em>lockTaken</em> can be examined reliably to determine whether the lock was acquired.</p>\n"
+  remarks: "\n<p>Unlike <xref href=\"System.Threading.SpinLock.Enter(System.Boolean@)\" data-throw-if-not-resolved=\"false\"></xref>, TryEnter will not block waiting for the lock to be available. If the lock is not available when TryEnter is called, it will return immediately without any further spinning.</p>\n"
+  example:
+  - 
   syntax:
     content: public void TryEnter(ref bool lockTaken)
     content.vb: Public Sub TryEnter(ByRef lockTaken As Boolean)
     parameters:
     - id: lockTaken
       type: System.Boolean
-      description: True if the lock is acquired; otherwise, false. <em>lockTaken</em> must be initialized to false prior to calling this method.
+      description: "\n<p>True if the lock is acquired; otherwise, false. <em>lockTaken</em> must be initialized to false prior to calling this method.</p>\n"
   exceptions:
   - type: System.ArgumentException
     commentId: T:System.ArgumentException
-    description: The <em>lockTaken</em> argument must be initialized to false prior to calling TryEnter.
+    description: "\n<p>The <em>lockTaken</em> argument must be initialized to false prior to calling TryEnter.</p>\n"
   - type: System.Threading.LockRecursionException
     commentId: T:System.Threading.LockRecursionException
-    description: Thread ownership tracking is enabled, and the current thread has already acquired this lock.
+    description: "\n<p>Thread ownership tracking is enabled, and the current thread has already acquired this lock.</p>\n"
   modifiers.csharp:
   - public
   modifiers.vb:
@@ -349,36 +374,39 @@ items:
   type: Method
   source:
     remote:
-      path: src/mscorlib/src/System/Threading/SpinLock.cs
+      path: src/System.Threading/ref/System.Threading.cs
       branch: master
-      repo: https://github.com/dotnet/coreclr.git
+      repo: https://github.com/dotnet/corefx.git
     id: TryEnter
-    path: src/mscorlib/src/System/Threading/SpinLock.cs
-    startLine: 256
+    path: src/System.Threading/ref/System.Threading.cs
+    startLine: 295
   assemblies:
   - System.Threading
   namespace: System.Threading
-  summary: Attempts to acquire the lock in a reliable manner, such that even if an exception occurs within the method call, <em>lockTaken</em> can be examined reliably to determine whether the lock was acquired.
+  summary: "\n<p>Attempts to acquire the lock in a reliable manner, such that even if an exception occurs within the method call, <em>lockTaken</em> can be examined reliably to determine whether the lock was acquired.</p>\n"
+  remarks: "\n<p>Unlike <xref href=\"System.Threading.SpinLock.Enter(System.Boolean@)\" data-throw-if-not-resolved=\"false\"></xref>, TryEnter will not block indefinitely waiting for the lock to be available. It will block until either the lock is available or until the <em>millisecondsTimeout</em> has expired.</p>\n"
+  example:
+  - 
   syntax:
     content: public void TryEnter(int millisecondsTimeout, ref bool lockTaken)
     content.vb: Public Sub TryEnter(millisecondsTimeout As Integer, ByRef lockTaken As Boolean)
     parameters:
     - id: millisecondsTimeout
       type: System.Int32
-      description: The number of milliseconds to wait, or <xref href="System.Threading.Timeout.Infinite" data-throw-if-not-resolved="false"></xref> (-1) to wait indefinitely.
+      description: "\n<p>The number of milliseconds to wait, or <xref href=\"System.Threading.Timeout.Infinite\" data-throw-if-not-resolved=\"false\"></xref> (-1) to wait indefinitely.</p>\n"
     - id: lockTaken
       type: System.Boolean
-      description: True if the lock is acquired; otherwise, false. <em>lockTaken</em> must be initialized to false prior to calling this method.
+      description: "\n<p>True if the lock is acquired; otherwise, false. <em>lockTaken</em> must be initialized to false prior to calling this method.</p>\n"
   exceptions:
   - type: System.ArgumentOutOfRangeException
     commentId: T:System.ArgumentOutOfRangeException
-    description: "\n<em>millisecondsTimeout</em> is a negative number other than -1, which represents an infinite time-out."
+    description: "\n<p>\n<em>millisecondsTimeout</em> is a negative number other than -1, which represents an infinite time-out.</p>\n"
   - type: System.ArgumentException
     commentId: T:System.ArgumentException
-    description: The <em>lockTaken</em> argument must be initialized to false prior to calling TryEnter.
+    description: "\n<p>The <em>lockTaken</em> argument must be initialized to false prior to calling TryEnter.</p>\n"
   - type: System.Threading.LockRecursionException
     commentId: T:System.Threading.LockRecursionException
-    description: Thread ownership tracking is enabled, and the current thread has already acquired this lock.
+    description: "\n<p>Thread ownership tracking is enabled, and the current thread has already acquired this lock.</p>\n"
   modifiers.csharp:
   - public
   modifiers.vb:
@@ -397,36 +425,39 @@ items:
   type: Method
   source:
     remote:
-      path: src/mscorlib/src/System/Threading/SpinLock.cs
+      path: src/System.Threading/ref/System.Threading.cs
       branch: master
-      repo: https://github.com/dotnet/coreclr.git
+      repo: https://github.com/dotnet/corefx.git
     id: TryEnter
-    path: src/mscorlib/src/System/Threading/SpinLock.cs
-    startLine: 220
+    path: src/System.Threading/ref/System.Threading.cs
+    startLine: 296
   assemblies:
   - System.Threading
   namespace: System.Threading
-  summary: Attempts to acquire the lock in a reliable manner, such that even if an exception occurs within the method call, <em>lockTaken</em> can be examined reliably to determine whether the lock was acquired.
+  summary: "\n<p>Attempts to acquire the lock in a reliable manner, such that even if an exception occurs within the method call, <em>lockTaken</em> can be examined reliably to determine whether the lock was acquired.</p>\n"
+  remarks: "\n<p>Unlike <xref href=\"System.Threading.SpinLock.Enter(System.Boolean@)\" data-throw-if-not-resolved=\"false\"></xref>, TryEnter will not block indefinitely waiting for the lock to be available. It will block until either the lock is available or until the <em>timeout</em> has expired.</p>\n"
+  example:
+  - 
   syntax:
     content: public void TryEnter(TimeSpan timeout, ref bool lockTaken)
     content.vb: Public Sub TryEnter(timeout As TimeSpan, ByRef lockTaken As Boolean)
     parameters:
     - id: timeout
       type: System.TimeSpan
-      description: A <xref href="System.TimeSpan" data-throw-if-not-resolved="false"></xref> that represents the number of milliseconds to wait, or a <xref href="System.TimeSpan" data-throw-if-not-resolved="false"></xref> that represents -1 milliseconds to wait indefinitely.
+      description: "\n<p>A <xref href=\"System.TimeSpan\" data-throw-if-not-resolved=\"false\"></xref> that represents the number of milliseconds to wait, or a <xref href=\"System.TimeSpan\" data-throw-if-not-resolved=\"false\"></xref> that represents -1 milliseconds to wait indefinitely.</p>\n"
     - id: lockTaken
       type: System.Boolean
-      description: True if the lock is acquired; otherwise, false. <em>lockTaken</em> must be initialized to false prior to calling this method.
+      description: "\n<p>True if the lock is acquired; otherwise, false. <em>lockTaken</em> must be initialized to false prior to calling this method.</p>\n"
   exceptions:
   - type: System.ArgumentOutOfRangeException
     commentId: T:System.ArgumentOutOfRangeException
-    description: "\n<em>timeout</em> is a negative number other than -1 milliseconds, which represents an infinite time-out -or- timeout is greater than <xref href=\"System.Int32.MaxValue\" data-throw-if-not-resolved=\"false\"></xref> milliseconds."
+    description: "\n<p>\n<em>timeout</em> is a negative number other than -1 milliseconds, which represents an infinite time-out -or- timeout is greater than <xref href=\"System.Int32.MaxValue\" data-throw-if-not-resolved=\"false\"></xref> milliseconds.</p>\n"
   - type: System.ArgumentException
     commentId: T:System.ArgumentException
-    description: The <em>lockTaken</em> argument must be initialized to false prior to calling TryEnter.
+    description: "\n<p>The <em>lockTaken</em> argument must be initialized to false prior to calling TryEnter.</p>\n"
   - type: System.Threading.LockRecursionException
     commentId: T:System.Threading.LockRecursionException
-    description: Thread ownership tracking is enabled, and the current thread has already acquired this lock.
+    description: "\n<p>Thread ownership tracking is enabled, and the current thread has already acquired this lock.</p>\n"
   modifiers.csharp:
   - public
   modifiers.vb:

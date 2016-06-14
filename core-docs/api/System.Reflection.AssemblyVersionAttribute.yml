@@ -14,16 +14,19 @@ items:
   type: Class
   source:
     remote:
-      path: src/mscorlib/src/System/Reflection/AssemblyAttributes.cs
+      path: src/System.Runtime/ref/System.Runtime.cs
       branch: master
-      repo: https://github.com/dotnet/coreclr.git
+      repo: https://github.com/dotnet/corefx.git
     id: AssemblyVersionAttribute
-    path: src/mscorlib/src/System/Reflection/AssemblyAttributes.cs
-    startLine: 221
+    path: src/System.Runtime/ref/System.Runtime.cs
+    startLine: 2779
   assemblies:
   - System.Runtime
   namespace: System.Reflection
-  summary: Specifies the version of the assembly being attributed.
+  summary: "\n<p>Specifies the version of the assembly being attributed.</p>\n"
+  remarks: "\n<p>The <xref href=\"System.Reflection.AssemblyVersionAttribute\" data-throw-if-not-resolved=\"false\"></xref> attribute is used to assign a version number to an assembly. That version number is then stored with the assembly's metadata. </p>\n<p>The assembly version number is part of an assembly's identity and plays a key part in binding to the assembly and in version policy. The default version policy for the runtime is that applications run only with the versions they were built and tested with, unless overridden by explicit version policy in configuration files (the application configuration file, the publisher policy file, and the computer's administrator configuration file). See Assemblies in the Common Language Runtime for more information.</p>\n<p>Version checking only occurs with strong-named assemblies.</p>\n<p>The version number has four parts, as follows: </p>\n<p><major version>.<minor version>.<build number>.<revision> </p>\n<p>All components of the version must be integers greater than or equal to 0. Metadata restricts the major, minor, build, and revision components for an assembly to a maximum value of <xref href=\"System.UInt16.MaxValue\" data-throw-if-not-resolved=\"false\"></xref> - 1. If a component exceeds this value, a compilation error occurs.</p>\n<p>You can specify all the values or you can accept the default build number, revision number, or both by using an asterisk (*). For example, <code>[assembly:AssemblyVersion(\"2.3.25.1\")]</code> indicates 2 as the major version, 3 as the minor version, 25 as the build number, and 1 as the revision number. A version number such as <code>[assembly:AssemblyVersion(\"1.2.*\")]</code> specifies 1 as the major version, 2 as the minor version, and accepts the default build and revision numbers. A version number such as <code>[assembly:AssemblyVersion(\"1.2.15.*\")]</code> specifies 1 as the major version, 2 as the minor version, 15 as the build number, and accepts the default revision number. The default build number increments daily. The default revision number is the number of seconds since midnight local time (without taking into account time zone adjustments for daylight saving time), divided by 2.</p>\n<p>If you specify an asterisk for the build number, you cannot specify a revision number.</p>\n<p>The assembly major and minor versions are used as the type library version number when the assembly is exported. Some COM hosts do not accept type libraries with the version number 0.0. Therefore, if you want to expose an assembly to COM clients, set the assembly version explicitly to 1.0 in the <strong>AssemblyVersionAttribute</strong> page for projects created outside Visual Studio 2005 and with no <strong>AssemblyVersionAttribute</strong> specified. Do this even when the assembly version is 0.0. All projects created in Visual Studio 2005 have a default assembly version of 1.0.*.</p>\n<p>To get the name of an assembly you have loaded, call <xref href=\"System.Reflection.Assembly.GetName\" data-throw-if-not-resolved=\"false\"></xref> on the assembly to get an <xref href=\"System.Reflection.AssemblyName\" data-throw-if-not-resolved=\"false\"></xref>, and then get the <xref href=\"System.Reflection.AssemblyName.Version\" data-throw-if-not-resolved=\"false\"></xref> property. To get the name of an assembly you have not loaded, call <xref href=\"System.Reflection.AssemblyName.GetAssemblyName(System.String)\" data-throw-if-not-resolved=\"false\"></xref> from your client application to check the assembly version that your application uses.</p>\n<p>The <xref href=\"System.Reflection.AssemblyVersionAttribute\" data-throw-if-not-resolved=\"false\"></xref> attribute can only be applied once. Some Visual Studio project templates already include the attribute. In those projects, adding the attribute in code causes a compiler error.</p>\n"
+  example:
+  - "\n<p>The following example uses the <xref href=\"System.Reflection.AssemblyVersionAttribute\" data-throw-if-not-resolved=\"false\"></xref> attribute to assign a version number to an assembly. At compile time, this version information is stored with the assembly's metadata. At run time, the example retrieves the value of the <xref href=\"System.Type.Assembly\" data-throw-if-not-resolved=\"false\"></xref> property on a type found in the assembly to get a reference to the executing assembly, and it retrieves the assembly's version information from the <xref href=\"System.Reflection.AssemblyName.Version\" data-throw-if-not-resolved=\"false\"></xref> property of the <xref href=\"System.Reflection.AssemblyName\" data-throw-if-not-resolved=\"false\"></xref> object returned by the <xref href=\"System.Reflection.Assembly.GetName\" data-throw-if-not-resolved=\"false\"></xref> method. </p>System.Version.Class#6"
   syntax:
     content: >-
       [AttributeUsage(AttributeTargets.Assembly, Inherited = false)]
@@ -34,6 +37,9 @@ items:
 
       Public NotInheritable Class AssemblyVersionAttribute
           Inherits Attribute
+  seealso:
+  - type: System.Reflection.AssemblyName.Version
+    commentId: P:System.Reflection.AssemblyName.Version
   inheritance:
   - System.Object
   - System.Attribute
@@ -75,23 +81,24 @@ items:
   type: Constructor
   source:
     remote:
-      path: src/mscorlib/src/System/Reflection/AssemblyAttributes.cs
+      path: src/System.Runtime/ref/System.Runtime.cs
       branch: master
-      repo: https://github.com/dotnet/coreclr.git
+      repo: https://github.com/dotnet/corefx.git
     id: .ctor
-    path: src/mscorlib/src/System/Reflection/AssemblyAttributes.cs
-    startLine: 227
+    path: src/System.Runtime/ref/System.Runtime.cs
+    startLine: 2782
   assemblies:
   - System.Runtime
   namespace: System.Reflection
-  summary: Initializes a new instance of the AssemblyVersionAttribute class with the version number of the assembly being attributed.
+  summary: "\n<p>Initializes a new instance of the <strong>AssemblyVersionAttribute</strong> class with the version number of the assembly being attributed.</p>\n"
+  remarks: "\n<p>The format of the <em>version</em> string is: <strong>major</strong>. <strong>minor</strong>. <strong>build</strong>. <strong>revision</strong>.</p>\n<p>When specifying a version, you have to at least specify <strong>major</strong>. If you specify <strong>major</strong> and <strong>minor</strong>, you can specify an asterisk (*) for <strong>build</strong>. This will cause <strong>build</strong> to be equal to the number of days since January 1, 2000 local time, and for <strong>revision</strong> to be equal to the number of seconds since midnight local time (without taking into account time zone adjustments for daylight saving time), divided by 2. </p>\n<p>If you specify <strong>major</strong>, <strong>minor</strong>, and <strong>build</strong>, you can specify an asterisk for <strong>revision</strong>. This will cause <strong>revision</strong> to be equal to the number of seconds since midnight local time, divided by 2.</p>\n<p>Examples of valid version strings include: </p>\n<p>1 </p>\n<p>1.1 </p>\n<p>1.1.* </p>\n<p>1.1.1 </p>\n<p>1.1.1.* </p>\n<p>1.1.1.1 </p>\n"
   syntax:
     content: public AssemblyVersionAttribute(string version)
     content.vb: Public Sub New(version As String)
     parameters:
     - id: version
       type: System.String
-      description: 'The version number of the attributed assembly. '
+      description: "\n<p>The version number of the attributed assembly. </p>\n"
   modifiers.csharp:
   - public
   modifiers.vb:
@@ -108,23 +115,23 @@ items:
   type: Property
   source:
     remote:
-      path: src/mscorlib/src/System/Reflection/AssemblyAttributes.cs
+      path: src/System.Runtime/ref/System.Runtime.cs
       branch: master
-      repo: https://github.com/dotnet/coreclr.git
+      repo: https://github.com/dotnet/corefx.git
     id: Version
-    path: src/mscorlib/src/System/Reflection/AssemblyAttributes.cs
-    startLine: 232
+    path: src/System.Runtime/ref/System.Runtime.cs
+    startLine: 2783
   assemblies:
   - System.Runtime
   namespace: System.Reflection
-  summary: Gets the version number of the attributed assembly.
+  summary: "\n<p>Gets the version number of the attributed assembly.</p>\n"
   syntax:
     content: public string Version { get; }
     content.vb: Public ReadOnly Property Version As String
     parameters: []
     return:
       type: System.String
-      description: A string containing the assembly version number.
+      description: "\n<p>A string containing the assembly version number.</p>\n"
   modifiers.csharp:
   - public
   - get

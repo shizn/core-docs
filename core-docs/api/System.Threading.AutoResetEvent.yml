@@ -13,21 +13,27 @@ items:
   type: Class
   source:
     remote:
-      path: src/mscorlib/src/System/Threading/AutoResetEvent.cs
+      path: src/System.Threading/ref/System.Threading.cs
       branch: master
-      repo: https://github.com/dotnet/coreclr.git
+      repo: https://github.com/dotnet/corefx.git
     id: AutoResetEvent
-    path: src/mscorlib/src/System/Threading/AutoResetEvent.cs
-    startLine: 19
+    path: src/System.Threading/ref/System.Threading.cs
+    startLine: 35
   assemblies:
   - System.Threading
   namespace: System.Threading
-  summary: Notifies a waiting thread that an event has occurred. This class cannot be inherited.
+  summary: "\n<p>Notifies a waiting thread that an event has occurred. This class cannot be inherited.</p>\n"
+  remarks: "\n<p>\n<strong>AutoResetEvent</strong> allows threads to communicate with each other by signaling. Typically, you use this class when threads need exclusive access to a resource.</p>\n<p>This type implements the <xref href=\"System.IDisposable\" data-throw-if-not-resolved=\"false\"></xref> interface. When you have finished using the type, you should dispose of it either directly or indirectly. To dispose of the type directly, call its <xref href=\"System.IDisposable.Dispose\" data-throw-if-not-resolved=\"false\"></xref> method in a <strong>try</strong>/<strong>catch</strong> block. To dispose of it indirectly, use a language construct such as <strong>using</strong> (in C#) or <strong>Using</strong> (in Visual Basic). For more information, see the “Using an Object that Implements IDisposable” section in the <xref href=\"System.IDisposable\" data-throw-if-not-resolved=\"false\"></xref> interface topic. </p>\n<p>A thread waits for a signal by calling <xref href=\"System.Threading.WaitHandle.WaitOne(System.Int32,System.Boolean)\" data-throw-if-not-resolved=\"false\"></xref> on the <strong>AutoResetEvent</strong>. If the <strong>AutoResetEvent</strong> is in the non-signaled state, the thread blocks, waiting for the thread that currently controls the resource to signal that the resource is available by calling <xref href=\"System.Threading.EventWaitHandle.Set\" data-throw-if-not-resolved=\"false\"></xref>.</p>\n<p>Calling <strong>Set</strong> signals <strong>AutoResetEvent</strong> to release a waiting thread. <strong>AutoResetEvent</strong> remains signaled until a single waiting thread is released, and then automatically returns to the non-signaled state. If no threads are waiting, the state remains signaled indefinitely.</p>\n<p>If a thread calls <xref href=\"System.Threading.WaitHandle.WaitOne(System.Int32,System.Boolean)\" data-throw-if-not-resolved=\"false\"></xref> while the <xref href=\"System.Threading.AutoResetEvent\" data-throw-if-not-resolved=\"false\"></xref> is in the signaled state, the thread does not block. The <xref href=\"System.Threading.AutoResetEvent\" data-throw-if-not-resolved=\"false\"></xref> releases the thread immediately and returns to the non-signaled state.</p>\n<p>There is no guarantee that every call to the <xref href=\"System.Threading.EventWaitHandle.Set\" data-throw-if-not-resolved=\"false\"></xref> method will release a thread. If two calls are too close together, so that the second call occurs before a thread has been released, only one thread is released. It is as if the second call did not happen. Also, if <xref href=\"System.Threading.EventWaitHandle.Set\" data-throw-if-not-resolved=\"false\"></xref> is called when there are no threads waiting and the <xref href=\"System.Threading.AutoResetEvent\" data-throw-if-not-resolved=\"false\"></xref> is already signaled, the call has no effect. </p>\n<p>You can control the initial state of an <strong>AutoResetEvent</strong> by passing a Boolean value to the constructor: <strong>true</strong> if the initial state is signaled and <strong>false</strong> otherwise.</p>\n<p>\n<strong>AutoResetEvent</strong> can also be used with the <strong>static</strong><xref href=\"System.Threading.WaitHandle.WaitAll(System.Threading.WaitHandle[],System.Int32,System.Boolean)\" data-throw-if-not-resolved=\"false\"></xref> and <xref href=\"System.Threading.WaitHandle.WaitAny(System.Threading.WaitHandle[],System.Int32,System.Boolean)\" data-throw-if-not-resolved=\"false\"></xref> methods.</p>\n<p>For more information about thread synchronization mechanisms, see AutoResetEvent in the conceptual documentation.</p>\n<p>Beginning with the .NET Framework version 2.0, <xref href=\"System.Threading.AutoResetEvent\" data-throw-if-not-resolved=\"false\"></xref> derives from the new <xref href=\"System.Threading.EventWaitHandle\" data-throw-if-not-resolved=\"false\"></xref> class. An <xref href=\"System.Threading.AutoResetEvent\" data-throw-if-not-resolved=\"false\"></xref> is functionally equivalent to an <xref href=\"System.Threading.EventWaitHandle\" data-throw-if-not-resolved=\"false\"></xref> created with <xref href=\"System.Threading.EventResetMode.AutoReset\" data-throw-if-not-resolved=\"false\"></xref>. </p>\n<p>Unlike the <xref href=\"System.Threading.AutoResetEvent\" data-throw-if-not-resolved=\"false\"></xref> class, the <xref href=\"System.Threading.EventWaitHandle\" data-throw-if-not-resolved=\"false\"></xref> class provides access to named system synchronization events.</p>\n"
+  example:
+  - "\n<p>The following example shows how to use <xref href=\"System.Threading.AutoResetEvent\" data-throw-if-not-resolved=\"false\"></xref> to release one thread at a time, by calling the <xref href=\"System.Threading.EventWaitHandle.Set\" data-throw-if-not-resolved=\"false\"></xref> method (on the base class) each time the user presses the Enter key. The example starts three threads, which wait on an <xref href=\"System.Threading.AutoResetEvent\" data-throw-if-not-resolved=\"false\"></xref> that was created in the signaled state. The first thread is released immediately, because the <xref href=\"System.Threading.AutoResetEvent\" data-throw-if-not-resolved=\"false\"></xref> is already in the signaled state. This resets the <xref href=\"System.Threading.AutoResetEvent\" data-throw-if-not-resolved=\"false\"></xref> to the non-signaled state, so that subsequent threads block. The blocked threads are not released until the user releases them one at a time by pressing the Enter key. </p>\n<p>After the threads are released from the first <xref href=\"System.Threading.AutoResetEvent\" data-throw-if-not-resolved=\"false\"></xref>, they wait on another <xref href=\"System.Threading.AutoResetEvent\" data-throw-if-not-resolved=\"false\"></xref> that was created in the non-signaled state. All three threads block, so the <xref href=\"System.Threading.EventWaitHandle.Set\" data-throw-if-not-resolved=\"false\"></xref> method must be called three times to release them all.</p>System.Threading.AutoResetEvent#3"
   syntax:
     content: 'public sealed class AutoResetEvent : EventWaitHandle'
     content.vb: >-
       Public NotInheritable Class AutoResetEvent
           Inherits EventWaitHandle
+  seealso:
+  - type: System.Threading.WaitHandle
+    commentId: T:System.Threading.WaitHandle
   inheritance:
   - System.Object
   - System.Threading.EventWaitHandle
@@ -56,23 +62,28 @@ items:
   type: Constructor
   source:
     remote:
-      path: src/mscorlib/src/System/Threading/AutoResetEvent.cs
+      path: src/System.Threading/ref/System.Threading.cs
       branch: master
-      repo: https://github.com/dotnet/coreclr.git
+      repo: https://github.com/dotnet/corefx.git
     id: .ctor
-    path: src/mscorlib/src/System/Threading/AutoResetEvent.cs
-    startLine: 23
+    path: src/System.Threading/ref/System.Threading.cs
+    startLine: 37
   assemblies:
   - System.Threading
   namespace: System.Threading
-  summary: Initializes a new instance of the <xref href="System.Threading.AutoResetEvent" data-throw-if-not-resolved="false"></xref> class with a Boolean value indicating whether to set the initial state to signaled.
+  summary: "\n<p>Initializes a new instance of the <xref href=\"System.Threading.AutoResetEvent\" data-throw-if-not-resolved=\"false\"></xref> class with a Boolean value indicating whether to set the initial state to signaled.</p>\n"
+  example:
+  - "\n<p>The following example uses an <xref href=\"System.Threading.AutoResetEvent\" data-throw-if-not-resolved=\"false\"></xref> to synchronize the activities of two threads. The first thread, which is the application thread, executes <code>Main</code>. It writes values to the protected resource, which is a <strong>static</strong> (<strong>Shared</strong> in Visual Basic) field named <code>number</code>. The second thread executes the static <code>ThreadProc</code> method, which reads the values written by <code>Main</code>. </p>\n<p>The <code>ThreadProc</code> method waits for the <xref href=\"System.Threading.AutoResetEvent\" data-throw-if-not-resolved=\"false\"></xref>. When <code>Main</code> calls the <xref href=\"System.Threading.EventWaitHandle.Set\" data-throw-if-not-resolved=\"false\"></xref> method on the <xref href=\"System.Threading.AutoResetEvent\" data-throw-if-not-resolved=\"false\"></xref>, the <code>ThreadProc</code> method reads one value. The <xref href=\"System.Threading.AutoResetEvent\" data-throw-if-not-resolved=\"false\"></xref> immediately resets, so the <code>ThreadProc</code> method waits again. </p>\n<p>The program logic guarantees that the <code>ThreadProc</code> method will never read the same value two times. It does not guarantee that the <code>ThreadProc</code> method will read every value written by <code>Main</code>. That guarantee would require a second <xref href=\"System.Threading.AutoResetEvent\" data-throw-if-not-resolved=\"false\"></xref> lock.</p>\n<p>After each write operation, <code>Main</code> yields by calling the <xref href=\"System.Threading.Thread.Sleep(System.Int32)\" data-throw-if-not-resolved=\"false\"></xref> method, to give the second thread a chance to execute. Otherwise, on a single-processor computer <code>Main</code> would write many values between any two read operations.</p>System.Threading.AutoResetEvent#1"
   syntax:
     content: public AutoResetEvent(bool initialState)
     content.vb: Public Sub New(initialState As Boolean)
     parameters:
     - id: initialState
       type: System.Boolean
-      description: 'true to set the initial state to signaled; false to set the initial state to non-signaled. '
+      description: "\n<p>\n<strong>true</strong> to set the initial state to signaled; <strong>false</strong> to set the initial state to non-signaled. </p>\n"
+  seealso:
+  - type: System.Threading.WaitHandle
+    commentId: T:System.Threading.WaitHandle
   modifiers.csharp:
   - public
   modifiers.vb:

@@ -15,16 +15,17 @@ items:
   type: Class
   source:
     remote:
-      path: src/mscorlib/src/System/Runtime/GcSettings.cs
+      path: src/System.Runtime/ref/System.Runtime.cs
       branch: master
-      repo: https://github.com/dotnet/coreclr.git
+      repo: https://github.com/dotnet/corefx.git
     id: GCSettings
-    path: src/mscorlib/src/System/Runtime/GcSettings.cs
-    startLine: 32
+    path: src/System.Runtime/ref/System.Runtime.cs
+    startLine: 2815
   assemblies:
   - System.Runtime
   namespace: System.Runtime
-  summary: 'Specifies the garbage collection settings for the current process. '
+  summary: "\n<p>Specifies the garbage collection settings for the current process. </p>\n"
+  remarks: "\n<p>Use the <xref href=\"System.Runtime.GCSettings.IsServerGC\" data-throw-if-not-resolved=\"false\"></xref> property to determine whether server garbage collection is enabled for the current process.</p>\n"
   syntax:
     content: public class GCSettings
     content.vb: Public Class GCSettings
@@ -56,23 +57,26 @@ items:
   type: Property
   source:
     remote:
-      path: src/mscorlib/src/System/Runtime/GcSettings.cs
+      path: src/System.Runtime/ref/System.Runtime.cs
       branch: master
-      repo: https://github.com/dotnet/coreclr.git
+      repo: https://github.com/dotnet/corefx.git
     id: IsServerGC
-    path: src/mscorlib/src/System/Runtime/GcSettings.cs
-    startLine: 92
+    path: src/System.Runtime/ref/System.Runtime.cs
+    startLine: 2817
   assemblies:
   - System.Runtime
   namespace: System.Runtime
-  summary: Gets a value that indicates whether server garbage collection is enabled.
+  summary: "\n<p>Gets a value that indicates whether server garbage collection is enabled.</p>\n"
+  remarks: "\n<p>For information about server garbage collection, see the \"Workstation and Server Garbage Collection\" section in Fundamentals of Garbage Collection. </p>\n<p>If server garbage collection is not enabled, workstation garbage collection is in effect (with or without concurrent collection). Server garbage collection is available only on multiprocessor computers.</p>\n<p>An unmanaged host can request server garbage collection, and the host request overrides configuration file settings. If the host does not specify the type of garbage collection, you can use a configuration file setting to specify server garbage collection. This setting is valid only in the application configuration file, not in the machine configuration file (see Configuring Apps by using Configuration Files). The following example shows the contents of a sample application configuration file that enables server garbage collection.</p>\n<pre><code><configuration>\n<runtime>\n<gcServer enabled=\"true\" />\n</runtime>\n</configuration></code></pre>\n"
+  example:
+  - "\n<p>The following example indicates whether the host computer is using server or workstation garbage collection. </p>Environment.IsServerGC#1"
   syntax:
     content: public static bool IsServerGC { get; }
     content.vb: Public Shared ReadOnly Property IsServerGC As Boolean
     parameters: []
     return:
       type: System.Boolean
-      description: true if server garbage collection is enabled; otherwise, false.
+      description: "\n<p>\n<strong>true</strong> if server garbage collection is enabled; otherwise, <strong>false</strong>.</p>\n"
   modifiers.csharp:
   - public
   - static
@@ -93,16 +97,17 @@ items:
   type: Property
   source:
     remote:
-      path: src/mscorlib/src/System/Runtime/GcSettings.cs
+      path: src/System.Runtime/ref/System.Runtime.cs
       branch: master
-      repo: https://github.com/dotnet/coreclr.git
+      repo: https://github.com/dotnet/corefx.git
     id: LargeObjectHeapCompactionMode
-    path: src/mscorlib/src/System/Runtime/GcSettings.cs
-    startLine: 66
+    path: src/System.Runtime/ref/System.Runtime.cs
+    startLine: 2818
   assemblies:
   - System.Runtime
   namespace: System.Runtime
-  summary: '[Supported in the .NET Framework 4.5.1 and later versions] Gets or sets a value that indicates whether a full blocking garbage collection compacts the large object heap (LOH). '
+  summary: "\n<p>[Supported in the .NET Framework 4.5.1 and later versions] </p>\n<p>Gets or sets a value that indicates whether a full blocking garbage collection compacts the large object heap (LOH). </p>\n"
+  remarks: "\n<p>The LOH is used for allocating memory for large objects (such as arrays) that require more than 85,000 bytes. Because of the performance impact of copying large blocks of memory, the garbage collector ordinarily sweeps the   LOH, which involves creating a list of the memory locations that were occupied by dead objects and that can be reused to satisfy future requests for allocation of memory for large objects. However, in apps that make extensive use of the LOH to store transient objects, memory fragmentation can also adversely impact performance. In this case, it is possible to use the <xref href=\"System.Runtime.GCSettings.LargeObjectHeapCompactionMode\" data-throw-if-not-resolved=\"false\"></xref> property to compact rather than simply sweep the LOH during a garbage collection. </p>\n<p>The default value of the <xref href=\"System.Runtime.GCSettings.LargeObjectHeapCompactionMode\" data-throw-if-not-resolved=\"false\"></xref> property is <xref href=\"System.Runtime.GCLargeObjectHeapCompactionMode.Default\" data-throw-if-not-resolved=\"false\"></xref>, which indicates that the LOH is not compacted during garbage collections. If you assign the property a value of <xref href=\"System.Runtime.GCLargeObjectHeapCompactionMode.CompactOnce\" data-throw-if-not-resolved=\"false\"></xref>, the LOH is compacted during the next full blocking garbage collection, and the property value is reset to <xref href=\"System.Runtime.GCLargeObjectHeapCompactionMode.Default\" data-throw-if-not-resolved=\"false\"></xref>.  </p>\n<p>Background garbage collections are not blocking. This means that, if you set the <xref href=\"System.Runtime.GCSettings.LargeObjectHeapCompactionMode\" data-throw-if-not-resolved=\"false\"></xref> property to <xref href=\"System.Runtime.GCLargeObjectHeapCompactionMode.CompactOnce\" data-throw-if-not-resolved=\"false\"></xref>, any background generation 2 collections that occur subsequently do not compact the LOH. Only the first blocking generation 2 collection compacts the LOH. </p>\n<p>After the <xref href=\"System.Runtime.GCSettings.LargeObjectHeapCompactionMode\" data-throw-if-not-resolved=\"false\"></xref> property is set to <xref href=\"System.Runtime.GCLargeObjectHeapCompactionMode.CompactOnce\" data-throw-if-not-resolved=\"false\"></xref>, the next full blocking garbage collection (and compaction of the LOH) occurs at an indeterminate future time. You can compact the LOH immediately by using code like the following: </p>System.Runtime.GCSettings#1"
   syntax:
     content: >-
       public static GCLargeObjectHeapCompactionMode LargeObjectHeapCompactionMode
@@ -116,7 +121,10 @@ items:
     parameters: []
     return:
       type: System.Runtime.GCLargeObjectHeapCompactionMode
-      description: 'One of the enumeration values that indicates whether a full blocking garbage collection compacts the LOH. '
+      description: "\n<p>One of the enumeration values that indicates whether a full blocking garbage collection compacts the LOH. </p>\n"
+  seealso:
+  - type: System.Runtime.GCLargeObjectHeapCompactionMode
+    commentId: T:System.Runtime.GCLargeObjectHeapCompactionMode
   modifiers.csharp:
   - public
   - static
@@ -137,16 +145,19 @@ items:
   type: Property
   source:
     remote:
-      path: src/mscorlib/src/System/Runtime/GcSettings.cs
+      path: src/System.Runtime/ref/System.Runtime.cs
       branch: master
-      repo: https://github.com/dotnet/coreclr.git
+      repo: https://github.com/dotnet/corefx.git
     id: LatencyMode
-    path: src/mscorlib/src/System/Runtime/GcSettings.cs
-    startLine: 40
+    path: src/System.Runtime/ref/System.Runtime.cs
+    startLine: 2819
   assemblies:
   - System.Runtime
   namespace: System.Runtime
-  summary: Gets or sets the current latency mode for garbage collection.
+  summary: "\n<p>Gets or sets the current latency mode for garbage collection.</p>\n"
+  remarks: "\n<p>You can reduce the level of intrusiveness of garbage collection in your application by setting the <xref href=\"System.Runtime.GCLatencyMode\" data-throw-if-not-resolved=\"false\"></xref> to <xref href=\"System.Runtime.GCLatencyMode.LowLatency\" data-throw-if-not-resolved=\"false\"></xref> during critical operations. After such operations are completed, return to a higher latency mode so that more objects can be reclaimed to increase memory. </p>\n<p>Ordinarily, you set the value of the <xref href=\"System.Runtime.GCSettings.LatencyMode\" data-throw-if-not-resolved=\"false\"></xref> property to define the garbage collector's latency mode. However, you cannot set the no GC region latency mode by assigning the <xref href=\"System.Runtime.GCLatencyMode.NoGCRegion\" data-throw-if-not-resolved=\"false\"></xref> enumeration value to the <xref href=\"System.Runtime.GCSettings.LatencyMode\" data-throw-if-not-resolved=\"false\"></xref> property. Instead, you call the <see cref=\"Overload:System.GC.TryStartNoGCRegion\"></see> method to begin the no GC region latency mode, and you call the <xref href=\"System.GC.EndNoGCRegion\" data-throw-if-not-resolved=\"false\"></xref> to end it. </p>\n<p>See Latency Modes for a discussion of how the runtime configuration settings for garbage collection affect the default value of the <xref href=\"System.Runtime.GCLatencyMode\" data-throw-if-not-resolved=\"false\"></xref> enumeration. </p>\n"
+  example:
+  - 
   syntax:
     content: >-
       public static GCLatencyMode LatencyMode
@@ -160,11 +171,14 @@ items:
     parameters: []
     return:
       type: System.Runtime.GCLatencyMode
-      description: 'One of the enumeration values that specifies the latency mode. '
+      description: "\n<p>One of the enumeration values that specifies the latency mode. </p>\n"
   exceptions:
   - type: System.ArgumentOutOfRangeException
     commentId: T:System.ArgumentOutOfRangeException
-    description: 'The <xref href="System.Runtime.GCSettings.LatencyMode" data-throw-if-not-resolved="false"></xref> property is being set to an invalid value. -or-The <xref href="System.Runtime.GCSettings.LatencyMode" data-throw-if-not-resolved="false"></xref> property cannot be set to <xref href="System.Runtime.GCLatencyMode.NoGCRegion" data-throw-if-not-resolved="false"></xref>. '
+    description: "\n<p>The <xref href=\"System.Runtime.GCSettings.LatencyMode\" data-throw-if-not-resolved=\"false\"></xref> property is being set to an invalid value. </p>\n<p>-or-</p>\n<p>The <xref href=\"System.Runtime.GCSettings.LatencyMode\" data-throw-if-not-resolved=\"false\"></xref> property cannot be set to <xref href=\"System.Runtime.GCLatencyMode.NoGCRegion\" data-throw-if-not-resolved=\"false\"></xref>. </p>\n"
+  see:
+  - type: System.Security.SecurityCriticalAttribute
+    commentId: T:System.Security.SecurityCriticalAttribute
   modifiers.csharp:
   - public
   - static

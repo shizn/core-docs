@@ -37,12 +37,12 @@ items:
   assemblies:
   - System.Security.Cryptography.Cng
   namespace: System.Security.Cryptography
-  summary: 'Provides a Cryptography Next Generation (CNG) implementation of the Elliptic Curve Digital Signature Algorithm (ECDSA). '
   syntax:
-    content: 'public sealed class ECDsaCng : ECDsa'
+    content: 'public sealed class ECDsaCng : ECDsa, ECDsa'
     content.vb: >-
       Public NotInheritable Class ECDsaCng
           Inherits ECDsa
+          Implements ECDsa
   inheritance:
   - System.Object
   modifiers.csharp:
@@ -74,14 +74,9 @@ items:
   assemblies:
   - System.Security.Cryptography.Cng
   namespace: System.Security.Cryptography
-  summary: Initializes a new instance of the <xref href="System.Security.Cryptography.ECDsaCng" data-throw-if-not-resolved="false"></xref> class with a random key pair.
   syntax:
     content: public ECDsaCng()
     content.vb: Public Sub New
-  exceptions:
-  - type: System.PlatformNotSupportedException
-    commentId: T:System.PlatformNotSupportedException
-    description: Cryptography Next Generation (CNG) classes are not supported on this system.
   modifiers.csharp:
   - public
   modifiers.vb:
@@ -107,21 +102,13 @@ items:
   assemblies:
   - System.Security.Cryptography.Cng
   namespace: System.Security.Cryptography
-  summary: Initializes a new instance of the <xref href="System.Security.Cryptography.ECDsaCng" data-throw-if-not-resolved="false"></xref> class with a random key pair, using the specified key size.
   syntax:
     content: public ECDsaCng(int keySize)
     content.vb: Public Sub New(keySize As Integer)
     parameters:
     - id: keySize
       type: System.Int32
-      description: The size of the key. Valid key sizes are 256, 384, and 521 bits.
-  exceptions:
-  - type: System.PlatformNotSupportedException
-    commentId: T:System.PlatformNotSupportedException
-    description: Cryptography Next Generation (CNG) classes are not supported on this system.
-  - type: System.Security.Cryptography.CryptographicException
-    commentId: T:System.Security.Cryptography.CryptographicException
-    description: "\n<em>keySize</em> specifies an invalid length. "
+      description: Size of the key to generate, in bits.
   modifiers.csharp:
   - public
   modifiers.vb:
@@ -147,24 +134,13 @@ items:
   assemblies:
   - System.Security.Cryptography.Cng
   namespace: System.Security.Cryptography
-  summary: Initializes a new instance of the <xref href="System.Security.Cryptography.ECDsaCng" data-throw-if-not-resolved="false"></xref> class by using the specified <xref href="System.Security.Cryptography.CngKey" data-throw-if-not-resolved="false"></xref> object.
   syntax:
     content: public ECDsaCng(CngKey key)
     content.vb: Public Sub New(key As CngKey)
     parameters:
     - id: key
       type: System.Security.Cryptography.CngKey
-      description: The key that will be used as input to the cryptographic operations performed by the current object.
-  exceptions:
-  - type: System.ArgumentException
-    commentId: T:System.ArgumentException
-    description: "\n<em>key</em> does not specify an Elliptic Curve Digital Signature Algorithm (ECDSA) group."
-  - type: System.ArgumentNullException
-    commentId: T:System.ArgumentNullException
-    description: "\n<em>key</em> is null."
-  - type: System.PlatformNotSupportedException
-    commentId: T:System.PlatformNotSupportedException
-    description: Cryptography Next Generation (CNG) classes are not supported on this system.
+      description: Key to use for ECDsa operations
   modifiers.csharp:
   - public
   modifiers.vb:
@@ -221,14 +197,12 @@ items:
   assemblies:
   - System.Security.Cryptography.Cng
   namespace: System.Security.Cryptography
-  summary: Gets or sets the key to use when signing and verifying data.
   syntax:
     content: public CngKey Key { get; }
     content.vb: Public ReadOnly Property Key As CngKey
     parameters: []
     return:
       type: System.Security.Cryptography.CngKey
-      description: An object that specifies the key.
   modifiers.csharp:
   - public
   - get
@@ -296,7 +270,7 @@ items:
     content.vb: Public Overrides ReadOnly Property LegalKeySizes As KeySizes()
     parameters: []
     return:
-      type: System.Security.Cryptography.KeySizes[]
+      type: KeySizes[]
   modifiers.csharp:
   - public
   - override
@@ -366,7 +340,8 @@ items:
     - id: includePrivateParameters
       type: System.Boolean
     return:
-      type: System.Security.Cryptography.ECParameters
+      type: ECParameters
+      description: The key and explicit curve parameters used by the ECC object.
   modifiers.csharp:
   - public
   - override
@@ -401,7 +376,8 @@ items:
     - id: includePrivateParameters
       type: System.Boolean
     return:
-      type: System.Security.Cryptography.ECParameters
+      type: ECParameters
+      description: The key and named curve parameters used by the ECC object.
   modifiers.csharp:
   - public
   - override
@@ -575,24 +551,14 @@ items:
   assemblies:
   - System.Security.Cryptography.Cng
   namespace: System.Security.Cryptography
-  summary: Generates a signature for the specified hash value.
   syntax:
     content: public override byte[] SignHash(byte[] hash)
     content.vb: Public Overrides Function SignHash(hash As Byte()) As Byte()
     parameters:
     - id: hash
       type: System.Byte[]
-      description: The hash value of the data to be signed.
     return:
       type: System.Byte[]
-      description: A digital signature for the specified hash value.
-  exceptions:
-  - type: System.ArgumentNullException
-    commentId: T:System.ArgumentNullException
-    description: "\n<em>hash</em> is null."
-  - type: System.Security.Cryptography.CryptographicException
-    commentId: T:System.Security.Cryptography.CryptographicException
-    description: The key information that is associated with the instance does not have a private key.
   modifiers.csharp:
   - public
   - override
@@ -622,24 +588,16 @@ items:
   assemblies:
   - System.Security.Cryptography.Cng
   namespace: System.Security.Cryptography
-  summary: Verifies the specified digital signature against a specified hash value.
   syntax:
     content: public override bool VerifyHash(byte[] hash, byte[] signature)
     content.vb: Public Overrides Function VerifyHash(hash As Byte(), signature As Byte()) As Boolean
     parameters:
     - id: hash
       type: System.Byte[]
-      description: The hash value of the data to be verified.
     - id: signature
       type: System.Byte[]
-      description: The digital signature of the data to be verified against the hash value.
     return:
       type: System.Boolean
-      description: true if the signature is valid; otherwise, false.
-  exceptions:
-  - type: System.ArgumentNullException
-    commentId: T:System.ArgumentNullException
-    description: "\n<em>hash</em> or <em>signature</em> is null."
   modifiers.csharp:
   - public
   - override
@@ -737,20 +695,3 @@ references:
   isExternal: false
   name: System.IO
   fullName: System.IO
-- uid: System.PlatformNotSupportedException
-  isExternal: false
-  name: PlatformNotSupportedException
-  fullName: System.PlatformNotSupportedException
-- uid: System.Security.Cryptography.CryptographicException
-  isExternal: false
-  name: CryptographicException
-  fullName: System.Security.Cryptography.CryptographicException
-- uid: System.ArgumentException
-  parent: System
-  isExternal: false
-  name: ArgumentException
-  fullName: System.ArgumentException
-- uid: System.ArgumentNullException
-  isExternal: false
-  name: ArgumentNullException
-  fullName: System.ArgumentNullException

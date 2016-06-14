@@ -26,7 +26,6 @@ items:
   assemblies:
   - System.Dynamic.Runtime
   namespace: System.Runtime.CompilerServices
-  summary: Class responsible for runtime binding of the dynamic operations on the dynamic call site.
   syntax:
     content: 'public abstract class CallSiteBinder : object'
     content.vb: >-
@@ -63,7 +62,6 @@ items:
   assemblies:
   - System.Dynamic.Runtime
   namespace: System.Runtime.CompilerServices
-  summary: Initializes a new instance of the <xref href="System.Runtime.CompilerServices.CallSiteBinder" data-throw-if-not-resolved="false"></xref> class.
   syntax:
     content: protected CallSiteBinder()
     content.vb: Protected Sub New
@@ -92,14 +90,12 @@ items:
   assemblies:
   - System.Dynamic.Runtime
   namespace: System.Runtime.CompilerServices
-  summary: Gets a label that can be used to cause the binding to be updated. It indicates that the expression's binding is no longer valid. This is typically used when the "version" of a dynamic object has changed.
   syntax:
     content: public static LabelTarget UpdateLabel { get; }
     content.vb: Public Shared ReadOnly Property UpdateLabel As LabelTarget
     parameters: []
     return:
-      type: System.Linq.Expressions.LabelTarget
-      description: The <xref href="System.Linq.Expressions.LabelTarget" data-throw-if-not-resolved="false"></xref> object representing a label that can be used to trigger the binding update.
+      type: LabelTarget
   modifiers.csharp:
   - public
   - static
@@ -129,23 +125,18 @@ items:
   assemblies:
   - System.Dynamic.Runtime
   namespace: System.Runtime.CompilerServices
-  summary: Performs the runtime binding of the dynamic operation on a set of arguments.
   syntax:
     content: public abstract Expression Bind(object[] args, Collections.ObjectModel.ReadOnlyCollection<ParameterExpression> parameters, LabelTarget returnLabel)
     content.vb: Public MustOverride Function Bind(args As Object(), parameters As Collections.ObjectModel.ReadOnlyCollection(Of ParameterExpression), returnLabel As LabelTarget) As Expression
     parameters:
     - id: args
       type: System.Object[]
-      description: An array of arguments to the dynamic operation.
     - id: parameters
       type: System.Collections.ObjectModel.ReadOnlyCollection{System.Linq.Expressions.ParameterExpression}
-      description: The array of <xref href="System.Linq.Expressions.ParameterExpression" data-throw-if-not-resolved="false"></xref> instances that represent the parameters of the call site in the binding process.
     - id: returnLabel
       type: System.Linq.Expressions.LabelTarget
-      description: A LabelTarget used to return the result of the dynamic binding.
     return:
       type: System.Linq.Expressions.Expression
-      description: An Expression that performs tests on the dynamic operation arguments, and performs the dynamic operation if the tests are valid. If the tests fail on subsequent occurrences of the dynamic operation, Bind will be called again to produce a new <xref href="System.Linq.Expressions.Expression" data-throw-if-not-resolved="false"></xref> for the new argument types.
   modifiers.csharp:
   - public
   - abstract
@@ -175,7 +166,6 @@ items:
   assemblies:
   - System.Dynamic.Runtime
   namespace: System.Runtime.CompilerServices
-  summary: Provides low-level runtime binding support. Classes can override this and provide a direct delegate for the implementation of rule. This can enable saving rules to disk, having specialized rules available at runtime, or providing a different caching policy.
   syntax:
     content: 'public virtual T BindDelegate<T>(CallSite<T> site, object[] args)where T : class'
     content.vb: Public Overridable Function BindDelegate(Of T As Class)(site As CallSite(Of T), args As Object()) As T
@@ -221,7 +211,6 @@ items:
   assemblies:
   - System.Dynamic.Runtime
   namespace: System.Runtime.CompilerServices
-  summary: Adds a target to the cache of known targets. The cached targets will be scanned before calling BindDelegate to produce the new rule.
   syntax:
     content: 'protected void CacheTarget<T>(T target)where T : class'
     content.vb: Protected Sub CacheTarget(Of T As Class)(target As T)

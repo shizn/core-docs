@@ -15,21 +15,27 @@ items:
   type: Class
   source:
     remote:
-      path: src/mscorlib/src/System/Runtime/InteropServices/Attributes.cs
+      path: src/System.Runtime.InteropServices/ref/System.Runtime.InteropServices.cs
       branch: master
-      repo: https://github.com/dotnet/coreclr.git
+      repo: https://github.com/dotnet/corefx.git
     id: ClassInterfaceAttribute
-    path: src/mscorlib/src/System/Runtime/InteropServices/Attributes.cs
-    startLine: 120
+    path: src/System.Runtime.InteropServices/ref/System.Runtime.InteropServices.cs
+    startLine: 70
   assemblies:
   - System.Runtime.InteropServices
   namespace: System.Runtime.InteropServices
-  summary: Indicates the type of class interface to be generated for a class exposed to COM, if an interface is generated at all.
+  summary: "\n<p>Indicates the type of class interface to be generated for a class exposed to COM, if an interface is generated at all.</p>\n"
+  remarks: "\n<p>You can apply this attribute to assemblies or classes.</p>\n<p>This attribute controls whether the Type Library Exporter (Tlbexp.exe) automatically generates a class interface for the attributed class. A class interface carries the same name as the class itself, but the name is prefixed with an underscore. When exposed, the class interface contains all the <strong>public</strong>, non- <strong>static</strong> members of the managed class, including members inherited from its base class. Managed classes cannot access a class interface and have no need to as they can access the class members directly. Tlbexp.exe generates a unique interface identifier (IID) for the class interface.</p>\n<p>Class interfaces can be dual or dispatch-only interfaces. Optionally, you can suppress the generation of the class interface and provide a custom interface instead. You expose or suppress a class interface by specifying a <xref href=\"System.Runtime.InteropServices.ClassInterfaceType\" data-throw-if-not-resolved=\"false\"></xref> enumeration member. When you apply <xref href=\"System.Runtime.InteropServices.ClassInterfaceAttribute\" data-throw-if-not-resolved=\"false\"></xref> to an assembly, the attribute pertains to all classes in the assembly unless the individual classes override the setting with their own attribute.</p>\n<p>Although class interfaces eliminate the task of explicitly defining interfaces for each class, their use in production applications is strongly discouraged. Dual class interfaces allow clients to bind to a specific interface layout that is subject to change as the class evolves. For example, consider a managed class that exposes a class interface to COM clients. The first version of the class contains methods <code>North</code> and <code>South</code>. An unmanaged client can bind to the class interface, which provides <code>North</code> as the first method in the class interface and method <code>South</code> as the second method. Now consider the next version of the class, which has a new method, <code>East</code>, inserted between methods <code>North</code> and <code>South</code>. Unmanaged clients that try to bind to the new class through the old class interface end up calling method <code>East</code> when they intend to call method <code>South</code>, because the positioning of methods within the interface has changed. Moreover, any change to the layout of a base class also affects the layout of the class interface for all derived classes. Managed clients, which bind directly to classes, do not exhibit the same versioning problems. For specific guidelines on using a class interface, see COM Callable Wrapper.</p>\n<p>The Tlbimp.exe (Type Library Importer) always applies to imported classes the <xref href=\"System.Runtime.InteropServices.ClassInterfaceType.None\" data-throw-if-not-resolved=\"false\"></xref> enumeration member to indicate that existing COM classes never expose managed interfaces.</p>\n"
+  example:
+  - "\n<p>The following example shows how to apply the <xref href=\"System.Runtime.InteropServices.ClassInterfaceAttribute\" data-throw-if-not-resolved=\"false\"></xref> with the <xref href=\"System.Runtime.InteropServices.ClassInterfaceType\" data-throw-if-not-resolved=\"false\"></xref> value <xref href=\"System.Runtime.InteropServices.ClassInterfaceType.AutoDispatch\" data-throw-if-not-resolved=\"false\"></xref>, which generates an <strong>IDispatch</strong> interface for <code>MyClass</code>.</p>Classic ClassInterfaceAttribute Example#1"
   syntax:
     content: 'public sealed class ClassInterfaceAttribute : Attribute'
     content.vb: >-
       Public NotInheritable Class ClassInterfaceAttribute
           Inherits Attribute
+  seealso:
+  - type: System.Runtime.InteropServices.ClassInterfaceType
+    commentId: T:System.Runtime.InteropServices.ClassInterfaceType
   inheritance:
   - System.Object
   modifiers.csharp:
@@ -52,23 +58,27 @@ items:
   type: Constructor
   source:
     remote:
-      path: src/mscorlib/src/System/Runtime/InteropServices/Attributes.cs
+      path: src/System.Runtime.InteropServices/ref/System.Runtime.InteropServices.cs
       branch: master
-      repo: https://github.com/dotnet/coreclr.git
+      repo: https://github.com/dotnet/corefx.git
     id: .ctor
-    path: src/mscorlib/src/System/Runtime/InteropServices/Attributes.cs
-    startLine: 130
+    path: src/System.Runtime.InteropServices/ref/System.Runtime.InteropServices.cs
+    startLine: 73
   assemblies:
   - System.Runtime.InteropServices
   namespace: System.Runtime.InteropServices
-  summary: Initializes a new instance of the <xref href="System.Runtime.InteropServices.ClassInterfaceAttribute" data-throw-if-not-resolved="false"></xref> class with the specified <xref href="System.Runtime.InteropServices.ClassInterfaceType" data-throw-if-not-resolved="false"></xref> enumeration value.
+  summary: "\n<p>Initializes a new instance of the <xref href=\"System.Runtime.InteropServices.ClassInterfaceAttribute\" data-throw-if-not-resolved=\"false\"></xref> class with the specified <xref href=\"System.Runtime.InteropServices.ClassInterfaceType\" data-throw-if-not-resolved=\"false\"></xref> enumeration value.</p>\n"
+  remarks: "\n<p>This constructor takes an underlying 16-bit signed integer that represents each <xref href=\"System.Runtime.InteropServices.ClassInterfaceType\" data-throw-if-not-resolved=\"false\"></xref> enumeration member. The Tlbimp.exe (Type Library Importer) uses this constructor.</p>\n"
   syntax:
     content: public ClassInterfaceAttribute(short classInterfaceType)
     content.vb: Public Sub New(classInterfaceType As Short)
     parameters:
     - id: classInterfaceType
       type: System.Int16
-      description: 'Describes the type of interface that is generated for a class. '
+      description: "\n<p>Describes the type of interface that is generated for a class. </p>\n"
+  seealso:
+  - type: System.Runtime.InteropServices.ClassInterfaceType
+    commentId: T:System.Runtime.InteropServices.ClassInterfaceType
   modifiers.csharp:
   - public
   modifiers.vb:
@@ -85,23 +95,24 @@ items:
   type: Constructor
   source:
     remote:
-      path: src/mscorlib/src/System/Runtime/InteropServices/Attributes.cs
+      path: src/System.Runtime.InteropServices/ref/System.Runtime.InteropServices.cs
       branch: master
-      repo: https://github.com/dotnet/coreclr.git
+      repo: https://github.com/dotnet/corefx.git
     id: .ctor
-    path: src/mscorlib/src/System/Runtime/InteropServices/Attributes.cs
-    startLine: 125
+    path: src/System.Runtime.InteropServices/ref/System.Runtime.InteropServices.cs
+    startLine: 74
   assemblies:
   - System.Runtime.InteropServices
   namespace: System.Runtime.InteropServices
-  summary: Initializes a new instance of the <xref href="System.Runtime.InteropServices.ClassInterfaceAttribute" data-throw-if-not-resolved="false"></xref> class with the specified <xref href="System.Runtime.InteropServices.ClassInterfaceType" data-throw-if-not-resolved="false"></xref> enumeration member.
+  summary: "\n<p>Initializes a new instance of the <xref href=\"System.Runtime.InteropServices.ClassInterfaceAttribute\" data-throw-if-not-resolved=\"false\"></xref> class with the specified <xref href=\"System.Runtime.InteropServices.ClassInterfaceType\" data-throw-if-not-resolved=\"false\"></xref> enumeration member.</p>\n"
+  remarks: "\n<p>For readable code that is less prone to error, always use this constructor.</p>\n"
   syntax:
     content: public ClassInterfaceAttribute(ClassInterfaceType classInterfaceType)
     content.vb: Public Sub New(classInterfaceType As ClassInterfaceType)
     parameters:
     - id: classInterfaceType
       type: System.Runtime.InteropServices.ClassInterfaceType
-      description: 'One of the <xref href="System.Runtime.InteropServices.ClassInterfaceType" data-throw-if-not-resolved="false"></xref> values that describes the type of interface that is generated for a class. '
+      description: "\n<p>One of the <xref href=\"System.Runtime.InteropServices.ClassInterfaceType\" data-throw-if-not-resolved=\"false\"></xref> values that describes the type of interface that is generated for a class. </p>\n"
   modifiers.csharp:
   - public
   modifiers.vb:
@@ -118,23 +129,23 @@ items:
   type: Property
   source:
     remote:
-      path: src/mscorlib/src/System/Runtime/InteropServices/Attributes.cs
+      path: src/System.Runtime.InteropServices/ref/System.Runtime.InteropServices.cs
       branch: master
-      repo: https://github.com/dotnet/coreclr.git
+      repo: https://github.com/dotnet/corefx.git
     id: Value
-    path: src/mscorlib/src/System/Runtime/InteropServices/Attributes.cs
-    startLine: 134
+    path: src/System.Runtime.InteropServices/ref/System.Runtime.InteropServices.cs
+    startLine: 75
   assemblies:
   - System.Runtime.InteropServices
   namespace: System.Runtime.InteropServices
-  summary: Gets the <xref href="System.Runtime.InteropServices.ClassInterfaceType" data-throw-if-not-resolved="false"></xref> value that describes which type of interface should be generated for the class.
+  summary: "\n<p>Gets the <xref href=\"System.Runtime.InteropServices.ClassInterfaceType\" data-throw-if-not-resolved=\"false\"></xref> value that describes which type of interface should be generated for the class.</p>\n"
   syntax:
     content: public ClassInterfaceType Value { get; }
     content.vb: Public ReadOnly Property Value As ClassInterfaceType
     parameters: []
     return:
       type: System.Runtime.InteropServices.ClassInterfaceType
-      description: The <xref href="System.Runtime.InteropServices.ClassInterfaceType" data-throw-if-not-resolved="false"></xref> value that describes which type of interface should be generated for the class.
+      description: "\n<p>The <xref href=\"System.Runtime.InteropServices.ClassInterfaceType\" data-throw-if-not-resolved=\"false\"></xref> value that describes which type of interface should be generated for the class.</p>\n"
   modifiers.csharp:
   - public
   - get

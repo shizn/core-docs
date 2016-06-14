@@ -43,12 +43,22 @@ items:
   assemblies:
   - System.Security.Claims
   namespace: System.Security.Claims
-  summary: Represents a claim.
+  summary: "\n<p>Represents a claim.</p>\n"
+  remarks: "\n<p>A claim is a statement about a subject by an issuer. Claims represent attributes of the subject that are useful in the context of authentication and authorization operations. Subjects and issuers are both entities that are part of an identity scenario. Some typical examples of a subject are: a user, an application or service, a device, or a computer. Some typical examples of an issuer are: the operating system, an application. a service, a role provider, an identity provider, or a federation provider. An issuer delivers claims by issuing security tokens, typically through a Security Token Service (STS). (In WIF, you can build an STS by deriving from the <xref href=\"System.IdentityModel.SecurityTokenService\" data-throw-if-not-resolved=\"false\"></xref> class.) On occasion, the collection of claims received from an issuer can be extended by subject attributes stored directly at the resource. A claim can be evaluated to determine access rights to data and other secured resources during the process of authorization and can also be used to make or express authentication decisions about a subject.</p>\n<p>Beginning with .NET 4.5, the Windows Identity Foundation (WIF) classes, which implement claims-based identity, have been fully integrated into the .NET Framework. The claims concept is implemented by the <xref href=\"System.Security.Claims.Claim\" data-throw-if-not-resolved=\"false\"></xref> class.</p>\n<p>The following describes important properties of the <xref href=\"System.Security.Claims.Claim\" data-throw-if-not-resolved=\"false\"></xref> class:</p>\n<ul><li>\n<p>The <xref href=\"System.Security.Claims.Claim.Type\" data-throw-if-not-resolved=\"false\"></xref> property is a string (typically a URI) that contains the semantic information about the claim; it tells you what the value of the claim means. For example, a claim with a claim type of <xref href=\"System.Security.Claims.ClaimTypes.GivenName\" data-throw-if-not-resolved=\"false\"></xref> (“http://schemas.xmlsoap.org/ws/2005/05/identity/claims/givenname”) represents a user’s first name. The value of the <xref href=\"System.Security.Claims.Claim.Type\" data-throw-if-not-resolved=\"false\"></xref> property can be one of the well-known claim types defined in the <xref href=\"System.Security.Claims.ClaimTypes\" data-throw-if-not-resolved=\"false\"></xref> class, or it can be an arbitrary URI as defined by the issuer. For example, a claim type of “urn:spendinglimit” might represent a user attribute which makes sense within the business context of the issuer.</p>\n</li><li>\n<p>The <xref href=\"System.Security.Claims.Claim.Value\" data-throw-if-not-resolved=\"false\"></xref> property contains the value of the claim. In order to reduce dependencies and simplify administration, in WIF the value of a claim is represented only as a string. For more complex value types, it is recommended that you use standard XML schema types to indicate how the value is meant to be serialized into and deserialized from a string.</p>\n</li><li>\n<p>The <xref href=\"System.Security.Claims.Claim.ValueType\" data-throw-if-not-resolved=\"false\"></xref> property contains a string that identifies the type information for the value. This property should be used to understand the format of the value and to provide information about how to deserialize it. If your solution requires complex value types, it is recommended that you use standard XML schema types in the <xref href=\"System.Security.Claims.Claim.ValueType\" data-throw-if-not-resolved=\"false\"></xref> property to indicate how the <xref href=\"System.Security.Claims.Claim.Value\" data-throw-if-not-resolved=\"false\"></xref> property is meant to be serialized into and deserialized from a string. </p>\n</li><li>\n<p>The <xref href=\"System.Security.Claims.Claim.Subject\" data-throw-if-not-resolved=\"false\"></xref> property is a <xref href=\"System.Security.Claims.ClaimsIdentity\" data-throw-if-not-resolved=\"false\"></xref> object that represents the subject of the claim. The subject of the claim is the entity (typically the user who is requesting access to a resource) about which the claim is asserted. The <xref href=\"System.Security.Claims.ClaimsIdentity\" data-throw-if-not-resolved=\"false\"></xref> contains, among its properties, a collection of claims that describe the properties and attributes of the subject as attested to by one or more issuers.</p>\n</li><li>\n<p>The <xref href=\"System.Security.Claims.Claim.Issuer\" data-throw-if-not-resolved=\"false\"></xref> property contains the name of the entity that issued the claim. The issuer of a claim is represented in WIF by a string that contains a name taken from a list of well-known issuers that is maintained by the issuer name registry. The issuer name registry is an instance of a class that derives from the <xref href=\"System.IdentityModel.Tokens.IssuerNameRegistry\" data-throw-if-not-resolved=\"false\"></xref> class. The issuer name registry associates a mnemonic name to the cryptographic material needed to verify the signatures of tokens produced by the corresponding issuer. For example, the <xref href=\"System.IdentityModel.Tokens.ConfigurationBasedIssuerNameRegistry\" data-throw-if-not-resolved=\"false\"></xref> class, available out of the box with .NET 4.5, associates the mnemonic name for each issuer with its corresponding X.509 certificate. The list of well-known issuers is typically built at startup time by the issuer name registry. The list used by the <xref href=\"System.IdentityModel.Tokens.ConfigurationBasedIssuerNameRegistry\" data-throw-if-not-resolved=\"false\"></xref> is specified in the application configuration file. </p>\n</li><li>\n<p>The <xref href=\"System.Security.Claims.Claim.OriginalIssuer\" data-throw-if-not-resolved=\"false\"></xref> property contains the name of the entity that originally issued the claim. This property is designed to facilitate scenarios where a claim may pass through multiple issuers before it is presented by the client to the RP application; such as federation scenarios. You can examine the <xref href=\"System.Security.Claims.Claim.OriginalIssuer\" data-throw-if-not-resolved=\"false\"></xref> property to determine the entity that originally issued the claim. The name is taken from the list of well-known issuers maintained by the issuer name registry, as in the case of the <xref href=\"System.Security.Claims.Claim.Issuer\" data-throw-if-not-resolved=\"false\"></xref> property.</p>\n</li></ul>\n"
+  example:
+  - "\n<p>The following example extracts the claims associated to the authenticated user performing an HTTP request and writes them in the HTTP response. The current user is read from the <xref href=\"System.Web.HttpContext\" data-throw-if-not-resolved=\"false\"></xref> as a <xref href=\"System.Security.Claims.ClaimsPrincipal\" data-throw-if-not-resolved=\"false\"></xref> and the claims are read from it. The claims are then written to HTTP the response. </p>\n<pre><code class=\"c#\">ClaimsPrincipal principal = HttpContext.Current.User as ClaimsPrincipal;\nif (null != principal)\n{\nforeach (Claim claim in principal.Claims)\n{\nResponse.Write(\"CLAIM TYPE: \" + claim.Type + \"; CLAIM VALUE: \" + claim.Value + \"</br>\");\n}\n\n}</code></pre>\n"
   syntax:
     content: 'public class Claim : object'
     content.vb: >-
       Public Class Claim
           Inherits Object
+  seealso:
+  - type: System.Security.Claims.ClaimsIdentity
+    commentId: T:System.Security.Claims.ClaimsIdentity
+  - type: System.Security.Claims.ClaimsPrincipal
+    commentId: T:System.Security.Claims.ClaimsPrincipal
+  - type: System.IdentityModel.Tokens.IssuerNameRegistry
+    commentId: T:System.IdentityModel.Tokens.IssuerNameRegistry
   inheritance:
   - System.Object
   modifiers.csharp:
@@ -78,12 +88,14 @@ items:
   assemblies:
   - System.Security.Claims
   namespace: System.Security.Claims
+  summary: "\n<p></p>\n"
   syntax:
     content: public Claim(IO.BinaryReader reader)
     content.vb: Public Sub New(reader As IO.BinaryReader)
     parameters:
     - id: reader
       type: System.IO.BinaryReader
+      description: "\n<p></p>\n"
   modifiers.csharp:
   - public
   modifiers.vb:
@@ -109,17 +121,17 @@ items:
   assemblies:
   - System.Security.Claims
   namespace: System.Security.Claims
-  summary: Initializes a new instance of the <xref href="System.Security.Claims.Claim" data-throw-if-not-resolved="false"></xref> class with the specified reader, and subject.
+  summary: "\n<p>Initializes a new instance of the <xref href=\"System.Security.Claims.Claim\" data-throw-if-not-resolved=\"false\"></xref> class with the specified reader, and subject.</p>\n"
   syntax:
     content: public Claim(IO.BinaryReader reader, ClaimsIdentity subject)
     content.vb: Public Sub New(reader As IO.BinaryReader, subject As ClaimsIdentity)
     parameters:
     - id: reader
       type: System.IO.BinaryReader
-      description: The binary reader.
+      description: "\n<p>The binary reader.</p>\n"
     - id: subject
       type: System.Security.Claims.ClaimsIdentity
-      description: The subject that this claim describes.
+      description: "\n<p>The subject that this claim describes.</p>\n"
   modifiers.csharp:
   - public
   modifiers.vb:
@@ -145,14 +157,14 @@ items:
   assemblies:
   - System.Security.Claims
   namespace: System.Security.Claims
-  summary: Initializes a new instance of the <xref href="System.Security.Claims.Claim" data-throw-if-not-resolved="false"></xref> class.
+  summary: "\n<p>Initializes a new instance of the <xref href=\"System.Security.Claims.Claim\" data-throw-if-not-resolved=\"false\"></xref> class.</p>\n"
   syntax:
     content: protected Claim(Claim other)
     content.vb: Protected Sub New(other As Claim)
     parameters:
     - id: other
       type: System.Security.Claims.Claim
-      description: The security claim.
+      description: the <xref href="System.Security.Claims.Claim" data-throw-if-not-resolved="false"></xref> to copy.
   modifiers.csharp:
   - protected
   modifiers.vb:
@@ -178,17 +190,17 @@ items:
   assemblies:
   - System.Security.Claims
   namespace: System.Security.Claims
-  summary: Initializes a new instance of the <xref href="System.Security.Claims.Claim" data-throw-if-not-resolved="false"></xref> class with the specified security claim, and subject.
+  summary: "\n<p>Initializes a new instance of the <xref href=\"System.Security.Claims.Claim\" data-throw-if-not-resolved=\"false\"></xref> class with the specified security claim, and subject.</p>\n"
   syntax:
     content: protected Claim(Claim other, ClaimsIdentity subject)
     content.vb: Protected Sub New(other As Claim, subject As ClaimsIdentity)
     parameters:
     - id: other
       type: System.Security.Claims.Claim
-      description: The security claim.
+      description: the <xref href="System.Security.Claims.Claim" data-throw-if-not-resolved="false"></xref> to copy.
     - id: subject
       type: System.Security.Claims.ClaimsIdentity
-      description: The subject that this claim describes.
+      description: the <xref href="System.Security.Claims.ClaimsIdentity" data-throw-if-not-resolved="false"></xref> to assign to <xref href="System.Security.Claims.Claim.Subject" data-throw-if-not-resolved="false"></xref>.
   modifiers.csharp:
   - protected
   modifiers.vb:
@@ -214,7 +226,8 @@ items:
   assemblies:
   - System.Security.Claims
   namespace: System.Security.Claims
-  summary: Initializes a new instance of the <xref href="System.Security.Claims.Claim" data-throw-if-not-resolved="false"></xref> class with the specified claim type, and value.
+  summary: "\n<p>Initializes a new instance of the <xref href=\"System.Security.Claims.Claim\" data-throw-if-not-resolved=\"false\"></xref> class with the specified claim type, and value.</p>\n"
+  remarks: "\n<p>The <xref href=\"System.Security.Claims.Claim.Subject\" data-throw-if-not-resolved=\"false\"></xref> property is set to <strong>null</strong>. The <xref href=\"System.Security.Claims.Claim.Issuer\" data-throw-if-not-resolved=\"false\"></xref> and <xref href=\"System.Security.Claims.Claim.OriginalIssuer\" data-throw-if-not-resolved=\"false\"></xref> properties are set to <xref href=\"System.Security.Claims.ClaimsIdentity.DefaultIssuer\" data-throw-if-not-resolved=\"false\"></xref>. The <xref href=\"System.Security.Claims.Claim.ValueType\" data-throw-if-not-resolved=\"false\"></xref> property is set to <xref href=\"System.Security.Claims.ClaimValueTypes.String\" data-throw-if-not-resolved=\"false\"></xref></p>\n"
   syntax:
     content: public Claim(string type, string value)
     content.vb: Public Sub New(type As String, value As String)
@@ -228,7 +241,12 @@ items:
   exceptions:
   - type: System.ArgumentNullException
     commentId: T:System.ArgumentNullException
-    description: "\n<em>type</em> or <em>value</em> is null."
+    description: "\n<p>\n<em>type</em> or <em>value</em> is <strong>null</strong>.</p>\n"
+  seealso:
+  - type: System.Security.Claims.ClaimTypes
+    commentId: T:System.Security.Claims.ClaimTypes
+  - type: System.Security.Claims.ClaimValueTypes
+    commentId: T:System.Security.Claims.ClaimValueTypes
   modifiers.csharp:
   - public
   modifiers.vb:
@@ -254,7 +272,8 @@ items:
   assemblies:
   - System.Security.Claims
   namespace: System.Security.Claims
-  summary: Initializes a new instance of the <xref href="System.Security.Claims.Claim" data-throw-if-not-resolved="false"></xref> class with the specified claim type, value, and value type.
+  summary: "\n<p>Initializes a new instance of the <xref href=\"System.Security.Claims.Claim\" data-throw-if-not-resolved=\"false\"></xref> class with the specified claim type, value, and value type.</p>\n"
+  remarks: "\n<p>The <xref href=\"System.Security.Claims.Claim.Subject\" data-throw-if-not-resolved=\"false\"></xref> property is set to <strong>null</strong>. The <xref href=\"System.Security.Claims.Claim.Issuer\" data-throw-if-not-resolved=\"false\"></xref> and <xref href=\"System.Security.Claims.Claim.OriginalIssuer\" data-throw-if-not-resolved=\"false\"></xref> properties are set to <xref href=\"System.Security.Claims.ClaimsIdentity.DefaultIssuer\" data-throw-if-not-resolved=\"false\"></xref>.</p>\n"
   syntax:
     content: public Claim(string type, string value, string valueType)
     content.vb: Public Sub New(type As String, value As String, valueType As String)
@@ -267,11 +286,16 @@ items:
       description: The claim value.
     - id: valueType
       type: System.String
-      description: The claim value type. If this parameter is null, then <xref href="System.Security.Claims.ClaimValueTypes.String" data-throw-if-not-resolved="false"></xref> is used.
+      description: The claim value type.
   exceptions:
   - type: System.ArgumentNullException
     commentId: T:System.ArgumentNullException
-    description: "\n<em>type</em> or <em>value</em> is null."
+    description: "\n<p>\n<em>type</em> or <em>value</em> is <strong>null</strong>.</p>\n"
+  seealso:
+  - type: System.Security.Claims.ClaimTypes
+    commentId: T:System.Security.Claims.ClaimTypes
+  - type: System.Security.Claims.ClaimValueTypes
+    commentId: T:System.Security.Claims.ClaimValueTypes
   modifiers.csharp:
   - public
   modifiers.vb:
@@ -297,7 +321,8 @@ items:
   assemblies:
   - System.Security.Claims
   namespace: System.Security.Claims
-  summary: Initializes a new instance of the <xref href="System.Security.Claims.Claim" data-throw-if-not-resolved="false"></xref> class with the specified claim type, value, value type, and issuer.
+  summary: "\n<p>Initializes a new instance of the <xref href=\"System.Security.Claims.Claim\" data-throw-if-not-resolved=\"false\"></xref> class with the specified claim type, value, value type, and issuer.</p>\n"
+  remarks: "\n<p>The <xref href=\"System.Security.Claims.Claim.Subject\" data-throw-if-not-resolved=\"false\"></xref> property is set to <strong>null</strong>. The <xref href=\"System.Security.Claims.Claim.OriginalIssuer\" data-throw-if-not-resolved=\"false\"></xref> property is set according to the value of the <em>issuer</em> parameter.</p>\n"
   syntax:
     content: public Claim(string type, string value, string valueType, string issuer)
     content.vb: Public Sub New(type As String, value As String, valueType As String, issuer As String)
@@ -310,14 +335,19 @@ items:
       description: The claim value.
     - id: valueType
       type: System.String
-      description: The claim value type. If this parameter is null, then <xref href="System.Security.Claims.ClaimValueTypes.String" data-throw-if-not-resolved="false"></xref> is used.
+      description: The claim value type. If this parameter is empty or null, then <xref href="System.Security.Claims.ClaimValueTypes.String" data-throw-if-not-resolved="false"></xref> is used.
     - id: issuer
       type: System.String
       description: The claim issuer. If this parameter is empty or null, then <xref href="System.Security.Claims.ClaimsIdentity.DefaultIssuer" data-throw-if-not-resolved="false"></xref> is used.
   exceptions:
   - type: System.ArgumentNullException
     commentId: T:System.ArgumentNullException
-    description: "\n<em>type</em> or <em>value</em> is null."
+    description: "\n<p>\n<em>type</em> or <em>value</em> is <strong>null</strong>.</p>\n"
+  seealso:
+  - type: System.Security.Claims.ClaimTypes
+    commentId: T:System.Security.Claims.ClaimTypes
+  - type: System.Security.Claims.ClaimValueTypes
+    commentId: T:System.Security.Claims.ClaimValueTypes
   modifiers.csharp:
   - public
   modifiers.vb:
@@ -343,7 +373,8 @@ items:
   assemblies:
   - System.Security.Claims
   namespace: System.Security.Claims
-  summary: Initializes a new instance of the <xref href="System.Security.Claims.Claim" data-throw-if-not-resolved="false"></xref> class with the specified claim type, value, value type, issuer,  and original issuer.
+  summary: "\n<p>Initializes a new instance of the <xref href=\"System.Security.Claims.Claim\" data-throw-if-not-resolved=\"false\"></xref> class with the specified claim type, value, value type, issuer,  and original issuer.</p>\n"
+  remarks: "\n<p>The <xref href=\"System.Security.Claims.Claim.Subject\" data-throw-if-not-resolved=\"false\"></xref> property is set to <strong>null</strong>.</p>\n"
   syntax:
     content: public Claim(string type, string value, string valueType, string issuer, string originalIssuer)
     content.vb: Public Sub New(type As String, value As String, valueType As String, issuer As String, originalIssuer As String)
@@ -362,11 +393,16 @@ items:
       description: The claim issuer. If this parameter is empty or null, then <xref href="System.Security.Claims.ClaimsIdentity.DefaultIssuer" data-throw-if-not-resolved="false"></xref> is used.
     - id: originalIssuer
       type: System.String
-      description: The original issuer of the claim. If this parameter is empty or null, then the <xref href="System.Security.Claims.Claim.OriginalIssuer" data-throw-if-not-resolved="false"></xref> property is set to the value of the <xref href="System.Security.Claims.Claim.Issuer" data-throw-if-not-resolved="false"></xref> property.
+      description: The original issuer of this claim. If this parameter is empty or null, then orignalIssuer == issuer.
   exceptions:
   - type: System.ArgumentNullException
     commentId: T:System.ArgumentNullException
-    description: "\n<em>type</em> or <em>value</em> is null."
+    description: "\n<p>\n<em>type</em> or <em>value</em> is <strong>null</strong>.</p>\n"
+  seealso:
+  - type: System.Security.Claims.ClaimTypes
+    commentId: T:System.Security.Claims.ClaimTypes
+  - type: System.Security.Claims.ClaimValueTypes
+    commentId: T:System.Security.Claims.ClaimValueTypes
   modifiers.csharp:
   - public
   modifiers.vb:
@@ -392,7 +428,7 @@ items:
   assemblies:
   - System.Security.Claims
   namespace: System.Security.Claims
-  summary: Initializes a new instance of the <xref href="System.Security.Claims.Claim" data-throw-if-not-resolved="false"></xref> class with the specified claim type, value, value type, issuer, original issuer and subject.
+  summary: "\n<p>Initializes a new instance of the <xref href=\"System.Security.Claims.Claim\" data-throw-if-not-resolved=\"false\"></xref> class with the specified claim type, value, value type, issuer, original issuer and subject.</p>\n"
   syntax:
     content: public Claim(string type, string value, string valueType, string issuer, string originalIssuer, ClaimsIdentity subject)
     content.vb: Public Sub New(type As String, value As String, valueType As String, issuer As String, originalIssuer As String, subject As ClaimsIdentity)
@@ -411,14 +447,19 @@ items:
       description: The claim issuer. If this parameter is empty or null, then <xref href="System.Security.Claims.ClaimsIdentity.DefaultIssuer" data-throw-if-not-resolved="false"></xref> is used.
     - id: originalIssuer
       type: System.String
-      description: The original issuer of the claim. If this parameter is empty or null, then the <xref href="System.Security.Claims.Claim.OriginalIssuer" data-throw-if-not-resolved="false"></xref> property is set to the value of the <xref href="System.Security.Claims.Claim.Issuer" data-throw-if-not-resolved="false"></xref> property.
+      description: The original issuer of this claim. If this parameter is empty or null, then orignalIssuer == issuer.
     - id: subject
       type: System.Security.Claims.ClaimsIdentity
       description: The subject that this claim describes.
   exceptions:
   - type: System.ArgumentNullException
     commentId: T:System.ArgumentNullException
-    description: "\n<em>type</em> or <em>value</em> is null."
+    description: "\n<p>\n<em>type</em> or <em>value</em> is <strong>null</strong>.</p>\n"
+  seealso:
+  - type: System.Security.Claims.ClaimTypes
+    commentId: T:System.Security.Claims.ClaimTypes
+  - type: System.Security.Claims.ClaimValueTypes
+    commentId: T:System.Security.Claims.ClaimValueTypes
   modifiers.csharp:
   - public
   modifiers.vb:
@@ -444,13 +485,13 @@ items:
   assemblies:
   - System.Security.Claims
   namespace: System.Security.Claims
+  summary: "\n<p></p>\n"
   syntax:
     content: protected virtual byte[] CustomSerializationData { get; }
     content.vb: Protected Overridable ReadOnly Property CustomSerializationData As Byte()
     parameters: []
     return:
       type: System.Byte[]
-      description: Returns <xref href="System.Byte" data-throw-if-not-resolved="false"></xref>.
   modifiers.csharp:
   - protected
   - virtual
@@ -480,14 +521,19 @@ items:
   assemblies:
   - System.Security.Claims
   namespace: System.Security.Claims
-  summary: Gets the issuer of the claim.
+  summary: "\n<p>Gets the issuer of the claim.</p>\n"
+  remarks: "\n<p>The value of the <xref href=\"System.Security.Claims.Claim.Issuer\" data-throw-if-not-resolved=\"false\"></xref> property is a name that is taken from a list of well-known issuers maintained by the issuer name registry. The issuer name registry is an instance of a class that derives from the <xref href=\"System.IdentityModel.Tokens.IssuerNameRegistry\" data-throw-if-not-resolved=\"false\"></xref> class. The issuer name registry associates a mnemonic name (the issuer name) with the cryptographic material that is needed to verify signatures of tokens produced by the issuer; for example, an X.509 certificate.</p>\n"
   syntax:
     content: public string Issuer { get; }
     content.vb: Public ReadOnly Property Issuer As String
     parameters: []
     return:
       type: System.String
-      description: A name that refers to the issuer of the claim.
+  seealso:
+  - type: System.Security.Claims.Claim.OriginalIssuer
+    commentId: P:System.Security.Claims.Claim.OriginalIssuer
+  - type: System.IdentityModel.Tokens.IssuerNameRegistry
+    commentId: T:System.IdentityModel.Tokens.IssuerNameRegistry
   modifiers.csharp:
   - public
   - get
@@ -515,14 +561,19 @@ items:
   assemblies:
   - System.Security.Claims
   namespace: System.Security.Claims
-  summary: 'Gets the original issuer of the claim. '
+  summary: "\n<p>Gets the original issuer of the claim. </p>\n"
+  remarks: "\n<p>Contains the name of the entity that originally issued the claim. This property is designed to facilitate scenarios where a claim may pass through multiple issuers before it is presented by the client to the RP application; such as federation scenarios.</p>\n<p>The value of the <xref href=\"System.Security.Claims.Claim.OriginalIssuer\" data-throw-if-not-resolved=\"false\"></xref> property is a name that is taken from a list of well-known issuers maintained by the issuer name registry. The issuer name registry is an instance of a class that derives from the <xref href=\"System.IdentityModel.Tokens.IssuerNameRegistry\" data-throw-if-not-resolved=\"false\"></xref> class. The issuer name registry associates a mnemonic name (the issuer name) with the cryptographic material that is needed to verify signatures of tokens produced by the issuer; for example, an X.509 certificate.</p>\n<p>Except for delegation and federation scenarios, the <xref href=\"System.Security.Claims.Claim.Issuer\" data-throw-if-not-resolved=\"false\"></xref> property and the <xref href=\"System.Security.Claims.Claim.OriginalIssuer\" data-throw-if-not-resolved=\"false\"></xref> property will usually have the same value. If the value of the <xref href=\"System.Security.Claims.Claim.OriginalIssuer\" data-throw-if-not-resolved=\"false\"></xref> property differs from the value of the <xref href=\"System.Security.Claims.Claim.Issuer\" data-throw-if-not-resolved=\"false\"></xref> property, the claim was first issued by the original issuer and was subsequently re-issued by the issuer.</p>\n"
   syntax:
     content: public string OriginalIssuer { get; }
     content.vb: Public ReadOnly Property OriginalIssuer As String
     parameters: []
     return:
       type: System.String
-      description: A name that refers to the original issuer of the claim.
+  seealso:
+  - type: System.Security.Claims.Claim.Issuer
+    commentId: P:System.Security.Claims.Claim.Issuer
+  - type: System.IdentityModel.Tokens.IssuerNameRegistry
+    commentId: T:System.IdentityModel.Tokens.IssuerNameRegistry
   modifiers.csharp:
   - public
   - get
@@ -550,14 +601,17 @@ items:
   assemblies:
   - System.Security.Claims
   namespace: System.Security.Claims
-  summary: Gets a dictionary that contains additional properties associated with this claim.
+  summary: "\n<p>Gets a dictionary that contains additional properties associated with this claim.</p>\n"
+  remarks: "\n<p>The <xref href=\"System.Security.Claims.Claim.Properties\" data-throw-if-not-resolved=\"false\"></xref> property provides a dictionary of name-value pairs that allows metadata or other information about the claim to be associated with it. For claims generated from SAML tokens, this dictionary may contain keys given by the constants in the <xref href=\"System.Security.Claims.ClaimProperties\" data-throw-if-not-resolved=\"false\"></xref> class.</p>\n"
   syntax:
-    content: public Collections.Generic.IDictionary<string, string> Properties { get; }
-    content.vb: Public ReadOnly Property Properties As Collections.Generic.IDictionary(Of String, String)
+    content: public IDictionary<string, string> Properties { get; }
+    content.vb: Public ReadOnly Property Properties As IDictionary(Of String, String)
     parameters: []
     return:
-      type: System.Collections.Generic.IDictionary{System.String,System.String}
-      description: A dictionary that contains additional properties associated with the claim. The properties are represented as name-value pairs.
+      type: IDictionary{System.String,System.String}
+  seealso:
+  - type: System.Security.Claims.ClaimProperties
+    commentId: T:System.Security.Claims.ClaimProperties
   modifiers.csharp:
   - public
   - get
@@ -585,14 +639,14 @@ items:
   assemblies:
   - System.Security.Claims
   namespace: System.Security.Claims
-  summary: Gets the subject of the claim.
+  summary: "\n<p>Gets the subject of the claim.</p>\n"
+  remarks: "\n<p>The subject is the entity about which the claim is asserted. Some typical examples are a user, an application or service, a device, or a computer. The subject is represented by a <xref href=\"System.Security.Claims.ClaimsIdentity\" data-throw-if-not-resolved=\"false\"></xref>, which contains a collection of claims that describe it.</p>\n"
   syntax:
     content: public ClaimsIdentity Subject { get; }
     content.vb: Public ReadOnly Property Subject As ClaimsIdentity
     parameters: []
     return:
       type: System.Security.Claims.ClaimsIdentity
-      description: The subject of the claim.
   modifiers.csharp:
   - public
   - get
@@ -620,14 +674,14 @@ items:
   assemblies:
   - System.Security.Claims
   namespace: System.Security.Claims
-  summary: Gets the claim type of the claim.
+  summary: "\n<p>Gets the claim type of the claim.</p>\n"
+  remarks: "\n<p>The <xref href=\"System.Security.Claims.Claim.Type\" data-throw-if-not-resolved=\"false\"></xref> property provides the semantic content of the claim, that is, it states what the claim is about. For example, a claim with a claim type of <xref href=\"System.Security.Claims.ClaimTypes.GivenName\" data-throw-if-not-resolved=\"false\"></xref> (“http://schemas.xmlsoap.org/ws/2005/05/identity/claims/givenname”) represents a user’s first name. The claim type is typically a URI; however, you are not limited to any specific format other than that it must be representable as a string. The only general requirement is that the claim issuer and the claim consumer must agree about the meaning of the claim. Constants for the well-known claim types used by Windows Identity Foundation (WIF) are available through the <xref href=\"System.Security.Claims.ClaimTypes\" data-throw-if-not-resolved=\"false\"></xref> class. The claim value is provided by the <xref href=\"System.Security.Claims.Claim.Value\" data-throw-if-not-resolved=\"false\"></xref> property.</p>\n"
   syntax:
     content: public string Type { get; }
     content.vb: Public ReadOnly Property Type As String
     parameters: []
     return:
       type: System.String
-      description: The claim type.
   modifiers.csharp:
   - public
   - get
@@ -655,14 +709,19 @@ items:
   assemblies:
   - System.Security.Claims
   namespace: System.Security.Claims
-  summary: Gets the value of the claim.
+  summary: "\n<p>Gets the value of the claim.</p>\n"
+  remarks: "\n<p>The value of a claim is represented only as a string. For more complex value types, it is recommended that you use standard XML schema types to indicate how the value is meant to be serialized and deserialized to and from a string. </p>\n<p>The <xref href=\"System.Security.Claims.Claim.ValueType\" data-throw-if-not-resolved=\"false\"></xref> property provides the underlying syntactic type information about the value. The <xref href=\"System.Security.Claims.Claim.Type\" data-throw-if-not-resolved=\"false\"></xref> property provides the semantic information about the value; that is, it provides the meaning of the value and tells a claim consumer how to interpret it.</p>\n"
   syntax:
     content: public string Value { get; }
     content.vb: Public ReadOnly Property Value As String
     parameters: []
     return:
       type: System.String
-      description: The claim value.
+  seealso:
+  - type: System.Security.Claims.Claim.ValueType
+    commentId: P:System.Security.Claims.Claim.ValueType
+  - type: System.Security.Claims.Claim.Type
+    commentId: P:System.Security.Claims.Claim.Type
   modifiers.csharp:
   - public
   - get
@@ -690,14 +749,17 @@ items:
   assemblies:
   - System.Security.Claims
   namespace: System.Security.Claims
-  summary: Gets the value type of the claim.
+  summary: "\n<p>Gets the value type of the claim.</p>\n"
+  remarks: "\n<p>The <xref href=\"System.Security.Claims.Claim.ValueType\" data-throw-if-not-resolved=\"false\"></xref> property contains a string that identifies the type information of the value. This property can be used to understand the format of the value and to provide information about how to serialize and deserialize the value. If your solution requires complex value types, it is recommended that you use standard XML schema types in the <xref href=\"System.Security.Claims.Claim.ValueType\" data-throw-if-not-resolved=\"false\"></xref> property to indicate how the <xref href=\"System.Security.Claims.Claim.Value\" data-throw-if-not-resolved=\"false\"></xref> property is meant to be serialized and deserialized from a string.</p>\n"
   syntax:
     content: public string ValueType { get; }
     content.vb: Public ReadOnly Property ValueType As String
     parameters: []
     return:
       type: System.String
-      description: The claim value type.
+  seealso:
+  - type: System.Security.Claims.Claim.Value
+    commentId: P:System.Security.Claims.Claim.Value
   modifiers.csharp:
   - public
   - get
@@ -725,13 +787,13 @@ items:
   assemblies:
   - System.Security.Claims
   namespace: System.Security.Claims
-  summary: Returns a new <xref href="System.Security.Claims.Claim" data-throw-if-not-resolved="false"></xref> object copied from this object. The new claim does not have a subject.
+  summary: "\n<p>Returns a new <xref href=\"System.Security.Claims.Claim\" data-throw-if-not-resolved=\"false\"></xref> object copied from this object. The new claim does not have a subject.</p>\n"
+  remarks: "\n<p>This is a shallow copy operation. The <xref href=\"System.Security.Claims.Claim.Subject\" data-throw-if-not-resolved=\"false\"></xref> property of the new <xref href=\"System.Security.Claims.Claim\" data-throw-if-not-resolved=\"false\"></xref> object is set to <strong>null</strong>.</p>\n"
   syntax:
     content: public virtual Claim Clone()
     content.vb: Public Overridable Function Clone As Claim
     return:
       type: System.Security.Claims.Claim
-      description: The new claim object.
   modifiers.csharp:
   - public
   - virtual
@@ -759,17 +821,16 @@ items:
   assemblies:
   - System.Security.Claims
   namespace: System.Security.Claims
-  summary: Returns a new <xref href="System.Security.Claims.Claim" data-throw-if-not-resolved="false"></xref> object copied from this object. The subject of the new claim is set to the specified ClaimsIdentity.
+  summary: "\n<p>Returns a new <xref href=\"System.Security.Claims.Claim\" data-throw-if-not-resolved=\"false\"></xref> object copied from this object. The subject of the new claim is set to the specified ClaimsIdentity.</p>\n"
+  remarks: "\n<p>This is a shallow copy operation. The <xref href=\"System.Security.Claims.Claim.Subject\" data-throw-if-not-resolved=\"false\"></xref> property of the new <xref href=\"System.Security.Claims.Claim\" data-throw-if-not-resolved=\"false\"></xref> object is set to the value of the <em>identity</em> parameter.</p>\n"
   syntax:
     content: public virtual Claim Clone(ClaimsIdentity identity)
     content.vb: Public Overridable Function Clone(identity As ClaimsIdentity) As Claim
     parameters:
     - id: identity
       type: System.Security.Claims.ClaimsIdentity
-      description: The intended subject of the new claim.
     return:
       type: System.Security.Claims.Claim
-      description: The new claim object.
   modifiers.csharp:
   - public
   - virtual
@@ -797,13 +858,14 @@ items:
   assemblies:
   - System.Security.Claims
   namespace: System.Security.Claims
-  summary: Returns a string representation of this <xref href="System.Security.Claims.Claim" data-throw-if-not-resolved="false"></xref> object.
+  summary: "\n<p>Returns a string representation of this <xref href=\"System.Security.Claims.Claim\" data-throw-if-not-resolved=\"false\"></xref> object.</p>\n"
+  remarks: "\n<p>The string that is returned contains the values of the <xref href=\"System.Security.Claims.Claim.Type\" data-throw-if-not-resolved=\"false\"></xref> and <xref href=\"System.Security.Claims.Claim.Value\" data-throw-if-not-resolved=\"false\"></xref> properties in the following format:.”Type: Value”.</p>\n"
   syntax:
     content: public override string ToString()
     content.vb: Public Overrides Function ToString As String
     return:
       type: System.String
-      description: The string representation of this <xref href="System.Security.Claims.Claim" data-throw-if-not-resolved="false"></xref> object.
+      description: The string representation of the <xref href="System.Security.Claims.Claim" data-throw-if-not-resolved="false"></xref> object.
   modifiers.csharp:
   - public
   - override
@@ -831,12 +893,14 @@ items:
   assemblies:
   - System.Security.Claims
   namespace: System.Security.Claims
+  summary: "\n<p></p>\n"
   syntax:
     content: public virtual void WriteTo(IO.BinaryWriter writer)
     content.vb: Public Overridable Sub WriteTo(writer As IO.BinaryWriter)
     parameters:
     - id: writer
       type: System.IO.BinaryWriter
+      description: "\n<p></p>\n"
   modifiers.csharp:
   - public
   - virtual
@@ -864,17 +928,17 @@ items:
   assemblies:
   - System.Security.Claims
   namespace: System.Security.Claims
-  summary: Writes this <xref href="System.Security.Claims.Claim" data-throw-if-not-resolved="false"></xref> to the writer.
+  summary: "\n<p>Writes this <xref href=\"System.Security.Claims.Claim\" data-throw-if-not-resolved=\"false\"></xref> to the writer.</p>\n"
   syntax:
     content: protected virtual void WriteTo(IO.BinaryWriter writer, byte[] userData)
     content.vb: Protected Overridable Sub WriteTo(writer As IO.BinaryWriter, userData As Byte())
     parameters:
     - id: writer
       type: System.IO.BinaryWriter
-      description: The writer to write this claim
+      description: "\n<p>The writer to write this claim</p>\n"
     - id: userData
       type: System.Byte[]
-      description: The user data to claim
+      description: "\n<p>The user data to claim</p>\n"
   modifiers.csharp:
   - protected
   - virtual
@@ -980,13 +1044,13 @@ references:
     fullName: )
 - uid: System.Collections.Generic.IDictionary`2
   isExternal: false
-  name: Generic.IDictionary<, >
+  name: Collections.Generic.IDictionary<, >
   fullName: System.Collections.Generic.IDictionary<, >
   fullname.vb: System.Collections.Generic.IDictionary(Of , )
-  name.vb: Generic.IDictionary(Of , )
+  name.vb: Collections.Generic.IDictionary(Of , )
   spec.csharp:
   - uid: System.Collections.Generic.IDictionary`2
-    name: Generic.IDictionary
+    name: Collections.Generic.IDictionary
     fullName: System.Collections.Generic.IDictionary
   - name: <
     fullName: <
@@ -998,7 +1062,7 @@ references:
     fullName: '>'
   spec.vb:
   - uid: System.Collections.Generic.IDictionary`2
-    name: Generic.IDictionary
+    name: Collections.Generic.IDictionary
     fullName: System.Collections.Generic.IDictionary
   - name: '(Of '
     fullName: '(Of '

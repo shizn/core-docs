@@ -21,22 +21,28 @@ items:
   type: Class
   source:
     remote:
-      path: src/mscorlib/src/System/Lazy.cs
+      path: src/System.Runtime/ref/System.Runtime.cs
       branch: master
-      repo: https://github.com/dotnet/coreclr.git
+      repo: https://github.com/dotnet/corefx.git
     id: Lazy
-    path: src/mscorlib/src/System/Lazy.cs
-    startLine: 48
+    path: src/System.Runtime/ref/System.Runtime.cs
+    startLine: 1201
   assemblies:
   - System.Runtime
   namespace: System
-  summary: Provides support for lazy initialization.
+  summary: "\n<p>Provides support for lazy initialization.</p>\n"
+  remarks: "\n<p>Use lazy initialization to defer the creation of a large or resource-intensive object, or the execution of a resource-intensive task, particularly when such creation or execution might not occur during the lifetime of the program.</p>\n<p>To prepare for lazy initialization, you create an instance of <xref href=\"System.Lazy`1\" data-throw-if-not-resolved=\"false\"></xref>. The type argument of the <xref href=\"System.Lazy`1\" data-throw-if-not-resolved=\"false\"></xref> object that you create specifies the type of the object that you want to initialize lazily. The constructor that you use to create the <xref href=\"System.Lazy`1\" data-throw-if-not-resolved=\"false\"></xref> object determines the characteristics of the initialization. Lazy initialization occurs the first time the <xref href=\"System.Lazy`1.Value\" data-throw-if-not-resolved=\"false\"></xref> property is accessed.</p>\n<p>In most cases, choosing a constructor depends on your answers to two questions: </p>\n<ul><li>\n<p>Will the lazily initialized object be accessed from more than one thread? If so, the <xref href=\"System.Lazy`1\" data-throw-if-not-resolved=\"false\"></xref> object might create it on any thread. You can use one of the simple constructors whose default behavior is to create a thread-safe <xref href=\"System.Lazy`1\" data-throw-if-not-resolved=\"false\"></xref> object, so that only one instance of the lazily instantiated object is created no matter how many threads try to access it. To create a <xref href=\"System.Lazy`1\" data-throw-if-not-resolved=\"false\"></xref> object that is not thread safe, you must use a constructor that enables you to specify no thread safety. </p>\n<p>Making the <xref href=\"System.Lazy`1\" data-throw-if-not-resolved=\"false\"></xref> object thread safe does not protect the lazily initialized object. If multiple threads can access the lazily initialized object, you must make its properties and methods safe for multithreaded access. </p>\n</li><li>\n<p>Does lazy initialization require a lot of code, or does the lazily initialized object have a default constructor that does everything you need and doesn't throw exceptions? If you need to write initialization code or if exceptions need to be handled, use one of the constructors that takes a factory method. Write your initialization code in the factory method. </p>\n</li></ul>\n<p>The following table shows which constructor to choose, based on these two factors: </p>\n<p>Object will be accessed by </p>\n<p>If no initialization code is required (default constructor), use </p>\n<p>If initialization code is required, use </p>\n<p>You can use a lambda expression to specify the factory method. This keeps all the initialization code in one place. The lambda expression captures the context, including any arguments you pass to the lazily initialized object's constructor. </p>\n<p>Exception caching  When you use factory methods, exceptions are cached. That is, if the factory method throws an exception the first time a thread tries to access the <xref href=\"System.Lazy`1.Value\" data-throw-if-not-resolved=\"false\"></xref> property of the <xref href=\"System.Lazy`1\" data-throw-if-not-resolved=\"false\"></xref> object, the same exception is thrown on every subsequent attempt. This ensures that every call to the <xref href=\"System.Lazy`1.Value\" data-throw-if-not-resolved=\"false\"></xref> property produces the same result and avoids subtle errors that might arise if different threads get different results. The <xref href=\"System.Lazy`1\" data-throw-if-not-resolved=\"false\"></xref> stands in for an actual <strong>T</strong> that otherwise would have been initialized at some earlier point, usually during startup. A failure at that earlier point is usually fatal. If there is a potential for a recoverable failure, we recommend that you build the retry logic into the initialization routine (in this case, the factory method), just as you would if you weren’t using lazy initialization.</p>\n<p>Alternative to locking  In certain situations, you might want to avoid the overhead of the <xref href=\"System.Lazy`1\" data-throw-if-not-resolved=\"false\"></xref> object's default locking behavior. In rare situations, there might be a potential for deadlocks. In such cases, you can use the <xref href=\"System.Lazy`1.#ctor(System.Threading.LazyThreadSafetyMode)\" data-throw-if-not-resolved=\"false\"></xref> or <xref href=\"System.Lazy`1.#ctor(System.Func{`0},System.Threading.LazyThreadSafetyMode)\" data-throw-if-not-resolved=\"false\"></xref> constructor, and specify <xref href=\"System.Threading.LazyThreadSafetyMode.PublicationOnly\" data-throw-if-not-resolved=\"false\"></xref>. This enables the <xref href=\"System.Lazy`1\" data-throw-if-not-resolved=\"false\"></xref> object to create a copy of the lazily initialized object on each of several threads if the threads call the <xref href=\"System.Lazy`1.Value\" data-throw-if-not-resolved=\"false\"></xref> property simultaneously. The <xref href=\"System.Lazy`1\" data-throw-if-not-resolved=\"false\"></xref> object ensures that all threads use the same instance of the lazily initialized object and discards the instances that are not used. Thus, the cost of reducing the locking overhead is that your program might sometimes create and discard extra copies of an expensive object. In most cases, this is unlikely. The examples for the <xref href=\"System.Lazy`1.#ctor(System.Threading.LazyThreadSafetyMode)\" data-throw-if-not-resolved=\"false\"></xref> and <xref href=\"System.Lazy`1.#ctor(System.Func{`0},System.Threading.LazyThreadSafetyMode)\" data-throw-if-not-resolved=\"false\"></xref> constructors demonstrate this behavior. </p>\n<p>When you specify <xref href=\"System.Threading.LazyThreadSafetyMode.PublicationOnly\" data-throw-if-not-resolved=\"false\"></xref>, exceptions are never cached, even if you specify a factory method. </p>\n<p>Equivalent constructors  In addition to enabling the use of <xref href=\"System.Threading.LazyThreadSafetyMode.PublicationOnly\" data-throw-if-not-resolved=\"false\"></xref>, the <xref href=\"System.Lazy`1.#ctor(System.Threading.LazyThreadSafetyMode)\" data-throw-if-not-resolved=\"false\"></xref> and <xref href=\"System.Lazy`1.#ctor(System.Func{`0},System.Threading.LazyThreadSafetyMode)\" data-throw-if-not-resolved=\"false\"></xref> constructors can duplicate the functionality of the other constructors. The following table shows the parameter values that produce equivalent behavior. </p>\n<p>To create a <xref href=\"System.Lazy`1\" data-throw-if-not-resolved=\"false\"></xref> object that is</p>\n<p>For constructors that have a <strong>LazyThreadSafetyMode</strong> <em>mode</em> parameter, set <em>mode</em> to</p>\n<p>For constructors that have a Boolean <em>isThreadSafe</em> parameter, set <em>isThreadSafe</em> to</p>\n<p>For constructors with no thread safety parameters</p>\n<p>Other capabilities  For information about the use of <xref href=\"System.Lazy`1\" data-throw-if-not-resolved=\"false\"></xref> with thread-static fields, or as the backing store for properties, see Lazy Initialization.</p>\n"
+  example:
+  - "\n<p>The following example demonstrates the use of the <xref href=\"System.Lazy`1\" data-throw-if-not-resolved=\"false\"></xref> class to provide lazy initialization with access from multiple threads. </p>\n<p>The example uses the <xref href=\"System.Lazy`1.#ctor(System.Func{`0})\" data-throw-if-not-resolved=\"false\"></xref> constructor. It also demonstrates the use of the <xref href=\"System.Lazy`1.#ctor(System.Func{`0},System.Boolean)\" data-throw-if-not-resolved=\"false\"></xref> constructor (specifying <strong>true</strong> for <em>isThreadSafe</em>) and the <xref href=\"System.Lazy`1.#ctor(System.Func{`0},System.Threading.LazyThreadSafetyMode)\" data-throw-if-not-resolved=\"false\"></xref> constructor (specifying <xref href=\"System.Threading.LazyThreadSafetyMode.ExecutionAndPublication\" data-throw-if-not-resolved=\"false\"></xref> for <em>mode</em>). To switch to a different constructor, just change which constructors are commented out. </p>\n<p>For an example that demonstrates exception caching using the same constructors, see the <xref href=\"System.Lazy`1.#ctor(System.Func{`0})\" data-throw-if-not-resolved=\"false\"></xref> constructor. </p>\n<p>The example defines a <code>LargeObject</code> class that will be initialized lazily by one of several threads. The four key sections of code illustrate the creation of the initializer, the factory method, the actual initialization, and the constructor of the <code>LargeObject</code> class, which displays a message when the object is created. At the beginning of the <code>Main</code> method, the example creates the thread-safe lazy initializer for <code>LargeObject</code>: </p>System.Lazy`1#NewLazy<p>The factory method shows the creation of the object, with a placeholder for further initialization: </p>System.Lazy`1#FactoryFunc<p>Note that the first two code sections could be combined by using a lambda function, as shown here: </p>System.Lazy`1#InitWithLambda<p>The example pauses, to indicate that an indeterminate period may elapse before lazy initialization occurs. When you press the Enter key, the example creates and starts three threads. The <code>ThreadProc</code> method that's used by all three threads calls the <xref href=\"System.Lazy`1.Value\" data-throw-if-not-resolved=\"false\"></xref> property. The first time this happens, the <code>LargeObject</code> instance is created: </p>System.Lazy`1#ValueProp<p>The constructor of the <code>LargeObject</code> class, which includes the last key section of code, displays a message and records the identity of the initializing thread. The output from the program appears at the end of the full code listing. </p>System.Lazy`1#LargeCtor<p>For simplicity, this example uses a global instance of <xref href=\"System.Lazy`1\" data-throw-if-not-resolved=\"false\"></xref>, and all the methods are <strong>static</strong> (<strong>Shared</strong> in Visual Basic). These are not requirements for the use of lazy initialization. </p>System.Lazy`1#All"
   syntax:
     content: public class Lazy<T>
     content.vb: Public Class Lazy(Of T)
     typeParameters:
     - id: T
-      description: The type of object that is being lazily initialized.
+      description: "\n<p>The type of object that is being lazily initialized.</p>\n"
+  seealso:
+  - type: System.Threading.LazyThreadSafetyMode
+    commentId: T:System.Threading.LazyThreadSafetyMode
   inheritance:
   - System.Object
   inheritedMembers:
@@ -66,16 +72,19 @@ items:
   type: Constructor
   source:
     remote:
-      path: src/mscorlib/src/System/Lazy.cs
+      path: src/System.Runtime/ref/System.Runtime.cs
       branch: master
-      repo: https://github.com/dotnet/coreclr.git
+      repo: https://github.com/dotnet/corefx.git
     id: .ctor
-    path: src/mscorlib/src/System/Lazy.cs
-    startLine: 120
+    path: src/System.Runtime/ref/System.Runtime.cs
+    startLine: 1203
   assemblies:
   - System.Runtime
   namespace: System
-  summary: Initializes a new instance of the <xref href="System.Lazy`1" data-throw-if-not-resolved="false"></xref> class. When lazy initialization occurs, the default constructor of the target type is used.
+  summary: "\n<p>Initializes a new instance of the <xref href=\"System.Lazy`1\" data-throw-if-not-resolved=\"false\"></xref> class. When lazy initialization occurs, the default constructor of the target type is used.</p>\n"
+  remarks: "\n<p>An instance that is created with this constructor may be used concurrently from multiple threads.</p>\n<p>The thread safety mode of a <xref href=\"System.Lazy`1\" data-throw-if-not-resolved=\"false\"></xref> instance that is initialized with this constructor is <xref href=\"System.Threading.LazyThreadSafetyMode.ExecutionAndPublication\" data-throw-if-not-resolved=\"false\"></xref>. The thread safety mode describes the behavior when multiple threads try to initialize the <xref href=\"System.Lazy`1\" data-throw-if-not-resolved=\"false\"></xref> instance.</p>\n<p>A <xref href=\"System.Lazy`1\" data-throw-if-not-resolved=\"false\"></xref> instance that is created with this constructor does not cache exceptions. For more information, see the <xref href=\"System.Lazy`1\" data-throw-if-not-resolved=\"false\"></xref>class or the <xref href=\"System.Threading.LazyThreadSafetyMode\" data-throw-if-not-resolved=\"false\"></xref> enumeration.</p>\n"
+  example:
+  - "\n<p>The following example demonstrates the use of this constructor. It also illustrates the use of the <xref href=\"System.Lazy`1.#ctor(System.Boolean)\" data-throw-if-not-resolved=\"false\"></xref> constructor (specifying <strong>true</strong> for <em>isThreadSafe</em>) and the <xref href=\"System.Lazy`1.#ctor(System.Threading.LazyThreadSafetyMode)\" data-throw-if-not-resolved=\"false\"></xref> constructor (specifying <xref href=\"System.Threading.LazyThreadSafetyMode.ExecutionAndPublication\" data-throw-if-not-resolved=\"false\"></xref> for <em>mode</em>). To switch to a different constructor, just change which constructors are commented out. </p>\n<p>The example defines a <code>LargeObject</code> class that will be initialized lazily by one of several threads. The two key lines of code in this example are the creation of the initializer and the actual initialization. At the beginning of the <code>Main</code> method, the example creates the thread-safe lazy initializer for <code>LargeObject</code>: </p>System.Lazy`1.ctor#NewLazy<p>The example creates and starts three threads that block on a <xref href=\"System.Threading.ManualResetEvent\" data-throw-if-not-resolved=\"false\"></xref> object, so that the example can release the threads all at once. The <code>ThreadProc</code> method that's used by all three threads calls the <xref href=\"System.Lazy`1.Value\" data-throw-if-not-resolved=\"false\"></xref> property to get the <code>LargeObject</code> instance:</p>System.Lazy`1.ctor#ValueProp<p>The <xref href=\"System.Lazy`1\" data-throw-if-not-resolved=\"false\"></xref> class provides locking, so that only one thread is allowed to create the <code>LargeObject</code> instance. The example demonstrates that the other threads all get the same instance. </p><p>For simplicity, this example uses a global instance of <xref href=\"System.Lazy`1\" data-throw-if-not-resolved=\"false\"></xref>, and all the methods are <strong>static</strong> (<strong>Shared</strong> in Visual Basic). These are not requirements for the use of lazy initialization. </p>System.Lazy`1.ctor#All"
   syntax:
     content: public Lazy()
     content.vb: Public Sub New
@@ -96,23 +105,26 @@ items:
   type: Constructor
   source:
     remote:
-      path: src/mscorlib/src/System/Lazy.cs
+      path: src/System.Runtime/ref/System.Runtime.cs
       branch: master
-      repo: https://github.com/dotnet/coreclr.git
+      repo: https://github.com/dotnet/corefx.git
     id: .ctor
-    path: src/mscorlib/src/System/Lazy.cs
-    startLine: 149
+    path: src/System.Runtime/ref/System.Runtime.cs
+    startLine: 1204
   assemblies:
   - System.Runtime
   namespace: System
-  summary: Initializes a new instance of the <xref href="System.Lazy`1" data-throw-if-not-resolved="false"></xref> class. When lazy initialization occurs, the default constructor of the target type and the specified initialization mode are used.
+  summary: "\n<p>Initializes a new instance of the <xref href=\"System.Lazy`1\" data-throw-if-not-resolved=\"false\"></xref> class. When lazy initialization occurs, the default constructor of the target type and the specified initialization mode are used.</p>\n"
+  remarks: "\n<p>The thread safety mode of a <xref href=\"System.Lazy`1\" data-throw-if-not-resolved=\"false\"></xref> instance that is initialized with this constructor is <xref href=\"System.Threading.LazyThreadSafetyMode.ExecutionAndPublication\" data-throw-if-not-resolved=\"false\"></xref> if <em>isThreadSafe</em> is <strong>true</strong>; otherwise, the mode is <xref href=\"System.Threading.LazyThreadSafetyMode.None\" data-throw-if-not-resolved=\"false\"></xref>. The thread safety mode describes the behavior when multiple threads try to initialize the <xref href=\"System.Lazy`1\" data-throw-if-not-resolved=\"false\"></xref> instance. To specify the <xref href=\"System.Threading.LazyThreadSafetyMode.PublicationOnly\" data-throw-if-not-resolved=\"false\"></xref> mode, use the <xref href=\"System.Lazy`1.#ctor(System.Func{`0},System.Threading.LazyThreadSafetyMode)\" data-throw-if-not-resolved=\"false\"></xref> or <xref href=\"System.Lazy`1.#ctor(System.Threading.LazyThreadSafetyMode)\" data-throw-if-not-resolved=\"false\"></xref> constructor.</p>\n<p>A <xref href=\"System.Lazy`1\" data-throw-if-not-resolved=\"false\"></xref> instance that is created with this constructor does not cache exceptions. For more information, see the<xref href=\"System.Lazy`1\" data-throw-if-not-resolved=\"false\"></xref> class or the <xref href=\"System.Threading.LazyThreadSafetyMode\" data-throw-if-not-resolved=\"false\"></xref> enumeration.</p>\n"
+  example:
+  - "\n<p>The following example demonstrates the use of this constructor to create a lazy initializer that is not thread safe, for scenarios where all access to the lazily initialized object occurs on the same thread. It also demonstrates the use of the <xref href=\"System.Lazy`1.#ctor(System.Threading.LazyThreadSafetyMode)\" data-throw-if-not-resolved=\"false\"></xref> constructor (specifying <xref href=\"System.Threading.LazyThreadSafetyMode.None\" data-throw-if-not-resolved=\"false\"></xref> for <em>mode</em>. To switch to a different constructor, just change which constructor is commented out.</p>\n<p>For code that demonstrates how to use this constructor in multithreaded scenarios (specifying <strong>true</strong> for <em>isThreadSafe</em>), see the example for the <xref href=\"System.Lazy`1.#ctor\" data-throw-if-not-resolved=\"false\"></xref> constructor. </p>\n<p>The example defines a <code>LargeObject</code> class that will be initialized lazily. In the <code>Main</code> method, the example creates a <xref href=\"System.Lazy`1\" data-throw-if-not-resolved=\"false\"></xref> instance and then pauses. When you press the Enter key, the example accesses the <xref href=\"System.Lazy`1.Value\" data-throw-if-not-resolved=\"false\"></xref> property of the <xref href=\"System.Lazy`1\" data-throw-if-not-resolved=\"false\"></xref> instance, which causes initialization to occur. The constructor of the <code>LargeObject</code> class displays a console message. </p>\n<p>For simplicity, this example uses a global instance of <xref href=\"System.Lazy`1\" data-throw-if-not-resolved=\"false\"></xref>, and all the methods are <strong>static</strong> (<strong>Shared</strong> in Visual Basic). These are not requirements for the use of lazy initialization. </p>System.Lazy`1.ctorBool#All"
   syntax:
     content: public Lazy(bool isThreadSafe)
     content.vb: Public Sub New(isThreadSafe As Boolean)
     parameters:
     - id: isThreadSafe
       type: System.Boolean
-      description: 'true to make this instance usable concurrently by multiple threads; false to make the instance usable by only one thread at a time. '
+      description: "\n<p>\n<strong>true</strong> to make this instance usable concurrently by multiple threads; <strong>false</strong> to make the instance usable by only one thread at a time. </p>\n"
   modifiers.csharp:
   - public
   modifiers.vb:
@@ -130,27 +142,30 @@ items:
   type: Constructor
   source:
     remote:
-      path: src/mscorlib/src/System/Lazy.cs
+      path: src/System.Runtime/ref/System.Runtime.cs
       branch: master
-      repo: https://github.com/dotnet/coreclr.git
+      repo: https://github.com/dotnet/corefx.git
     id: .ctor
-    path: src/mscorlib/src/System/Lazy.cs
-    startLine: 138
+    path: src/System.Runtime/ref/System.Runtime.cs
+    startLine: 1205
   assemblies:
   - System.Runtime
   namespace: System
-  summary: Initializes a new instance of the <xref href="System.Lazy`1" data-throw-if-not-resolved="false"></xref> class. When lazy initialization occurs, the specified initialization function is used.
+  summary: "\n<p>Initializes a new instance of the <xref href=\"System.Lazy`1\" data-throw-if-not-resolved=\"false\"></xref> class. When lazy initialization occurs, the specified initialization function is used.</p>\n"
+  remarks: "\n<p>An instance that is created with this constructor may be used concurrently from multiple threads.</p>\n<p>The thread safety mode of a <xref href=\"System.Lazy`1\" data-throw-if-not-resolved=\"false\"></xref> instance that is initialized with this constructor is <xref href=\"System.Threading.LazyThreadSafetyMode.ExecutionAndPublication\" data-throw-if-not-resolved=\"false\"></xref>. The thread safety mode describes the behavior when multiple threads try to initialize the <xref href=\"System.Lazy`1\" data-throw-if-not-resolved=\"false\"></xref> instance.</p>\n<p>Exceptions that are thrown by <em>valueFactory</em> are cached. For more information, see the <xref href=\"System.Lazy`1\" data-throw-if-not-resolved=\"false\"></xref> class or the <xref href=\"System.Threading.LazyThreadSafetyMode\" data-throw-if-not-resolved=\"false\"></xref> enumeration.</p>\n"
+  example:
+  - "\n<p>The following example demonstrates the use of this constructor to provide lazy initialization with exception caching. It also demonstrates the use of the <xref href=\"System.Lazy`1.#ctor(System.Func{`0},System.Boolean)\" data-throw-if-not-resolved=\"false\"></xref> constructor (specifying <strong>true</strong> for <em>isThreadSafe</em>) and the <xref href=\"System.Lazy`1.#ctor(System.Func{`0},System.Threading.LazyThreadSafetyMode)\" data-throw-if-not-resolved=\"false\"></xref> constructor (specifying <xref href=\"System.Threading.LazyThreadSafetyMode.ExecutionAndPublication\" data-throw-if-not-resolved=\"false\"></xref> for <em>mode</em>). To switch to a different constructor, just change which constructors are commented out. </p>\n<p>The example defines a <code>LargeObject</code> class that will be initialized lazily by one of several threads. The three key sections of code illustrate the creation of the initializer, the actual initialization, and the constructor of the <code>LargeObject</code> class, which demonstrates exception caching. At the beginning of the <code>Main</code> method, the example creates the thread-safe lazy initializer for <code>LargeObject</code>: </p>System.Lazy`1.ctorFunc#NewLazy<p>The example creates and starts three threads. The <code>ThreadProc</code> method that's used by all three threads calls the <xref href=\"System.Lazy`1.Value\" data-throw-if-not-resolved=\"false\"></xref> property to get the <code>LargeObject</code> instance:</p>System.Lazy`1.ctorFunc#ValueProp<p>In the constructor of the <code>LargeObject</code> class, the third key section of code throws an exception the first time a <code>LargeObject</code> instance is created, but thereafter allows instance creation to occur: </p>System.Lazy`1.ctorFunc#LargeCtor<p>When the example is run, the first thread that tries to create an instance of <code>LargeObject</code> fails, and the exception is caught. You might expect that the next thread would successfully create an instance, but the <xref href=\"System.Lazy`1\" data-throw-if-not-resolved=\"false\"></xref> object has cached the exception. Because of this, all three threads throw the exception. </p><p>For simplicity, this example uses a global instance of <xref href=\"System.Lazy`1\" data-throw-if-not-resolved=\"false\"></xref>, and all the methods are <strong>static</strong> (<strong>Shared</strong> in Visual Basic). These are not requirements for the use of lazy initialization. </p>System.Lazy`1.ctorFunc#All"
   syntax:
     content: public Lazy(Func<T> valueFactory)
     content.vb: Public Sub New(valueFactory As Func(Of T))
     parameters:
     - id: valueFactory
       type: System.Func{{T}}
-      description: The delegate that is invoked to produce the lazily initialized value when it is needed.
+      description: "\n<p>The delegate that is invoked to produce the lazily initialized value when it is needed.</p>\n"
   exceptions:
   - type: System.ArgumentNullException
     commentId: T:System.ArgumentNullException
-    description: "\n<em>valueFactory</em> is null. "
+    description: "\n<p>\n<em>valueFactory</em> is <strong>null</strong>. </p>\n"
   modifiers.csharp:
   - public
   modifiers.vb:
@@ -169,30 +184,33 @@ items:
   type: Constructor
   source:
     remote:
-      path: src/mscorlib/src/System/Lazy.cs
+      path: src/System.Runtime/ref/System.Runtime.cs
       branch: master
-      repo: https://github.com/dotnet/coreclr.git
+      repo: https://github.com/dotnet/corefx.git
     id: .ctor
-    path: src/mscorlib/src/System/Lazy.cs
-    startLine: 177
+    path: src/System.Runtime/ref/System.Runtime.cs
+    startLine: 1206
   assemblies:
   - System.Runtime
   namespace: System
-  summary: Initializes a new instance of the <xref href="System.Lazy`1" data-throw-if-not-resolved="false"></xref> class. When lazy initialization occurs, the specified initialization function and initialization mode are used.
+  summary: "\n<p>Initializes a new instance of the <xref href=\"System.Lazy`1\" data-throw-if-not-resolved=\"false\"></xref> class. When lazy initialization occurs, the specified initialization function and initialization mode are used.</p>\n"
+  remarks: "\n<p>The thread safety mode of a <xref href=\"System.Lazy`1\" data-throw-if-not-resolved=\"false\"></xref> instance that is initialized with this constructor is <xref href=\"System.Threading.LazyThreadSafetyMode.ExecutionAndPublication\" data-throw-if-not-resolved=\"false\"></xref> if <em>isThreadSafe</em> is <strong>true</strong>; otherwise, the mode is <xref href=\"System.Threading.LazyThreadSafetyMode.None\" data-throw-if-not-resolved=\"false\"></xref>. The thread safety mode describes the behavior when multiple threads try to initialize the <xref href=\"System.Lazy`1\" data-throw-if-not-resolved=\"false\"></xref> instance.</p>\n<p>To specify the <xref href=\"System.Threading.LazyThreadSafetyMode.PublicationOnly\" data-throw-if-not-resolved=\"false\"></xref> mode, use the <xref href=\"System.Lazy`1.#ctor(System.Func{`0},System.Threading.LazyThreadSafetyMode)\" data-throw-if-not-resolved=\"false\"></xref> or <xref href=\"System.Lazy`1.#ctor(System.Threading.LazyThreadSafetyMode)\" data-throw-if-not-resolved=\"false\"></xref> constructor.</p>\n<p>Exceptions that are thrown by <em>valueFactory</em> are cached. For more information, see the <xref href=\"System.Lazy`1\" data-throw-if-not-resolved=\"false\"></xref> class or the <xref href=\"System.Threading.LazyThreadSafetyMode\" data-throw-if-not-resolved=\"false\"></xref> enumeration.</p>\n"
+  example:
+  - "\n<p>The following example demonstrates the use of this constructor to provide lazy initialization with exception caching, in a scenario with a single thread. It also demonstrates the use of the  <xref href=\"System.Lazy`1.#ctor(System.Func{`0},System.Threading.LazyThreadSafetyMode)\" data-throw-if-not-resolved=\"false\"></xref>constructor (specifying <xref href=\"System.Threading.LazyThreadSafetyMode.None\" data-throw-if-not-resolved=\"false\"></xref> for <em>mode</em>). To switch to that constructor, just change which constructor is commented out. </p>\n<p>For code that demonstrates how to use this constructor in multithreaded scenarios (specifying <strong>true</strong> for <em>isThreadSafe</em>), see the example for the <xref href=\"System.Lazy`1.#ctor(System.Func{`0})\" data-throw-if-not-resolved=\"false\"></xref> constructor. </p>\n<p>The example defines a <code>LargeObject</code> class that will be initialized lazily by one of several threads. The three key sections of code illustrate the creation of the initializer, the actual initialization, and the constructor of the <code>LargeObject</code> class, which demonstrates exception caching. At the beginning of the <code>Main</code> method, the example creates the thread-safe lazy initializer for <code>LargeObject</code>: </p>System.Lazy`1.ctorFuncBool#NewLazy<p>In the call to the constructor, the <em>isThreadSafe</em> parameter is <strong>false</strong>, so the <xref href=\"System.Lazy`1\" data-throw-if-not-resolved=\"false\"></xref> is not thread safe. Because it's not thread safe, the example calls the <xref href=\"System.Lazy`1.Value\" data-throw-if-not-resolved=\"false\"></xref> property three times on the same thread:</p>System.Lazy`1.ctorFuncBool#ValueProp<p>In the constructor of the <code>LargeObject</code> class, the third key section of code throws an exception the first time a <code>LargeObject</code> instance is created, but thereafter allows instance creation to occur: </p>System.Lazy`1.ctorFuncBool#LargeCtor<p>When the example is run, the first attempt to create an instance of <code>LargeObject</code> fails, and the exception is caught. You might expect that the next attempt would succeed, but the <xref href=\"System.Lazy`1\" data-throw-if-not-resolved=\"false\"></xref> object has cached the exception. Because of this, all three attempts throw the exception. </p><p>For simplicity, this example uses a global instance of <xref href=\"System.Lazy`1\" data-throw-if-not-resolved=\"false\"></xref>, and all the methods are <strong>static</strong> (<strong>Shared</strong> in Visual Basic). These are not requirements for the use of lazy initialization. </p>System.Lazy`1.ctorFuncBool#All"
   syntax:
     content: public Lazy(Func<T> valueFactory, bool isThreadSafe)
     content.vb: Public Sub New(valueFactory As Func(Of T), isThreadSafe As Boolean)
     parameters:
     - id: valueFactory
       type: System.Func{{T}}
-      description: The delegate that is invoked to produce the lazily initialized value when it is needed.
+      description: "\n<p>The delegate that is invoked to produce the lazily initialized value when it is needed.</p>\n"
     - id: isThreadSafe
       type: System.Boolean
-      description: true to make this instance usable concurrently by multiple threads; false to make this instance usable by only one thread at a time.
+      description: "\n<p>\n<strong>true</strong> to make this instance usable concurrently by multiple threads; <strong>false</strong> to make this instance usable by only one thread at a time.</p>\n"
   exceptions:
   - type: System.ArgumentNullException
     commentId: T:System.ArgumentNullException
-    description: "\n<em>valueFactory</em> is null. "
+    description: "\n<p>\n<em>valueFactory</em> is <strong>null</strong>. </p>\n"
   modifiers.csharp:
   - public
   modifiers.vb:
@@ -211,33 +229,36 @@ items:
   type: Constructor
   source:
     remote:
-      path: src/mscorlib/src/System/Lazy.cs
+      path: src/System.Runtime/ref/System.Runtime.cs
       branch: master
-      repo: https://github.com/dotnet/coreclr.git
+      repo: https://github.com/dotnet/corefx.git
     id: .ctor
-    path: src/mscorlib/src/System/Lazy.cs
-    startLine: 193
+    path: src/System.Runtime/ref/System.Runtime.cs
+    startLine: 1207
   assemblies:
   - System.Runtime
   namespace: System
-  summary: Initializes a new instance of the <xref href="System.Lazy`1" data-throw-if-not-resolved="false"></xref> class that uses the specified initialization function and thread-safety mode.
+  summary: "\n<p>Initializes a new instance of the <xref href=\"System.Lazy`1\" data-throw-if-not-resolved=\"false\"></xref> class that uses the specified initialization function and thread-safety mode.</p>\n"
+  remarks: "\n<p>The thread safety mode of a <xref href=\"System.Lazy`1\" data-throw-if-not-resolved=\"false\"></xref> instance describes the behavior when multiple threads try to initialize the <xref href=\"System.Lazy`1\" data-throw-if-not-resolved=\"false\"></xref> instance.</p>\n<p>Exceptions that are thrown by <em>valueFactory</em> are cached, unless <em>mode</em> is <xref href=\"System.Threading.LazyThreadSafetyMode.PublicationOnly\" data-throw-if-not-resolved=\"false\"></xref>. For more information, see the <xref href=\"System.Lazy`1\" data-throw-if-not-resolved=\"false\"></xref> class or the <xref href=\"System.Threading.LazyThreadSafetyMode\" data-throw-if-not-resolved=\"false\"></xref> enumeration.</p>\n"
+  example:
+  - "\n<p>The following example demonstrates the use of this constructor to create a lazy initializer that enables multiple threads to race to create an object lazily. Multiple threads might succeed in creating instances, but all threads use the instance that was created first. In addition, the example demonstrates that exceptions are never cached when you specify <xref href=\"System.Threading.LazyThreadSafetyMode.PublicationOnly\" data-throw-if-not-resolved=\"false\"></xref>, even if initialization is performed by a function instead of by the default constructor of the lazily created type. </p>\n<p>For an example that demonstrates how to use this constructor in single-threaded scenarios (specifying <xref href=\"System.Threading.LazyThreadSafetyMode.None\" data-throw-if-not-resolved=\"false\"></xref> for <em>mode</em>), see the <xref href=\"System.Lazy`1.#ctor(System.Boolean)\" data-throw-if-not-resolved=\"false\"></xref> constructor. For an example that demonstrates how to use this constructor to provide locking instead of race conditions in multithreaded scenarios (specifying <xref href=\"System.Threading.LazyThreadSafetyMode.ExecutionAndPublication\" data-throw-if-not-resolved=\"false\"></xref> for <em>mode</em>), see the <xref href=\"System.Lazy`1.#ctor\" data-throw-if-not-resolved=\"false\"></xref> constructor.</p>\n<p>The example defines a <code>LargeObject</code> class that will be initialized lazily by any of several threads. The four key sections of code illustrate the creation of the initializer, the actual initialization, the initialization function, and the constructor and finalizer of the <code>LargeObject</code> class. At the beginning of the <code>Main</code> method, the example creates the <xref href=\"System.Lazy`1\" data-throw-if-not-resolved=\"false\"></xref> object that performs lazy initialization of the <code>LargeObject</code>: </p>System.Lazy`1.ctorFuncLTSM#NewLazy<p>The lazy initializer uses a function to perform the initialization. In this case, a function is required because there is no default constructor for the <code>LargeObject</code> class. </p><p>The example creates and starts three threads that block on a <xref href=\"System.Threading.ManualResetEvent\" data-throw-if-not-resolved=\"false\"></xref> object, so that the example can release the threads all at once. In the <code>ThreadProc</code> method that's used by all three threads, calling the <xref href=\"System.Lazy`1.Value\" data-throw-if-not-resolved=\"false\"></xref> property creates the <code>LargeObject</code> instance:</p>System.Lazy`1.ctorFuncLTSM#ValueProp<p>In the third key section of code, the lazy initialization function is called to create the <code>LargeObject</code> instance. The function throws an exception the first time it's called: </p>System.Lazy`1.ctorFuncLTSM#FactoryFunc<p>With any other <xref href=\"System.Threading.LazyThreadSafetyMode\" data-throw-if-not-resolved=\"false\"></xref> setting, an unhandled exception in the initialization function would be cached. However, <xref href=\"System.Threading.LazyThreadSafetyMode.PublicationOnly\" data-throw-if-not-resolved=\"false\"></xref> suppresses exception caching. The output from the example demonstrates that a subsequent attempt to initialize the object succeeds. </p><p>The exception message usually appears after messages indicating that other threads have successfully initialized the object. This is because of the delay introduced by throwing and catching the exception. </p><p>Because the constructor for the <xref href=\"System.Lazy`1\" data-throw-if-not-resolved=\"false\"></xref> instance specified <xref href=\"System.Threading.LazyThreadSafetyMode.PublicationOnly\" data-throw-if-not-resolved=\"false\"></xref>, all three threads are allowed to create <code>LargeObject</code> instances. The example demonstrates this by displaying console messages in the constructor and in the finalizer of the <code>LargeObject</code> class: </p>System.Lazy`1.ctorFuncLTSM#CtorFinalizer<p>The <xref href=\"System.Lazy`1\" data-throw-if-not-resolved=\"false\"></xref> object ensures that only one instance is used by all threads (except the thread where the initialization function throws an exception). The output from the example shows this. </p><p>For simplicity, this example uses a global instance of <xref href=\"System.Lazy`1\" data-throw-if-not-resolved=\"false\"></xref>, and all the methods are <strong>static</strong> (<strong>Shared</strong> in Visual Basic). These are not requirements for the use of lazy initialization. </p>System.Lazy`1.ctorFuncLTSM#All"
   syntax:
     content: public Lazy(Func<T> valueFactory, LazyThreadSafetyMode mode)
     content.vb: Public Sub New(valueFactory As Func(Of T), mode As LazyThreadSafetyMode)
     parameters:
     - id: valueFactory
       type: System.Func{{T}}
-      description: The delegate that is invoked to produce the lazily initialized value when it is needed.
+      description: "\n<p>The delegate that is invoked to produce the lazily initialized value when it is needed.</p>\n"
     - id: mode
       type: System.Threading.LazyThreadSafetyMode
-      description: 'One of the enumeration values that specifies the thread safety mode. '
+      description: "\n<p>One of the enumeration values that specifies the thread safety mode. </p>\n"
   exceptions:
   - type: System.ArgumentOutOfRangeException
     commentId: T:System.ArgumentOutOfRangeException
-    description: "\n<em>mode</em> contains an invalid value. "
+    description: "\n<p>\n<em>mode</em> contains an invalid value. </p>\n"
   - type: System.ArgumentNullException
     commentId: T:System.ArgumentNullException
-    description: "\n<em>valueFactory</em> is null. "
+    description: "\n<p>\n<em>valueFactory</em> is <strong>null</strong>. </p>\n"
   modifiers.csharp:
   - public
   modifiers.vb:
@@ -256,27 +277,33 @@ items:
   type: Constructor
   source:
     remote:
-      path: src/mscorlib/src/System/Lazy.cs
+      path: src/System.Runtime/ref/System.Runtime.cs
       branch: master
-      repo: https://github.com/dotnet/coreclr.git
+      repo: https://github.com/dotnet/corefx.git
     id: .ctor
-    path: src/mscorlib/src/System/Lazy.cs
-    startLine: 160
+    path: src/System.Runtime/ref/System.Runtime.cs
+    startLine: 1208
   assemblies:
   - System.Runtime
   namespace: System
-  summary: Initializes a new instance of the <xref href="System.Lazy`1" data-throw-if-not-resolved="false"></xref> class that uses the default constructor of <em>T</em> and the specified thread-safety mode.
+  summary: "\n<p>Initializes a new instance of the <xref href=\"System.Lazy`1\" data-throw-if-not-resolved=\"false\"></xref> class that uses the default constructor of <em>T</em> and the specified thread-safety mode.</p>\n"
+  remarks: "\n<p>The thread safety mode of a <xref href=\"System.Lazy`1\" data-throw-if-not-resolved=\"false\"></xref> instance describes the behavior when multiple threads try to initialize the <xref href=\"System.Lazy`1\" data-throw-if-not-resolved=\"false\"></xref> instance. </p>\n<p>A <xref href=\"System.Lazy`1\" data-throw-if-not-resolved=\"false\"></xref> instance that is created with this constructor does not cache exceptions. For more information, see the <xref href=\"System.Lazy`1\" data-throw-if-not-resolved=\"false\"></xref> class or the <xref href=\"System.Threading.LazyThreadSafetyMode\" data-throw-if-not-resolved=\"false\"></xref> enumeration.</p>\n"
+  example:
+  - "\n<p>The following example demonstrates the use of this constructor to create a lazy initializer that enables multiple threads to race to create an object lazily. Multiple threads might succeed in creating instances, but all threads use the instance that was created first. </p>\n<p>For an example that demonstrates how to use this constructor in single-threaded scenarios (specifying <xref href=\"System.Threading.LazyThreadSafetyMode.None\" data-throw-if-not-resolved=\"false\"></xref> for <em>mode</em>), see the <xref href=\"System.Lazy`1.#ctor(System.Boolean)\" data-throw-if-not-resolved=\"false\"></xref> constructor. For an example that demonstrates how to use this constructor to provide locking instead of race conditions in multithreaded scenarios (specifying <xref href=\"System.Threading.LazyThreadSafetyMode.ExecutionAndPublication\" data-throw-if-not-resolved=\"false\"></xref> for <em>mode</em>), see the <xref href=\"System.Lazy`1.#ctor\" data-throw-if-not-resolved=\"false\"></xref> constructor.</p>\n<p>The example defines a <code>LargeObject</code> class that will be initialized lazily by any of several threads. The three key sections of code illustrate the creation of the initializer, the actual initialization, and the constructor and finalizer of the <code>LargeObject</code> class. At the beginning of the <code>Main</code> method, the example creates the <xref href=\"System.Lazy`1\" data-throw-if-not-resolved=\"false\"></xref> object that performs lazy initialization of the <code>LargeObject</code>: </p>System.Lazy`1.ctorLTSM#NewLazy<p>The example creates and starts three threads that block on a <xref href=\"System.Threading.ManualResetEvent\" data-throw-if-not-resolved=\"false\"></xref> object, so that the example can release the threads all at once. In the <code>ThreadProc</code> method that's used by all three threads, calling the <xref href=\"System.Lazy`1.Value\" data-throw-if-not-resolved=\"false\"></xref> property creates the <code>LargeObject</code> instance:</p>System.Lazy`1.ctorLTSM#ValueProp<p>Because the constructor for the <xref href=\"System.Lazy`1\" data-throw-if-not-resolved=\"false\"></xref> instance specified <xref href=\"System.Threading.LazyThreadSafetyMode.PublicationOnly\" data-throw-if-not-resolved=\"false\"></xref>, all three threads are allowed to create <code>LargeObject</code> instances. The example demonstrates this by displaying console messages in the constructor and in the finalizer of the <code>LargeObject</code> class: </p>System.Lazy`1.ctorLTSM#CtorFinalizer<p>However, the <xref href=\"System.Lazy`1\" data-throw-if-not-resolved=\"false\"></xref> object ensures that only one instance is used by all threads. The output from the example shows that all three threads use the same instance, and also shows that the other two instances can be reclaimed by garbage collection.</p><p>For simplicity, this example uses a global instance of <xref href=\"System.Lazy`1\" data-throw-if-not-resolved=\"false\"></xref>, and all the methods are <strong>static</strong> (<strong>Shared</strong> in Visual Basic). These are not requirements for the use of lazy initialization. </p>System.Lazy`1.ctorLTSM#All"
   syntax:
     content: public Lazy(LazyThreadSafetyMode mode)
     content.vb: Public Sub New(mode As LazyThreadSafetyMode)
     parameters:
     - id: mode
       type: System.Threading.LazyThreadSafetyMode
-      description: 'One of the enumeration values that specifies the thread safety mode. '
+      description: "\n<p>One of the enumeration values that specifies the thread safety mode. </p>\n"
   exceptions:
   - type: System.ArgumentOutOfRangeException
     commentId: T:System.ArgumentOutOfRangeException
-    description: "\n<em>mode</em> contains an invalid value. "
+    description: "\n<p>\n<em>mode</em> contains an invalid value. </p>\n"
+  seealso:
+  - type: System.Threading.LazyThreadSafetyMode
+    commentId: T:System.Threading.LazyThreadSafetyMode
   modifiers.csharp:
   - public
   modifiers.vb:
@@ -294,23 +321,29 @@ items:
   type: Property
   source:
     remote:
-      path: src/mscorlib/src/System/Lazy.cs
+      path: src/System.Runtime/ref/System.Runtime.cs
       branch: master
-      repo: https://github.com/dotnet/coreclr.git
+      repo: https://github.com/dotnet/corefx.git
     id: IsValueCreated
-    path: src/mscorlib/src/System/Lazy.cs
-    startLine: 280
+    path: src/System.Runtime/ref/System.Runtime.cs
+    startLine: 1209
   assemblies:
   - System.Runtime
   namespace: System
-  summary: Gets a value that indicates whether a value has been created for this <xref href="System.Lazy`1" data-throw-if-not-resolved="false"></xref> instance.
+  summary: "\n<p>Gets a value that indicates whether a value has been created for this <xref href=\"System.Lazy`1\" data-throw-if-not-resolved=\"false\"></xref> instance.</p>\n"
+  remarks: "\n<p>When lazy initialization occurs for a <xref href=\"System.Lazy`1\" data-throw-if-not-resolved=\"false\"></xref> instance, it may result in either a value being created or an exception being thrown. If an exception is thrown, subsequent behavior of the <xref href=\"System.Lazy`1\" data-throw-if-not-resolved=\"false\"></xref> instance depends on whether exception caching is in effect. If the <xref href=\"System.Lazy`1\" data-throw-if-not-resolved=\"false\"></xref> instance was created by using a constructor that does not specify an initialization function, then exception caching is not in effect. A subsequent attempt to initialize the <xref href=\"System.Lazy`1\" data-throw-if-not-resolved=\"false\"></xref> might succeed, and after successful initialization the <xref href=\"System.Lazy`1.IsValueCreated\" data-throw-if-not-resolved=\"false\"></xref> property returns <strong>true</strong>. If the <xref href=\"System.Lazy`1\" data-throw-if-not-resolved=\"false\"></xref> instance was created with an initialization function (specified by the <em>valueFactory</em> parameter of the <xref href=\"System.Lazy`1\" data-throw-if-not-resolved=\"false\"></xref> constructor), then exception caching is controlled by the thread safety mode.</p>\n<ul><li>\n<p>If the mode is <xref href=\"System.Threading.LazyThreadSafetyMode.ExecutionAndPublication\" data-throw-if-not-resolved=\"false\"></xref> or <xref href=\"System.Threading.LazyThreadSafetyMode.None\" data-throw-if-not-resolved=\"false\"></xref>, there is no second chance to initialize the <xref href=\"System.Lazy`1\" data-throw-if-not-resolved=\"false\"></xref> instance. If an exception occurs and is unhandled in the initialization function, that exception is cached and rethrown on subsequent accesses of the <xref href=\"System.Lazy`1.Value\" data-throw-if-not-resolved=\"false\"></xref>property. No value is created if an exception is thrown, so in such cases <xref href=\"System.Lazy`1.IsValueCreated\" data-throw-if-not-resolved=\"false\"></xref> returns <strong>false</strong>.</p>\n</li><li>\n<p>If the mode is <xref href=\"System.Threading.LazyThreadSafetyMode.PublicationOnly\" data-throw-if-not-resolved=\"false\"></xref>, the first thread that succeeds in running the initialization function (or the default constructor) creates the value for the <xref href=\"System.Lazy`1\" data-throw-if-not-resolved=\"false\"></xref> instance. If the initialization function throws an exception on one thread, other threads can still try to initialize the <xref href=\"System.Lazy`1\" data-throw-if-not-resolved=\"false\"></xref> instance. Until the value is created, the <xref href=\"System.Lazy`1.IsValueCreated\" data-throw-if-not-resolved=\"false\"></xref> property returns <strong>false</strong>.</p>\n</li></ul>\n"
+  example:
+  - 
   syntax:
     content: public bool IsValueCreated { get; }
     content.vb: Public ReadOnly Property IsValueCreated As Boolean
     parameters: []
     return:
       type: System.Boolean
-      description: true if a value has been created for this <xref href="System.Lazy`1" data-throw-if-not-resolved="false"></xref> instance; otherwise, false.
+      description: "\n<p>\n<strong>true</strong> if a value has been created for this <xref href=\"System.Lazy`1\" data-throw-if-not-resolved=\"false\"></xref> instance; otherwise, <strong>false</strong>.</p>\n"
+  seealso:
+  - type: System.Threading.LazyThreadSafetyMode
+    commentId: T:System.Threading.LazyThreadSafetyMode
   modifiers.csharp:
   - public
   - get
@@ -330,33 +363,36 @@ items:
   type: Property
   source:
     remote:
-      path: src/mscorlib/src/System/Lazy.cs
+      path: src/System.Runtime/ref/System.Runtime.cs
       branch: master
-      repo: https://github.com/dotnet/coreclr.git
+      repo: https://github.com/dotnet/corefx.git
     id: Value
-    path: src/mscorlib/src/System/Lazy.cs
-    startLine: 309
+    path: src/System.Runtime/ref/System.Runtime.cs
+    startLine: 1210
   assemblies:
   - System.Runtime
   namespace: System
-  summary: Gets the lazily initialized value of the current <xref href="System.Lazy`1" data-throw-if-not-resolved="false"></xref> instance.
+  summary: "\n<p>Gets the lazily initialized value of the current <xref href=\"System.Lazy`1\" data-throw-if-not-resolved=\"false\"></xref> instance.</p>\n"
+  remarks: "\n<p>If the <xref href=\"System.Lazy`1.IsValueCreated\" data-throw-if-not-resolved=\"false\"></xref> property is <strong>false</strong>, accessing the <xref href=\"System.Lazy`1.Value\" data-throw-if-not-resolved=\"false\"></xref> property forces initialization.</p>\n<p>In addition to the exceptions that are listed, the <xref href=\"System.Lazy`1.Value\" data-throw-if-not-resolved=\"false\"></xref> property can throw any unhandled exception that is thrown by the factory method that was passed to the <em>valueFactory</em> parameter of the <xref href=\"System.Lazy`1.#ctor(System.Func{`0})\" data-throw-if-not-resolved=\"false\"></xref>, <xref href=\"System.Lazy`1.#ctor(System.Func{`0},System.Threading.LazyThreadSafetyMode)\" data-throw-if-not-resolved=\"false\"></xref>, or <xref href=\"System.Lazy`1.#ctor(System.Func{`0},System.Boolean)\" data-throw-if-not-resolved=\"false\"></xref> constructor.</p>\n"
+  example:
+  - 
   syntax:
     content: public T Value { get; }
     content.vb: Public ReadOnly Property Value As T
     parameters: []
     return:
       type: '{T}'
-      description: The lazily initialized value of the current <xref href="System.Lazy`1" data-throw-if-not-resolved="false"></xref> instance.
+      description: "\n<p>The lazily initialized value of the current <xref href=\"System.Lazy`1\" data-throw-if-not-resolved=\"false\"></xref> instance.</p>\n"
   exceptions:
   - type: System.MemberAccessException
     commentId: T:System.MemberAccessException
-    description: 'The <xref href="System.Lazy`1" data-throw-if-not-resolved="false"></xref> instance is initialized to use the default constructor of the type that is being lazily initialized, and permissions to access the constructor are missing. '
+    description: "\n<p>The <xref href=\"System.Lazy`1\" data-throw-if-not-resolved=\"false\"></xref> instance is initialized to use the default constructor of the type that is being lazily initialized, and permissions to access the constructor are missing. </p>\n"
   - type: System.MissingMemberException
     commentId: T:System.MissingMemberException
-    description: 'The <xref href="System.Lazy`1" data-throw-if-not-resolved="false"></xref> instance is initialized to use the default constructor of the type that is being lazily initialized, and that type does not have a public, parameterless constructor. '
+    description: "\n<p>The <xref href=\"System.Lazy`1\" data-throw-if-not-resolved=\"false\"></xref> instance is initialized to use the default constructor of the type that is being lazily initialized, and that type does not have a public, parameterless constructor. </p>\n"
   - type: System.InvalidOperationException
     commentId: T:System.InvalidOperationException
-    description: 'The initialization function tries to access <xref href="System.Lazy`1.Value" data-throw-if-not-resolved="false"></xref> on this instance. '
+    description: "\n<p>The initialization function tries to access <xref href=\"System.Lazy`1.Value\" data-throw-if-not-resolved=\"false\"></xref> on this instance. </p>\n"
   modifiers.csharp:
   - public
   - get
@@ -376,27 +412,30 @@ items:
   type: Method
   source:
     remote:
-      path: src/mscorlib/src/System/Lazy.cs
+      path: src/System.Runtime/ref/System.Runtime.cs
       branch: master
-      repo: https://github.com/dotnet/coreclr.git
+      repo: https://github.com/dotnet/corefx.git
     id: ToString
-    path: src/mscorlib/src/System/Lazy.cs
-    startLine: 232
+    path: src/System.Runtime/ref/System.Runtime.cs
+    startLine: 1211
   assemblies:
   - System.Runtime
   namespace: System
-  summary: Creates and returns a string representation of the <xref href="System.Lazy`1.Value" data-throw-if-not-resolved="false"></xref> property for this instance.
+  summary: "\n<p>Creates and returns a string representation of the <xref href=\"System.Lazy`1.Value\" data-throw-if-not-resolved=\"false\"></xref> property for this instance.</p>\n"
+  remarks: "\n<p>Calling this method does not cause initialization.</p>\n<p>The <xref href=\"System.Lazy`1.Value\" data-throw-if-not-resolved=\"false\"></xref> property can be <strong>null</strong> after lazy initialization if the factory method that was specified for the <em>valueFactory</em> parameter of the <xref href=\"System.Lazy`1.#ctor(System.Func{`0})\" data-throw-if-not-resolved=\"false\"></xref>, <xref href=\"System.Lazy`1.#ctor(System.Func{`0},System.Threading.LazyThreadSafetyMode)\" data-throw-if-not-resolved=\"false\"></xref>, or <xref href=\"System.Lazy`1.#ctor(System.Func{`0},System.Boolean)\" data-throw-if-not-resolved=\"false\"></xref> constructor returns <strong>null</strong>. </p>\n"
+  example:
+  - 
   syntax:
     content: public override string ToString()
     content.vb: Public Overrides Function ToString As String
     return:
       type: System.String
-      description: 'The result of calling the <xref href="System.Object.ToString" data-throw-if-not-resolved="false"></xref> method on the <xref href="System.Lazy`1.Value" data-throw-if-not-resolved="false"></xref> property for this instance, if the value has been created (that is, if the <xref href="System.Lazy`1.IsValueCreated" data-throw-if-not-resolved="false"></xref> property returns true). Otherwise, a string indicating that the value has not been created. '
+      description: "\n<p>The result of calling the <xref href=\"System.Object.ToString\" data-throw-if-not-resolved=\"false\"></xref> method on the <xref href=\"System.Lazy`1.Value\" data-throw-if-not-resolved=\"false\"></xref> property for this instance, if the value has been created (that is, if the <xref href=\"System.Lazy`1.IsValueCreated\" data-throw-if-not-resolved=\"false\"></xref> property returns <strong>true</strong>). Otherwise, a string indicating that the value has not been created. </p>\n"
   overridden: System.Object.ToString
   exceptions:
   - type: System.NullReferenceException
     commentId: T:System.NullReferenceException
-    description: The <xref href="System.Lazy`1.Value" data-throw-if-not-resolved="false"></xref> property is null.
+    description: "\n<p>The <xref href=\"System.Lazy`1.Value\" data-throw-if-not-resolved=\"false\"></xref> property is <strong>null</strong>.</p>\n"
   modifiers.csharp:
   - public
   - override

@@ -19,16 +19,19 @@ items:
   type: Class
   source:
     remote:
-      path: src/mscorlib/src/System/Threading/ThreadPool.cs
+      path: src/System.Threading.ThreadPool/ref/System.Threading.ThreadPool.cs
       branch: master
-      repo: https://github.com/dotnet/coreclr.git
+      repo: https://github.com/dotnet/corefx.git
     id: ThreadPool
-    path: src/mscorlib/src/System/Threading/ThreadPool.cs
-    startLine: 1393
+    path: src/System.Threading.ThreadPool/ref/System.Threading.ThreadPool.cs
+    startLine: 15
   assemblies:
   - System.Threading.ThreadPool
   namespace: System.Threading
-  summary: Provides a pool of threads that can be used to execute tasks, post work items, process asynchronous I/O, wait on behalf of other threads, and process timers.
+  summary: "\n<p>Provides a pool of threads that can be used to execute tasks, post work items, process asynchronous I/O, wait on behalf of other threads, and process timers.</p>\n"
+  remarks: "\n<p>Many applications create threads that spend a great deal of time in the sleeping state, waiting for an event to occur. Other threads might enter a sleeping state only to be awakened periodically to poll for a change or update status information. The thread pool enables you to use threads more efficiently by providing your application with a pool of worker threads that are managed by the system. Examples of operations that use thread pool threads include the following: </p>\n<ul><li>\n<p>When you create a <xref href=\"System.Threading.Tasks.Task\" data-throw-if-not-resolved=\"false\"></xref> or <xref href=\"System.Threading.Tasks.Task`1\" data-throw-if-not-resolved=\"false\"></xref> object to perform some task asynchronously, by default the task is scheduled to run on a thread pool thread.</p>\n</li><li>\n<p>Asynchronous timers use the thread pool. Thread pool threads execute callbacks from the <xref href=\"System.Threading.Timer\" data-throw-if-not-resolved=\"false\"></xref> class and raise events from the <xref href=\"System.Timers.Timer\" data-throw-if-not-resolved=\"false\"></xref> class.</p>\n</li><li>\n<p>When you use registered wait handles, a system thread monitors the status of the wait handles. When a wait operation completes, a worker thread from the thread pool executes the corresponding callback function.</p>\n</li><li>\n<p>When you call the <xref href=\"System.Threading.ThreadPool.QueueUserWorkItem(System.Threading.WaitCallback)\" data-throw-if-not-resolved=\"false\"></xref> method to queue a method for execution on a thread pool thread. You do this by passing the method a <xref href=\"System.Threading.WaitCallback\" data-throw-if-not-resolved=\"false\"></xref> delegate.   The delegate has the signature</p>\n<pre><code class=\"c#\">void WaitCallback(Object state)</code></pre>\n<pre><code class=\"vb\">Sub WaitCallback(state As Object)</code></pre>\n<p>where <em>state</em>  is an object that contains data to be used by the delegate. The actual data can be passed to the delegate by calling the <xref href=\"System.Threading.ThreadPool.QueueUserWorkItem(System.Threading.WaitCallback,System.Object)\" data-throw-if-not-resolved=\"false\"></xref> method.</p>\n</li></ul>\n<p>The threads in the managed thread pool are background threads. That is, their <xref href=\"System.Threading.Thread.IsBackground\" data-throw-if-not-resolved=\"false\"></xref> properties are <strong>true</strong>. This means that a <xref href=\"System.Threading.ThreadPool\" data-throw-if-not-resolved=\"false\"></xref> thread will not keep an application running after all foreground threads have exited.</p>\n<p>When the thread pool reuses a thread, it does not clear the data in thread local storage or in fields that are marked with the <xref href=\"System.ThreadStaticAttribute\" data-throw-if-not-resolved=\"false\"></xref> attribute. Therefore, when a method examines thread local storage or fields that are marked with the <xref href=\"System.ThreadStaticAttribute\" data-throw-if-not-resolved=\"false\"></xref> attribute, the values it finds might be left over from an earlier use of the thread pool thread. </p>\n<p>You can also queue work items that are not related to a wait operation to the thread pool. To request that a work item be handled by a thread in the thread pool, call the <xref href=\"System.Threading.ThreadPool.QueueUserWorkItem(System.Threading.WaitCallback,System.Object)\" data-throw-if-not-resolved=\"false\"></xref> method. This method takes as a parameter a reference to the method or delegate that will be called by the thread selected from the thread pool. There is no way to cancel a work item after it has been queued.</p>\n<p>Timer-queue timers and registered wait operations also use the thread pool. Their callback functions are queued to the thread pool.</p>\n<p>There is one thread pool per process. Beginning with the .NET Framework 4, the default size of the thread pool for a process depends on several factors, such as the size of the virtual address space. A process can call the <xref href=\"System.Threading.ThreadPool.GetMaxThreads(System.Int32@,System.Int32@)\" data-throw-if-not-resolved=\"false\"></xref> method to determine the number of threads. The number of threads in the thread pool can be changed by using the <xref href=\"System.Threading.ThreadPool.SetMaxThreads(System.Int32,System.Int32)\" data-throw-if-not-resolved=\"false\"></xref> method. Each thread uses the default stack size and runs at the default priority. </p>\n<p>Unmanaged code that hosts the .NET Framework can change the size of the thread pool by using the CorSetMaxThreads function, defined in the mscoree.h file.</p>\n<p>The thread pool provides new worker threads or I/O completion threads on demand until it reaches the minimum for each category. When a minimum is reached, the thread pool can create additional threads in that category or wait until some tasks complete. Beginning with the .NET Framework 4, the thread pool creates and destroys worker threads in order to optimize throughput, which is defined as the number of tasks that complete per unit of time. Too few threads might not make optimal use of available resources, whereas too many threads could increase resource contention. </p>\n<p>When demand is low, the actual number of thread pool threads can fall below the minimum values.</p>\n<p>You can use the <xref href=\"System.Threading.ThreadPool.GetMinThreads(System.Int32@,System.Int32@)\" data-throw-if-not-resolved=\"false\"></xref> method to obtain these minimum values. </p>\n<p>You can use the <xref href=\"System.Threading.ThreadPool.SetMinThreads(System.Int32,System.Int32)\" data-throw-if-not-resolved=\"false\"></xref> method to increase the minimum number of threads. However, unnecessarily increasing these values can cause performance problems. If too many tasks start at the same time, all of them might appear to be slow. In most cases the thread pool will perform better with its own algorithm for allocating threads. </p>\n"
+  example:
+  - "\n<p>In the following example, the main application thread  queues a method named <code>ThreadProc</code> to execute on a thread pool thread, sleeps for one second, and then exits. The <code>ThreadProc</code> method simply displays a message.</p>System.Threading.ThreadPool QueueUserWorkItem0#1<p>If you comment out the call to the <xref href=\"System.Threading.Thread.Sleep(System.Int32)\" data-throw-if-not-resolved=\"false\"></xref> method, the main thread exits before\nmethod runs on the thread pool thread.  The thread pool uses background\nthreads, which do not keep the application running if all foreground threads have terminated.  (This\nis a simple example of a race condition.)</p>"
   syntax:
     content: 'public class ThreadPool : object'
     content.vb: >-
@@ -54,30 +57,34 @@ items:
   type: Method
   source:
     remote:
-      path: src/mscorlib/src/System/Threading/ThreadPool.cs
+      path: src/System.Threading.ThreadPool/ref/System.Threading.ThreadPool.cs
       branch: master
-      repo: https://github.com/dotnet/coreclr.git
+      repo: https://github.com/dotnet/corefx.git
     id: BindHandle
-    path: src/mscorlib/src/System/Threading/ThreadPool.cs
-    startLine: 1921
+    path: src/System.Threading.ThreadPool/ref/System.Threading.ThreadPool.cs
+    startLine: 17
   assemblies:
   - System.Threading.ThreadPool
   namespace: System.Threading
-  summary: Binds an operating system handle to the <xref href="System.Threading.ThreadPool" data-throw-if-not-resolved="false"></xref>.
+  summary: "\n<p>Binds an operating system handle to the <xref href=\"System.Threading.ThreadPool\" data-throw-if-not-resolved=\"false\"></xref>.</p>\n"
+  remarks: "\n<p>The <em>osHandle</em> parameter should be a <xref href=\"Microsoft.Win32.SafeHandles.SafeFileHandle\" data-throw-if-not-resolved=\"false\"></xref>, which derives from the abstract <xref href=\"System.Runtime.InteropServices.SafeHandle\" data-throw-if-not-resolved=\"false\"></xref> class. </p>\n"
   syntax:
     content: public static bool BindHandle(Runtime.InteropServices.SafeHandle osHandle)
     content.vb: Public Shared Function BindHandle(osHandle As Runtime.InteropServices.SafeHandle) As Boolean
     parameters:
     - id: osHandle
       type: System.Runtime.InteropServices.SafeHandle
-      description: A <xref href="System.Runtime.InteropServices.SafeHandle" data-throw-if-not-resolved="false"></xref>  that holds the operating system handle. The handle must have been opened for overlapped I/O on the unmanaged side.
+      description: "\n<p>A <xref href=\"System.Runtime.InteropServices.SafeHandle\" data-throw-if-not-resolved=\"false\"></xref>  that holds the operating system handle. The handle must have been opened for overlapped I/O on the unmanaged side.</p>\n"
     return:
       type: System.Boolean
-      description: true if the handle is bound; otherwise, false.
+      description: "\n<p>\n<strong>true</strong> if the handle is bound; otherwise, <strong>false</strong>.</p>\n"
   exceptions:
   - type: System.ArgumentNullException
     commentId: T:System.ArgumentNullException
-    description: "\n<em>osHandle</em> is null. "
+    description: "\n<p>\n<em>osHandle</em> is <strong>null</strong>. </p>\n"
+  see:
+  - type: System.Security.Permissions.SecurityPermission
+    commentId: T:System.Security.Permissions.SecurityPermission
   modifiers.csharp:
   - public
   - static
@@ -96,33 +103,36 @@ items:
   type: Method
   source:
     remote:
-      path: src/mscorlib/src/System/Threading/ThreadPool.cs
+      path: src/System.Threading.ThreadPool/ref/System.Threading.ThreadPool.cs
       branch: master
-      repo: https://github.com/dotnet/coreclr.git
+      repo: https://github.com/dotnet/corefx.git
     id: QueueUserWorkItem
-    path: src/mscorlib/src/System/Threading/ThreadPool.cs
-    startLine: 1632
+    path: src/System.Threading.ThreadPool/ref/System.Threading.ThreadPool.cs
+    startLine: 19
   assemblies:
   - System.Threading.ThreadPool
   namespace: System.Threading
-  summary: Queues a method for execution. The method executes when a thread pool thread becomes available.
+  summary: "\n<p>Queues a method for execution. The method executes when a thread pool thread becomes available.</p>\n"
+  remarks: "\n<p>You can place data required by the queued method in the instance fields of the class in which the method is defined, or you can use the <xref href=\"System.Threading.ThreadPool.QueueUserWorkItem(System.Threading.WaitCallback,System.Object)\" data-throw-if-not-resolved=\"false\"></xref> overload that accepts an object containing the necessary data.</p>\n<p>Visual Basic users can omit the <xref href=\"System.Threading.WaitCallback\" data-throw-if-not-resolved=\"false\"></xref> constructor, and simply use the <strong>AddressOf</strong> operator when passing the callback method to <xref href=\"System.Threading.ThreadPool.QueueUserWorkItem(System.Threading.WaitCallback,System.Object)\" data-throw-if-not-resolved=\"false\"></xref>. Visual Basic automatically calls the correct delegate constructor.</p>\n"
+  example:
+  - <p>The following example uses the <xref href="System.Threading.ThreadPool.QueueUserWorkItem(System.Threading.WaitCallback)" data-throw-if-not-resolved="false"></xref> method overload to queue a task, which is represented by the <code>ThreadProc</code> method, to execute when a thread becomes available. No task information is supplied with this overload. Therefore, the information that is available to the <code>ThreadProc</code> method is limited to the object the method belongs to.</p>System.Threading.ThreadPool QueueUserWorkItem0#1
   syntax:
     content: public static bool QueueUserWorkItem(WaitCallback callBack)
     content.vb: Public Shared Function QueueUserWorkItem(callBack As WaitCallback) As Boolean
     parameters:
     - id: callBack
       type: System.Threading.WaitCallback
-      description: 'A <xref href="System.Threading.WaitCallback" data-throw-if-not-resolved="false"></xref> that represents the method to be executed. '
+      description: "\n<p>A <xref href=\"System.Threading.WaitCallback\" data-throw-if-not-resolved=\"false\"></xref> that represents the method to be executed. </p>\n"
     return:
       type: System.Boolean
-      description: true if the method is successfully queued; <xref href="System.NotSupportedException" data-throw-if-not-resolved="false"></xref> is thrown if the work item could not be queued.
+      description: "\n<p>\n<strong>true</strong> if the method is successfully queued; <xref href=\"System.NotSupportedException\" data-throw-if-not-resolved=\"false\"></xref> is thrown if the work item could not be queued.</p>\n"
   exceptions:
   - type: System.ArgumentNullException
     commentId: T:System.ArgumentNullException
-    description: "\n<em>callBack</em> is null."
+    description: "\n<p>\n<em>callBack</em> is <strong>null</strong>.</p>\n"
   - type: System.NotSupportedException
     commentId: T:System.NotSupportedException
-    description: The common language runtime (CLR) is hosted, and the host does not support this action.
+    description: "\n<p>The common language runtime (CLR) is hosted, and the host does not support this action.</p>\n"
   modifiers.csharp:
   - public
   - static
@@ -141,36 +151,39 @@ items:
   type: Method
   source:
     remote:
-      path: src/mscorlib/src/System/Threading/ThreadPool.cs
+      path: src/System.Threading.ThreadPool/ref/System.Threading.ThreadPool.cs
       branch: master
-      repo: https://github.com/dotnet/coreclr.git
+      repo: https://github.com/dotnet/corefx.git
     id: QueueUserWorkItem
-    path: src/mscorlib/src/System/Threading/ThreadPool.cs
-    startLine: 1621
+    path: src/System.Threading.ThreadPool/ref/System.Threading.ThreadPool.cs
+    startLine: 20
   assemblies:
   - System.Threading.ThreadPool
   namespace: System.Threading
-  summary: Queues a method for execution, and specifies an object containing data to be used by the method. The method executes when a thread pool thread becomes available.
+  summary: "\n<p>Queues a method for execution, and specifies an object containing data to be used by the method. The method executes when a thread pool thread becomes available.</p>\n"
+  remarks: "\n<p>If the callback method requires complex data, you can define a class to contain the data.</p>\n<p>Visual Basic users can omit the <xref href=\"System.Threading.WaitCallback\" data-throw-if-not-resolved=\"false\"></xref> constructor, and simply use the <strong>AddressOf</strong> operator when passing the callback method to <xref href=\"System.Threading.ThreadPool.QueueUserWorkItem(System.Threading.WaitCallback,System.Object)\" data-throw-if-not-resolved=\"false\"></xref>. Visual Basic automatically calls the correct delegate constructor.</p>\n"
+  example:
+  - <p>The following example shows how to create an object that contains task information. It also demonstrates how to pass that object to a task that is queued for execution by the thread pool.</p>System.Threading.ThreadPool QueueUserWorkItem1#1
   syntax:
     content: public static bool QueueUserWorkItem(WaitCallback callBack, object state)
     content.vb: Public Shared Function QueueUserWorkItem(callBack As WaitCallback, state As Object) As Boolean
     parameters:
     - id: callBack
       type: System.Threading.WaitCallback
-      description: 'A <xref href="System.Threading.WaitCallback" data-throw-if-not-resolved="false"></xref> representing the method to execute. '
+      description: "\n<p>A <xref href=\"System.Threading.WaitCallback\" data-throw-if-not-resolved=\"false\"></xref> representing the method to execute. </p>\n"
     - id: state
       type: System.Object
-      description: 'An object containing data to be used by the method. '
+      description: "\n<p>An object containing data to be used by the method. </p>\n"
     return:
       type: System.Boolean
-      description: true if the method is successfully queued; <xref href="System.NotSupportedException" data-throw-if-not-resolved="false"></xref> is thrown if the work item could not be queued.
+      description: "\n<p>\n<strong>true</strong> if the method is successfully queued; <xref href=\"System.NotSupportedException\" data-throw-if-not-resolved=\"false\"></xref> is thrown if the work item could not be queued.</p>\n"
   exceptions:
   - type: System.NotSupportedException
     commentId: T:System.NotSupportedException
-    description: The common language runtime (CLR) is hosted, and the host does not support this action.
+    description: "\n<p>The common language runtime (CLR) is hosted, and the host does not support this action.</p>\n"
   - type: System.ArgumentNullException
     commentId: T:System.ArgumentNullException
-    description: "\n<em>callBack</em> is null."
+    description: "\n<p>\n<em>callBack</em> is <strong>null</strong>.</p>\n"
   modifiers.csharp:
   - public
   - static
@@ -189,42 +202,43 @@ items:
   type: Method
   source:
     remote:
-      path: src/mscorlib/src/System/Threading/ThreadPool.cs
+      path: src/System.Threading.ThreadPool/ref/System.Threading.ThreadPool.cs
       branch: master
-      repo: https://github.com/dotnet/coreclr.git
+      repo: https://github.com/dotnet/corefx.git
     id: RegisterWaitForSingleObject
-    path: src/mscorlib/src/System/Threading/ThreadPool.cs
-    startLine: 1515
+    path: src/System.Threading.ThreadPool/ref/System.Threading.ThreadPool.cs
+    startLine: 21
   assemblies:
   - System.Threading.ThreadPool
   namespace: System.Threading
-  summary: Registers a delegate to wait for a <xref href="System.Threading.WaitHandle" data-throw-if-not-resolved="false"></xref>, specifying a 32-bit signed integer for the time-out in milliseconds.
+  summary: "\n<p>Registers a delegate to wait for a <xref href=\"System.Threading.WaitHandle\" data-throw-if-not-resolved=\"false\"></xref>, specifying a 32-bit signed integer for the time-out in milliseconds.</p>\n"
+  remarks: "\n<p>When you are finished using the <xref href=\"System.Threading.RegisteredWaitHandle\" data-throw-if-not-resolved=\"false\"></xref> that is returned by this method, call its <xref href=\"System.Threading.RegisteredWaitHandle.Unregister(System.Threading.WaitHandle)\" data-throw-if-not-resolved=\"false\"></xref> method to release references to the wait handle. We recommend that you always call the <xref href=\"System.Threading.RegisteredWaitHandle.Unregister(System.Threading.WaitHandle)\" data-throw-if-not-resolved=\"false\"></xref> method, even if you specify <strong>true</strong> for <em>executeOnlyOnce</em>. Garbage collection works more efficiently if you call the <xref href=\"System.Threading.RegisteredWaitHandle.Unregister(System.Threading.WaitHandle)\" data-throw-if-not-resolved=\"false\"></xref> method instead of depending on the registered wait handle's finalizer.</p>\n<p>The <xref href=\"System.Threading.ThreadPool.RegisterWaitForSingleObject(System.Threading.WaitHandle,System.Threading.WaitOrTimerCallback,System.Object,System.Int32,System.Boolean)\" data-throw-if-not-resolved=\"false\"></xref> method queues the specified delegate to the thread pool. A worker thread will execute the delegate when one of the following occurs: </p>\n<ul><li>\n<p>The specified object is in the signaled state.</p>\n</li><li>\n<p>The time-out interval elapses.</p>\n</li></ul>\n<p>The <xref href=\"System.Threading.ThreadPool.RegisterWaitForSingleObject(System.Threading.WaitHandle,System.Threading.WaitOrTimerCallback,System.Object,System.Int32,System.Boolean)\" data-throw-if-not-resolved=\"false\"></xref> method checks the current state of the specified object's <xref href=\"System.Threading.WaitHandle\" data-throw-if-not-resolved=\"false\"></xref>. If the object's state is unsignaled, the method registers a wait operation. The wait operation is performed by a thread from the thread pool. The delegate is executed by a worker thread when the object's state becomes signaled or the time-out interval elapses. If the <em>timeOutInterval</em> parameter is not 0 (zero) and the <em>executeOnlyOnce</em> parameter is <strong>false</strong>, the timer is reset every time the event is signaled or the time-out interval elapses.</p>\n<p>Using a <xref href=\"System.Threading.Mutex\" data-throw-if-not-resolved=\"false\"></xref> for <em>waitObject</em> does not provide mutual exclusion for the callbacks because the underlying Win32 API uses the default <strong>WT_EXECUTEDEFAULT</strong> flag, so each callback is dispatched on a separate thread pool thread. Instead of a <xref href=\"System.Threading.Mutex\" data-throw-if-not-resolved=\"false\"></xref>, use a <xref href=\"System.Threading.Semaphore\" data-throw-if-not-resolved=\"false\"></xref> with a maximum count of 1.</p>\n<p>To cancel the wait operation, call the <xref href=\"System.Threading.RegisteredWaitHandle.Unregister(System.Threading.WaitHandle)\" data-throw-if-not-resolved=\"false\"></xref> method.</p>\n<p>The wait thread uses the Win32 WaitForMultipleObjects function to monitor registered wait operations. Therefore, if you must use the same native operating system handle in multiple calls to <xref href=\"System.Threading.ThreadPool.RegisterWaitForSingleObject(System.Threading.WaitHandle,System.Threading.WaitOrTimerCallback,System.Object,System.Int32,System.Boolean)\" data-throw-if-not-resolved=\"false\"></xref>, you must duplicate the handle using the Win32 DuplicateHandle function. Note that you should not pulse an event object passed to <xref href=\"System.Threading.ThreadPool.RegisterWaitForSingleObject(System.Threading.WaitHandle,System.Threading.WaitOrTimerCallback,System.Object,System.Int32,System.Boolean)\" data-throw-if-not-resolved=\"false\"></xref>, because the wait thread might not detect that the event is signaled before it is reset.</p>\n<p>Before returning, the function modifies the state of some types of synchronization objects. Modification occurs only for the object whose signaled state caused the wait condition to be satisfied. For example, the count of a semaphore is decreased by one.</p>\n"
   syntax:
     content: public static RegisteredWaitHandle RegisterWaitForSingleObject(WaitHandle waitObject, WaitOrTimerCallback callBack, object state, int millisecondsTimeOutInterval, bool executeOnlyOnce)
     content.vb: Public Shared Function RegisterWaitForSingleObject(waitObject As WaitHandle, callBack As WaitOrTimerCallback, state As Object, millisecondsTimeOutInterval As Integer, executeOnlyOnce As Boolean) As RegisteredWaitHandle
     parameters:
     - id: waitObject
       type: System.Threading.WaitHandle
-      description: The <xref href="System.Threading.WaitHandle" data-throw-if-not-resolved="false"></xref> to register. Use a <xref href="System.Threading.WaitHandle" data-throw-if-not-resolved="false"></xref> other than <xref href="System.Threading.Mutex" data-throw-if-not-resolved="false"></xref>.
+      description: "\n<p>The <xref href=\"System.Threading.WaitHandle\" data-throw-if-not-resolved=\"false\"></xref> to register. Use a <xref href=\"System.Threading.WaitHandle\" data-throw-if-not-resolved=\"false\"></xref> other than <xref href=\"System.Threading.Mutex\" data-throw-if-not-resolved=\"false\"></xref>.</p>\n"
     - id: callBack
       type: System.Threading.WaitOrTimerCallback
-      description: 'The <xref href="System.Threading.WaitOrTimerCallback" data-throw-if-not-resolved="false"></xref> delegate to call when the <em>waitObject</em> parameter is signaled. '
+      description: "\n<p>The <xref href=\"System.Threading.WaitOrTimerCallback\" data-throw-if-not-resolved=\"false\"></xref> delegate to call when the <em>waitObject</em> parameter is signaled. </p>\n"
     - id: state
       type: System.Object
-      description: 'The object that is passed to the delegate. '
+      description: "\n<p>The object that is passed to the delegate. </p>\n"
     - id: millisecondsTimeOutInterval
       type: System.Int32
-      description: 'The time-out in milliseconds. If the <em>millisecondsTimeOutInterval</em> parameter is 0 (zero), the function tests the object''s state and returns immediately. If <em>millisecondsTimeOutInterval</em> is -1, the function''s time-out interval never elapses. '
+      description: "\n<p>The time-out in milliseconds. If the <em>millisecondsTimeOutInterval</em> parameter is 0 (zero), the function tests the object's state and returns immediately. If <em>millisecondsTimeOutInterval</em> is -1, the function's time-out interval never elapses. </p>\n"
     - id: executeOnlyOnce
       type: System.Boolean
-      description: 'true to indicate that the thread will no longer wait on the <em>waitObject</em> parameter after the delegate has been called; false to indicate that the timer is reset every time the wait operation completes until the wait is unregistered. '
+      description: "\n<p>\n<strong>true</strong> to indicate that the thread will no longer wait on the <em>waitObject</em> parameter after the delegate has been called; <strong>false</strong> to indicate that the timer is reset every time the wait operation completes until the wait is unregistered. </p>\n"
     return:
       type: System.Threading.RegisteredWaitHandle
-      description: The <xref href="System.Threading.RegisteredWaitHandle" data-throw-if-not-resolved="false"></xref> that encapsulates the native handle.
+      description: "\n<p>The <xref href=\"System.Threading.RegisteredWaitHandle\" data-throw-if-not-resolved=\"false\"></xref> that encapsulates the native handle.</p>\n"
   exceptions:
   - type: System.ArgumentOutOfRangeException
     commentId: T:System.ArgumentOutOfRangeException
-    description: 'The <em>millisecondsTimeOutInterval</em> parameter is less than -1. '
+    description: "\n<p>The <em>millisecondsTimeOutInterval</em> parameter is less than -1. </p>\n"
   modifiers.csharp:
   - public
   - static
@@ -243,42 +257,43 @@ items:
   type: Method
   source:
     remote:
-      path: src/mscorlib/src/System/Threading/ThreadPool.cs
+      path: src/System.Threading.ThreadPool/ref/System.Threading.ThreadPool.cs
       branch: master
-      repo: https://github.com/dotnet/coreclr.git
+      repo: https://github.com/dotnet/corefx.git
     id: RegisterWaitForSingleObject
-    path: src/mscorlib/src/System/Threading/ThreadPool.cs
-    startLine: 1549
+    path: src/System.Threading.ThreadPool/ref/System.Threading.ThreadPool.cs
+    startLine: 22
   assemblies:
   - System.Threading.ThreadPool
   namespace: System.Threading
-  summary: Registers a delegate to wait for a <xref href="System.Threading.WaitHandle" data-throw-if-not-resolved="false"></xref>, specifying a 64-bit signed integer for the time-out in milliseconds.
+  summary: "\n<p>Registers a delegate to wait for a <xref href=\"System.Threading.WaitHandle\" data-throw-if-not-resolved=\"false\"></xref>, specifying a 64-bit signed integer for the time-out in milliseconds.</p>\n"
+  remarks: "\n<p>When you are finished using the <xref href=\"System.Threading.RegisteredWaitHandle\" data-throw-if-not-resolved=\"false\"></xref> that is returned by this method, call its <xref href=\"System.Threading.RegisteredWaitHandle.Unregister(System.Threading.WaitHandle)\" data-throw-if-not-resolved=\"false\"></xref> method to release references to the wait handle. We recommend that you always call the <xref href=\"System.Threading.RegisteredWaitHandle.Unregister(System.Threading.WaitHandle)\" data-throw-if-not-resolved=\"false\"></xref> method, even if you specify <strong>true</strong> for <em>executeOnlyOnce</em>. Garbage collection works more efficiently if you call the <xref href=\"System.Threading.RegisteredWaitHandle.Unregister(System.Threading.WaitHandle)\" data-throw-if-not-resolved=\"false\"></xref> method instead of depending on the registered wait handle's finalizer.</p>\n<p>The <xref href=\"System.Threading.ThreadPool.RegisterWaitForSingleObject(System.Threading.WaitHandle,System.Threading.WaitOrTimerCallback,System.Object,System.Int64,System.Boolean)\" data-throw-if-not-resolved=\"false\"></xref> method queues the specified delegate to the thread pool. A worker thread will execute the delegate when one of the following occurs: </p>\n<ul><li>\n<p>The specified object is in the signaled state.</p>\n</li><li>\n<p>The time-out interval elapses.</p>\n</li></ul>\n<p>The <xref href=\"System.Threading.ThreadPool.RegisterWaitForSingleObject(System.Threading.WaitHandle,System.Threading.WaitOrTimerCallback,System.Object,System.Int64,System.Boolean)\" data-throw-if-not-resolved=\"false\"></xref> method checks the current state of the specified object's <xref href=\"System.Threading.WaitHandle\" data-throw-if-not-resolved=\"false\"></xref>. If the object's state is unsignaled, the method registers a wait operation. The wait operation is performed by a thread from the thread pool. The delegate is executed by a worker thread when the object's state becomes signaled or the time-out interval elapses. If the <em>timeOutInterval</em> parameter is not 0 (zero) and the <em>executeOnlyOnce</em> parameter is <strong>false</strong>, the timer is reset every time the event is signaled or the time-out interval elapses.</p>\n<p>Using a <xref href=\"System.Threading.Mutex\" data-throw-if-not-resolved=\"false\"></xref> for <em>waitObject</em> does not provide mutual exclusion for the callbacks because the underlying Win32 API uses the default <strong>WT_EXECUTEDEFAULT</strong> flag, so each callback is dispatched on a separate thread pool thread. Instead of a <xref href=\"System.Threading.Mutex\" data-throw-if-not-resolved=\"false\"></xref>, use a <xref href=\"System.Threading.Semaphore\" data-throw-if-not-resolved=\"false\"></xref> with a maximum count of 1.</p>\n<p>To cancel the wait operation, call the <xref href=\"System.Threading.RegisteredWaitHandle.Unregister(System.Threading.WaitHandle)\" data-throw-if-not-resolved=\"false\"></xref> method.</p>\n<p>The wait thread uses the Win32 WaitForMultipleObjects function to monitor registered wait operations. Therefore, if you must use the same native operating system handle in multiple calls to <xref href=\"System.Threading.ThreadPool.RegisterWaitForSingleObject(System.Threading.WaitHandle,System.Threading.WaitOrTimerCallback,System.Object,System.Int64,System.Boolean)\" data-throw-if-not-resolved=\"false\"></xref>, you must duplicate the handle using the Win32 DuplicateHandle function. Note that you should not pulse an event object passed to <xref href=\"System.Threading.ThreadPool.RegisterWaitForSingleObject(System.Threading.WaitHandle,System.Threading.WaitOrTimerCallback,System.Object,System.Int64,System.Boolean)\" data-throw-if-not-resolved=\"false\"></xref>, because the wait thread might not detect that the event is signaled before it is reset.</p>\n<p>Before returning, the function modifies the state of some types of synchronization objects. Modification occurs only for the object whose signaled state caused the wait condition to be satisfied. For example, the count of a semaphore is decreased by one.</p>\n"
   syntax:
     content: public static RegisteredWaitHandle RegisterWaitForSingleObject(WaitHandle waitObject, WaitOrTimerCallback callBack, object state, long millisecondsTimeOutInterval, bool executeOnlyOnce)
     content.vb: Public Shared Function RegisterWaitForSingleObject(waitObject As WaitHandle, callBack As WaitOrTimerCallback, state As Object, millisecondsTimeOutInterval As Long, executeOnlyOnce As Boolean) As RegisteredWaitHandle
     parameters:
     - id: waitObject
       type: System.Threading.WaitHandle
-      description: The <xref href="System.Threading.WaitHandle" data-throw-if-not-resolved="false"></xref> to register. Use a <xref href="System.Threading.WaitHandle" data-throw-if-not-resolved="false"></xref> other than <xref href="System.Threading.Mutex" data-throw-if-not-resolved="false"></xref>.
+      description: "\n<p>The <xref href=\"System.Threading.WaitHandle\" data-throw-if-not-resolved=\"false\"></xref> to register. Use a <xref href=\"System.Threading.WaitHandle\" data-throw-if-not-resolved=\"false\"></xref> other than <xref href=\"System.Threading.Mutex\" data-throw-if-not-resolved=\"false\"></xref>.</p>\n"
     - id: callBack
       type: System.Threading.WaitOrTimerCallback
-      description: 'The <xref href="System.Threading.WaitOrTimerCallback" data-throw-if-not-resolved="false"></xref> delegate to call when the <em>waitObject</em> parameter is signaled. '
+      description: "\n<p>The <xref href=\"System.Threading.WaitOrTimerCallback\" data-throw-if-not-resolved=\"false\"></xref> delegate to call when the <em>waitObject</em> parameter is signaled. </p>\n"
     - id: state
       type: System.Object
-      description: 'The object passed to the delegate. '
+      description: "\n<p>The object passed to the delegate. </p>\n"
     - id: millisecondsTimeOutInterval
       type: System.Int64
-      description: 'The time-out in milliseconds. If the <em>millisecondsTimeOutInterval</em> parameter is 0 (zero), the function tests the object''s state and returns immediately. If <em>millisecondsTimeOutInterval</em> is -1, the function''s time-out interval never elapses. '
+      description: "\n<p>The time-out in milliseconds. If the <em>millisecondsTimeOutInterval</em> parameter is 0 (zero), the function tests the object's state and returns immediately. If <em>millisecondsTimeOutInterval</em> is -1, the function's time-out interval never elapses. </p>\n"
     - id: executeOnlyOnce
       type: System.Boolean
-      description: 'true to indicate that the thread will no longer wait on the <em>waitObject</em> parameter after the delegate has been called; false to indicate that the timer is reset every time the wait operation completes until the wait is unregistered. '
+      description: "\n<p>\n<strong>true</strong> to indicate that the thread will no longer wait on the <em>waitObject</em> parameter after the delegate has been called; <strong>false</strong> to indicate that the timer is reset every time the wait operation completes until the wait is unregistered. </p>\n"
     return:
       type: System.Threading.RegisteredWaitHandle
-      description: The <xref href="System.Threading.RegisteredWaitHandle" data-throw-if-not-resolved="false"></xref> that encapsulates the native handle.
+      description: "\n<p>The <xref href=\"System.Threading.RegisteredWaitHandle\" data-throw-if-not-resolved=\"false\"></xref> that encapsulates the native handle.</p>\n"
   exceptions:
   - type: System.ArgumentOutOfRangeException
     commentId: T:System.ArgumentOutOfRangeException
-    description: 'The <em>millisecondsTimeOutInterval</em> parameter is less than -1. '
+    description: "\n<p>The <em>millisecondsTimeOutInterval</em> parameter is less than -1. </p>\n"
   modifiers.csharp:
   - public
   - static
@@ -297,45 +312,46 @@ items:
   type: Method
   source:
     remote:
-      path: src/mscorlib/src/System/Threading/ThreadPool.cs
+      path: src/System.Threading.ThreadPool/ref/System.Threading.ThreadPool.cs
       branch: master
-      repo: https://github.com/dotnet/coreclr.git
+      repo: https://github.com/dotnet/corefx.git
     id: RegisterWaitForSingleObject
-    path: src/mscorlib/src/System/Threading/ThreadPool.cs
-    startLine: 1583
+    path: src/System.Threading.ThreadPool/ref/System.Threading.ThreadPool.cs
+    startLine: 23
   assemblies:
   - System.Threading.ThreadPool
   namespace: System.Threading
-  summary: Registers a delegate to wait for a <xref href="System.Threading.WaitHandle" data-throw-if-not-resolved="false"></xref>, specifying a <xref href="System.TimeSpan" data-throw-if-not-resolved="false"></xref> value for the time-out.
+  summary: "\n<p>Registers a delegate to wait for a <xref href=\"System.Threading.WaitHandle\" data-throw-if-not-resolved=\"false\"></xref>, specifying a <xref href=\"System.TimeSpan\" data-throw-if-not-resolved=\"false\"></xref> value for the time-out.</p>\n"
+  remarks: "\n<p>When you are finished using the <xref href=\"System.Threading.RegisteredWaitHandle\" data-throw-if-not-resolved=\"false\"></xref> that is returned by this method, call its <xref href=\"System.Threading.RegisteredWaitHandle.Unregister(System.Threading.WaitHandle)\" data-throw-if-not-resolved=\"false\"></xref> method to release references to the wait handle. We recommend that you always call the <xref href=\"System.Threading.RegisteredWaitHandle.Unregister(System.Threading.WaitHandle)\" data-throw-if-not-resolved=\"false\"></xref> method, even if you specify <strong>true</strong> for <em>executeOnlyOnce</em>. Garbage collection works more efficiently if you call the <xref href=\"System.Threading.RegisteredWaitHandle.Unregister(System.Threading.WaitHandle)\" data-throw-if-not-resolved=\"false\"></xref> method instead of depending on the registered wait handle's finalizer.</p>\n<p>The <xref href=\"System.Threading.ThreadPool.RegisterWaitForSingleObject(System.Threading.WaitHandle,System.Threading.WaitOrTimerCallback,System.Object,System.TimeSpan,System.Boolean)\" data-throw-if-not-resolved=\"false\"></xref> method queues the specified delegate to the thread pool. A worker thread will execute the delegate when one of the following occurs: </p>\n<ul><li>\n<p>The specified object is in the signaled state.</p>\n</li><li>\n<p>The time-out interval elapses.</p>\n</li></ul>\n<p>The <xref href=\"System.Threading.ThreadPool.RegisterWaitForSingleObject(System.Threading.WaitHandle,System.Threading.WaitOrTimerCallback,System.Object,System.TimeSpan,System.Boolean)\" data-throw-if-not-resolved=\"false\"></xref> method checks the current state of the specified object's <xref href=\"System.Threading.WaitHandle\" data-throw-if-not-resolved=\"false\"></xref>. If the object's state is unsignaled, the method registers a wait operation. The wait operation is performed by a thread from the thread pool. The delegate is executed by a worker thread when the object's state becomes signaled or the time-out interval elapses. If the <em>timeOutInterval</em> parameter is not 0 (zero) and the <em>executeOnlyOnce</em> parameter is <strong>false</strong>, the timer is reset every time the event is signaled or the time-out interval elapses.</p>\n<p>Using a <xref href=\"System.Threading.Mutex\" data-throw-if-not-resolved=\"false\"></xref> for <em>waitObject</em> does not provide mutual exclusion for the callbacks because the underlying Win32 API uses the default <strong>WT_EXECUTEDEFAULT</strong> flag, so each callback is dispatched on a separate thread pool thread. Instead of a <xref href=\"System.Threading.Mutex\" data-throw-if-not-resolved=\"false\"></xref>, use a <xref href=\"System.Threading.Semaphore\" data-throw-if-not-resolved=\"false\"></xref> with a maximum count of 1.</p>\n<p>To cancel the wait operation, call the <xref href=\"System.Threading.RegisteredWaitHandle.Unregister(System.Threading.WaitHandle)\" data-throw-if-not-resolved=\"false\"></xref> method.</p>\n<p>The wait thread uses the Win32 WaitForMultipleObjects function to monitor registered wait operations. Therefore, if you must use the same native operating system handle in multiple calls to <xref href=\"System.Threading.ThreadPool.RegisterWaitForSingleObject(System.Threading.WaitHandle,System.Threading.WaitOrTimerCallback,System.Object,System.TimeSpan,System.Boolean)\" data-throw-if-not-resolved=\"false\"></xref>, you must duplicate the handle using the Win32 DuplicateHandle function. Note that you should not pulse an event object passed to <xref href=\"System.Threading.ThreadPool.RegisterWaitForSingleObject(System.Threading.WaitHandle,System.Threading.WaitOrTimerCallback,System.Object,System.TimeSpan,System.Boolean)\" data-throw-if-not-resolved=\"false\"></xref>, because the wait thread might not detect that the event is signaled before it is reset.</p>\n<p>Before returning, the function modifies the state of some types of synchronization objects. Modification occurs only for the object whose signaled state caused the wait condition to be satisfied. For example, the count of a semaphore is decreased by one.</p>\n"
   syntax:
     content: public static RegisteredWaitHandle RegisterWaitForSingleObject(WaitHandle waitObject, WaitOrTimerCallback callBack, object state, TimeSpan timeout, bool executeOnlyOnce)
     content.vb: Public Shared Function RegisterWaitForSingleObject(waitObject As WaitHandle, callBack As WaitOrTimerCallback, state As Object, timeout As TimeSpan, executeOnlyOnce As Boolean) As RegisteredWaitHandle
     parameters:
     - id: waitObject
       type: System.Threading.WaitHandle
-      description: The <xref href="System.Threading.WaitHandle" data-throw-if-not-resolved="false"></xref> to register. Use a <xref href="System.Threading.WaitHandle" data-throw-if-not-resolved="false"></xref> other than <xref href="System.Threading.Mutex" data-throw-if-not-resolved="false"></xref>.
+      description: "\n<p>The <xref href=\"System.Threading.WaitHandle\" data-throw-if-not-resolved=\"false\"></xref> to register. Use a <xref href=\"System.Threading.WaitHandle\" data-throw-if-not-resolved=\"false\"></xref> other than <xref href=\"System.Threading.Mutex\" data-throw-if-not-resolved=\"false\"></xref>.</p>\n"
     - id: callBack
       type: System.Threading.WaitOrTimerCallback
-      description: 'The <xref href="System.Threading.WaitOrTimerCallback" data-throw-if-not-resolved="false"></xref> delegate to call when the <em>waitObject</em> parameter is signaled. '
+      description: "\n<p>The <xref href=\"System.Threading.WaitOrTimerCallback\" data-throw-if-not-resolved=\"false\"></xref> delegate to call when the <em>waitObject</em> parameter is signaled. </p>\n"
     - id: state
       type: System.Object
-      description: 'The object passed to the delegate. '
+      description: "\n<p>The object passed to the delegate. </p>\n"
     - id: timeout
       type: System.TimeSpan
-      description: 'The time-out represented by a <xref href="System.TimeSpan" data-throw-if-not-resolved="false"></xref>. If <em>timeout</em> is 0 (zero), the function tests the object''s state and returns immediately. If <em>timeout</em> is -1, the function''s time-out interval never elapses. '
+      description: "\n<p>The time-out represented by a <xref href=\"System.TimeSpan\" data-throw-if-not-resolved=\"false\"></xref>. If <em>timeout</em> is 0 (zero), the function tests the object's state and returns immediately. If <em>timeout</em> is -1, the function's time-out interval never elapses. </p>\n"
     - id: executeOnlyOnce
       type: System.Boolean
-      description: 'true to indicate that the thread will no longer wait on the <em>waitObject</em> parameter after the delegate has been called; false to indicate that the timer is reset every time the wait operation completes until the wait is unregistered. '
+      description: "\n<p>\n<strong>true</strong> to indicate that the thread will no longer wait on the <em>waitObject</em> parameter after the delegate has been called; <strong>false</strong> to indicate that the timer is reset every time the wait operation completes until the wait is unregistered. </p>\n"
     return:
       type: System.Threading.RegisteredWaitHandle
-      description: The <xref href="System.Threading.RegisteredWaitHandle" data-throw-if-not-resolved="false"></xref> that encapsulates the native handle.
+      description: "\n<p>The <xref href=\"System.Threading.RegisteredWaitHandle\" data-throw-if-not-resolved=\"false\"></xref> that encapsulates the native handle.</p>\n"
   exceptions:
   - type: System.ArgumentOutOfRangeException
     commentId: T:System.ArgumentOutOfRangeException
-    description: 'The <em>timeout</em> parameter is less than -1. '
+    description: "\n<p>The <em>timeout</em> parameter is less than -1. </p>\n"
   - type: System.NotSupportedException
     commentId: T:System.NotSupportedException
-    description: 'The <em>timeout</em> parameter is greater than <xref href="System.Int32.MaxValue" data-throw-if-not-resolved="false"></xref>. '
+    description: "\n<p>The <em>timeout</em> parameter is greater than <xref href=\"System.Int32.MaxValue\" data-throw-if-not-resolved=\"false\"></xref>. </p>\n"
   modifiers.csharp:
   - public
   - static
@@ -354,42 +370,52 @@ items:
   type: Method
   source:
     remote:
-      path: src/mscorlib/src/System/Threading/ThreadPool.cs
+      path: src/System.Threading.ThreadPool/ref/System.Threading.ThreadPool.cs
       branch: master
-      repo: https://github.com/dotnet/coreclr.git
+      repo: https://github.com/dotnet/corefx.git
     id: RegisterWaitForSingleObject
-    path: src/mscorlib/src/System/Threading/ThreadPool.cs
-    startLine: 1441
+    path: src/System.Threading.ThreadPool/ref/System.Threading.ThreadPool.cs
+    startLine: 24
   assemblies:
   - System.Threading.ThreadPool
   namespace: System.Threading
-  summary: Registers a delegate to wait for a <xref href="System.Threading.WaitHandle" data-throw-if-not-resolved="false"></xref>, specifying a 32-bit unsigned integer for the time-out in milliseconds.
+  summary: "\n<p>Registers a delegate to wait for a <xref href=\"System.Threading.WaitHandle\" data-throw-if-not-resolved=\"false\"></xref>, specifying a 32-bit unsigned integer for the time-out in milliseconds.</p>\n"
+  remarks: "\n<p>When you are finished using the <xref href=\"System.Threading.RegisteredWaitHandle\" data-throw-if-not-resolved=\"false\"></xref> that is returned by this method, call its <xref href=\"System.Threading.RegisteredWaitHandle.Unregister(System.Threading.WaitHandle)\" data-throw-if-not-resolved=\"false\"></xref> method to release references to the wait handle. We recommend that you always call the <xref href=\"System.Threading.RegisteredWaitHandle.Unregister(System.Threading.WaitHandle)\" data-throw-if-not-resolved=\"false\"></xref> method, even if you specify <strong>true</strong> for <em>executeOnlyOnce</em>. Garbage collection works more efficiently if you call the <xref href=\"System.Threading.RegisteredWaitHandle.Unregister(System.Threading.WaitHandle)\" data-throw-if-not-resolved=\"false\"></xref> method instead of depending on the registered wait handle's finalizer.</p>\n<p>The <xref href=\"System.Threading.ThreadPool.RegisterWaitForSingleObject(System.Threading.WaitHandle,System.Threading.WaitOrTimerCallback,System.Object,System.Int64,System.Boolean)\" data-throw-if-not-resolved=\"false\"></xref> method queues the specified delegate to the thread pool. A worker thread will execute the delegate when one of the following occurs: </p>\n<ul><li>\n<p>The specified object is in the signaled state.</p>\n</li><li>\n<p>The time-out interval elapses.</p>\n</li></ul>\n<p>The <xref href=\"System.Threading.ThreadPool.RegisterWaitForSingleObject(System.Threading.WaitHandle,System.Threading.WaitOrTimerCallback,System.Object,System.Int64,System.Boolean)\" data-throw-if-not-resolved=\"false\"></xref>method checks the current state of the specified object's <xref href=\"System.Threading.WaitHandle\" data-throw-if-not-resolved=\"false\"></xref>. If the object's state is unsignaled, the method registers a wait operation. The wait operation is performed by a thread from the thread pool. The delegate is executed by a worker thread when the object's state becomes signaled or the time-out interval elapses. If the <em>timeOutInterval</em> parameter is not 0 (zero) and the <em>executeOnlyOnce</em> parameter is <strong>false</strong>, the timer is reset every time the event is signaled or the time-out interval elapses.</p>\n<p>Using a <xref href=\"System.Threading.Mutex\" data-throw-if-not-resolved=\"false\"></xref> for <em>waitObject</em> does not provide mutual exclusion for the callbacks because the underlying Win32 API uses the default <strong>WT_EXECUTEDEFAULT</strong> flag, so each callback is dispatched on a separate thread pool thread. Instead of a <xref href=\"System.Threading.Mutex\" data-throw-if-not-resolved=\"false\"></xref>, use a <xref href=\"System.Threading.Semaphore\" data-throw-if-not-resolved=\"false\"></xref> with a maximum count of 1.</p>\n<p>To cancel the wait operation, call the <xref href=\"System.Threading.RegisteredWaitHandle.Unregister(System.Threading.WaitHandle)\" data-throw-if-not-resolved=\"false\"></xref> method.</p>\n<p>The wait thread uses the Win32 WaitForMultipleObjects function to monitor registered wait operations. Therefore, if you must use the same native operating system handle in multiple calls to <xref href=\"System.Threading.ThreadPool.RegisterWaitForSingleObject(System.Threading.WaitHandle,System.Threading.WaitOrTimerCallback,System.Object,System.Int64,System.Boolean)\" data-throw-if-not-resolved=\"false\"></xref>, you must duplicate the handle using the Win32 DuplicateHandle function. Note that you should not pulse an event object passed to <xref href=\"System.Threading.ThreadPool.RegisterWaitForSingleObject(System.Threading.WaitHandle,System.Threading.WaitOrTimerCallback,System.Object,System.Int64,System.Boolean)\" data-throw-if-not-resolved=\"false\"></xref>, because the wait thread might not detect that the event is signaled before it is reset.</p>\n<p>Before returning, the function modifies the state of some types of synchronization objects. Modification occurs only for the object whose signaled state caused the wait condition to be satisfied. For example, the count of a semaphore is decreased by one.</p>\n"
+  example:
+  - >-
+    <p>The following example shows how to use the <xref href="System.Threading.ThreadPool.RegisterWaitForSingleObject(System.Threading.WaitHandle,System.Threading.WaitOrTimerCallback,System.Object,System.UInt32,System.Boolean)" data-throw-if-not-resolved="false"></xref> method to execute a specified callback method when a specified wait handle is signaled. In this example, the callback method is <code>WaitProc</code>, and the wait handle is an <xref href="System.Threading.AutoResetEvent" data-throw-if-not-resolved="false"></xref>.</p>
+
+    <p>The example defines a <code>TaskInfo</code> class to hold the information that is passed to the callback when it executes. The example creates a <code>TaskInfo</code> object and assigns it some string data. The <xref href="System.Threading.RegisteredWaitHandle" data-throw-if-not-resolved="false"></xref> that is returned by the <xref href="System.Threading.ThreadPool.RegisterWaitForSingleObject(System.Threading.WaitHandle,System.Threading.WaitOrTimerCallback,System.Object,System.UInt32,System.Boolean)" data-throw-if-not-resolved="false"></xref> method is assigned to the <code>Handle</code> field of the <code>TaskInfo</code> object so that the callback method has access to the <xref href="System.Threading.RegisteredWaitHandle" data-throw-if-not-resolved="false"></xref>. </p>
+
+    <p>In addition to specifying <code>TaskInfo</code> as the object to pass to the callback method, the call to the <xref href="System.Threading.ThreadPool.RegisterWaitForSingleObject(System.Threading.WaitHandle,System.Threading.WaitOrTimerCallback,System.Object,System.UInt32,System.Boolean)" data-throw-if-not-resolved="false"></xref> method specifies the <xref href="System.Threading.AutoResetEvent" data-throw-if-not-resolved="false"></xref> that the task will wait for, a <xref href="System.Threading.WaitOrTimerCallback" data-throw-if-not-resolved="false"></xref> delegate that represents the <code>WaitProc</code> callback method, a one second time-out interval, and multiple callbacks. </p>
+
+    <p>When the main thread signals the <xref href="System.Threading.AutoResetEvent" data-throw-if-not-resolved="false"></xref> by calling its <xref href="System.Threading.EventWaitHandle.Set" data-throw-if-not-resolved="false"></xref> method, the <xref href="System.Threading.WaitOrTimerCallback" data-throw-if-not-resolved="false"></xref> delegate is invoked. The <code>WaitProc</code> method tests <xref href="System.Threading.RegisteredWaitHandle" data-throw-if-not-resolved="false"></xref> to determine whether a time-out occurred. If the callback was invoked because the wait handle was signaled, the <code>WaitProc</code> method unregisters the <xref href="System.Threading.RegisteredWaitHandle" data-throw-if-not-resolved="false"></xref>, stopping additional callbacks. In the case of a time-out, the task continues to wait. The <code>WaitProc</code> method ends by printing a message to the console.</p>System.Threading.ThreadPool RegisterWaitForSingleObject0#1
   syntax:
     content: public static RegisteredWaitHandle RegisterWaitForSingleObject(WaitHandle waitObject, WaitOrTimerCallback callBack, object state, uint millisecondsTimeOutInterval, bool executeOnlyOnce)
     content.vb: Public Shared Function RegisterWaitForSingleObject(waitObject As WaitHandle, callBack As WaitOrTimerCallback, state As Object, millisecondsTimeOutInterval As UInteger, executeOnlyOnce As Boolean) As RegisteredWaitHandle
     parameters:
     - id: waitObject
       type: System.Threading.WaitHandle
-      description: The <xref href="System.Threading.WaitHandle" data-throw-if-not-resolved="false"></xref> to register. Use a <xref href="System.Threading.WaitHandle" data-throw-if-not-resolved="false"></xref> other than <xref href="System.Threading.Mutex" data-throw-if-not-resolved="false"></xref>.
+      description: "\n<p>The <xref href=\"System.Threading.WaitHandle\" data-throw-if-not-resolved=\"false\"></xref> to register. Use a <xref href=\"System.Threading.WaitHandle\" data-throw-if-not-resolved=\"false\"></xref> other than <xref href=\"System.Threading.Mutex\" data-throw-if-not-resolved=\"false\"></xref>.</p>\n"
     - id: callBack
       type: System.Threading.WaitOrTimerCallback
-      description: 'The <xref href="System.Threading.WaitOrTimerCallback" data-throw-if-not-resolved="false"></xref> delegate to call when the <em>waitObject</em> parameter is signaled. '
+      description: "\n<p>The <xref href=\"System.Threading.WaitOrTimerCallback\" data-throw-if-not-resolved=\"false\"></xref> delegate to call when the <em>waitObject</em> parameter is signaled. </p>\n"
     - id: state
       type: System.Object
-      description: 'The object passed to the delegate. '
+      description: "\n<p>The object passed to the delegate. </p>\n"
     - id: millisecondsTimeOutInterval
       type: System.UInt32
-      description: 'The time-out in milliseconds. If the <em>millisecondsTimeOutInterval</em> parameter is 0 (zero), the function tests the object''s state and returns immediately. If <em>millisecondsTimeOutInterval</em> is -1, the function''s time-out interval never elapses. '
+      description: "\n<p>The time-out in milliseconds. If the <em>millisecondsTimeOutInterval</em> parameter is 0 (zero), the function tests the object's state and returns immediately. If <em>millisecondsTimeOutInterval</em> is -1, the function's time-out interval never elapses. </p>\n"
     - id: executeOnlyOnce
       type: System.Boolean
-      description: 'true to indicate that the thread will no longer wait on the <em>waitObject</em> parameter after the delegate has been called; false to indicate that the timer is reset every time the wait operation completes until the wait is unregistered. '
+      description: "\n<p>\n<strong>true</strong> to indicate that the thread will no longer wait on the <em>waitObject</em> parameter after the delegate has been called; <strong>false</strong> to indicate that the timer is reset every time the wait operation completes until the wait is unregistered. </p>\n"
     return:
       type: System.Threading.RegisteredWaitHandle
-      description: The <xref href="System.Threading.RegisteredWaitHandle" data-throw-if-not-resolved="false"></xref> that can be used to cancel the registered wait operation.
+      description: "\n<p>The <xref href=\"System.Threading.RegisteredWaitHandle\" data-throw-if-not-resolved=\"false\"></xref> that can be used to cancel the registered wait operation.</p>\n"
   exceptions:
   - type: System.ArgumentOutOfRangeException
     commentId: T:System.ArgumentOutOfRangeException
-    description: 'The <em>millisecondsTimeOutInterval</em> parameter is less than -1. '
+    description: "\n<p>The <em>millisecondsTimeOutInterval</em> parameter is less than -1. </p>\n"
   modifiers.csharp:
   - public
   - static

@@ -45,12 +45,11 @@ items:
   assemblies:
   - System.Data.Common
   namespace: System.Data.Common
-  summary: 'Represents a connection to a database. '
   syntax:
-    content: 'public abstract class DbConnection : IDisposable, IDbConnection, IDisposable'
+    content: 'public abstract class DbConnection : object, IDbConnection, IDisposable'
     content.vb: >-
       Public MustInherit Class DbConnection
-          Inherits IDisposable
+          Inherits Object
           Implements IDbConnection, IDisposable
   inheritance:
   - System.Object
@@ -86,7 +85,6 @@ items:
   assemblies:
   - System.Data.Common
   namespace: System.Data.Common
-  summary: Initializes a new instance of the <xref href="System.Data.Common.DbConnection" data-throw-if-not-resolved="false"></xref> class.
   syntax:
     content: protected DbConnection()
     content.vb: Protected Sub New
@@ -115,14 +113,12 @@ items:
   assemblies:
   - System.Data.Common
   namespace: System.Data.Common
-  summary: Gets or sets the string used to open the connection.
   syntax:
     content: public abstract string ConnectionString { get; set; }
     content.vb: Public MustOverride Property ConnectionString As String
     parameters: []
     return:
       type: System.String
-      description: The connection string used to establish the initial connection. The exact contents of the connection string depend on the specific data source for this connection. The default value is an empty string.
   implements:
   - System.Data.IDbConnection.ConnectionString
   modifiers.csharp:
@@ -154,14 +150,12 @@ items:
   assemblies:
   - System.Data.Common
   namespace: System.Data.Common
-  summary: Gets the time to wait while establishing a connection before terminating the attempt and generating an error.
   syntax:
     content: public virtual int ConnectionTimeout { get; }
     content.vb: Public Overridable ReadOnly Property ConnectionTimeout As Integer
     parameters: []
     return:
       type: System.Int32
-      description: The time (in seconds) to wait for a connection to open. The default value is determined by the specific type of connection that you are using.
   implements:
   - System.Data.IDbConnection.ConnectionTimeout
   modifiers.csharp:
@@ -193,14 +187,12 @@ items:
   assemblies:
   - System.Data.Common
   namespace: System.Data.Common
-  summary: Gets the name of the current database after a connection is opened, or the database name specified in the connection string before the connection is opened.
   syntax:
     content: public abstract string Database { get; }
     content.vb: Public MustOverride ReadOnly Property Database As String
     parameters: []
     return:
       type: System.String
-      description: The name of the current database or the name of the database to be used after a connection is opened. The default value is an empty string.
   implements:
   - System.Data.IDbConnection.Database
   modifiers.csharp:
@@ -232,14 +224,12 @@ items:
   assemblies:
   - System.Data.Common
   namespace: System.Data.Common
-  summary: Gets the name of the database server to which to connect.
   syntax:
     content: public abstract string DataSource { get; }
     content.vb: Public MustOverride ReadOnly Property DataSource As String
     parameters: []
     return:
       type: System.String
-      description: The name of the database server to which to connect. The default value is an empty string.
   modifiers.csharp:
   - public
   - abstract
@@ -269,18 +259,12 @@ items:
   assemblies:
   - System.Data.Common
   namespace: System.Data.Common
-  summary: Gets a string that represents the version of the server to which the object is connected.
   syntax:
     content: public abstract string ServerVersion { get; }
     content.vb: Public MustOverride ReadOnly Property ServerVersion As String
     parameters: []
     return:
       type: System.String
-      description: The version of the database. The format of the string returned depends on the specific type of connection you are using.
-  exceptions:
-  - type: System.InvalidOperationException
-    commentId: T:System.InvalidOperationException
-    description: "\n<xref href=\"System.Data.Common.DbConnection.ServerVersion\" data-throw-if-not-resolved=\"false\"></xref> was called while the returned Task was not completed and the connection was not opened after a call to <see cref=\"Overload:System.Data.Common.DbConnection.OpenAsync\"></see>."
   modifiers.csharp:
   - public
   - abstract
@@ -310,14 +294,12 @@ items:
   assemblies:
   - System.Data.Common
   namespace: System.Data.Common
-  summary: Gets a string that describes the state of the connection.
   syntax:
     content: public abstract ConnectionState State { get; }
     content.vb: Public MustOverride ReadOnly Property State As ConnectionState
     parameters: []
     return:
       type: System.Data.ConnectionState
-      description: The state of the connection. The format of the string returned depends on the specific type of connection you are using.
   implements:
   - System.Data.IDbConnection.State
   modifiers.csharp:
@@ -349,7 +331,6 @@ items:
   assemblies:
   - System.Data.Common
   namespace: System.Data.Common
-  summary: Occurs when the state of the event changes.
   syntax:
     content: public virtual event StateChangeEventHandler StateChange
     content.vb: Public Overridable Event StateChange As StateChangeEventHandler
@@ -382,17 +363,14 @@ items:
   assemblies:
   - System.Data.Common
   namespace: System.Data.Common
-  summary: Starts a database transaction.
   syntax:
     content: protected abstract DbTransaction BeginDbTransaction(IsolationLevel isolationLevel)
     content.vb: Protected MustOverride Function BeginDbTransaction(isolationLevel As IsolationLevel) As DbTransaction
     parameters:
     - id: isolationLevel
       type: System.Data.IsolationLevel
-      description: Specifies the isolation level for the transaction.
     return:
       type: System.Data.Common.DbTransaction
-      description: An object representing the new transaction.
   modifiers.csharp:
   - protected
   - abstract
@@ -420,13 +398,11 @@ items:
   assemblies:
   - System.Data.Common
   namespace: System.Data.Common
-  summary: Starts a database transaction.
   syntax:
     content: public DbTransaction BeginTransaction()
     content.vb: Public Function BeginTransaction As DbTransaction
     return:
       type: System.Data.Common.DbTransaction
-      description: An object representing the new transaction.
   modifiers.csharp:
   - public
   modifiers.vb:
@@ -452,17 +428,14 @@ items:
   assemblies:
   - System.Data.Common
   namespace: System.Data.Common
-  summary: Starts a database transaction with the specified isolation level.
   syntax:
     content: public DbTransaction BeginTransaction(IsolationLevel isolationLevel)
     content.vb: Public Function BeginTransaction(isolationLevel As IsolationLevel) As DbTransaction
     parameters:
     - id: isolationLevel
       type: System.Data.IsolationLevel
-      description: Specifies the isolation level for the transaction.
     return:
       type: System.Data.Common.DbTransaction
-      description: An object representing the new transaction.
   modifiers.csharp:
   - public
   modifiers.vb:
@@ -488,14 +461,12 @@ items:
   assemblies:
   - System.Data.Common
   namespace: System.Data.Common
-  summary: Changes the current database for an open connection.
   syntax:
     content: public abstract void ChangeDatabase(string databaseName)
     content.vb: Public MustOverride Sub ChangeDatabase(databaseName As String)
     parameters:
     - id: databaseName
       type: System.String
-      description: Specifies the name of the database for the connection to use.
   implements:
   - System.Data.IDbConnection.ChangeDatabase(System.String)
   modifiers.csharp:
@@ -525,14 +496,9 @@ items:
   assemblies:
   - System.Data.Common
   namespace: System.Data.Common
-  summary: Closes the connection to the database. This is the preferred method of closing any open connection.
   syntax:
     content: public abstract void Close()
     content.vb: Public MustOverride Sub Close
-  exceptions:
-  - type: System.Data.Common.DbException
-    commentId: T:System.Data.Common.DbException
-    description: 'The connection-level error that occurred while opening the connection. '
   implements:
   - System.Data.IDbConnection.Close
   modifiers.csharp:
@@ -562,13 +528,11 @@ items:
   assemblies:
   - System.Data.Common
   namespace: System.Data.Common
-  summary: Creates and returns a <xref href="System.Data.Common.DbCommand" data-throw-if-not-resolved="false"></xref> object associated with the current connection.
   syntax:
     content: public DbCommand CreateCommand()
     content.vb: Public Function CreateCommand As DbCommand
     return:
       type: System.Data.Common.DbCommand
-      description: A <xref href="System.Data.Common.DbCommand" data-throw-if-not-resolved="false"></xref> object.
   modifiers.csharp:
   - public
   modifiers.vb:
@@ -594,13 +558,11 @@ items:
   assemblies:
   - System.Data.Common
   namespace: System.Data.Common
-  summary: Creates and returns a <xref href="System.Data.Common.DbCommand" data-throw-if-not-resolved="false"></xref> object associated with the current connection.
   syntax:
     content: protected abstract DbCommand CreateDbCommand()
     content.vb: Protected MustOverride Function CreateDbCommand As DbCommand
     return:
       type: System.Data.Common.DbCommand
-      description: A <xref href="System.Data.Common.DbCommand" data-throw-if-not-resolved="false"></xref> object.
   modifiers.csharp:
   - protected
   - abstract
@@ -628,14 +590,12 @@ items:
   assemblies:
   - System.Data.Common
   namespace: System.Data.Common
-  summary: Raises the <xref href="System.Data.Common.DbConnection.StateChange" data-throw-if-not-resolved="false"></xref> event.
   syntax:
     content: protected virtual void OnStateChange(StateChangeEventArgs stateChange)
     content.vb: Protected Overridable Sub OnStateChange(stateChange As StateChangeEventArgs)
     parameters:
     - id: stateChange
       type: System.Data.StateChangeEventArgs
-      description: A <xref href="System.Data.StateChangeEventArgs" data-throw-if-not-resolved="false"></xref> that contains the event data.
   modifiers.csharp:
   - protected
   - virtual
@@ -663,7 +623,6 @@ items:
   assemblies:
   - System.Data.Common
   namespace: System.Data.Common
-  summary: Opens a database connection with the settings specified by the <xref href="System.Data.Common.DbConnection.ConnectionString" data-throw-if-not-resolved="false"></xref>.
   syntax:
     content: public abstract void Open()
     content.vb: Public MustOverride Sub Open
@@ -696,13 +655,11 @@ items:
   assemblies:
   - System.Data.Common
   namespace: System.Data.Common
-  summary: An asynchronous version of <xref href="System.Data.Common.DbConnection.Open" data-throw-if-not-resolved="false"></xref>, which opens a database connection with the settings specified by the <xref href="System.Data.Common.DbConnection.ConnectionString" data-throw-if-not-resolved="false"></xref>. This method invokes the virtual method <xref href="System.Data.Common.DbConnection.OpenAsync(System.Threading.CancellationToken)" data-throw-if-not-resolved="false"></xref> with CancellationToken.None.
   syntax:
-    content: public Threading.Tasks.Task OpenAsync()
-    content.vb: Public Function OpenAsync As Threading.Tasks.Task
+    content: public Task OpenAsync()
+    content.vb: Public Function OpenAsync As Task
     return:
-      type: System.Threading.Tasks.Task
-      description: A task representing the asynchronous operation.
+      type: Task
   modifiers.csharp:
   - public
   modifiers.vb:
@@ -728,17 +685,14 @@ items:
   assemblies:
   - System.Data.Common
   namespace: System.Data.Common
-  summary: This is the asynchronous version of <xref href="System.Data.Common.DbConnection.Open" data-throw-if-not-resolved="false"></xref>. Providers should override with an appropriate implementation. The cancellation token can optionally be honored.The default implementation invokes the synchronous <xref href="System.Data.Common.DbConnection.Open" data-throw-if-not-resolved="false"></xref> call and returns a completed task. The default implementation will return a cancelled task if passed an already cancelled cancellationToken. Exceptions thrown by Open will be communicated via the returned Task Exception property.Do not invoke other methods and properties of the DbConnection object until the returned Task is complete.
   syntax:
     content: public virtual Threading.Tasks.Task OpenAsync(Threading.CancellationToken cancellationToken)
     content.vb: Public Overridable Function OpenAsync(cancellationToken As Threading.CancellationToken) As Threading.Tasks.Task
     parameters:
     - id: cancellationToken
       type: System.Threading.CancellationToken
-      description: The cancellation instruction.
     return:
       type: System.Threading.Tasks.Task
-      description: A task representing the asynchronous operation.
   modifiers.csharp:
   - public
   - virtual
@@ -767,13 +721,11 @@ items:
   assemblies:
   - System.Data.Common
   namespace: System.Data.Common
-  summary: Begins a database transaction.
   syntax:
     content: IDbTransaction IDbConnection.BeginTransaction()
     content.vb: Function System.Data.IDbConnection.BeginTransaction As IDbTransaction Implements IDbConnection.BeginTransaction
     return:
       type: System.Data.IDbTransaction
-      description: An object that represents the new transaction.
   implements:
   - System.Data.IDbConnection.BeginTransaction
   name.vb: System.Data.IDbConnection.BeginTransaction()
@@ -799,17 +751,14 @@ items:
   assemblies:
   - System.Data.Common
   namespace: System.Data.Common
-  summary: Begins a database transaction with the specified <xref href="System.Data.IsolationLevel" data-throw-if-not-resolved="false"></xref> value.
   syntax:
     content: IDbTransaction IDbConnection.BeginTransaction(IsolationLevel isolationLevel)
     content.vb: Function System.Data.IDbConnection.BeginTransaction(isolationLevel As IsolationLevel) As IDbTransaction Implements IDbConnection.BeginTransaction
     parameters:
     - id: isolationLevel
       type: System.Data.IsolationLevel
-      description: One of the <xref href="System.Data.IsolationLevel" data-throw-if-not-resolved="false"></xref> values.
     return:
       type: System.Data.IDbTransaction
-      description: An object that represents the new transaction.
   implements:
   - System.Data.IDbConnection.BeginTransaction(System.Data.IsolationLevel)
   name.vb: System.Data.IDbConnection.BeginTransaction(IsolationLevel)
@@ -835,13 +784,11 @@ items:
   assemblies:
   - System.Data.Common
   namespace: System.Data.Common
-  summary: Creates and returns a <xref href="System.Data.Common.DbCommand" data-throw-if-not-resolved="false"></xref> object that is associated with the current connection.
   syntax:
     content: IDbCommand IDbConnection.CreateCommand()
     content.vb: Function System.Data.IDbConnection.CreateCommand As IDbCommand Implements IDbConnection.CreateCommand
     return:
       type: System.Data.IDbCommand
-      description: A <xref href="System.Data.Common.DbCommand" data-throw-if-not-resolved="false"></xref> object that is associated with the connection.
   implements:
   - System.Data.IDbConnection.CreateCommand
   name.vb: System.Data.IDbConnection.CreateCommand()
@@ -982,7 +929,7 @@ references:
 - uid: System.Data.Common.DbTransaction
   parent: System.Data.Common
   isExternal: false
-  name: Common.DbTransaction
+  name: DbTransaction
   fullName: System.Data.Common.DbTransaction
 - uid: System.Data.IDbConnection.ChangeDatabase(System.String)
   parent: System.Data.IDbConnection
@@ -1037,7 +984,7 @@ references:
 - uid: System.Data.Common.DbCommand
   parent: System.Data.Common
   isExternal: false
-  name: Common.DbCommand
+  name: DbCommand
   fullName: System.Data.Common.DbCommand
 - uid: System.Data.StateChangeEventArgs
   parent: System.Data
@@ -1068,7 +1015,7 @@ references:
 - uid: System.Threading.Tasks.Task
   parent: System.Threading.Tasks
   isExternal: false
-  name: Task
+  name: Threading.Tasks.Task
   fullName: System.Threading.Tasks.Task
 - uid: System.Threading.Tasks
   isExternal: false
@@ -1077,7 +1024,7 @@ references:
 - uid: System.Threading.CancellationToken
   parent: System.Threading
   isExternal: false
-  name: CancellationToken
+  name: Threading.CancellationToken
   fullName: System.Threading.CancellationToken
 - uid: System.Threading
   isExternal: false
@@ -1167,12 +1114,3 @@ references:
   isExternal: false
   name: Boolean
   fullName: System.Boolean
-- uid: System.InvalidOperationException
-  parent: System
-  isExternal: false
-  name: InvalidOperationException
-  fullName: System.InvalidOperationException
-- uid: System.Data.Common.DbException
-  isExternal: false
-  name: DbException
-  fullName: System.Data.Common.DbException

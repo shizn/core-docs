@@ -15,22 +15,28 @@ items:
   type: Interface
   source:
     remote:
-      path: src/mscorlib/src/System/IObserver.cs
+      path: src/System.Runtime/ref/System.Runtime.cs
       branch: master
-      repo: https://github.com/dotnet/coreclr.git
+      repo: https://github.com/dotnet/corefx.git
     id: IObserver
-    path: src/mscorlib/src/System/IObserver.cs
-    startLine: 20
+    path: src/System.Runtime/ref/System.Runtime.cs
+    startLine: 1191
   assemblies:
   - System.Runtime
   namespace: System
-  summary: Provides a mechanism for receiving push-based notifications.
+  summary: "\n<p>Provides a mechanism for receiving push-based notifications.</p>\n"
+  remarks: "\n<p>The <xref href=\"System.IObserver`1\" data-throw-if-not-resolved=\"false\"></xref> and <xref href=\"System.IObservable`1\" data-throw-if-not-resolved=\"false\"></xref> interfaces provide a generalized mechanism for push-based notification, also known as the observer design pattern. The <xref href=\"System.IObservable`1\" data-throw-if-not-resolved=\"false\"></xref> interface represents the class that sends notifications (the provider); the <xref href=\"System.IObserver`1\" data-throw-if-not-resolved=\"false\"></xref> interface represents the class that receives them (the observer). <em>T</em> represents the class that provides the notification information.</p>\n<p>An <xref href=\"System.IObserver`1\" data-throw-if-not-resolved=\"false\"></xref> implementation arranges to receive notifications from a provider (an <xref href=\"System.IObservable`1\" data-throw-if-not-resolved=\"false\"></xref> implementation) by passing an instance of itself to the provider's <xref href=\"System.IObservable`1.Subscribe(System.IObserver{`0})\" data-throw-if-not-resolved=\"false\"></xref> method. This method returns an <xref href=\"System.IDisposable\" data-throw-if-not-resolved=\"false\"></xref> object that can be used to unsubscribe the observer before the provider finishes sending notifications.</p>\n<p>The <xref href=\"System.IObserver`1\" data-throw-if-not-resolved=\"false\"></xref> interface defines the following three methods that the observer must implement:</p>\n<ul><li>\n<p>The <xref href=\"System.IObserver`1.OnNext(`0)\" data-throw-if-not-resolved=\"false\"></xref> method, which is typically called by the provider to supply the observer with new data or state information.</p>\n</li><li>\n<p>The <xref href=\"System.IObserver`1.OnError(System.Exception)\" data-throw-if-not-resolved=\"false\"></xref> method, which is typically called by the provider to indicate that data is unavailable, inaccessible, or corrupted, or that the provider has experienced some other error condition. </p>\n</li><li>\n<p>The <xref href=\"System.IObserver`1.OnCompleted\" data-throw-if-not-resolved=\"false\"></xref> method, which is typically called by the provider to indicate that it has finished sending notifications to observers.</p>\n</li></ul>\n"
+  example:
+  - "\n<p>The following example illustrates the observer design pattern. It defines a <code>Location</code> class that contains latitude and longitude information.</p>System.IObserver.Class#5<p>The <code>LocationReporter</code> class provides the <xref href=\"System.IObserver`1\" data-throw-if-not-resolved=\"false\"></xref> implementation. It displays information about the current location to the console. Its constructor includes a <em>name</em> parameter, which allows the <code>LocationReporter</code> instance to identify itself in its string output. It also includes a <code>Subscribe</code> method, which wraps a call to the provider's <xref href=\"System.IObservable`1.Subscribe(System.IObserver{`0})\" data-throw-if-not-resolved=\"false\"></xref> method. This enables the method to assign the returned <xref href=\"System.IDisposable\" data-throw-if-not-resolved=\"false\"></xref> reference to a private variable. The <code>LocationReporter</code> class also includes an <code>Unsubscribe</code> method, which calls the <xref href=\"System.IDisposable.Dispose\" data-throw-if-not-resolved=\"false\"></xref> method of the object returned by the <xref href=\"System.IObservable`1.Subscribe(System.IObserver{`0})\" data-throw-if-not-resolved=\"false\"></xref> method. The following code defines the <code>LocationReporter</code> class. </p>System.IObserver.Class#8<p>The <code>LocationTracker</code> class provides the <xref href=\"System.IObservable`1\" data-throw-if-not-resolved=\"false\"></xref> implementation. Its <code>TrackLocation</code> method is passed a nullable <code>Location</code> object that contains the latitude and longitude data. If the <code>Location</code> value is not <strong>null</strong>, the <code>TrackLocation</code> method calls the <xref href=\"System.IObserver`1.OnNext(`0)\" data-throw-if-not-resolved=\"false\"></xref> method of each observer. </p>System.IObserver.Class#6<p>If the <code>Location</code> value is <strong>null</strong>, the <code>TrackLocation</code> method instantiates a <code>LocationNotFoundException</code> object, which is shown in the following example. It then calls each observer's <xref href=\"System.IObserver`1.OnError(System.Exception)\" data-throw-if-not-resolved=\"false\"></xref> method and passes it the <code>LocationNotFoundException</code> object. Note that <code>LocationNotFoundException</code> derives from <xref href=\"System.Exception\" data-throw-if-not-resolved=\"false\"></xref> but does not add any new members.</p>System.IObserver.Class#7<p>Observers register to receive notifications from a <code>TrackLocation</code> object by calling its <xref href=\"System.IObservable`1.Subscribe(System.IObserver{`0})\" data-throw-if-not-resolved=\"false\"></xref> method, which assigns a reference to the observer object to a private generic <xref href=\"System.Collections.Generic.List`1\" data-throw-if-not-resolved=\"false\"></xref> object. The method returns an <code>Unsubscriber</code> object, which is an <xref href=\"System.IDisposable\" data-throw-if-not-resolved=\"false\"></xref> implementation that enables observers to stop receiving notifications. The <code>LocationTracker</code> class also includes an <code>EndTransmission</code> method. When no further location data is available, the method calls each observer's <xref href=\"System.IObserver`1.OnCompleted\" data-throw-if-not-resolved=\"false\"></xref> method and then clears the internal list of observers.</p><p>The following code then instantiates the provider and the observer.</p>System.IObserver.Class#9"
   syntax:
     content: public interface IObserver<in T>
     content.vb: Public Interface IObserver(Of In T)
     typeParameters:
     - id: T
-      description: The object that provides notification information.This type parameter is contravariant. That is, you can use either the type you specified or any type that is less derived. For more information about covariance and contravariance, see Covariance and Contravariance in Generics.
+      description: "\n<p>The object that provides notification information.</p>\n"
+  seealso:
+  - type: System.IObservable`1
+    commentId: T:System.IObservable`1
   modifiers.csharp:
   - public
   - interface
@@ -51,16 +57,19 @@ items:
   type: Method
   source:
     remote:
-      path: src/mscorlib/src/System/IObserver.cs
+      path: src/System.Runtime/ref/System.Runtime.cs
       branch: master
-      repo: https://github.com/dotnet/coreclr.git
+      repo: https://github.com/dotnet/corefx.git
     id: OnCompleted
-    path: src/mscorlib/src/System/IObserver.cs
-    startLine: 24
+    path: src/System.Runtime/ref/System.Runtime.cs
+    startLine: 1193
   assemblies:
   - System.Runtime
   namespace: System
-  summary: Notifies the observer that the provider has finished sending push-based notifications.
+  summary: "\n<p>Notifies the observer that the provider has finished sending push-based notifications.</p>\n"
+  remarks: "\n<p>When the observer's <xref href=\"System.IObserver`1.OnCompleted\" data-throw-if-not-resolved=\"false\"></xref> implementation is called, the <xref href=\"System.IObserver`1.OnCompleted\" data-throw-if-not-resolved=\"false\"></xref> method can optionally call the <xref href=\"System.IDisposable.Dispose\" data-throw-if-not-resolved=\"false\"></xref> method of the <xref href=\"System.IDisposable\" data-throw-if-not-resolved=\"false\"></xref> object that was returned to the observer when it called the <xref href=\"System.IObservable`1.Subscribe(System.IObserver{`0})\" data-throw-if-not-resolved=\"false\"></xref> method. </p>\n"
+  example:
+  - "\n<p>The following example provides an implementation of the <xref href=\"System.IObserver`1.OnCompleted\" data-throw-if-not-resolved=\"false\"></xref> method in a latitude/longitude tracking application. The method simply reports that no further data is available and calls the provider's <xref href=\"System.IDisposable.Dispose\" data-throw-if-not-resolved=\"false\"></xref> implementation. See the Example section of the <xref href=\"System.IObserver`1\" data-throw-if-not-resolved=\"false\"></xref> topic for the complete example.</p>System.IObserver.Class#11"
   syntax:
     content: void OnCompleted()
     content.vb: Sub OnCompleted
@@ -77,23 +86,26 @@ items:
   type: Method
   source:
     remote:
-      path: src/mscorlib/src/System/IObserver.cs
+      path: src/System.Runtime/ref/System.Runtime.cs
       branch: master
-      repo: https://github.com/dotnet/coreclr.git
+      repo: https://github.com/dotnet/corefx.git
     id: OnError
-    path: src/mscorlib/src/System/IObserver.cs
-    startLine: 23
+    path: src/System.Runtime/ref/System.Runtime.cs
+    startLine: 1194
   assemblies:
   - System.Runtime
   namespace: System
-  summary: Notifies the observer that the provider has experienced an error condition.
+  summary: "\n<p>Notifies the observer that the provider has experienced an error condition.</p>\n"
+  remarks: "\n<p>Although <em>error</em> is an object that is derived from <xref href=\"System.Exception\" data-throw-if-not-resolved=\"false\"></xref>, it does not necessarily represent an exception that is thrown by the provider. It can also represent a routine or expected error condition, such as data that is missing or unavailable. The <xref href=\"System.IObserver`1.OnError(System.Exception)\" data-throw-if-not-resolved=\"false\"></xref> method should be seen as informational, and the provider should not expect the observer to provide error handling.</p>\n"
+  example:
+  - "\n<p>The following example provides an implementation of the <xref href=\"System.IObserver`1.OnError(System.Exception)\" data-throw-if-not-resolved=\"false\"></xref> method in a latitude/longitude tracking application. The method simply reports that data is currently unavailable; it does not make use of the <xref href=\"System.Exception\" data-throw-if-not-resolved=\"false\"></xref> object passed to it as a parameter. See the Example section of the <xref href=\"System.IObserver`1\" data-throw-if-not-resolved=\"false\"></xref> topic for the complete example.</p>System.IObserver.Class#10"
   syntax:
     content: void OnError(Exception error)
     content.vb: Sub OnError(error As Exception)
     parameters:
     - id: error
       type: System.Exception
-      description: An object that provides additional information about the error.
+      description: "\n<p>An object that provides additional information about the error.</p>\n"
   fullName.vb: System.IObserver(Of T).OnError(System.Exception)
 - uid: System.IObserver`1.OnNext(`0)
   commentId: M:System.IObserver`1.OnNext(`0)
@@ -107,23 +119,26 @@ items:
   type: Method
   source:
     remote:
-      path: src/mscorlib/src/System/IObserver.cs
+      path: src/System.Runtime/ref/System.Runtime.cs
       branch: master
-      repo: https://github.com/dotnet/coreclr.git
+      repo: https://github.com/dotnet/corefx.git
     id: OnNext
-    path: src/mscorlib/src/System/IObserver.cs
-    startLine: 22
+    path: src/System.Runtime/ref/System.Runtime.cs
+    startLine: 1195
   assemblies:
   - System.Runtime
   namespace: System
-  summary: Provides the observer with new data.
+  summary: "\n<p>Provides the observer with new data.</p>\n"
+  remarks: "\n<p>After an observer has called a provider's <xref href=\"System.IObservable`1.Subscribe(System.IObserver{`0})\" data-throw-if-not-resolved=\"false\"></xref> method, the provider calls the observer's <xref href=\"System.IObserver`1.OnNext(`0)\" data-throw-if-not-resolved=\"false\"></xref> method to provide notifications. </p>\n"
+  example:
+  - "\n<p>The following example provides an implementation of the <xref href=\"System.IObserver`1.OnNext(`0)\" data-throw-if-not-resolved=\"false\"></xref> method in a latitude/longitude tracking application. See the Example section of the <xref href=\"System.IObserver`1\" data-throw-if-not-resolved=\"false\"></xref> topic for the complete example.</p>System.IObserver.Class#12"
   syntax:
     content: void OnNext(T value)
     content.vb: Sub OnNext(value As T)
     parameters:
     - id: value
       type: '{T}'
-      description: The current notification information.
+      description: "\n<p>The current notification information.</p>\n"
   fullName.vb: System.IObserver(Of T).OnNext(T)
 references:
 - uid: System

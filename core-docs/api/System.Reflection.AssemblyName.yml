@@ -26,21 +26,41 @@ items:
   type: Class
   source:
     remote:
-      path: src/mscorlib/src/System/Reflection/AssemblyName.cs
+      path: src/System.Reflection/ref/4.0/System.Reflection.cs
       branch: master
-      repo: https://github.com/dotnet/coreclr.git
+      repo: https://github.com/dotnet/corefx.git
     id: AssemblyName
-    path: src/mscorlib/src/System/Reflection/AssemblyName.cs
-    startLine: 27
+    path: src/System.Reflection/ref/4.0/System.Reflection.cs
+    startLine: 42
   assemblies:
   - System.Reflection
   namespace: System.Reflection
-  summary: Describes an assembly's unique identity in full.
+  summary: "\n<p>Describes an assembly's unique identity in full.</p>\n"
+  remarks: "\n<p>The <xref href=\"System.Reflection.AssemblyName\" data-throw-if-not-resolved=\"false\"></xref> object contains information about an assembly, which you can use to bind to that assembly. An assembly's identity consists of the following:</p>\n<ul><li>\n<p>Simple name.</p>\n</li><li>\n<p>Version number.</p>\n</li><li>\n<p>Cryptographic key pair.</p>\n</li><li>\n<p>Supported culture.</p>\n</li></ul>\n<p>The simple name is typically the file name for the manifest file without its extension. The key pair includes a public and private key, used to create strong-name signatures for assemblies.</p>\n<p>All compilers that support the common language runtime will emit the simple name of a nested class, and reflection constructs a mangled name when queried, in accordance with the following conventions.</p>\n<p>Delimiter </p>\n<p>Meaning </p>\n<table><tbody><tr><td>\n<p>Backslash (\\) </p>\n</td><td>\n<p>Escape character. </p>\n</td></tr><tr><td>\n<p>Comma (,) </p>\n</td><td>\n<p>Precedes the assembly name. </p>\n</td></tr><tr><td>\n<p>Plus sign (+) </p>\n</td><td>\n<p>Precedes a nested class. </p>\n</td></tr></tbody></table>\n<p>For example, the fully qualified name for a class might look like this: </p>\n<p>ContainingClass+NestedClass,MyAssembly </p>\n<p></p>\n<p>A \"++\" becomes \"\\+\\+\", and a \"\\\" becomes \"\\\\\".</p>\n<p>This qualified name can be persisted and later used to load the <xref href=\"System.Type\" data-throw-if-not-resolved=\"false\"></xref>. To search for and load a <xref href=\"System.Type\" data-throw-if-not-resolved=\"false\"></xref>, use <xref href=\"System.Type.GetType\" data-throw-if-not-resolved=\"false\"></xref> either with the type name only or with the assembly qualified type name. <xref href=\"System.Type.GetType\" data-throw-if-not-resolved=\"false\"></xref> with the type name only will look for the <xref href=\"System.Type\" data-throw-if-not-resolved=\"false\"></xref> in the caller's assembly and then in the System assembly. <xref href=\"System.Type.GetType\" data-throw-if-not-resolved=\"false\"></xref> with the assembly qualified type name will look for the <xref href=\"System.Type\" data-throw-if-not-resolved=\"false\"></xref> in any assembly.</p>\n<p>A fully specified <xref href=\"System.Reflection.AssemblyName\" data-throw-if-not-resolved=\"false\"></xref> must have the name, culture, public key or public key token, major version, minor version, build number, and revision number parameters. The last four are packaged in the <xref href=\"System.Version\" data-throw-if-not-resolved=\"false\"></xref> type. </p>\n<p></p>\n<p>To create a simple name, create an <xref href=\"System.Reflection.AssemblyName\" data-throw-if-not-resolved=\"false\"></xref> object using the default constructor and set the <xref href=\"System.Reflection.AssemblyName.Name\" data-throw-if-not-resolved=\"false\"></xref>. The other properties are optional.</p>\n<p>To create a full strong name, create an <xref href=\"System.Reflection.AssemblyName\" data-throw-if-not-resolved=\"false\"></xref> object using the default constructor and set the <xref href=\"System.Reflection.AssemblyName.Name\" data-throw-if-not-resolved=\"false\"></xref> and <xref href=\"System.Reflection.AssemblyName.KeyPair\" data-throw-if-not-resolved=\"false\"></xref>. The other properties are optional. Use <xref href=\"System.Reflection.AssemblyName.SetPublicKey(System.Byte[])\" data-throw-if-not-resolved=\"false\"></xref> and <xref href=\"System.Reflection.AssemblyName.SetPublicKeyToken(System.Byte[])\" data-throw-if-not-resolved=\"false\"></xref> to set the public key and the strong name. The strong name signing always uses the <xref href=\"System.Security.Cryptography.SHA1\" data-throw-if-not-resolved=\"false\"></xref> hash algorithm.</p>\n<p>To ensure that the names are constructed correctly, use the following properties:</p>\n<ul><li>\n<p>\n<xref href=\"System.Reflection.Assembly.FullName\" data-throw-if-not-resolved=\"false\"></xref>\n</p>\n</li><li>\n<p>\n<xref href=\"System.Reflection.AssemblyName.FullName\" data-throw-if-not-resolved=\"false\"></xref>\n</p>\n</li><li>\n<p>\n<xref href=\"System.Type.AssemblyQualifiedName\" data-throw-if-not-resolved=\"false\"></xref>\n</p>\n</li></ul>\n<p>You can also get the name by using the /l option with the Gacutil.exe (Global Assembly Cache Tool)</p>\n<p>For a partially specified strong name, create an <xref href=\"System.Reflection.AssemblyName\" data-throw-if-not-resolved=\"false\"></xref> object using the default constructor and set the name and public key. An assembly created using such an <xref href=\"System.Reflection.AssemblyName\" data-throw-if-not-resolved=\"false\"></xref> can be signed later using the Assembly Linker (Al.exe).</p>\n<p>It is possible to specify a public key and a <xref href=\"System.Reflection.AssemblyName.KeyPair\" data-throw-if-not-resolved=\"false\"></xref> with inconsistent values. This can be useful in developer scenarios. In this case, the public key retrieved with <xref href=\"System.Reflection.AssemblyName.GetPublicKey\" data-throw-if-not-resolved=\"false\"></xref> specifies the correct public key, while the <xref href=\"System.Reflection.AssemblyName.KeyPair\" data-throw-if-not-resolved=\"false\"></xref> specifies the public and private keys used during development. When the runtime detects a mismatch between the <xref href=\"System.Reflection.AssemblyName.KeyPair\" data-throw-if-not-resolved=\"false\"></xref> and the public key, it looks up in the registry the correct key that matches the public key.</p>\n<p>The format of the display name of an <xref href=\"System.Reflection.AssemblyName\" data-throw-if-not-resolved=\"false\"></xref> is a comma-delimited Unicode string that begins with the name, as follows: </p>\n<p>\n<code>Name <,Culture = CultureInfo> <,Version = Major.Minor.Build.Revision> <, StrongName> <,PublicKeyToken> '\\0'</code>\n</p>\n<p>\n<code>Name</code> is the textual name of the assembly. <code>CultureInfo</code> is the RFC1766-format-defined culture. <code>Major</code>, <code>Minor</code>, <code>Build</code>, and <code>Revision</code> are the major version, minor version, build number, and revision number of the assembly. <code>StrongName</code> is the hexadecimal-encoded low-order 64 bits of the hash value of the public key generated using the SHA-1 hashing algorithm and the public key specified by <xref href=\"System.Reflection.AssemblyName.SetPublicKey(System.Byte[])\" data-throw-if-not-resolved=\"false\"></xref>. <code>PublicKeyToken</code> is the hexadecimal-encoded public key specified by <xref href=\"System.Reflection.AssemblyName.SetPublicKey(System.Byte[])\" data-throw-if-not-resolved=\"false\"></xref>.</p>\n<p>Hexadecimal encoding is defined as the conversion of each byte of a binary object to two hexadecimal characters, progressing from least to most significant byte. Additional display values will be added as deemed necessary.</p>\n<p>If the full public key is known, then PublicKey may be substituted for StrongName.</p>\n<p>Also note that except for <code>Name</code>, which must come first, the lexical order of parameters is unimportant. However, any parameter (<code>Version</code>, <code>Culture</code>, <code>StrongName</code> or <code>PublicKey</code>) not specifically set is considered to be omitted, and the <xref href=\"System.Reflection.AssemblyName\" data-throw-if-not-resolved=\"false\"></xref> is then considered partial. When specifying partial information, Name parameters must be specified in the order described above.</p>\n<p>When supplying a display name, the convention <code>StrongName =null</code> or <code>PublicKey= null</code> indicates that binding and matching against a simply named assembly is required. Additionally, the convention <code>Culture= \"\"</code> (double quote representing an empty string) indicates matching against the default culture.</p>\n<p>The following example shows an <xref href=\"System.Reflection.AssemblyName\" data-throw-if-not-resolved=\"false\"></xref> for a simply named assembly with default culture.</p>\n<pre><code>ExampleAssembly, Culture=\"\"</code></pre>\n<p>The following example shows a fully specified reference for a strongly named assembly with culture \"en\".</p>\n<pre><code>ExampleAssembly, Version=1.0.0.0, Culture=en, PublicKeyToken=a5d015c7d5a0b012</code></pre>\n"
+  example:
+  - "\n<p>This example shows how to use various reflection classes to analyze the metadata contained in an assembly.</p>Reflection#1"
   syntax:
     content: 'public sealed class AssemblyName : object'
     content.vb: >-
       Public NotInheritable Class AssemblyName
           Inherits Object
+  seealso:
+  - type: System.Version
+    commentId: T:System.Version
+  - type: System.Reflection.AssemblyName.GetPublicKey
+    commentId: M:System.Reflection.AssemblyName.GetPublicKey
+  - type: System.Reflection.AssemblyName.GetPublicKeyToken
+    commentId: M:System.Reflection.AssemblyName.GetPublicKeyToken
+  - type: System.Reflection.AssemblyName.SetPublicKey(System.Byte[])
+    commentId: M:System.Reflection.AssemblyName.SetPublicKey(System.Byte[])
+  - type: System.Reflection.AssemblyName.SetPublicKeyToken(System.Byte[])
+    commentId: M:System.Reflection.AssemblyName.SetPublicKeyToken(System.Byte[])
+  - type: System.Type.FullName
+    commentId: P:System.Type.FullName
+  - type: System.Type.GetType
+    commentId: M:System.Type.GetType
+  - type: System.Type.AssemblyQualifiedName
+    commentId: P:System.Type.AssemblyQualifiedName
   inheritance:
   - System.Object
   modifiers.csharp:
@@ -63,16 +83,18 @@ items:
   type: Constructor
   source:
     remote:
-      path: src/mscorlib/src/System/Reflection/AssemblyName.cs
+      path: src/System.Reflection/ref/4.0/System.Reflection.cs
       branch: master
-      repo: https://github.com/dotnet/coreclr.git
+      repo: https://github.com/dotnet/corefx.git
     id: .ctor
-    path: src/mscorlib/src/System/Reflection/AssemblyName.cs
-    startLine: 58
+    path: src/System.Reflection/ref/4.0/System.Reflection.cs
+    startLine: 44
   assemblies:
   - System.Reflection
   namespace: System.Reflection
-  summary: Initializes a new instance of the <xref href="System.Reflection.AssemblyName" data-throw-if-not-resolved="false"></xref> class.
+  summary: "\n<p>Initializes a new instance of the <xref href=\"System.Reflection.AssemblyName\" data-throw-if-not-resolved=\"false\"></xref> class.</p>\n"
+  example:
+  - "\n<p>The following example creates a dynamic assembly named <code>MyAssembly.exe</code> and saves it to your hard disk. After running the example, you can use the Ildasm.exe (IL Disassembler) to examine the assembly metadata.</p>AssemblyName_Constructor#1"
   syntax:
     content: public AssemblyName()
     content.vb: Public Sub New
@@ -92,33 +114,36 @@ items:
   type: Constructor
   source:
     remote:
-      path: src/mscorlib/src/System/Reflection/AssemblyName.cs
+      path: src/System.Reflection/ref/4.0/System.Reflection.cs
       branch: master
-      repo: https://github.com/dotnet/coreclr.git
+      repo: https://github.com/dotnet/corefx.git
     id: .ctor
-    path: src/mscorlib/src/System/Reflection/AssemblyName.cs
-    startLine: 366
+    path: src/System.Reflection/ref/4.0/System.Reflection.cs
+    startLine: 45
   assemblies:
   - System.Reflection
   namespace: System.Reflection
-  summary: Initializes a new instance of the <xref href="System.Reflection.AssemblyName" data-throw-if-not-resolved="false"></xref> class with the specified display name.
+  summary: "\n<p>Initializes a new instance of the <xref href=\"System.Reflection.AssemblyName\" data-throw-if-not-resolved=\"false\"></xref> class with the specified display name.</p>\n"
+  remarks: "\n<p>The supplied <em>assemblyName</em> is parsed, and the appropriate fields of the new <xref href=\"System.Reflection.AssemblyName\" data-throw-if-not-resolved=\"false\"></xref> are initialized with values from the display name. This is the recommended way of parsing display names. Writing your own code to parse display names is not recommended. </p>\n"
+  example:
+  - "\n<p>The following example creates an instance of <xref href=\"System.Reflection.AssemblyName\" data-throw-if-not-resolved=\"false\"></xref> from a display name. The individual elements of the display name are output to the console as properties of the <xref href=\"System.Reflection.AssemblyName\" data-throw-if-not-resolved=\"false\"></xref>object.</p>AssemblyName_Constructor_2#1"
   syntax:
     content: public AssemblyName(string assemblyName)
     content.vb: Public Sub New(assemblyName As String)
     parameters:
     - id: assemblyName
       type: System.String
-      description: The display name of the assembly, as returned by the <xref href="System.Reflection.AssemblyName.FullName" data-throw-if-not-resolved="false"></xref> property.
+      description: "\n<p>The display name of the assembly, as returned by the <xref href=\"System.Reflection.AssemblyName.FullName\" data-throw-if-not-resolved=\"false\"></xref> property.</p>\n"
   exceptions:
   - type: System.ArgumentNullException
     commentId: T:System.ArgumentNullException
-    description: "\n<em>assemblyName</em> is null. "
+    description: "\n<p>\n<em>assemblyName</em> is <strong>null</strong>. </p>\n"
   - type: System.ArgumentException
     commentId: T:System.ArgumentException
-    description: "\n<em>assemblyName</em> is a zero length string. "
+    description: "\n<p>\n<em>assemblyName</em> is a zero length string. </p>\n"
   - type: System.IO.FileLoadException
     commentId: T:System.IO.FileLoadException
-    description: In the .NET for Windows Store apps or the Portable Class Library, catch the base class exception, <xref href="System.IO.IOException" data-throw-if-not-resolved="false"></xref>, instead.The referenced assembly could not be found, or could not be loaded.
+    description: "\n<p>In the <see href=\"http://go.microsoft.com/fwlink/?LinkID=247912\">.NET for Windows Store apps</see> or the Portable Class Library, catch the base class exception, <xref href=\"System.IO.IOException\" data-throw-if-not-resolved=\"false\"></xref>, instead.</p>\n<p>The referenced assembly could not be found, or could not be loaded.</p>\n"
   modifiers.csharp:
   - public
   modifiers.vb:
@@ -135,23 +160,23 @@ items:
   type: Property
   source:
     remote:
-      path: src/mscorlib/src/System/Reflection/AssemblyName.cs
+      path: src/System.Reflection/ref/4.0/System.Reflection.cs
       branch: master
-      repo: https://github.com/dotnet/coreclr.git
+      repo: https://github.com/dotnet/corefx.git
     id: ContentType
-    path: src/mscorlib/src/System/Reflection/AssemblyName.cs
-    startLine: 146
+    path: src/System.Reflection/ref/4.0/System.Reflection.cs
+    startLine: 46
   assemblies:
   - System.Reflection
   namespace: System.Reflection
-  summary: Gets or sets a value that indicates what type of content the assembly contains.
+  summary: "\n<p>Gets or sets a value that indicates what type of content the assembly contains.</p>\n"
   syntax:
     content: public AssemblyContentType ContentType { get; set; }
     content.vb: Public Property ContentType As AssemblyContentType
     parameters: []
     return:
       type: System.Reflection.AssemblyContentType
-      description: A value that indicates what type of content the assembly contains.
+      description: "\n<p>A value that indicates what type of content the assembly contains.</p>\n"
   modifiers.csharp:
   - public
   - get
@@ -170,23 +195,23 @@ items:
   type: Property
   source:
     remote:
-      path: src/mscorlib/src/System/Reflection/AssemblyName.cs
+      path: src/System.Reflection/ref/4.0/System.Reflection.cs
       branch: master
-      repo: https://github.com/dotnet/coreclr.git
+      repo: https://github.com/dotnet/corefx.git
     id: CultureName
-    path: src/mscorlib/src/System/Reflection/AssemblyName.cs
-    startLine: 95
+    path: src/System.Reflection/ref/4.0/System.Reflection.cs
+    startLine: 47
   assemblies:
   - System.Reflection
   namespace: System.Reflection
-  summary: Gets or sets the name of the culture associated with the assembly.
+  summary: "\n<p>Gets or sets the name of the culture associated with the assembly.</p>\n"
   syntax:
     content: public string CultureName { get; set; }
     content.vb: Public Property CultureName As String
     parameters: []
     return:
       type: System.String
-      description: The culture name.
+      description: "\n<p>The culture name.</p>\n"
   modifiers.csharp:
   - public
   - get
@@ -205,23 +230,25 @@ items:
   type: Property
   source:
     remote:
-      path: src/mscorlib/src/System/Reflection/AssemblyName.cs
+      path: src/System.Reflection/ref/4.0/System.Reflection.cs
       branch: master
-      repo: https://github.com/dotnet/coreclr.git
+      repo: https://github.com/dotnet/corefx.git
     id: Flags
-    path: src/mscorlib/src/System/Reflection/AssemblyName.cs
-    startLine: 254
+    path: src/System.Reflection/ref/4.0/System.Reflection.cs
+    startLine: 48
   assemblies:
   - System.Reflection
   namespace: System.Reflection
-  summary: Gets or sets the attributes of the assembly.
+  summary: "\n<p>Gets or sets the attributes of the assembly.</p>\n"
+  example:
+  - "\n<p>The following example emits a dynamic assembly and saves it to the current directory. When the assembly is created, the <xref href=\"System.Reflection.AssemblyName.Flags\" data-throw-if-not-resolved=\"false\"></xref> property is used to specify that the assembly has a public key.</p>AssemblyName_KeyPair#4"
   syntax:
     content: public AssemblyNameFlags Flags { get; set; }
     content.vb: Public Property Flags As AssemblyNameFlags
     parameters: []
     return:
       type: System.Reflection.AssemblyNameFlags
-      description: A value that represents the attributes of the assembly.
+      description: "\n<p>A value that represents the attributes of the assembly.</p>\n"
   modifiers.csharp:
   - public
   - get
@@ -240,23 +267,26 @@ items:
   type: Property
   source:
     remote:
-      path: src/mscorlib/src/System/Reflection/AssemblyName.cs
+      path: src/System.Reflection/ref/4.0/System.Reflection.cs
       branch: master
-      repo: https://github.com/dotnet/coreclr.git
+      repo: https://github.com/dotnet/corefx.git
     id: FullName
-    path: src/mscorlib/src/System/Reflection/AssemblyName.cs
-    startLine: 281
+    path: src/System.Reflection/ref/4.0/System.Reflection.cs
+    startLine: 49
   assemblies:
   - System.Reflection
   namespace: System.Reflection
-  summary: Gets the full name of the assembly, also known as the display name.
+  summary: "\n<p>Gets the full name of the assembly, also known as the display name.</p>\n"
+  remarks: "\n<p>The display name typically consists of the simple name, version number, supported culture, and public key. For example: </p>\n<pre><code>mylib, Version=1.2.1900.0, Culture=neutral, PublicKeyToken=a14f3033def15840</code></pre>\n<p>Writing your own code to parse display names is not recommended. Instead, pass the display name to the <xref href=\"System.Reflection.AssemblyName.#ctor(System.String)\" data-throw-if-not-resolved=\"false\"></xref> constructor, which parses it and populates the appropriate fields of the new <xref href=\"System.Reflection.AssemblyName\" data-throw-if-not-resolved=\"false\"></xref>. </p>\n<p>When an assembly is loaded, this value can also be obtained using the <xref href=\"System.Reflection.Assembly.FullName\" data-throw-if-not-resolved=\"false\"></xref> property. </p>\n"
+  example:
+  - "\n<p>The following example emits a dynamic assembly and saves it to the current directory. When the assembly is created, the code example sets the <xref href=\"System.Reflection.AssemblyName.Name\" data-throw-if-not-resolved=\"false\"></xref>, <xref href=\"System.Reflection.AssemblyName.Version\" data-throw-if-not-resolved=\"false\"></xref>, <xref href=\"System.Reflection.AssemblyName.CultureInfo\" data-throw-if-not-resolved=\"false\"></xref>, and <xref href=\"System.Reflection.AssemblyName.KeyPair\" data-throw-if-not-resolved=\"false\"></xref> properties, which together comprise an assembly's full name, or display name. The <xref href=\"System.Reflection.AssemblyName.FullName\" data-throw-if-not-resolved=\"false\"></xref> property is then used to retrieve the display name.</p>AssemblyName_CodeBase#4"
   syntax:
     content: public string FullName { get; }
     content.vb: Public ReadOnly Property FullName As String
     parameters: []
     return:
       type: System.String
-      description: A string that is the full name of the assembly, also known as the display name.
+      description: "\n<p>A string that is the full name of the assembly, also known as the display name.</p>\n"
   modifiers.csharp:
   - public
   - get
@@ -275,23 +305,26 @@ items:
   type: Property
   source:
     remote:
-      path: src/mscorlib/src/System/Reflection/AssemblyName.cs
+      path: src/System.Reflection/ref/4.0/System.Reflection.cs
       branch: master
-      repo: https://github.com/dotnet/coreclr.git
+      repo: https://github.com/dotnet/corefx.git
     id: Name
-    path: src/mscorlib/src/System/Reflection/AssemblyName.cs
-    startLine: 68
+    path: src/System.Reflection/ref/4.0/System.Reflection.cs
+    startLine: 50
   assemblies:
   - System.Reflection
   namespace: System.Reflection
-  summary: Gets or sets the simple name of the assembly. This is usually, but not necessarily, the file name of the manifest file of the assembly, minus its extension.
+  summary: "\n<p>Gets or sets the simple name of the assembly. This is usually, but not necessarily, the file name of the manifest file of the assembly, minus its extension.</p>\n"
+  remarks: "\n<p>The manifest file is the file that contains the assembly manifest.</p>\n<p>For example, the simple name of a single-file assembly named \"MyAssembly.dll\" is \"MyAssembly\".</p>\n"
+  example:
+  - "\n<p>The following example emits a dynamic assembly and saves it to the current directory. When the assembly is created, the <xref href=\"System.Reflection.AssemblyName.Name\" data-throw-if-not-resolved=\"false\"></xref> property is used to set the simple name of the dynamic assembly.</p>AssemblyName_Constructor#2"
   syntax:
     content: public string Name { get; set; }
     content.vb: Public Property Name As String
     parameters: []
     return:
       type: System.String
-      description: The simple name of the assembly.
+      description: "\n<p>The simple name of the assembly.</p>\n"
   modifiers.csharp:
   - public
   - get
@@ -310,23 +343,27 @@ items:
   type: Property
   source:
     remote:
-      path: src/mscorlib/src/System/Reflection/AssemblyName.cs
+      path: src/System.Reflection/ref/4.0/System.Reflection.cs
       branch: master
-      repo: https://github.com/dotnet/coreclr.git
+      repo: https://github.com/dotnet/corefx.git
     id: ProcessorArchitecture
-    path: src/mscorlib/src/System/Reflection/AssemblyName.cs
-    startLine: 129
+    path: src/System.Reflection/ref/4.0/System.Reflection.cs
+    startLine: 51
   assemblies:
   - System.Reflection
   namespace: System.Reflection
-  summary: Gets or sets a value that identifies the processor and bits-per-word of the platform targeted by an executable.
+  summary: "\n<p>Gets or sets a value that identifies the processor and bits-per-word of the platform targeted by an executable.</p>\n"
+  remarks: "\n<p>Beginning with the .NET Framework 4, this property always returns <xref href=\"System.Reflection.ProcessorArchitecture.None\" data-throw-if-not-resolved=\"false\"></xref> for reference assemblies.</p>\n"
   syntax:
     content: public ProcessorArchitecture ProcessorArchitecture { get; set; }
     content.vb: Public Property ProcessorArchitecture As ProcessorArchitecture
     parameters: []
     return:
       type: System.Reflection.ProcessorArchitecture
-      description: One of the enumeration values that identifies the processor and bits-per-word of the platform targeted by an executable.
+      description: "\n<p>One of the enumeration values that identifies the processor and bits-per-word of the platform targeted by an executable.</p>\n"
+  seealso:
+  - type: System.Reflection.Module.GetPEKind(System.Reflection.PortableExecutableKinds@,System.Reflection.ImageFileMachine@)
+    commentId: M:System.Reflection.Module.GetPEKind(System.Reflection.PortableExecutableKinds@,System.Reflection.ImageFileMachine@)
   modifiers.csharp:
   - public
   - get
@@ -345,23 +382,26 @@ items:
   type: Property
   source:
     remote:
-      path: src/mscorlib/src/System/Reflection/AssemblyName.cs
+      path: src/System.Reflection/ref/4.0/System.Reflection.cs
       branch: master
-      repo: https://github.com/dotnet/coreclr.git
+      repo: https://github.com/dotnet/corefx.git
     id: Version
-    path: src/mscorlib/src/System/Reflection/AssemblyName.cs
-    startLine: 74
+    path: src/System.Reflection/ref/4.0/System.Reflection.cs
+    startLine: 52
   assemblies:
   - System.Reflection
   namespace: System.Reflection
-  summary: Gets or sets the major, minor, build, and revision numbers of the assembly.
+  summary: "\n<p>Gets or sets the major, minor, build, and revision numbers of the assembly.</p>\n"
+  remarks: "\n<p>All components of the version must be integers greater than or equal to zero. Metadata restricts the major, minor, build, and revision components for an assembly to a maximum value of <xref href=\"System.UInt16.MaxValue\" data-throw-if-not-resolved=\"false\"></xref> - 1. If a component exceeds this value, no error is thrown; however, in a dynamic assembly, that component is zero.</p>\n"
+  example:
+  - "\n<p>This section contains two examples. The first example shows how to retrieve the version of the currently executing assembly. The second example shows how to use the <xref href=\"System.Reflection.AssemblyName.Version\" data-throw-if-not-resolved=\"false\"></xref> property to specify the assembly version when you emit a dynamic assembly.</p>\n<p>Example 1</p>\n<p>The following example retrieves and displays the version numbers of the currently executing assembly and the assembly that contains the <xref href=\"System.String\" data-throw-if-not-resolved=\"false\"></xref> class.</p>AssemblyName.Version#1<p>Example 2</p><p>The following example emits a dynamic assembly and saves it to the current directory. When the assembly is created, the <xref href=\"System.Reflection.AssemblyName.Version\" data-throw-if-not-resolved=\"false\"></xref> property is used to specify version information for the assembly.</p>AssemblyName_Constructor#3"
   syntax:
     content: public Version Version { get; set; }
     content.vb: Public Property Version As Version
     parameters: []
     return:
       type: System.Version
-      description: An object that represents the major, minor, build, and revision numbers of the assembly.
+      description: "\n<p>An object that represents the major, minor, build, and revision numbers of the assembly.</p>\n"
   modifiers.csharp:
   - public
   - get
@@ -380,26 +420,28 @@ items:
   type: Method
   source:
     remote:
-      path: src/mscorlib/src/System/Reflection/AssemblyName.cs
+      path: src/System.Reflection/ref/4.0/System.Reflection.cs
       branch: master
-      repo: https://github.com/dotnet/coreclr.git
+      repo: https://github.com/dotnet/corefx.git
     id: GetPublicKey
-    path: src/mscorlib/src/System/Reflection/AssemblyName.cs
-    startLine: 217
+    path: src/System.Reflection/ref/4.0/System.Reflection.cs
+    startLine: 53
   assemblies:
   - System.Reflection
   namespace: System.Reflection
-  summary: Gets the public key of the assembly.
+  summary: "\n<p>Gets the public key of the assembly.</p>\n"
+  example:
+  - "\n<p>The following example emits a dynamic assembly and saves it to the current directory. When the assembly is created, the <xref href=\"System.Reflection.AssemblyName.SetPublicKey(System.Byte[])\" data-throw-if-not-resolved=\"false\"></xref> method is used to give the assembly a public key. The <xref href=\"System.Reflection.AssemblyName.GetPublicKey\" data-throw-if-not-resolved=\"false\"></xref> method is then used to retrieve the public key, which is displayed to the console.</p>AssemblyName_KeyPair#2"
   syntax:
     content: public byte[] GetPublicKey()
     content.vb: Public Function GetPublicKey As Byte()
     return:
       type: System.Byte[]
-      description: A byte array that contains the public key of the assembly.
+      description: "\n<p>A byte array that contains the public key of the assembly.</p>\n"
   exceptions:
   - type: System.Security.SecurityException
     commentId: T:System.Security.SecurityException
-    description: 'A public key was provided (for example, by using the <xref href="System.Reflection.AssemblyName.SetPublicKey(System.Byte[])" data-throw-if-not-resolved="false"></xref> method), but no public key token was provided. '
+    description: "\n<p>A public key was provided (for example, by using the <xref href=\"System.Reflection.AssemblyName.SetPublicKey(System.Byte[])\" data-throw-if-not-resolved=\"false\"></xref> method), but no public key token was provided. </p>\n"
   modifiers.csharp:
   - public
   modifiers.vb:
@@ -416,22 +458,24 @@ items:
   type: Method
   source:
     remote:
-      path: src/mscorlib/src/System/Reflection/AssemblyName.cs
+      path: src/System.Reflection/ref/4.0/System.Reflection.cs
       branch: master
-      repo: https://github.com/dotnet/coreclr.git
+      repo: https://github.com/dotnet/corefx.git
     id: GetPublicKeyToken
-    path: src/mscorlib/src/System/Reflection/AssemblyName.cs
-    startLine: 234
+    path: src/System.Reflection/ref/4.0/System.Reflection.cs
+    startLine: 54
   assemblies:
   - System.Reflection
   namespace: System.Reflection
-  summary: Gets the public key token, which is the last 8 bytes of the SHA-1 hash of the public key under which the application or assembly is signed.
+  summary: "\n<p>Gets the public key token, which is the last 8 bytes of the SHA-1 hash of the public key under which the application or assembly is signed.</p>\n"
+  example:
+  - "\n<p>The following example emits a dynamic assembly and saves it to the current directory. When the assembly is created, the <xref href=\"System.Reflection.AssemblyName.SetPublicKeyToken(System.Byte[])\" data-throw-if-not-resolved=\"false\"></xref> method is used to set the assembly's public key token. The <xref href=\"System.Reflection.AssemblyName.GetPublicKeyToken\" data-throw-if-not-resolved=\"false\"></xref> method is then used to retrieve the public key token, which is displayed to the console.</p>AssemblyName_KeyPair#3"
   syntax:
     content: public byte[] GetPublicKeyToken()
     content.vb: Public Function GetPublicKeyToken As Byte()
     return:
       type: System.Byte[]
-      description: A byte array that contains the public key token.
+      description: "\n<p>A byte array that contains the public key token.</p>\n"
   modifiers.csharp:
   - public
   modifiers.vb:
@@ -448,23 +492,26 @@ items:
   type: Method
   source:
     remote:
-      path: src/mscorlib/src/System/Reflection/AssemblyName.cs
+      path: src/System.Reflection/ref/4.0/System.Reflection.cs
       branch: master
-      repo: https://github.com/dotnet/coreclr.git
+      repo: https://github.com/dotnet/corefx.git
     id: SetPublicKey
-    path: src/mscorlib/src/System/Reflection/AssemblyName.cs
-    startLine: 222
+    path: src/System.Reflection/ref/4.0/System.Reflection.cs
+    startLine: 55
   assemblies:
   - System.Reflection
   namespace: System.Reflection
-  summary: Sets the public key identifying the assembly.
+  summary: "\n<p>Sets the public key identifying the assembly.</p>\n"
+  remarks: "\n<p>You must also use the <xref href=\"System.Reflection.AssemblyName.SetPublicKeyToken(System.Byte[])\" data-throw-if-not-resolved=\"false\"></xref> method to provide a public key token. Otherwise, a <xref href=\"System.Security.SecurityException\" data-throw-if-not-resolved=\"false\"></xref> is thrown when the <xref href=\"System.Reflection.AssemblyName.GetPublicKey\" data-throw-if-not-resolved=\"false\"></xref> method is called.</p>\n"
+  example:
+  - "\n<p>The following example emits a dynamic assembly and saves it to the current directory. When the assembly is created, the <xref href=\"System.Reflection.AssemblyName.SetPublicKey(System.Byte[])\" data-throw-if-not-resolved=\"false\"></xref> method is used to give the assembly a public key. The <xref href=\"System.Reflection.AssemblyName.GetPublicKey\" data-throw-if-not-resolved=\"false\"></xref> method is then used to retrieve the public key, which is displayed to the console.</p>AssemblyName_SetPublicKey#1"
   syntax:
     content: public void SetPublicKey(byte[] publicKey)
     content.vb: Public Sub SetPublicKey(publicKey As Byte())
     parameters:
     - id: publicKey
       type: System.Byte[]
-      description: 'A byte array containing the public key of the assembly. '
+      description: "\n<p>A byte array containing the public key of the assembly. </p>\n"
   modifiers.csharp:
   - public
   modifiers.vb:
@@ -483,23 +530,26 @@ items:
   type: Method
   source:
     remote:
-      path: src/mscorlib/src/System/Reflection/AssemblyName.cs
+      path: src/System.Reflection/ref/4.0/System.Reflection.cs
       branch: master
-      repo: https://github.com/dotnet/coreclr.git
+      repo: https://github.com/dotnet/corefx.git
     id: SetPublicKeyToken
-    path: src/mscorlib/src/System/Reflection/AssemblyName.cs
-    startLine: 242
+    path: src/System.Reflection/ref/4.0/System.Reflection.cs
+    startLine: 56
   assemblies:
   - System.Reflection
   namespace: System.Reflection
-  summary: Sets the public key token, which is the last 8 bytes of the SHA-1 hash of the public key under which the application or assembly is signed.
+  summary: "\n<p>Sets the public key token, which is the last 8 bytes of the SHA-1 hash of the public key under which the application or assembly is signed.</p>\n"
+  remarks: "\n<p>When you set the public key by calling the <xref href=\"System.Reflection.AssemblyName.SetPublicKey(System.Byte[])\" data-throw-if-not-resolved=\"false\"></xref> method, you must also use the <xref href=\"System.Reflection.AssemblyName.SetPublicKeyToken(System.Byte[])\" data-throw-if-not-resolved=\"false\"></xref> method to provide a public key token. Otherwise, a <xref href=\"System.Security.SecurityException\" data-throw-if-not-resolved=\"false\"></xref> is thrown when the <xref href=\"System.Reflection.AssemblyName.GetPublicKey\" data-throw-if-not-resolved=\"false\"></xref> method is called.</p>\n"
+  example:
+  - "\n<p>The following example emits a dynamic assembly and saves it to the current directory. When the assembly is created, the <xref href=\"System.Reflection.AssemblyName.SetPublicKeyToken(System.Byte[])\" data-throw-if-not-resolved=\"false\"></xref> method is used to set the assembly's public key token. The <xref href=\"System.Reflection.AssemblyName.GetPublicKeyToken\" data-throw-if-not-resolved=\"false\"></xref> method is then used to retrieve the public key token, which is displayed to the console.</p>AssemblyName_SetPublicKey#2"
   syntax:
     content: public void SetPublicKeyToken(byte[] publicKeyToken)
     content.vb: Public Sub SetPublicKeyToken(publicKeyToken As Byte())
     parameters:
     - id: publicKeyToken
       type: System.Byte[]
-      description: 'A byte array containing the public key token of the assembly. '
+      description: "\n<p>A byte array containing the public key token of the assembly. </p>\n"
   modifiers.csharp:
   - public
   modifiers.vb:
@@ -518,22 +568,25 @@ items:
   type: Method
   source:
     remote:
-      path: src/mscorlib/src/System/Reflection/AssemblyName.cs
+      path: src/System.Reflection/ref/4.0/System.Reflection.cs
       branch: master
-      repo: https://github.com/dotnet/coreclr.git
+      repo: https://github.com/dotnet/corefx.git
     id: ToString
-    path: src/mscorlib/src/System/Reflection/AssemblyName.cs
-    startLine: 290
+    path: src/System.Reflection/ref/4.0/System.Reflection.cs
+    startLine: 57
   assemblies:
   - System.Reflection
   namespace: System.Reflection
-  summary: Returns the full name of the assembly, also known as the display name.
+  summary: "\n<p>Returns the full name of the assembly, also known as the display name.</p>\n"
+  remarks: "\n<p>See the description of <xref href=\"System.Reflection.AssemblyName\" data-throw-if-not-resolved=\"false\"></xref> for the format of the returned string.</p>\n"
+  example:
+  - "\n<p>The following example gets an <xref href=\"System.Reflection.AssemblyName\" data-throw-if-not-resolved=\"false\"></xref> object for a hypothetical <code>MyAssembly.exe</code> assembly, and then uses the <xref href=\"System.Reflection.AssemblyName.ToString\" data-throw-if-not-resolved=\"false\"></xref> method to retrieve the full assembly name, or display name.</p>AssemblyName_GetAssemblyName#2"
   syntax:
     content: public override string ToString()
     content.vb: Public Overrides Function ToString As String
     return:
       type: System.String
-      description: The full name of the assembly, or the class name if the full name cannot be determined.
+      description: "\n<p>The full name of the assembly, or the class name if the full name cannot be determined.</p>\n"
   modifiers.csharp:
   - public
   - override

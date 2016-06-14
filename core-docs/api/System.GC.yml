@@ -26,19 +26,25 @@ items:
   type: Class
   source:
     remote:
-      path: src/mscorlib/src/System/GC.cs
+      path: src/System.Runtime/ref/System.Runtime.cs
       branch: master
-      repo: https://github.com/dotnet/coreclr.git
+      repo: https://github.com/dotnet/corefx.git
     id: GC
-    path: src/mscorlib/src/System/GC.cs
-    startLine: 63
+    path: src/System.Runtime/ref/System.Runtime.cs
+    startLine: 897
   assemblies:
   - System.Runtime
   namespace: System
-  summary: Controls the system garbage collector, a service that automatically reclaims unused memory.
+  summary: "\n<p>Controls the system garbage collector, a service that automatically reclaims unused memory.</p>\n"
+  remarks: "\n<p>The garbage collector is a common language runtime component that controls the allocation and release of managed memory. The methods in this class influence when garbage collection is performed on an object and when resources allocated by an object are released. Properties in this class provide information about the total amount of memory available in the system and the age category, or generation, of memory allocated to an object.</p>\n<p>The garbage collector tracks and reclaims objects allocated in managed memory. Periodically, the garbage collector performs garbage collection to reclaim memory allocated to objects for which there are no valid references. Garbage collection happens automatically when a request for memory cannot be satisfied using available free memory. Alternatively, an application can force garbage collection using the <xref href=\"System.GC.Collect(System.Int32)\" data-throw-if-not-resolved=\"false\"></xref> method.</p>\n<p>Garbage collection consists of the following steps: </p>\n<ol><li>\n<p>The garbage collector searches for managed objects that are referenced in managed code. </p>\n</li><li>\n<p>The garbage collector tries to finalize objects that are not referenced. </p>\n</li><li>\n<p>The garbage collector frees objects that are not referenced and reclaims their memory. </p>\n</li></ol>\n<p>This topic includes the following sections: </p>\n<p>The garbage collector and unmanaged resourcesObject aging and generationsDisallowing garbage collection</p>\n"
+  example:
+  - <p>The following example uses several GC methods to get generation and memory information about a block of unused objects and print it to the console. The unused objects are then collected, and the resulting memory totals are displayed.</p>System.GC.Collect Int Example#1
   syntax:
     content: public class GC
     content.vb: Public Class GC
+  seealso:
+  - type: System.Runtime.GCSettings
+    commentId: T:System.Runtime.GCSettings
   inheritance:
   - System.Object
   inheritedMembers:
@@ -67,23 +73,29 @@ items:
   type: Property
   source:
     remote:
-      path: src/mscorlib/src/System/GC.cs
+      path: src/System.Runtime/ref/System.Runtime.cs
       branch: master
-      repo: https://github.com/dotnet/coreclr.git
+      repo: https://github.com/dotnet/corefx.git
     id: MaxGeneration
-    path: src/mscorlib/src/System/GC.cs
-    startLine: 306
+    path: src/System.Runtime/ref/System.Runtime.cs
+    startLine: 899
   assemblies:
   - System.Runtime
   namespace: System
-  summary: Gets the maximum number of generations that the system currently supports.
+  summary: "\n<p>Gets the maximum number of generations that the system currently supports.</p>\n"
+  remarks: "\n<p>The generation number, or age, of an object is an implementation-defined relative measure of an object's lifespan. The most recently created objects are in generation 0 and the oldest objects are in a generation less than or equal to the generation returned by the <xref href=\"System.GC.MaxGeneration\" data-throw-if-not-resolved=\"false\"></xref> property.</p>\n<p>The garbage collector assumes that newer memory is more likely to be eligible for garbage collection than older memory. Therefore, the garbage collector improves its performance by adjusting generation numbers each time it reclaims memory, and the <xref href=\"System.GC.MaxGeneration\" data-throw-if-not-resolved=\"false\"></xref> property value can grow over time.</p>\n<p>If object aging is implemented, the <xref href=\"System.GC.MaxGeneration\" data-throw-if-not-resolved=\"false\"></xref> property returns the maximum generation number used by the system; otherwise, this property returns zero.</p>\n"
+  example:
+  - "\n<p>The following example demonstrates how to use the MaxGeneration property to display the largest generation number currently in use.</p>System.GC.Collect Int Example#1"
   syntax:
     content: public static int MaxGeneration { get; }
     content.vb: Public Shared ReadOnly Property MaxGeneration As Integer
     parameters: []
     return:
       type: System.Int32
-      description: A value that ranges from zero to the maximum number of supported generations.
+      description: "\n<p>A value that ranges from zero to the maximum number of supported generations.</p>\n"
+  seealso:
+  - type: System.GC.GetGeneration(System.Object)
+    commentId: M:System.GC.GetGeneration(System.Object)
   modifiers.csharp:
   - public
   - static
@@ -104,16 +116,17 @@ items:
   type: Method
   source:
     remote:
-      path: src/mscorlib/src/System/GC.cs
+      path: src/System.Runtime/ref/System.Runtime.cs
       branch: master
-      repo: https://github.com/dotnet/coreclr.git
+      repo: https://github.com/dotnet/corefx.git
     id: AddMemoryPressure
-    path: src/mscorlib/src/System/GC.cs
-    startLine: 126
+    path: src/System.Runtime/ref/System.Runtime.cs
+    startLine: 900
   assemblies:
   - System.Runtime
   namespace: System
-  summary: Informs the runtime of a large allocation of unmanaged memory that should be taken into account when scheduling garbage collection.
+  summary: "\n<p>Informs the runtime of a large allocation of unmanaged memory that should be taken into account when scheduling garbage collection.</p>\n"
+  remarks: "\n<p>In determining when to schedule garbage collection, the runtime takes into account how much managed memory is allocated. If a small managed object allocates a large amount of unmanaged memory, the runtime takes into account only the managed memory, and thus underestimates the urgency of scheduling garbage collection. The <xref href=\"System.GC.AddMemoryPressure(System.Int64)\" data-throw-if-not-resolved=\"false\"></xref> method informs the runtime of this additional pressure on system memory.</p>\n<p>In the simplest usage pattern, a managed object allocates unmanaged memory in the constructor and releases it in the <strong>Dispose</strong> or <strong>Finalize</strong> method. Call the <xref href=\"System.GC.AddMemoryPressure(System.Int64)\" data-throw-if-not-resolved=\"false\"></xref> method after allocating the unmanaged memory, and call the <xref href=\"System.GC.RemoveMemoryPressure(System.Int64)\" data-throw-if-not-resolved=\"false\"></xref> method after releasing it.</p>\n<p>In more complicated scenarios, where the unmanaged memory allocation changes substantially during the lifetime of the managed object, you can call the <xref href=\"System.GC.AddMemoryPressure(System.Int64)\" data-throw-if-not-resolved=\"false\"></xref> and <xref href=\"System.GC.RemoveMemoryPressure(System.Int64)\" data-throw-if-not-resolved=\"false\"></xref> methods to communicate these incremental changes to the runtime.</p>\n<p>You must ensure that you remove exactly the amount of pressure you add. Failing to do so can adversely affect the performance of the system in applications that run for long periods of time.</p>\n"
   syntax:
     content: >-
       [SecurityCritical]
@@ -126,11 +139,16 @@ items:
     parameters:
     - id: bytesAllocated
       type: System.Int64
-      description: 'The incremental amount of unmanaged memory that has been allocated. '
+      description: "\n<p>The incremental amount of unmanaged memory that has been allocated. </p>\n"
   exceptions:
   - type: System.ArgumentOutOfRangeException
     commentId: T:System.ArgumentOutOfRangeException
-    description: "\n<em>bytesAllocated</em> is less than or equal to 0.-or-On a 32-bit computer, <em>bytesAllocated</em> is larger than <xref href=\"System.Int32.MaxValue\" data-throw-if-not-resolved=\"false\"></xref>. "
+    description: "\n<p>\n<em>bytesAllocated</em> is less than or equal to 0.</p>\n<p>-or-</p>\n<p>On a 32-bit computer, <em>bytesAllocated</em> is larger than <xref href=\"System.Int32.MaxValue\" data-throw-if-not-resolved=\"false\"></xref>. </p>\n"
+  see:
+  - type: System.Security.Permissions.SecurityPermission
+    commentId: T:System.Security.Permissions.SecurityPermission
+  - type: System.Security.SecurityCriticalAttribute
+    commentId: T:System.Security.SecurityCriticalAttribute
   attributes:
   - type: System.Security.SecurityCriticalAttribute
     ctor: System.Security.SecurityCriticalAttribute.#ctor
@@ -153,16 +171,19 @@ items:
   type: Method
   source:
     remote:
-      path: src/mscorlib/src/System/GC.cs
+      path: src/System.Runtime/ref/System.Runtime.cs
       branch: master
-      repo: https://github.com/dotnet/coreclr.git
+      repo: https://github.com/dotnet/corefx.git
     id: Collect
-    path: src/mscorlib/src/System/GC.cs
-    startLine: 174
+    path: src/System.Runtime/ref/System.Runtime.cs
+    startLine: 902
   assemblies:
   - System.Runtime
   namespace: System
-  summary: 'Forces an immediate garbage collection of all generations. '
+  summary: "\n<p>Forces an immediate garbage collection of all generations. </p>\n"
+  remarks: "\n<p>Use this method to try to reclaim all memory that is inaccessible. It performs a blocking garbage collection of all generations. </p>\n<p>All objects, regardless of how long they have been in memory, are considered for collection; however, objects that are referenced in managed code are not collected. Use this method to force the system to try to reclaim the maximum amount of available memory.</p>\n<p>Starting with the .NET Framework 4.5.1, you can compact the large object heap (LOH) by setting the <xref href=\"System.Runtime.GCSettings.LargeObjectHeapCompactionMode\" data-throw-if-not-resolved=\"false\"></xref> property to <xref href=\"System.Runtime.GCLargeObjectHeapCompactionMode.CompactOnce\" data-throw-if-not-resolved=\"false\"></xref> before calling the <xref href=\"System.GC.Collect\" data-throw-if-not-resolved=\"false\"></xref> method, as the following example illustrates. </p>System.Runtime.GCSettings#1"
+  example:
+  - "\n<p>The following example demonstrates how to use the <xref href=\"System.GC.Collect\" data-throw-if-not-resolved=\"false\"></xref> method to perform a collection on all generations of memory. The code generates a number of unused objects, and then calls the <xref href=\"System.GC.Collect\" data-throw-if-not-resolved=\"false\"></xref> method to clean them from memory.</p>System.GC.Collect Example#1"
   syntax:
     content: public static void Collect()
     content.vb: Public Shared Sub Collect
@@ -184,27 +205,30 @@ items:
   type: Method
   source:
     remote:
-      path: src/mscorlib/src/System/GC.cs
+      path: src/System.Runtime/ref/System.Runtime.cs
       branch: master
-      repo: https://github.com/dotnet/coreclr.git
+      repo: https://github.com/dotnet/corefx.git
     id: Collect
-    path: src/mscorlib/src/System/GC.cs
-    startLine: 168
+    path: src/System.Runtime/ref/System.Runtime.cs
+    startLine: 903
   assemblies:
   - System.Runtime
   namespace: System
-  summary: Forces an immediate garbage collection from generation 0 through a specified generation.
+  summary: "\n<p>Forces an immediate garbage collection from generation 0 through a specified generation.</p>\n"
+  remarks: "\n<p>Use this method to try to reclaim memory that is inaccessible. However, using this method does not guarantee that all inaccessible memory in the specified generation is reclaimed.</p>\n<p>If object aging is implemented, the garbage collector does not collect objects with a generation number that is higher than the specified generation. If object aging is not implemented, the garbage collector considers all objects during the garbage collection.</p>\n<p>Use the <xref href=\"System.GC.MaxGeneration\" data-throw-if-not-resolved=\"false\"></xref> property to determine the maximum valid value of the <em>generation</em> parameter.</p>\n<p>To have the garbage collector consider all objects regardless of their generation, use the version of this method that takes no parameters. To have the garbage collector reclaim objects based on a <xref href=\"System.GCCollectionMode\" data-throw-if-not-resolved=\"false\"></xref> setting, use the <xref href=\"System.GC.Collect(System.Int32,System.GCCollectionMode)\" data-throw-if-not-resolved=\"false\"></xref> method overload.</p>\n"
+  example:
+  - "\n<p>The following example demonstrates how to use the <xref href=\"System.GC.Collect(System.Int32)\" data-throw-if-not-resolved=\"false\"></xref> method to perform a collection on individual layers of memory. The code generates a number of unused objects, and then calls the <xref href=\"System.GC.Collect(System.Int32)\" data-throw-if-not-resolved=\"false\"></xref> method to clean them from memory.</p>System.GC.Collect Int Example#1"
   syntax:
     content: public static void Collect(int generation)
     content.vb: Public Shared Sub Collect(generation As Integer)
     parameters:
     - id: generation
       type: System.Int32
-      description: 'The number of the oldest generation to be garbage collected. '
+      description: "\n<p>The number of the oldest generation to be garbage collected. </p>\n"
   exceptions:
   - type: System.ArgumentOutOfRangeException
     commentId: T:System.ArgumentOutOfRangeException
-    description: "\n<em>generation</em> is not valid. "
+    description: "\n<p>\n<em>generation</em> is not valid. </p>\n"
   modifiers.csharp:
   - public
   - static
@@ -223,30 +247,33 @@ items:
   type: Method
   source:
     remote:
-      path: src/mscorlib/src/System/GC.cs
+      path: src/System.Runtime/ref/System.Runtime.cs
       branch: master
-      repo: https://github.com/dotnet/coreclr.git
+      repo: https://github.com/dotnet/corefx.git
     id: Collect
-    path: src/mscorlib/src/System/GC.cs
-    startLine: 180
+    path: src/System.Runtime/ref/System.Runtime.cs
+    startLine: 904
   assemblies:
   - System.Runtime
   namespace: System
-  summary: Forces a garbage collection from generation 0 through a specified generation, at a time specified by a <xref href="System.GCCollectionMode" data-throw-if-not-resolved="false"></xref> value.
+  summary: "\n<p>Forces a garbage collection from generation 0 through a specified generation, at a time specified by a <xref href=\"System.GCCollectionMode\" data-throw-if-not-resolved=\"false\"></xref> value.</p>\n"
+  remarks: "\n<p>Use the <em>mode</em> parameter to specify whether garbage collection should occur immediately or only if the time is optimal to reclaim objects. Using this method does not guarantee that all inaccessible memory in the specified generation is reclaimed.</p>\n<p>To adjust the intrusiveness of garbage collection during critical periods in your application, set the <xref href=\"System.Runtime.GCSettings.LatencyMode\" data-throw-if-not-resolved=\"false\"></xref> property.</p>\n<p>The garbage collector does not collect objects with a generation number higher than specified by the <em>generation</em> parameter. Use the <xref href=\"System.GC.MaxGeneration\" data-throw-if-not-resolved=\"false\"></xref> property to determine the maximum valid value of <em>generation</em>.</p>\n<p>To have the garbage collector consider all objects regardless of their generation, use the version of this method that takes no parameters. </p>\n<p>To have the garbage collector reclaim objects up to a specified generation of objects, use the <xref href=\"System.GC.Collect(System.Int32)\" data-throw-if-not-resolved=\"false\"></xref> method overload. When you specify the maximum generation, all objects are collected.</p>\n"
+  example:
+  - "\n<p>The following example forces a garbage collection for generation 2 objects with the <xref href=\"System.GCCollectionMode.Optimized\" data-throw-if-not-resolved=\"false\"></xref> setting.</p>System.GC.GCCollectionMode#1"
   syntax:
     content: public static void Collect(int generation, GCCollectionMode mode)
     content.vb: Public Shared Sub Collect(generation As Integer, mode As GCCollectionMode)
     parameters:
     - id: generation
       type: System.Int32
-      description: 'The number of the oldest generation to be garbage collected. '
+      description: "\n<p>The number of the oldest generation to be garbage collected. </p>\n"
     - id: mode
       type: System.GCCollectionMode
-      description: 'An enumeration value that specifies whether the garbage collection is forced (<xref href="System.GCCollectionMode.Default" data-throw-if-not-resolved="false"></xref> or <xref href="System.GCCollectionMode.Forced" data-throw-if-not-resolved="false"></xref>) or optimized (<xref href="System.GCCollectionMode.Optimized" data-throw-if-not-resolved="false"></xref>). '
+      description: "\n<p>An enumeration value that specifies whether the garbage collection is forced (<xref href=\"System.GCCollectionMode.Default\" data-throw-if-not-resolved=\"false\"></xref> or <xref href=\"System.GCCollectionMode.Forced\" data-throw-if-not-resolved=\"false\"></xref>) or optimized (<xref href=\"System.GCCollectionMode.Optimized\" data-throw-if-not-resolved=\"false\"></xref>). </p>\n"
   exceptions:
   - type: System.ArgumentOutOfRangeException
     commentId: T:System.ArgumentOutOfRangeException
-    description: "\n<em>generation</em> is not valid.-or-<em>mode</em> is not one of the <xref href=\"System.GCCollectionMode\" data-throw-if-not-resolved=\"false\"></xref> values."
+    description: "\n<p>\n<em>generation</em> is not valid.</p>\n<p>-or-</p>\n<p>\n<em>mode</em> is not one of the <xref href=\"System.GCCollectionMode\" data-throw-if-not-resolved=\"false\"></xref> values.</p>\n"
   modifiers.csharp:
   - public
   - static
@@ -265,33 +292,34 @@ items:
   type: Method
   source:
     remote:
-      path: src/mscorlib/src/System/GC.cs
+      path: src/System.Runtime/ref/System.Runtime.cs
       branch: master
-      repo: https://github.com/dotnet/coreclr.git
+      repo: https://github.com/dotnet/corefx.git
     id: Collect
-    path: src/mscorlib/src/System/GC.cs
-    startLine: 186
+    path: src/System.Runtime/ref/System.Runtime.cs
+    startLine: 905
   assemblies:
   - System.Runtime
   namespace: System
-  summary: Forces a garbage collection from generation 0 through a specified generation, at a time specified by a <xref href="System.GCCollectionMode" data-throw-if-not-resolved="false"></xref> value, with a value specifying whether the collection should be blocking.
+  summary: "\n<p>Forces a garbage collection from generation 0 through a specified generation, at a time specified by a <xref href=\"System.GCCollectionMode\" data-throw-if-not-resolved=\"false\"></xref> value, with a value specifying whether the collection should be blocking.</p>\n"
+  remarks: "\n<p>The following table summarizes the interaction of the <em>mode</em> and <em>blocking</em> parameters:</p>\n<p>If a call to the <xref href=\"System.GC.Collect(System.Int32,System.GCCollectionMode,System.Boolean)\" data-throw-if-not-resolved=\"false\"></xref> method performs a full blocking garbage collection, you can also compact the large object heap by setting the <xref href=\"System.Runtime.GCSettings.LargeObjectHeapCompactionMode\" data-throw-if-not-resolved=\"false\"></xref> property to <xref href=\"System.Runtime.GCLargeObjectHeapCompactionMode.CompactOnce\" data-throw-if-not-resolved=\"false\"></xref> before calling the <xref href=\"System.GC.Collect(System.Int32,System.GCCollectionMode,System.Boolean)\" data-throw-if-not-resolved=\"false\"></xref> method. </p>\n"
   syntax:
     content: public static void Collect(int generation, GCCollectionMode mode, bool blocking)
     content.vb: Public Shared Sub Collect(generation As Integer, mode As GCCollectionMode, blocking As Boolean)
     parameters:
     - id: generation
       type: System.Int32
-      description: 'The number of the oldest generation to be garbage collected. '
+      description: "\n<p>The number of the oldest generation to be garbage collected. </p>\n"
     - id: mode
       type: System.GCCollectionMode
-      description: 'An enumeration value that specifies whether the garbage collection is forced (<xref href="System.GCCollectionMode.Default" data-throw-if-not-resolved="false"></xref> or <xref href="System.GCCollectionMode.Forced" data-throw-if-not-resolved="false"></xref>) or optimized (<xref href="System.GCCollectionMode.Optimized" data-throw-if-not-resolved="false"></xref>). '
+      description: "\n<p>An enumeration value that specifies whether the garbage collection is forced (<xref href=\"System.GCCollectionMode.Default\" data-throw-if-not-resolved=\"false\"></xref> or <xref href=\"System.GCCollectionMode.Forced\" data-throw-if-not-resolved=\"false\"></xref>) or optimized (<xref href=\"System.GCCollectionMode.Optimized\" data-throw-if-not-resolved=\"false\"></xref>).</p>\n"
     - id: blocking
       type: System.Boolean
-      description: true to perform a blocking garbage collection; false to perform a background garbage collection where possible.
+      description: "\n<p>\n<strong>true</strong> to perform a blocking garbage collection; <strong>false</strong> to perform a background garbage collection where possible.</p>\n"
   exceptions:
   - type: System.ArgumentOutOfRangeException
     commentId: T:System.ArgumentOutOfRangeException
-    description: "\n<em>generation</em> is not valid.-or-<em>mode</em> is not one of the <xref href=\"System.GCCollectionMode\" data-throw-if-not-resolved=\"false\"></xref> values."
+    description: "\n<p>\n<em>generation</em> is not valid.</p>\n<p>-or-</p>\n<p>\n<em>mode</em> is not one of the <xref href=\"System.GCCollectionMode\" data-throw-if-not-resolved=\"false\"></xref> values.</p>\n"
   modifiers.csharp:
   - public
   - static
@@ -310,30 +338,31 @@ items:
   type: Method
   source:
     remote:
-      path: src/mscorlib/src/System/GC.cs
+      path: src/System.Runtime/ref/System.Runtime.cs
       branch: master
-      repo: https://github.com/dotnet/coreclr.git
+      repo: https://github.com/dotnet/corefx.git
     id: CollectionCount
-    path: src/mscorlib/src/System/GC.cs
-    startLine: 229
+    path: src/System.Runtime/ref/System.Runtime.cs
+    startLine: 906
   assemblies:
   - System.Runtime
   namespace: System
-  summary: Returns the number of times garbage collection has occurred for the specified generation of objects.
+  summary: "\n<p>Returns the number of times garbage collection has occurred for the specified generation of objects.</p>\n"
+  remarks: "\n<p>If you implement your own resource management, you might need to force garbage collection periodically by calling the <xref href=\"System.GC.Collect(System.Int32)\" data-throw-if-not-resolved=\"false\"></xref> method. Because this is an expensive operation, you can improve performance by skipping the call when a garbage collection has occurred recently. Save the value returned by <xref href=\"System.GC.CollectionCount(System.Int32)\" data-throw-if-not-resolved=\"false\"></xref> immediately after calling <xref href=\"System.GC.Collect(System.Int32)\" data-throw-if-not-resolved=\"false\"></xref>. The next time you need to call <xref href=\"System.GC.Collect(System.Int32)\" data-throw-if-not-resolved=\"false\"></xref>, compare the current value returned by <xref href=\"System.GC.CollectionCount(System.Int32)\" data-throw-if-not-resolved=\"false\"></xref> to the saved value. If the two values are equal, no collection has occurred in the interim and it is reasonable to call <xref href=\"System.GC.Collect(System.Int32)\" data-throw-if-not-resolved=\"false\"></xref> again.</p>\n"
   syntax:
     content: public static int CollectionCount(int generation)
     content.vb: Public Shared Function CollectionCount(generation As Integer) As Integer
     parameters:
     - id: generation
       type: System.Int32
-      description: 'The generation of objects for which the garbage collection count is to be determined. '
+      description: "\n<p>The generation of objects for which the garbage collection count is to be determined. </p>\n"
     return:
       type: System.Int32
-      description: The number of times garbage collection has occurred for the specified generation since the process was started.
+      description: "\n<p>The number of times garbage collection has occurred for the specified generation since the process was started.</p>\n"
   exceptions:
   - type: System.ArgumentOutOfRangeException
     commentId: T:System.ArgumentOutOfRangeException
-    description: "\n<em>generation</em> is less than 0. "
+    description: "\n<p>\n<em>generation</em> is less than 0. </p>\n"
   modifiers.csharp:
   - public
   - static
@@ -351,22 +380,33 @@ items:
   fullName: System.GC.GetGeneration(System.Object)
   type: Method
   source:
-    path: mscorlib
-    isExternal: true
+    remote:
+      path: src/System.Runtime/ref/System.Runtime.cs
+      branch: master
+      repo: https://github.com/dotnet/corefx.git
+    id: GetGeneration
+    path: src/System.Runtime/ref/System.Runtime.cs
+    startLine: 907
   assemblies:
   - System.Runtime
   namespace: System
-  summary: Returns the current generation number of the specified object.
+  summary: "\n<p>Returns the current generation number of the specified object.</p>\n"
+  remarks: "\n<p>Use this method to determine the age of an object, and then use that information with the <xref href=\"System.GC.Collect(System.Int32)\" data-throw-if-not-resolved=\"false\"></xref> method to force the garbage collector to collect objects in the same generation. For example, use this method when you have a set of objects that are created as a group and that become inaccessible at the same time.</p>\n"
+  example:
+  - "\n<p>The following example demonstrates how to use the <xref href=\"System.GC.GetGeneration(System.Object)\" data-throw-if-not-resolved=\"false\"></xref> method to determine the age of an object. The example then performs garbage collections to clean up memory and compare the pre and post collection memory totals in the console.</p>System.GC.Collect Int Example#1"
   syntax:
     content: public static int GetGeneration(object obj)
     content.vb: Public Shared Function GetGeneration(obj As Object) As Integer
     parameters:
     - id: obj
       type: System.Object
-      description: 'The object that generation information is retrieved for. '
+      description: "\n<p>The object that generation information is retrieved for. </p>\n"
     return:
       type: System.Int32
-      description: The current generation number of <em>obj</em>.
+      description: "\n<p>The current generation number of <em>obj</em>.</p>\n"
+  seealso:
+  - type: System.GC.MaxGeneration
+    commentId: P:System.GC.MaxGeneration
   modifiers.csharp:
   - public
   - static
@@ -385,26 +425,29 @@ items:
   type: Method
   source:
     remote:
-      path: src/mscorlib/src/System/GC.cs
+      path: src/System.Runtime/ref/System.Runtime.cs
       branch: master
-      repo: https://github.com/dotnet/coreclr.git
+      repo: https://github.com/dotnet/corefx.git
     id: GetTotalMemory
-    path: src/mscorlib/src/System/GC.cs
-    startLine: 358
+    path: src/System.Runtime/ref/System.Runtime.cs
+    startLine: 908
   assemblies:
   - System.Runtime
   namespace: System
-  summary: Retrieves the number of bytes currently thought to be allocated. A parameter indicates whether this method can wait a short interval before returning, to allow the system to collect garbage and finalize objects.
+  summary: "\n<p>Retrieves the number of bytes currently thought to be allocated. A parameter indicates whether this method can wait a short interval before returning, to allow the system to collect garbage and finalize objects.</p>\n"
+  remarks: "\n<p>If the <em>forceFullCollection</em> parameter is <strong>true</strong>, this method waits a short interval before returning while the system collects garbage and finalizes objects. The duration of the interval is an internally specified limit determined by the number of garbage collection cycles completed and the change in the amount of memory recovered between cycles. The garbage collector does not guarantee that all inaccessible memory is collected.</p>\n"
+  example:
+  - "\n<p>The following example demonstrates how to use the <xref href=\"System.GC.GetTotalMemory(System.Boolean)\" data-throw-if-not-resolved=\"false\"></xref> method to get and display the number of bytes currently allocated in managed memory.</p>System.GC.Collect Int Example#1"
   syntax:
     content: public static long GetTotalMemory(bool forceFullCollection)
     content.vb: Public Shared Function GetTotalMemory(forceFullCollection As Boolean) As Long
     parameters:
     - id: forceFullCollection
       type: System.Boolean
-      description: true to indicate that this method can wait for garbage collection to occur before returning; otherwise, false.
+      description: "\n<p>\n<strong>true</strong> to indicate that this method can wait for garbage collection to occur before returning; otherwise, <strong>false</strong>.</p>\n"
     return:
       type: System.Int64
-      description: A number that is the best available approximation of the number of bytes currently allocated in managed memory.
+      description: "\n<p>A number that is the best available approximation of the number of bytes currently allocated in managed memory.</p>\n"
   modifiers.csharp:
   - public
   - static
@@ -423,23 +466,26 @@ items:
   type: Method
   source:
     remote:
-      path: src/mscorlib/src/System/GC.cs
+      path: src/System.Runtime/ref/System.Runtime.cs
       branch: master
-      repo: https://github.com/dotnet/coreclr.git
+      repo: https://github.com/dotnet/corefx.git
     id: KeepAlive
-    path: src/mscorlib/src/System/GC.cs
-    startLine: 289
+    path: src/System.Runtime/ref/System.Runtime.cs
+    startLine: 909
   assemblies:
   - System.Runtime
   namespace: System
-  summary: References the specified object, which makes it ineligible for garbage collection from the start of the current routine to the point where this method is called.
+  summary: "\n<p>References the specified object, which makes it ineligible for garbage collection from the start of the current routine to the point where this method is called.</p>\n"
+  remarks: "\n<p>The purpose of the <xref href=\"System.GC.KeepAlive(System.Object)\" data-throw-if-not-resolved=\"false\"></xref> method is to ensure the existence of a reference to an object that is at risk of being prematurely reclaimed by the garbage collector. A common scenario where this might happen is when there are no references to the object in managed code or data, but the object is still in use in unmanaged code such as Win32 APIs, unmanaged DLLs, or methods using COM.</p>\n<p>This method references the <em>obj</em> parameter, making that object ineligible for garbage collection from the start of the routine to the point, in execution order, where this method is called. Code this method at the end, not the beginning, of the range of instructions where <em>obj</em> must be available.</p>\n<p>The <xref href=\"System.GC.KeepAlive(System.Object)\" data-throw-if-not-resolved=\"false\"></xref> method performs no operation and produces no side effects other than extending the lifetime of the object passed in as a parameter.</p>\n"
+  example:
+  - "\n<p>The following code example creates an object at the beginning of its <code>Main</code> method and does not refer to the object again until the end, when the <xref href=\"System.GC.KeepAlive(System.Object)\" data-throw-if-not-resolved=\"false\"></xref> method is called. The object persists for the 30-second duration of the <code>Main</code> method, despite calls to the <xref href=\"System.GC.Collect\" data-throw-if-not-resolved=\"false\"></xref> and <xref href=\"System.GC.WaitForPendingFinalizers\" data-throw-if-not-resolved=\"false\"></xref> methods.</p>System.GC.KeepAlive Example2#1"
   syntax:
     content: public static void KeepAlive(object obj)
     content.vb: Public Shared Sub KeepAlive(obj As Object)
     parameters:
     - id: obj
       type: System.Object
-      description: 'The object to reference. '
+      description: "\n<p>The object to reference. </p>\n"
   modifiers.csharp:
   - public
   - static
@@ -458,16 +504,17 @@ items:
   type: Method
   source:
     remote:
-      path: src/mscorlib/src/System/GC.cs
+      path: src/System.Runtime/ref/System.Runtime.cs
       branch: master
-      repo: https://github.com/dotnet/coreclr.git
+      repo: https://github.com/dotnet/corefx.git
     id: RemoveMemoryPressure
-    path: src/mscorlib/src/System/GC.cs
-    startLine: 142
+    path: src/System.Runtime/ref/System.Runtime.cs
+    startLine: 910
   assemblies:
   - System.Runtime
   namespace: System
-  summary: Informs the runtime that unmanaged memory has been released and no longer needs to be taken into account when scheduling garbage collection.
+  summary: "\n<p>Informs the runtime that unmanaged memory has been released and no longer needs to be taken into account when scheduling garbage collection.</p>\n"
+  remarks: "\n<p>In determining when to schedule garbage collection, the runtime takes into account how much managed memory is allocated. If a small managed object allocates a large amount of unmanaged memory, the runtime takes into account only the managed memory, and thus underestimates the urgency of scheduling garbage collection. The <xref href=\"System.GC.AddMemoryPressure(System.Int64)\" data-throw-if-not-resolved=\"false\"></xref> method informs the runtime of this additional pressure on system memory, and the <xref href=\"System.GC.RemoveMemoryPressure(System.Int64)\" data-throw-if-not-resolved=\"false\"></xref> method informs the runtime that the additional pressure has been released.</p>\n<p>In the simplest usage pattern, a managed object allocates unmanaged memory in the constructor and releases it in the <strong>Dispose</strong> or <strong>Finalize</strong> method. Call the <xref href=\"System.GC.AddMemoryPressure(System.Int64)\" data-throw-if-not-resolved=\"false\"></xref> method after allocating the unmanaged memory, and call the <xref href=\"System.GC.RemoveMemoryPressure(System.Int64)\" data-throw-if-not-resolved=\"false\"></xref> method after releasing it.</p>\n<p>In more complicated scenarios, where the unmanaged memory allocation changes substantially during the lifetime of the managed object, you can call the <xref href=\"System.GC.AddMemoryPressure(System.Int64)\" data-throw-if-not-resolved=\"false\"></xref> and <xref href=\"System.GC.RemoveMemoryPressure(System.Int64)\" data-throw-if-not-resolved=\"false\"></xref> methods to communicate these incremental changes to the runtime.</p>\n<p>You must ensure that you remove exactly the amount of pressure you add. Failing to do so can adversely affect the performance of the system in applications that run for long periods of time.</p>\n"
   syntax:
     content: >-
       [SecurityCritical]
@@ -480,11 +527,16 @@ items:
     parameters:
     - id: bytesAllocated
       type: System.Int64
-      description: 'The amount of unmanaged memory that has been released. '
+      description: "\n<p>The amount of unmanaged memory that has been released. </p>\n"
   exceptions:
   - type: System.ArgumentOutOfRangeException
     commentId: T:System.ArgumentOutOfRangeException
-    description: "\n<em>bytesAllocated</em> is less than or equal to 0. -or- On a 32-bit computer, <em>bytesAllocated</em> is larger than <xref href=\"System.Int32.MaxValue\" data-throw-if-not-resolved=\"false\"></xref>. "
+    description: "\n<p>\n<em>bytesAllocated</em> is less than or equal to 0. </p>\n<p>-or- </p>\n<p>On a 32-bit computer, <em>bytesAllocated</em> is larger than <xref href=\"System.Int32.MaxValue\" data-throw-if-not-resolved=\"false\"></xref>. </p>\n"
+  see:
+  - type: System.Security.Permissions.SecurityPermission
+    commentId: T:System.Security.Permissions.SecurityPermission
+  - type: System.Security.SecurityCriticalAttribute
+    commentId: T:System.Security.SecurityCriticalAttribute
   attributes:
   - type: System.Security.SecurityCriticalAttribute
     ctor: System.Security.SecurityCriticalAttribute.#ctor
@@ -507,27 +559,33 @@ items:
   type: Method
   source:
     remote:
-      path: src/mscorlib/src/System/GC.cs
+      path: src/System.Runtime/ref/System.Runtime.cs
       branch: master
-      repo: https://github.com/dotnet/coreclr.git
+      repo: https://github.com/dotnet/corefx.git
     id: ReRegisterForFinalize
-    path: src/mscorlib/src/System/GC.cs
-    startLine: 346
+    path: src/System.Runtime/ref/System.Runtime.cs
+    startLine: 912
   assemblies:
   - System.Runtime
   namespace: System
-  summary: Requests that the system call the finalizer for the specified object for which <xref href="System.GC.SuppressFinalize(System.Object)" data-throw-if-not-resolved="false"></xref> has previously been called.
+  summary: "\n<p>Requests that the system call the finalizer for the specified object for which <xref href=\"System.GC.SuppressFinalize(System.Object)\" data-throw-if-not-resolved=\"false\"></xref> has previously been called.</p>\n"
+  remarks: "\n<p>The <xref href=\"System.GC.ReRegisterForFinalize(System.Object)\" data-throw-if-not-resolved=\"false\"></xref> method adds the <em>obj</em> parameter to the list of objects that request finalization before the garbage collector frees the object. The <em>obj</em> parameter must be the caller of this method.</p>\n<p>Calling the <xref href=\"System.GC.ReRegisterForFinalize(System.Object)\" data-throw-if-not-resolved=\"false\"></xref> method does not guarantee that the garbage collector will call an object's finalizer.</p>\n<p>By default, all objects that implement finalizers are added to the list of objects that require finalization; however, an object might have already been finalized or might have disabled finalization by calling the <xref href=\"System.GC.SuppressFinalize(System.Object)\" data-throw-if-not-resolved=\"false\"></xref> method.</p>\n<p>A finalizer can use this method to resurrect itself or an object that it references.</p>\n"
+  example:
+  - "\n<p>The following example demonstrates how to use the ReRegisterForFinalize method to finalize an object a second time after garbage collection.</p>System.GC.ReregisterForFinalize Example#1"
   syntax:
     content: public static void ReRegisterForFinalize(object obj)
     content.vb: Public Shared Sub ReRegisterForFinalize(obj As Object)
     parameters:
     - id: obj
       type: System.Object
-      description: 'The object that a finalizer must be called for. '
+      description: "\n<p>The object that a finalizer must be called for. </p>\n"
   exceptions:
   - type: System.ArgumentNullException
     commentId: T:System.ArgumentNullException
-    description: "\n<em>obj</em> is null. "
+    description: "\n<p>\n<em>obj</em> is <strong>null</strong>. </p>\n"
+  seealso:
+  - type: System.GC.SuppressFinalize(System.Object)
+    commentId: M:System.GC.SuppressFinalize(System.Object)
   modifiers.csharp:
   - public
   - static
@@ -546,27 +604,35 @@ items:
   type: Method
   source:
     remote:
-      path: src/mscorlib/src/System/GC.cs
+      path: src/System.Runtime/ref/System.Runtime.cs
       branch: master
-      repo: https://github.com/dotnet/coreclr.git
+      repo: https://github.com/dotnet/corefx.git
     id: SuppressFinalize
-    path: src/mscorlib/src/System/GC.cs
-    startLine: 329
+    path: src/System.Runtime/ref/System.Runtime.cs
+    startLine: 913
   assemblies:
   - System.Runtime
   namespace: System
-  summary: 'Requests that the common language runtime not call the finalizer for the specified object. '
+  summary: "\n<p>Requests that the common language runtime not call the finalizer for the specified object. </p>\n"
+  remarks: "\n<p>This method sets a bit in the object header of <em>obj</em>, which the runtime checks when calling finalizers. A finalizer, which is represented by the <xref href=\"System.Object.Finalize\" data-throw-if-not-resolved=\"false\"></xref> method, is used to release unmanaged resources before an object is garbage-collected. If <em>obj</em> does not have a finalizer, the call to the <xref href=\"System.GC.SuppressFinalize(System.Object)\" data-throw-if-not-resolved=\"false\"></xref> method has no effect. </p>\n<p>Objects that implement the <xref href=\"System.IDisposable\" data-throw-if-not-resolved=\"false\"></xref> interface can call this method from the object's <xref href=\"System.IDisposable.Dispose\" data-throw-if-not-resolved=\"false\"></xref> implementation to prevent the garbage collector from calling <xref href=\"System.Object.Finalize\" data-throw-if-not-resolved=\"false\"></xref> on an object that does not require it. Typically, this is done to prevent the finalizer from releasing unmanaged resources that have already been freed by the <xref href=\"System.IDisposable.Dispose\" data-throw-if-not-resolved=\"false\"></xref> implementation. </p>\n"
+  example:
+  - "\n<p>The following example demonstrates how to use the <xref href=\"System.GC.SuppressFinalize(System.Object)\" data-throw-if-not-resolved=\"false\"></xref> method in a resource class to prevent a redundant garbage collection from being called. The example uses the dispose pattern to free both managed resources (that is, objects that implement <xref href=\"System.IDisposable\" data-throw-if-not-resolved=\"false\"></xref>) and unmanaged resources. </p>System.GC.SuppressFinalize#1"
   syntax:
     content: public static void SuppressFinalize(object obj)
     content.vb: Public Shared Sub SuppressFinalize(obj As Object)
     parameters:
     - id: obj
       type: System.Object
-      description: 'The object whose finalizer must not be executed. '
+      description: "\n<p>The object whose finalizer must not be executed. </p>\n"
   exceptions:
   - type: System.ArgumentNullException
     commentId: T:System.ArgumentNullException
-    description: "\n<em>obj</em> is null. "
+    description: "\n<p>\n<em>obj</em> is <strong>null</strong>. </p>\n"
+  seealso:
+  - type: System.GC.ReRegisterForFinalize(System.Object)
+    commentId: M:System.GC.ReRegisterForFinalize(System.Object)
+  - type: System.Object.Finalize
+    commentId: M:System.Object.Finalize
   modifiers.csharp:
   - public
   - static
@@ -585,16 +651,19 @@ items:
   type: Method
   source:
     remote:
-      path: src/mscorlib/src/System/GC.cs
+      path: src/System.Runtime/ref/System.Runtime.cs
       branch: master
-      repo: https://github.com/dotnet/coreclr.git
+      repo: https://github.com/dotnet/corefx.git
     id: WaitForPendingFinalizers
-    path: src/mscorlib/src/System/GC.cs
-    startLine: 316
+    path: src/System.Runtime/ref/System.Runtime.cs
+    startLine: 914
   assemblies:
   - System.Runtime
   namespace: System
-  summary: Suspends the current thread until the thread that is processing the queue of finalizers has emptied that queue.
+  summary: "\n<p>Suspends the current thread until the thread that is processing the queue of finalizers has emptied that queue.</p>\n"
+  remarks: "\n<p>When the garbage collector finds objects that can be reclaimed, it checks each object to determine the object's finalization requirements. If an object implements a finalizer and has not disabled finalization by calling <xref href=\"System.GC.SuppressFinalize(System.Object)\" data-throw-if-not-resolved=\"false\"></xref>, the object is placed in a list of objects that are marked as ready for finalization. The garbage collector calls the <xref href=\"System.Object.Finalize\" data-throw-if-not-resolved=\"false\"></xref> methods for the objects in this list and removes the entries from the list. This method blocks until all finalizers have run to completion.</p>\n<p>The thread on which finalizers are run is unspecified, so there is no guarantee that this method will terminate. However, this thread can be interrupted by another thread while the <xref href=\"System.GC.WaitForPendingFinalizers\" data-throw-if-not-resolved=\"false\"></xref> method is in progress. For example, you can start another thread that waits for a period of time and then interrupts this thread if this thread is still suspended.</p>\n"
+  example:
+  - "\n<p>The following example demonstrates how to use the <xref href=\"System.GC.WaitForPendingFinalizers\" data-throw-if-not-resolved=\"false\"></xref> method to suspend the current thread until finalization of all the collected objects is complete.</p>System.GC.WaitForPendingFinalizers Example#1"
   syntax:
     content: public static void WaitForPendingFinalizers()
     content.vb: Public Shared Sub WaitForPendingFinalizers

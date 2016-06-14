@@ -18,21 +18,25 @@ items:
   type: Class
   source:
     remote:
-      path: src/mscorlib/src/System/Text/DecoderFallback.cs
+      path: src/System.Text.Encoding/ref/System.Text.Encoding.cs
       branch: master
-      repo: https://github.com/dotnet/coreclr.git
+      repo: https://github.com/dotnet/corefx.git
     id: DecoderFallbackBuffer
-    path: src/mscorlib/src/System/Text/DecoderFallback.cs
-    startLine: 87
+    path: src/System.Text.Encoding/ref/System.Text.Encoding.cs
+    startLine: 38
   assemblies:
   - System.Text.Encoding
   namespace: System.Text
-  summary: 'Provides a buffer that allows a fallback handler to return an alternate string to a decoder when it cannot decode an input byte sequence. '
+  summary: "\n<p>Provides a buffer that allows a fallback handler to return an alternate string to a decoder when it cannot decode an input byte sequence. </p>\n"
+  remarks: "\n<p>An encoding defines a mapping between a Unicode character and an encoded sequence of bytes. A decoding operation, which converts an input byte sequence to an output character, fails if no mapping is defined for a particular byte sequence. </p>\n<p>The .NET Framework provides a failure handling mechanism, called a fallback, if a conversion cannot be performed. All decoder fallback handlers must implement the following: </p>\n<ul><li>\n<p>A decoder fallback, which is represented by a class derived from the <xref href=\"System.Text.DecoderFallback\" data-throw-if-not-resolved=\"false\"></xref> class.</p>\n</li><li>\n<p>A decoder fallback buffer, which is represented by a type derived from the <xref href=\"System.Text.DecoderFallbackBuffer\" data-throw-if-not-resolved=\"false\"></xref> class that can return a string to the conversion operation.</p>\n</li></ul>\n<p>Fallbacks can use three strategies to handle conversion failures: </p>\n<ul><li>\n<p>Best-fit mapping. The decoder fallback buffer can return a string that represents a close approximation to the input byte sequence. The .NET Framework does not provide a public best-fit <xref href=\"System.Text.DecoderFallbackBuffer\" data-throw-if-not-resolved=\"false\"></xref> implementation.</p>\n</li><li>\n<p>Replacement. The decoder fallback buffer can return a string, such as a question mark (\"?\"), that indicates that a byte sequence could not be decoded. In the .NET Framework, the <xref href=\"System.Text.DecoderReplacementFallback\" data-throw-if-not-resolved=\"false\"></xref> and <xref href=\"System.Text.DecoderReplacementFallbackBuffer\" data-throw-if-not-resolved=\"false\"></xref> classes provide a public replacement fallback buffer implementation. The constructor of the <xref href=\"System.Text.DecoderReplacementFallback\" data-throw-if-not-resolved=\"false\"></xref> class enables you to define the replacement string.</p>\n</li><li>\n<p>Exception. The <xref href=\"System.Text.DecoderFallbackBuffer\" data-throw-if-not-resolved=\"false\"></xref> implementation throws an exception, which indicates that a byte sequence cannot be decoded, and terminates the decoding operation. In this case, the fallback handler must provide a <xref href=\"System.Text.DecoderFallbackBuffer\" data-throw-if-not-resolved=\"false\"></xref> implementation, although it does not return a string to the decoder. In the .NET Framework, the <xref href=\"System.Text.DecoderExceptionFallback\" data-throw-if-not-resolved=\"false\"></xref> and <xref href=\"System.Text.DecoderExceptionFallbackBuffer\" data-throw-if-not-resolved=\"false\"></xref> classes provide a public exception fallback implementation that throws a <xref href=\"System.Text.DecoderFallbackException\" data-throw-if-not-resolved=\"false\"></xref> when a byte sequence cannot be decoded.</p>\n</li></ul>\n<p>The buffer in a <xref href=\"System.Text.DecoderFallbackBuffer\" data-throw-if-not-resolved=\"false\"></xref> implementation represents the entire string to be returned to the decoder in response to a decoder fallback. Generally, implementations also include state information, such as the index of the next character to return to the decoder and the number of remaining characters to be returned. Because <xref href=\"System.Text.DecoderFallbackBuffer\" data-throw-if-not-resolved=\"false\"></xref> is an abstract class, it requires derived classes to implement the following members at a minimum:</p>\n<ul><li>\n<p>The <xref href=\"System.Text.DecoderFallbackBuffer.Fallback(System.Byte[],System.Int32)\" data-throw-if-not-resolved=\"false\"></xref> method, which is called by the decoder when it cannot decode a byte sequence. The decoder passes two pieces of information to the fallback buffer implementation: an array containing the bytes that could not be decoded and the index of the first byte in the input byte array. In a decoder fallback exception handler, the exception is thrown in this method. Otherwise, the method returns <strong>true</strong> if it provides a fallback, or <strong>false</strong> if it does not.</p>\n</li><li>\n<p>The <xref href=\"System.Text.DecoderFallbackBuffer.GetNextChar\" data-throw-if-not-resolved=\"false\"></xref> method, which is called repeatedly by the decoder if the <xref href=\"System.Text.DecoderFallbackBuffer.Fallback(System.Byte[],System.Int32)\" data-throw-if-not-resolved=\"false\"></xref> method returns <strong>true</strong>. In successive calls, the handler should return each character in its buffer. When it has returned all characters, it should return U+0000. An exception fallback handler always returns U+0000.</p>\n</li><li>\n<p>The <xref href=\"System.Text.DecoderFallbackBuffer.MovePrevious\" data-throw-if-not-resolved=\"false\"></xref> method, which tries to move the pointer to the previous position in the buffer and indicates whether the move was successful. An exception handler always returns <strong>false</strong>.</p>\n</li><li>\n<p>The <xref href=\"System.Text.DecoderFallbackBuffer.Remaining\" data-throw-if-not-resolved=\"false\"></xref> property, which indicates the number of remaining characters to be returned to the decoder. An exception fallback handler always returns zero.</p>\n</li></ul>\n"
   syntax:
     content: 'public abstract class DecoderFallbackBuffer : object'
     content.vb: >-
       Public MustInherit Class DecoderFallbackBuffer
           Inherits Object
+  seealso:
+  - type: System.Text.DecoderFallback
+    commentId: T:System.Text.DecoderFallback
   inheritance:
   - System.Object
   modifiers.csharp:
@@ -64,7 +68,7 @@ items:
   assemblies:
   - System.Text.Encoding
   namespace: System.Text
-  summary: 'Initializes a new instance of the <xref href="System.Text.DecoderFallbackBuffer" data-throw-if-not-resolved="false"></xref> class. '
+  summary: "\n<p>Initializes a new instance of the <xref href=\"System.Text.DecoderFallbackBuffer\" data-throw-if-not-resolved=\"false\"></xref> class. </p>\n"
   syntax:
     content: protected DecoderFallbackBuffer()
     content.vb: Protected Sub New
@@ -84,23 +88,26 @@ items:
   type: Property
   source:
     remote:
-      path: src/mscorlib/src/System/Text/DecoderFallback.cs
+      path: src/System.Text.Encoding/ref/System.Text.Encoding.cs
       branch: master
-      repo: https://github.com/dotnet/coreclr.git
+      repo: https://github.com/dotnet/corefx.git
     id: Remaining
-    path: src/mscorlib/src/System/Text/DecoderFallback.cs
-    startLine: 106
+    path: src/System.Text.Encoding/ref/System.Text.Encoding.cs
+    startLine: 41
   assemblies:
   - System.Text.Encoding
   namespace: System.Text
-  summary: When overridden in a derived class, gets the number of characters in the current <xref href="System.Text.DecoderFallbackBuffer" data-throw-if-not-resolved="false"></xref> object that remain to be processed.
+  summary: "\n<p>When overridden in a derived class, gets the number of characters in the current <xref href=\"System.Text.DecoderFallbackBuffer\" data-throw-if-not-resolved=\"false\"></xref> object that remain to be processed.</p>\n"
+  remarks: "\n<p>The <xref href=\"System.Text.DecoderFallbackBuffer.Fallback(System.Byte[],System.Int32)\" data-throw-if-not-resolved=\"false\"></xref> method returns <strong>true</strong> if <xref href=\"System.Text.DecoderFallbackBuffer.Remaining\" data-throw-if-not-resolved=\"false\"></xref> is a nonzero value.</p>\n<p>For an exception fallback handler, the <xref href=\"System.Text.DecoderFallbackBuffer.Remaining\" data-throw-if-not-resolved=\"false\"></xref> method should return zero.</p>\n"
+  example:
+  - 
   syntax:
     content: public abstract int Remaining { get; }
     content.vb: Public MustOverride ReadOnly Property Remaining As Integer
     parameters: []
     return:
       type: System.Int32
-      description: The number of characters in the current fallback buffer that have not yet been processed.
+      description: "\n<p>The number of characters in the current fallback buffer that have not yet been processed.</p>\n"
   modifiers.csharp:
   - public
   - abstract
@@ -121,29 +128,30 @@ items:
   type: Method
   source:
     remote:
-      path: src/mscorlib/src/System/Text/DecoderFallback.cs
+      path: src/System.Text.Encoding/ref/System.Text.Encoding.cs
       branch: master
-      repo: https://github.com/dotnet/coreclr.git
+      repo: https://github.com/dotnet/corefx.git
     id: Fallback
-    path: src/mscorlib/src/System/Text/DecoderFallback.cs
-    startLine: 94
+    path: src/System.Text.Encoding/ref/System.Text.Encoding.cs
+    startLine: 42
   assemblies:
   - System.Text.Encoding
   namespace: System.Text
-  summary: When overridden in a derived class, prepares the fallback buffer to handle the specified input byte sequence.
+  summary: "\n<p>When overridden in a derived class, prepares the fallback buffer to handle the specified input byte sequence.</p>\n"
+  remarks: "\n<p>The <xref href=\"System.Text.Encoding.GetChars(System.Byte[])\" data-throw-if-not-resolved=\"false\"></xref>, <xref href=\"System.Text.Encoding.GetString(System.Byte[])\" data-throw-if-not-resolved=\"false\"></xref>, and <see cref=\"Overload:System.Text.Decoder.Convert\"></see> methods call <xref href=\"System.Text.DecoderFallbackBuffer.Fallback(System.Byte[],System.Int32)\" data-throw-if-not-resolved=\"false\"></xref> if they encounter an unknown input byte sequence that cannot be decoded. A return value of <strong>true</strong> indicates that the fallback buffer can process the input byte sequence, which causes the calling method to call the <xref href=\"System.Text.DecoderFallbackBuffer.GetNextChar\" data-throw-if-not-resolved=\"false\"></xref> method to obtain each character of the fallback buffer. Because it does not process individual bytes, the <xref href=\"System.Text.DecoderFallbackBuffer.Fallback(System.Byte[],System.Int32)\" data-throw-if-not-resolved=\"false\"></xref> method in an exception fallback handler throws an exception.</p>\n"
   syntax:
     content: public abstract bool Fallback(byte[] bytesUnknown, int index)
     content.vb: Public MustOverride Function Fallback(bytesUnknown As Byte(), index As Integer) As Boolean
     parameters:
     - id: bytesUnknown
       type: System.Byte[]
-      description: An input array of bytes.
+      description: "\n<p>An input array of bytes.</p>\n"
     - id: index
       type: System.Int32
-      description: The index position of a byte in <em>bytesUnknown</em>.
+      description: "\n<p>The index position of a byte in <em>bytesUnknown</em>.</p>\n"
     return:
       type: System.Boolean
-      description: true if the fallback buffer can process <em>bytesUnknown</em>; false if the fallback buffer ignores <em>bytesUnknown</em>.
+      description: "\n<p>\n<strong>true</strong> if the fallback buffer can process <em>bytesUnknown</em>; <strong>false</strong> if the fallback buffer ignores <em>bytesUnknown</em>.</p>\n"
   modifiers.csharp:
   - public
   - abstract
@@ -164,22 +172,23 @@ items:
   type: Method
   source:
     remote:
-      path: src/mscorlib/src/System/Text/DecoderFallback.cs
+      path: src/System.Text.Encoding/ref/System.Text.Encoding.cs
       branch: master
-      repo: https://github.com/dotnet/coreclr.git
+      repo: https://github.com/dotnet/corefx.git
     id: GetNextChar
-    path: src/mscorlib/src/System/Text/DecoderFallback.cs
-    startLine: 98
+    path: src/System.Text.Encoding/ref/System.Text.Encoding.cs
+    startLine: 43
   assemblies:
   - System.Text.Encoding
   namespace: System.Text
-  summary: When overridden in a derived class, retrieves the next character in the fallback buffer.
+  summary: "\n<p>When overridden in a derived class, retrieves the next character in the fallback buffer.</p>\n"
+  remarks: "\n<p>A decoding operation calls the <xref href=\"System.Text.DecoderFallbackBuffer.Fallback(System.Byte[],System.Int32)\" data-throw-if-not-resolved=\"false\"></xref> method if the operation encounters an unknown byte sequence in the input. If the <xref href=\"System.Text.DecoderFallbackBuffer.Fallback(System.Byte[],System.Int32)\" data-throw-if-not-resolved=\"false\"></xref> method returns <strong>true</strong>, a substitute string exists that can be inserted in the output instead of decoding the unknown input. The decoding operation calls the <xref href=\"System.Text.DecoderFallbackBuffer.GetNextChar\" data-throw-if-not-resolved=\"false\"></xref> method repeatedly and obtains the substitute string one character at a time. When all characters in the fallback buffer have been returned to the decoder, the method should return U+0000.</p>\n<p>For an exception fallback handler, the <xref href=\"System.Text.DecoderFallbackBuffer.GetNextChar\" data-throw-if-not-resolved=\"false\"></xref> method should return U+0000. </p>\n"
   syntax:
     content: public abstract char GetNextChar()
     content.vb: Public MustOverride Function GetNextChar As Char
     return:
       type: System.Char
-      description: The next character in the fallback buffer.
+      description: "\n<p>The next character in the fallback buffer.</p>\n"
   modifiers.csharp:
   - public
   - abstract
@@ -198,22 +207,23 @@ items:
   type: Method
   source:
     remote:
-      path: src/mscorlib/src/System/Text/DecoderFallback.cs
+      path: src/System.Text.Encoding/ref/System.Text.Encoding.cs
       branch: master
-      repo: https://github.com/dotnet/coreclr.git
+      repo: https://github.com/dotnet/corefx.git
     id: MovePrevious
-    path: src/mscorlib/src/System/Text/DecoderFallback.cs
-    startLine: 102
+    path: src/System.Text.Encoding/ref/System.Text.Encoding.cs
+    startLine: 44
   assemblies:
   - System.Text.Encoding
   namespace: System.Text
-  summary: 'When overridden in a derived class, causes the next call to the <xref href="System.Text.DecoderFallbackBuffer.GetNextChar" data-throw-if-not-resolved="false"></xref> method to access the data buffer character position that is prior to the current character position. '
+  summary: "\n<p>When overridden in a derived class, causes the next call to the <xref href=\"System.Text.DecoderFallbackBuffer.GetNextChar\" data-throw-if-not-resolved=\"false\"></xref> method to access the data buffer character position that is prior to the current character position. </p>\n"
+  remarks: "\n<p>An exception fallback handler should return <strong>false</strong>.</p>\n"
   syntax:
     content: public abstract bool MovePrevious()
     content.vb: Public MustOverride Function MovePrevious As Boolean
     return:
       type: System.Boolean
-      description: true if the <xref href="System.Text.DecoderFallbackBuffer.MovePrevious" data-throw-if-not-resolved="false"></xref> operation was successful; otherwise, false.
+      description: "\n<p>\n<strong>true</strong> if the <xref href=\"System.Text.DecoderFallbackBuffer.MovePrevious\" data-throw-if-not-resolved=\"false\"></xref> operation was successful; otherwise, <strong>false</strong>.</p>\n"
   modifiers.csharp:
   - public
   - abstract
@@ -232,16 +242,16 @@ items:
   type: Method
   source:
     remote:
-      path: src/mscorlib/src/System/Text/DecoderFallback.cs
+      path: src/System.Text.Encoding/ref/System.Text.Encoding.cs
       branch: master
-      repo: https://github.com/dotnet/coreclr.git
+      repo: https://github.com/dotnet/corefx.git
     id: Reset
-    path: src/mscorlib/src/System/Text/DecoderFallback.cs
-    startLine: 110
+    path: src/System.Text.Encoding/ref/System.Text.Encoding.cs
+    startLine: 45
   assemblies:
   - System.Text.Encoding
   namespace: System.Text
-  summary: Initializes all data and state information pertaining to this fallback buffer.
+  summary: "\n<p>Initializes all data and state information pertaining to this fallback buffer.</p>\n"
   syntax:
     content: public virtual void Reset()
     content.vb: Public Overridable Sub Reset

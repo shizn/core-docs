@@ -34,16 +34,19 @@ items:
   type: Class
   source:
     remote:
-      path: src/mscorlib/src/System/Reflection/Emit/DynamicMethod.cs
+      path: src/System.Reflection.Emit.Lightweight/ref/System.Reflection.Emit.Lightweight.Manual.cs
       branch: master
-      repo: https://github.com/dotnet/coreclr.git
+      repo: https://github.com/dotnet/corefx.git
     id: DynamicMethod
-    path: src/mscorlib/src/System/Reflection/Emit/DynamicMethod.cs
-    startLine: 20
+    path: src/System.Reflection.Emit.Lightweight/ref/System.Reflection.Emit.Lightweight.Manual.cs
+    startLine: 10
   assemblies:
   - System.Reflection.Emit.Lightweight
   namespace: System.Reflection.Emit
-  summary: Defines and represents a dynamic method that can be compiled, executed, and discarded. Discarded methods are available for garbage collection.
+  summary: "\n<p>Defines and represents a dynamic method that can be compiled, executed, and discarded. Discarded methods are available for garbage collection.</p>\n"
+  remarks: "\n<p>You can use the <xref href=\"System.Reflection.Emit.DynamicMethod\" data-throw-if-not-resolved=\"false\"></xref> class to generate and execute a method at run time, without having to generate a dynamic assembly and a dynamic type to contain the method. The executable code created by the just-in-time (JIT) compiler is reclaimed when the <xref href=\"System.Reflection.Emit.DynamicMethod\" data-throw-if-not-resolved=\"false\"></xref> object is reclaimed. Dynamic methods are the most efficient way to generate and execute small amounts of code.</p>\n<p>A dynamic method can be anonymously hosted, or it can belogically associated with a module or with a type. </p>\n<ul><li>\n<p>If the dynamic method is anonymously hosted, it is located in a system-provided assembly, and therefore is isolated from other code. By default, it does not have access to any non-public data. An anonymously hosted dynamic method can have restricted ability to skip the JIT compiler's visibility checks, if it has been granted <xref href=\"System.Security.Permissions.ReflectionPermission\" data-throw-if-not-resolved=\"false\"></xref> with the <xref href=\"System.Security.Permissions.ReflectionPermissionFlag.RestrictedMemberAccess\" data-throw-if-not-resolved=\"false\"></xref> flag. The trust level of the assembly whose non-public members are accessed by the dynamic method must be equal to, or a subset of, the trust level of the call stack that emitted the dynamic method. For more information about anonymously hosted dynamic methods, see Walkthrough: Emitting Code in Partial Trust Scenarios.</p>\n</li><li>\n<p>If the dynamic method is associated with a module that you specify, the dynamic method is effectively global to that module. It can access all types in the module and all <strong>internal</strong> (<strong>Friend</strong> in Visual Basic) members of the types. You can associate a dynamic method with any module, regardless of whether you created the module, provided that a demand for <xref href=\"System.Security.Permissions.ReflectionPermission\" data-throw-if-not-resolved=\"false\"></xref> with the <xref href=\"System.Security.Permissions.ReflectionPermissionFlag.RestrictedMemberAccess\" data-throw-if-not-resolved=\"false\"></xref> flag can be satisfied by the call stack that includes your code. If the <xref href=\"System.Security.Permissions.ReflectionPermissionFlag.MemberAccess\" data-throw-if-not-resolved=\"false\"></xref> flag is included in the grant, the dynamic method can skip the JIT compiler's visibility checks and access the private data of all types declared in the module or in any other module in any assembly. </p>\n<p>When you specify the module with which a dynamic method is associated, that module must not be in the system-provided assembly that is used for anonymous hosting.</p>\n</li><li>\n<p>If the dynamic method is associated with a type that you specify, it has access to all members of the type, regardless of access level. In addition, JIT visibility checks can be skipped. This gives the dynamic method access to the private data of other types declared in the same module or in any other module in any assembly. You can associate a dynamic method with any type, but your code must be granted <xref href=\"System.Security.Permissions.ReflectionPermission\" data-throw-if-not-resolved=\"false\"></xref> with both the <xref href=\"System.Security.Permissions.ReflectionPermissionFlag.RestrictedMemberAccess\" data-throw-if-not-resolved=\"false\"></xref> and <xref href=\"System.Security.Permissions.ReflectionPermissionFlag.MemberAccess\" data-throw-if-not-resolved=\"false\"></xref> flags.</p>\n</li></ul>\n<p>The following table shows which types and members are accessible to an anonymously hosted dynamic method, with and without JIT visibility checks, depending on whether <xref href=\"System.Security.Permissions.ReflectionPermission\" data-throw-if-not-resolved=\"false\"></xref> with the <xref href=\"System.Security.Permissions.ReflectionPermissionFlag.RestrictedMemberAccess\" data-throw-if-not-resolved=\"false\"></xref> flag is granted. </p>\n<p>Prior to the .NET Framework 2.0 Service Pack 1, emitting code required <xref href=\"System.Security.Permissions.ReflectionPermission\" data-throw-if-not-resolved=\"false\"></xref> with the <xref href=\"System.Security.Permissions.ReflectionPermissionFlag.ReflectionEmit\" data-throw-if-not-resolved=\"false\"></xref> flag. This permission is included by default in the FullTrust and LocalIntranet named permission sets, but not in the Internet permission set. Therefore, in earlier versions of the .NET Framework a library can be used with Internet permissions only if it has the <xref href=\"System.Security.SecurityCriticalAttribute\" data-throw-if-not-resolved=\"false\"></xref> attribute and also executes an <xref href=\"System.Security.PermissionSet.Assert\" data-throw-if-not-resolved=\"false\"></xref> for <xref href=\"System.Security.Permissions.ReflectionPermissionFlag.ReflectionEmit\" data-throw-if-not-resolved=\"false\"></xref>. Such libraries require careful security review because coding errors could result in security holes. The .NET Framework 2.0 SP1 allows code to be emitted in partial trust scenarios without issuing any security demands, because generating code is not inherently a privileged operation. That is, the generated code has no more permissions than the assembly that emits it. This allows libraries that emit code to be security transparent and removes the need to assert <xref href=\"System.Security.Permissions.ReflectionPermissionFlag.ReflectionEmit\" data-throw-if-not-resolved=\"false\"></xref>, which simplifies the task of writing a secure library. To use this feature, your application should target the .NET Framework 3.5 or later.</p>\n<p>The following table shows which types and members are accessible to a dynamic method that is associated with a module or with a type in a module. </p>\n<p>A dynamic method that is associated with a module has the permissions of that module. A dynamic method that is associated with a type has the permissions of the module containing that type. </p>\n<p>Dynamic methods and their parameters do not have to be named, but you can specify names to assist in debugging. Custom attributes are not supported on dynamic methods or their parameters.</p>\n<p>Although dynamic methods are <strong>static</strong> methods (<strong>Shared</strong> methods in Visual Basic), the relaxed rules for delegate binding introduced in the .NET Framework 2.0 allow a dynamic method to be bound to an object, so that it acts like an instance method when called using that delegate instance. An example that demonstrates this is provided for the <xref href=\"System.Reflection.Emit.DynamicMethod.CreateDelegate(System.Type,System.Object)\" data-throw-if-not-resolved=\"false\"></xref> method overload. </p>\n<p>In the .NET Framework 2.0, dynamic methods do not support symbol information, that is, local variable names and line-number mapping. This limitation might be removed in a future version. You can use <xref href=\"System.Reflection.Emit.AssemblyBuilder\" data-throw-if-not-resolved=\"false\"></xref> during development to simplify debugging the generated Microsoft intermediate language (MSIL), and then switch to dynamic methods during final deployment, because the <xref href=\"System.Reflection.Emit.ILGenerator\" data-throw-if-not-resolved=\"false\"></xref> calls are the same in both cases.</p>\n"
+  example:
+  - <p>The following code example creates a dynamic method that takes two parameters. The example emits a simple function body that prints the first parameter to the console, and the example uses the second parameter as the return value of the method. The example completes the method by creating a delegate, invokes the delegate with different parameters, and finally invokes the dynamic method using the <xref href="System.Reflection.Emit.DynamicMethod.Invoke(System.Object,System.Reflection.BindingFlags,System.Reflection.Binder,System.Object[],System.Globalization.CultureInfo)" data-throw-if-not-resolved="false"></xref> method.</p>Reflection.DynamicMethod.All#1
   syntax:
     content: 'public sealed class DynamicMethod : MethodInfo, MethodInfo'
     content.vb: >-
@@ -74,51 +77,57 @@ items:
   type: Constructor
   source:
     remote:
-      path: src/mscorlib/src/System/Reflection/Emit/DynamicMethod.cs
+      path: src/System.Reflection.Emit.Lightweight/ref/System.Reflection.Emit.Lightweight.cs
       branch: master
-      repo: https://github.com/dotnet/coreclr.git
+      repo: https://github.com/dotnet/corefx.git
     id: .ctor
-    path: src/mscorlib/src/System/Reflection/Emit/DynamicMethod.cs
-    startLine: 165
+    path: src/System.Reflection.Emit.Lightweight/ref/System.Reflection.Emit.Lightweight.cs
+    startLine: 12
   assemblies:
   - System.Reflection.Emit.Lightweight
   namespace: System.Reflection.Emit
-  summary: Creates a dynamic method that is global to a module, specifying the method name, attributes, calling convention, return type, parameter types, module, and whether just-in-time (JIT) visibility checks should be skipped for types and members accessed by the Microsoft intermediate language (MSIL) of the dynamic method.
+  summary: "\n<p>Creates a dynamic method that is global to a module, specifying the method name, attributes, calling convention, return type, parameter types, module, and whether just-in-time (JIT) visibility checks should be skipped for types and members accessed by the Microsoft intermediate language (MSIL) of the dynamic method.</p>\n"
+  remarks: "\n<p>The dynamic method created with this constructor has access to public and <strong>internal</strong> (<strong>Friend</strong> in Visual Basic) members of all the public and internal types contained in module <em>m</em>. </p>\n<p>Skipping the JIT compiler's visibility checks allows the dynamic method to access private and protected members of all other types in the module and in all other assemblies as well. This is useful, for example, when writing code to serialize objects.</p>\n<p>For backward compatibility, this constructor demands <xref href=\"System.Security.Permissions.SecurityPermission\" data-throw-if-not-resolved=\"false\"></xref> with the <xref href=\"System.Security.Permissions.SecurityPermissionFlag.ControlEvidence\" data-throw-if-not-resolved=\"false\"></xref> flag if the following conditions are both true: <em>m</em> is a module other than the calling module, and the demand for <xref href=\"System.Security.Permissions.ReflectionPermission\" data-throw-if-not-resolved=\"false\"></xref> with the <xref href=\"System.Security.Permissions.ReflectionPermissionFlag.MemberAccess\" data-throw-if-not-resolved=\"false\"></xref> flag has failed. If the demand for <xref href=\"System.Security.Permissions.SecurityPermission\" data-throw-if-not-resolved=\"false\"></xref> succeeds, the operation is allowed.</p>\n<p>Starting with the .NET Framework 2.0 Service Pack 1, this member no longer requires <xref href=\"System.Security.Permissions.ReflectionPermission\" data-throw-if-not-resolved=\"false\"></xref> with the <xref href=\"System.Security.Permissions.ReflectionPermissionFlag.ReflectionEmit\" data-throw-if-not-resolved=\"false\"></xref> flag. (See Security Issues in Reflection Emit.) To use this functionality, your application should target the .NET Framework 3.5 or later.</p>\n"
   syntax:
     content: public DynamicMethod(string name, MethodAttributes attributes, CallingConventions callingConvention, Type returnType, Type[] parameterTypes, Module m, bool skipVisibility)
     content.vb: Public Sub New(name As String, attributes As MethodAttributes, callingConvention As CallingConventions, returnType As Type, parameterTypes As Type(), m As  Module, skipVisibility As Boolean)
     parameters:
     - id: name
       type: System.String
-      description: The name of the dynamic method. This can be a zero-length string, but it cannot be null.
+      description: "\n<p>The name of the dynamic method. This can be a zero-length string, but it cannot be <strong>null</strong>.</p>\n"
     - id: attributes
       type: System.Reflection.MethodAttributes
-      description: A bitwise combination of <xref href="System.Reflection.MethodAttributes" data-throw-if-not-resolved="false"></xref> values that specifies the attributes of the dynamic method. The only combination allowed is <xref href="System.Reflection.MethodAttributes.Public" data-throw-if-not-resolved="false"></xref> and <xref href="System.Reflection.MethodAttributes.Static" data-throw-if-not-resolved="false"></xref>.
+      description: "\n<p>A bitwise combination of <xref href=\"System.Reflection.MethodAttributes\" data-throw-if-not-resolved=\"false\"></xref> values that specifies the attributes of the dynamic method. The only combination allowed is <xref href=\"System.Reflection.MethodAttributes.Public\" data-throw-if-not-resolved=\"false\"></xref> and <xref href=\"System.Reflection.MethodAttributes.Static\" data-throw-if-not-resolved=\"false\"></xref>.</p>\n"
     - id: callingConvention
       type: System.Reflection.CallingConventions
-      description: The calling convention for the dynamic method. Must be <xref href="System.Reflection.CallingConventions.Standard" data-throw-if-not-resolved="false"></xref>.
+      description: "\n<p>The calling convention for the dynamic method. Must be <xref href=\"System.Reflection.CallingConventions.Standard\" data-throw-if-not-resolved=\"false\"></xref>.</p>\n"
     - id: returnType
       type: System.Type
-      description: 'A <xref href="System.Type" data-throw-if-not-resolved="false"></xref> object that specifies the return type of the dynamic method, or null if the method has no return type. '
+      description: "\n<p>A <xref href=\"System.Type\" data-throw-if-not-resolved=\"false\"></xref> object that specifies the return type of the dynamic method, or <strong>null</strong> if the method has no return type. </p>\n"
     - id: parameterTypes
       type: System.Type[]
-      description: 'An array of <xref href="System.Type" data-throw-if-not-resolved="false"></xref> objects specifying the types of the parameters of the dynamic method, or null if the method has no parameters. '
+      description: "\n<p>An array of <xref href=\"System.Type\" data-throw-if-not-resolved=\"false\"></xref> objects specifying the types of the parameters of the dynamic method, or <strong>null</strong> if the method has no parameters. </p>\n"
     - id: m
       type: System.Reflection.Module
-      description: 'A <xref href="System.Reflection.Module" data-throw-if-not-resolved="false"></xref> representing the module with which the dynamic method is to be logically associated. '
+      description: "\n<p>A <xref href=\"System.Reflection.Module\" data-throw-if-not-resolved=\"false\"></xref> representing the module with which the dynamic method is to be logically associated. </p>\n"
     - id: skipVisibility
       type: System.Boolean
-      description: 'true to skip JIT visibility checks on types and members accessed by the MSIL of the dynamic method; otherwise, false. '
+      description: "\n<p>\n<strong>true</strong> to skip JIT visibility checks on types and members accessed by the MSIL of the dynamic method; otherwise, <strong>false</strong>. </p>\n"
   exceptions:
   - type: System.ArgumentException
     commentId: T:System.ArgumentException
-    description: An element of <em>parameterTypes</em> is null or <xref href="System.Void" data-throw-if-not-resolved="false"></xref>.-or-<em>m</em> is a module that provides anonymous hosting for dynamic methods.
+    description: "\n<p>An element of <em>parameterTypes</em> is <strong>null</strong> or <xref href=\"System.Void\" data-throw-if-not-resolved=\"false\"></xref>.</p>\n<p>-or-</p>\n<p>\n<em>m</em> is a module that provides anonymous hosting for dynamic methods.</p>\n"
   - type: System.ArgumentNullException
     commentId: T:System.ArgumentNullException
-    description: "\n<em>name</em> is null. -or-<em>m</em> is null."
+    description: "\n<p>\n<em>name</em> is <strong>null</strong>. </p>\n<p>-or-</p>\n<p>\n<em>m</em> is <strong>null</strong>.</p>\n"
   - type: System.NotSupportedException
     commentId: T:System.NotSupportedException
-    description: "\n<em>attributes</em> is a combination of flags other than <xref href=\"System.Reflection.MethodAttributes.Public\" data-throw-if-not-resolved=\"false\"></xref> and <xref href=\"System.Reflection.MethodAttributes.Static\" data-throw-if-not-resolved=\"false\"></xref>.-or-<em>callingConvention</em> is not <xref href=\"System.Reflection.CallingConventions.Standard\" data-throw-if-not-resolved=\"false\"></xref>.-or-<em>returnType</em> is a type for which <xref href=\"System.Type.IsByRef\" data-throw-if-not-resolved=\"false\"></xref> returns true. "
+    description: "\n<p>\n<em>attributes</em> is a combination of flags other than <xref href=\"System.Reflection.MethodAttributes.Public\" data-throw-if-not-resolved=\"false\"></xref> and <xref href=\"System.Reflection.MethodAttributes.Static\" data-throw-if-not-resolved=\"false\"></xref>.</p>\n<p>-or-</p>\n<p>\n<em>callingConvention</em> is not <xref href=\"System.Reflection.CallingConventions.Standard\" data-throw-if-not-resolved=\"false\"></xref>.</p>\n<p>-or-</p>\n<p>\n<em>returnType</em> is a type for which <xref href=\"System.Type.IsByRef\" data-throw-if-not-resolved=\"false\"></xref> returns <strong>true</strong>. </p>\n"
+  see:
+  - type: System.Security.Permissions.ReflectionPermission
+    commentId: T:System.Security.Permissions.ReflectionPermission
+  - type: System.Security.Permissions.ReflectionPermission
+    commentId: T:System.Security.Permissions.ReflectionPermission
   modifiers.csharp:
   - public
   modifiers.vb:
@@ -137,51 +146,57 @@ items:
   type: Constructor
   source:
     remote:
-      path: src/mscorlib/src/System/Reflection/Emit/DynamicMethod.cs
+      path: src/System.Reflection.Emit.Lightweight/ref/System.Reflection.Emit.Lightweight.cs
       branch: master
-      repo: https://github.com/dotnet/coreclr.git
+      repo: https://github.com/dotnet/corefx.git
     id: .ctor
-    path: src/mscorlib/src/System/Reflection/Emit/DynamicMethod.cs
-    startLine: 241
+    path: src/System.Reflection.Emit.Lightweight/ref/System.Reflection.Emit.Lightweight.cs
+    startLine: 14
   assemblies:
   - System.Reflection.Emit.Lightweight
   namespace: System.Reflection.Emit
-  summary: Creates a dynamic method, specifying the method name, attributes, calling convention, return type, parameter types, the type with which the dynamic method is logically associated, and whether just-in-time (JIT) visibility checks should be skipped for types and members accessed by the Microsoft intermediate language (MSIL) of the dynamic method.
+  summary: "\n<p>Creates a dynamic method, specifying the method name, attributes, calling convention, return type, parameter types, the type with which the dynamic method is logically associated, and whether just-in-time (JIT) visibility checks should be skipped for types and members accessed by the Microsoft intermediate language (MSIL) of the dynamic method.</p>\n"
+  remarks: "\n<p>The dynamic method is global to the module that contains the type <em>owner</em>. It has access to all members of the type <em>owner</em>.</p>\n<p>The dynamic method created with this constructor has access to all members of the type <em>owner</em>, and to public and <strong>internal</strong> (<strong>Friend</strong> in Visual Basic) members of all the types contained in the module that contains <em>owner</em>. Skipping the JIT compiler's visibility checks allows the dynamic method to access private and protected members of all other types as well. This is useful, for example, when writing code to serialize objects.</p>\n<p>For backward compatibility, this constructor demands <xref href=\"System.Security.Permissions.SecurityPermission\" data-throw-if-not-resolved=\"false\"></xref> with the <xref href=\"System.Security.Permissions.SecurityPermissionFlag.ControlEvidence\" data-throw-if-not-resolved=\"false\"></xref> flag if the following conditions are both true: <em>owner</em> is in a module other than the calling module, and the demand for <xref href=\"System.Security.Permissions.ReflectionPermission\" data-throw-if-not-resolved=\"false\"></xref> with the <xref href=\"System.Security.Permissions.ReflectionPermissionFlag.MemberAccess\" data-throw-if-not-resolved=\"false\"></xref> flag has failed. If the demand for <xref href=\"System.Security.Permissions.SecurityPermission\" data-throw-if-not-resolved=\"false\"></xref> succeeds, the operation is allowed.</p>\n<p>Starting with the .NET Framework 2.0 Service Pack 1, this member no longer requires <xref href=\"System.Security.Permissions.ReflectionPermission\" data-throw-if-not-resolved=\"false\"></xref> with the <xref href=\"System.Security.Permissions.ReflectionPermissionFlag.ReflectionEmit\" data-throw-if-not-resolved=\"false\"></xref> flag. (See Security Issues in Reflection Emit.) To use this functionality, your application should target the .NET Framework 3.5 or later.</p>\n"
   syntax:
     content: public DynamicMethod(string name, MethodAttributes attributes, CallingConventions callingConvention, Type returnType, Type[] parameterTypes, Type owner, bool skipVisibility)
     content.vb: Public Sub New(name As String, attributes As MethodAttributes, callingConvention As CallingConventions, returnType As Type, parameterTypes As Type(), owner As Type, skipVisibility As Boolean)
     parameters:
     - id: name
       type: System.String
-      description: The name of the dynamic method. This can be a zero-length string, but it cannot be null.
+      description: "\n<p>The name of the dynamic method. This can be a zero-length string, but it cannot be <strong>null</strong>.</p>\n"
     - id: attributes
       type: System.Reflection.MethodAttributes
-      description: A bitwise combination of <xref href="System.Reflection.MethodAttributes" data-throw-if-not-resolved="false"></xref> values that specifies the attributes of the dynamic method. The only combination allowed is <xref href="System.Reflection.MethodAttributes.Public" data-throw-if-not-resolved="false"></xref> and <xref href="System.Reflection.MethodAttributes.Static" data-throw-if-not-resolved="false"></xref>.
+      description: "\n<p>A bitwise combination of <xref href=\"System.Reflection.MethodAttributes\" data-throw-if-not-resolved=\"false\"></xref> values that specifies the attributes of the dynamic method. The only combination allowed is <xref href=\"System.Reflection.MethodAttributes.Public\" data-throw-if-not-resolved=\"false\"></xref> and <xref href=\"System.Reflection.MethodAttributes.Static\" data-throw-if-not-resolved=\"false\"></xref>.</p>\n"
     - id: callingConvention
       type: System.Reflection.CallingConventions
-      description: The calling convention for the dynamic method. Must be <xref href="System.Reflection.CallingConventions.Standard" data-throw-if-not-resolved="false"></xref>.
+      description: "\n<p>The calling convention for the dynamic method. Must be <xref href=\"System.Reflection.CallingConventions.Standard\" data-throw-if-not-resolved=\"false\"></xref>.</p>\n"
     - id: returnType
       type: System.Type
-      description: 'A <xref href="System.Type" data-throw-if-not-resolved="false"></xref> object that specifies the return type of the dynamic method, or null if the method has no return type. '
+      description: "\n<p>A <xref href=\"System.Type\" data-throw-if-not-resolved=\"false\"></xref> object that specifies the return type of the dynamic method, or <strong>null</strong> if the method has no return type. </p>\n"
     - id: parameterTypes
       type: System.Type[]
-      description: 'An array of <xref href="System.Type" data-throw-if-not-resolved="false"></xref> objects specifying the types of the parameters of the dynamic method, or null if the method has no parameters. '
+      description: "\n<p>An array of <xref href=\"System.Type\" data-throw-if-not-resolved=\"false\"></xref> objects specifying the types of the parameters of the dynamic method, or <strong>null</strong> if the method has no parameters. </p>\n"
     - id: owner
       type: System.Type
-      description: A <xref href="System.Type" data-throw-if-not-resolved="false"></xref> with which the dynamic method is logically associated. The dynamic method has access to all members of the type.
+      description: "\n<p>A <xref href=\"System.Type\" data-throw-if-not-resolved=\"false\"></xref> with which the dynamic method is logically associated. The dynamic method has access to all members of the type.</p>\n"
     - id: skipVisibility
       type: System.Boolean
-      description: true to skip JIT visibility checks on types and members accessed by the MSIL of the dynamic method; otherwise, false.
+      description: "\n<p>\n<strong>true</strong> to skip JIT visibility checks on types and members accessed by the MSIL of the dynamic method; otherwise, <strong>false</strong>.</p>\n"
   exceptions:
   - type: System.ArgumentException
     commentId: T:System.ArgumentException
-    description: An element of <em>parameterTypes</em> is null or <xref href="System.Void" data-throw-if-not-resolved="false"></xref>. -or-<em>owner</em> is an interface, an array, an open generic type, or a type parameter of a generic type or method.
+    description: "\n<p>An element of <em>parameterTypes</em> is <strong>null</strong> or <xref href=\"System.Void\" data-throw-if-not-resolved=\"false\"></xref>. </p>\n<p>-or-</p>\n<p>\n<em>owner</em> is an interface, an array, an open generic type, or a type parameter of a generic type or method.</p>\n"
   - type: System.ArgumentNullException
     commentId: T:System.ArgumentNullException
-    description: "\n<em>name</em> is null. -or-<em>owner</em> is null."
+    description: "\n<p>\n<em>name</em> is <strong>null</strong>. </p>\n<p>-or-</p>\n<p>\n<em>owner</em> is <strong>null</strong>.</p>\n"
   - type: System.NotSupportedException
     commentId: T:System.NotSupportedException
-    description: "\n<em>attributes</em> is a combination of flags other than <xref href=\"System.Reflection.MethodAttributes.Public\" data-throw-if-not-resolved=\"false\"></xref> and <xref href=\"System.Reflection.MethodAttributes.Static\" data-throw-if-not-resolved=\"false\"></xref>.-or-<em>callingConvention</em> is not <xref href=\"System.Reflection.CallingConventions.Standard\" data-throw-if-not-resolved=\"false\"></xref>.-or-<em>returnType</em> is a type for which <xref href=\"System.Type.IsByRef\" data-throw-if-not-resolved=\"false\"></xref> returns true. "
+    description: "\n<p>\n<em>attributes</em> is a combination of flags other than <xref href=\"System.Reflection.MethodAttributes.Public\" data-throw-if-not-resolved=\"false\"></xref> and <xref href=\"System.Reflection.MethodAttributes.Static\" data-throw-if-not-resolved=\"false\"></xref>.</p>\n<p>-or-</p>\n<p>\n<em>callingConvention</em> is not <xref href=\"System.Reflection.CallingConventions.Standard\" data-throw-if-not-resolved=\"false\"></xref>.</p>\n<p>-or-</p>\n<p>\n<em>returnType</em> is a type for which <xref href=\"System.Type.IsByRef\" data-throw-if-not-resolved=\"false\"></xref> returns <strong>true</strong>. </p>\n"
+  see:
+  - type: System.Security.Permissions.ReflectionPermission
+    commentId: T:System.Security.Permissions.ReflectionPermission
+  - type: System.Security.Permissions.ReflectionPermission
+    commentId: T:System.Security.Permissions.ReflectionPermission
   modifiers.csharp:
   - public
   modifiers.vb:
@@ -200,39 +215,42 @@ items:
   type: Constructor
   source:
     remote:
-      path: src/mscorlib/src/System/Reflection/Emit/DynamicMethod.cs
+      path: src/System.Reflection.Emit.Lightweight/ref/System.Reflection.Emit.Lightweight.cs
       branch: master
-      repo: https://github.com/dotnet/coreclr.git
+      repo: https://github.com/dotnet/corefx.git
     id: .ctor
-    path: src/mscorlib/src/System/Reflection/Emit/DynamicMethod.cs
-    startLine: 74
+    path: src/System.Reflection.Emit.Lightweight/ref/System.Reflection.Emit.Lightweight.cs
+    startLine: 16
   assemblies:
   - System.Reflection.Emit.Lightweight
   namespace: System.Reflection.Emit
-  summary: 'Initializes an anonymously hosted dynamic method, specifying the method name, return type, and parameter types. '
+  summary: "\n<p>Initializes an anonymously hosted dynamic method, specifying the method name, return type, and parameter types. </p>\n"
+  remarks: "\n<p>The dynamic method that is created by this constructor is associated with an anonymous assembly instead of an existing type or module. The anonymous assembly exists only to provide a sandbox environment for dynamic methods, that is, to isolate them from other code. This environment makes it safe for the dynamic method to be emitted and executed by partially trusted code. </p>\n<p>This constructor specifies that just-in-time (JIT) visibility checks will be enforced for the Microsoft intermediate language (MSIL) of the dynamic method. That is, the code in the dynamic method has access to public methods of public classes. Exceptions are thrown if the method tries to access types or members that are <strong>private</strong>, <strong>protected</strong>, or <strong>internal</strong> (<strong>Friend</strong> in Visual Basic). To create a dynamic method that has restricted ability to skip JIT visibility checks, use the <xref href=\"System.Reflection.Emit.DynamicMethod.#ctor(System.String,System.Type,System.Type[],System.Boolean)\" data-throw-if-not-resolved=\"false\"></xref> constructor.</p>\n<p>When an anonymously hosted dynamic method is constructed, the call stack of the emitting assembly is included. When the method is invoked, the permissions of the emitting assembly are used instead of the permissions of the actual caller. Thus, the dynamic method cannot execute at a higher level of privilege than that of the assembly that emitted it, even if it is passed to and executed by an assembly that has a higher trust level.</p>\n<p>This constructor specifies the method attributes <xref href=\"System.Reflection.MethodAttributes.Public\" data-throw-if-not-resolved=\"false\"></xref> and <xref href=\"System.Reflection.MethodAttributes.Static\" data-throw-if-not-resolved=\"false\"></xref>, and the calling convention <xref href=\"System.Reflection.CallingConventions.Standard\" data-throw-if-not-resolved=\"false\"></xref>.</p>\n<p>This constructor was introduced in the .NET Framework 3.5 or later.</p>\n"
+  example:
+  - 
   syntax:
     content: public DynamicMethod(string name, Type returnType, Type[] parameterTypes)
     content.vb: Public Sub New(name As String, returnType As Type, parameterTypes As Type())
     parameters:
     - id: name
       type: System.String
-      description: 'The name of the dynamic method. This can be a zero-length string, but it cannot be null. '
+      description: "\n<p>The name of the dynamic method. This can be a zero-length string, but it cannot be <strong>null</strong>. </p>\n"
     - id: returnType
       type: System.Type
-      description: 'A <xref href="System.Type" data-throw-if-not-resolved="false"></xref> object that specifies the return type of the dynamic method, or null if the method has no return type. '
+      description: "\n<p>A <xref href=\"System.Type\" data-throw-if-not-resolved=\"false\"></xref> object that specifies the return type of the dynamic method, or <strong>null</strong> if the method has no return type. </p>\n"
     - id: parameterTypes
       type: System.Type[]
-      description: 'An array of <xref href="System.Type" data-throw-if-not-resolved="false"></xref> objects specifying the types of the parameters of the dynamic method, or null if the method has no parameters. '
+      description: "\n<p>An array of <xref href=\"System.Type\" data-throw-if-not-resolved=\"false\"></xref> objects specifying the types of the parameters of the dynamic method, or <strong>null</strong> if the method has no parameters. </p>\n"
   exceptions:
   - type: System.ArgumentException
     commentId: T:System.ArgumentException
-    description: 'An element of <em>parameterTypes</em> is null or <xref href="System.Void" data-throw-if-not-resolved="false"></xref>. '
+    description: "\n<p>An element of <em>parameterTypes</em> is <strong>null</strong> or <xref href=\"System.Void\" data-throw-if-not-resolved=\"false\"></xref>. </p>\n"
   - type: System.ArgumentNullException
     commentId: T:System.ArgumentNullException
-    description: "\n<em>name</em> is null. "
+    description: "\n<p>\n<em>name</em> is <strong>null</strong>. </p>\n"
   - type: System.NotSupportedException
     commentId: T:System.NotSupportedException
-    description: "\n<em>returnType</em> is a type for which <xref href=\"System.Type.IsByRef\" data-throw-if-not-resolved=\"false\"></xref> returns true. "
+    description: "\n<p>\n<em>returnType</em> is a type for which <xref href=\"System.Type.IsByRef\" data-throw-if-not-resolved=\"false\"></xref> returns <strong>true</strong>. </p>\n"
   modifiers.csharp:
   - public
   modifiers.vb:
@@ -251,42 +269,45 @@ items:
   type: Constructor
   source:
     remote:
-      path: src/mscorlib/src/System/Reflection/Emit/DynamicMethod.cs
+      path: src/System.Reflection.Emit.Lightweight/ref/System.Reflection.Emit.Lightweight.cs
       branch: master
-      repo: https://github.com/dotnet/coreclr.git
+      repo: https://github.com/dotnet/corefx.git
     id: .ctor
-    path: src/mscorlib/src/System/Reflection/Emit/DynamicMethod.cs
-    startLine: 94
+    path: src/System.Reflection.Emit.Lightweight/ref/System.Reflection.Emit.Lightweight.cs
+    startLine: 18
   assemblies:
   - System.Reflection.Emit.Lightweight
   namespace: System.Reflection.Emit
-  summary: 'Initializes an anonymously hosted dynamic method, specifying the method name, return type, parameter types, and whether just-in-time (JIT) visibility checks should be skipped for types and members accessed by the Microsoft intermediate language (MSIL) of the dynamic method. '
+  summary: "\n<p>Initializes an anonymously hosted dynamic method, specifying the method name, return type, parameter types, and whether just-in-time (JIT) visibility checks should be skipped for types and members accessed by the Microsoft intermediate language (MSIL) of the dynamic method. </p>\n"
+  remarks: "\n<p>The dynamic method that is created by this constructor is associated with an anonymous assembly instead of an existing type or module. The anonymous assembly exists only to provide a sandbox environment for dynamic methods, that is, to isolate them from other code. This environment makes it safe for the dynamic method to be emitted and executed by partially trusted code. </p>\n<p>Anonymously hosted dynamic methods do not have automatic access to any types or members that are <strong>private</strong>, <strong>protected</strong>, or <strong>internal</strong> (<strong>Friend</strong> in Visual Basic). This is different from dynamic methods that are associated with an existing type or module, which have access to hidden members in their associated scope. </p>\n<p>Specify <strong>true</strong> for <em>restrictedSkipVisibility</em> if your dynamic method has to access types or members that are <strong>private</strong>, <strong>protected</strong>, or <strong>internal</strong>. This gives the dynamic method restricted access to these members. That is, the members can be accessed only if the following conditions are met:</p>\n<ul><li>\n<p>The target members belong to an assembly that has a level of trust equal to or lower than the call stack that emits the dynamic method.</p>\n</li><li>\n<p>The call stack that emits the dynamic method is granted <xref href=\"System.Security.Permissions.ReflectionPermission\" data-throw-if-not-resolved=\"false\"></xref> with the <xref href=\"System.Security.Permissions.ReflectionPermissionFlag.RestrictedMemberAccess\" data-throw-if-not-resolved=\"false\"></xref> flag. This is always true when the code is executed with full trust. For partially trusted code, it is true only if the host explicitly grants the permission.</p>\n<p>If the permission has not been granted, a security exception is thrown when <see cref=\"Overload:System.Reflection.Emit.DynamicMethod.CreateDelegate\"></see> is called or when the dynamic method is invoked, not when this constructor is called. No special permissions are required to emit the dynamic method.</p>\n</li></ul>\n<p>For example, a dynamic method that is created with <em>restrictedSkipVisibility</em> set to <strong>true</strong> can access a private member of any assembly on the call stack if the call stack has been granted restricted member access. If the dynamic method is created with partially trusted code on the call stack, it cannot access a private member of a type in a .NET Framework assembly, because such assemblies are fully trusted. </p>\n<p>If <em>restrictedSkipVisibility</em> is <strong>false</strong>, JIT visibility checks are enforced. The code in the dynamic method has access to public methods of public classes, and exceptions are thrown if it tries to access types or members that are <strong>private</strong>, <strong>protected</strong>, or <strong>internal</strong>. </p>\n<p>When an anonymously hosted dynamic method is constructed, the call stack of the emitting assembly is included. When the method is invoked, the permissions of the emitting call stack are used instead of the permissions of the actual caller. Thus, the dynamic method cannot execute at a higher level of privilege than that of the assembly that emitted it, even if it is passed to and executed by an assembly that has a higher trust level.</p>\n<p>This constructor specifies the method attributes <xref href=\"System.Reflection.MethodAttributes.Public\" data-throw-if-not-resolved=\"false\"></xref> and <xref href=\"System.Reflection.MethodAttributes.Static\" data-throw-if-not-resolved=\"false\"></xref>, and the calling convention <xref href=\"System.Reflection.CallingConventions.Standard\" data-throw-if-not-resolved=\"false\"></xref>.</p>\n<p>This constructor was introduced in the .NET Framework 3.5 or later.</p>\n"
+  example:
+  - 
   syntax:
     content: public DynamicMethod(string name, Type returnType, Type[] parameterTypes, bool restrictedSkipVisibility)
     content.vb: Public Sub New(name As String, returnType As Type, parameterTypes As Type(), restrictedSkipVisibility As Boolean)
     parameters:
     - id: name
       type: System.String
-      description: 'The name of the dynamic method. This can be a zero-length string, but it cannot be null. '
+      description: "\n<p>The name of the dynamic method. This can be a zero-length string, but it cannot be <strong>null</strong>. </p>\n"
     - id: returnType
       type: System.Type
-      description: 'A <xref href="System.Type" data-throw-if-not-resolved="false"></xref> object that specifies the return type of the dynamic method, or null if the method has no return type. '
+      description: "\n<p>A <xref href=\"System.Type\" data-throw-if-not-resolved=\"false\"></xref> object that specifies the return type of the dynamic method, or <strong>null</strong> if the method has no return type. </p>\n"
     - id: parameterTypes
       type: System.Type[]
-      description: 'An array of <xref href="System.Type" data-throw-if-not-resolved="false"></xref> objects specifying the types of the parameters of the dynamic method, or null if the method has no parameters. '
+      description: "\n<p>An array of <xref href=\"System.Type\" data-throw-if-not-resolved=\"false\"></xref> objects specifying the types of the parameters of the dynamic method, or <strong>null</strong> if the method has no parameters. </p>\n"
     - id: restrictedSkipVisibility
       type: System.Boolean
-      description: 'true to skip JIT visibility checks on types and members accessed by the MSIL of the dynamic method, with this restriction: the trust level of the assemblies that contain those types and members must be equal to or less than the trust level of the call stack that emits the dynamic method; otherwise, false. '
+      description: "\n<p>\n<strong>true</strong> to skip JIT visibility checks on types and members accessed by the MSIL of the dynamic method, with this restriction: the trust level of the assemblies that contain those types and members must be equal to or less than the trust level of the call stack that emits the dynamic method; otherwise, <strong>false</strong>. </p>\n"
   exceptions:
   - type: System.ArgumentException
     commentId: T:System.ArgumentException
-    description: An element of <em>parameterTypes</em> is null or <xref href="System.Void" data-throw-if-not-resolved="false"></xref>.
+    description: "\n<p>An element of <em>parameterTypes</em> is <strong>null</strong> or <xref href=\"System.Void\" data-throw-if-not-resolved=\"false\"></xref>.</p>\n"
   - type: System.ArgumentNullException
     commentId: T:System.ArgumentNullException
-    description: "\n<em>name</em> is null. "
+    description: "\n<p>\n<em>name</em> is <strong>null</strong>. </p>\n"
   - type: System.NotSupportedException
     commentId: T:System.NotSupportedException
-    description: "\n<em>returnType</em> is a type for which <xref href=\"System.Type.IsByRef\" data-throw-if-not-resolved=\"false\"></xref> returns true. "
+    description: "\n<p>\n<em>returnType</em> is a type for which <xref href=\"System.Type.IsByRef\" data-throw-if-not-resolved=\"false\"></xref> returns <strong>true</strong>. </p>\n"
   modifiers.csharp:
   - public
   modifiers.vb:
@@ -305,42 +326,48 @@ items:
   type: Constructor
   source:
     remote:
-      path: src/mscorlib/src/System/Reflection/Emit/DynamicMethod.cs
+      path: src/System.Reflection.Emit.Lightweight/ref/System.Reflection.Emit.Lightweight.cs
       branch: master
-      repo: https://github.com/dotnet/coreclr.git
+      repo: https://github.com/dotnet/corefx.git
     id: .ctor
-    path: src/mscorlib/src/System/Reflection/Emit/DynamicMethod.cs
-    startLine: 116
+    path: src/System.Reflection.Emit.Lightweight/ref/System.Reflection.Emit.Lightweight.cs
+    startLine: 20
   assemblies:
   - System.Reflection.Emit.Lightweight
   namespace: System.Reflection.Emit
-  summary: Creates a dynamic method that is global to a module, specifying the method name, return type, parameter types, and module.
+  summary: "\n<p>Creates a dynamic method that is global to a module, specifying the method name, return type, parameter types, and module.</p>\n"
+  remarks: "\n<p>This constructor specifies method attributes <xref href=\"System.Reflection.MethodAttributes.Public\" data-throw-if-not-resolved=\"false\"></xref> and <xref href=\"System.Reflection.MethodAttributes.Static\" data-throw-if-not-resolved=\"false\"></xref>, calling convention <xref href=\"System.Reflection.CallingConventions.Standard\" data-throw-if-not-resolved=\"false\"></xref>, and does not skip just-in-time (JIT) visibility checks.</p>\n<p>The dynamic method created with this constructor has access to public and <strong>internal</strong> (<strong>Friend</strong> in Visual Basic) members of all the types contained in module <em>m</em>. </p>\n<p>For backward compatibility, this constructor demands <xref href=\"System.Security.Permissions.SecurityPermission\" data-throw-if-not-resolved=\"false\"></xref> with the <xref href=\"System.Security.Permissions.SecurityPermissionFlag.ControlEvidence\" data-throw-if-not-resolved=\"false\"></xref> flag if the following conditions are both true: <em>m</em> is a module other than the calling module, and the demand for <xref href=\"System.Security.Permissions.ReflectionPermission\" data-throw-if-not-resolved=\"false\"></xref> with the <xref href=\"System.Security.Permissions.ReflectionPermissionFlag.MemberAccess\" data-throw-if-not-resolved=\"false\"></xref> flag has failed. If the demand for <xref href=\"System.Security.Permissions.SecurityPermission\" data-throw-if-not-resolved=\"false\"></xref> succeeds, the operation is allowed.</p>\n<p>Starting with the .NET Framework 2.0 Service Pack 1, this member no longer requires <xref href=\"System.Security.Permissions.ReflectionPermission\" data-throw-if-not-resolved=\"false\"></xref> with the <xref href=\"System.Security.Permissions.ReflectionPermissionFlag.ReflectionEmit\" data-throw-if-not-resolved=\"false\"></xref> flag. (See Security Issues in Reflection Emit.) To use this functionality, your application should target the .NET Framework 3.5 or later.</p>\n"
+  example:
+  - "\n<p>The following code example creates a dynamic method that takes two parameters. The example emits a simple function body that prints the first parameter to the console, and the example uses the second parameter as the return value of the method. The example completes the method by creating a delegate, invokes the delegate with different parameters, and finally invokes the dynamic method using the <xref href=\"System.Reflection.Emit.DynamicMethod.Invoke(System.Object,System.Reflection.BindingFlags,System.Reflection.Binder,System.Object[],System.Globalization.CultureInfo)\" data-throw-if-not-resolved=\"false\"></xref> method.</p>Reflection.DynamicMethod.ctor1#1"
   syntax:
     content: public DynamicMethod(string name, Type returnType, Type[] parameterTypes, Module m)
     content.vb: Public Sub New(name As String, returnType As Type, parameterTypes As Type(), m As  Module)
     parameters:
     - id: name
       type: System.String
-      description: 'The name of the dynamic method. This can be a zero-length string, but it cannot be null. '
+      description: "\n<p>The name of the dynamic method. This can be a zero-length string, but it cannot be <strong>null</strong>. </p>\n"
     - id: returnType
       type: System.Type
-      description: 'A <xref href="System.Type" data-throw-if-not-resolved="false"></xref> object that specifies the return type of the dynamic method, or null if the method has no return type. '
+      description: "\n<p>A <xref href=\"System.Type\" data-throw-if-not-resolved=\"false\"></xref> object that specifies the return type of the dynamic method, or <strong>null</strong> if the method has no return type. </p>\n"
     - id: parameterTypes
       type: System.Type[]
-      description: 'An array of <xref href="System.Type" data-throw-if-not-resolved="false"></xref> objects specifying the types of the parameters of the dynamic method, or null if the method has no parameters. '
+      description: "\n<p>An array of <xref href=\"System.Type\" data-throw-if-not-resolved=\"false\"></xref> objects specifying the types of the parameters of the dynamic method, or <strong>null</strong> if the method has no parameters. </p>\n"
     - id: m
       type: System.Reflection.Module
-      description: 'A <xref href="System.Reflection.Module" data-throw-if-not-resolved="false"></xref> representing the module with which the dynamic method is to be logically associated. '
+      description: "\n<p>A <xref href=\"System.Reflection.Module\" data-throw-if-not-resolved=\"false\"></xref> representing the module with which the dynamic method is to be logically associated. </p>\n"
   exceptions:
   - type: System.ArgumentException
     commentId: T:System.ArgumentException
-    description: An element of <em>parameterTypes</em> is null or <xref href="System.Void" data-throw-if-not-resolved="false"></xref>. -or-<em>m</em> is a module that provides anonymous hosting for dynamic methods.
+    description: "\n<p>An element of <em>parameterTypes</em> is <strong>null</strong> or <xref href=\"System.Void\" data-throw-if-not-resolved=\"false\"></xref>. </p>\n<p>-or-</p>\n<p>\n<em>m</em> is a module that provides anonymous hosting for dynamic methods.</p>\n"
   - type: System.ArgumentNullException
     commentId: T:System.ArgumentNullException
-    description: "\n<em>name</em> is null. -or-<em>m</em> is null."
+    description: "\n<p>\n<em>name</em> is <strong>null</strong>. </p>\n<p>-or-</p>\n<p>\n<em>m</em> is <strong>null</strong>.</p>\n"
   - type: System.NotSupportedException
     commentId: T:System.NotSupportedException
-    description: "\n<em>returnType</em> is a type for which <xref href=\"System.Type.IsByRef\" data-throw-if-not-resolved=\"false\"></xref> returns true. "
+    description: "\n<p>\n<em>returnType</em> is a type for which <xref href=\"System.Type.IsByRef\" data-throw-if-not-resolved=\"false\"></xref> returns <strong>true</strong>. </p>\n"
+  see:
+  - type: System.Security.Permissions.ReflectionPermission
+    commentId: T:System.Security.Permissions.ReflectionPermission
   modifiers.csharp:
   - public
   modifiers.vb:
@@ -359,45 +386,51 @@ items:
   type: Constructor
   source:
     remote:
-      path: src/mscorlib/src/System/Reflection/Emit/DynamicMethod.cs
+      path: src/System.Reflection.Emit.Lightweight/ref/System.Reflection.Emit.Lightweight.cs
       branch: master
-      repo: https://github.com/dotnet/coreclr.git
+      repo: https://github.com/dotnet/corefx.git
     id: .ctor
-    path: src/mscorlib/src/System/Reflection/Emit/DynamicMethod.cs
-    startLine: 140
+    path: src/System.Reflection.Emit.Lightweight/ref/System.Reflection.Emit.Lightweight.cs
+    startLine: 22
   assemblies:
   - System.Reflection.Emit.Lightweight
   namespace: System.Reflection.Emit
-  summary: Creates a dynamic method that is global to a module, specifying the method name, return type, parameter types, module, and whether just-in-time (JIT) visibility checks should be skipped for types and members accessed by the Microsoft intermediate language (MSIL) of the dynamic method.
+  summary: "\n<p>Creates a dynamic method that is global to a module, specifying the method name, return type, parameter types, module, and whether just-in-time (JIT) visibility checks should be skipped for types and members accessed by the Microsoft intermediate language (MSIL) of the dynamic method.</p>\n"
+  remarks: "\n<p>This constructor specifies method attributes <xref href=\"System.Reflection.MethodAttributes.Public\" data-throw-if-not-resolved=\"false\"></xref> and <xref href=\"System.Reflection.MethodAttributes.Static\" data-throw-if-not-resolved=\"false\"></xref>, and calling convention <xref href=\"System.Reflection.CallingConventions.Standard\" data-throw-if-not-resolved=\"false\"></xref>.</p>\n<p>The dynamic method created with this constructor has access to public and <strong>internal</strong> (<strong>Friend</strong> in Visual Basic) members of all the types in contained module <em>m</em>. Skipping the JIT compiler's visibility checks allows the dynamic method to access private and protected members of all other types as well. This is useful, for example, when writing code to serialize objects.</p>\n<p>For backward compatibility, this constructor demands <xref href=\"System.Security.Permissions.SecurityPermission\" data-throw-if-not-resolved=\"false\"></xref> with the <xref href=\"System.Security.Permissions.SecurityPermissionFlag.ControlEvidence\" data-throw-if-not-resolved=\"false\"></xref> flag if the following conditions are both true: <em>m</em> is a module other than the calling module, and the demand for <xref href=\"System.Security.Permissions.ReflectionPermission\" data-throw-if-not-resolved=\"false\"></xref> with the <xref href=\"System.Security.Permissions.ReflectionPermissionFlag.MemberAccess\" data-throw-if-not-resolved=\"false\"></xref> flag has failed. If the demand for <xref href=\"System.Security.Permissions.SecurityPermission\" data-throw-if-not-resolved=\"false\"></xref> succeeds, the operation is allowed.</p>\n<p>Starting with the .NET Framework 2.0 Service Pack 1, this member no longer requires <xref href=\"System.Security.Permissions.ReflectionPermission\" data-throw-if-not-resolved=\"false\"></xref> with the <xref href=\"System.Security.Permissions.ReflectionPermissionFlag.ReflectionEmit\" data-throw-if-not-resolved=\"false\"></xref> flag. (See Security Issues in Reflection Emit.) To use this functionality, your application should target the .NET Framework 3.5 or later.</p>\n"
   syntax:
     content: public DynamicMethod(string name, Type returnType, Type[] parameterTypes, Module m, bool skipVisibility)
     content.vb: Public Sub New(name As String, returnType As Type, parameterTypes As Type(), m As  Module, skipVisibility As Boolean)
     parameters:
     - id: name
       type: System.String
-      description: 'The name of the dynamic method. This can be a zero-length string, but it cannot be null. '
+      description: "\n<p>The name of the dynamic method. This can be a zero-length string, but it cannot be <strong>null</strong>. </p>\n"
     - id: returnType
       type: System.Type
-      description: 'A <xref href="System.Type" data-throw-if-not-resolved="false"></xref> object that specifies the return type of the dynamic method, or null if the method has no return type. '
+      description: "\n<p>A <xref href=\"System.Type\" data-throw-if-not-resolved=\"false\"></xref> object that specifies the return type of the dynamic method, or <strong>null</strong> if the method has no return type. </p>\n"
     - id: parameterTypes
       type: System.Type[]
-      description: 'An array of <xref href="System.Type" data-throw-if-not-resolved="false"></xref> objects specifying the types of the parameters of the dynamic method, or null if the method has no parameters. '
+      description: "\n<p>An array of <xref href=\"System.Type\" data-throw-if-not-resolved=\"false\"></xref> objects specifying the types of the parameters of the dynamic method, or <strong>null</strong> if the method has no parameters. </p>\n"
     - id: m
       type: System.Reflection.Module
-      description: 'A <xref href="System.Reflection.Module" data-throw-if-not-resolved="false"></xref> representing the module with which the dynamic method is to be logically associated. '
+      description: "\n<p>A <xref href=\"System.Reflection.Module\" data-throw-if-not-resolved=\"false\"></xref> representing the module with which the dynamic method is to be logically associated. </p>\n"
     - id: skipVisibility
       type: System.Boolean
-      description: 'true to skip JIT visibility checks on types and members accessed by the MSIL of the dynamic method. '
+      description: "\n<p>\n<strong>true</strong> to skip JIT visibility checks on types and members accessed by the MSIL of the dynamic method. </p>\n"
   exceptions:
   - type: System.ArgumentException
     commentId: T:System.ArgumentException
-    description: An element of <em>parameterTypes</em> is null or <xref href="System.Void" data-throw-if-not-resolved="false"></xref>. -or-<em>m</em> is a module that provides anonymous hosting for dynamic methods.
+    description: "\n<p>An element of <em>parameterTypes</em> is <strong>null</strong> or <xref href=\"System.Void\" data-throw-if-not-resolved=\"false\"></xref>. </p>\n<p>-or-</p>\n<p>\n<em>m</em> is a module that provides anonymous hosting for dynamic methods.</p>\n"
   - type: System.ArgumentNullException
     commentId: T:System.ArgumentNullException
-    description: "\n<em>name</em> is null. -or-<em>m</em> is null."
+    description: "\n<p>\n<em>name</em> is <strong>null</strong>. </p>\n<p>-or-</p>\n<p>\n<em>m</em> is <strong>null</strong>.</p>\n"
   - type: System.NotSupportedException
     commentId: T:System.NotSupportedException
-    description: "\n<em>returnType</em> is a type for which <xref href=\"System.Type.IsByRef\" data-throw-if-not-resolved=\"false\"></xref> returns true. "
+    description: "\n<p>\n<em>returnType</em> is a type for which <xref href=\"System.Type.IsByRef\" data-throw-if-not-resolved=\"false\"></xref> returns <strong>true</strong>. </p>\n"
+  see:
+  - type: System.Security.Permissions.ReflectionPermission
+    commentId: T:System.Security.Permissions.ReflectionPermission
+  - type: System.Security.Permissions.ReflectionPermission
+    commentId: T:System.Security.Permissions.ReflectionPermission
   modifiers.csharp:
   - public
   modifiers.vb:
@@ -416,42 +449,48 @@ items:
   type: Constructor
   source:
     remote:
-      path: src/mscorlib/src/System/Reflection/Emit/DynamicMethod.cs
+      path: src/System.Reflection.Emit.Lightweight/ref/System.Reflection.Emit.Lightweight.cs
       branch: master
-      repo: https://github.com/dotnet/coreclr.git
+      repo: https://github.com/dotnet/corefx.git
     id: .ctor
-    path: src/mscorlib/src/System/Reflection/Emit/DynamicMethod.cs
-    startLine: 192
+    path: src/System.Reflection.Emit.Lightweight/ref/System.Reflection.Emit.Lightweight.cs
+    startLine: 24
   assemblies:
   - System.Reflection.Emit.Lightweight
   namespace: System.Reflection.Emit
-  summary: Creates a dynamic method, specifying the method name, return type, parameter types, and the type with which the dynamic method is logically associated.
+  summary: "\n<p>Creates a dynamic method, specifying the method name, return type, parameter types, and the type with which the dynamic method is logically associated.</p>\n"
+  remarks: "\n<p>The dynamic method created with this constructor has access to all members of the type <em>owner</em>, and to public and <strong>internal</strong> (<strong>Friend</strong> in Visual Basic) members of all the other types in the module that contains <em>owner</em>.</p>\n<p>This constructor specifies method attributes <xref href=\"System.Reflection.MethodAttributes.Public\" data-throw-if-not-resolved=\"false\"></xref> and <xref href=\"System.Reflection.MethodAttributes.Static\" data-throw-if-not-resolved=\"false\"></xref>, calling convention <xref href=\"System.Reflection.CallingConventions.Standard\" data-throw-if-not-resolved=\"false\"></xref>, and does not skip just-in-time (JIT) visibility checks.</p>\n<p>For backward compatibility, this constructor demands <xref href=\"System.Security.Permissions.SecurityPermission\" data-throw-if-not-resolved=\"false\"></xref> with the <xref href=\"System.Security.Permissions.SecurityPermissionFlag.ControlEvidence\" data-throw-if-not-resolved=\"false\"></xref> flag if the following conditions are both true: <em>owner</em> is in a module other than the calling module, and the demand for <xref href=\"System.Security.Permissions.ReflectionPermission\" data-throw-if-not-resolved=\"false\"></xref> with the <xref href=\"System.Security.Permissions.ReflectionPermissionFlag.MemberAccess\" data-throw-if-not-resolved=\"false\"></xref> flag has failed. If the demand for <xref href=\"System.Security.Permissions.SecurityPermission\" data-throw-if-not-resolved=\"false\"></xref> succeeds, the operation is allowed.</p>\n<p>Starting with the .NET Framework 2.0 Service Pack 1, this member no longer requires <xref href=\"System.Security.Permissions.ReflectionPermission\" data-throw-if-not-resolved=\"false\"></xref> with the <xref href=\"System.Security.Permissions.ReflectionPermissionFlag.ReflectionEmit\" data-throw-if-not-resolved=\"false\"></xref> flag. (See Security Issues in Reflection Emit.) To use this functionality, your application should target the .NET Framework 3.5 or later.</p>\n"
+  example:
+  - "\n<p>The following code example creates a <xref href=\"System.Reflection.Emit.DynamicMethod\" data-throw-if-not-resolved=\"false\"></xref> that is logically associated with a type. This association gives it access to the private members of that type.</p>\n<p>The code example defines a class named <code>Example</code> with a private field, a class named <code>DerivedFromxample</code> that derives from the first class, a delegate type named <code>UseLikeStatic</code> that returns <xref href=\"System.Int32\" data-throw-if-not-resolved=\"false\"></xref> and has parameters of type <code>Example</code> and <xref href=\"System.Int32\" data-throw-if-not-resolved=\"false\"></xref>, and a delegate type named <code>UseLikeInstance</code> that returns <xref href=\"System.Int32\" data-throw-if-not-resolved=\"false\"></xref> and has one parameter of type <xref href=\"System.Int32\" data-throw-if-not-resolved=\"false\"></xref>. </p>\n<p>The example code then creates a <xref href=\"System.Reflection.Emit.DynamicMethod\" data-throw-if-not-resolved=\"false\"></xref> that changes the private field of an instance of <code>Example</code> and returns the previous value.</p>\n<p>In general, changing the internal fields of classes is not good object-oriented coding practice.</p>\n<p>The example code creates an instance of <code>Example</code> and then creates two delegates. The first is of type <code>UseLikeStatic</code>, which has the same parameters as the dynamic method. The second is of type <code>UseLikeInstance</code>, which lacks the first parameter (of type <code>Example</code>). This delegate is created using the <xref href=\"System.Reflection.Emit.DynamicMethod.CreateDelegate(System.Type,System.Object)\" data-throw-if-not-resolved=\"false\"></xref> method overload; the second parameter of that method overload is an instance of <code>Example</code>, in this case the instance just created, which is bound to the newly created delegate. Whenever that delegate is invoked, the dynamic method acts on the bound instance of <code>Example</code>.</p>\n<p>This is an example of the relaxed rules for delegate binding introduced in the .NET Framework 2.0, along with new overloads of the <see cref=\"Overload:System.Delegate.CreateDelegate\"></see> method. For more information, see the <xref href=\"System.Delegate\" data-throw-if-not-resolved=\"false\"></xref> class.</p>\n<p>The <code>UseLikeStatic</code> delegate is invoked, passing in the instance of <code>Example</code> that is bound to the <code>UseLikeInstance</code> delegate. Then the <code>UseLikeInstance</code> delegate is invoked, so that both delegates act on the same instance of <code>Example</code>. The changes in the values of the internal field are displayed after each call. Finally, a <code>UseLikeInstance</code> delegate is bound to an instance of <code>DerivedFromxample</code>, and the delegate calls are repeated.</p>Reflection.DynamicMethod.ClosedOver#1"
   syntax:
     content: public DynamicMethod(string name, Type returnType, Type[] parameterTypes, Type owner)
     content.vb: Public Sub New(name As String, returnType As Type, parameterTypes As Type(), owner As Type)
     parameters:
     - id: name
       type: System.String
-      description: 'The name of the dynamic method. This can be a zero-length string, but it cannot be null. '
+      description: "\n<p>The name of the dynamic method. This can be a zero-length string, but it cannot be <strong>null</strong>. </p>\n"
     - id: returnType
       type: System.Type
-      description: 'A <xref href="System.Type" data-throw-if-not-resolved="false"></xref> object that specifies the return type of the dynamic method, or null if the method has no return type. '
+      description: "\n<p>A <xref href=\"System.Type\" data-throw-if-not-resolved=\"false\"></xref> object that specifies the return type of the dynamic method, or <strong>null</strong> if the method has no return type. </p>\n"
     - id: parameterTypes
       type: System.Type[]
-      description: 'An array of <xref href="System.Type" data-throw-if-not-resolved="false"></xref> objects specifying the types of the parameters of the dynamic method, or null if the method has no parameters. '
+      description: "\n<p>An array of <xref href=\"System.Type\" data-throw-if-not-resolved=\"false\"></xref> objects specifying the types of the parameters of the dynamic method, or <strong>null</strong> if the method has no parameters. </p>\n"
     - id: owner
       type: System.Type
-      description: 'A <xref href="System.Type" data-throw-if-not-resolved="false"></xref> with which the dynamic method is logically associated. The dynamic method has access to all members of the type. '
+      description: "\n<p>A <xref href=\"System.Type\" data-throw-if-not-resolved=\"false\"></xref> with which the dynamic method is logically associated. The dynamic method has access to all members of the type. </p>\n"
   exceptions:
   - type: System.ArgumentException
     commentId: T:System.ArgumentException
-    description: 'An element of <em>parameterTypes</em> is null or <xref href="System.Void" data-throw-if-not-resolved="false"></xref>.-or- <em>owner</em> is an interface, an array, an open generic type, or a type parameter of a generic type or method. '
+    description: "\n<p>An element of <em>parameterTypes</em> is <strong>null</strong> or <xref href=\"System.Void\" data-throw-if-not-resolved=\"false\"></xref>.</p>\n<p>-or- </p>\n<p>\n<em>owner</em> is an interface, an array, an open generic type, or a type parameter of a generic type or method. </p>\n"
   - type: System.ArgumentNullException
     commentId: T:System.ArgumentNullException
-    description: "\n<em>name</em> is null. -or-<em>owner</em> is null."
+    description: "\n<p>\n<em>name</em> is <strong>null</strong>. </p>\n<p>-or-</p>\n<p>\n<em>owner</em> is <strong>null</strong>.</p>\n"
   - type: System.NotSupportedException
     commentId: T:System.NotSupportedException
-    description: "\n<em>returnType</em> is null, or is a type for which <xref href=\"System.Type.IsByRef\" data-throw-if-not-resolved=\"false\"></xref> returns true. "
+    description: "\n<p>\n<em>returnType</em> is <strong>null</strong>, or is a type for which <xref href=\"System.Type.IsByRef\" data-throw-if-not-resolved=\"false\"></xref> returns <strong>true</strong>. </p>\n"
+  see:
+  - type: System.Security.Permissions.ReflectionPermission
+    commentId: T:System.Security.Permissions.ReflectionPermission
   modifiers.csharp:
   - public
   modifiers.vb:
@@ -470,45 +509,51 @@ items:
   type: Constructor
   source:
     remote:
-      path: src/mscorlib/src/System/Reflection/Emit/DynamicMethod.cs
+      path: src/System.Reflection.Emit.Lightweight/ref/System.Reflection.Emit.Lightweight.cs
       branch: master
-      repo: https://github.com/dotnet/coreclr.git
+      repo: https://github.com/dotnet/corefx.git
     id: .ctor
-    path: src/mscorlib/src/System/Reflection/Emit/DynamicMethod.cs
-    startLine: 216
+    path: src/System.Reflection.Emit.Lightweight/ref/System.Reflection.Emit.Lightweight.cs
+    startLine: 26
   assemblies:
   - System.Reflection.Emit.Lightweight
   namespace: System.Reflection.Emit
-  summary: Creates a dynamic method, specifying the method name, return type, parameter types, the type with which the dynamic method is logically associated, and whether just-in-time (JIT) visibility checks should be skipped for types and members accessed by the Microsoft intermediate language (MSIL) of the dynamic method.
+  summary: "\n<p>Creates a dynamic method, specifying the method name, return type, parameter types, the type with which the dynamic method is logically associated, and whether just-in-time (JIT) visibility checks should be skipped for types and members accessed by the Microsoft intermediate language (MSIL) of the dynamic method.</p>\n"
+  remarks: "\n<p>The dynamic method created with this constructor has access to all members of the type <em>owner</em>, and to public and <strong>internal</strong> (<strong>Friend</strong> in Visual Basic) members of all the other types in the module that contains <em>owner</em>. Skipping the JIT compiler's visibility checks allows the dynamic method to access private and protected members of all other types as well. This is useful, for example, when writing code to serialize objects.</p>\n<p>This constructor specifies method attributes <xref href=\"System.Reflection.MethodAttributes.Public\" data-throw-if-not-resolved=\"false\"></xref> and <xref href=\"System.Reflection.MethodAttributes.Static\" data-throw-if-not-resolved=\"false\"></xref>, and calling convention <xref href=\"System.Reflection.CallingConventions.Standard\" data-throw-if-not-resolved=\"false\"></xref>.</p>\n<p>For backward compatibility, this constructor demands <xref href=\"System.Security.Permissions.SecurityPermission\" data-throw-if-not-resolved=\"false\"></xref> with the <xref href=\"System.Security.Permissions.SecurityPermissionFlag.ControlEvidence\" data-throw-if-not-resolved=\"false\"></xref> flag if the following conditions are both true: <em>owner</em> is in a module other than the calling module, and the demand for <xref href=\"System.Security.Permissions.ReflectionPermission\" data-throw-if-not-resolved=\"false\"></xref> with the <xref href=\"System.Security.Permissions.ReflectionPermissionFlag.MemberAccess\" data-throw-if-not-resolved=\"false\"></xref> flag has failed. If the demand for <xref href=\"System.Security.Permissions.SecurityPermission\" data-throw-if-not-resolved=\"false\"></xref> succeeds, the operation is allowed.</p>\n<p>Starting with the .NET Framework 2.0 Service Pack 1, this member no longer requires <xref href=\"System.Security.Permissions.ReflectionPermission\" data-throw-if-not-resolved=\"false\"></xref> with the <xref href=\"System.Security.Permissions.ReflectionPermissionFlag.ReflectionEmit\" data-throw-if-not-resolved=\"false\"></xref> flag. (See Security Issues in Reflection Emit.) To use this functionality, your application should target the .NET Framework 3.5 or later.</p>\n"
   syntax:
     content: public DynamicMethod(string name, Type returnType, Type[] parameterTypes, Type owner, bool skipVisibility)
     content.vb: Public Sub New(name As String, returnType As Type, parameterTypes As Type(), owner As Type, skipVisibility As Boolean)
     parameters:
     - id: name
       type: System.String
-      description: 'The name of the dynamic method. This can be a zero-length string, but it cannot be null. '
+      description: "\n<p>The name of the dynamic method. This can be a zero-length string, but it cannot be <strong>null</strong>. </p>\n"
     - id: returnType
       type: System.Type
-      description: 'A <xref href="System.Type" data-throw-if-not-resolved="false"></xref> object that specifies the return type of the dynamic method, or null if the method has no return type. '
+      description: "\n<p>A <xref href=\"System.Type\" data-throw-if-not-resolved=\"false\"></xref> object that specifies the return type of the dynamic method, or <strong>null</strong> if the method has no return type. </p>\n"
     - id: parameterTypes
       type: System.Type[]
-      description: 'An array of <xref href="System.Type" data-throw-if-not-resolved="false"></xref> objects specifying the types of the parameters of the dynamic method, or null if the method has no parameters. '
+      description: "\n<p>An array of <xref href=\"System.Type\" data-throw-if-not-resolved=\"false\"></xref> objects specifying the types of the parameters of the dynamic method, or <strong>null</strong> if the method has no parameters. </p>\n"
     - id: owner
       type: System.Type
-      description: A <xref href="System.Type" data-throw-if-not-resolved="false"></xref> with which the dynamic method is logically associated. The dynamic method has access to all members of the type.
+      description: "\n<p>A <xref href=\"System.Type\" data-throw-if-not-resolved=\"false\"></xref> with which the dynamic method is logically associated. The dynamic method has access to all members of the type.</p>\n"
     - id: skipVisibility
       type: System.Boolean
-      description: 'true to skip JIT visibility checks on types and members accessed by the MSIL of the dynamic method; otherwise, false. '
+      description: "\n<p>\n<strong>true</strong> to skip JIT visibility checks on types and members accessed by the MSIL of the dynamic method; otherwise, <strong>false</strong>. </p>\n"
   exceptions:
   - type: System.ArgumentException
     commentId: T:System.ArgumentException
-    description: An element of <em>parameterTypes</em> is null or <xref href="System.Void" data-throw-if-not-resolved="false"></xref>.-or- <em>owner</em> is an interface, an array, an open generic type, or a type parameter of a generic type or method.
+    description: "\n<p>An element of <em>parameterTypes</em> is <strong>null</strong> or <xref href=\"System.Void\" data-throw-if-not-resolved=\"false\"></xref>.</p>\n<p>-or- </p>\n<p>\n<em>owner</em> is an interface, an array, an open generic type, or a type parameter of a generic type or method.</p>\n"
   - type: System.ArgumentNullException
     commentId: T:System.ArgumentNullException
-    description: "\n<em>name</em> is null. -or-<em>owner</em> is null."
+    description: "\n<p>\n<em>name</em> is <strong>null</strong>. </p>\n<p>-or-</p>\n<p>\n<em>owner</em> is <strong>null</strong>.</p>\n"
   - type: System.NotSupportedException
     commentId: T:System.NotSupportedException
-    description: "\n<em>returnType</em> is null, or is a type for which <xref href=\"System.Type.IsByRef\" data-throw-if-not-resolved=\"false\"></xref> returns true. "
+    description: "\n<p>\n<em>returnType</em> is <strong>null</strong>, or is a type for which <xref href=\"System.Type.IsByRef\" data-throw-if-not-resolved=\"false\"></xref> returns <strong>true</strong>. </p>\n"
+  see:
+  - type: System.Security.Permissions.ReflectionPermission
+    commentId: T:System.Security.Permissions.ReflectionPermission
+  - type: System.Security.Permissions.ReflectionPermission
+    commentId: T:System.Security.Permissions.ReflectionPermission
   modifiers.csharp:
   - public
   modifiers.vb:
@@ -527,23 +572,26 @@ items:
   type: Property
   source:
     remote:
-      path: src/mscorlib/src/System/Reflection/Emit/DynamicMethod.cs
+      path: src/System.Reflection.Emit.Lightweight/ref/System.Reflection.Emit.Lightweight.cs
       branch: master
-      repo: https://github.com/dotnet/coreclr.git
+      repo: https://github.com/dotnet/corefx.git
     id: Attributes
-    path: src/mscorlib/src/System/Reflection/Emit/DynamicMethod.cs
-    startLine: 616
+    path: src/System.Reflection.Emit.Lightweight/ref/System.Reflection.Emit.Lightweight.cs
+    startLine: 28
   assemblies:
   - System.Reflection.Emit.Lightweight
   namespace: System.Reflection.Emit
-  summary: Gets the attributes specified when the dynamic method was created.
+  summary: "\n<p>Gets the attributes specified when the dynamic method was created.</p>\n"
+  remarks: "\n<p>Currently, the method attributes for a dynamic method are always <xref href=\"System.Reflection.MethodAttributes.Public\" data-throw-if-not-resolved=\"false\"></xref> and <xref href=\"System.Reflection.MethodAttributes.Static\" data-throw-if-not-resolved=\"false\"></xref>.</p>\n"
+  example:
+  - "\n<p>The following code example displays the method attributes of a dynamic method. This code example is part of a larger example provided for the <xref href=\"System.Reflection.Emit.DynamicMethod\" data-throw-if-not-resolved=\"false\"></xref> class. </p>Reflection.DynamicMethod.All#21"
   syntax:
     content: public override MethodAttributes Attributes { get; }
     content.vb: Public Overrides ReadOnly Property Attributes As MethodAttributes
     parameters: []
     return:
       type: System.Reflection.MethodAttributes
-      description: A bitwise combination of the <xref href="System.Reflection.MethodAttributes" data-throw-if-not-resolved="false"></xref> values representing the attributes for the method.
+      description: "\n<p>A bitwise combination of the <xref href=\"System.Reflection.MethodAttributes\" data-throw-if-not-resolved=\"false\"></xref> values representing the attributes for the method.</p>\n"
   modifiers.csharp:
   - public
   - override
@@ -564,23 +612,26 @@ items:
   type: Property
   source:
     remote:
-      path: src/mscorlib/src/System/Reflection/Emit/DynamicMethod.cs
+      path: src/System.Reflection.Emit.Lightweight/ref/System.Reflection.Emit.Lightweight.cs
       branch: master
-      repo: https://github.com/dotnet/coreclr.git
+      repo: https://github.com/dotnet/corefx.git
     id: CallingConvention
-    path: src/mscorlib/src/System/Reflection/Emit/DynamicMethod.cs
-    startLine: 618
+    path: src/System.Reflection.Emit.Lightweight/ref/System.Reflection.Emit.Lightweight.cs
+    startLine: 29
   assemblies:
   - System.Reflection.Emit.Lightweight
   namespace: System.Reflection.Emit
-  summary: Gets the calling convention specified when the dynamic method was created.
+  summary: "\n<p>Gets the calling convention specified when the dynamic method was created.</p>\n"
+  remarks: "\n<p>Currently, the calling convention for a dynamic method is always <xref href=\"System.Reflection.CallingConventions.Standard\" data-throw-if-not-resolved=\"false\"></xref>.</p>\n"
+  example:
+  - "\n<p>The following code example displays the calling convention of a dynamic method. This code example is part of a larger example provided for the <xref href=\"System.Reflection.Emit.DynamicMethod\" data-throw-if-not-resolved=\"false\"></xref> class. </p>Reflection.DynamicMethod.All#22"
   syntax:
     content: public override CallingConventions CallingConvention { get; }
     content.vb: Public Overrides ReadOnly Property CallingConvention As CallingConventions
     parameters: []
     return:
       type: System.Reflection.CallingConventions
-      description: One of the <xref href="System.Reflection.CallingConventions" data-throw-if-not-resolved="false"></xref> values that indicates the calling convention of the method.
+      description: "\n<p>One of the <xref href=\"System.Reflection.CallingConventions\" data-throw-if-not-resolved=\"false\"></xref> values that indicates the calling convention of the method.</p>\n"
   modifiers.csharp:
   - public
   - override
@@ -601,23 +652,26 @@ items:
   type: Property
   source:
     remote:
-      path: src/mscorlib/src/System/Reflection/Emit/DynamicMethod.cs
+      path: src/System.Reflection.Emit.Lightweight/ref/System.Reflection.Emit.Lightweight.cs
       branch: master
-      repo: https://github.com/dotnet/coreclr.git
+      repo: https://github.com/dotnet/corefx.git
     id: DeclaringType
-    path: src/mscorlib/src/System/Reflection/Emit/DynamicMethod.cs
-    startLine: 607
+    path: src/System.Reflection.Emit.Lightweight/ref/System.Reflection.Emit.Lightweight.cs
+    startLine: 30
   assemblies:
   - System.Reflection.Emit.Lightweight
   namespace: System.Reflection.Emit
-  summary: Gets the type that declares the method, which is always null for dynamic methods.
+  summary: "\n<p>Gets the type that declares the method, which is always <strong>null</strong> for dynamic methods.</p>\n"
+  remarks: "\n<p>This property always returns <strong>null</strong> for dynamic methods. Even when a dynamic method is logically associated with a type, it is not declared by the type.</p>\n"
+  example:
+  - "\n<p>The following code example displays the declaring type of a dynamic method. This code example is part of a larger example provided for the <xref href=\"System.Reflection.Emit.DynamicMethod\" data-throw-if-not-resolved=\"false\"></xref> class. </p>Reflection.DynamicMethod.All#23"
   syntax:
     content: public override Type DeclaringType { get; }
     content.vb: Public Overrides ReadOnly Property DeclaringType As Type
     parameters: []
     return:
       type: System.Type
-      description: Always null.
+      description: "\n<p>Always <strong>null</strong>.</p>\n"
   modifiers.csharp:
   - public
   - override
@@ -638,23 +692,26 @@ items:
   type: Property
   source:
     remote:
-      path: src/mscorlib/src/System/Reflection/Emit/DynamicMethod.cs
+      path: src/System.Reflection.Emit.Lightweight/ref/System.Reflection.Emit.Lightweight.cs
       branch: master
-      repo: https://github.com/dotnet/coreclr.git
+      repo: https://github.com/dotnet/corefx.git
     id: InitLocals
-    path: src/mscorlib/src/System/Reflection/Emit/DynamicMethod.cs
-    startLine: 833
+    path: src/System.Reflection.Emit.Lightweight/ref/System.Reflection.Emit.Lightweight.cs
+    startLine: 31
   assemblies:
   - System.Reflection.Emit.Lightweight
   namespace: System.Reflection.Emit
-  summary: 'Gets or sets a value indicating whether the local variables in the method are zero-initialized. '
+  summary: "\n<p>Gets or sets a value indicating whether the local variables in the method are zero-initialized. </p>\n"
+  remarks: "\n<p>If this property is set to <strong>true</strong>, the emitted Microsoft intermediate language (MSIL) includes initialization of local variables. If it is set to <strong>false</strong>, local variables are not initialized and the generated code is unverifiable.</p>\n"
+  example:
+  - "\n<p>The following code example displays the <xref href=\"System.Reflection.Emit.DynamicMethod.InitLocals\" data-throw-if-not-resolved=\"false\"></xref> property of a dynamic method. This code example is part of a larger example provided for the <xref href=\"System.Reflection.Emit.DynamicMethod\" data-throw-if-not-resolved=\"false\"></xref> class. </p>Reflection.DynamicMethod.All#24"
   syntax:
     content: public bool InitLocals { get; set; }
     content.vb: Public Property InitLocals As Boolean
     parameters: []
     return:
       type: System.Boolean
-      description: true if the local variables in the method are zero-initialized; otherwise, false. The default is true.
+      description: "\n<p>\n<strong>true</strong> if the local variables in the method are zero-initialized; otherwise, <strong>false</strong>. The default is <strong>true</strong>.</p>\n"
   modifiers.csharp:
   - public
   - get
@@ -673,23 +730,26 @@ items:
   type: Property
   source:
     remote:
-      path: src/mscorlib/src/System/Reflection/Emit/DynamicMethod.cs
+      path: src/System.Reflection.Emit.Lightweight/ref/System.Reflection.Emit.Lightweight.cs
       branch: master
-      repo: https://github.com/dotnet/coreclr.git
+      repo: https://github.com/dotnet/corefx.git
     id: Name
-    path: src/mscorlib/src/System/Reflection/Emit/DynamicMethod.cs
-    startLine: 605
+    path: src/System.Reflection.Emit.Lightweight/ref/System.Reflection.Emit.Lightweight.cs
+    startLine: 32
   assemblies:
   - System.Reflection.Emit.Lightweight
   namespace: System.Reflection.Emit
-  summary: Gets the name of the dynamic method.
+  summary: "\n<p>Gets the name of the dynamic method.</p>\n"
+  remarks: "\n<p>It is not necessary to name dynamic methods.</p>\n"
+  example:
+  - "\n<p>The following code example displays the name of a dynamic method. This code example is part of a larger example provided for  the <xref href=\"System.Reflection.Emit.DynamicMethod\" data-throw-if-not-resolved=\"false\"></xref> class. </p>Reflection.DynamicMethod.All#27"
   syntax:
     content: public override string Name { get; }
     content.vb: Public Overrides ReadOnly Property Name As String
     parameters: []
     return:
       type: System.String
-      description: The simple name of the method.
+      description: "\n<p>The simple name of the method.</p>\n"
   modifiers.csharp:
   - public
   - override
@@ -710,23 +770,24 @@ items:
   type: Property
   source:
     remote:
-      path: src/mscorlib/src/System/Reflection/Emit/DynamicMethod.cs
+      path: src/System.Reflection.Emit.Lightweight/ref/System.Reflection.Emit.Lightweight.cs
       branch: master
-      repo: https://github.com/dotnet/coreclr.git
+      repo: https://github.com/dotnet/corefx.git
     id: ReturnParameter
-    path: src/mscorlib/src/System/Reflection/Emit/DynamicMethod.cs
-    startLine: 770
+    path: src/System.Reflection.Emit.Lightweight/ref/System.Reflection.Emit.Lightweight.cs
+    startLine: 33
   assemblies:
   - System.Reflection.Emit.Lightweight
   namespace: System.Reflection.Emit
-  summary: Gets the return parameter of the dynamic method.
+  summary: "\n<p>Gets the return parameter of the dynamic method.</p>\n"
+  remarks: "\n<p>This property always returns <strong>null</strong> for dynamic methods.</p>\n"
   syntax:
     content: public override ParameterInfo ReturnParameter { get; }
     content.vb: Public Overrides ReadOnly Property ReturnParameter As ParameterInfo
     parameters: []
     return:
       type: System.Reflection.ParameterInfo
-      description: 'Always null. '
+      description: "\n<p>Always <strong>null</strong>. </p>\n"
   modifiers.csharp:
   - public
   - override
@@ -747,23 +808,26 @@ items:
   type: Property
   source:
     remote:
-      path: src/mscorlib/src/System/Reflection/Emit/DynamicMethod.cs
+      path: src/System.Reflection.Emit.Lightweight/ref/System.Reflection.Emit.Lightweight.cs
       branch: master
-      repo: https://github.com/dotnet/coreclr.git
+      repo: https://github.com/dotnet/corefx.git
     id: ReturnType
-    path: src/mscorlib/src/System/Reflection/Emit/DynamicMethod.cs
-    startLine: 768
+    path: src/System.Reflection.Emit.Lightweight/ref/System.Reflection.Emit.Lightweight.cs
+    startLine: 34
   assemblies:
   - System.Reflection.Emit.Lightweight
   namespace: System.Reflection.Emit
-  summary: Gets the type of return value for the dynamic method.
+  summary: "\n<p>Gets the type of return value for the dynamic method.</p>\n"
+  remarks: "\n<p>If <strong>null</strong> was specified for the return type when the dynamic method was created, this property returns <xref href=\"System.Void\" data-throw-if-not-resolved=\"false\"></xref>.</p>\n"
+  example:
+  - "\n<p>The following code example displays the return type of a dynamic method. This code example is part of a larger example provided for the <xref href=\"System.Reflection.Emit.DynamicMethod\" data-throw-if-not-resolved=\"false\"></xref> class. </p>Reflection.DynamicMethod.All#30"
   syntax:
     content: public override Type ReturnType { get; }
     content.vb: Public Overrides ReadOnly Property ReturnType As Type
     parameters: []
     return:
       type: System.Type
-      description: A <xref href="System.Type" data-throw-if-not-resolved="false"></xref> representing the type of the return value of the current method; <xref href="System.Void" data-throw-if-not-resolved="false"></xref> if the method has no return type.
+      description: "\n<p>A <xref href=\"System.Type\" data-throw-if-not-resolved=\"false\"></xref> representing the type of the return value of the current method; <xref href=\"System.Void\" data-throw-if-not-resolved=\"false\"></xref> if the method has no return type.</p>\n"
   modifiers.csharp:
   - public
   - override
@@ -784,33 +848,36 @@ items:
   type: Method
   source:
     remote:
-      path: src/mscorlib/src/System/Reflection/Emit/DynamicMethod.cs
+      path: src/System.Reflection.Emit.Lightweight/ref/System.Reflection.Emit.Lightweight.cs
       branch: master
-      repo: https://github.com/dotnet/coreclr.git
+      repo: https://github.com/dotnet/corefx.git
     id: CreateDelegate
-    path: src/mscorlib/src/System/Reflection/Emit/DynamicMethod.cs
-    startLine: 531
+    path: src/System.Reflection.Emit.Lightweight/ref/System.Reflection.Emit.Lightweight.cs
+    startLine: 35
   assemblies:
   - System.Reflection.Emit.Lightweight
   namespace: System.Reflection.Emit
-  summary: Completes the dynamic method and creates a delegate that can be used to execute it.
+  summary: "\n<p>Completes the dynamic method and creates a delegate that can be used to execute it.</p>\n"
+  remarks: "\n<p>Calling the <xref href=\"System.Reflection.Emit.DynamicMethod.CreateDelegate(System.Type)\" data-throw-if-not-resolved=\"false\"></xref> method or the <see cref=\"Overload:System.Reflection.Emit.DynamicMethod.Invoke\"></see> method completes the dynamic method. Any further attempt to alter the dynamic method, such as modifying parameter definitions or emitting more Microsoft intermediate language (MSIL), is ignored; no exception is thrown.</p>\n<p>To create a method body for a dynamic method when you have your own MSIL generator, call the <xref href=\"System.Reflection.Emit.DynamicMethod.GetDynamicILInfo\" data-throw-if-not-resolved=\"false\"></xref> method to obtain a <xref href=\"System.Reflection.Emit.DynamicILInfo\" data-throw-if-not-resolved=\"false\"></xref> object. If you do not have your own MSIL generator, call the <see cref=\"Overload:System.Reflection.Emit.DynamicMethod.GetILGenerator\"></see> method to obtain an <xref href=\"System.Reflection.Emit.ILGenerator\" data-throw-if-not-resolved=\"false\"></xref> object that can be used to generate the method body.</p>\n"
+  example:
+  - "\n<p>The following code example creates a dynamic method that takes two parameters. The example emits a simple function body that prints the first parameter to the console, and the example uses the second parameter as the return value of the method. The example completes the method by creating a delegate, invokes the delegate with different parameters, and finally invokes the dynamic method using the <see cref=\"Overload:System.Reflection.Emit.DynamicMethod.Invoke\"></see> method.</p>Reflection.DynamicMethod.ctor1#1"
   syntax:
     content: public override sealed Delegate CreateDelegate(Type delegateType)
     content.vb: 'Public NotOverridable Overrides Function CreateDelegate(delegateType As Type) As '
     parameters:
     - id: delegateType
       type: System.Type
-      description: 'A delegate type whose signature matches that of the dynamic method. '
+      description: "\n<p>A delegate type whose signature matches that of the dynamic method. </p>\n"
     return:
       type: System.Delegate
-      description: A delegate of the specified type, which can be used to execute the dynamic method.
+      description: "\n<p>A delegate of the specified type, which can be used to execute the dynamic method.</p>\n"
   exceptions:
   - type: System.InvalidOperationException
     commentId: T:System.InvalidOperationException
-    description: The dynamic method has no method body.
+    description: "\n<p>The dynamic method has no method body.</p>\n"
   - type: System.ArgumentException
     commentId: T:System.ArgumentException
-    description: "\n<em>delegateType</em> has the wrong number of parameters or the wrong parameter types."
+    description: "\n<p>\n<em>delegateType</em> has the wrong number of parameters or the wrong parameter types.</p>\n"
   modifiers.csharp:
   - public
   - override
@@ -831,36 +898,39 @@ items:
   type: Method
   source:
     remote:
-      path: src/mscorlib/src/System/Reflection/Emit/DynamicMethod.cs
+      path: src/System.Reflection.Emit.Lightweight/ref/System.Reflection.Emit.Lightweight.cs
       branch: master
-      repo: https://github.com/dotnet/coreclr.git
+      repo: https://github.com/dotnet/corefx.git
     id: CreateDelegate
-    path: src/mscorlib/src/System/Reflection/Emit/DynamicMethod.cs
-    startLine: 547
+    path: src/System.Reflection.Emit.Lightweight/ref/System.Reflection.Emit.Lightweight.cs
+    startLine: 37
   assemblies:
   - System.Reflection.Emit.Lightweight
   namespace: System.Reflection.Emit
-  summary: Completes the dynamic method and creates a delegate that can be used to execute it, specifying the delegate type and an object the delegate is bound to.
+  summary: "\n<p>Completes the dynamic method and creates a delegate that can be used to execute it, specifying the delegate type and an object the delegate is bound to.</p>\n"
+  remarks: "\n<p>This method overload creates a delegate bound to a particular object. Such a delegate is said to be closed over its first argument. Although the method is static, it acts as if it were an instance method; the instance is <em>target</em>. </p>\n<p>This method overload requires <em>target</em> to be of the same type as the first parameter of the dynamic method, or to be assignable to that type (for example, a derived class).  The signature of <em>delegateType</em> has all the parameters of the dynamic method except the first. For example, if the dynamic method has the parameters <xref href=\"System.String\" data-throw-if-not-resolved=\"false\"></xref>, <xref href=\"System.Int32\" data-throw-if-not-resolved=\"false\"></xref>, and <xref href=\"System.Byte\" data-throw-if-not-resolved=\"false\"></xref>, then <em>delegateType</em> has the parameters <xref href=\"System.Int32\" data-throw-if-not-resolved=\"false\"></xref> and <xref href=\"System.Byte\" data-throw-if-not-resolved=\"false\"></xref>; <em>target</em> is of type <xref href=\"System.String\" data-throw-if-not-resolved=\"false\"></xref>. </p>\n<p>Calling the <xref href=\"System.Reflection.Emit.DynamicMethod.CreateDelegate(System.Type)\" data-throw-if-not-resolved=\"false\"></xref> method or the <see cref=\"Overload:System.Reflection.Emit.DynamicMethod.Invoke\"></see> method completes the dynamic method. Any further attempt to alter the dynamic method, such as modifying parameter definitions or emitting more Microsoft intermediate language (MSIL), is ignored; no exception is thrown.</p>\n<p>To create a method body for a dynamic method when you have your own MSIL generator, call the <xref href=\"System.Reflection.Emit.DynamicMethod.GetDynamicILInfo\" data-throw-if-not-resolved=\"false\"></xref> method to obtain a <xref href=\"System.Reflection.Emit.DynamicILInfo\" data-throw-if-not-resolved=\"false\"></xref> object. If you do not have your own MSIL generator, call the <see cref=\"Overload:System.Reflection.Emit.DynamicMethod.GetILGenerator\"></see> method to obtain an <xref href=\"System.Reflection.Emit.ILGenerator\" data-throw-if-not-resolved=\"false\"></xref> object that can be used to generate the method body.</p>\n"
+  example:
+  - "\n<p>The following code example creates delegate that binds a <xref href=\"System.Reflection.Emit.DynamicMethod\" data-throw-if-not-resolved=\"false\"></xref> to an instance of a type, so that the method acts on the same instance each time it is invoked.</p>\n<p>The code example defines a class named <code>Example</code> with a private field, a class named <code>DerivedFromxample</code> that derives from the first class, a delegate type named <code>UseLikeStatic</code> that returns <xref href=\"System.Int32\" data-throw-if-not-resolved=\"false\"></xref> and has parameters of type <code>Example</code> and <xref href=\"System.Int32\" data-throw-if-not-resolved=\"false\"></xref>, and a delegate type named <code>UseLikeInstance</code> that returns <xref href=\"System.Int32\" data-throw-if-not-resolved=\"false\"></xref> and has one parameter of type <xref href=\"System.Int32\" data-throw-if-not-resolved=\"false\"></xref>. </p>\n<p>The example code then creates a <xref href=\"System.Reflection.Emit.DynamicMethod\" data-throw-if-not-resolved=\"false\"></xref> that changes the private field of an instance of <code>Example</code> and returns the previous value.</p>\n<p>In general, changing the internal fields of classes is not good object-oriented coding practice.</p>\n<p>The example code creates an instance of <code>Example</code> and then creates two delegates. The first is of type <code>UseLikeStatic</code>, which has the same parameters as the dynamic method. The second is of type <code>UseLikeInstance</code>, which lacks the first parameter (of type <code>Example</code>). This delegate is created using the <xref href=\"System.Reflection.Emit.DynamicMethod.CreateDelegate(System.Type,System.Object)\" data-throw-if-not-resolved=\"false\"></xref> method overload; the second parameter of that method overload is an instance of <code>Example</code>, in this case the instance just created, which is bound to the newly created delegate. Whenever that delegate is invoked, the dynamic method acts on the bound instance of <code>Example</code>.</p>\n<p>This is an example of the relaxed rules for delegate binding introduced in the .NET Framework 2.0, along with new overloads of the <see cref=\"Overload:System.Delegate.CreateDelegate\"></see> method. For more information, see the <xref href=\"System.Delegate\" data-throw-if-not-resolved=\"false\"></xref> class.</p>\n<p>The <code>UseLikeStatic</code> delegate is invoked, passing in the instance of <code>Example</code> that is bound to the <code>UseLikeInstance</code> delegate. Then the <code>UseLikeInstance</code> delegate is invoked, so that both delegates act on the same instance of <code>Example</code>. The changes in the values of the internal field are displayed after each call. Finally, a <code>UseLikeInstance</code> delegate is bound to an instance of <code>DerivedFromxample</code>, and the delegate calls are repeated.</p>Reflection.DynamicMethod.ClosedOver#1"
   syntax:
     content: public override sealed Delegate CreateDelegate(Type delegateType, object target)
     content.vb: 'Public NotOverridable Overrides Function CreateDelegate(delegateType As Type, target As Object) As '
     parameters:
     - id: delegateType
       type: System.Type
-      description: A delegate type whose signature matches that of the dynamic method, minus the first parameter.
+      description: "\n<p>A delegate type whose signature matches that of the dynamic method, minus the first parameter.</p>\n"
     - id: target
       type: System.Object
-      description: 'An object the delegate is bound to. Must be of the same type as the first parameter of the dynamic method. '
+      description: "\n<p>An object the delegate is bound to. Must be of the same type as the first parameter of the dynamic method. </p>\n"
     return:
       type: System.Delegate
-      description: A delegate of the specified type, which can be used to execute the dynamic method with the specified target object.
+      description: "\n<p>A delegate of the specified type, which can be used to execute the dynamic method with the specified target object.</p>\n"
   exceptions:
   - type: System.InvalidOperationException
     commentId: T:System.InvalidOperationException
-    description: The dynamic method has no method body.
+    description: "\n<p>The dynamic method has no method body.</p>\n"
   - type: System.ArgumentException
     commentId: T:System.ArgumentException
-    description: "\n<em>target</em> is not the same type as the first parameter of the dynamic method, and is not assignable to that type.-or-<em>delegateType</em> has the wrong number of parameters or the wrong parameter types."
+    description: "\n<p>\n<em>target</em> is not the same type as the first parameter of the dynamic method, and is not assignable to that type.</p>\n<p>-or-</p>\n<p>\n<em>delegateType</em> has the wrong number of parameters or the wrong parameter types.</p>\n"
   modifiers.csharp:
   - public
   - override
@@ -881,22 +951,25 @@ items:
   type: Method
   source:
     remote:
-      path: src/mscorlib/src/System/Reflection/Emit/DynamicMethod.cs
+      path: src/System.Reflection.Emit.Lightweight/ref/System.Reflection.Emit.Lightweight.cs
       branch: master
-      repo: https://github.com/dotnet/coreclr.git
+      repo: https://github.com/dotnet/corefx.git
     id: GetILGenerator
-    path: src/mscorlib/src/System/Reflection/Emit/DynamicMethod.cs
-    startLine: 817
+    path: src/System.Reflection.Emit.Lightweight/ref/System.Reflection.Emit.Lightweight.cs
+    startLine: 39
   assemblies:
   - System.Reflection.Emit.Lightweight
   namespace: System.Reflection.Emit
-  summary: Returns a Microsoft intermediate language (MSIL) generator for the method with a default MSIL stream size of 64 bytes.
+  summary: "\n<p>Returns a Microsoft intermediate language (MSIL) generator for the method with a default MSIL stream size of 64 bytes.</p>\n"
+  remarks: "\n<p>After a dynamic method has been completed, by calling the <see cref=\"Overload:System.Reflection.Emit.DynamicMethod.CreateDelegate\"></see> or <see cref=\"Overload:System.Reflection.Emit.DynamicMethod.Invoke\"></see> method, any further attempt to add MSIL is ignored. No exception is thrown.</p>\n<p>There are restrictions on unverifiable code in dynamic methods, even in some full-trust scenarios. See the \"Verification\" section in Remarks for <xref href=\"System.Reflection.Emit.DynamicMethod\" data-throw-if-not-resolved=\"false\"></xref>.</p>\n"
+  example:
+  - "\n<p>The following code example creates a dynamic method that takes two parameters. The example emits a simple function body that prints the first parameter to the console, and the example uses the second parameter as the return value of the method. The example completes the method by creating a delegate, invokes the delegate with different parameters, and finally invokes the dynamic method using the <xref href=\"System.Reflection.Emit.DynamicMethod.Invoke(System.Object,System.Reflection.BindingFlags,System.Reflection.Binder,System.Object[],System.Globalization.CultureInfo)\" data-throw-if-not-resolved=\"false\"></xref> method.</p>Reflection.DynamicMethod.ctor1#1"
   syntax:
     content: public ILGenerator GetILGenerator()
     content.vb: Public Function GetILGenerator As ILGenerator
     return:
       type: System.Reflection.Emit.ILGenerator
-      description: An <xref href="System.Reflection.Emit.ILGenerator" data-throw-if-not-resolved="false"></xref> object for the method.
+      description: "\n<p>An <xref href=\"System.Reflection.Emit.ILGenerator\" data-throw-if-not-resolved=\"false\"></xref> object for the method.</p>\n"
   modifiers.csharp:
   - public
   modifiers.vb:
@@ -913,26 +986,29 @@ items:
   type: Method
   source:
     remote:
-      path: src/mscorlib/src/System/Reflection/Emit/DynamicMethod.cs
+      path: src/System.Reflection.Emit.Lightweight/ref/System.Reflection.Emit.Lightweight.cs
       branch: master
-      repo: https://github.com/dotnet/coreclr.git
+      repo: https://github.com/dotnet/corefx.git
     id: GetILGenerator
-    path: src/mscorlib/src/System/Reflection/Emit/DynamicMethod.cs
-    startLine: 821
+    path: src/System.Reflection.Emit.Lightweight/ref/System.Reflection.Emit.Lightweight.cs
+    startLine: 40
   assemblies:
   - System.Reflection.Emit.Lightweight
   namespace: System.Reflection.Emit
-  summary: Returns a Microsoft intermediate language (MSIL) generator for the method with the specified MSIL stream size.
+  summary: "\n<p>Returns a Microsoft intermediate language (MSIL) generator for the method with the specified MSIL stream size.</p>\n"
+  remarks: "\n<p>After a dynamic method has been completed, by calling the <see cref=\"Overload:System.Reflection.Emit.DynamicMethod.CreateDelegate\"></see> or <see cref=\"Overload:System.Reflection.Emit.DynamicMethod.Invoke\"></see> method, any further attempt to add MSIL is ignored. No exception is thrown.</p>\n<p>There are restrictions on unverifiable code in dynamic methods, even in some full-trust scenarios. See the \"Verification\" section in Remarks for <xref href=\"System.Reflection.Emit.DynamicMethod\" data-throw-if-not-resolved=\"false\"></xref>.</p>\n"
+  example:
+  - "\n<p>The following code example demonstrates this method overload. This code example is part of a larger example provided for the <xref href=\"System.Reflection.Emit.DynamicMethod\" data-throw-if-not-resolved=\"false\"></xref> class. </p>Reflection.DynamicMethod.All#2"
   syntax:
     content: public ILGenerator GetILGenerator(int streamSize)
     content.vb: Public Function GetILGenerator(streamSize As Integer) As ILGenerator
     parameters:
     - id: streamSize
       type: System.Int32
-      description: 'The size of the MSIL stream, in bytes. '
+      description: "\n<p>The size of the MSIL stream, in bytes. </p>\n"
     return:
       type: System.Reflection.Emit.ILGenerator
-      description: An <xref href="System.Reflection.Emit.ILGenerator" data-throw-if-not-resolved="false"></xref> object for the method, with the specified MSIL stream size.
+      description: "\n<p>An <xref href=\"System.Reflection.Emit.ILGenerator\" data-throw-if-not-resolved=\"false\"></xref> object for the method, with the specified MSIL stream size.</p>\n"
   modifiers.csharp:
   - public
   modifiers.vb:
@@ -949,22 +1025,28 @@ items:
   type: Method
   source:
     remote:
-      path: src/mscorlib/src/System/Reflection/Emit/DynamicMethod.cs
+      path: src/System.Reflection.Emit.Lightweight/ref/System.Reflection.Emit.Lightweight.cs
       branch: master
-      repo: https://github.com/dotnet/coreclr.git
+      repo: https://github.com/dotnet/corefx.git
     id: GetParameters
-    path: src/mscorlib/src/System/Reflection/Emit/DynamicMethod.cs
-    startLine: 622
+    path: src/System.Reflection.Emit.Lightweight/ref/System.Reflection.Emit.Lightweight.cs
+    startLine: 42
   assemblies:
   - System.Reflection.Emit.Lightweight
   namespace: System.Reflection.Emit
-  summary: Returns the parameters of the dynamic method.
+  summary: "\n<p>Returns the parameters of the dynamic method.</p>\n"
+  remarks: "\n<p>The <xref href=\"System.Reflection.ParameterInfo\" data-throw-if-not-resolved=\"false\"></xref> objects returned by this method are for information only. Use the <xref href=\"System.Reflection.Emit.DynamicMethod.DefineParameter(System.Int32,System.Reflection.ParameterAttributes,System.String)\" data-throw-if-not-resolved=\"false\"></xref> method to set or change the characteristics of the parameters.</p>\n"
+  example:
+  - "\n<p>The following code example displays the parameters of a dynamic method. This code example is part of a larger example provided for the <xref href=\"System.Reflection.Emit.DynamicMethod\" data-throw-if-not-resolved=\"false\"></xref> class. </p>Reflection.DynamicMethod.All#34"
   syntax:
     content: public override ParameterInfo[] GetParameters()
     content.vb: Public Overrides Function GetParameters As ParameterInfo()
     return:
       type: System.Reflection.ParameterInfo[]
-      description: An array of <xref href="System.Reflection.ParameterInfo" data-throw-if-not-resolved="false"></xref> objects that represent the parameters of the dynamic method.
+      description: "\n<p>An array of <xref href=\"System.Reflection.ParameterInfo\" data-throw-if-not-resolved=\"false\"></xref> objects that represent the parameters of the dynamic method.</p>\n"
+  seealso:
+  - type: System.Reflection.Emit.DynamicMethod.DefineParameter(System.Int32,System.Reflection.ParameterAttributes,System.String)
+    commentId: M:System.Reflection.Emit.DynamicMethod.DefineParameter(System.Int32,System.Reflection.ParameterAttributes,System.String)
   modifiers.csharp:
   - public
   - override
@@ -983,22 +1065,25 @@ items:
   type: Method
   source:
     remote:
-      path: src/mscorlib/src/System/Reflection/Emit/DynamicMethod.cs
+      path: src/System.Reflection.Emit.Lightweight/ref/System.Reflection.Emit.Lightweight.cs
       branch: master
-      repo: https://github.com/dotnet/coreclr.git
+      repo: https://github.com/dotnet/corefx.git
     id: ToString
-    path: src/mscorlib/src/System/Reflection/Emit/DynamicMethod.cs
-    startLine: 603
+    path: src/System.Reflection.Emit.Lightweight/ref/System.Reflection.Emit.Lightweight.cs
+    startLine: 43
   assemblies:
   - System.Reflection.Emit.Lightweight
   namespace: System.Reflection.Emit
-  summary: Returns the signature of the method, represented as a string.
+  summary: "\n<p>Returns the signature of the method, represented as a string.</p>\n"
+  remarks: "\n<p>The signature includes only types and the method name, if any. Parameter names are not included.</p>\n"
+  example:
+  - "\n<p>The following code example displays the <xref href=\"System.Reflection.Emit.DynamicMethod.ToString\" data-throw-if-not-resolved=\"false\"></xref> method of a dynamic method. This code example is part of a larger example provided for the <xref href=\"System.Reflection.Emit.DynamicMethod\" data-throw-if-not-resolved=\"false\"></xref> class. </p>Reflection.DynamicMethod.All#32"
   syntax:
     content: public override string ToString()
     content.vb: Public Overrides Function ToString As String
     return:
       type: System.String
-      description: A string representing the method signature.
+      description: "\n<p>A string representing the method signature.</p>\n"
   modifiers.csharp:
   - public
   - override

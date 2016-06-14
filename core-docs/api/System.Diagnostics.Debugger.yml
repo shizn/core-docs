@@ -15,16 +15,16 @@ items:
   type: Class
   source:
     remote:
-      path: src/mscorlib/src/System/Diagnostics/Debugger.cs
+      path: src/System.Diagnostics.Debug/ref/System.Diagnostics.Debug.cs
       branch: master
-      repo: https://github.com/dotnet/coreclr.git
+      repo: https://github.com/dotnet/corefx.git
     id: Debugger
-    path: src/mscorlib/src/System/Diagnostics/Debugger.cs
-    startLine: 19
+    path: src/System.Diagnostics.Debug/ref/System.Diagnostics.Debug.cs
+    startLine: 59
   assemblies:
   - System.Diagnostics.Debug
   namespace: System.Diagnostics
-  summary: Enables communication with a debugger. This class cannot be inherited.
+  summary: "\n<p>Enables communication with a debugger. This class cannot be inherited.</p>\n"
   syntax:
     content: 'public class Debugger : object'
     content.vb: >-
@@ -49,19 +49,24 @@ items:
   fullName: System.Diagnostics.Debugger.IsAttached
   type: Property
   source:
-    path: mscorlib
-    isExternal: true
+    remote:
+      path: src/System.Diagnostics.Debug/ref/System.Diagnostics.Debug.cs
+      branch: master
+      repo: https://github.com/dotnet/corefx.git
+    id: IsAttached
+    path: src/System.Diagnostics.Debug/ref/System.Diagnostics.Debug.cs
+    startLine: 61
   assemblies:
   - System.Diagnostics.Debug
   namespace: System.Diagnostics
-  summary: Gets a value that indicates whether a debugger is attached to the process.
+  summary: "\n<p>Gets a value that indicates whether a debugger is attached to the process.</p>\n"
   syntax:
     content: public static bool IsAttached { get; }
     content.vb: Public Shared ReadOnly Property IsAttached As Boolean
     parameters: []
     return:
       type: System.Boolean
-      description: true if a debugger is attached; otherwise, false.
+      description: "\n<p>\n<strong>true</strong> if a debugger is attached; otherwise, <strong>false</strong>.</p>\n"
   modifiers.csharp:
   - public
   - static
@@ -82,23 +87,31 @@ items:
   type: Method
   source:
     remote:
-      path: src/mscorlib/src/System/Diagnostics/Debugger.cs
+      path: src/System.Diagnostics.Debug/ref/System.Diagnostics.Debug.cs
       branch: master
-      repo: https://github.com/dotnet/coreclr.git
+      repo: https://github.com/dotnet/corefx.git
     id: Break
-    path: src/mscorlib/src/System/Diagnostics/Debugger.cs
-    startLine: 34
+    path: src/System.Diagnostics.Debug/ref/System.Diagnostics.Debug.cs
+    startLine: 62
   assemblies:
   - System.Diagnostics.Debug
   namespace: System.Diagnostics
-  summary: Signals a breakpoint to an attached debugger.
+  summary: "\n<p>Signals a breakpoint to an attached debugger.</p>\n"
+  remarks: "\n<p>If no debugger is attached, users are asked if they want to attach a debugger. If users say yes, the debugger is started. If a debugger is attached, the debugger is signaled with a user breakpoint event, and the debugger suspends execution of the process just as if a debugger breakpoint had been hit.</p>\n<p>Starting with .NET Framework 4, the runtime no longer exercises tight control of launching the debugger for the <xref href=\"System.Diagnostics.Debugger.Break\" data-throw-if-not-resolved=\"false\"></xref> method, but instead reports an error to the Windows Error Reporting (WER) subsystem. WER provides many settings to customize the problem reporting experience, so a lot of factors will influence  the way WER responds to an error such as operating system version, process, session, user, machine and domain. If you're having unexpected results when calling  the <xref href=\"System.Diagnostics.Debugger.Break\" data-throw-if-not-resolved=\"false\"></xref> method,  check the  WER settings on your machine. For more information on how to customize WER, see <see href=\"https://msdn.microsoft.com/library/windows/desktop/bb513638.aspx\">WER Settings</see>. If you want to ensure the debugger is launched regardless of the WER settings, be sure to call the <xref href=\"System.Diagnostics.Debugger.Launch\" data-throw-if-not-resolved=\"false\"></xref> method instead.</p>\n"
+  example:
+  - "\n<p>The following code example demonstrates how to stop the debugger at the call to <xref href=\"System.Console.WriteLine\" data-throw-if-not-resolved=\"false\"></xref>.</p>\n<pre><code class=\"vb\">Debugger.Break()\nConsole.WriteLine(\"Hello, world.\")</code></pre>\n<pre><code class=\"c#\">Debugger.Break();\nConsole.WriteLine(\"Hello, world.\");</code></pre>\n"
   syntax:
     content: public static void Break()
     content.vb: Public Shared Sub Break
   exceptions:
   - type: System.Security.SecurityException
     commentId: T:System.Security.SecurityException
-    description: 'The <xref href="System.Security.Permissions.UIPermission" data-throw-if-not-resolved="false"></xref> is not set to break into the debugger. '
+    description: "\n<p>The <xref href=\"System.Security.Permissions.UIPermission\" data-throw-if-not-resolved=\"false\"></xref> is not set to break into the debugger. </p>\n"
+  see:
+  - type: System.Security.Permissions.UIPermission
+    commentId: T:System.Security.Permissions.UIPermission
+  - type: System.Security.Permissions.SecurityPermission
+    commentId: T:System.Security.Permissions.SecurityPermission
   modifiers.csharp:
   - public
   - static
@@ -117,26 +130,35 @@ items:
   type: Method
   source:
     remote:
-      path: src/mscorlib/src/System/Diagnostics/Debugger.cs
+      path: src/System.Diagnostics.Debug/ref/System.Diagnostics.Debug.cs
       branch: master
-      repo: https://github.com/dotnet/coreclr.git
+      repo: https://github.com/dotnet/corefx.git
     id: Launch
-    path: src/mscorlib/src/System/Diagnostics/Debugger.cs
-    startLine: 84
+    path: src/System.Diagnostics.Debug/ref/System.Diagnostics.Debug.cs
+    startLine: 63
   assemblies:
   - System.Diagnostics.Debug
   namespace: System.Diagnostics
-  summary: Launches and attaches a debugger to the process.
+  summary: "\n<p>Launches and attaches a debugger to the process.</p>\n"
+  remarks: "\n<p>If a debugger is already attached, nothing happens.</p>\n"
   syntax:
     content: public static bool Launch()
     content.vb: Public Shared Function Launch As Boolean
     return:
       type: System.Boolean
-      description: true if the startup is successful or if the debugger is already attached; otherwise, false.
+      description: "\n<p>\n<strong>true</strong> if the startup is successful or if the debugger is already attached; otherwise, <strong>false</strong>.</p>\n"
   exceptions:
   - type: System.Security.SecurityException
     commentId: T:System.Security.SecurityException
-    description: 'The <xref href="System.Security.Permissions.UIPermission" data-throw-if-not-resolved="false"></xref> is not set to start the debugger. '
+    description: "\n<p>The <xref href=\"System.Security.Permissions.UIPermission\" data-throw-if-not-resolved=\"false\"></xref> is not set to start the debugger. </p>\n"
+  seealso:
+  - type: System.Security.Permissions.UIPermission
+    commentId: T:System.Security.Permissions.UIPermission
+  see:
+  - type: System.Security.Permissions.UIPermission
+    commentId: T:System.Security.Permissions.UIPermission
+  - type: System.Security.Permissions.SecurityPermission
+    commentId: T:System.Security.Permissions.SecurityPermission
   modifiers.csharp:
   - public
   - static

@@ -16,16 +16,19 @@ items:
   type: Class
   source:
     remote:
-      path: src/mscorlib/src/System/Threading/LazyInitializer.cs
+      path: src/System.Threading/ref/System.Threading.cs
       branch: master
-      repo: https://github.com/dotnet/coreclr.git
+      repo: https://github.com/dotnet/corefx.git
     id: LazyInitializer
-    path: src/mscorlib/src/System/Threading/LazyInitializer.cs
-    startLine: 56
+    path: src/System.Threading/ref/System.Threading.cs
+    startLine: 142
   assemblies:
   - System.Threading
   namespace: System.Threading
-  summary: Provides lazy initialization routines.
+  summary: "\n<p>Provides lazy initialization routines.</p>\n"
+  remarks: "\n<p>These routines avoid needing to allocate a dedicated, lazy-initialization instance, instead using references to ensure targets have been initialized as they are accessed.</p>\n"
+  example:
+  - "\n<p>The following example demonstrates how to use EnsureInitialized to lazily initialize a value using a Boolean value to track whether initialization has already happened and an object to use as the mutual exclusion lock.</p>\n<pre><code class=\"vb#\">Dim _data As ExpensiveData = Nothing\nDim _dataInitialized As Boolean = False\nDim _dataLock As Object = Nothing\n'    ...\nDim name = LazyInitializer.EnsureInitialized(_data, _dataInitialized, _dataLock)</code></pre>\n<pre><code class=\"c#\">ExpensiveData _data = null;\n             bool _dataInitialized = false;\n             object _dataLock = new object();\n          //  ...\n\n            ExpensiveData dataToUse = LazyInitializer.EnsureInitialized(ref _data, ref _dataInitialized, ref _dataLock);</code></pre>\n"
   syntax:
     content: 'public class LazyInitializer : object'
     content.vb: >-
@@ -51,36 +54,37 @@ items:
   type: Method
   source:
     remote:
-      path: src/mscorlib/src/System/Threading/LazyInitializer.cs
+      path: src/System.Threading/ref/System.Threading.cs
       branch: master
-      repo: https://github.com/dotnet/coreclr.git
+      repo: https://github.com/dotnet/corefx.git
     id: EnsureInitialized
-    path: src/mscorlib/src/System/Threading/LazyInitializer.cs
-    startLine: 85
+    path: src/System.Threading/ref/System.Threading.cs
+    startLine: 144
   assemblies:
   - System.Threading
   namespace: System.Threading
-  summary: Initializes a target reference type with the type's default constructor if it hasn't already been initialized.
+  summary: "\n<p>Initializes a target reference type with the type's default constructor if it hasn't already been initialized.</p>\n"
+  remarks: "\n<p>This method may only be used on reference types. To ensure initialization of value types, see other overloads of EnsureInitialized.</p>\n<p>This method may be used concurrently by multiple threads to initialize <em>target</em>. </p>\n<p>In the event that multiple threads access this method concurrently, multiple instances of <em>T</em> may be created, but only one will be stored into <em>target</em>. In such an occurrence, this method will not dispose of the objects that were not stored. If such objects must be disposed, it is up to the caller to determine if an object was not used and to then dispose of the object appropriately.</p>\n"
   syntax:
     content: 'public static T EnsureInitialized<T>(ref T target)where T : class'
     content.vb: Public Shared Function EnsureInitialized(Of T As Class)(ByRef target As T) As T
     parameters:
     - id: target
       type: '{T}'
-      description: A reference of type <em>T</em> to initialize if it has not already been initialized.
+      description: "\n<p>A reference of type <em>T</em> to initialize if it has not already been initialized.</p>\n"
     typeParameters:
     - id: T
-      description: The type of the reference to be initialized.
+      description: "\n<p>The type of the reference to be initialized.</p>\n"
     return:
       type: '{T}'
-      description: The initialized reference of type <em>T</em>.
+      description: "\n<p>The initialized reference of type <em>T</em>.</p>\n"
   exceptions:
   - type: System.MemberAccessException
     commentId: T:System.MemberAccessException
-    description: Permissions to access the constructor of type <em>T</em> were missing.
+    description: "\n<p>Permissions to access the constructor of type <em>T</em> were missing.</p>\n<p></p>\n"
   - type: System.MissingMemberException
     commentId: T:System.MissingMemberException
-    description: Type <em>T</em> does not have a default constructor.
+    description: "\n<p>Type <em>T</em> does not have a default constructor.</p>\n"
   modifiers.csharp:
   - public
   - static
@@ -101,42 +105,45 @@ items:
   type: Method
   source:
     remote:
-      path: src/mscorlib/src/System/Threading/LazyInitializer.cs
+      path: src/System.Threading/ref/System.Threading.cs
       branch: master
-      repo: https://github.com/dotnet/coreclr.git
+      repo: https://github.com/dotnet/corefx.git
     id: EnsureInitialized
-    path: src/mscorlib/src/System/Threading/LazyInitializer.cs
-    startLine: 168
+    path: src/System.Threading/ref/System.Threading.cs
+    startLine: 145
   assemblies:
   - System.Threading
   namespace: System.Threading
-  summary: Initializes a target reference or value type with its default constructor if it hasn't already been initialized.
+  summary: "\n<p>Initializes a target reference or value type with its default constructor if it hasn't already been initialized.</p>\n"
+  remarks: "\n<p>If <em>intialized</em> is specified as true, then no further initialization occurs.</p>\n"
+  example:
+  - 
   syntax:
     content: public static T EnsureInitialized<T>(ref T target, ref bool initialized, ref object syncLock)
     content.vb: Public Shared Function EnsureInitialized(Of T)(ByRef target As T, ByRef initialized As Boolean, ByRef syncLock As Object) As T
     parameters:
     - id: target
       type: '{T}'
-      description: A reference or value of type <em>T</em> to initialize if it hasn't already been initialized.
+      description: "\n<p>A reference or value of type <em>T</em> to initialize if it hasn't already been initialized.</p>\n"
     - id: initialized
       type: System.Boolean
-      description: A reference to a Boolean value that determines whether the target has already been initialized.
+      description: "\n<p>A reference to a Boolean value that determines whether the target has already been initialized.</p>\n"
     - id: syncLock
       type: System.Object
-      description: A reference to an object used as the mutually exclusive lock for initializing <em>target</em>. If <em>syncLock</em> is null, a new object will be instantiated.
+      description: "\n<p>A reference to an object used as the mutually exclusive lock for initializing <em>target</em>. If <em>syncLock</em> is <strong>null</strong>, a new object will be instantiated.</p>\n"
     typeParameters:
     - id: T
-      description: The type of the reference to be initialized.
+      description: "\n<p>The type of the reference to be initialized.</p>\n"
     return:
       type: '{T}'
-      description: The initialized value of type <em>T</em>.
+      description: "\n<p>The initialized value of type <em>T</em>.</p>\n"
   exceptions:
   - type: System.MemberAccessException
     commentId: T:System.MemberAccessException
-    description: Permissions to access the constructor of type <em>T</em> were missing.
+    description: "\n<p>Permissions to access the constructor of type <em>T</em> were missing.</p>\n<p></p>\n"
   - type: System.MissingMemberException
     commentId: T:System.MissingMemberException
-    description: Type <em>T</em> does not have a default constructor.
+    description: "\n<p>Type <em>T</em> does not have a default constructor.</p>\n"
   modifiers.csharp:
   - public
   - static
@@ -157,45 +164,48 @@ items:
   type: Method
   source:
     remote:
-      path: src/mscorlib/src/System/Threading/LazyInitializer.cs
+      path: src/System.Threading/ref/System.Threading.cs
       branch: master
-      repo: https://github.com/dotnet/coreclr.git
+      repo: https://github.com/dotnet/corefx.git
     id: EnsureInitialized
-    path: src/mscorlib/src/System/Threading/LazyInitializer.cs
-    startLine: 193
+    path: src/System.Threading/ref/System.Threading.cs
+    startLine: 146
   assemblies:
   - System.Threading
   namespace: System.Threading
-  summary: Initializes a target reference or value type by using a specified function if it hasn't already been initialized.
+  summary: "\n<p>Initializes a target reference or value type by using a specified function if it hasn't already been initialized.</p>\n"
+  remarks: "\n<p>If <em>intialized</em> is specified as true, then no further initialization occurs.</p>\n"
+  example:
+  - 
   syntax:
     content: public static T EnsureInitialized<T>(ref T target, ref bool initialized, ref object syncLock, Func<T> valueFactory)
     content.vb: Public Shared Function EnsureInitialized(Of T)(ByRef target As T, ByRef initialized As Boolean, ByRef syncLock As Object, valueFactory As Func(Of T)) As T
     parameters:
     - id: target
       type: '{T}'
-      description: A reference or value of type <em>T</em> to initialize if it hasn't already been initialized.
+      description: "\n<p>A reference or value of type <em>T</em> to initialize if it hasn't already been initialized.</p>\n"
     - id: initialized
       type: System.Boolean
-      description: A reference to a Boolean value that determines whether the target has already been initialized.
+      description: "\n<p>A reference to a Boolean value that determines whether the target has already been initialized.</p>\n"
     - id: syncLock
       type: System.Object
-      description: A reference to an object used as the mutually exclusive lock for initializing <em>target</em>. If <em>syncLock</em> is null, a new object will be instantiated.
+      description: "\n<p>A reference to an object used as the mutually exclusive lock for initializing <em>target</em>. If <em>syncLock</em> is <strong>null</strong>, a new object will be instantiated.</p>\n"
     - id: valueFactory
       type: System.Func{{T}}
-      description: The function that is called to initialize the reference or value.
+      description: "\n<p>The function that is called to initialize the reference or value.</p>\n"
     typeParameters:
     - id: T
-      description: The type of the reference to be initialized.
+      description: "\n<p>The type of the reference to be initialized.</p>\n"
     return:
       type: '{T}'
-      description: The initialized value of type <em>T</em>.
+      description: "\n<p>The initialized value of type <em>T</em>.</p>\n"
   exceptions:
   - type: System.MemberAccessException
     commentId: T:System.MemberAccessException
-    description: Permissions to access the constructor of type <em>T</em> were missing.
+    description: "\n<p>Permissions to access the constructor of type <em>T</em> were missing.</p>\n"
   - type: System.MissingMemberException
     commentId: T:System.MissingMemberException
-    description: Type <em>T</em> does not have a default constructor.
+    description: "\n<p>Type <em>T</em> does not have a default constructor.</p>\n"
   modifiers.csharp:
   - public
   - static
@@ -216,39 +226,42 @@ items:
   type: Method
   source:
     remote:
-      path: src/mscorlib/src/System/Threading/LazyInitializer.cs
+      path: src/System.Threading/ref/System.Threading.cs
       branch: master
-      repo: https://github.com/dotnet/coreclr.git
+      repo: https://github.com/dotnet/corefx.git
     id: EnsureInitialized
-    path: src/mscorlib/src/System/Threading/LazyInitializer.cs
-    startLine: 124
+    path: src/System.Threading/ref/System.Threading.cs
+    startLine: 147
   assemblies:
   - System.Threading
   namespace: System.Threading
-  summary: Initializes a target reference type by using a specified function if it hasn't already been initialized.
+  summary: "\n<p>Initializes a target reference type by using a specified function if it hasn't already been initialized.</p>\n"
+  remarks: "\n<p>This method may only be used on reference types, and <em>valueFactory</em> may not return a null reference (Nothing in Visual Basic). To ensure initialization of value types or to allow null reference types, see other overloads of EnsureInitialized.</p>\n<p>This method may be used concurrently by multiple threads to initialize <em>target</em>. </p>\n<p>In the event that multiple threads access this method concurrently, multiple instances of<em> T </em>may be created, but only one will be stored into <em>target</em>. In such an occurrence, this method will not dispose of the objects that were not stored. If such objects must be disposed, it is up to the caller to determine if an object was not used and to then dispose of the object appropriately.</p>\n"
+  example:
+  - 
   syntax:
     content: 'public static T EnsureInitialized<T>(ref T target, Func<T> valueFactory)where T : class'
     content.vb: Public Shared Function EnsureInitialized(Of T As Class)(ByRef target As T, valueFactory As Func(Of T)) As T
     parameters:
     - id: target
       type: '{T}'
-      description: The reference of type <em>T</em> to initialize if it hasn't already been initialized.
+      description: "\n<p>The reference of type <em>T</em> to initialize if it hasn't already been initialized.</p>\n"
     - id: valueFactory
       type: System.Func{{T}}
-      description: The function that is called to initialize the reference.
+      description: "\n<p>The function that is called to initialize the reference.</p>\n"
     typeParameters:
     - id: T
-      description: The reference type of the reference to be initialized.
+      description: "\n<p>The reference type of the reference to be initialized.</p>\n"
     return:
       type: '{T}'
-      description: The initialized value of type <em>T</em>.
+      description: "\n<p>The initialized value of type <em>T</em>.</p>\n"
   exceptions:
   - type: System.MissingMemberException
     commentId: T:System.MissingMemberException
-    description: Type <em>T</em> does not have a default constructor.
+    description: "\n<p>Type <em>T</em> does not have a default constructor.</p>\n"
   - type: System.InvalidOperationException
     commentId: T:System.InvalidOperationException
-    description: "\n<em>valueFactory</em> returned null (Nothing in Visual Basic)."
+    description: "\n<p>\n<em>valueFactory</em> returned null (Nothing in Visual Basic).</p>\n"
   modifiers.csharp:
   - public
   - static

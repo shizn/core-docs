@@ -19,21 +19,30 @@ items:
   type: Class
   source:
     remote:
-      path: src/mscorlib/src/System/Threading/Mutex.cs
+      path: src/System.Threading/ref/System.Threading.cs
       branch: master
-      repo: https://github.com/dotnet/coreclr.git
+      repo: https://github.com/dotnet/corefx.git
     id: Mutex
-    path: src/mscorlib/src/System/Threading/Mutex.cs
-    startLine: 32
+    path: src/System.Threading/ref/System.Threading.cs
+    startLine: 201
   assemblies:
   - System.Threading
   namespace: System.Threading
-  summary: 'A synchronization primitive that can also be used for interprocess synchronization. '
+  summary: "\n<p>A synchronization primitive that can also be used for interprocess synchronization. </p>\n"
+  remarks: "\n<p>To view the .NET Framework source code for this type, see the <see href=\"http://referencesource.microsoft.com/#mscorlib/system/threading/mutex.cs#29b92e0e2832a8d6\">Reference Source</see>. You can browse through the source code online, download the reference for offline viewing, and step through the sources (including patches and updates) during debugging; see <see href=\"http://referencesource.microsoft.com/\">instructions</see>.</p>\n<p>When two or more threads need to access a shared resource at the same time, the system needs a synchronization mechanism to ensure that only one thread at a time uses the resource. <xref href=\"System.Threading.Mutex\" data-throw-if-not-resolved=\"false\"></xref> is a synchronization primitive that grants exclusive access to the shared resource to only one thread. If a thread acquires a mutex, the second thread that wants to acquire that mutex is suspended until the first thread releases the mutex.</p>\n<p>This type implements the <xref href=\"System.IDisposable\" data-throw-if-not-resolved=\"false\"></xref> interface. When you have finished using the type, you should dispose of it either directly or indirectly. To dispose of the type directly, call its <xref href=\"System.IDisposable.Dispose\" data-throw-if-not-resolved=\"false\"></xref> method in a <strong>try</strong>/<strong>catch</strong> block. To dispose of it indirectly, use a language construct such as <strong>using</strong> (in C#) or <strong>Using</strong> (in Visual Basic). For more information, see the “Using an Object that Implements IDisposable” section in the <xref href=\"System.IDisposable\" data-throw-if-not-resolved=\"false\"></xref> interface topic. </p>\n<p>You can use the <xref href=\"System.Threading.WaitHandle.WaitOne(System.Int32,System.Boolean)\" data-throw-if-not-resolved=\"false\"></xref> method to request ownership of a mutex. The calling thread blocks until one of the following occurs: </p>\n<ul><li>\n<p>The mutex is signaled to indicate that it is not owned. When this happens, the <xref href=\"System.Threading.WaitHandle.WaitOne(System.Int32,System.Boolean)\" data-throw-if-not-resolved=\"false\"></xref> method returns <strong>true</strong>, and the calling thread assumes ownership of the mutex and accesses the resource protected by the mutex. When it has finished accessing the resource, the thread must call the <xref href=\"System.Threading.Mutex.ReleaseMutex\" data-throw-if-not-resolved=\"false\"></xref> method to release ownership of the mutex. The first example in the Examples section illustrates this pattern. </p>\n</li><li>\n<p>The time-out interval specified in the call to a <xref href=\"System.Threading.WaitHandle.WaitOne(System.Int32,System.Boolean)\" data-throw-if-not-resolved=\"false\"></xref> method that has a <em>millisecondsTimeout</em> or <em>timeout</em> parameter has elapsed. When this happens, the <xref href=\"System.Threading.WaitHandle.WaitOne(System.Int32,System.Boolean)\" data-throw-if-not-resolved=\"false\"></xref> method returns <strong>false</strong>, and the calling thread makes no further attempt to acquire ownership of the mutex. In this case, you should structure your code so that access to the resource that is protected by the mutex is denied to the calling thread. Because the thread never acquired ownership of the mutex, it must not call the <xref href=\"System.Threading.Mutex.ReleaseMutex\" data-throw-if-not-resolved=\"false\"></xref> method. The second example in the Examples section illustrates this pattern. </p>\n</li></ul>\n<p>The <xref href=\"System.Threading.Mutex\" data-throw-if-not-resolved=\"false\"></xref> class enforces thread identity, so a mutex can be released only by the thread that acquired it. By contrast, the <xref href=\"System.Threading.Semaphore\" data-throw-if-not-resolved=\"false\"></xref> class does not enforce thread identity. A mutex can also be passed across application domain boundaries. </p>\n<p>The thread that owns a mutex can request the same mutex in repeated calls to <see cref=\"Overload:System.Threading.WaitHandle.WaitOne\"></see> without blocking its execution. However, the thread must call the <xref href=\"System.Threading.Mutex.ReleaseMutex\" data-throw-if-not-resolved=\"false\"></xref> method the same number of times to release ownership of the mutex.</p>\n<p>Because the <xref href=\"System.Threading.Mutex\" data-throw-if-not-resolved=\"false\"></xref> class inherits from <xref href=\"System.Threading.WaitHandle\" data-throw-if-not-resolved=\"false\"></xref>, you can also call the static <xref href=\"System.Threading.WaitHandle.WaitAll(System.Threading.WaitHandle[],System.Int32)\" data-throw-if-not-resolved=\"false\"></xref> and <xref href=\"System.Threading.WaitHandle.WaitAny(System.Threading.WaitHandle[],System.Int32)\" data-throw-if-not-resolved=\"false\"></xref> methods to synchronize access to a protected resource. </p>\n<p>If a thread terminates while owning a mutex, the mutex is said to be abandoned. The state of the mutex is set to signaled, and the next waiting thread gets ownership. Beginning in version 2.0 of the .NET Framework, an <xref href=\"System.Threading.AbandonedMutexException\" data-throw-if-not-resolved=\"false\"></xref> is thrown in the next thread that acquires the abandoned mutex. Before version 2.0 of the .NET Framework, no exception was thrown.</p>\n<p>An abandoned mutex often indicates a serious error in the code. When a thread exits without releasing the mutex, the data structures protected by the mutex might not be in a consistent state. The next thread to request ownership of the mutex can handle this exception and proceed, if the integrity of the data structures can be verified. </p>\n<p>In the case of a system-wide mutex, an abandoned mutex might indicate that an application has been terminated abruptly (for example, by using Windows Task Manager).</p>\n<p>Mutexes are of two types: local mutexes, which are unnamed, and named system mutexes. A local mutex exists only within your process. It can be used by any thread in your process that has a reference to the <xref href=\"System.Threading.Mutex\" data-throw-if-not-resolved=\"false\"></xref> object that represents the mutex. Each unnamed <xref href=\"System.Threading.Mutex\" data-throw-if-not-resolved=\"false\"></xref> object represents a separate local mutex.</p>\n<p>Named system mutexes are visible throughout the operating system, and can be used to synchronize the activities of processes. You can create a <xref href=\"System.Threading.Mutex\" data-throw-if-not-resolved=\"false\"></xref> object that represents a named system mutex by using a constructor that accepts a name. The operating-system object can be created at the same time, or it can exist before the creation of the <xref href=\"System.Threading.Mutex\" data-throw-if-not-resolved=\"false\"></xref> object. You can create multiple <xref href=\"System.Threading.Mutex\" data-throw-if-not-resolved=\"false\"></xref> objects that represent the same named system mutex, and you can use the <see cref=\"Overload:System.Threading.Mutex.OpenExisting\"></see> method to open an existing named system mutex.</p>\n<p>On a server that is running Terminal Services, a named system mutex can have two levels of visibility. If its name begins with the prefix \"Global\\\", the mutex is visible in all terminal server sessions. If its name begins with the prefix \"Local\\\", the mutex is visible only in the terminal server session where it was created. In that case, a separate mutex with the same name can exist in each of the other terminal server sessions on the server. If you do not specify a prefix when you create a named mutex, it takes the prefix \"Local\\\". Within a terminal server session, two mutexes whose names differ only by their prefixes are separate mutexes, and both are visible to all processes in the terminal server session. That is, the prefix names \"Global\\\" and \"Local\\\" describe the scope of the mutex name relative to terminal server sessions, not relative to processes.</p>\n"
+  example:
+  - "\n<p>This example shows how a local <xref href=\"System.Threading.Mutex\" data-throw-if-not-resolved=\"false\"></xref> object is used to synchronize access to a protected resource. Because each calling thread is blocked until it acquires ownership of the mutex, it must call the <xref href=\"System.Threading.Mutex.ReleaseMutex\" data-throw-if-not-resolved=\"false\"></xref> method to release ownership of the thread. </p>System.Threading.Mutex.Class#1"
+  - "\n<p>In the following example, each thread calls the <xref href=\"System.Threading.WaitHandle.WaitOne(System.Int32)\" data-throw-if-not-resolved=\"false\"></xref> method to acquire the mutex. If the time-out interval elapses, the method returns <strong>false</strong>, and the thread neither acquires the mutex nor gains access to the resource the mutex protects. The <xref href=\"System.Threading.Mutex.ReleaseMutex\" data-throw-if-not-resolved=\"false\"></xref> method is called only by the thread that acquires the mutex. </p>System.Threading.Mutex.Class#2"
   syntax:
     content: 'public sealed class Mutex : WaitHandle'
     content.vb: >-
       Public NotInheritable Class Mutex
           Inherits WaitHandle
+  seealso:
+  - type: System.Threading.WaitHandle
+    commentId: T:System.Threading.WaitHandle
+  - type: System.Threading.Thread
+    commentId: T:System.Threading.Thread
   inheritance:
   - System.Object
   modifiers.csharp:
@@ -56,16 +65,19 @@ items:
   type: Constructor
   source:
     remote:
-      path: src/mscorlib/src/System/Threading/Mutex.cs
+      path: src/System.Threading/ref/System.Threading.cs
       branch: master
-      repo: https://github.com/dotnet/coreclr.git
+      repo: https://github.com/dotnet/corefx.git
     id: .ctor
-    path: src/mscorlib/src/System/Threading/Mutex.cs
-    startLine: 251
+    path: src/System.Threading/ref/System.Threading.cs
+    startLine: 203
   assemblies:
   - System.Threading
   namespace: System.Threading
-  summary: Initializes a new instance of the <xref href="System.Threading.Mutex" data-throw-if-not-resolved="false"></xref> class with default properties.
+  summary: "\n<p>Initializes a new instance of the <xref href=\"System.Threading.Mutex\" data-throw-if-not-resolved=\"false\"></xref> class with default properties.</p>\n"
+  remarks: "\n<p>Calling this constructor overload is the same as calling the <xref href=\"System.Threading.Mutex.#ctor(System.Boolean)\" data-throw-if-not-resolved=\"false\"></xref> constructor overload and specifying <strong>false</strong> for initial ownership of the mutex. That is, the calling thread does not own the mutex.</p>\n"
+  example:
+  - "\n<p>The following code example shows how a local <xref href=\"System.Threading.Mutex\" data-throw-if-not-resolved=\"false\"></xref> object is used to synchronize access to a protected resource. The thread that creates the mutex does not own it initially.</p>System.Threading.Mutex Default Ctor Example#1"
   syntax:
     content: public Mutex()
     content.vb: Public Sub New
@@ -85,23 +97,25 @@ items:
   type: Constructor
   source:
     remote:
-      path: src/mscorlib/src/System/Threading/Mutex.cs
+      path: src/System.Threading/ref/System.Threading.cs
       branch: master
-      repo: https://github.com/dotnet/coreclr.git
+      repo: https://github.com/dotnet/corefx.git
     id: .ctor
-    path: src/mscorlib/src/System/Threading/Mutex.cs
-    startLine: 245
+    path: src/System.Threading/ref/System.Threading.cs
+    startLine: 204
   assemblies:
   - System.Threading
   namespace: System.Threading
-  summary: Initializes a new instance of the <xref href="System.Threading.Mutex" data-throw-if-not-resolved="false"></xref> class with a Boolean value that indicates whether the calling thread should have initial ownership of the mutex.
+  summary: "\n<p>Initializes a new instance of the <xref href=\"System.Threading.Mutex\" data-throw-if-not-resolved=\"false\"></xref> class with a Boolean value that indicates whether the calling thread should have initial ownership of the mutex.</p>\n"
+  example:
+  - "\n<p>The following code example shows how a local <xref href=\"System.Threading.Mutex\" data-throw-if-not-resolved=\"false\"></xref> object is used to synchronize access to a protected resource. The thread that creates the <xref href=\"System.Threading.Mutex\" data-throw-if-not-resolved=\"false\"></xref> owns it initially.</p>System.Threading.Mutex 1Arg Ctor Example#1"
   syntax:
     content: public Mutex(bool initiallyOwned)
     content.vb: Public Sub New(initiallyOwned As Boolean)
     parameters:
     - id: initiallyOwned
       type: System.Boolean
-      description: 'true to give the calling thread initial ownership of the mutex; otherwise, false. '
+      description: "\n<p>\n<strong>true</strong> to give the calling thread initial ownership of the mutex; otherwise, <strong>false</strong>. </p>\n"
   modifiers.csharp:
   - public
   modifiers.vb:
@@ -118,39 +132,45 @@ items:
   type: Constructor
   source:
     remote:
-      path: src/mscorlib/src/System/Threading/Mutex.cs
+      path: src/System.Threading/ref/System.Threading.cs
       branch: master
-      repo: https://github.com/dotnet/coreclr.git
+      repo: https://github.com/dotnet/corefx.git
     id: .ctor
-    path: src/mscorlib/src/System/Threading/Mutex.cs
-    startLine: 240
+    path: src/System.Threading/ref/System.Threading.cs
+    startLine: 205
   assemblies:
   - System.Threading
   namespace: System.Threading
-  summary: Initializes a new instance of the <xref href="System.Threading.Mutex" data-throw-if-not-resolved="false"></xref> class with a Boolean value that indicates whether the calling thread should have initial ownership of the mutex, and a string that is the name of the mutex.
+  summary: "\n<p>Initializes a new instance of the <xref href=\"System.Threading.Mutex\" data-throw-if-not-resolved=\"false\"></xref> class with a Boolean value that indicates whether the calling thread should have initial ownership of the mutex, and a string that is the name of the mutex.</p>\n"
+  remarks: "\n<p>If <em>name</em> is not <strong>null</strong> and <em>initiallyOwned</em> is <strong>true</strong>, the calling thread owns the mutex only if the named system mutex was created as a result of this call. Since there is no mechanism for determining whether the named system mutex was created, it is better to specify <strong>false</strong> for <em>initiallyOwned</em> when calling this constructor overload. You can use the <xref href=\"System.Threading.Mutex.#ctor(System.Boolean,System.String,System.Boolean@)\" data-throw-if-not-resolved=\"false\"></xref> constructor if you need to determine initial ownership.</p>\n<p>This constructor initializes a <xref href=\"System.Threading.Mutex\" data-throw-if-not-resolved=\"false\"></xref> object that represents a named system mutex. You can create multiple <xref href=\"System.Threading.Mutex\" data-throw-if-not-resolved=\"false\"></xref> objects that represent the same named system mutex.</p>\n<p>If the named mutex has already been created with access control security, and the caller does not have <xref href=\"System.Security.AccessControl.MutexRights.FullControl\" data-throw-if-not-resolved=\"false\"></xref>, an exception is thrown. To open an existing named mutex with only those permissions needed for synchronizing thread activities, see the <see cref=\"Overload:System.Threading.Mutex.OpenExisting\"></see> method.</p>\n<p>If you specify <strong>null</strong> or an empty string for <em>name</em>, a local mutex is created, as if you had called the <xref href=\"System.Threading.Mutex.#ctor(System.Boolean)\" data-throw-if-not-resolved=\"false\"></xref> constructor. In this case, <em>createdNew</em> is always <strong>true</strong>.</p>\n<p>Because they are system-wide, named mutexes can be used to coordinate resource use across process boundaries.</p>\n<p>On a server that is running Terminal Services, a named system mutex can have two levels of visibility. If its name begins with the prefix \"Global\\\", the mutex is visible in all terminal server sessions. If its name begins with the prefix \"Local\\\", the mutex is visible only in the terminal server session where it was created. In that case, a separate mutex with the same name can exist in each of the other terminal server sessions on the server. If you do not specify a prefix when you create a named mutex, it takes the prefix \"Local\\\". Within a terminal server session, two mutexes whose names differ only by their prefixes are separate mutexes, and both are visible to all processes in the terminal server session. That is, the prefix names \"Global\\\" and \"Local\\\" describe the scope of the mutex name relative to terminal server sessions, not relative to processes.</p>\n"
+  example:
+  - "\n<p>The following example shows how a named mutex is used to signal between threads running in two separate processes. </p>\n<p>Run this program from two or more command windows. Each process creates a <xref href=\"System.Threading.Mutex\" data-throw-if-not-resolved=\"false\"></xref> object that represents the named mutex <code>MyMutex</code>. The named mutex is a system object whose lifetime is bounded by the lifetimes of the <xref href=\"System.Threading.Mutex\" data-throw-if-not-resolved=\"false\"></xref> objects that represent it. The named mutex is created when the first process creates its <xref href=\"System.Threading.Mutex\" data-throw-if-not-resolved=\"false\"></xref> object; in this example, the named mutex is owned by the first process that runs the program. The named mutex is destroyed when all the <xref href=\"System.Threading.Mutex\" data-throw-if-not-resolved=\"false\"></xref> objects that represent it have been released.</p>\n<p>The constructor overload used in this example cannot tell the calling thread whether initial ownership of the named mutex was granted. You should not use this constructor to request initial ownership unless you can be certain that the thread will create the named mutex.</p>System.Threading.Mutex 2Arg Ctor Example#1"
   syntax:
     content: public Mutex(bool initiallyOwned, string name)
     content.vb: Public Sub New(initiallyOwned As Boolean, name As String)
     parameters:
     - id: initiallyOwned
       type: System.Boolean
-      description: 'true to give the calling thread initial ownership of the named system mutex if the named system mutex is created as a result of this call; otherwise, false. '
+      description: "\n<p>\n<strong>true</strong> to give the calling thread initial ownership of the named system mutex if the named system mutex is created as a result of this call; otherwise, <strong>false</strong>. </p>\n"
     - id: name
       type: System.String
-      description: 'The name of the <xref href="System.Threading.Mutex" data-throw-if-not-resolved="false"></xref>. If the value is null, the <xref href="System.Threading.Mutex" data-throw-if-not-resolved="false"></xref> is unnamed. '
+      description: "\n<p>The name of the <xref href=\"System.Threading.Mutex\" data-throw-if-not-resolved=\"false\"></xref>. If the value is <strong>null</strong>, the <xref href=\"System.Threading.Mutex\" data-throw-if-not-resolved=\"false\"></xref> is unnamed. </p>\n"
   exceptions:
   - type: System.UnauthorizedAccessException
     commentId: T:System.UnauthorizedAccessException
-    description: The named mutex exists and has access control security, but the user does not have <xref href="System.Security.AccessControl.MutexRights.FullControl" data-throw-if-not-resolved="false"></xref>.
+    description: "\n<p>The named mutex exists and has access control security, but the user does not have <xref href=\"System.Security.AccessControl.MutexRights.FullControl\" data-throw-if-not-resolved=\"false\"></xref>.</p>\n"
   - type: System.IO.IOException
     commentId: T:System.IO.IOException
-    description: A Win32 error occurred.
+    description: "\n<p>A Win32 error occurred.</p>\n"
   - type: System.Threading.WaitHandleCannotBeOpenedException
     commentId: T:System.Threading.WaitHandleCannotBeOpenedException
-    description: The named mutex cannot be created, perhaps because a wait handle of a different type has the same name.
+    description: "\n<p>The named mutex cannot be created, perhaps because a wait handle of a different type has the same name.</p>\n"
   - type: System.ArgumentException
     commentId: T:System.ArgumentException
-    description: "\n<em>name</em> is longer than 260 characters."
+    description: "\n<p>\n<em>name</em> is longer than 260 characters.</p>\n"
+  see:
+  - type: System.Security.SecurityCriticalAttribute
+    commentId: T:System.Security.SecurityCriticalAttribute
   modifiers.csharp:
   - public
   modifiers.vb:
@@ -167,42 +187,48 @@ items:
   type: Constructor
   source:
     remote:
-      path: src/mscorlib/src/System/Threading/Mutex.cs
+      path: src/System.Threading/ref/System.Threading.cs
       branch: master
-      repo: https://github.com/dotnet/coreclr.git
+      repo: https://github.com/dotnet/corefx.git
     id: .ctor
-    path: src/mscorlib/src/System/Threading/Mutex.cs
-    startLine: 43
+    path: src/System.Threading/ref/System.Threading.cs
+    startLine: 207
   assemblies:
   - System.Threading
   namespace: System.Threading
-  summary: Initializes a new instance of the <xref href="System.Threading.Mutex" data-throw-if-not-resolved="false"></xref> class with a Boolean value that indicates whether the calling thread should have initial ownership of the mutex, a string that is the name of the mutex, and a Boolean value that, when the method returns, indicates whether the calling thread was granted initial ownership of the mutex.
+  summary: "\n<p>Initializes a new instance of the <xref href=\"System.Threading.Mutex\" data-throw-if-not-resolved=\"false\"></xref> class with a Boolean value that indicates whether the calling thread should have initial ownership of the mutex, a string that is the name of the mutex, and a Boolean value that, when the method returns, indicates whether the calling thread was granted initial ownership of the mutex.</p>\n"
+  remarks: "\n<p>If <em>name</em> is not <strong>null</strong> and <em>initiallyOwned</em> is <strong>true</strong>, the calling thread owns the named mutex only if <em>createdNew</em> is <strong>true</strong> after the call. Otherwise the thread can request the mutex by calling the <see cref=\"Overload:System.Threading.WaitHandle.WaitOne\"></see>method.</p>\n<p>This constructor initializes a <xref href=\"System.Threading.Mutex\" data-throw-if-not-resolved=\"false\"></xref> object that represents a named system mutex. You can create multiple <xref href=\"System.Threading.Mutex\" data-throw-if-not-resolved=\"false\"></xref> objects that represent the same named system mutex.</p>\n<p>If the named mutex has already been created with access control security, and the caller does not have <xref href=\"System.Security.AccessControl.MutexRights.FullControl\" data-throw-if-not-resolved=\"false\"></xref> rights, an exception is thrown. To open an existing named mutex with only those permissions needed for synchronizing thread activities, see the <see cref=\"Overload:System.Threading.Mutex.OpenExisting\"></see> method.</p>\n<p>If you specify <strong>null</strong> or an empty string for <em>name</em>, a local mutex is created, as if you had called the <xref href=\"System.Threading.Mutex.#ctor(System.Boolean)\" data-throw-if-not-resolved=\"false\"></xref> constructor. In this case, <em>createdNew</em> is always <strong>true</strong>.</p>\n<p>Because they are system-wide, named mutexes can be used to coordinate resource use across process boundaries.</p>\n<p>On a server that is running Terminal Services, a named system mutex can have two levels of visibility. If its name begins with the prefix \"Global\\\", the mutex is visible in all terminal server sessions. If its name begins with the prefix \"Local\\\", the mutex is visible only in the terminal server session where it was created. In that case, a separate mutex with the same name can exist in each of the other terminal server sessions on the server. If you do not specify a prefix when you create a named mutex, it takes the prefix \"Local\\\". Within a terminal server session, two mutexes whose names differ only by their prefixes are separate mutexes, and both are visible to all processes in the terminal server session. That is, the prefix names \"Global\\\" and \"Local\\\" describe the scope of the mutex name relative to terminal server sessions, not relative to processes.</p>\n"
+  example:
+  - "\n<p>The following code example shows how a named mutex is used to signal between processes or threads. Run this program from two or more command windows. Each process creates a <xref href=\"System.Threading.Mutex\" data-throw-if-not-resolved=\"false\"></xref> object that represents the named mutex \"MyMutex\". The named mutex is a system object. In this example, its lifetime is bounded by the lifetimes of the <xref href=\"System.Threading.Mutex\" data-throw-if-not-resolved=\"false\"></xref> objects that represent it. The named mutex is created when the first process creates its local <xref href=\"System.Threading.Mutex\" data-throw-if-not-resolved=\"false\"></xref> object, and destroyed when all the <xref href=\"System.Threading.Mutex\" data-throw-if-not-resolved=\"false\"></xref> objects that represent it have been released. The named mutex is initially owned by the first process. The second process and any subsequent processes wait for earlier processes to release the named mutex.</p>System.Threading.Mutex 3Arg Ctor Example#1"
   syntax:
     content: public Mutex(bool initiallyOwned, string name, out bool createdNew)
     content.vb: Public Sub New(initiallyOwned As Boolean, name As String, ByRef createdNew As Boolean)
     parameters:
     - id: initiallyOwned
       type: System.Boolean
-      description: 'true to give the calling thread initial ownership of the named system mutex if the named system mutex is created as a result of this call; otherwise, false. '
+      description: "\n<p>\n<strong>true</strong> to give the calling thread initial ownership of the named system mutex if the named system mutex is created as a result of this call; otherwise, <strong>false</strong>. </p>\n"
     - id: name
       type: System.String
-      description: 'The name of the <xref href="System.Threading.Mutex" data-throw-if-not-resolved="false"></xref>. If the value is null, the <xref href="System.Threading.Mutex" data-throw-if-not-resolved="false"></xref> is unnamed. '
+      description: "\n<p>The name of the <xref href=\"System.Threading.Mutex\" data-throw-if-not-resolved=\"false\"></xref>. If the value is <strong>null</strong>, the <xref href=\"System.Threading.Mutex\" data-throw-if-not-resolved=\"false\"></xref> is unnamed. </p>\n"
     - id: createdNew
       type: System.Boolean
-      description: 'When this method returns, contains a Boolean that is true if a local mutex was created (that is, if <em>name</em> is null or an empty string) or if the specified named system mutex was created; false if the specified named system mutex already existed. This parameter is passed uninitialized. '
+      description: "\n<p>When this method returns, contains a Boolean that is <strong>true</strong> if a local mutex was created (that is, if <em>name</em> is <strong>null</strong> or an empty string) or if the specified named system mutex was created; <strong>false</strong> if the specified named system mutex already existed. This parameter is passed uninitialized. </p>\n"
   exceptions:
   - type: System.UnauthorizedAccessException
     commentId: T:System.UnauthorizedAccessException
-    description: The named mutex exists and has access control security, but the user does not have <xref href="System.Security.AccessControl.MutexRights.FullControl" data-throw-if-not-resolved="false"></xref>.
+    description: "\n<p>The named mutex exists and has access control security, but the user does not have <xref href=\"System.Security.AccessControl.MutexRights.FullControl\" data-throw-if-not-resolved=\"false\"></xref>.</p>\n"
   - type: System.IO.IOException
     commentId: T:System.IO.IOException
-    description: A Win32 error occurred.
+    description: "\n<p>A Win32 error occurred.</p>\n"
   - type: System.Threading.WaitHandleCannotBeOpenedException
     commentId: T:System.Threading.WaitHandleCannotBeOpenedException
-    description: The named mutex cannot be created, perhaps because a wait handle of a different type has the same name.
+    description: "\n<p>The named mutex cannot be created, perhaps because a wait handle of a different type has the same name.</p>\n"
   - type: System.ArgumentException
     commentId: T:System.ArgumentException
-    description: "\n<em>name</em> is longer than 260 characters."
+    description: "\n<p>\n<em>name</em> is longer than 260 characters.</p>\n"
+  see:
+  - type: System.Security.SecurityCriticalAttribute
+    commentId: T:System.Security.SecurityCriticalAttribute
   modifiers.csharp:
   - public
   modifiers.vb:
@@ -221,42 +247,48 @@ items:
   type: Method
   source:
     remote:
-      path: src/mscorlib/src/System/Threading/Mutex.cs
+      path: src/System.Threading/ref/System.Threading.cs
       branch: master
-      repo: https://github.com/dotnet/coreclr.git
+      repo: https://github.com/dotnet/corefx.git
     id: OpenExisting
-    path: src/mscorlib/src/System/Threading/Mutex.cs
-    startLine: 265
+    path: src/System.Threading/ref/System.Threading.cs
+    startLine: 209
   assemblies:
   - System.Threading
   namespace: System.Threading
-  summary: Opens the specified named mutex, if it already exists.
+  summary: "\n<p>Opens the specified named mutex, if it already exists.</p>\n"
+  remarks: "\n<p>The <see cref=\"Overload:System.Threading.Mutex.OpenExisting\"></see> method tries to open the specified named system mutex. If the system mutex does not exist, this method throws an exception instead of creating the system object. To create the system mutex when it does not already exist, use one of the <xref href=\"System.Threading.Mutex.#ctor(System.Boolean,System.String)\" data-throw-if-not-resolved=\"false\"></xref> constructors that has a <em>name</em> parameter.</p>\n<p>Multiple calls to this method that use the same value for <em>name</em> do not necessarily return the same <xref href=\"System.Threading.Mutex\" data-throw-if-not-resolved=\"false\"></xref> object, even though the objects that are returned represent the same named system mutex. </p>\n<p>This method overload is equivalent to calling the <xref href=\"System.Threading.Mutex.OpenExisting(System.String,System.Security.AccessControl.MutexRights)\" data-throw-if-not-resolved=\"false\"></xref> method overload and specifying <xref href=\"System.Security.AccessControl.MutexRights.Synchronize\" data-throw-if-not-resolved=\"false\"></xref> and <xref href=\"System.Security.AccessControl.MutexRights.Modify\" data-throw-if-not-resolved=\"false\"></xref> rights, combined by using the bitwise OR operation. </p>\n<p>Specifying the <xref href=\"System.Security.AccessControl.MutexRights.Synchronize\" data-throw-if-not-resolved=\"false\"></xref> flag allows a thread to wait on the mutex, and specifying the <xref href=\"System.Security.AccessControl.MutexRights.Modify\" data-throw-if-not-resolved=\"false\"></xref> flag allows a thread to call the <xref href=\"System.Threading.Mutex.ReleaseMutex\" data-throw-if-not-resolved=\"false\"></xref> method.</p>\n<p>This method does not request ownership of the mutex. </p>\n"
+  example:
+  - "\n<p>The following code example demonstrates the cross-process behavior of a named mutex with access control security. The example uses the <xref href=\"System.Threading.Mutex.OpenExisting(System.String)\" data-throw-if-not-resolved=\"false\"></xref> method overload to test for the existence of a named mutex.</p>\n<p>If the mutex does not exist, it is created with initial ownership and access control security that denies the current user the right to use the mutex, but grants the right to read and change permissions on the mutex. </p>\n<p>If you run the compiled example from two command windows, the second copy will throw an access violation exception on the call to <xref href=\"System.Threading.Mutex.OpenExisting(System.String)\" data-throw-if-not-resolved=\"false\"></xref>. The exception is caught, and the example uses the <xref href=\"System.Threading.Mutex.OpenExisting(System.String,System.Security.AccessControl.MutexRights)\" data-throw-if-not-resolved=\"false\"></xref> method overload to open the mutex with the rights needed to read and change the permissions. </p>\n<p>After the permissions are changed, the mutex is opened with the rights required to enter and release it. If you run the compiled example from a third command window, it runs using the new permissions.</p>System.Threading.Mutex.ctor named 4#1"
   syntax:
     content: public static Mutex OpenExisting(string name)
     content.vb: Public Shared Function OpenExisting(name As String) As Mutex
     parameters:
     - id: name
       type: System.String
-      description: The name of the system mutex to open.
+      description: "\n<p>The name of the system mutex to open.</p>\n"
     return:
       type: System.Threading.Mutex
-      description: An object that represents the named system mutex.
+      description: "\n<p>An object that represents the named system mutex.</p>\n"
   exceptions:
   - type: System.ArgumentException
     commentId: T:System.ArgumentException
-    description: "\n<em>name</em> is an empty string.-or-<em>name</em> is longer than 260 characters."
+    description: "\n<p>\n<em>name</em> is an empty string.</p>\n<p>-or-</p>\n<p>\n<em>name</em> is longer than 260 characters.</p>\n"
   - type: System.ArgumentNullException
     commentId: T:System.ArgumentNullException
-    description: "\n<em>name</em> is null."
+    description: "\n<p>\n<em>name</em> is <strong>null</strong>.</p>\n"
   - type: System.Threading.WaitHandleCannotBeOpenedException
     commentId: T:System.Threading.WaitHandleCannotBeOpenedException
-    description: The named mutex does not exist.
+    description: "\n<p>The named mutex does not exist.</p>\n"
   - type: System.IO.IOException
     commentId: T:System.IO.IOException
-    description: A Win32 error occurred.
+    description: "\n<p>A Win32 error occurred.</p>\n"
   - type: System.UnauthorizedAccessException
     commentId: T:System.UnauthorizedAccessException
-    description: The named mutex exists, but the user does not have the security access required to use it.
+    description: "\n<p>The named mutex exists, but the user does not have the security access required to use it.</p>\n"
+  see:
+  - type: System.Security.SecurityCriticalAttribute
+    commentId: T:System.Security.SecurityCriticalAttribute
   modifiers.csharp:
   - public
   - static
@@ -275,23 +307,29 @@ items:
   type: Method
   source:
     remote:
-      path: src/mscorlib/src/System/Threading/Mutex.cs
+      path: src/System.Threading/ref/System.Threading.cs
       branch: master
-      repo: https://github.com/dotnet/coreclr.git
+      repo: https://github.com/dotnet/corefx.git
     id: ReleaseMutex
-    path: src/mscorlib/src/System/Threading/Mutex.cs
-    startLine: 381
+    path: src/System.Threading/ref/System.Threading.cs
+    startLine: 211
   assemblies:
   - System.Threading
   namespace: System.Threading
-  summary: Releases the <xref href="System.Threading.Mutex" data-throw-if-not-resolved="false"></xref> once.
+  summary: "\n<p>Releases the <xref href=\"System.Threading.Mutex\" data-throw-if-not-resolved=\"false\"></xref> once.</p>\n"
+  remarks: "\n<p>Whenever a thread acquires a mutex (for example, by calling its <xref href=\"System.Threading.WaitHandle.WaitOne\" data-throw-if-not-resolved=\"false\"></xref> method), it must subsequently call <xref href=\"System.Threading.Mutex.ReleaseMutex\" data-throw-if-not-resolved=\"false\"></xref> to relinquish ownership of the mutex and unblock other threads that are trying to gain ownership of the mutex. If the attempt to get ownership of the mutex fails (for example, when a call to the <xref href=\"System.Threading.WaitHandle.WaitOne\" data-throw-if-not-resolved=\"false\"></xref> method with a <em>millisecondsTimeout</em> or a <em>timeout</em> parameter returns <strong>false</strong> because the request times out), the thread shouldn't call <xref href=\"System.Threading.Mutex.ReleaseMutex\" data-throw-if-not-resolved=\"false\"></xref>, In this case, the thread should also not be allowed to access the resource protected by the mutex, as the following example shows.  </p>System.Threading.Mutex.Class#2<p>A thread that owns a mutex can specify the same mutex in repeated wait function calls without blocking its execution. The number of calls is kept by the common language runtime. The thread must call <xref href=\"System.Threading.Mutex.ReleaseMutex\" data-throw-if-not-resolved=\"false\"></xref> the same number of times to release ownership of the mutex. </p><p>If a thread terminates while owning a mutex, the mutex is said to be abandoned. The state of the mutex is set to signaled and the next waiting thread gets ownership. If no one owns the mutex, the state of the mutex is signaled. Beginning in version 2.0 of the .NET Framework, an <xref href=\"System.Threading.AbandonedMutexException\" data-throw-if-not-resolved=\"false\"></xref> is thrown in the next thread that acquires the mutex. Prior to version 2.0 of the .NET Framework, no exception was thrown.</p><p>An abandoned mutex often indicates a serious error in the code. When a thread exits without releasing the mutex, the data structures protected by the mutex might not be in a consistent state. The next thread to request ownership of the mutex can handle this exception and proceed, if the integrity of the data structures can be verified. </p><p>In the case of a system-wide mutex, an abandoned mutex might indicate that an application has been terminated abruptly (for example, by using Windows Task Manager).</p>"
+  example:
+  - "\n<p>The following example shows how a local <xref href=\"System.Threading.Mutex\" data-throw-if-not-resolved=\"false\"></xref> object is used to synchronize access to a protected resource. The thread that creates the mutex does not own it initially. The <xref href=\"System.Threading.Mutex.ReleaseMutex\" data-throw-if-not-resolved=\"false\"></xref> method is used to release the mutex when it is no longer needed.</p>System.Threading.Mutex Default Ctor Example#1"
   syntax:
     content: public void ReleaseMutex()
     content.vb: Public Sub ReleaseMutex
   exceptions:
   - type: System.ApplicationException
     commentId: T:System.ApplicationException
-    description: 'The calling thread does not own the mutex. '
+    description: "\n<p>The calling thread does not own the mutex. </p>\n"
+  - type: System.ObjectDisposedException
+    commentId: T:System.ObjectDisposedException
+    description: "\n<p>The current instance has already been disposed. </p>\n"
   modifiers.csharp:
   - public
   modifiers.vb:
@@ -308,42 +346,46 @@ items:
   type: Method
   source:
     remote:
-      path: src/mscorlib/src/System/Threading/Mutex.cs
+      path: src/System.Threading/ref/System.Threading.cs
       branch: master
-      repo: https://github.com/dotnet/coreclr.git
+      repo: https://github.com/dotnet/corefx.git
     id: TryOpenExisting
-    path: src/mscorlib/src/System/Threading/Mutex.cs
-    startLine: 302
+    path: src/System.Threading/ref/System.Threading.cs
+    startLine: 212
   assemblies:
   - System.Threading
   namespace: System.Threading
-  summary: Opens the specified named mutex, if it already exists, and returns a value that indicates whether the operation succeeded.
+  summary: "\n<p>Opens the specified named mutex, if it already exists, and returns a value that indicates whether the operation succeeded.</p>\n"
+  remarks: "\n<p>If the named mutex does not exist, this method does not create it. To create the system mutex when it does not already exist, use one of the <xref href=\"System.Threading.Mutex.#ctor(System.Boolean,System.String)\" data-throw-if-not-resolved=\"false\"></xref> constructors that has a <em>name</em> parameter.</p>\n<p>If you are uncertain whether a named mutex exists, use this method overload instead of the <xref href=\"System.Threading.Mutex.OpenExisting(System.String)\" data-throw-if-not-resolved=\"false\"></xref> method overload, which throws an exception if the mutex does not exist.</p>\n<p>Multiple calls to this method that use the same value for <em>name</em> do not necessarily return the same <xref href=\"System.Threading.Mutex\" data-throw-if-not-resolved=\"false\"></xref> object, even though the objects that are returned represent the same named system mutex. </p>\n<p>This method overload is equivalent to calling the <xref href=\"System.Threading.Mutex.TryOpenExisting(System.String,System.Security.AccessControl.MutexRights,System.Threading.Mutex@)\" data-throw-if-not-resolved=\"false\"></xref> method overload and specifying <xref href=\"System.Security.AccessControl.MutexRights.Synchronize\" data-throw-if-not-resolved=\"false\"></xref> and <xref href=\"System.Security.AccessControl.MutexRights.Modify\" data-throw-if-not-resolved=\"false\"></xref> rights, combined by using the bitwise OR operation. Specifying the <xref href=\"System.Security.AccessControl.MutexRights.Synchronize\" data-throw-if-not-resolved=\"false\"></xref> flag allows a thread to wait on the mutex, and specifying the <xref href=\"System.Security.AccessControl.MutexRights.Modify\" data-throw-if-not-resolved=\"false\"></xref> flag allows a thread to call the <xref href=\"System.Threading.Mutex.ReleaseMutex\" data-throw-if-not-resolved=\"false\"></xref> method. </p>\n<p>This method does not request ownership of the mutex. </p>\n"
   syntax:
     content: public static bool TryOpenExisting(string name, out Mutex result)
     content.vb: Public Shared Function TryOpenExisting(name As String, ByRef result As Mutex) As Boolean
     parameters:
     - id: name
       type: System.String
-      description: The name of the system mutex to open.
+      description: "\n<p>The name of the system mutex to open.</p>\n"
     - id: result
       type: System.Threading.Mutex
-      description: When this method returns, contains a <xref href="System.Threading.Mutex" data-throw-if-not-resolved="false"></xref> object that represents the named mutex if the call succeeded, or null if the call failed. This parameter is treated as uninitialized.
+      description: "\n<p>When this method returns, contains a <xref href=\"System.Threading.Mutex\" data-throw-if-not-resolved=\"false\"></xref> object that represents the named mutex if the call succeeded, or <strong>null</strong> if the call failed. This parameter is treated as uninitialized.</p>\n"
     return:
       type: System.Boolean
-      description: true if the named mutex was opened successfully; otherwise, false.
+      description: "\n<p>\n<strong>true</strong> if the named mutex was opened successfully; otherwise, <strong>false</strong>.</p>\n"
   exceptions:
   - type: System.ArgumentException
     commentId: T:System.ArgumentException
-    description: "\n<em>name</em> is an empty string.-or-<em>name</em> is longer than 260 characters."
+    description: "\n<p>\n<em>name</em> is an empty string.</p>\n<p>-or-</p>\n<p>\n<em>name</em> is longer than 260 characters.</p>\n"
   - type: System.ArgumentNullException
     commentId: T:System.ArgumentNullException
-    description: "\n<em>name</em> is null."
+    description: "\n<p>\n<em>name</em> is <strong>null</strong>.</p>\n"
   - type: System.IO.IOException
     commentId: T:System.IO.IOException
-    description: A Win32 error occurred.
+    description: "\n<p>A Win32 error occurred.</p>\n"
   - type: System.UnauthorizedAccessException
     commentId: T:System.UnauthorizedAccessException
-    description: The named mutex exists, but the user does not have the security access required to use it.
+    description: "\n<p>The named mutex exists, but the user does not have the security access required to use it.</p>\n"
+  see:
+  - type: System.Security.SecurityCriticalAttribute
+    commentId: T:System.Security.SecurityCriticalAttribute
   modifiers.csharp:
   - public
   - static
@@ -404,3 +446,7 @@ references:
   name: ArgumentNullException
   fullName: System.ArgumentNullException
 - uid: System.ApplicationException
+- uid: System.ObjectDisposedException
+  isExternal: false
+  name: ObjectDisposedException
+  fullName: System.ObjectDisposedException

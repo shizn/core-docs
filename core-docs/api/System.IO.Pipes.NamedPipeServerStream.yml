@@ -34,12 +34,12 @@ items:
   assemblies:
   - System.IO.Pipes
   namespace: System.IO.Pipes
-  summary: Exposes a <xref href="System.IO.Stream" data-throw-if-not-resolved="false"></xref> around a named pipe, supporting both synchronous and asynchronous read and write operations.
   syntax:
-    content: 'public sealed class NamedPipeServerStream : PipeStream'
+    content: 'public sealed class NamedPipeServerStream : PipeStream, Stream'
     content.vb: >-
       Public NotInheritable Class NamedPipeServerStream
           Inherits PipeStream
+          Implements Stream
   inheritance:
   - System.Object
   - System.IO.Pipes.PipeStream
@@ -97,36 +97,18 @@ items:
   assemblies:
   - System.IO.Pipes
   namespace: System.IO.Pipes
-  summary: Initializes a new instance of the <xref href="System.IO.Pipes.NamedPipeServerStream" data-throw-if-not-resolved="false"></xref> class from the specified pipe handle.
   syntax:
     content: public NamedPipeServerStream(PipeDirection direction, bool isAsync, bool isConnected, SafePipeHandle safePipeHandle)
     content.vb: Public Sub New(direction As PipeDirection, isAsync As Boolean, isConnected As Boolean, safePipeHandle As SafePipeHandle)
     parameters:
     - id: direction
       type: System.IO.Pipes.PipeDirection
-      description: One of the enumeration values that determines the direction of the pipe.
     - id: isAsync
       type: System.Boolean
-      description: true to indicate that the handle was opened asynchronously; otherwise, false.
     - id: isConnected
       type: System.Boolean
-      description: true to indicate that the pipe is connected; otherwise, false.
     - id: safePipeHandle
       type: Microsoft.Win32.SafeHandles.SafePipeHandle
-      description: A safe handle for the pipe that this <xref href="System.IO.Pipes.NamedPipeServerStream" data-throw-if-not-resolved="false"></xref> object will encapsulate.
-  exceptions:
-  - type: System.ArgumentOutOfRangeException
-    commentId: T:System.ArgumentOutOfRangeException
-    description: "\n<em>direction</em> is not a valid <xref href=\"System.IO.Pipes.PipeDirection\" data-throw-if-not-resolved=\"false\"></xref> value."
-  - type: System.ArgumentNullException
-    commentId: T:System.ArgumentNullException
-    description: "\n<em>safePipeHandle</em> is null."
-  - type: System.ArgumentException
-    commentId: T:System.ArgumentException
-    description: "\n<em>safePipeHandle</em> is an invalid handle."
-  - type: System.IO.IOException
-    commentId: T:System.IO.IOException
-    description: "\n<em>safePipeHandle</em> is not a valid pipe handle.-or-The maximum number of server instances has been exceeded."
   modifiers.csharp:
   - public
   modifiers.vb:
@@ -152,33 +134,12 @@ items:
   assemblies:
   - System.IO.Pipes
   namespace: System.IO.Pipes
-  summary: Initializes a new instance of the <xref href="System.IO.Pipes.NamedPipeServerStream" data-throw-if-not-resolved="false"></xref> class with the specified pipe name.
   syntax:
     content: public NamedPipeServerStream(string pipeName)
     content.vb: Public Sub New(pipeName As String)
     parameters:
     - id: pipeName
       type: System.String
-      description: The name of the pipe.
-  exceptions:
-  - type: System.ArgumentNullException
-    commentId: T:System.ArgumentNullException
-    description: "\n<em>pipeName</em> is null."
-  - type: System.ArgumentException
-    commentId: T:System.ArgumentException
-    description: "\n<em>pipeName</em> is a zero-length string."
-  - type: System.ArgumentOutOfRangeException
-    commentId: T:System.ArgumentOutOfRangeException
-    description: "\n<em>pipeName</em> is set to \"anonymous\"."
-  - type: System.NotSupportedException
-    commentId: T:System.NotSupportedException
-    description: "\n<em>pipeName</em> contains a colon (\":\")."
-  - type: System.PlatformNotSupportedException
-    commentId: T:System.PlatformNotSupportedException
-    description: 'The operating system is Windows Millennium Edition, Windows 98, or Windows 95, which are not supported. '
-  - type: System.IO.IOException
-    commentId: T:System.IO.IOException
-    description: The maximum number of server instances has been exceeded.
   modifiers.csharp:
   - public
   modifiers.vb:
@@ -204,36 +165,14 @@ items:
   assemblies:
   - System.IO.Pipes
   namespace: System.IO.Pipes
-  summary: Initializes a new instance of the <xref href="System.IO.Pipes.NamedPipeServerStream" data-throw-if-not-resolved="false"></xref> class with the specified pipe name and pipe direction.
   syntax:
     content: public NamedPipeServerStream(string pipeName, PipeDirection direction)
     content.vb: Public Sub New(pipeName As String, direction As PipeDirection)
     parameters:
     - id: pipeName
       type: System.String
-      description: The name of the pipe.
     - id: direction
       type: System.IO.Pipes.PipeDirection
-      description: One of the enumeration values that determines the direction of the pipe.
-  exceptions:
-  - type: System.ArgumentNullException
-    commentId: T:System.ArgumentNullException
-    description: "\n<em>pipeName</em> is null."
-  - type: System.ArgumentException
-    commentId: T:System.ArgumentException
-    description: "\n<em>pipeName</em> is a zero-length string."
-  - type: System.ArgumentOutOfRangeException
-    commentId: T:System.ArgumentOutOfRangeException
-    description: "\n<em>pipeName</em> is set to \"anonymous\".-or-<em>direction</em> is not a valid <xref href=\"System.IO.Pipes.PipeDirection\" data-throw-if-not-resolved=\"false\"></xref> value."
-  - type: System.NotSupportedException
-    commentId: T:System.NotSupportedException
-    description: "\n<em>pipeName</em> contains a colon (\":\")."
-  - type: System.PlatformNotSupportedException
-    commentId: T:System.PlatformNotSupportedException
-    description: The operating system is Windows Millennium Edition, Windows 98, or Windows 95, which are not supported.
-  - type: System.IO.IOException
-    commentId: T:System.IO.IOException
-    description: The maximum number of server instances has been exceeded.
   modifiers.csharp:
   - public
   modifiers.vb:
@@ -259,39 +198,16 @@ items:
   assemblies:
   - System.IO.Pipes
   namespace: System.IO.Pipes
-  summary: Initializes a new instance of the <xref href="System.IO.Pipes.NamedPipeServerStream" data-throw-if-not-resolved="false"></xref> class with the specified pipe name, pipe direction, and maximum number of server instances.
   syntax:
     content: public NamedPipeServerStream(string pipeName, PipeDirection direction, int maxNumberOfServerInstances)
     content.vb: Public Sub New(pipeName As String, direction As PipeDirection, maxNumberOfServerInstances As Integer)
     parameters:
     - id: pipeName
       type: System.String
-      description: The name of the pipe.
     - id: direction
       type: System.IO.Pipes.PipeDirection
-      description: One of the enumeration values that determines the direction of the pipe.
     - id: maxNumberOfServerInstances
       type: System.Int32
-      description: The maximum number of server instances that share the same name. You can pass <xref href="System.IO.Pipes.NamedPipeServerStream.MaxAllowedServerInstances" data-throw-if-not-resolved="false"></xref> for this value.
-  exceptions:
-  - type: System.ArgumentNullException
-    commentId: T:System.ArgumentNullException
-    description: "\n<em>pipeName</em> is null."
-  - type: System.ArgumentException
-    commentId: T:System.ArgumentException
-    description: "\n<em>pipeName</em> is a zero-length string."
-  - type: System.ArgumentOutOfRangeException
-    commentId: T:System.ArgumentOutOfRangeException
-    description: "\n<em>pipeName</em> is set to \"anonymous\".-or-<em>direction</em> is not a valid <xref href=\"System.IO.Pipes.PipeDirection\" data-throw-if-not-resolved=\"false\"></xref> value.-or-A non-negative number is required. -or-<em>maxNumberofServerInstances</em> is less than -1 or greater than 254 (-1 indicates <xref href=\"System.IO.Pipes.NamedPipeServerStream.MaxAllowedServerInstances\" data-throw-if-not-resolved=\"false\"></xref>)-or-<xref href=\"System.IO.HandleInheritability.None\" data-throw-if-not-resolved=\"false\"></xref>  or <xref href=\"System.IO.HandleInheritability.Inheritable\" data-throw-if-not-resolved=\"false\"></xref>  is required.-or-Access rights is limited to the <xref href=\"System.IO.Pipes.PipeAccessRights.ChangePermissions\" data-throw-if-not-resolved=\"false\"></xref> , <xref href=\"System.IO.Pipes.PipeAccessRights.TakeOwnership\" data-throw-if-not-resolved=\"false\"></xref> , and <xref href=\"System.IO.Pipes.PipeAccessRights.AccessSystemSecurity\" data-throw-if-not-resolved=\"false\"></xref>  flags."
-  - type: System.NotSupportedException
-    commentId: T:System.NotSupportedException
-    description: "\n<em>pipeName</em> contains a colon (\":\")."
-  - type: System.PlatformNotSupportedException
-    commentId: T:System.PlatformNotSupportedException
-    description: The operating system is Windows Millennium Edition, Windows 98, or Windows 95, which are not supported.
-  - type: System.IO.IOException
-    commentId: T:System.IO.IOException
-    description: The maximum number of server instances has been exceeded.
   modifiers.csharp:
   - public
   modifiers.vb:
@@ -317,42 +233,18 @@ items:
   assemblies:
   - System.IO.Pipes
   namespace: System.IO.Pipes
-  summary: Initializes a new instance of the <xref href="System.IO.Pipes.NamedPipeServerStream" data-throw-if-not-resolved="false"></xref> class with the specified pipe name, pipe direction, maximum number of server instances, and transmission mode.
   syntax:
     content: public NamedPipeServerStream(string pipeName, PipeDirection direction, int maxNumberOfServerInstances, PipeTransmissionMode transmissionMode)
     content.vb: Public Sub New(pipeName As String, direction As PipeDirection, maxNumberOfServerInstances As Integer, transmissionMode As PipeTransmissionMode)
     parameters:
     - id: pipeName
       type: System.String
-      description: The name of the pipe.
     - id: direction
       type: System.IO.Pipes.PipeDirection
-      description: One of the enumeration values that determines the direction of the pipe.
     - id: maxNumberOfServerInstances
       type: System.Int32
-      description: The maximum number of server instances that share the same name. You can pass <xref href="System.IO.Pipes.NamedPipeServerStream.MaxAllowedServerInstances" data-throw-if-not-resolved="false"></xref> for this value.
     - id: transmissionMode
       type: System.IO.Pipes.PipeTransmissionMode
-      description: One of the enumeration values that determines the transmission mode of the pipe.
-  exceptions:
-  - type: System.ArgumentNullException
-    commentId: T:System.ArgumentNullException
-    description: "\n<em>pipeName</em> is null."
-  - type: System.ArgumentException
-    commentId: T:System.ArgumentException
-    description: "\n<em>pipeName</em> is a zero-length string."
-  - type: System.ArgumentOutOfRangeException
-    commentId: T:System.ArgumentOutOfRangeException
-    description: "\n<em>pipeName</em> is set to \"anonymous\".-or-<em>direction</em> is not a valid <xref href=\"System.IO.Pipes.PipeDirection\" data-throw-if-not-resolved=\"false\"></xref> value.-or-<em>maxNumberofServerInstances</em> is less than -1 or greater than 254 (-1 indicates <xref href=\"System.IO.Pipes.NamedPipeServerStream.MaxAllowedServerInstances\" data-throw-if-not-resolved=\"false\"></xref>)"
-  - type: System.NotSupportedException
-    commentId: T:System.NotSupportedException
-    description: "\n<em>pipeName</em> contains a colon (\":\")."
-  - type: System.PlatformNotSupportedException
-    commentId: T:System.PlatformNotSupportedException
-    description: The operating system is Windows Millennium Edition, Windows 98, or Windows 95, which are not supported.
-  - type: System.IO.IOException
-    commentId: T:System.IO.IOException
-    description: The maximum number of server instances has been exceeded.
   modifiers.csharp:
   - public
   modifiers.vb:
@@ -378,45 +270,20 @@ items:
   assemblies:
   - System.IO.Pipes
   namespace: System.IO.Pipes
-  summary: Initializes a new instance of the <xref href="System.IO.Pipes.NamedPipeServerStream" data-throw-if-not-resolved="false"></xref> class with the specified pipe name, pipe direction, maximum number of server instances, transmission mode, and pipe options.
   syntax:
     content: public NamedPipeServerStream(string pipeName, PipeDirection direction, int maxNumberOfServerInstances, PipeTransmissionMode transmissionMode, PipeOptions options)
     content.vb: Public Sub New(pipeName As String, direction As PipeDirection, maxNumberOfServerInstances As Integer, transmissionMode As PipeTransmissionMode, options As PipeOptions)
     parameters:
     - id: pipeName
       type: System.String
-      description: The name of the pipe.
     - id: direction
       type: System.IO.Pipes.PipeDirection
-      description: One of the enumeration values that determines the direction of the pipe.
     - id: maxNumberOfServerInstances
       type: System.Int32
-      description: The maximum number of server instances that share the same name. You can pass <xref href="System.IO.Pipes.NamedPipeServerStream.MaxAllowedServerInstances" data-throw-if-not-resolved="false"></xref> for this value.
     - id: transmissionMode
       type: System.IO.Pipes.PipeTransmissionMode
-      description: One of the enumeration values that determines the transmission mode of the pipe.
     - id: options
       type: System.IO.Pipes.PipeOptions
-      description: One of the enumeration values that determines how to open or create the pipe.
-  exceptions:
-  - type: System.ArgumentNullException
-    commentId: T:System.ArgumentNullException
-    description: "\n<em>pipeName</em> is null."
-  - type: System.ArgumentException
-    commentId: T:System.ArgumentException
-    description: "\n<em>pipeName</em> is a zero-length string."
-  - type: System.ArgumentOutOfRangeException
-    commentId: T:System.ArgumentOutOfRangeException
-    description: "\n<em>pipeName</em> is set to \"anonymous\".-or-<em>direction</em> is not a valid <xref href=\"System.IO.Pipes.PipeDirection\" data-throw-if-not-resolved=\"false\"></xref> value.-or-<em>maxNumberofServerInstances</em> is less than -1 or greater than 254 (-1 indicates <xref href=\"System.IO.Pipes.NamedPipeServerStream.MaxAllowedServerInstances\" data-throw-if-not-resolved=\"false\"></xref>)-or-<em>options</em> is not a valid <xref href=\"System.IO.Pipes.PipeOptions\" data-throw-if-not-resolved=\"false\"></xref> value."
-  - type: System.NotSupportedException
-    commentId: T:System.NotSupportedException
-    description: "\n<em>pipeName</em> contains a colon (\":\")."
-  - type: System.PlatformNotSupportedException
-    commentId: T:System.PlatformNotSupportedException
-    description: The operating system is Windows Millennium Edition, Windows 98, or Windows 95, which are not supported.
-  - type: System.IO.IOException
-    commentId: T:System.IO.IOException
-    description: The maximum number of server instances has been exceeded.
   modifiers.csharp:
   - public
   modifiers.vb:
@@ -442,51 +309,24 @@ items:
   assemblies:
   - System.IO.Pipes
   namespace: System.IO.Pipes
-  summary: Initializes a new instance of the <xref href="System.IO.Pipes.NamedPipeServerStream" data-throw-if-not-resolved="false"></xref> class with the specified pipe name, pipe direction, maximum number of server instances, transmission mode, pipe options, and recommended in and out buffer sizes.
   syntax:
     content: public NamedPipeServerStream(string pipeName, PipeDirection direction, int maxNumberOfServerInstances, PipeTransmissionMode transmissionMode, PipeOptions options, int inBufferSize, int outBufferSize)
     content.vb: Public Sub New(pipeName As String, direction As PipeDirection, maxNumberOfServerInstances As Integer, transmissionMode As PipeTransmissionMode, options As PipeOptions, inBufferSize As Integer, outBufferSize As Integer)
     parameters:
     - id: pipeName
       type: System.String
-      description: The name of the pipe.
     - id: direction
       type: System.IO.Pipes.PipeDirection
-      description: One of the enumeration values that determines the direction of the pipe.
     - id: maxNumberOfServerInstances
       type: System.Int32
-      description: The maximum number of server instances that share the same name. You can pass <xref href="System.IO.Pipes.NamedPipeServerStream.MaxAllowedServerInstances" data-throw-if-not-resolved="false"></xref> for this value.
     - id: transmissionMode
       type: System.IO.Pipes.PipeTransmissionMode
-      description: One of the enumeration values that determines the transmission mode of the pipe.
     - id: options
       type: System.IO.Pipes.PipeOptions
-      description: One of the enumeration values that determines how to open or create the pipe.
     - id: inBufferSize
       type: System.Int32
-      description: A positive value greater than 0 that indicates the input buffer size.
     - id: outBufferSize
       type: System.Int32
-      description: A positive value greater than 0 that indicates the output buffer size.
-  exceptions:
-  - type: System.ArgumentNullException
-    commentId: T:System.ArgumentNullException
-    description: "\n<em>pipeName</em> is null."
-  - type: System.ArgumentException
-    commentId: T:System.ArgumentException
-    description: "\n<em>pipeName</em> is a zero-length string."
-  - type: System.ArgumentOutOfRangeException
-    commentId: T:System.ArgumentOutOfRangeException
-    description: "\n<em>pipeName</em> is set to \"anonymous\".-or-<em>direction</em> is not a valid <xref href=\"System.IO.Pipes.PipeDirection\" data-throw-if-not-resolved=\"false\"></xref> value.-or-<em>maxNumberofServerInstances</em> is less than -1 or greater than 254 (-1 indicates <xref href=\"System.IO.Pipes.NamedPipeServerStream.MaxAllowedServerInstances\" data-throw-if-not-resolved=\"false\"></xref>)-or-<em>options</em> is not a valid <xref href=\"System.IO.Pipes.PipeOptions\" data-throw-if-not-resolved=\"false\"></xref> value.-or-<em>inBufferSize</em> is negative."
-  - type: System.NotSupportedException
-    commentId: T:System.NotSupportedException
-    description: "\n<em>pipeName</em> contains a colon (\":\")."
-  - type: System.PlatformNotSupportedException
-    commentId: T:System.PlatformNotSupportedException
-    description: The operating system is Windows Millennium Edition, Windows 98, or Windows 95, which are not supported.
-  - type: System.IO.IOException
-    commentId: T:System.IO.IOException
-    description: The maximum number of server instances has been exceeded.
   modifiers.csharp:
   - public
   modifiers.vb:
@@ -512,17 +352,9 @@ items:
   assemblies:
   - System.IO.Pipes
   namespace: System.IO.Pipes
-  summary: Disconnects the current connection.
   syntax:
     content: public void Disconnect()
     content.vb: Public Sub Disconnect
-  exceptions:
-  - type: System.InvalidOperationException
-    commentId: T:System.InvalidOperationException
-    description: No pipe connections have been made yet.-or-The connected pipe has already disconnected.-or-The pipe handle has not been set.
-  - type: System.ObjectDisposedException
-    commentId: T:System.ObjectDisposedException
-    description: The pipe is closed.
   modifiers.csharp:
   - public
   modifiers.vb:
@@ -548,7 +380,6 @@ items:
   assemblies:
   - System.IO.Pipes
   namespace: System.IO.Pipes
-  summary: Releases unmanaged resources and performs other cleanup operations before the <xref href="System.IO.Pipes.NamedPipeServerStream" data-throw-if-not-resolved="false"></xref> instance is reclaimed by garbage collection.
   syntax:
     content: protected void Finalize()
     content.vb: Protected Sub Finalize
@@ -577,23 +408,11 @@ items:
   assemblies:
   - System.IO.Pipes
   namespace: System.IO.Pipes
-  summary: Gets the user name of the client on the other end of the pipe.
   syntax:
-    content: public string GetImpersonationUserName()
+    content: public String GetImpersonationUserName()
     content.vb: Public Function GetImpersonationUserName As String
     return:
-      type: System.String
-      description: The user name of the client on the other end of the pipe.
-  exceptions:
-  - type: System.InvalidOperationException
-    commentId: T:System.InvalidOperationException
-    description: No pipe connections have been made yet.-or-The connected pipe has already disconnected.-or-The pipe handle has not been set.
-  - type: System.ObjectDisposedException
-    commentId: T:System.ObjectDisposedException
-    description: The pipe is closed.
-  - type: System.IO.IOException
-    commentId: T:System.IO.IOException
-    description: The pipe connection has been broken.-or-The user name of the client is longer than 19 characters.
+      type: String
   modifiers.csharp:
   - public
   modifiers.vb:
@@ -619,20 +438,9 @@ items:
   assemblies:
   - System.IO.Pipes
   namespace: System.IO.Pipes
-  summary: Waits for a client to connect to this <xref href="System.IO.Pipes.NamedPipeServerStream" data-throw-if-not-resolved="false"></xref> object.
   syntax:
     content: public void WaitForConnection()
     content.vb: Public Sub WaitForConnection
-  exceptions:
-  - type: System.InvalidOperationException
-    commentId: T:System.InvalidOperationException
-    description: A pipe connection has already been established.-or-The pipe handle has not been set.
-  - type: System.ObjectDisposedException
-    commentId: T:System.ObjectDisposedException
-    description: The pipe is closed.
-  - type: System.IO.IOException
-    commentId: T:System.IO.IOException
-    description: The pipe connection has been broken.
   modifiers.csharp:
   - public
   modifiers.vb:
@@ -658,13 +466,11 @@ items:
   assemblies:
   - System.IO.Pipes
   namespace: System.IO.Pipes
-  summary: Asynchronously waits for a client to connect to this <xref href="System.IO.Pipes.NamedPipeServerStream" data-throw-if-not-resolved="false"></xref> object.
   syntax:
-    content: public Threading.Tasks.Task WaitForConnectionAsync()
-    content.vb: Public Function WaitForConnectionAsync As Threading.Tasks.Task
+    content: public Task WaitForConnectionAsync()
+    content.vb: Public Function WaitForConnectionAsync As Task
     return:
-      type: System.Threading.Tasks.Task
-      description: A task that represents the asynchronous wait operation.
+      type: Task
   modifiers.csharp:
   - public
   modifiers.vb:
@@ -690,17 +496,14 @@ items:
   assemblies:
   - System.IO.Pipes
   namespace: System.IO.Pipes
-  summary: Asynchronously waits for a client to connect to this <xref href="System.IO.Pipes.NamedPipeServerStream" data-throw-if-not-resolved="false"></xref> object and monitors cancellation requests.
   syntax:
     content: public Threading.Tasks.Task WaitForConnectionAsync(Threading.CancellationToken cancellationToken)
     content.vb: Public Function WaitForConnectionAsync(cancellationToken As Threading.CancellationToken) As Threading.Tasks.Task
     parameters:
     - id: cancellationToken
       type: System.Threading.CancellationToken
-      description: The token to monitor for cancellation requests.
     return:
       type: System.Threading.Tasks.Task
-      description: A task that represents the asynchronous wait operation.
   modifiers.csharp:
   - public
   modifiers.vb:
@@ -1282,7 +1085,7 @@ references:
 - uid: System.Threading.Tasks.Task
   parent: System.Threading.Tasks
   isExternal: false
-  name: Task
+  name: Threading.Tasks.Task
   fullName: System.Threading.Tasks.Task
 - uid: System.Threading.Tasks
   isExternal: false
@@ -1291,45 +1094,9 @@ references:
 - uid: System.Threading.CancellationToken
   parent: System.Threading
   isExternal: false
-  name: CancellationToken
+  name: Threading.CancellationToken
   fullName: System.Threading.CancellationToken
 - uid: System.Threading
   isExternal: false
   name: System.Threading
   fullName: System.Threading
-- uid: System.ArgumentOutOfRangeException
-  isExternal: false
-  name: ArgumentOutOfRangeException
-  fullName: System.ArgumentOutOfRangeException
-- uid: System.ArgumentNullException
-  isExternal: false
-  name: ArgumentNullException
-  fullName: System.ArgumentNullException
-- uid: System.ArgumentException
-  parent: System
-  isExternal: false
-  name: ArgumentException
-  fullName: System.ArgumentException
-- uid: System.IO.IOException
-  parent: System.IO
-  isExternal: false
-  name: IOException
-  fullName: System.IO.IOException
-- uid: System.NotSupportedException
-  parent: System
-  isExternal: false
-  name: NotSupportedException
-  fullName: System.NotSupportedException
-- uid: System.PlatformNotSupportedException
-  isExternal: false
-  name: PlatformNotSupportedException
-  fullName: System.PlatformNotSupportedException
-- uid: System.InvalidOperationException
-  parent: System
-  isExternal: false
-  name: InvalidOperationException
-  fullName: System.InvalidOperationException
-- uid: System.ObjectDisposedException
-  isExternal: false
-  name: ObjectDisposedException
-  fullName: System.ObjectDisposedException

@@ -36,7 +36,6 @@ items:
   assemblies:
   - System.Dynamic.Runtime
   namespace: System.Dynamic
-  summary: Provides a base class for specifying dynamic behavior at run time. This class must be inherited from; you cannot instantiate it directly.
   syntax:
     content: 'public class DynamicObject : object, IDynamicMetaObjectProvider'
     content.vb: >-
@@ -74,7 +73,6 @@ items:
   assemblies:
   - System.Dynamic.Runtime
   namespace: System.Dynamic
-  summary: Enables derived types to initialize a new instance of the <xref href="System.Dynamic.DynamicObject" data-throw-if-not-resolved="false"></xref> type.
   syntax:
     content: protected DynamicObject()
     content.vb: Protected Sub New
@@ -103,13 +101,12 @@ items:
   assemblies:
   - System.Dynamic.Runtime
   namespace: System.Dynamic
-  summary: 'Returns the enumeration of all dynamic member names. '
   syntax:
-    content: public virtual Collections.Generic.IEnumerable<string> GetDynamicMemberNames()
-    content.vb: Public Overridable Function GetDynamicMemberNames As Collections.Generic.IEnumerable(Of String)
+    content: public virtual IEnumerable<string> GetDynamicMemberNames()
+    content.vb: Public Overridable Function GetDynamicMemberNames As IEnumerable(Of String)
     return:
       type: System.Collections.Generic.IEnumerable{System.String}
-      description: A sequence that contains dynamic member names.
+      description: The list of dynamic member names.
   modifiers.csharp:
   - public
   - virtual
@@ -137,17 +134,14 @@ items:
   assemblies:
   - System.Dynamic.Runtime
   namespace: System.Dynamic
-  summary: Provides a <xref href="System.Dynamic.DynamicMetaObject" data-throw-if-not-resolved="false"></xref> that dispatches to the dynamic virtual methods. The object can be encapsulated inside another <xref href="System.Dynamic.DynamicMetaObject" data-throw-if-not-resolved="false"></xref> to provide custom behavior for individual actions. This method supports the Dynamic Language Runtime infrastructure for language implementers and it is not intended to be used directly from your code.
   syntax:
     content: public virtual DynamicMetaObject GetMetaObject(Expression parameter)
     content.vb: Public Overridable Function GetMetaObject(parameter As Expression) As DynamicMetaObject
     parameters:
     - id: parameter
       type: System.Linq.Expressions.Expression
-      description: The expression that represents <xref href="System.Dynamic.DynamicMetaObject" data-throw-if-not-resolved="false"></xref> to dispatch to the dynamic virtual methods.
     return:
       type: System.Dynamic.DynamicMetaObject
-      description: An object of the <xref href="System.Dynamic.DynamicMetaObject" data-throw-if-not-resolved="false"></xref> type.
   implements:
   - System.Dynamic.IDynamicMetaObjectProvider.GetMetaObject(System.Linq.Expressions.Expression)
   modifiers.csharp:
@@ -177,23 +171,22 @@ items:
   assemblies:
   - System.Dynamic.Runtime
   namespace: System.Dynamic
-  summary: Provides implementation for binary operations. Classes derived from the <xref href="System.Dynamic.DynamicObject" data-throw-if-not-resolved="false"></xref> class can override this method to specify dynamic behavior for operations such as addition and multiplication.
   syntax:
     content: public virtual bool TryBinaryOperation(BinaryOperationBinder binder, object arg, out object result)
     content.vb: Public Overridable Function TryBinaryOperation(binder As BinaryOperationBinder, arg As Object, ByRef result As Object) As Boolean
     parameters:
     - id: binder
       type: System.Dynamic.BinaryOperationBinder
-      description: Provides information about the binary operation. The binder.Operation property returns an <xref href="System.Linq.Expressions.ExpressionType" data-throw-if-not-resolved="false"></xref> object. For example, for the sum = first + second statement, where first and second are derived from the DynamicObject class, binder.Operation returns ExpressionType.Add.
+      description: The binder provided by the call site.
     - id: arg
       type: System.Object
-      description: The right operand for the binary operation. For example, for the sum = first + second statement, where first and second are derived from the DynamicObject class, <em>arg</em> is equal to second.
+      description: The right operand for the operation.
     - id: result
       type: System.Object
-      description: The result of the binary operation.
+      description: The result of the operation.
     return:
       type: System.Boolean
-      description: true if the operation is successful; otherwise, false. If this method returns false, the run-time binder of the language determines the behavior. (In most cases, a language-specific run-time exception is thrown.)
+      description: true if the operation is complete, false if the call site should determine behavior.
   modifiers.csharp:
   - public
   - virtual
@@ -223,20 +216,19 @@ items:
   assemblies:
   - System.Dynamic.Runtime
   namespace: System.Dynamic
-  summary: Provides implementation for type conversion operations. Classes derived from the <xref href="System.Dynamic.DynamicObject" data-throw-if-not-resolved="false"></xref> class can override this method to specify dynamic behavior for operations that convert an object from one type to another.
   syntax:
     content: public virtual bool TryConvert(ConvertBinder binder, out object result)
     content.vb: Public Overridable Function TryConvert(binder As ConvertBinder, ByRef result As Object) As Boolean
     parameters:
     - id: binder
       type: System.Dynamic.ConvertBinder
-      description: Provides information about the conversion operation. The binder.Type property provides the type to which the object must be converted. For example, for the statement (String)sampleObject in C# (CType(sampleObject, Type) in Visual Basic), where sampleObject is an instance of the class derived from the <xref href="System.Dynamic.DynamicObject" data-throw-if-not-resolved="false"></xref> class, binder.Type returns the <xref href="System.String" data-throw-if-not-resolved="false"></xref> type. The binder.Explicit property provides information about the kind of conversion that occurs. It returns true for explicit conversion and false for implicit conversion.
+      description: The binder provided by the call site.
     - id: result
       type: System.Object
-      description: The result of the type conversion operation.
+      description: The result of the conversion.
     return:
       type: System.Boolean
-      description: true if the operation is successful; otherwise, false. If this method returns false, the run-time binder of the language determines the behavior. (In most cases, a language-specific run-time exception is thrown.)
+      description: true if the operation is complete, false if the call site should determine behavior.
   modifiers.csharp:
   - public
   - virtual
@@ -266,23 +258,22 @@ items:
   assemblies:
   - System.Dynamic.Runtime
   namespace: System.Dynamic
-  summary: Provides the implementation for operations that initialize a new instance of a dynamic object. This method is not intended for use in C# or Visual Basic.
   syntax:
     content: public virtual bool TryCreateInstance(CreateInstanceBinder binder, object[] args, out object result)
     content.vb: Public Overridable Function TryCreateInstance(binder As CreateInstanceBinder, args As Object(), ByRef result As Object) As Boolean
     parameters:
     - id: binder
       type: System.Dynamic.CreateInstanceBinder
-      description: Provides information about the initialization operation.
+      description: The binder provided by the call site.
     - id: args
       type: System.Object[]
-      description: The arguments that are passed to the object during initialization. For example, for the new SampleType(100) operation, where SampleType is the type derived from the <xref href="System.Dynamic.DynamicObject" data-throw-if-not-resolved="false"></xref> class, <em>args[0]</em> is equal to 100.
+      description: The arguments used for creation.
     - id: result
       type: System.Object
-      description: The result of the initialization.
+      description: The created instance.
     return:
       type: System.Boolean
-      description: true if the operation is successful; otherwise, false. If this method returns false, the run-time binder of the language determines the behavior. (In most cases, a language-specific run-time exception is thrown.)
+      description: true if the operation is complete, false if the call site should determine behavior.
   modifiers.csharp:
   - public
   - virtual
@@ -312,20 +303,19 @@ items:
   assemblies:
   - System.Dynamic.Runtime
   namespace: System.Dynamic
-  summary: Provides the implementation for operations that delete an object by index. This method is not intended for use in C# or Visual Basic.
   syntax:
     content: public virtual bool TryDeleteIndex(DeleteIndexBinder binder, object[] indexes)
     content.vb: Public Overridable Function TryDeleteIndex(binder As DeleteIndexBinder, indexes As Object()) As Boolean
     parameters:
     - id: binder
       type: System.Dynamic.DeleteIndexBinder
-      description: Provides information about the deletion.
+      description: The binder provided by the call site.
     - id: indexes
       type: System.Object[]
       description: The indexes to be deleted.
     return:
       type: System.Boolean
-      description: true if the operation is successful; otherwise, false. If this method returns false, the run-time binder of the language determines the behavior. (In most cases, a language-specific run-time exception is thrown.)
+      description: true if the operation is complete, false if the call site should determine behavior.
   modifiers.csharp:
   - public
   - virtual
@@ -355,17 +345,16 @@ items:
   assemblies:
   - System.Dynamic.Runtime
   namespace: System.Dynamic
-  summary: Provides the implementation for operations that delete an object member. This method is not intended for use in C# or Visual Basic.
   syntax:
     content: public virtual bool TryDeleteMember(DeleteMemberBinder binder)
     content.vb: Public Overridable Function TryDeleteMember(binder As DeleteMemberBinder) As Boolean
     parameters:
     - id: binder
       type: System.Dynamic.DeleteMemberBinder
-      description: Provides information about the deletion.
+      description: The binder provided by the call site.
     return:
       type: System.Boolean
-      description: true if the operation is successful; otherwise, false. If this method returns false, the run-time binder of the language determines the behavior. (In most cases, a language-specific run-time exception is thrown.)
+      description: true if the operation is complete, false if the call site should determine behavior.
   modifiers.csharp:
   - public
   - virtual
@@ -393,23 +382,22 @@ items:
   assemblies:
   - System.Dynamic.Runtime
   namespace: System.Dynamic
-  summary: Provides the implementation for operations that get a value by index. Classes derived from the <xref href="System.Dynamic.DynamicObject" data-throw-if-not-resolved="false"></xref> class can override this method to specify dynamic behavior for indexing operations.
   syntax:
     content: public virtual bool TryGetIndex(GetIndexBinder binder, object[] indexes, out object result)
     content.vb: Public Overridable Function TryGetIndex(binder As GetIndexBinder, indexes As Object(), ByRef result As Object) As Boolean
     parameters:
     - id: binder
       type: System.Dynamic.GetIndexBinder
-      description: 'Provides information about the operation. '
+      description: The binder provided by the call site.
     - id: indexes
       type: System.Object[]
-      description: The indexes that are used in the operation. For example, for the sampleObject[3] operation in C# (sampleObject(3) in Visual Basic), where sampleObject is derived from the DynamicObject class, <em>indexes[0]</em> is equal to 3.
+      description: The indexes to be used.
     - id: result
       type: System.Object
-      description: The result of the index operation.
+      description: The result of the operation.
     return:
       type: System.Boolean
-      description: true if the operation is successful; otherwise, false. If this method returns false, the run-time binder of the language determines the behavior. (In most cases, a run-time exception is thrown.)
+      description: true if the operation is complete, false if the call site should determine behavior.
   modifiers.csharp:
   - public
   - virtual
@@ -439,20 +427,19 @@ items:
   assemblies:
   - System.Dynamic.Runtime
   namespace: System.Dynamic
-  summary: Provides the implementation for operations that get member values. Classes derived from the <xref href="System.Dynamic.DynamicObject" data-throw-if-not-resolved="false"></xref> class can override this method to specify dynamic behavior for operations such as getting a value for a property.
   syntax:
     content: public virtual bool TryGetMember(GetMemberBinder binder, out object result)
     content.vb: Public Overridable Function TryGetMember(binder As GetMemberBinder, ByRef result As Object) As Boolean
     parameters:
     - id: binder
       type: System.Dynamic.GetMemberBinder
-      description: Provides information about the object that called the dynamic operation. The binder.Name property provides the name of the member on which the dynamic operation is performed. For example, for the Console.WriteLine(sampleObject.SampleProperty) statement, where sampleObject is an instance of the class derived from the <xref href="System.Dynamic.DynamicObject" data-throw-if-not-resolved="false"></xref> class, binder.Name returns "SampleProperty". The binder.IgnoreCase property specifies whether the member name is case-sensitive.
+      description: The binder provided by the call site.
     - id: result
       type: System.Object
-      description: The result of the get operation. For example, if the method is called for a property, you can assign the property value to <em>result</em>.
+      description: The result of the get operation.
     return:
       type: System.Boolean
-      description: true if the operation is successful; otherwise, false. If this method returns false, the run-time binder of the language determines the behavior. (In most cases, a run-time exception is thrown.)
+      description: true if the operation is complete, false if the call site should determine behavior.
   modifiers.csharp:
   - public
   - virtual
@@ -482,23 +469,22 @@ items:
   assemblies:
   - System.Dynamic.Runtime
   namespace: System.Dynamic
-  summary: Provides the implementation for operations that invoke an object. Classes derived from the <xref href="System.Dynamic.DynamicObject" data-throw-if-not-resolved="false"></xref> class can override this method to specify dynamic behavior for operations such as invoking an object or a delegate.
   syntax:
     content: public virtual bool TryInvoke(InvokeBinder binder, object[] args, out object result)
     content.vb: Public Overridable Function TryInvoke(binder As InvokeBinder, args As Object(), ByRef result As Object) As Boolean
     parameters:
     - id: binder
       type: System.Dynamic.InvokeBinder
-      description: Provides information about the invoke operation.
+      description: The binder provided by the call site.
     - id: args
       type: System.Object[]
-      description: The arguments that are passed to the object during the invoke operation. For example, for the sampleObject(100) operation, where sampleObject is derived from the <xref href="System.Dynamic.DynamicObject" data-throw-if-not-resolved="false"></xref> class, <em>args[0]</em> is equal to 100.
+      description: The arguments to be used for the invocation.
     - id: result
       type: System.Object
-      description: The result of the object invocation.
+      description: The result of the invocation.
     return:
       type: System.Boolean
-      description: true if the operation is successful; otherwise, false. If this method returns false, the run-time binder of the language determines the behavior. (In most cases, a language-specific run-time exception is thrown.
+      description: true if the operation is complete, false if the call site should determine behavior.
   modifiers.csharp:
   - public
   - virtual
@@ -528,23 +514,22 @@ items:
   assemblies:
   - System.Dynamic.Runtime
   namespace: System.Dynamic
-  summary: Provides the implementation for operations that invoke a member. Classes derived from the <xref href="System.Dynamic.DynamicObject" data-throw-if-not-resolved="false"></xref> class can override this method to specify dynamic behavior for operations such as calling a method.
   syntax:
     content: public virtual bool TryInvokeMember(InvokeMemberBinder binder, object[] args, out object result)
     content.vb: Public Overridable Function TryInvokeMember(binder As InvokeMemberBinder, args As Object(), ByRef result As Object) As Boolean
     parameters:
     - id: binder
       type: System.Dynamic.InvokeMemberBinder
-      description: Provides information about the dynamic operation. The binder.Name property provides the name of the member on which the dynamic operation is performed. For example, for the statement sampleObject.SampleMethod(100), where sampleObject is an instance of the class derived from the <xref href="System.Dynamic.DynamicObject" data-throw-if-not-resolved="false"></xref> class, binder.Name returns "SampleMethod". The binder.IgnoreCase property specifies whether the member name is case-sensitive.
+      description: The binder provided by the call site.
     - id: args
       type: System.Object[]
-      description: The arguments that are passed to the object member during the invoke operation. For example, for the statement sampleObject.SampleMethod(100), where sampleObject is derived from the <xref href="System.Dynamic.DynamicObject" data-throw-if-not-resolved="false"></xref> class, <em>args[0]</em> is equal to 100.
+      description: The arguments to be used for the invocation.
     - id: result
       type: System.Object
-      description: The result of the member invocation.
+      description: The result of the invocation.
     return:
       type: System.Boolean
-      description: true if the operation is successful; otherwise, false. If this method returns false, the run-time binder of the language determines the behavior. (In most cases, a language-specific run-time exception is thrown.)
+      description: true if the operation is complete, false if the call site should determine behavior.
   modifiers.csharp:
   - public
   - virtual
@@ -574,23 +559,22 @@ items:
   assemblies:
   - System.Dynamic.Runtime
   namespace: System.Dynamic
-  summary: Provides the implementation for operations that set a value by index. Classes derived from the <xref href="System.Dynamic.DynamicObject" data-throw-if-not-resolved="false"></xref> class can override this method to specify dynamic behavior for operations that access objects by a specified index.
   syntax:
     content: public virtual bool TrySetIndex(SetIndexBinder binder, object[] indexes, object value)
     content.vb: Public Overridable Function TrySetIndex(binder As SetIndexBinder, indexes As Object(), value As Object) As Boolean
     parameters:
     - id: binder
       type: System.Dynamic.SetIndexBinder
-      description: 'Provides information about the operation. '
+      description: The binder provided by the call site.
     - id: indexes
       type: System.Object[]
-      description: The indexes that are used in the operation. For example, for the sampleObject[3] = 10 operation in C# (sampleObject(3) = 10 in Visual Basic), where sampleObject is derived from the <xref href="System.Dynamic.DynamicObject" data-throw-if-not-resolved="false"></xref> class, <em>indexes[0]</em> is equal to 3.
+      description: The indexes to be used.
     - id: value
       type: System.Object
-      description: The value to set to the object that has the specified index. For example, for the sampleObject[3] = 10 operation in C# (sampleObject(3) = 10 in Visual Basic), where sampleObject is derived from the <xref href="System.Dynamic.DynamicObject" data-throw-if-not-resolved="false"></xref> class, <em>value</em> is equal to 10.
+      description: The value to set.
     return:
       type: System.Boolean
-      description: true if the operation is successful; otherwise, false. If this method returns false, the run-time binder of the language determines the behavior. (In most cases, a language-specific run-time exception is thrown.
+      description: true if the operation is complete, false if the call site should determine behavior.
   modifiers.csharp:
   - public
   - virtual
@@ -620,20 +604,19 @@ items:
   assemblies:
   - System.Dynamic.Runtime
   namespace: System.Dynamic
-  summary: Provides the implementation for operations that set member values. Classes derived from the <xref href="System.Dynamic.DynamicObject" data-throw-if-not-resolved="false"></xref> class can override this method to specify dynamic behavior for operations such as setting a value for a property.
   syntax:
     content: public virtual bool TrySetMember(SetMemberBinder binder, object value)
     content.vb: Public Overridable Function TrySetMember(binder As SetMemberBinder, value As Object) As Boolean
     parameters:
     - id: binder
       type: System.Dynamic.SetMemberBinder
-      description: Provides information about the object that called the dynamic operation. The binder.Name property provides the name of the member to which the value is being assigned. For example, for the statement sampleObject.SampleProperty = "Test", where sampleObject is an instance of the class derived from the <xref href="System.Dynamic.DynamicObject" data-throw-if-not-resolved="false"></xref> class, binder.Name returns "SampleProperty". The binder.IgnoreCase property specifies whether the member name is case-sensitive.
+      description: The binder provided by the call site.
     - id: value
       type: System.Object
-      description: The value to set to the member. For example, for sampleObject.SampleProperty = "Test", where sampleObject is an instance of the class derived from the <xref href="System.Dynamic.DynamicObject" data-throw-if-not-resolved="false"></xref> class, the <em>value</em> is "Test".
+      description: The value to set.
     return:
       type: System.Boolean
-      description: true if the operation is successful; otherwise, false. If this method returns false, the run-time binder of the language determines the behavior. (In most cases, a language-specific run-time exception is thrown.)
+      description: true if the operation is complete, false if the call site should determine behavior.
   modifiers.csharp:
   - public
   - virtual
@@ -661,20 +644,19 @@ items:
   assemblies:
   - System.Dynamic.Runtime
   namespace: System.Dynamic
-  summary: Provides implementation for unary operations. Classes derived from the <xref href="System.Dynamic.DynamicObject" data-throw-if-not-resolved="false"></xref> class can override this method to specify dynamic behavior for operations such as negation, increment, or decrement.
   syntax:
     content: public virtual bool TryUnaryOperation(UnaryOperationBinder binder, out object result)
     content.vb: Public Overridable Function TryUnaryOperation(binder As UnaryOperationBinder, ByRef result As Object) As Boolean
     parameters:
     - id: binder
       type: System.Dynamic.UnaryOperationBinder
-      description: Provides information about the unary operation. The binder.Operation property returns an <xref href="System.Linq.Expressions.ExpressionType" data-throw-if-not-resolved="false"></xref> object. For example, for the negativeNumber = -number statement, where number is derived from the DynamicObject class, binder.Operation returns "Negate".
+      description: The binder provided by the call site.
     - id: result
       type: System.Object
-      description: The result of the unary operation.
+      description: The result of the operation.
     return:
       type: System.Boolean
-      description: true if the operation is successful; otherwise, false. If this method returns false, the run-time binder of the language determines the behavior. (In most cases, a language-specific run-time exception is thrown.)
+      description: true if the operation is complete, false if the call site should determine behavior.
   modifiers.csharp:
   - public
   - virtual
