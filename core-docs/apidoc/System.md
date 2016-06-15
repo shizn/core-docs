@@ -1,6 +1,7 @@
 ---
 uid: System
+summary: This is *System* namespace.
 remarks: *content
 ---
 
-This is *System* namespace.
+Add more content about *System* namespace here.
