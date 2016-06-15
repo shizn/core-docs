@@ -103,13 +103,23 @@ items:
   assemblies:
   - System.Data.SqlClient
   namespace: Microsoft.SqlServer.Server
+  summary: "\n<p>Represents a single row of data and its metadata. This class cannot be inherited.</p>\n"
+  remarks: "\n<p>This class is used together with <xref href=\"Microsoft.SqlServer.Server.SqlPipe\" data-throw-if-not-resolved=\"false\"></xref> to send result sets to the client from managed code stored-procedures.</p>\n<p>When writing common language runtime (CLR) applications, you should re-use existing <strong>SqlDataRecord</strong> objects instead of creating new ones every time. Creating many new <strong>SqlDataRecord</strong> objects could severely deplete memory and adversely affect performance.</p>\n"
+  example:
+  - "\n<p>The following example shows how to create several <xref href=\"Microsoft.SqlServer.Server.SqlMetaData\" data-throw-if-not-resolved=\"false\"></xref> objects, which describe the column metadata of a record, and creating a <xref href=\"Microsoft.SqlServer.Server.SqlDataRecord\" data-throw-if-not-resolved=\"false\"></xref>.  The column values of the <xref href=\"Microsoft.SqlServer.Server.SqlDataRecord\" data-throw-if-not-resolved=\"false\"></xref> are set and the <xref href=\"Microsoft.SqlServer.Server.SqlDataRecord\" data-throw-if-not-resolved=\"false\"></xref> is sent to the calling program by using the <xref href=\"Microsoft.SqlServer.Server.SqlContext\" data-throw-if-not-resolved=\"false\"></xref> class.</p>DataWorks SqlDataRecord Samples#1"
   syntax:
-    content: 'public class SqlDataRecord : object'
-    content.vb: >-
-      Public Class SqlDataRecord
-          Inherits Object
+    content: public class SqlDataRecord
+    content.vb: Public Class SqlDataRecord
   inheritance:
   - System.Object
+  inheritedMembers:
+  - System.Object.ToString
+  - System.Object.Equals(System.Object)
+  - System.Object.Equals(System.Object,System.Object)
+  - System.Object.ReferenceEquals(System.Object,System.Object)
+  - System.Object.GetHashCode
+  - System.Object.GetType
+  - System.Object.MemberwiseClone
   modifiers.csharp:
   - public
   - class
@@ -137,12 +147,19 @@ items:
   assemblies:
   - System.Data.SqlClient
   namespace: Microsoft.SqlServer.Server
+  summary: "\n<p>Inititializes a new <xref href=\"Microsoft.SqlServer.Server.SqlDataRecord\" data-throw-if-not-resolved=\"false\"></xref> instance with the schema based on the array of <xref href=\"Microsoft.SqlServer.Server.SqlMetaData\" data-throw-if-not-resolved=\"false\"></xref> objects passed as an argument.</p>\n"
+  example:
+  - "\n<p>The following example shows how to create a new <xref href=\"Microsoft.SqlServer.Server.SqlDataRecord\" data-throw-if-not-resolved=\"false\"></xref> object from two  <xref href=\"Microsoft.SqlServer.Server.SqlMetaData\" data-throw-if-not-resolved=\"false\"></xref> objects, which indicate the column name and data type.</p>DataWorks SqlDataRecord Samples#2"
   syntax:
     content: public SqlDataRecord(params SqlMetaData[] metaData)
     content.vb: Public Sub New(ParamArray metaData As SqlMetaData())
     parameters:
     - id: metaData
       type: Microsoft.SqlServer.Server.SqlMetaData[]
+  exceptions:
+  - type: System.ArgumentNullException
+    commentId: T:System.ArgumentNullException
+    description: "\n<p>The <em>metaData</em> is <strong>null</strong>. </p>\n"
   modifiers.csharp:
   - public
   modifiers.vb:
@@ -170,6 +187,9 @@ items:
   assemblies:
   - System.Data.SqlClient
   namespace: Microsoft.SqlServer.Server
+  summary: "\n<p>Gets the number of columns in the data row. This property is read-only.</p>\n"
+  example:
+  - 
   syntax:
     content: public virtual int FieldCount { get; }
     content.vb: Public Overridable ReadOnly Property FieldCount As Integer
@@ -205,6 +225,10 @@ items:
   assemblies:
   - System.Data.SqlClient
   namespace: Microsoft.SqlServer.Server
+  summary: "\n<p>Gets the common language runtime (CLR) type value for the column specified by the column <em>ordinal</em> argument.</p>\n"
+  remarks: "\n<p>For columns with null value, <xref href=\"System.DBNull.Value\" data-throw-if-not-resolved=\"false\"></xref> is returned.</p>\n"
+  example:
+  - 
   syntax:
     content: public virtual object this[int ordinal] { get; }
     content.vb: Public Overridable ReadOnly Property Item(ordinal As Integer) As Object
@@ -213,6 +237,10 @@ items:
       type: System.Int32
     return:
       type: System.Object
+  exceptions:
+  - type: System.IndexOutOfRangeException
+    commentId: T:System.IndexOutOfRangeException
+    description: "\n<p>The <em>ordinal</em> is less than 0 or greater than the number of columns (that is, <xref href=\"Microsoft.SqlServer.Server.SqlDataRecord.FieldCount\" data-throw-if-not-resolved=\"false\"></xref>).</p>\n"
   modifiers.csharp:
   - public
   - virtual
@@ -235,15 +263,19 @@ items:
   type: Property
   source:
     remote:
-      path: src/System.Data.SqlClient/ref/System.Data.SqlClient.cs
+      path: src/System.Data.SqlClient/src/Microsoft/SqlServer/Server/SqlDataRecord.cs
       branch: master
       repo: https://github.com/dotnet/corefx.git
     id: this[]
-    path: src/System.Data.SqlClient/ref/System.Data.SqlClient.cs
-    startLine: 16
+    path: src/System.Data.SqlClient/src/Microsoft/SqlServer/Server/SqlDataRecord.cs
+    startLine: 131
   assemblies:
   - System.Data.SqlClient
   namespace: Microsoft.SqlServer.Server
+  summary: "\n<p>Gets the common language runtime (CLR) type value for the column specified by the column <em>name</em> argument.</p>\n"
+  remarks: "\n<p>For columns with null value, <xref href=\"System.DBNull.Value\" data-throw-if-not-resolved=\"false\"></xref> is returned.</p>\n"
+  example:
+  - 
   syntax:
     content: public virtual object this[string name] { get; }
     content.vb: Public Overridable ReadOnly Property Item(name As String) As Object
@@ -283,6 +315,9 @@ items:
   assemblies:
   - System.Data.SqlClient
   namespace: Microsoft.SqlServer.Server
+  summary: "\n<p>Gets the value for the column specified by the ordinal as a <xref href=\"System.Boolean\" data-throw-if-not-resolved=\"false\"></xref>.</p>\n"
+  example:
+  - 
   syntax:
     content: public virtual bool GetBoolean(int ordinal)
     content.vb: Public Overridable Function GetBoolean(ordinal As Integer) As Boolean
@@ -291,6 +326,16 @@ items:
       type: System.Int32
     return:
       type: System.Boolean
+  exceptions:
+  - type: System.IndexOutOfRangeException
+    commentId: T:System.IndexOutOfRangeException
+    description: "\n<p>The <em>ordinal</em> is less than 0 or greater than the number of columns (that is, <xref href=\"Microsoft.SqlServer.Server.SqlDataRecord.FieldCount\" data-throw-if-not-resolved=\"false\"></xref>).</p>\n"
+  - type: System.Data.SqlTypes.SqlNullValueException
+    commentId: T:System.Data.SqlTypes.SqlNullValueException
+    description: "\n<p>The column specified by <em>ordinal</em> is null.</p>\n"
+  - type: System.InvalidCastException
+    commentId: T:System.InvalidCastException
+    description: "\n<p>There is a type mismatch.</p>\n"
   modifiers.csharp:
   - public
   - virtual
@@ -318,6 +363,9 @@ items:
   assemblies:
   - System.Data.SqlClient
   namespace: Microsoft.SqlServer.Server
+  summary: "\n<p>Gets the value for the column specified by the ordinal as a <xref href=\"System.Byte\" data-throw-if-not-resolved=\"false\"></xref>.</p>\n"
+  example:
+  - 
   syntax:
     content: public virtual byte GetByte(int ordinal)
     content.vb: Public Overridable Function GetByte(ordinal As Integer) As Byte
@@ -326,6 +374,16 @@ items:
       type: System.Int32
     return:
       type: System.Byte
+  exceptions:
+  - type: System.IndexOutOfRangeException
+    commentId: T:System.IndexOutOfRangeException
+    description: "\n<p>The <em>ordinal</em> is less than 0 or greater than the number of columns (that is, <xref href=\"Microsoft.SqlServer.Server.SqlDataRecord.FieldCount\" data-throw-if-not-resolved=\"false\"></xref>).</p>\n"
+  - type: System.Data.SqlTypes.SqlNullValueException
+    commentId: T:System.Data.SqlTypes.SqlNullValueException
+    description: "\n<p>The column specified by <em>ordinal</em> is null.</p>\n"
+  - type: System.InvalidCastException
+    commentId: T:System.InvalidCastException
+    description: "\n<p>There is a type mismatch.</p>\n"
   modifiers.csharp:
   - public
   - virtual
@@ -353,6 +411,10 @@ items:
   assemblies:
   - System.Data.SqlClient
   namespace: Microsoft.SqlServer.Server
+  summary: "\n<p>Gets the value for the column specified by the ordinal as an array of <xref href=\"System.Byte\" data-throw-if-not-resolved=\"false\"></xref> objects.</p>\n"
+  remarks: "\n<p>This method enables you to obtain a binary value either in a single call or in chunks. Getting the value in chunks is useful for large values or values of unknown size.</p>\n<p>To obtain the value in several chunks, allocate a byte array of the chunk-size and call <xref href=\"Microsoft.SqlServer.Server.SqlDataRecord.GetBytes(System.Int32,System.Int64,System.Byte[],System.Int32,System.Int32)\" data-throw-if-not-resolved=\"false\"></xref> repeatedly, adjusting the <em>fieldOffset</em> parameter accordingly in each call.</p>\n"
+  example:
+  - 
   syntax:
     content: public virtual long GetBytes(int ordinal, long fieldOffset, byte[] buffer, int bufferOffset, int length)
     content.vb: Public Overridable Function GetBytes(ordinal As Integer, fieldOffset As Long, buffer As Byte(), bufferOffset As Integer, length As Integer) As Long
@@ -369,6 +431,16 @@ items:
       type: System.Int32
     return:
       type: System.Int64
+  exceptions:
+  - type: System.IndexOutOfRangeException
+    commentId: T:System.IndexOutOfRangeException
+    description: "\n<p>The <em>ordinal</em> is less than 0 or greater than the number of columns (that is, <xref href=\"Microsoft.SqlServer.Server.SqlDataRecord.FieldCount\" data-throw-if-not-resolved=\"false\"></xref>).</p>\n"
+  - type: System.Data.SqlTypes.SqlNullValueException
+    commentId: T:System.Data.SqlTypes.SqlNullValueException
+    description: "\n<p>The column specified by <em>ordinal</em> is null.</p>\n"
+  - type: System.InvalidCastException
+    commentId: T:System.InvalidCastException
+    description: "\n<p>There is a type mismatch.</p>\n"
   modifiers.csharp:
   - public
   - virtual
@@ -398,6 +470,9 @@ items:
   assemblies:
   - System.Data.SqlClient
   namespace: Microsoft.SqlServer.Server
+  summary: "\n<p>Gets the value for the column specified by the ordinal as a <xref href=\"System.Char\" data-throw-if-not-resolved=\"false\"></xref>.</p>\n"
+  example:
+  - 
   syntax:
     content: public virtual char GetChar(int ordinal)
     content.vb: Public Overridable Function GetChar(ordinal As Integer) As Char
@@ -406,6 +481,16 @@ items:
       type: System.Int32
     return:
       type: System.Char
+  exceptions:
+  - type: System.IndexOutOfRangeException
+    commentId: T:System.IndexOutOfRangeException
+    description: "\n<p>The <em>ordinal</em> is less than 0 or greater than the number of columns (that is, <xref href=\"Microsoft.SqlServer.Server.SqlDataRecord.FieldCount\" data-throw-if-not-resolved=\"false\"></xref>).</p>\n"
+  - type: System.Data.SqlTypes.SqlNullValueException
+    commentId: T:System.Data.SqlTypes.SqlNullValueException
+    description: "\n<p>The column specified by <em>ordinal</em> is null.</p>\n"
+  - type: System.InvalidCastException
+    commentId: T:System.InvalidCastException
+    description: "\n<p>There is a type mismatch.</p>\n"
   modifiers.csharp:
   - public
   - virtual
@@ -433,6 +518,10 @@ items:
   assemblies:
   - System.Data.SqlClient
   namespace: Microsoft.SqlServer.Server
+  summary: "\n<p>Gets the value for the column specified by the ordinal as an array of <xref href=\"System.Char\" data-throw-if-not-resolved=\"false\"></xref> objects.</p>\n"
+  remarks: "\n<p>This method enables you to obtain a character value either in a single call or in chunks. Getting the value in chunks is useful for large values or values of unknown size.</p>\n<p>To obtain the value in several chunks, allocate a char array of the chunk-size and call <xref href=\"Microsoft.SqlServer.Server.SqlDataRecord.GetChars(System.Int32,System.Int64,System.Char[],System.Int32,System.Int32)\" data-throw-if-not-resolved=\"false\"></xref> repeatedly adjusting the <em>fieldOffset</em> parameter accordingly in each call.</p>\n"
+  example:
+  - 
   syntax:
     content: public virtual long GetChars(int ordinal, long fieldOffset, char[] buffer, int bufferOffset, int length)
     content.vb: Public Overridable Function GetChars(ordinal As Integer, fieldOffset As Long, buffer As Char(), bufferOffset As Integer, length As Integer) As Long
@@ -449,6 +538,16 @@ items:
       type: System.Int32
     return:
       type: System.Int64
+  exceptions:
+  - type: System.IndexOutOfRangeException
+    commentId: T:System.IndexOutOfRangeException
+    description: "\n<p>The <em>ordinal</em> is less than 0 or greater than the number of columns (that is, <xref href=\"Microsoft.SqlServer.Server.SqlDataRecord.FieldCount\" data-throw-if-not-resolved=\"false\"></xref>).</p>\n"
+  - type: System.Data.SqlTypes.SqlNullValueException
+    commentId: T:System.Data.SqlTypes.SqlNullValueException
+    description: "\n<p>The column specified by <em>ordinal</em> is null.</p>\n"
+  - type: System.InvalidCastException
+    commentId: T:System.InvalidCastException
+    description: "\n<p>There is a type mismatch.</p>\n"
   modifiers.csharp:
   - public
   - virtual
@@ -478,14 +577,25 @@ items:
   assemblies:
   - System.Data.SqlClient
   namespace: Microsoft.SqlServer.Server
+  summary: "\n<p>Returns the name of the data type for the column specified by the ordinal argument.</p>\n"
+  remarks: "\n<p>This method returns the type name as known in the SQL Server type-system. For user-defined types (UDTs), it returns the three-part name that was used to register the type with SQL Server.</p>\n"
+  example:
+  - 
   syntax:
-    content: public virtual String GetDataTypeName(int ordinal)
+    content: public virtual string GetDataTypeName(int ordinal)
     content.vb: Public Overridable Function GetDataTypeName(ordinal As Integer) As String
     parameters:
     - id: ordinal
       type: System.Int32
     return:
-      type: String
+      type: System.String
+  exceptions:
+  - type: System.ArgumentOutOfRangeException
+    commentId: T:System.ArgumentOutOfRangeException
+    description: "\n<p>The <em>ordinal</em> is less than 0 or greater than the number of columns (that is, <xref href=\"Microsoft.SqlServer.Server.SqlDataRecord.FieldCount\" data-throw-if-not-resolved=\"false\"></xref>). </p>\n"
+  - type: System.InvalidCastException
+    commentId: T:System.InvalidCastException
+    description: "\n<p>There is a type mismatch.</p>\n"
   modifiers.csharp:
   - public
   - virtual
@@ -513,14 +623,27 @@ items:
   assemblies:
   - System.Data.SqlClient
   namespace: Microsoft.SqlServer.Server
+  summary: "\n<p>Gets the value for the column specified by the ordinal as a <xref href=\"System.DateTime\" data-throw-if-not-resolved=\"false\"></xref>.</p>\n"
+  example:
+  - 
   syntax:
     content: public virtual DateTime GetDateTime(int ordinal)
-    content.vb: Public Overridable Function GetDateTime(ordinal As Integer) As DateTime
+    content.vb: Public Overridable Function GetDateTime(ordinal As Integer) As Date
     parameters:
     - id: ordinal
       type: System.Int32
     return:
-      type: DateTime
+      type: System.DateTime
+  exceptions:
+  - type: System.IndexOutOfRangeException
+    commentId: T:System.IndexOutOfRangeException
+    description: "\n<p>The <em>ordinal</em> is less than 0 or greater than the number of columns (that is, <xref href=\"Microsoft.SqlServer.Server.SqlDataRecord.FieldCount\" data-throw-if-not-resolved=\"false\"></xref>).</p>\n"
+  - type: System.Data.SqlTypes.SqlNullValueException
+    commentId: T:System.Data.SqlTypes.SqlNullValueException
+    description: "\n<p>The column specified by <em>ordinal</em> is null.</p>\n"
+  - type: System.InvalidCastException
+    commentId: T:System.InvalidCastException
+    description: "\n<p>There is a type mismatch.</p>\n"
   modifiers.csharp:
   - public
   - virtual
@@ -548,6 +671,7 @@ items:
   assemblies:
   - System.Data.SqlClient
   namespace: Microsoft.SqlServer.Server
+  summary: "\n<p>Returns the specified column’s data as a <xref href=\"System.DateTimeOffset\" data-throw-if-not-resolved=\"false\"></xref>.</p>\n"
   syntax:
     content: public virtual DateTimeOffset GetDateTimeOffset(int ordinal)
     content.vb: Public Overridable Function GetDateTimeOffset(ordinal As Integer) As DateTimeOffset
@@ -555,7 +679,7 @@ items:
     - id: ordinal
       type: System.Int32
     return:
-      type: DateTimeOffset
+      type: System.DateTimeOffset
   modifiers.csharp:
   - public
   - virtual
@@ -583,14 +707,27 @@ items:
   assemblies:
   - System.Data.SqlClient
   namespace: Microsoft.SqlServer.Server
+  summary: "\n<p>Gets the value for the column specified by the ordinal as a <xref href=\"System.Decimal\" data-throw-if-not-resolved=\"false\"></xref>.</p>\n"
+  example:
+  - 
   syntax:
-    content: public virtual Decimal GetDecimal(int ordinal)
+    content: public virtual decimal GetDecimal(int ordinal)
     content.vb: Public Overridable Function GetDecimal(ordinal As Integer) As Decimal
     parameters:
     - id: ordinal
       type: System.Int32
     return:
-      type: Decimal
+      type: System.Decimal
+  exceptions:
+  - type: System.IndexOutOfRangeException
+    commentId: T:System.IndexOutOfRangeException
+    description: "\n<p>The <em>ordinal</em> is less than 0 or greater than the number of columns (that is, <xref href=\"Microsoft.SqlServer.Server.SqlDataRecord.FieldCount\" data-throw-if-not-resolved=\"false\"></xref>).</p>\n"
+  - type: System.Data.SqlTypes.SqlNullValueException
+    commentId: T:System.Data.SqlTypes.SqlNullValueException
+    description: "\n<p>The column specified by <em>ordinal</em> is null.</p>\n"
+  - type: System.InvalidCastException
+    commentId: T:System.InvalidCastException
+    description: "\n<p>There is a type mismatch.</p>\n"
   modifiers.csharp:
   - public
   - virtual
@@ -618,6 +755,9 @@ items:
   assemblies:
   - System.Data.SqlClient
   namespace: Microsoft.SqlServer.Server
+  summary: "\n<p>Gets the value for the column specified by the ordinal as a <xref href=\"System.Double\" data-throw-if-not-resolved=\"false\"></xref>.</p>\n"
+  example:
+  - 
   syntax:
     content: public virtual double GetDouble(int ordinal)
     content.vb: Public Overridable Function GetDouble(ordinal As Integer) As Double
@@ -626,6 +766,16 @@ items:
       type: System.Int32
     return:
       type: System.Double
+  exceptions:
+  - type: System.IndexOutOfRangeException
+    commentId: T:System.IndexOutOfRangeException
+    description: "\n<p>The <em>ordinal</em> is less than 0 or greater than the number of columns (that is, <xref href=\"Microsoft.SqlServer.Server.SqlDataRecord.FieldCount\" data-throw-if-not-resolved=\"false\"></xref>).</p>\n"
+  - type: System.Data.SqlTypes.SqlNullValueException
+    commentId: T:System.Data.SqlTypes.SqlNullValueException
+    description: "\n<p>The column specified by <em>ordinal</em> is null.</p>\n"
+  - type: System.InvalidCastException
+    commentId: T:System.InvalidCastException
+    description: "\n<p>There is a type mismatch.</p>\n"
   modifiers.csharp:
   - public
   - virtual
@@ -653,6 +803,9 @@ items:
   assemblies:
   - System.Data.SqlClient
   namespace: Microsoft.SqlServer.Server
+  summary: "\n<p>Returns a <xref href=\"System.Type\" data-throw-if-not-resolved=\"false\"></xref> object representing the common language runtime (CLR) type that maps to the SQL Server type of the column specified by the <em>ordinal</em> argument.</p>\n"
+  example:
+  - 
   syntax:
     content: public virtual Type GetFieldType(int ordinal)
     content.vb: Public Overridable Function GetFieldType(ordinal As Integer) As Type
@@ -660,7 +813,20 @@ items:
     - id: ordinal
       type: System.Int32
     return:
-      type: Type
+      type: System.Type
+  exceptions:
+  - type: System.IndexOutOfRangeException
+    commentId: T:System.IndexOutOfRangeException
+    description: "\n<p>The <em>ordinal</em> is less than 0 or greater than the number of columns (that is, <xref href=\"Microsoft.SqlServer.Server.SqlDataRecord.FieldCount\" data-throw-if-not-resolved=\"false\"></xref>). </p>\n"
+  - type: System.TypeLoadException
+    commentId: T:System.TypeLoadException
+    description: "\n<p>The column is of a user-defined type that is not available to the calling application domain.</p>\n"
+  - type: System.IO.FileNotFoundException
+    commentId: T:System.IO.FileNotFoundException
+    description: "\n<p>The column is of a user-defined type that is not available to the calling application domain.</p>\n"
+  - type: System.InvalidCastException
+    commentId: T:System.InvalidCastException
+    description: "\n<p>There is a type mismatch.</p>\n"
   modifiers.csharp:
   - public
   - virtual
@@ -688,6 +854,9 @@ items:
   assemblies:
   - System.Data.SqlClient
   namespace: Microsoft.SqlServer.Server
+  summary: "\n<p>Gets the value for the column specified by the ordinal as a <strong>float</strong>.</p>\n"
+  example:
+  - 
   syntax:
     content: public virtual float GetFloat(int ordinal)
     content.vb: Public Overridable Function GetFloat(ordinal As Integer) As Single
@@ -696,6 +865,16 @@ items:
       type: System.Int32
     return:
       type: System.Single
+  exceptions:
+  - type: System.IndexOutOfRangeException
+    commentId: T:System.IndexOutOfRangeException
+    description: "\n<p>The <em>ordinal</em> is less than 0 or greater than the number of columns (that is, <xref href=\"Microsoft.SqlServer.Server.SqlDataRecord.FieldCount\" data-throw-if-not-resolved=\"false\"></xref>).</p>\n"
+  - type: System.Data.SqlTypes.SqlNullValueException
+    commentId: T:System.Data.SqlTypes.SqlNullValueException
+    description: "\n<p>The column specified by <em>ordinal</em> is null.</p>\n"
+  - type: System.InvalidCastException
+    commentId: T:System.InvalidCastException
+    description: "\n<p>There is a type mismatch.</p>\n"
   modifiers.csharp:
   - public
   - virtual
@@ -723,6 +902,9 @@ items:
   assemblies:
   - System.Data.SqlClient
   namespace: Microsoft.SqlServer.Server
+  summary: "\n<p>Gets the value for the column specified by the ordinal as a <xref href=\"System.Guid\" data-throw-if-not-resolved=\"false\"></xref>.</p>\n"
+  example:
+  - 
   syntax:
     content: public virtual Guid GetGuid(int ordinal)
     content.vb: Public Overridable Function GetGuid(ordinal As Integer) As Guid
@@ -730,7 +912,17 @@ items:
     - id: ordinal
       type: System.Int32
     return:
-      type: Guid
+      type: System.Guid
+  exceptions:
+  - type: System.IndexOutOfRangeException
+    commentId: T:System.IndexOutOfRangeException
+    description: "\n<p>The <em>ordinal</em> is less than 0 or greater than the number of columns (that is, <xref href=\"Microsoft.SqlServer.Server.SqlDataRecord.FieldCount\" data-throw-if-not-resolved=\"false\"></xref>).</p>\n"
+  - type: System.Data.SqlTypes.SqlNullValueException
+    commentId: T:System.Data.SqlTypes.SqlNullValueException
+    description: "\n<p>The column specified by <em>ordinal</em> is null.</p>\n"
+  - type: System.InvalidCastException
+    commentId: T:System.InvalidCastException
+    description: "\n<p>There is a type mismatch.</p>\n"
   modifiers.csharp:
   - public
   - virtual
@@ -758,14 +950,27 @@ items:
   assemblies:
   - System.Data.SqlClient
   namespace: Microsoft.SqlServer.Server
+  summary: "\n<p>Gets the value for the column specified by the ordinal as a <xref href=\"System.Int16\" data-throw-if-not-resolved=\"false\"></xref>.</p>\n"
+  example:
+  - 
   syntax:
-    content: public virtual Int16 GetInt16(int ordinal)
-    content.vb: Public Overridable Function GetInt16(ordinal As Integer) As Int16
+    content: public virtual short GetInt16(int ordinal)
+    content.vb: Public Overridable Function GetInt16(ordinal As Integer) As Short
     parameters:
     - id: ordinal
       type: System.Int32
     return:
-      type: Int16
+      type: System.Int16
+  exceptions:
+  - type: System.IndexOutOfRangeException
+    commentId: T:System.IndexOutOfRangeException
+    description: "\n<p>The <em>ordinal</em> is less than 0 or greater than the number of columns (that is, <xref href=\"Microsoft.SqlServer.Server.SqlDataRecord.FieldCount\" data-throw-if-not-resolved=\"false\"></xref>).</p>\n"
+  - type: System.Data.SqlTypes.SqlNullValueException
+    commentId: T:System.Data.SqlTypes.SqlNullValueException
+    description: "\n<p>The column specified by <em>ordinal</em> is null.</p>\n"
+  - type: System.InvalidCastException
+    commentId: T:System.InvalidCastException
+    description: "\n<p>There is a type mismatch.</p>\n"
   modifiers.csharp:
   - public
   - virtual
@@ -793,14 +998,27 @@ items:
   assemblies:
   - System.Data.SqlClient
   namespace: Microsoft.SqlServer.Server
+  summary: "\n<p>Gets the value for the column specified by the ordinal as a <xref href=\"System.Int32\" data-throw-if-not-resolved=\"false\"></xref>.</p>\n"
+  example:
+  - 
   syntax:
-    content: public virtual Int32 GetInt32(int ordinal)
-    content.vb: Public Overridable Function GetInt32(ordinal As Integer) As Int32
+    content: public virtual int GetInt32(int ordinal)
+    content.vb: Public Overridable Function GetInt32(ordinal As Integer) As Integer
     parameters:
     - id: ordinal
       type: System.Int32
     return:
-      type: Int32
+      type: System.Int32
+  exceptions:
+  - type: System.IndexOutOfRangeException
+    commentId: T:System.IndexOutOfRangeException
+    description: "\n<p>The <em>ordinal</em> is less than 0 or greater than the number of columns (that is, <xref href=\"Microsoft.SqlServer.Server.SqlDataRecord.FieldCount\" data-throw-if-not-resolved=\"false\"></xref>).</p>\n"
+  - type: System.Data.SqlTypes.SqlNullValueException
+    commentId: T:System.Data.SqlTypes.SqlNullValueException
+    description: "\n<p>The column specified by <em>ordinal</em> is null.</p>\n"
+  - type: System.InvalidCastException
+    commentId: T:System.InvalidCastException
+    description: "\n<p>There is a type mismatch.</p>\n"
   modifiers.csharp:
   - public
   - virtual
@@ -828,14 +1046,27 @@ items:
   assemblies:
   - System.Data.SqlClient
   namespace: Microsoft.SqlServer.Server
+  summary: "\n<p>Gets the value for the column specified by the ordinal as a <xref href=\"System.Int64\" data-throw-if-not-resolved=\"false\"></xref>.</p>\n"
+  example:
+  - 
   syntax:
-    content: public virtual Int64 GetInt64(int ordinal)
-    content.vb: Public Overridable Function GetInt64(ordinal As Integer) As Int64
+    content: public virtual long GetInt64(int ordinal)
+    content.vb: Public Overridable Function GetInt64(ordinal As Integer) As Long
     parameters:
     - id: ordinal
       type: System.Int32
     return:
-      type: Int64
+      type: System.Int64
+  exceptions:
+  - type: System.IndexOutOfRangeException
+    commentId: T:System.IndexOutOfRangeException
+    description: "\n<p>The <em>ordinal</em> is less than 0 or greater than the number of columns (that is, <xref href=\"Microsoft.SqlServer.Server.SqlDataRecord.FieldCount\" data-throw-if-not-resolved=\"false\"></xref>).</p>\n"
+  - type: System.Data.SqlTypes.SqlNullValueException
+    commentId: T:System.Data.SqlTypes.SqlNullValueException
+    description: "\n<p>The column specified by <em>ordinal</em> is null.</p>\n"
+  - type: System.InvalidCastException
+    commentId: T:System.InvalidCastException
+    description: "\n<p>There is a type mismatch.</p>\n"
   modifiers.csharp:
   - public
   - virtual
@@ -863,14 +1094,24 @@ items:
   assemblies:
   - System.Data.SqlClient
   namespace: Microsoft.SqlServer.Server
+  summary: "\n<p>Returns the name of the column specified by the ordinal argument.</p>\n"
+  example:
+  - 
   syntax:
-    content: public virtual String GetName(int ordinal)
+    content: public virtual string GetName(int ordinal)
     content.vb: Public Overridable Function GetName(ordinal As Integer) As String
     parameters:
     - id: ordinal
       type: System.Int32
     return:
-      type: String
+      type: System.String
+  exceptions:
+  - type: System.IndexOutOfRangeException
+    commentId: T:System.IndexOutOfRangeException
+    description: "\n<p>The <em>ordinal</em> is less than 0 or greater than the number of columns (that is, <xref href=\"Microsoft.SqlServer.Server.SqlDataRecord.FieldCount\" data-throw-if-not-resolved=\"false\"></xref>). </p>\n"
+  - type: System.InvalidCastException
+    commentId: T:System.InvalidCastException
+    description: "\n<p>There is a type mismatch.</p>\n"
   modifiers.csharp:
   - public
   - virtual
@@ -898,6 +1139,9 @@ items:
   assemblies:
   - System.Data.SqlClient
   namespace: Microsoft.SqlServer.Server
+  summary: "\n<p>Returns the column ordinal specified by the column name.</p>\n"
+  example:
+  - 
   syntax:
     content: public virtual int GetOrdinal(string name)
     content.vb: Public Overridable Function GetOrdinal(name As String) As Integer
@@ -906,6 +1150,16 @@ items:
       type: System.String
     return:
       type: System.Int32
+  exceptions:
+  - type: System.ArgumentNullException
+    commentId: T:System.ArgumentNullException
+    description: "\n<p>\n<em>name</em> is <strong>null</strong>.</p>\n"
+  - type: System.IndexOutOfRangeException
+    commentId: T:System.IndexOutOfRangeException
+    description: "\n<p>The column name could not be found.</p>\n"
+  - type: System.InvalidCastException
+    commentId: T:System.InvalidCastException
+    description: "\n<p>There is a type mismatch.</p>\n"
   modifiers.csharp:
   - public
   - virtual
@@ -933,6 +1187,9 @@ items:
   assemblies:
   - System.Data.SqlClient
   namespace: Microsoft.SqlServer.Server
+  summary: "\n<p>Gets the value for the column specified by the ordinal as a <xref href=\"System.Data.SqlTypes.SqlBinary\" data-throw-if-not-resolved=\"false\"></xref>.</p>\n"
+  example:
+  - 
   syntax:
     content: public virtual SqlBinary GetSqlBinary(int ordinal)
     content.vb: Public Overridable Function GetSqlBinary(ordinal As Integer) As SqlBinary
@@ -941,6 +1198,13 @@ items:
       type: System.Int32
     return:
       type: System.Data.SqlTypes.SqlBinary
+  exceptions:
+  - type: System.IndexOutOfRangeException
+    commentId: T:System.IndexOutOfRangeException
+    description: "\n<p>The <em>ordinal</em> is less than 0 or greater than the number of columns (that is, <xref href=\"Microsoft.SqlServer.Server.SqlDataRecord.FieldCount\" data-throw-if-not-resolved=\"false\"></xref>).</p>\n"
+  - type: System.InvalidCastException
+    commentId: T:System.InvalidCastException
+    description: "\n<p>There is a type mismatch.</p>\n"
   modifiers.csharp:
   - public
   - virtual
@@ -968,6 +1232,9 @@ items:
   assemblies:
   - System.Data.SqlClient
   namespace: Microsoft.SqlServer.Server
+  summary: "\n<p>Gets the value for the column specified by the ordinal as a <xref href=\"System.Data.SqlTypes.SqlBoolean\" data-throw-if-not-resolved=\"false\"></xref>.</p>\n"
+  example:
+  - 
   syntax:
     content: public virtual SqlBoolean GetSqlBoolean(int ordinal)
     content.vb: Public Overridable Function GetSqlBoolean(ordinal As Integer) As SqlBoolean
@@ -976,6 +1243,13 @@ items:
       type: System.Int32
     return:
       type: System.Data.SqlTypes.SqlBoolean
+  exceptions:
+  - type: System.IndexOutOfRangeException
+    commentId: T:System.IndexOutOfRangeException
+    description: "\n<p>The <em>ordinal</em> is less than 0 or greater than the number of columns (that is, <xref href=\"Microsoft.SqlServer.Server.SqlDataRecord.FieldCount\" data-throw-if-not-resolved=\"false\"></xref>).</p>\n"
+  - type: System.InvalidCastException
+    commentId: T:System.InvalidCastException
+    description: "\n<p>There is a type mismatch.</p>\n"
   modifiers.csharp:
   - public
   - virtual
@@ -1003,6 +1277,9 @@ items:
   assemblies:
   - System.Data.SqlClient
   namespace: Microsoft.SqlServer.Server
+  summary: "\n<p>Gets the value for the column specified by the ordinal as a <xref href=\"System.Data.SqlTypes.SqlByte\" data-throw-if-not-resolved=\"false\"></xref>.</p>\n"
+  example:
+  - 
   syntax:
     content: public virtual SqlByte GetSqlByte(int ordinal)
     content.vb: Public Overridable Function GetSqlByte(ordinal As Integer) As SqlByte
@@ -1011,6 +1288,13 @@ items:
       type: System.Int32
     return:
       type: System.Data.SqlTypes.SqlByte
+  exceptions:
+  - type: System.IndexOutOfRangeException
+    commentId: T:System.IndexOutOfRangeException
+    description: "\n<p>The <em>ordinal</em> is less than 0 or greater than the number of columns (that is, <xref href=\"Microsoft.SqlServer.Server.SqlDataRecord.FieldCount\" data-throw-if-not-resolved=\"false\"></xref>).</p>\n"
+  - type: System.InvalidCastException
+    commentId: T:System.InvalidCastException
+    description: "\n<p>There is a type mismatch.</p>\n"
   modifiers.csharp:
   - public
   - virtual
@@ -1038,6 +1322,9 @@ items:
   assemblies:
   - System.Data.SqlClient
   namespace: Microsoft.SqlServer.Server
+  summary: "\n<p>Gets the value for the column specified by the ordinal as a <xref href=\"System.Data.SqlTypes.SqlBytes\" data-throw-if-not-resolved=\"false\"></xref>.</p>\n"
+  example:
+  - 
   syntax:
     content: public virtual SqlBytes GetSqlBytes(int ordinal)
     content.vb: Public Overridable Function GetSqlBytes(ordinal As Integer) As SqlBytes
@@ -1046,6 +1333,13 @@ items:
       type: System.Int32
     return:
       type: System.Data.SqlTypes.SqlBytes
+  exceptions:
+  - type: System.IndexOutOfRangeException
+    commentId: T:System.IndexOutOfRangeException
+    description: "\n<p>The <em>ordinal</em> is less than 0 or greater than the number of columns (that is, <xref href=\"Microsoft.SqlServer.Server.SqlDataRecord.FieldCount\" data-throw-if-not-resolved=\"false\"></xref>).</p>\n"
+  - type: System.InvalidCastException
+    commentId: T:System.InvalidCastException
+    description: "\n<p>There is a type mismatch.</p>\n"
   modifiers.csharp:
   - public
   - virtual
@@ -1073,6 +1367,9 @@ items:
   assemblies:
   - System.Data.SqlClient
   namespace: Microsoft.SqlServer.Server
+  summary: "\n<p>Gets the value for the column specified by the ordinal as a <xref href=\"System.Data.SqlTypes.SqlChars\" data-throw-if-not-resolved=\"false\"></xref>.</p>\n"
+  example:
+  - 
   syntax:
     content: public virtual SqlChars GetSqlChars(int ordinal)
     content.vb: Public Overridable Function GetSqlChars(ordinal As Integer) As SqlChars
@@ -1081,6 +1378,13 @@ items:
       type: System.Int32
     return:
       type: System.Data.SqlTypes.SqlChars
+  exceptions:
+  - type: System.IndexOutOfRangeException
+    commentId: T:System.IndexOutOfRangeException
+    description: "\n<p>The <em>ordinal</em> is less than 0 or greater than the number of columns (that is, <xref href=\"Microsoft.SqlServer.Server.SqlDataRecord.FieldCount\" data-throw-if-not-resolved=\"false\"></xref>).</p>\n"
+  - type: System.InvalidCastException
+    commentId: T:System.InvalidCastException
+    description: "\n<p>There is a type mismatch.</p>\n"
   modifiers.csharp:
   - public
   - virtual
@@ -1108,6 +1412,9 @@ items:
   assemblies:
   - System.Data.SqlClient
   namespace: Microsoft.SqlServer.Server
+  summary: "\n<p>Gets the value for the column specified by the ordinal as a <xref href=\"System.Data.SqlTypes.SqlDateTime\" data-throw-if-not-resolved=\"false\"></xref>.</p>\n"
+  example:
+  - 
   syntax:
     content: public virtual SqlDateTime GetSqlDateTime(int ordinal)
     content.vb: Public Overridable Function GetSqlDateTime(ordinal As Integer) As SqlDateTime
@@ -1116,6 +1423,13 @@ items:
       type: System.Int32
     return:
       type: System.Data.SqlTypes.SqlDateTime
+  exceptions:
+  - type: System.IndexOutOfRangeException
+    commentId: T:System.IndexOutOfRangeException
+    description: "\n<p>The <em>ordinal</em> is less than 0 or greater than the number of columns (that is, <xref href=\"Microsoft.SqlServer.Server.SqlDataRecord.FieldCount\" data-throw-if-not-resolved=\"false\"></xref>).</p>\n"
+  - type: System.InvalidCastException
+    commentId: T:System.InvalidCastException
+    description: "\n<p>There is a type mismatch.</p>\n"
   modifiers.csharp:
   - public
   - virtual
@@ -1143,6 +1457,9 @@ items:
   assemblies:
   - System.Data.SqlClient
   namespace: Microsoft.SqlServer.Server
+  summary: "\n<p>Gets the value for the column specified by the ordinal as a <xref href=\"System.Data.SqlTypes.SqlDecimal\" data-throw-if-not-resolved=\"false\"></xref>.</p>\n"
+  example:
+  - 
   syntax:
     content: public virtual SqlDecimal GetSqlDecimal(int ordinal)
     content.vb: Public Overridable Function GetSqlDecimal(ordinal As Integer) As SqlDecimal
@@ -1151,6 +1468,13 @@ items:
       type: System.Int32
     return:
       type: System.Data.SqlTypes.SqlDecimal
+  exceptions:
+  - type: System.IndexOutOfRangeException
+    commentId: T:System.IndexOutOfRangeException
+    description: "\n<p>The <em>ordinal</em> is less than 0 or greater than the number of columns (that is, <xref href=\"Microsoft.SqlServer.Server.SqlDataRecord.FieldCount\" data-throw-if-not-resolved=\"false\"></xref>).</p>\n"
+  - type: System.InvalidCastException
+    commentId: T:System.InvalidCastException
+    description: "\n<p>There is a type mismatch.</p>\n"
   modifiers.csharp:
   - public
   - virtual
@@ -1178,6 +1502,9 @@ items:
   assemblies:
   - System.Data.SqlClient
   namespace: Microsoft.SqlServer.Server
+  summary: "\n<p>Gets the value for the column specified by the ordinal as a <xref href=\"System.Data.SqlTypes.SqlDouble\" data-throw-if-not-resolved=\"false\"></xref>.</p>\n"
+  example:
+  - 
   syntax:
     content: public virtual SqlDouble GetSqlDouble(int ordinal)
     content.vb: Public Overridable Function GetSqlDouble(ordinal As Integer) As SqlDouble
@@ -1186,6 +1513,13 @@ items:
       type: System.Int32
     return:
       type: System.Data.SqlTypes.SqlDouble
+  exceptions:
+  - type: System.IndexOutOfRangeException
+    commentId: T:System.IndexOutOfRangeException
+    description: "\n<p>The <em>ordinal</em> is less than 0 or greater than the number of columns (that is, <xref href=\"Microsoft.SqlServer.Server.SqlDataRecord.FieldCount\" data-throw-if-not-resolved=\"false\"></xref>).</p>\n"
+  - type: System.InvalidCastException
+    commentId: T:System.InvalidCastException
+    description: "\n<p>There is a type mismatch.</p>\n"
   modifiers.csharp:
   - public
   - virtual
@@ -1213,6 +1547,9 @@ items:
   assemblies:
   - System.Data.SqlClient
   namespace: Microsoft.SqlServer.Server
+  summary: "\n<p>Returns a <xref href=\"System.Type\" data-throw-if-not-resolved=\"false\"></xref> object that represents the type (as a SQL Server type, defined in <xref href=\"System.Data.SqlTypes\" data-throw-if-not-resolved=\"false\"></xref>) that maps to the SQL Server type of the column.</p>\n"
+  example:
+  - 
   syntax:
     content: public virtual Type GetSqlFieldType(int ordinal)
     content.vb: Public Overridable Function GetSqlFieldType(ordinal As Integer) As Type
@@ -1220,7 +1557,20 @@ items:
     - id: ordinal
       type: System.Int32
     return:
-      type: Type
+      type: System.Type
+  exceptions:
+  - type: System.IndexOutOfRangeException
+    commentId: T:System.IndexOutOfRangeException
+    description: "\n<p>The <em>ordinal</em> is less than 0 or greater than the number of columns (that is, <xref href=\"Microsoft.SqlServer.Server.SqlDataRecord.FieldCount\" data-throw-if-not-resolved=\"false\"></xref>). </p>\n"
+  - type: System.TypeLoadException
+    commentId: T:System.TypeLoadException
+    description: "\n<p>The column is of a user-defined type that is not available to the calling application domain.</p>\n"
+  - type: System.IO.FileNotFoundException
+    commentId: T:System.IO.FileNotFoundException
+    description: "\n<p>The column is of a user-defined type that is not available to the calling application domain.</p>\n"
+  - type: System.InvalidCastException
+    commentId: T:System.InvalidCastException
+    description: "\n<p>There is a type mismatch.</p>\n"
   modifiers.csharp:
   - public
   - virtual
@@ -1248,6 +1598,9 @@ items:
   assemblies:
   - System.Data.SqlClient
   namespace: Microsoft.SqlServer.Server
+  summary: "\n<p>Gets the value for the column specified by the ordinal as a <xref href=\"System.Data.SqlTypes.SqlGuid\" data-throw-if-not-resolved=\"false\"></xref>.</p>\n"
+  example:
+  - 
   syntax:
     content: public virtual SqlGuid GetSqlGuid(int ordinal)
     content.vb: Public Overridable Function GetSqlGuid(ordinal As Integer) As SqlGuid
@@ -1256,6 +1609,13 @@ items:
       type: System.Int32
     return:
       type: System.Data.SqlTypes.SqlGuid
+  exceptions:
+  - type: System.IndexOutOfRangeException
+    commentId: T:System.IndexOutOfRangeException
+    description: "\n<p>The <em>ordinal</em> is less than 0 or greater than the number of columns (that is, <xref href=\"Microsoft.SqlServer.Server.SqlDataRecord.FieldCount\" data-throw-if-not-resolved=\"false\"></xref>).</p>\n"
+  - type: System.InvalidCastException
+    commentId: T:System.InvalidCastException
+    description: "\n<p>There is a type mismatch.</p>\n"
   modifiers.csharp:
   - public
   - virtual
@@ -1283,6 +1643,9 @@ items:
   assemblies:
   - System.Data.SqlClient
   namespace: Microsoft.SqlServer.Server
+  summary: "\n<p>Gets the value for the column specified by the ordinal as a <xref href=\"System.Data.SqlTypes.SqlInt16\" data-throw-if-not-resolved=\"false\"></xref>.</p>\n"
+  example:
+  - 
   syntax:
     content: public virtual SqlInt16 GetSqlInt16(int ordinal)
     content.vb: Public Overridable Function GetSqlInt16(ordinal As Integer) As SqlInt16
@@ -1291,6 +1654,13 @@ items:
       type: System.Int32
     return:
       type: System.Data.SqlTypes.SqlInt16
+  exceptions:
+  - type: System.IndexOutOfRangeException
+    commentId: T:System.IndexOutOfRangeException
+    description: "\n<p>The <em>ordinal</em> is less than 0 or greater than the number of columns (that is, <xref href=\"Microsoft.SqlServer.Server.SqlDataRecord.FieldCount\" data-throw-if-not-resolved=\"false\"></xref>).</p>\n"
+  - type: System.InvalidCastException
+    commentId: T:System.InvalidCastException
+    description: "\n<p>There is a type mismatch.</p>\n"
   modifiers.csharp:
   - public
   - virtual
@@ -1318,6 +1688,9 @@ items:
   assemblies:
   - System.Data.SqlClient
   namespace: Microsoft.SqlServer.Server
+  summary: "\n<p>Gets the value for the column specified by the ordinal as a <xref href=\"System.Data.SqlTypes.SqlInt32\" data-throw-if-not-resolved=\"false\"></xref>.</p>\n"
+  example:
+  - 
   syntax:
     content: public virtual SqlInt32 GetSqlInt32(int ordinal)
     content.vb: Public Overridable Function GetSqlInt32(ordinal As Integer) As SqlInt32
@@ -1326,6 +1699,13 @@ items:
       type: System.Int32
     return:
       type: System.Data.SqlTypes.SqlInt32
+  exceptions:
+  - type: System.IndexOutOfRangeException
+    commentId: T:System.IndexOutOfRangeException
+    description: "\n<p>The <em>ordinal</em> is less than 0 or greater than the number of columns (that is, <xref href=\"Microsoft.SqlServer.Server.SqlDataRecord.FieldCount\" data-throw-if-not-resolved=\"false\"></xref>).</p>\n"
+  - type: System.InvalidCastException
+    commentId: T:System.InvalidCastException
+    description: "\n<p>There is a type mismatch.</p>\n"
   modifiers.csharp:
   - public
   - virtual
@@ -1353,6 +1733,9 @@ items:
   assemblies:
   - System.Data.SqlClient
   namespace: Microsoft.SqlServer.Server
+  summary: "\n<p>Gets the value for the column specified by the ordinal as a <xref href=\"System.Data.SqlTypes.SqlInt64\" data-throw-if-not-resolved=\"false\"></xref>.</p>\n"
+  example:
+  - 
   syntax:
     content: public virtual SqlInt64 GetSqlInt64(int ordinal)
     content.vb: Public Overridable Function GetSqlInt64(ordinal As Integer) As SqlInt64
@@ -1361,6 +1744,13 @@ items:
       type: System.Int32
     return:
       type: System.Data.SqlTypes.SqlInt64
+  exceptions:
+  - type: System.IndexOutOfRangeException
+    commentId: T:System.IndexOutOfRangeException
+    description: "\n<p>The <em>ordinal</em> is less than 0 or greater than the number of columns (that is, <xref href=\"Microsoft.SqlServer.Server.SqlDataRecord.FieldCount\" data-throw-if-not-resolved=\"false\"></xref>).</p>\n"
+  - type: System.InvalidCastException
+    commentId: T:System.InvalidCastException
+    description: "\n<p>There is a type mismatch.</p>\n"
   modifiers.csharp:
   - public
   - virtual
@@ -1388,6 +1778,9 @@ items:
   assemblies:
   - System.Data.SqlClient
   namespace: Microsoft.SqlServer.Server
+  summary: "\n<p>Returns a <xref href=\"Microsoft.SqlServer.Server.SqlMetaData\" data-throw-if-not-resolved=\"false\"></xref> object, describing the metadata of the column specified by the column ordinal.</p>\n"
+  example:
+  - 
   syntax:
     content: public virtual SqlMetaData GetSqlMetaData(int ordinal)
     content.vb: Public Overridable Function GetSqlMetaData(ordinal As Integer) As SqlMetaData
@@ -1396,6 +1789,13 @@ items:
       type: System.Int32
     return:
       type: Microsoft.SqlServer.Server.SqlMetaData
+  exceptions:
+  - type: System.IndexOutOfRangeException
+    commentId: T:System.IndexOutOfRangeException
+    description: "\n<p>The <em>ordinal</em> is less than 0 or greater than the number of columns (that is, <xref href=\"Microsoft.SqlServer.Server.SqlDataRecord.FieldCount\" data-throw-if-not-resolved=\"false\"></xref>).</p>\n"
+  - type: System.InvalidCastException
+    commentId: T:System.InvalidCastException
+    description: "\n<p>There is a type mismatch.</p>\n"
   modifiers.csharp:
   - public
   - virtual
@@ -1423,6 +1823,9 @@ items:
   assemblies:
   - System.Data.SqlClient
   namespace: Microsoft.SqlServer.Server
+  summary: "\n<p>Gets the value for the column specified by the ordinal as a <xref href=\"System.Data.SqlTypes.SqlMoney\" data-throw-if-not-resolved=\"false\"></xref>.</p>\n"
+  example:
+  - 
   syntax:
     content: public virtual SqlMoney GetSqlMoney(int ordinal)
     content.vb: Public Overridable Function GetSqlMoney(ordinal As Integer) As SqlMoney
@@ -1431,6 +1834,13 @@ items:
       type: System.Int32
     return:
       type: System.Data.SqlTypes.SqlMoney
+  exceptions:
+  - type: System.IndexOutOfRangeException
+    commentId: T:System.IndexOutOfRangeException
+    description: "\n<p>The <em>ordinal</em> is less than 0 or greater than the number of columns (that is, <xref href=\"Microsoft.SqlServer.Server.SqlDataRecord.FieldCount\" data-throw-if-not-resolved=\"false\"></xref>).</p>\n"
+  - type: System.InvalidCastException
+    commentId: T:System.InvalidCastException
+    description: "\n<p>There is a type mismatch.</p>\n"
   modifiers.csharp:
   - public
   - virtual
@@ -1458,6 +1868,9 @@ items:
   assemblies:
   - System.Data.SqlClient
   namespace: Microsoft.SqlServer.Server
+  summary: "\n<p>Gets the value for the column specified by the ordinal as a <xref href=\"System.Data.SqlTypes.SqlSingle\" data-throw-if-not-resolved=\"false\"></xref>.</p>\n"
+  example:
+  - 
   syntax:
     content: public virtual SqlSingle GetSqlSingle(int ordinal)
     content.vb: Public Overridable Function GetSqlSingle(ordinal As Integer) As SqlSingle
@@ -1466,6 +1879,13 @@ items:
       type: System.Int32
     return:
       type: System.Data.SqlTypes.SqlSingle
+  exceptions:
+  - type: System.IndexOutOfRangeException
+    commentId: T:System.IndexOutOfRangeException
+    description: "\n<p>The <em>ordinal</em> is less than 0 or greater than the number of columns (that is, <xref href=\"Microsoft.SqlServer.Server.SqlDataRecord.FieldCount\" data-throw-if-not-resolved=\"false\"></xref>).</p>\n"
+  - type: System.InvalidCastException
+    commentId: T:System.InvalidCastException
+    description: "\n<p>There is a type mismatch.</p>\n"
   modifiers.csharp:
   - public
   - virtual
@@ -1493,6 +1913,9 @@ items:
   assemblies:
   - System.Data.SqlClient
   namespace: Microsoft.SqlServer.Server
+  summary: "\n<p>Gets the value for the column specified by the ordinal as a <xref href=\"System.Data.SqlTypes.SqlString\" data-throw-if-not-resolved=\"false\"></xref>.</p>\n"
+  example:
+  - 
   syntax:
     content: public virtual SqlString GetSqlString(int ordinal)
     content.vb: Public Overridable Function GetSqlString(ordinal As Integer) As SqlString
@@ -1501,6 +1924,13 @@ items:
       type: System.Int32
     return:
       type: System.Data.SqlTypes.SqlString
+  exceptions:
+  - type: System.IndexOutOfRangeException
+    commentId: T:System.IndexOutOfRangeException
+    description: "\n<p>The <em>ordinal</em> is less than 0 or greater than the number of columns (that is, <xref href=\"Microsoft.SqlServer.Server.SqlDataRecord.FieldCount\" data-throw-if-not-resolved=\"false\"></xref>).</p>\n"
+  - type: System.InvalidCastException
+    commentId: T:System.InvalidCastException
+    description: "\n<p>There is a type mismatch.</p>\n"
   modifiers.csharp:
   - public
   - virtual
@@ -1528,6 +1958,10 @@ items:
   assemblies:
   - System.Data.SqlClient
   namespace: Microsoft.SqlServer.Server
+  summary: "\n<p>Returns the data value stored in the column, expressed as a SQL Server type, specified by the column ordinal.</p>\n"
+  remarks: "\n<p>For null values, a SQL Server type instance is returned where the <xref href=\"System.Data.SqlTypes.INullable.IsNull\" data-throw-if-not-resolved=\"false\"></xref> property is true.</p>\n"
+  example:
+  - 
   syntax:
     content: public virtual object GetSqlValue(int ordinal)
     content.vb: Public Overridable Function GetSqlValue(ordinal As Integer) As Object
@@ -1536,6 +1970,16 @@ items:
       type: System.Int32
     return:
       type: System.Object
+  exceptions:
+  - type: System.IndexOutOfRangeException
+    commentId: T:System.IndexOutOfRangeException
+    description: "\n<p>The <em>ordinal</em> is less than 0 or greater than the number of columns (that is, <xref href=\"Microsoft.SqlServer.Server.SqlDataRecord.FieldCount\" data-throw-if-not-resolved=\"false\"></xref>).</p>\n"
+  - type: System.InvalidCastException
+    commentId: T:System.InvalidCastException
+    description: "\n<p>There is a type mismatch.</p>\n"
+  seealso:
+  - type: System.Data.SqlTypes
+    commentId: N:System.Data.SqlTypes
   modifiers.csharp:
   - public
   - virtual
@@ -1563,6 +2007,10 @@ items:
   assemblies:
   - System.Data.SqlClient
   namespace: Microsoft.SqlServer.Server
+  summary: "\n<p>Returns the values for all the columns in the record, expressed as SQL Server types, in an array.</p>\n"
+  remarks: "\n<p>The SQL Server type values of the column are copied into the <em>values</em> array that is passed as a parameter. For null values, a Sql type instance is returned where the <xref href=\"System.Data.SqlTypes.INullable.IsNull\" data-throw-if-not-resolved=\"false\"></xref> property is true.</p>\n<p>The length of the <em>values</em> array does not need to match the number of columns in the record. If the array length is greater than the number of columns, all of the column values are copied into the array; if it is less, only the array length number of column values are copied into the array, starting at the column value with ordinal 0.</p>\n"
+  example:
+  - 
   syntax:
     content: public virtual int GetSqlValues(object[] values)
     content.vb: Public Overridable Function GetSqlValues(values As Object()) As Integer
@@ -1571,6 +2019,16 @@ items:
       type: System.Object[]
     return:
       type: System.Int32
+  exceptions:
+  - type: System.ArgumentNullException
+    commentId: T:System.ArgumentNullException
+    description: "\n<p>\n<em>values</em> is <strong>null</strong>.</p>\n"
+  - type: System.InvalidCastException
+    commentId: T:System.InvalidCastException
+    description: "\n<p>There is a type mismatch.</p>\n"
+  seealso:
+  - type: System.Data.SqlTypes
+    commentId: N:System.Data.SqlTypes
   modifiers.csharp:
   - public
   - virtual
@@ -1600,6 +2058,9 @@ items:
   assemblies:
   - System.Data.SqlClient
   namespace: Microsoft.SqlServer.Server
+  summary: "\n<p>Gets the value for the column specified by the ordinal as a <xref href=\"System.Data.SqlTypes.SqlXml\" data-throw-if-not-resolved=\"false\"></xref>.</p>\n"
+  example:
+  - 
   syntax:
     content: public virtual SqlXml GetSqlXml(int ordinal)
     content.vb: Public Overridable Function GetSqlXml(ordinal As Integer) As SqlXml
@@ -1608,6 +2069,13 @@ items:
       type: System.Int32
     return:
       type: System.Data.SqlTypes.SqlXml
+  exceptions:
+  - type: System.ArgumentOutOfRangeException
+    commentId: T:System.ArgumentOutOfRangeException
+    description: "\n<p>The <em>ordinal</em> is less than 0 or greater than the number of columns (that is, <xref href=\"Microsoft.SqlServer.Server.SqlDataRecord.FieldCount\" data-throw-if-not-resolved=\"false\"></xref>).</p>\n"
+  - type: System.InvalidCastException
+    commentId: T:System.InvalidCastException
+    description: "\n<p>There is a type mismatch.</p>\n"
   modifiers.csharp:
   - public
   - virtual
@@ -1635,6 +2103,9 @@ items:
   assemblies:
   - System.Data.SqlClient
   namespace: Microsoft.SqlServer.Server
+  summary: "\n<p>Gets the value for the column specified by the ordinal as a <xref href=\"System.String\" data-throw-if-not-resolved=\"false\"></xref>.</p>\n"
+  example:
+  - 
   syntax:
     content: public virtual string GetString(int ordinal)
     content.vb: Public Overridable Function GetString(ordinal As Integer) As String
@@ -1643,6 +2114,13 @@ items:
       type: System.Int32
     return:
       type: System.String
+  exceptions:
+  - type: System.ArgumentOutOfRangeException
+    commentId: T:System.ArgumentOutOfRangeException
+    description: "\n<p>The <em>ordinal</em> is less than 0 or greater than the number of columns (that is, <xref href=\"Microsoft.SqlServer.Server.SqlDataRecord.FieldCount\" data-throw-if-not-resolved=\"false\"></xref>).</p>\n"
+  - type: System.InvalidCastException
+    commentId: T:System.InvalidCastException
+    description: "\n<p>There is a type mismatch.</p>\n"
   modifiers.csharp:
   - public
   - virtual
@@ -1670,6 +2148,9 @@ items:
   assemblies:
   - System.Data.SqlClient
   namespace: Microsoft.SqlServer.Server
+  summary: "\n<p>Returns the specified column’s data as a <xref href=\"System.TimeSpan\" data-throw-if-not-resolved=\"false\"></xref>.</p>\n"
+  example:
+  - 
   syntax:
     content: public virtual TimeSpan GetTimeSpan(int ordinal)
     content.vb: Public Overridable Function GetTimeSpan(ordinal As Integer) As TimeSpan
@@ -1677,7 +2158,7 @@ items:
     - id: ordinal
       type: System.Int32
     return:
-      type: TimeSpan
+      type: System.TimeSpan
   modifiers.csharp:
   - public
   - virtual
@@ -1705,14 +2186,25 @@ items:
   assemblies:
   - System.Data.SqlClient
   namespace: Microsoft.SqlServer.Server
+  summary: "\n<p>Returns the common language runtime (CLR) type value for the column specified by the ordinal argument.</p>\n"
+  remarks: "\n<p>For columns with null value, <xref href=\"System.DBNull.Value\" data-throw-if-not-resolved=\"false\"></xref> is returned.</p>\n"
+  example:
+  - 
   syntax:
-    content: public virtual Object GetValue(int ordinal)
+    content: public virtual object GetValue(int ordinal)
     content.vb: Public Overridable Function GetValue(ordinal As Integer) As Object
     parameters:
     - id: ordinal
       type: System.Int32
     return:
-      type: Object
+      type: System.Object
+  exceptions:
+  - type: System.IndexOutOfRangeException
+    commentId: T:System.IndexOutOfRangeException
+    description: "\n<p>The <em>ordinal</em> is less than 0 or greater than the number of columns (that is, <xref href=\"Microsoft.SqlServer.Server.SqlDataRecord.FieldCount\" data-throw-if-not-resolved=\"false\"></xref>).</p>\n"
+  - type: System.InvalidCastException
+    commentId: T:System.InvalidCastException
+    description: "\n<p>There is a type mismatch.</p>\n"
   modifiers.csharp:
   - public
   - virtual
@@ -1740,6 +2232,10 @@ items:
   assemblies:
   - System.Data.SqlClient
   namespace: Microsoft.SqlServer.Server
+  summary: "\n<p>Returns the values for all the columns in the record, expressed as common language runtime (CLR) types, in an array.</p>\n"
+  remarks: "\n<p>The CLR type values of the column are copied into the <em>values</em> array that is passed as a parameter. For columns with null value, <xref href=\"System.DBNull.Value\" data-throw-if-not-resolved=\"false\"></xref> is returned.</p>\n<p>The length of the <em>values</em> array does not need to match the number of columns in the record. If the array length is greater than the number of columns, all of the column values are copied into the array; if it is less, only the array length number of column values is copied into the array, starting at the column value with ordinal 0.</p>\n"
+  example:
+  - 
   syntax:
     content: public virtual int GetValues(object[] values)
     content.vb: Public Overridable Function GetValues(values As Object()) As Integer
@@ -1748,6 +2244,13 @@ items:
       type: System.Object[]
     return:
       type: System.Int32
+  exceptions:
+  - type: System.ArgumentNullException
+    commentId: T:System.ArgumentNullException
+    description: "\n<p>\n<em>values</em> is <strong>null</strong>.</p>\n"
+  - type: System.InvalidCastException
+    commentId: T:System.InvalidCastException
+    description: "\n<p>There is a type mismatch.</p>\n"
   modifiers.csharp:
   - public
   - virtual
@@ -1777,6 +2280,9 @@ items:
   assemblies:
   - System.Data.SqlClient
   namespace: Microsoft.SqlServer.Server
+  summary: "\n<p>Returns true if the column specified by the column ordinal parameter is null.</p>\n"
+  example:
+  - 
   syntax:
     content: public virtual bool IsDBNull(int ordinal)
     content.vb: Public Overridable Function IsDBNull(ordinal As Integer) As Boolean
@@ -1785,6 +2291,10 @@ items:
       type: System.Int32
     return:
       type: System.Boolean
+  exceptions:
+  - type: System.IndexOutOfRangeException
+    commentId: T:System.IndexOutOfRangeException
+    description: "\n<p>The <em>ordinal</em> is less than 0 or greater than the number of columns (that is, <xref href=\"Microsoft.SqlServer.Server.SqlDataRecord.FieldCount\" data-throw-if-not-resolved=\"false\"></xref>).</p>\n"
   modifiers.csharp:
   - public
   - virtual
@@ -1812,6 +2322,9 @@ items:
   assemblies:
   - System.Data.SqlClient
   namespace: Microsoft.SqlServer.Server
+  summary: "\n<p>Sets the data stored in the column to the specified <xref href=\"System.Boolean\" data-throw-if-not-resolved=\"false\"></xref> value.</p>\n"
+  example:
+  - 
   syntax:
     content: public virtual void SetBoolean(int ordinal, bool value)
     content.vb: Public Overridable Sub SetBoolean(ordinal As Integer, value As Boolean)
@@ -1847,6 +2360,9 @@ items:
   assemblies:
   - System.Data.SqlClient
   namespace: Microsoft.SqlServer.Server
+  summary: "\n<p>Sets the data stored in the column to the specified <xref href=\"System.Byte\" data-throw-if-not-resolved=\"false\"></xref> value.</p>\n"
+  example:
+  - 
   syntax:
     content: public virtual void SetByte(int ordinal, byte value)
     content.vb: Public Overridable Sub SetByte(ordinal As Integer, value As Byte)
@@ -1855,6 +2371,10 @@ items:
       type: System.Int32
     - id: value
       type: System.Byte
+  exceptions:
+  - type: System.ArgumentOutOfRangeException
+    commentId: T:System.ArgumentOutOfRangeException
+    description: "\n<p>The <em>ordinal</em> is less than 0 or greater than the number of columns (that is, <xref href=\"Microsoft.SqlServer.Server.SqlDataRecord.FieldCount\" data-throw-if-not-resolved=\"false\"></xref>).</p>\n"
   modifiers.csharp:
   - public
   - virtual
@@ -1882,6 +2402,9 @@ items:
   assemblies:
   - System.Data.SqlClient
   namespace: Microsoft.SqlServer.Server
+  summary: "\n<p>Sets the data stored in the column to the specified array of <xref href=\"System.Byte\" data-throw-if-not-resolved=\"false\"></xref> values.</p>\n"
+  example:
+  - 
   syntax:
     content: public virtual void SetBytes(int ordinal, long fieldOffset, byte[] buffer, int bufferOffset, int length)
     content.vb: Public Overridable Sub SetBytes(ordinal As Integer, fieldOffset As Long, buffer As Byte(), bufferOffset As Integer, length As Integer)
@@ -1896,6 +2419,10 @@ items:
       type: System.Int32
     - id: length
       type: System.Int32
+  exceptions:
+  - type: System.ArgumentOutOfRangeException
+    commentId: T:System.ArgumentOutOfRangeException
+    description: "\n<p>The <em>ordinal</em> is less than 0 or greater than the number of columns (that is, <xref href=\"Microsoft.SqlServer.Server.SqlDataRecord.FieldCount\" data-throw-if-not-resolved=\"false\"></xref>).</p>\n"
   modifiers.csharp:
   - public
   - virtual
@@ -1925,6 +2452,9 @@ items:
   assemblies:
   - System.Data.SqlClient
   namespace: Microsoft.SqlServer.Server
+  summary: "\n<p>Sets the data stored in the column to the specified <xref href=\"System.Char\" data-throw-if-not-resolved=\"false\"></xref> value.</p>\n"
+  example:
+  - 
   syntax:
     content: public virtual void SetChar(int ordinal, char value)
     content.vb: Public Overridable Sub SetChar(ordinal As Integer, value As Char)
@@ -1933,6 +2463,10 @@ items:
       type: System.Int32
     - id: value
       type: System.Char
+  exceptions:
+  - type: System.ArgumentOutOfRangeException
+    commentId: T:System.ArgumentOutOfRangeException
+    description: "\n<p>The <em>ordinal</em> is less than 0 or greater than the number of columns (that is, <xref href=\"Microsoft.SqlServer.Server.SqlDataRecord.FieldCount\" data-throw-if-not-resolved=\"false\"></xref>).</p>\n"
   modifiers.csharp:
   - public
   - virtual
@@ -1960,6 +2494,9 @@ items:
   assemblies:
   - System.Data.SqlClient
   namespace: Microsoft.SqlServer.Server
+  summary: "\n<p>Sets the data stored in the column to the specified array of <xref href=\"System.Char\" data-throw-if-not-resolved=\"false\"></xref> values.</p>\n"
+  example:
+  - 
   syntax:
     content: public virtual void SetChars(int ordinal, long fieldOffset, char[] buffer, int bufferOffset, int length)
     content.vb: Public Overridable Sub SetChars(ordinal As Integer, fieldOffset As Long, buffer As Char(), bufferOffset As Integer, length As Integer)
@@ -1974,6 +2511,10 @@ items:
       type: System.Int32
     - id: length
       type: System.Int32
+  exceptions:
+  - type: System.ArgumentOutOfRangeException
+    commentId: T:System.ArgumentOutOfRangeException
+    description: "\n<p>The <em>ordinal</em> is less than 0 or greater than the number of columns (that is, <xref href=\"Microsoft.SqlServer.Server.SqlDataRecord.FieldCount\" data-throw-if-not-resolved=\"false\"></xref>).</p>\n"
   modifiers.csharp:
   - public
   - virtual
@@ -1994,23 +2535,30 @@ items:
   type: Method
   source:
     remote:
-      path: src/System.Data.SqlClient/ref/System.Data.SqlClient.cs
+      path: src/System.Data.SqlClient/src/Microsoft/SqlServer/Server/SqlDataRecord.cs
       branch: master
       repo: https://github.com/dotnet/corefx.git
     id: SetDateTime
-    path: src/System.Data.SqlClient/ref/System.Data.SqlClient.cs
-    startLine: 65
+    path: src/System.Data.SqlClient/src/Microsoft/SqlServer/Server/SqlDataRecord.cs
+    startLine: 515
   assemblies:
   - System.Data.SqlClient
   namespace: Microsoft.SqlServer.Server
+  summary: "\n<p>Sets the data stored in the column to the specified <xref href=\"System.DateTime\" data-throw-if-not-resolved=\"false\"></xref> value.</p>\n"
+  example:
+  - 
   syntax:
     content: public virtual void SetDateTime(int ordinal, DateTime value)
-    content.vb: Public Overridable Sub SetDateTime(ordinal As Integer, value As DateTime)
+    content.vb: Public Overridable Sub SetDateTime(ordinal As Integer, value As Date)
     parameters:
     - id: ordinal
       type: System.Int32
     - id: value
       type: System.DateTime
+  exceptions:
+  - type: System.ArgumentOutOfRangeException
+    commentId: T:System.ArgumentOutOfRangeException
+    description: "\n<p>The <em>ordinal</em> is less than 0 or greater than the number of columns (that is, <xref href=\"Microsoft.SqlServer.Server.SqlDataRecord.FieldCount\" data-throw-if-not-resolved=\"false\"></xref>).</p>\n"
   modifiers.csharp:
   - public
   - virtual
@@ -2029,15 +2577,18 @@ items:
   type: Method
   source:
     remote:
-      path: src/System.Data.SqlClient/ref/System.Data.SqlClient.cs
+      path: src/System.Data.SqlClient/src/Microsoft/SqlServer/Server/SqlDataRecord.cs
       branch: master
       repo: https://github.com/dotnet/corefx.git
     id: SetDateTimeOffset
-    path: src/System.Data.SqlClient/ref/System.Data.SqlClient.cs
-    startLine: 66
+    path: src/System.Data.SqlClient/src/Microsoft/SqlServer/Server/SqlDataRecord.cs
+    startLine: 527
   assemblies:
   - System.Data.SqlClient
   namespace: Microsoft.SqlServer.Server
+  summary: "\n<p>Sets the value of the column specified to the <xref href=\"System.DateTimeOffset\" data-throw-if-not-resolved=\"false\"></xref> value.</p>\n"
+  example:
+  - 
   syntax:
     content: public virtual void SetDateTimeOffset(int ordinal, DateTimeOffset value)
     content.vb: Public Overridable Sub SetDateTimeOffset(ordinal As Integer, value As DateTimeOffset)
@@ -2073,6 +2624,9 @@ items:
   assemblies:
   - System.Data.SqlClient
   namespace: Microsoft.SqlServer.Server
+  summary: "\n<p>Sets the value in the specified column to <xref href=\"System.DBNull\" data-throw-if-not-resolved=\"false\"></xref>.</p>\n"
+  example:
+  - 
   syntax:
     content: public virtual void SetDBNull(int ordinal)
     content.vb: Public Overridable Sub SetDBNull(ordinal As Integer)
@@ -2097,15 +2651,18 @@ items:
   type: Method
   source:
     remote:
-      path: src/System.Data.SqlClient/ref/System.Data.SqlClient.cs
+      path: src/System.Data.SqlClient/src/Microsoft/SqlServer/Server/SqlDataRecord.cs
       branch: master
       repo: https://github.com/dotnet/corefx.git
     id: SetDecimal
-    path: src/System.Data.SqlClient/ref/System.Data.SqlClient.cs
-    startLine: 68
+    path: src/System.Data.SqlClient/src/Microsoft/SqlServer/Server/SqlDataRecord.cs
+    startLine: 509
   assemblies:
   - System.Data.SqlClient
   namespace: Microsoft.SqlServer.Server
+  summary: "\n<p>Sets the data stored in the column to the specified <xref href=\"System.Decimal\" data-throw-if-not-resolved=\"false\"></xref> value.</p>\n"
+  example:
+  - 
   syntax:
     content: public virtual void SetDecimal(int ordinal, decimal value)
     content.vb: Public Overridable Sub SetDecimal(ordinal As Integer, value As Decimal)
@@ -2114,6 +2671,10 @@ items:
       type: System.Int32
     - id: value
       type: System.Decimal
+  exceptions:
+  - type: System.ArgumentOutOfRangeException
+    commentId: T:System.ArgumentOutOfRangeException
+    description: "\n<p>The <em>ordinal</em> is less than 0 or greater than the number of columns (that is, <xref href=\"Microsoft.SqlServer.Server.SqlDataRecord.FieldCount\" data-throw-if-not-resolved=\"false\"></xref>).</p>\n"
   modifiers.csharp:
   - public
   - virtual
@@ -2141,6 +2702,9 @@ items:
   assemblies:
   - System.Data.SqlClient
   namespace: Microsoft.SqlServer.Server
+  summary: "\n<p>Sets the data stored in the column to the specified <xref href=\"System.Double\" data-throw-if-not-resolved=\"false\"></xref> value.</p>\n"
+  example:
+  - 
   syntax:
     content: public virtual void SetDouble(int ordinal, double value)
     content.vb: Public Overridable Sub SetDouble(ordinal As Integer, value As Double)
@@ -2149,6 +2713,10 @@ items:
       type: System.Int32
     - id: value
       type: System.Double
+  exceptions:
+  - type: System.ArgumentOutOfRangeException
+    commentId: T:System.ArgumentOutOfRangeException
+    description: "\n<p>The <em>ordinal</em> is less than 0 or greater than the number of columns (that is, <xref href=\"Microsoft.SqlServer.Server.SqlDataRecord.FieldCount\" data-throw-if-not-resolved=\"false\"></xref>).</p>\n"
   modifiers.csharp:
   - public
   - virtual
@@ -2176,6 +2744,9 @@ items:
   assemblies:
   - System.Data.SqlClient
   namespace: Microsoft.SqlServer.Server
+  summary: "\n<p>Sets the data stored in the column to the specified <strong>float</strong> value.</p>\n"
+  example:
+  - 
   syntax:
     content: public virtual void SetFloat(int ordinal, float value)
     content.vb: Public Overridable Sub SetFloat(ordinal As Integer, value As Single)
@@ -2184,6 +2755,10 @@ items:
       type: System.Int32
     - id: value
       type: System.Single
+  exceptions:
+  - type: System.ArgumentOutOfRangeException
+    commentId: T:System.ArgumentOutOfRangeException
+    description: "\n<p>The <em>ordinal</em> is less than 0 or greater than the number of columns (that is, <xref href=\"Microsoft.SqlServer.Server.SqlDataRecord.FieldCount\" data-throw-if-not-resolved=\"false\"></xref>).</p>\n"
   modifiers.csharp:
   - public
   - virtual
@@ -2202,15 +2777,18 @@ items:
   type: Method
   source:
     remote:
-      path: src/System.Data.SqlClient/ref/System.Data.SqlClient.cs
+      path: src/System.Data.SqlClient/src/Microsoft/SqlServer/Server/SqlDataRecord.cs
       branch: master
       repo: https://github.com/dotnet/corefx.git
     id: SetGuid
-    path: src/System.Data.SqlClient/ref/System.Data.SqlClient.cs
-    startLine: 71
+    path: src/System.Data.SqlClient/src/Microsoft/SqlServer/Server/SqlDataRecord.cs
+    startLine: 539
   assemblies:
   - System.Data.SqlClient
   namespace: Microsoft.SqlServer.Server
+  summary: "\n<p>Sets the data stored in the column to the specified <xref href=\"System.Guid\" data-throw-if-not-resolved=\"false\"></xref> value.</p>\n"
+  example:
+  - 
   syntax:
     content: public virtual void SetGuid(int ordinal, Guid value)
     content.vb: Public Overridable Sub SetGuid(ordinal As Integer, value As Guid)
@@ -2219,6 +2797,10 @@ items:
       type: System.Int32
     - id: value
       type: System.Guid
+  exceptions:
+  - type: System.ArgumentOutOfRangeException
+    commentId: T:System.ArgumentOutOfRangeException
+    description: "\n<p>The <em>ordinal</em> is less than 0 or greater than the number of columns (that is, <xref href=\"Microsoft.SqlServer.Server.SqlDataRecord.FieldCount\" data-throw-if-not-resolved=\"false\"></xref>).</p>\n"
   modifiers.csharp:
   - public
   - virtual
@@ -2246,14 +2828,21 @@ items:
   assemblies:
   - System.Data.SqlClient
   namespace: Microsoft.SqlServer.Server
+  summary: "\n<p>Sets the data stored in the column to the specified <xref href=\"System.Int16\" data-throw-if-not-resolved=\"false\"></xref> value.</p>\n"
+  example:
+  - 
   syntax:
-    content: public virtual void SetInt16(int ordinal, Int16 value)
-    content.vb: Public Overridable Sub SetInt16(ordinal As Integer, value As Int16)
+    content: public virtual void SetInt16(int ordinal, short value)
+    content.vb: Public Overridable Sub SetInt16(ordinal As Integer, value As Short)
     parameters:
     - id: ordinal
       type: System.Int32
     - id: value
       type: System.Int16
+  exceptions:
+  - type: System.ArgumentOutOfRangeException
+    commentId: T:System.ArgumentOutOfRangeException
+    description: "\n<p>The <em>ordinal</em> is less than 0 or greater than the number of columns (that is, <xref href=\"Microsoft.SqlServer.Server.SqlDataRecord.FieldCount\" data-throw-if-not-resolved=\"false\"></xref>).</p>\n"
   modifiers.csharp:
   - public
   - virtual
@@ -2281,14 +2870,21 @@ items:
   assemblies:
   - System.Data.SqlClient
   namespace: Microsoft.SqlServer.Server
+  summary: "\n<p>Sets the data stored in the column to the specified <xref href=\"System.Int32\" data-throw-if-not-resolved=\"false\"></xref> value.</p>\n"
+  example:
+  - 
   syntax:
-    content: public virtual void SetInt32(int ordinal, Int32 value)
-    content.vb: Public Overridable Sub SetInt32(ordinal As Integer, value As Int32)
+    content: public virtual void SetInt32(int ordinal, int value)
+    content.vb: Public Overridable Sub SetInt32(ordinal As Integer, value As Integer)
     parameters:
     - id: ordinal
       type: System.Int32
     - id: value
       type: System.Int32
+  exceptions:
+  - type: System.ArgumentOutOfRangeException
+    commentId: T:System.ArgumentOutOfRangeException
+    description: "\n<p>The <em>ordinal</em> is less than 0 or greater than the number of columns (that is, <xref href=\"Microsoft.SqlServer.Server.SqlDataRecord.FieldCount\" data-throw-if-not-resolved=\"false\"></xref>).</p>\n"
   modifiers.csharp:
   - public
   - virtual
@@ -2316,14 +2912,21 @@ items:
   assemblies:
   - System.Data.SqlClient
   namespace: Microsoft.SqlServer.Server
+  summary: "\n<p>Sets the data stored in the column to the specified <xref href=\"System.Int64\" data-throw-if-not-resolved=\"false\"></xref> value.</p>\n"
+  example:
+  - 
   syntax:
-    content: public virtual void SetInt64(int ordinal, Int64 value)
-    content.vb: Public Overridable Sub SetInt64(ordinal As Integer, value As Int64)
+    content: public virtual void SetInt64(int ordinal, long value)
+    content.vb: Public Overridable Sub SetInt64(ordinal As Integer, value As Long)
     parameters:
     - id: ordinal
       type: System.Int32
     - id: value
       type: System.Int64
+  exceptions:
+  - type: System.ArgumentOutOfRangeException
+    commentId: T:System.ArgumentOutOfRangeException
+    description: "\n<p>The <em>ordinal</em> is less than 0 or greater than the number of columns (that is, <xref href=\"Microsoft.SqlServer.Server.SqlDataRecord.FieldCount\" data-throw-if-not-resolved=\"false\"></xref>).</p>\n"
   modifiers.csharp:
   - public
   - virtual
@@ -2351,6 +2954,9 @@ items:
   assemblies:
   - System.Data.SqlClient
   namespace: Microsoft.SqlServer.Server
+  summary: "\n<p>Sets the data stored in the column to the specified <xref href=\"System.Data.SqlTypes.SqlBinary\" data-throw-if-not-resolved=\"false\"></xref> value.</p>\n"
+  example:
+  - 
   syntax:
     content: public virtual void SetSqlBinary(int ordinal, SqlBinary value)
     content.vb: Public Overridable Sub SetSqlBinary(ordinal As Integer, value As SqlBinary)
@@ -2359,6 +2965,10 @@ items:
       type: System.Int32
     - id: value
       type: System.Data.SqlTypes.SqlBinary
+  exceptions:
+  - type: System.ArgumentOutOfRangeException
+    commentId: T:System.ArgumentOutOfRangeException
+    description: "\n<p>The <em>ordinal</em> is less than 0 or greater than the number of columns (that is, <xref href=\"Microsoft.SqlServer.Server.SqlDataRecord.FieldCount\" data-throw-if-not-resolved=\"false\"></xref>).</p>\n"
   modifiers.csharp:
   - public
   - virtual
@@ -2386,6 +2996,9 @@ items:
   assemblies:
   - System.Data.SqlClient
   namespace: Microsoft.SqlServer.Server
+  summary: "\n<p>Sets the data stored in the column to the specified <xref href=\"System.Data.SqlTypes.SqlBoolean\" data-throw-if-not-resolved=\"false\"></xref> value.</p>\n"
+  example:
+  - 
   syntax:
     content: public virtual void SetSqlBoolean(int ordinal, SqlBoolean value)
     content.vb: Public Overridable Sub SetSqlBoolean(ordinal As Integer, value As SqlBoolean)
@@ -2394,6 +3007,10 @@ items:
       type: System.Int32
     - id: value
       type: System.Data.SqlTypes.SqlBoolean
+  exceptions:
+  - type: System.ArgumentOutOfRangeException
+    commentId: T:System.ArgumentOutOfRangeException
+    description: "\n<p>The <em>ordinal</em> is less than 0 or greater than the number of columns (that is, <xref href=\"Microsoft.SqlServer.Server.SqlDataRecord.FieldCount\" data-throw-if-not-resolved=\"false\"></xref>).</p>\n"
   modifiers.csharp:
   - public
   - virtual
@@ -2421,6 +3038,9 @@ items:
   assemblies:
   - System.Data.SqlClient
   namespace: Microsoft.SqlServer.Server
+  summary: "\n<p>Sets the data stored in the column to the specified <xref href=\"System.Data.SqlTypes.SqlByte\" data-throw-if-not-resolved=\"false\"></xref> value.</p>\n"
+  example:
+  - 
   syntax:
     content: public virtual void SetSqlByte(int ordinal, SqlByte value)
     content.vb: Public Overridable Sub SetSqlByte(ordinal As Integer, value As SqlByte)
@@ -2429,6 +3049,10 @@ items:
       type: System.Int32
     - id: value
       type: System.Data.SqlTypes.SqlByte
+  exceptions:
+  - type: System.ArgumentOutOfRangeException
+    commentId: T:System.ArgumentOutOfRangeException
+    description: "\n<p>The <em>ordinal</em> is less than 0 or greater than the number of columns (that is, <xref href=\"Microsoft.SqlServer.Server.SqlDataRecord.FieldCount\" data-throw-if-not-resolved=\"false\"></xref>).</p>\n"
   modifiers.csharp:
   - public
   - virtual
@@ -2456,6 +3080,9 @@ items:
   assemblies:
   - System.Data.SqlClient
   namespace: Microsoft.SqlServer.Server
+  summary: "\n<p>Sets the data stored in the column to the specified <xref href=\"System.Data.SqlTypes.SqlBytes\" data-throw-if-not-resolved=\"false\"></xref> value.</p>\n"
+  example:
+  - 
   syntax:
     content: public virtual void SetSqlBytes(int ordinal, SqlBytes value)
     content.vb: Public Overridable Sub SetSqlBytes(ordinal As Integer, value As SqlBytes)
@@ -2464,6 +3091,10 @@ items:
       type: System.Int32
     - id: value
       type: System.Data.SqlTypes.SqlBytes
+  exceptions:
+  - type: System.ArgumentOutOfRangeException
+    commentId: T:System.ArgumentOutOfRangeException
+    description: "\n<p>The <em>ordinal</em> is less than 0 or greater than the number of columns (that is, <xref href=\"Microsoft.SqlServer.Server.SqlDataRecord.FieldCount\" data-throw-if-not-resolved=\"false\"></xref>).</p>\n"
   modifiers.csharp:
   - public
   - virtual
@@ -2491,6 +3122,9 @@ items:
   assemblies:
   - System.Data.SqlClient
   namespace: Microsoft.SqlServer.Server
+  summary: "\n<p>Sets the data stored in the column to the specified <xref href=\"System.Data.SqlTypes.SqlChars\" data-throw-if-not-resolved=\"false\"></xref> value.</p>\n"
+  example:
+  - 
   syntax:
     content: public virtual void SetSqlChars(int ordinal, SqlChars value)
     content.vb: Public Overridable Sub SetSqlChars(ordinal As Integer, value As SqlChars)
@@ -2499,6 +3133,10 @@ items:
       type: System.Int32
     - id: value
       type: System.Data.SqlTypes.SqlChars
+  exceptions:
+  - type: System.ArgumentOutOfRangeException
+    commentId: T:System.ArgumentOutOfRangeException
+    description: "\n<p>The <em>ordinal</em> is less than 0 or greater than the number of columns (that is, <xref href=\"Microsoft.SqlServer.Server.SqlDataRecord.FieldCount\" data-throw-if-not-resolved=\"false\"></xref>).</p>\n"
   modifiers.csharp:
   - public
   - virtual
@@ -2526,6 +3164,9 @@ items:
   assemblies:
   - System.Data.SqlClient
   namespace: Microsoft.SqlServer.Server
+  summary: "\n<p>Sets the data stored in the column to the specified <xref href=\"System.Data.SqlTypes.SqlDateTime\" data-throw-if-not-resolved=\"false\"></xref> value.</p>\n"
+  example:
+  - 
   syntax:
     content: public virtual void SetSqlDateTime(int ordinal, SqlDateTime value)
     content.vb: Public Overridable Sub SetSqlDateTime(ordinal As Integer, value As SqlDateTime)
@@ -2534,6 +3175,10 @@ items:
       type: System.Int32
     - id: value
       type: System.Data.SqlTypes.SqlDateTime
+  exceptions:
+  - type: System.ArgumentOutOfRangeException
+    commentId: T:System.ArgumentOutOfRangeException
+    description: "\n<p>The <em>ordinal</em> is less than 0 or greater than the number of columns (that is, <xref href=\"Microsoft.SqlServer.Server.SqlDataRecord.FieldCount\" data-throw-if-not-resolved=\"false\"></xref>).</p>\n"
   modifiers.csharp:
   - public
   - virtual
@@ -2561,6 +3206,9 @@ items:
   assemblies:
   - System.Data.SqlClient
   namespace: Microsoft.SqlServer.Server
+  summary: "\n<p>Sets the data stored in the column to the specified <xref href=\"System.Data.SqlTypes.SqlDecimal\" data-throw-if-not-resolved=\"false\"></xref> value.</p>\n"
+  example:
+  - 
   syntax:
     content: public virtual void SetSqlDecimal(int ordinal, SqlDecimal value)
     content.vb: Public Overridable Sub SetSqlDecimal(ordinal As Integer, value As SqlDecimal)
@@ -2569,6 +3217,10 @@ items:
       type: System.Int32
     - id: value
       type: System.Data.SqlTypes.SqlDecimal
+  exceptions:
+  - type: System.ArgumentOutOfRangeException
+    commentId: T:System.ArgumentOutOfRangeException
+    description: "\n<p>The <em>ordinal</em> is less than 0 or greater than the number of columns (that is, <xref href=\"Microsoft.SqlServer.Server.SqlDataRecord.FieldCount\" data-throw-if-not-resolved=\"false\"></xref>).</p>\n"
   modifiers.csharp:
   - public
   - virtual
@@ -2596,6 +3248,9 @@ items:
   assemblies:
   - System.Data.SqlClient
   namespace: Microsoft.SqlServer.Server
+  summary: "\n<p>Sets the data stored in the column to the specified <xref href=\"System.Data.SqlTypes.SqlDouble\" data-throw-if-not-resolved=\"false\"></xref> value.</p>\n"
+  example:
+  - 
   syntax:
     content: public virtual void SetSqlDouble(int ordinal, SqlDouble value)
     content.vb: Public Overridable Sub SetSqlDouble(ordinal As Integer, value As SqlDouble)
@@ -2604,6 +3259,10 @@ items:
       type: System.Int32
     - id: value
       type: System.Data.SqlTypes.SqlDouble
+  exceptions:
+  - type: System.ArgumentOutOfRangeException
+    commentId: T:System.ArgumentOutOfRangeException
+    description: "\n<p>The <em>ordinal</em> is less than 0 or greater than the number of columns (that is, <xref href=\"Microsoft.SqlServer.Server.SqlDataRecord.FieldCount\" data-throw-if-not-resolved=\"false\"></xref>).</p>\n"
   modifiers.csharp:
   - public
   - virtual
@@ -2631,6 +3290,9 @@ items:
   assemblies:
   - System.Data.SqlClient
   namespace: Microsoft.SqlServer.Server
+  summary: "\n<p>Sets the data stored in the column to the specified <xref href=\"System.Data.SqlTypes.SqlGuid\" data-throw-if-not-resolved=\"false\"></xref> value.</p>\n"
+  example:
+  - 
   syntax:
     content: public virtual void SetSqlGuid(int ordinal, SqlGuid value)
     content.vb: Public Overridable Sub SetSqlGuid(ordinal As Integer, value As SqlGuid)
@@ -2639,6 +3301,10 @@ items:
       type: System.Int32
     - id: value
       type: System.Data.SqlTypes.SqlGuid
+  exceptions:
+  - type: System.ArgumentOutOfRangeException
+    commentId: T:System.ArgumentOutOfRangeException
+    description: "\n<p>The <em>ordinal</em> is less than 0 or greater than the number of columns (that is, <xref href=\"Microsoft.SqlServer.Server.SqlDataRecord.FieldCount\" data-throw-if-not-resolved=\"false\"></xref>).</p>\n"
   modifiers.csharp:
   - public
   - virtual
@@ -2666,6 +3332,9 @@ items:
   assemblies:
   - System.Data.SqlClient
   namespace: Microsoft.SqlServer.Server
+  summary: "\n<p>Sets the data stored in the column to the specified <xref href=\"System.Data.SqlTypes.SqlInt16\" data-throw-if-not-resolved=\"false\"></xref> value.</p>\n"
+  example:
+  - 
   syntax:
     content: public virtual void SetSqlInt16(int ordinal, SqlInt16 value)
     content.vb: Public Overridable Sub SetSqlInt16(ordinal As Integer, value As SqlInt16)
@@ -2674,6 +3343,10 @@ items:
       type: System.Int32
     - id: value
       type: System.Data.SqlTypes.SqlInt16
+  exceptions:
+  - type: System.ArgumentOutOfRangeException
+    commentId: T:System.ArgumentOutOfRangeException
+    description: "\n<p>The <em>ordinal</em> is less than 0 or greater than the number of columns (that is, <xref href=\"Microsoft.SqlServer.Server.SqlDataRecord.FieldCount\" data-throw-if-not-resolved=\"false\"></xref>).</p>\n"
   modifiers.csharp:
   - public
   - virtual
@@ -2701,6 +3374,9 @@ items:
   assemblies:
   - System.Data.SqlClient
   namespace: Microsoft.SqlServer.Server
+  summary: "\n<p>Sets the data stored in the column to the specified <xref href=\"System.Data.SqlTypes.SqlInt32\" data-throw-if-not-resolved=\"false\"></xref> value.</p>\n"
+  example:
+  - 
   syntax:
     content: public virtual void SetSqlInt32(int ordinal, SqlInt32 value)
     content.vb: Public Overridable Sub SetSqlInt32(ordinal As Integer, value As SqlInt32)
@@ -2709,6 +3385,10 @@ items:
       type: System.Int32
     - id: value
       type: System.Data.SqlTypes.SqlInt32
+  exceptions:
+  - type: System.ArgumentOutOfRangeException
+    commentId: T:System.ArgumentOutOfRangeException
+    description: "\n<p>The <em>ordinal</em> is less than 0 or greater than the number of columns (that is, <xref href=\"Microsoft.SqlServer.Server.SqlDataRecord.FieldCount\" data-throw-if-not-resolved=\"false\"></xref>).</p>\n"
   modifiers.csharp:
   - public
   - virtual
@@ -2736,6 +3416,9 @@ items:
   assemblies:
   - System.Data.SqlClient
   namespace: Microsoft.SqlServer.Server
+  summary: "\n<p>Sets the data stored in the column to the specified <xref href=\"System.Data.SqlTypes.SqlInt64\" data-throw-if-not-resolved=\"false\"></xref> value.</p>\n"
+  example:
+  - 
   syntax:
     content: public virtual void SetSqlInt64(int ordinal, SqlInt64 value)
     content.vb: Public Overridable Sub SetSqlInt64(ordinal As Integer, value As SqlInt64)
@@ -2744,6 +3427,10 @@ items:
       type: System.Int32
     - id: value
       type: System.Data.SqlTypes.SqlInt64
+  exceptions:
+  - type: System.ArgumentOutOfRangeException
+    commentId: T:System.ArgumentOutOfRangeException
+    description: "\n<p>The <em>ordinal</em> is less than 0 or greater than the number of columns (that is, <xref href=\"Microsoft.SqlServer.Server.SqlDataRecord.FieldCount\" data-throw-if-not-resolved=\"false\"></xref>).</p>\n"
   modifiers.csharp:
   - public
   - virtual
@@ -2771,6 +3458,9 @@ items:
   assemblies:
   - System.Data.SqlClient
   namespace: Microsoft.SqlServer.Server
+  summary: "\n<p>Sets the data stored in the column to the specified <xref href=\"System.Data.SqlTypes.SqlMoney\" data-throw-if-not-resolved=\"false\"></xref> value.</p>\n"
+  example:
+  - 
   syntax:
     content: public virtual void SetSqlMoney(int ordinal, SqlMoney value)
     content.vb: Public Overridable Sub SetSqlMoney(ordinal As Integer, value As SqlMoney)
@@ -2779,6 +3469,10 @@ items:
       type: System.Int32
     - id: value
       type: System.Data.SqlTypes.SqlMoney
+  exceptions:
+  - type: System.ArgumentOutOfRangeException
+    commentId: T:System.ArgumentOutOfRangeException
+    description: "\n<p>The <em>ordinal</em> is less than 0 or greater than the number of columns (that is, <xref href=\"Microsoft.SqlServer.Server.SqlDataRecord.FieldCount\" data-throw-if-not-resolved=\"false\"></xref>).</p>\n"
   modifiers.csharp:
   - public
   - virtual
@@ -2806,6 +3500,9 @@ items:
   assemblies:
   - System.Data.SqlClient
   namespace: Microsoft.SqlServer.Server
+  summary: "\n<p>Sets the data stored in the column to the specified <xref href=\"System.Data.SqlTypes.SqlSingle\" data-throw-if-not-resolved=\"false\"></xref> value.</p>\n"
+  example:
+  - 
   syntax:
     content: public virtual void SetSqlSingle(int ordinal, SqlSingle value)
     content.vb: Public Overridable Sub SetSqlSingle(ordinal As Integer, value As SqlSingle)
@@ -2814,6 +3511,10 @@ items:
       type: System.Int32
     - id: value
       type: System.Data.SqlTypes.SqlSingle
+  exceptions:
+  - type: System.ArgumentOutOfRangeException
+    commentId: T:System.ArgumentOutOfRangeException
+    description: "\n<p>The <em>ordinal</em> is less than 0 or greater than the number of columns (that is, <xref href=\"Microsoft.SqlServer.Server.SqlDataRecord.FieldCount\" data-throw-if-not-resolved=\"false\"></xref>).</p>\n"
   modifiers.csharp:
   - public
   - virtual
@@ -2841,6 +3542,9 @@ items:
   assemblies:
   - System.Data.SqlClient
   namespace: Microsoft.SqlServer.Server
+  summary: "\n<p>Sets the data stored in the column to the specified <xref href=\"System.Data.SqlTypes.SqlString\" data-throw-if-not-resolved=\"false\"></xref> value.</p>\n"
+  example:
+  - 
   syntax:
     content: public virtual void SetSqlString(int ordinal, SqlString value)
     content.vb: Public Overridable Sub SetSqlString(ordinal As Integer, value As SqlString)
@@ -2849,6 +3553,10 @@ items:
       type: System.Int32
     - id: value
       type: System.Data.SqlTypes.SqlString
+  exceptions:
+  - type: System.ArgumentOutOfRangeException
+    commentId: T:System.ArgumentOutOfRangeException
+    description: "\n<p>The <em>ordinal</em> is less than 0 or greater than the number of columns (that is, <xref href=\"Microsoft.SqlServer.Server.SqlDataRecord.FieldCount\" data-throw-if-not-resolved=\"false\"></xref>).</p>\n"
   modifiers.csharp:
   - public
   - virtual
@@ -2876,6 +3584,9 @@ items:
   assemblies:
   - System.Data.SqlClient
   namespace: Microsoft.SqlServer.Server
+  summary: "\n<p>Sets the data stored in the column to the specified <xref href=\"System.Data.SqlTypes.SqlXml\" data-throw-if-not-resolved=\"false\"></xref> value.</p>\n"
+  example:
+  - 
   syntax:
     content: public virtual void SetSqlXml(int ordinal, SqlXml value)
     content.vb: Public Overridable Sub SetSqlXml(ordinal As Integer, value As SqlXml)
@@ -2884,6 +3595,10 @@ items:
       type: System.Int32
     - id: value
       type: System.Data.SqlTypes.SqlXml
+  exceptions:
+  - type: System.ArgumentOutOfRangeException
+    commentId: T:System.ArgumentOutOfRangeException
+    description: "\n<p>The <em>ordinal</em> is less than 0 or greater than the number of columns (that is, <xref href=\"Microsoft.SqlServer.Server.SqlDataRecord.FieldCount\" data-throw-if-not-resolved=\"false\"></xref>).</p>\n"
   modifiers.csharp:
   - public
   - virtual
@@ -2911,6 +3626,9 @@ items:
   assemblies:
   - System.Data.SqlClient
   namespace: Microsoft.SqlServer.Server
+  summary: "\n<p>Sets the data stored in the column to the specified <xref href=\"System.String\" data-throw-if-not-resolved=\"false\"></xref> value.</p>\n"
+  example:
+  - 
   syntax:
     content: public virtual void SetString(int ordinal, string value)
     content.vb: Public Overridable Sub SetString(ordinal As Integer, value As String)
@@ -2919,6 +3637,10 @@ items:
       type: System.Int32
     - id: value
       type: System.String
+  exceptions:
+  - type: System.ArgumentOutOfRangeException
+    commentId: T:System.ArgumentOutOfRangeException
+    description: "\n<p>The <em>ordinal</em> is less than 0 or greater than the number of columns (that is, <xref href=\"Microsoft.SqlServer.Server.SqlDataRecord.FieldCount\" data-throw-if-not-resolved=\"false\"></xref>).</p>\n"
   modifiers.csharp:
   - public
   - virtual
@@ -2937,15 +3659,18 @@ items:
   type: Method
   source:
     remote:
-      path: src/System.Data.SqlClient/ref/System.Data.SqlClient.cs
+      path: src/System.Data.SqlClient/src/Microsoft/SqlServer/Server/SqlDataRecord.cs
       branch: master
       repo: https://github.com/dotnet/corefx.git
     id: SetTimeSpan
-    path: src/System.Data.SqlClient/ref/System.Data.SqlClient.cs
-    startLine: 92
+    path: src/System.Data.SqlClient/src/Microsoft/SqlServer/Server/SqlDataRecord.cs
+    startLine: 521
   assemblies:
   - System.Data.SqlClient
   namespace: Microsoft.SqlServer.Server
+  summary: "\n<p>Sets the value of the column specified to the <xref href=\"System.TimeSpan\" data-throw-if-not-resolved=\"false\"></xref>.</p>\n"
+  example:
+  - 
   syntax:
     content: public virtual void SetTimeSpan(int ordinal, TimeSpan value)
     content.vb: Public Overridable Sub SetTimeSpan(ordinal As Integer, value As TimeSpan)
@@ -2954,6 +3679,13 @@ items:
       type: System.Int32
     - id: value
       type: System.TimeSpan
+  exceptions:
+  - type: System.ArgumentOutOfRangeException
+    commentId: T:System.ArgumentOutOfRangeException
+    description: "\n<p>The <em>ordinal</em> passed in is a negative number.</p>\n"
+  - type: System.ArgumentException
+    commentId: T:System.ArgumentException
+    description: "\n<p>The <xref href=\"System.TimeSpan\" data-throw-if-not-resolved=\"false\"></xref> value passed in is greater than 24 hours in length.</p>\n"
   modifiers.csharp:
   - public
   - virtual
@@ -2981,6 +3713,10 @@ items:
   assemblies:
   - System.Data.SqlClient
   namespace: Microsoft.SqlServer.Server
+  summary: "\n<p>Sets a new value, expressed as a common language runtime (CLR) type, for the column specified by the column ordinal.</p>\n"
+  remarks: "\n<p>\n<em>value</em> is a SQL type boxed as a <xref href=\"System.Object\" data-throw-if-not-resolved=\"false\"></xref> instance.</p>\n"
+  example:
+  - 
   syntax:
     content: public virtual void SetValue(int ordinal, object value)
     content.vb: Public Overridable Sub SetValue(ordinal As Integer, value As Object)
@@ -2989,6 +3725,10 @@ items:
       type: System.Int32
     - id: value
       type: System.Object
+  exceptions:
+  - type: System.ArgumentOutOfRangeException
+    commentId: T:System.ArgumentOutOfRangeException
+    description: "\n<p>The <em>ordinal</em> is less than 0 or greater than the number of columns (that is, <xref href=\"Microsoft.SqlServer.Server.SqlDataRecord.FieldCount\" data-throw-if-not-resolved=\"false\"></xref>).</p>\n"
   modifiers.csharp:
   - public
   - virtual
@@ -3016,6 +3756,10 @@ items:
   assemblies:
   - System.Data.SqlClient
   namespace: Microsoft.SqlServer.Server
+  summary: "\n<p>Sets new values for all of the columns in the <xref href=\"Microsoft.SqlServer.Server.SqlDataRecord\" data-throw-if-not-resolved=\"false\"></xref>. These values are expressed as common language runtime (CLR) types.</p>\n"
+  remarks: "\n<p>The length of values must match the number of columns in the <xref href=\"Microsoft.SqlServer.Server.SqlDataRecord\" data-throw-if-not-resolved=\"false\"></xref> instance.</p>\n"
+  example:
+  - 
   syntax:
     content: public virtual int SetValues(params object[] values)
     content.vb: Public Overridable Function SetValues(ParamArray values As Object()) As Integer
@@ -3024,6 +3768,13 @@ items:
       type: System.Object[]
     return:
       type: System.Int32
+  exceptions:
+  - type: System.ArgumentNullException
+    commentId: T:System.ArgumentNullException
+    description: "\n<p>\n<em>values</em> is <strong>null</strong>.</p>\n"
+  - type: System.ArgumentException
+    commentId: T:System.ArgumentException
+    description: "\n<p>The size of values does not match the number of columns in the <xref href=\"Microsoft.SqlServer.Server.SqlDataRecord\" data-throw-if-not-resolved=\"false\"></xref> instance.</p>\n"
   modifiers.csharp:
   - public
   - virtual
@@ -3042,6 +3793,215 @@ references:
   isExternal: false
   name: Object
   fullName: System.Object
+- uid: System.Object.ToString
+  parent: System.Object
+  isExternal: true
+  name: ToString()
+  fullName: System.Object.ToString()
+  spec.csharp:
+  - uid: System.Object.ToString
+    name: ToString
+    fullName: System.Object.ToString
+    isExternal: true
+  - name: (
+    fullName: (
+  - name: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.ToString
+    name: ToString
+    fullName: System.Object.ToString
+    isExternal: true
+  - name: (
+    fullName: (
+  - name: )
+    fullName: )
+- uid: System.Object.Equals(System.Object)
+  parent: System.Object
+  isExternal: true
+  name: Equals(Object)
+  fullName: System.Object.Equals(System.Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    fullName: )
+- uid: System.Object.Equals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  name: Equals(Object, Object)
+  fullName: System.Object.Equals(System.Object, System.Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    fullName: )
+- uid: System.Object.ReferenceEquals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  name: ReferenceEquals(Object, Object)
+  fullName: System.Object.ReferenceEquals(System.Object, System.Object)
+  spec.csharp:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    fullName: System.Object.ReferenceEquals
+    isExternal: true
+  - name: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    fullName: System.Object.ReferenceEquals
+    isExternal: true
+  - name: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    fullName: )
+- uid: System.Object.GetHashCode
+  parent: System.Object
+  isExternal: true
+  name: GetHashCode()
+  fullName: System.Object.GetHashCode()
+  spec.csharp:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    fullName: System.Object.GetHashCode
+    isExternal: true
+  - name: (
+    fullName: (
+  - name: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    fullName: System.Object.GetHashCode
+    isExternal: true
+  - name: (
+    fullName: (
+  - name: )
+    fullName: )
+- uid: System.Object.GetType
+  parent: System.Object
+  isExternal: true
+  name: GetType()
+  fullName: System.Object.GetType()
+  spec.csharp:
+  - uid: System.Object.GetType
+    name: GetType
+    fullName: System.Object.GetType
+    isExternal: true
+  - name: (
+    fullName: (
+  - name: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.GetType
+    name: GetType
+    fullName: System.Object.GetType
+    isExternal: true
+  - name: (
+    fullName: (
+  - name: )
+    fullName: )
+- uid: System.Object.MemberwiseClone
+  parent: System.Object
+  isExternal: true
+  name: MemberwiseClone()
+  fullName: System.Object.MemberwiseClone()
+  spec.csharp:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    fullName: System.Object.MemberwiseClone
+    isExternal: true
+  - name: (
+    fullName: (
+  - name: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    fullName: System.Object.MemberwiseClone
+    isExternal: true
+  - name: (
+    fullName: (
+  - name: )
+    fullName: )
 - uid: System
   isExternal: false
   name: System
@@ -3090,7 +4050,7 @@ references:
   name: Int64
   fullName: System.Int64
 - uid: System.Byte[]
-  isExternal: false
+  isExternal: true
   name: Byte[]
   fullName: System.Byte[]
   fullname.vb: System.Byte()
@@ -3099,12 +4059,14 @@ references:
   - uid: System.Byte
     name: Byte
     fullName: System.Byte
+    isExternal: true
   - name: '[]'
     fullName: '[]'
   spec.vb:
   - uid: System.Byte
     name: Byte
     fullName: System.Byte
+    isExternal: true
   - name: ()
     fullName: ()
 - uid: System.Char
@@ -3113,7 +4075,7 @@ references:
   name: Char
   fullName: System.Char
 - uid: System.Char[]
-  isExternal: false
+  isExternal: true
   name: Char[]
   fullName: System.Char[]
   fullname.vb: System.Char()
@@ -3122,12 +4084,14 @@ references:
   - uid: System.Char
     name: Char
     fullName: System.Char
+    isExternal: true
   - name: '[]'
     fullName: '[]'
   spec.vb:
   - uid: System.Char
     name: Char
     fullName: System.Char
+    isExternal: true
   - name: ()
     fullName: ()
 - uid: System.DateTime
@@ -3255,7 +4219,7 @@ references:
   name: SqlString
   fullName: System.Data.SqlTypes.SqlString
 - uid: System.Object[]
-  isExternal: false
+  isExternal: true
   name: Object[]
   fullName: System.Object[]
   fullname.vb: System.Object()
@@ -3264,12 +4228,14 @@ references:
   - uid: System.Object
     name: Object
     fullName: System.Object
+    isExternal: true
   - name: '[]'
     fullName: '[]'
   spec.vb:
   - uid: System.Object
     name: Object
     fullName: System.Object
+    isExternal: true
   - name: ()
     fullName: ()
 - uid: System.Data.SqlTypes.SqlXml
@@ -3282,3 +4248,37 @@ references:
   isExternal: false
   name: TimeSpan
   fullName: System.TimeSpan
+- uid: System.ArgumentNullException
+  isExternal: false
+  name: ArgumentNullException
+  fullName: System.ArgumentNullException
+- uid: System.IndexOutOfRangeException
+  isExternal: false
+  name: IndexOutOfRangeException
+  fullName: System.IndexOutOfRangeException
+- uid: System.Data.SqlTypes.SqlNullValueException
+  isExternal: false
+  name: SqlNullValueException
+  fullName: System.Data.SqlTypes.SqlNullValueException
+- uid: System.InvalidCastException
+  isExternal: false
+  name: InvalidCastException
+  fullName: System.InvalidCastException
+- uid: System.ArgumentOutOfRangeException
+  isExternal: false
+  name: ArgumentOutOfRangeException
+  fullName: System.ArgumentOutOfRangeException
+- uid: System.TypeLoadException
+  parent: System
+  isExternal: false
+  name: TypeLoadException
+  fullName: System.TypeLoadException
+- uid: System.IO.FileNotFoundException
+  isExternal: false
+  name: FileNotFoundException
+  fullName: System.IO.FileNotFoundException
+- uid: System.ArgumentException
+  parent: System
+  isExternal: false
+  name: ArgumentException
+  fullName: System.ArgumentException

@@ -75,18 +75,27 @@ items:
   assemblies:
   - System.Data.Common
   namespace: System.Data.Common
+  summary: "\n<p>Reads a forward-only stream of rows from a data source.</p>\n"
   syntax:
-    content: 'public abstract class DbDataReader : object, IDataReader, IDataRecord, IDisposable, IEnumerable'
+    content: 'public abstract class DbDataReader : IDataReader, IDataRecord, IDisposable, IEnumerable'
     content.vb: >-
       Public MustInherit Class DbDataReader
-          Inherits Object
           Implements IDataReader, IDataRecord, IDisposable, IEnumerable
   inheritance:
   - System.Object
   implements:
+  - System.Collections.IEnumerable
   - System.Data.IDataReader
   - System.Data.IDataRecord
   - System.IDisposable
+  inheritedMembers:
+  - System.Object.ToString
+  - System.Object.Equals(System.Object)
+  - System.Object.Equals(System.Object,System.Object)
+  - System.Object.ReferenceEquals(System.Object,System.Object)
+  - System.Object.GetHashCode
+  - System.Object.GetType
+  - System.Object.MemberwiseClone
   modifiers.csharp:
   - public
   - abstract
@@ -116,6 +125,7 @@ items:
   assemblies:
   - System.Data.Common
   namespace: System.Data.Common
+  summary: "\n<p>Initializes a new instance of the <xref href=\"System.Data.Common.DbDataReader\" data-throw-if-not-resolved=\"false\"></xref> class.</p>\n"
   syntax:
     content: protected DbDataReader()
     content.vb: Protected Sub New
@@ -144,6 +154,8 @@ items:
   assemblies:
   - System.Data.Common
   namespace: System.Data.Common
+  summary: "\n<p>Gets a value indicating the depth of nesting for the current row.</p>\n"
+  remarks: "\n<p>The outermost table has a depth of zero.</p>\n"
   syntax:
     content: public abstract int Depth { get; }
     content.vb: Public MustOverride ReadOnly Property Depth As Integer
@@ -181,12 +193,18 @@ items:
   assemblies:
   - System.Data.Common
   namespace: System.Data.Common
+  summary: "\n<p>Gets the number of columns in the current row.</p>\n"
+  remarks: "\n<p>Includes hidden fields. Use <xref href=\"System.Data.Common.DbDataReader.VisibleFieldCount\" data-throw-if-not-resolved=\"false\"></xref> to exclude hidden fields.</p>\n"
   syntax:
     content: public abstract int FieldCount { get; }
     content.vb: Public MustOverride ReadOnly Property FieldCount As Integer
     parameters: []
     return:
       type: System.Int32
+  exceptions:
+  - type: System.NotSupportedException
+    commentId: T:System.NotSupportedException
+    description: "\n<p>There is no current connection to an instance of SQL Server. </p>\n"
   implements:
   - System.Data.IDataRecord.FieldCount
   modifiers.csharp:
@@ -218,6 +236,7 @@ items:
   assemblies:
   - System.Data.Common
   namespace: System.Data.Common
+  summary: "\n<p>Gets a value that indicates whether this <xref href=\"System.Data.Common.DbDataReader\" data-throw-if-not-resolved=\"false\"></xref> contains one or more rows.</p>\n"
   syntax:
     content: public abstract bool HasRows { get; }
     content.vb: Public MustOverride ReadOnly Property HasRows As Boolean
@@ -253,12 +272,19 @@ items:
   assemblies:
   - System.Data.Common
   namespace: System.Data.Common
+  summary: "\n<p>Gets a value indicating whether the <xref href=\"System.Data.Common.DbDataReader\" data-throw-if-not-resolved=\"false\"></xref> is closed.</p>\n"
+  example:
+  - 
   syntax:
     content: public abstract bool IsClosed { get; }
     content.vb: Public MustOverride ReadOnly Property IsClosed As Boolean
     parameters: []
     return:
       type: System.Boolean
+  exceptions:
+  - type: System.InvalidOperationException
+    commentId: T:System.InvalidOperationException
+    description: "\n<p>The <xref href=\"System.Data.SqlClient.SqlDataReader\" data-throw-if-not-resolved=\"false\"></xref> is closed. </p>\n"
   implements:
   - System.Data.IDataReader.IsClosed
   modifiers.csharp:
@@ -290,6 +316,7 @@ items:
   assemblies:
   - System.Data.Common
   namespace: System.Data.Common
+  summary: "\n<p>Gets the value of the specified column as an instance of <xref href=\"System.Object\" data-throw-if-not-resolved=\"false\"></xref>.</p>\n"
   syntax:
     content: public abstract object this[int ordinal] { get; }
     content.vb: Public MustOverride ReadOnly Property Item(ordinal As Integer) As Object
@@ -298,6 +325,10 @@ items:
       type: System.Int32
     return:
       type: System.Object
+  exceptions:
+  - type: System.IndexOutOfRangeException
+    commentId: T:System.IndexOutOfRangeException
+    description: "\n<p>The index passed was outside the range of 0 through <xref href=\"System.Data.IDataRecord.FieldCount\" data-throw-if-not-resolved=\"false\"></xref>. </p>\n"
   implements:
   - System.Data.IDataRecord.Item(System.Int32)
   modifiers.csharp:
@@ -331,6 +362,7 @@ items:
   assemblies:
   - System.Data.Common
   namespace: System.Data.Common
+  summary: "\n<p>Gets the value of the specified column as an instance of <xref href=\"System.Object\" data-throw-if-not-resolved=\"false\"></xref>.</p>\n"
   syntax:
     content: public abstract object this[string name] { get; }
     content.vb: Public MustOverride ReadOnly Property Item(name As String) As Object
@@ -339,6 +371,10 @@ items:
       type: System.String
     return:
       type: System.Object
+  exceptions:
+  - type: System.IndexOutOfRangeException
+    commentId: T:System.IndexOutOfRangeException
+    description: "\n<p>No column with the specified name was found. </p>\n"
   implements:
   - System.Data.IDataRecord.Item(System.String)
   modifiers.csharp:
@@ -372,6 +408,8 @@ items:
   assemblies:
   - System.Data.Common
   namespace: System.Data.Common
+  summary: "\n<p>Gets the number of rows changed, inserted, or deleted by execution of the SQL statement. </p>\n"
+  remarks: "\n<p>The <strong>RecordsAffected</strong> property is not set until all rows are read and you close the <strong>DataReader</strong>. </p>\n"
   syntax:
     content: public abstract int RecordsAffected { get; }
     content.vb: Public MustOverride ReadOnly Property RecordsAffected As Integer
@@ -409,6 +447,10 @@ items:
   assemblies:
   - System.Data.Common
   namespace: System.Data.Common
+  summary: "\n<p>Gets the number of fields in the <xref href=\"System.Data.Common.DbDataReader\" data-throw-if-not-resolved=\"false\"></xref> that are not hidden.</p>\n"
+  remarks: "\n<p>This value is used to determine how many fields in the <xref href=\"System.Data.Common.DbDataReader\" data-throw-if-not-resolved=\"false\"></xref> are visible. For example, a SELECT on a partial primary key returns the remaining parts of the key as hidden fields. The hidden fields are always appended behind the visible fields.</p>\n"
+  example:
+  - 
   syntax:
     content: public virtual int VisibleFieldCount { get; }
     content.vb: Public Overridable ReadOnly Property VisibleFieldCount As Integer
@@ -444,9 +486,13 @@ items:
   assemblies:
   - System.Data.Common
   namespace: System.Data.Common
+  summary: "\n<p>Releases all resources used by the current instance of the <xref href=\"System.Data.Common.DbDataReader\" data-throw-if-not-resolved=\"false\"></xref> class.</p>\n"
+  remarks: "\n<p>Call <strong>Dispose</strong> when you are finished using the <xref href=\"System.Data.Common.DbDataReader\" data-throw-if-not-resolved=\"false\"></xref>. The <strong>Dispose</strong> method leaves the <xref href=\"System.Data.Common.DbDataReader\" data-throw-if-not-resolved=\"false\"></xref> in an unusable state. After calling <strong>Dispose</strong>, you must release all references to the <xref href=\"System.Data.Common.DbDataReader\" data-throw-if-not-resolved=\"false\"></xref> so the garbage collector can reclaim the memory that the <xref href=\"System.Data.Common.DbDataReader\" data-throw-if-not-resolved=\"false\"></xref> was occupying.</p>\n<p>For more information, see Cleaning Up Unmanaged Resources and Implementing a Dispose Method.</p>\n<p>Always call <strong>Dispose</strong> before you release your last reference to the <xref href=\"System.Data.Common.DbDataReader\" data-throw-if-not-resolved=\"false\"></xref>. Otherwise, the resources it is using will not be freed until the garbage collector calls the <xref href=\"System.Data.Common.DbDataReader\" data-throw-if-not-resolved=\"false\"></xref> object's <strong>Finalize</strong> method.</p>\n"
   syntax:
     content: public void Dispose()
     content.vb: Public Sub Dispose
+  implements:
+  - System.IDisposable.Dispose
   modifiers.csharp:
   - public
   modifiers.vb:
@@ -472,6 +518,10 @@ items:
   assemblies:
   - System.Data.Common
   namespace: System.Data.Common
+  summary: "\n<p>Releases the managed resources used by the <xref href=\"System.Data.Common.DbDataReader\" data-throw-if-not-resolved=\"false\"></xref> and optionally releases the unmanaged resources.</p>\n"
+  remarks: "\n<p>This method calls <xref href=\"System.Data.SqlClient.SqlDataReader.Close\" data-throw-if-not-resolved=\"false\"></xref>.</p>\n"
+  example:
+  - 
   syntax:
     content: protected virtual void Dispose(bool disposing)
     content.vb: Protected Overridable Sub Dispose(disposing As Boolean)
@@ -505,6 +555,7 @@ items:
   assemblies:
   - System.Data.Common
   namespace: System.Data.Common
+  summary: "\n<p>Gets the value of the specified column as a Boolean.</p>\n"
   syntax:
     content: public abstract bool GetBoolean(int ordinal)
     content.vb: Public MustOverride Function GetBoolean(ordinal As Integer) As Boolean
@@ -513,6 +564,10 @@ items:
       type: System.Int32
     return:
       type: System.Boolean
+  exceptions:
+  - type: System.InvalidCastException
+    commentId: T:System.InvalidCastException
+    description: "\n<p>The specified cast is not valid. </p>\n"
   implements:
   - System.Data.IDataRecord.GetBoolean(System.Int32)
   modifiers.csharp:
@@ -542,6 +597,7 @@ items:
   assemblies:
   - System.Data.Common
   namespace: System.Data.Common
+  summary: "\n<p>Gets the value of the specified column as a byte.</p>\n"
   syntax:
     content: public abstract byte GetByte(int ordinal)
     content.vb: Public MustOverride Function GetByte(ordinal As Integer) As Byte
@@ -550,6 +606,10 @@ items:
       type: System.Int32
     return:
       type: System.Byte
+  exceptions:
+  - type: System.InvalidCastException
+    commentId: T:System.InvalidCastException
+    description: "\n<p>The specified cast is not valid. </p>\n"
   implements:
   - System.Data.IDataRecord.GetByte(System.Int32)
   modifiers.csharp:
@@ -579,6 +639,7 @@ items:
   assemblies:
   - System.Data.Common
   namespace: System.Data.Common
+  summary: "\n<p>Reads a stream of bytes from the specified column, starting at location indicated by <em>dataOffset</em>, into the buffer, starting at the location indicated by <em>bufferOffset</em>.</p>\n"
   syntax:
     content: public abstract long GetBytes(int ordinal, long dataOffset, byte[] buffer, int bufferOffset, int length)
     content.vb: Public MustOverride Function GetBytes(ordinal As Integer, dataOffset As Long, buffer As Byte(), bufferOffset As Integer, length As Integer) As Long
@@ -595,6 +656,10 @@ items:
       type: System.Int32
     return:
       type: System.Int64
+  exceptions:
+  - type: System.InvalidCastException
+    commentId: T:System.InvalidCastException
+    description: "\n<p>The specified cast is not valid. </p>\n"
   implements:
   - System.Data.IDataRecord.GetBytes(System.Int32,System.Int64,System.Byte[],System.Int32,System.Int32)
   modifiers.csharp:
@@ -626,6 +691,7 @@ items:
   assemblies:
   - System.Data.Common
   namespace: System.Data.Common
+  summary: "\n<p>Gets the value of the specified column as a single character.</p>\n"
   syntax:
     content: public abstract char GetChar(int ordinal)
     content.vb: Public MustOverride Function GetChar(ordinal As Integer) As Char
@@ -634,6 +700,10 @@ items:
       type: System.Int32
     return:
       type: System.Char
+  exceptions:
+  - type: System.InvalidCastException
+    commentId: T:System.InvalidCastException
+    description: "\n<p>The specified cast is not valid. </p>\n"
   implements:
   - System.Data.IDataRecord.GetChar(System.Int32)
   modifiers.csharp:
@@ -663,6 +733,7 @@ items:
   assemblies:
   - System.Data.Common
   namespace: System.Data.Common
+  summary: "\n<p>Reads a stream of characters from the specified column, starting at location indicated by <em>dataOffset</em>, into the buffer, starting at the location indicated by <em>bufferOffset</em>.</p>\n"
   syntax:
     content: public abstract long GetChars(int ordinal, long dataOffset, char[] buffer, int bufferOffset, int length)
     content.vb: Public MustOverride Function GetChars(ordinal As Integer, dataOffset As Long, buffer As Char(), bufferOffset As Integer, length As Integer) As Long
@@ -710,6 +781,9 @@ items:
   assemblies:
   - System.Data.Common
   namespace: System.Data.Common
+  summary: "\n<p>Returns a <xref href=\"System.Data.Common.DbDataReader\" data-throw-if-not-resolved=\"false\"></xref> object for the requested column ordinal.</p>\n"
+  example:
+  - 
   syntax:
     content: public DbDataReader GetData(int ordinal)
     content.vb: Public Function GetData(ordinal As Integer) As DbDataReader
@@ -743,6 +817,8 @@ items:
   assemblies:
   - System.Data.Common
   namespace: System.Data.Common
+  summary: "\n<p>Gets name of the data type of the specified column.</p>\n"
+  remarks: "\n<pre><code>       private static void GetDataTypes(String connectiongString) {     \n  using (SqlConnection conn = new SqlConnection(connectiongString)) {\n     String queryString = \"Select [CourseID],[Title],[Credits] from [MySchool].[dbo].[Course]\";\n     using (DbCommand command = new SqlCommand(queryString, conn)) {\n        conn.Open();             \n        using (DbDataReader reader = command.ExecuteReader()) {\n           for (Int32 i = 0; i < reader.FieldCount; i++) {\n              Console.WriteLine(\"ColumnName:{0,-15}DataType:{1,-15}\",reader.GetName(i),reader.GetDataTypeName(i));\n           }\n        }\n     }\n  }\n}</code></pre>\n"
   syntax:
     content: public abstract string GetDataTypeName(int ordinal)
     content.vb: Public MustOverride Function GetDataTypeName(ordinal As Integer) As String
@@ -751,6 +827,10 @@ items:
       type: System.Int32
     return:
       type: System.String
+  exceptions:
+  - type: System.InvalidCastException
+    commentId: T:System.InvalidCastException
+    description: "\n<p>The specified cast is not valid. </p>\n"
   implements:
   - System.Data.IDataRecord.GetDataTypeName(System.Int32)
   modifiers.csharp:
@@ -780,14 +860,19 @@ items:
   assemblies:
   - System.Data.Common
   namespace: System.Data.Common
+  summary: "\n<p>Gets the value of the specified column as a <xref href=\"System.DateTime\" data-throw-if-not-resolved=\"false\"></xref> object.</p>\n"
   syntax:
     content: public abstract DateTime GetDateTime(int ordinal)
-    content.vb: Public MustOverride Function GetDateTime(ordinal As Integer) As DateTime
+    content.vb: Public MustOverride Function GetDateTime(ordinal As Integer) As Date
     parameters:
     - id: ordinal
       type: System.Int32
     return:
-      type: DateTime
+      type: System.DateTime
+  exceptions:
+  - type: System.InvalidCastException
+    commentId: T:System.InvalidCastException
+    description: "\n<p>The specified cast is not valid. </p>\n"
   implements:
   - System.Data.IDataRecord.GetDateTime(System.Int32)
   modifiers.csharp:
@@ -817,6 +902,9 @@ items:
   assemblies:
   - System.Data.Common
   namespace: System.Data.Common
+  summary: "\n<p>Returns a <xref href=\"System.Data.Common.DbDataReader\" data-throw-if-not-resolved=\"false\"></xref> object for the requested column ordinal that can be overridden with a provider-specific implementation.</p>\n"
+  example:
+  - 
   syntax:
     content: protected virtual DbDataReader GetDbDataReader(int ordinal)
     content.vb: Protected Overridable Function GetDbDataReader(ordinal As Integer) As DbDataReader
@@ -852,14 +940,19 @@ items:
   assemblies:
   - System.Data.Common
   namespace: System.Data.Common
+  summary: "\n<p>Gets the value of the specified column as a <xref href=\"System.Decimal\" data-throw-if-not-resolved=\"false\"></xref> object.</p>\n"
   syntax:
-    content: public abstract Decimal GetDecimal(int ordinal)
+    content: public abstract decimal GetDecimal(int ordinal)
     content.vb: Public MustOverride Function GetDecimal(ordinal As Integer) As Decimal
     parameters:
     - id: ordinal
       type: System.Int32
     return:
-      type: Decimal
+      type: System.Decimal
+  exceptions:
+  - type: System.InvalidCastException
+    commentId: T:System.InvalidCastException
+    description: "\n<p>The specified cast is not valid. </p>\n"
   implements:
   - System.Data.IDataRecord.GetDecimal(System.Int32)
   modifiers.csharp:
@@ -889,6 +982,7 @@ items:
   assemblies:
   - System.Data.Common
   namespace: System.Data.Common
+  summary: "\n<p>Gets the value of the specified column as a double-precision floating point number.</p>\n"
   syntax:
     content: public abstract double GetDouble(int ordinal)
     content.vb: Public MustOverride Function GetDouble(ordinal As Integer) As Double
@@ -897,6 +991,10 @@ items:
       type: System.Int32
     return:
       type: System.Double
+  exceptions:
+  - type: System.InvalidCastException
+    commentId: T:System.InvalidCastException
+    description: "\n<p>The specified cast is not valid. </p>\n"
   implements:
   - System.Data.IDataRecord.GetDouble(System.Int32)
   modifiers.csharp:
@@ -926,11 +1024,17 @@ items:
   assemblies:
   - System.Data.Common
   namespace: System.Data.Common
+  summary: "\n<p>Returns an <xref href=\"System.Collections.IEnumerator\" data-throw-if-not-resolved=\"false\"></xref> that can be used to iterate through the rows in the data reader.</p>\n"
+  remarks: "\n<p>Although you can use this method to retrieve an explicit constructor, in languages that support an explicit <strong>foreach</strong> construct, it is simpler to use the looping construct directly in order to iterate through the rows in the data reader.</p>\n<p>If you implement this method, it should return a new instance of <xref href=\"System.Data.Common.DbEnumerator\" data-throw-if-not-resolved=\"false\"></xref> or ensure that your enumerator returns <xref href=\"System.Data.IDataRecord\" data-throw-if-not-resolved=\"false\"></xref> objects.</p>\n"
+  example:
+  - 
   syntax:
     content: public abstract IEnumerator GetEnumerator()
     content.vb: Public MustOverride Function GetEnumerator As IEnumerator
     return:
-      type: IEnumerator
+      type: System.Collections.IEnumerator
+  implements:
+  - System.Collections.IEnumerable.GetEnumerator
   modifiers.csharp:
   - public
   - abstract
@@ -958,6 +1062,7 @@ items:
   assemblies:
   - System.Data.Common
   namespace: System.Data.Common
+  summary: "\n<p>Gets the data type of the specified column.</p>\n"
   syntax:
     content: public abstract Type GetFieldType(int ordinal)
     content.vb: Public MustOverride Function GetFieldType(ordinal As Integer) As Type
@@ -965,7 +1070,11 @@ items:
     - id: ordinal
       type: System.Int32
     return:
-      type: Type
+      type: System.Type
+  exceptions:
+  - type: System.InvalidCastException
+    commentId: T:System.InvalidCastException
+    description: "\n<p>The specified cast is not valid. </p>\n"
   implements:
   - System.Data.IDataRecord.GetFieldType(System.Int32)
   modifiers.csharp:
@@ -995,6 +1104,8 @@ items:
   assemblies:
   - System.Data.Common
   namespace: System.Data.Common
+  summary: "\n<p>Synchronously gets the value of the specified column as a type.</p>\n"
+  remarks: "\n<p>For more information, see SqlClient Streaming Support.</p>\n"
   syntax:
     content: public virtual T GetFieldValue<T>(int ordinal)
     content.vb: Public Overridable Function GetFieldValue(Of T)(ordinal As Integer) As T
@@ -1005,6 +1116,16 @@ items:
     - id: T
     return:
       type: '{T}'
+  exceptions:
+  - type: System.InvalidOperationException
+    commentId: T:System.InvalidOperationException
+    description: "\n<p>The connection drops or is closed during the data retrieval.</p>\n<p>The <xref href=\"System.Data.SqlClient.SqlDataReader\" data-throw-if-not-resolved=\"false\"></xref> is closed during the data retrieval.</p>\n<p>There is no data ready to be read (for example, the first <xref href=\"System.Data.SqlClient.SqlDataReader.Read\" data-throw-if-not-resolved=\"false\"></xref> hasn't been called, or returned false).</p>\n<p>Tried to read a previously-read column in sequential mode.</p>\n<p>There was an asynchronous operation in progress. This applies to all Get* methods when running in sequential mode, as they could be called while reading a stream.</p>\n"
+  - type: System.IndexOutOfRangeException
+    commentId: T:System.IndexOutOfRangeException
+    description: "\n<p>Trying to read a column that does not exist.</p>\n"
+  - type: System.InvalidCastException
+    commentId: T:System.InvalidCastException
+    description: "\n<p>\n<em>T</em> doesn’t match the type returned by SQL Server or cannot be cast.</p>\n"
   modifiers.csharp:
   - public
   - virtual
@@ -1034,6 +1155,8 @@ items:
   assemblies:
   - System.Data.Common
   namespace: System.Data.Common
+  summary: "\n<p>Asynchronously gets the value of the specified column as a type.</p>\n"
+  remarks: "\n<p>\n<em>T</em> can be one of the following types:</p>\n<p>For more information, see SqlClient Streaming Support.</p>\n"
   syntax:
     content: public Task<T> GetFieldValueAsync<T>(int ordinal)
     content.vb: Public Function GetFieldValueAsync(Of T)(ordinal As Integer) As Task(Of T)
@@ -1043,7 +1166,17 @@ items:
     typeParameters:
     - id: T
     return:
-      type: Task{{T}}
+      type: System.Threading.Tasks.Task{{T}}
+  exceptions:
+  - type: System.InvalidOperationException
+    commentId: T:System.InvalidOperationException
+    description: "\n<p>The connection drops or is closed during the data retrieval.</p>\n<p>The <xref href=\"System.Data.Common.DbDataReader\" data-throw-if-not-resolved=\"false\"></xref> is closed during the data retrieval.</p>\n<p>There is no data ready to be read (for example, the first <xref href=\"System.Data.Common.DbDataReader.Read\" data-throw-if-not-resolved=\"false\"></xref> hasn't been called, or returned false).</p>\n<p>Tried to read a previously-read column in sequential mode.</p>\n<p>There was an asynchronous operation in progress. This applies to all Get* methods when running in sequential mode, as they could be called while reading a stream.</p>\n"
+  - type: System.IndexOutOfRangeException
+    commentId: T:System.IndexOutOfRangeException
+    description: "\n<p>Trying to read a column that does not exist.</p>\n"
+  - type: System.InvalidCastException
+    commentId: T:System.InvalidCastException
+    description: "\n<p>\n<em>T</em> doesn’t match the type returned by the data source  or cannot be cast.</p>\n"
   modifiers.csharp:
   - public
   modifiers.vb:
@@ -1057,23 +1190,25 @@ items:
   langs:
   - csharp
   - vb
-  name: GetFieldValueAsync<T>(Int32, Threading.CancellationToken)
+  name: GetFieldValueAsync<T>(Int32, CancellationToken)
   fullName: System.Data.Common.DbDataReader.GetFieldValueAsync<T>(System.Int32, System.Threading.CancellationToken)
   type: Method
   source:
     remote:
-      path: src/System.Data.Common/ref/System.Data.Common.cs
+      path: src/System.Data.Common/src/System/Data/Common/DbDataReader.cs
       branch: master
       repo: https://github.com/dotnet/corefx.git
     id: GetFieldValueAsync
-    path: src/System.Data.Common/ref/System.Data.Common.cs
-    startLine: 337
+    path: src/System.Data.Common/src/System/Data/Common/DbDataReader.cs
+    startLine: 188
   assemblies:
   - System.Data.Common
   namespace: System.Data.Common
+  summary: "\n<p>Asynchronously gets the value of the specified column as a type.</p>\n"
+  remarks: "\n<p>\n<em>T</em> can be one of the following types:</p>\n<p>For more information, see SqlClient Streaming Support.</p>\n"
   syntax:
-    content: public virtual Threading.Tasks.Task<T> GetFieldValueAsync<T>(int ordinal, Threading.CancellationToken cancellationToken)
-    content.vb: Public Overridable Function GetFieldValueAsync(Of T)(ordinal As Integer, cancellationToken As Threading.CancellationToken) As Threading.Tasks.Task(Of T)
+    content: public virtual Task<T> GetFieldValueAsync<T>(int ordinal, CancellationToken cancellationToken)
+    content.vb: Public Overridable Function GetFieldValueAsync(Of T)(ordinal As Integer, cancellationToken As CancellationToken) As Task(Of T)
     parameters:
     - id: ordinal
       type: System.Int32
@@ -1083,6 +1218,16 @@ items:
     - id: T
     return:
       type: System.Threading.Tasks.Task{{T}}
+  exceptions:
+  - type: System.InvalidOperationException
+    commentId: T:System.InvalidOperationException
+    description: "\n<p>The connection drops or is closed during the data retrieval.</p>\n<p>The <xref href=\"System.Data.Common.DbDataReader\" data-throw-if-not-resolved=\"false\"></xref> is closed during the data retrieval.</p>\n<p>There is no data ready to be read (for example, the first <xref href=\"System.Data.Common.DbDataReader.Read\" data-throw-if-not-resolved=\"false\"></xref> hasn't been called, or returned false).</p>\n<p>Tried to read a previously-read column in sequential mode.</p>\n<p>There was an asynchronous operation in progress. This applies to all Get* methods when running in sequential mode, as they could be called while reading a stream.</p>\n"
+  - type: System.IndexOutOfRangeException
+    commentId: T:System.IndexOutOfRangeException
+    description: "\n<p>Trying to read a column that does not exist.</p>\n"
+  - type: System.InvalidCastException
+    commentId: T:System.InvalidCastException
+    description: "\n<p>\n<em>T</em> doesn’t match the type returned by the data source or cannot be cast.</p>\n"
   modifiers.csharp:
   - public
   - virtual
@@ -1090,7 +1235,7 @@ items:
   - Public
   - Overridable
   fullName.vb: System.Data.Common.DbDataReader.GetFieldValueAsync(Of T)(System.Int32, System.Threading.CancellationToken)
-  name.vb: GetFieldValueAsync(Of T)(Int32, Threading.CancellationToken)
+  name.vb: GetFieldValueAsync(Of T)(Int32, CancellationToken)
 - uid: System.Data.Common.DbDataReader.GetFloat(System.Int32)
   commentId: M:System.Data.Common.DbDataReader.GetFloat(System.Int32)
   id: GetFloat(System.Int32)
@@ -1112,6 +1257,7 @@ items:
   assemblies:
   - System.Data.Common
   namespace: System.Data.Common
+  summary: "\n<p>Gets the value of the specified column as a single-precision floating point number.</p>\n"
   syntax:
     content: public abstract float GetFloat(int ordinal)
     content.vb: Public MustOverride Function GetFloat(ordinal As Integer) As Single
@@ -1120,6 +1266,10 @@ items:
       type: System.Int32
     return:
       type: System.Single
+  exceptions:
+  - type: System.InvalidCastException
+    commentId: T:System.InvalidCastException
+    description: "\n<p>The specified cast is not valid. </p>\n"
   implements:
   - System.Data.IDataRecord.GetFloat(System.Int32)
   modifiers.csharp:
@@ -1149,6 +1299,7 @@ items:
   assemblies:
   - System.Data.Common
   namespace: System.Data.Common
+  summary: "\n<p>Gets the value of the specified column as a globally-unique identifier (GUID).</p>\n"
   syntax:
     content: public abstract Guid GetGuid(int ordinal)
     content.vb: Public MustOverride Function GetGuid(ordinal As Integer) As Guid
@@ -1156,7 +1307,11 @@ items:
     - id: ordinal
       type: System.Int32
     return:
-      type: Guid
+      type: System.Guid
+  exceptions:
+  - type: System.InvalidCastException
+    commentId: T:System.InvalidCastException
+    description: "\n<p>The specified cast is not valid. </p>\n"
   implements:
   - System.Data.IDataRecord.GetGuid(System.Int32)
   modifiers.csharp:
@@ -1186,14 +1341,19 @@ items:
   assemblies:
   - System.Data.Common
   namespace: System.Data.Common
+  summary: "\n<p>Gets the value of the specified column as a 16-bit signed integer.</p>\n"
   syntax:
-    content: public abstract Int16 GetInt16(int ordinal)
-    content.vb: Public MustOverride Function GetInt16(ordinal As Integer) As Int16
+    content: public abstract short GetInt16(int ordinal)
+    content.vb: Public MustOverride Function GetInt16(ordinal As Integer) As Short
     parameters:
     - id: ordinal
       type: System.Int32
     return:
-      type: Int16
+      type: System.Int16
+  exceptions:
+  - type: System.InvalidCastException
+    commentId: T:System.InvalidCastException
+    description: "\n<p>The specified cast is not valid. </p>\n"
   implements:
   - System.Data.IDataRecord.GetInt16(System.Int32)
   modifiers.csharp:
@@ -1223,14 +1383,20 @@ items:
   assemblies:
   - System.Data.Common
   namespace: System.Data.Common
+  summary: "\n<p>Gets the value of the specified column as a 32-bit signed integer.</p>\n"
+  remarks: "\n<pre><code>        private static void GetCredits(String connectiongString) {\n   using (SqlConnection conn = new SqlConnection(connectiongString)) {\n      String queryString = \"Select [CourseID],[Title],[Credits] from [MySchool].[dbo].[Course]\"; \n      using (DbCommand command = new SqlCommand(queryString, conn)) {\n         conn.Open(); \n         using (DbDataReader reader = command.ExecuteReader()) {\n            while (reader.Read()) {\n               // Credits column is the integer column, and you can use the GetInt32 method                      \n               // to return a a 32-bit signed integer.                     \n               Console.WriteLine(\"Course:{0,-15} Credits:{1}\",reader[1],reader.GetInt32(2)); \n            }\n         }\n      }\n   }\n}</code></pre>\n"
   syntax:
-    content: public abstract Int32 GetInt32(int ordinal)
-    content.vb: Public MustOverride Function GetInt32(ordinal As Integer) As Int32
+    content: public abstract int GetInt32(int ordinal)
+    content.vb: Public MustOverride Function GetInt32(ordinal As Integer) As Integer
     parameters:
     - id: ordinal
       type: System.Int32
     return:
-      type: Int32
+      type: System.Int32
+  exceptions:
+  - type: System.InvalidCastException
+    commentId: T:System.InvalidCastException
+    description: "\n<p>The specified cast is not valid. </p>\n"
   implements:
   - System.Data.IDataRecord.GetInt32(System.Int32)
   modifiers.csharp:
@@ -1260,14 +1426,19 @@ items:
   assemblies:
   - System.Data.Common
   namespace: System.Data.Common
+  summary: "\n<p>Gets the value of the specified column as a 64-bit signed integer.</p>\n"
   syntax:
-    content: public abstract Int64 GetInt64(int ordinal)
-    content.vb: Public MustOverride Function GetInt64(ordinal As Integer) As Int64
+    content: public abstract long GetInt64(int ordinal)
+    content.vb: Public MustOverride Function GetInt64(ordinal As Integer) As Long
     parameters:
     - id: ordinal
       type: System.Int32
     return:
-      type: Int64
+      type: System.Int64
+  exceptions:
+  - type: System.InvalidCastException
+    commentId: T:System.InvalidCastException
+    description: "\n<p>The specified cast is not valid. </p>\n"
   implements:
   - System.Data.IDataRecord.GetInt64(System.Int32)
   modifiers.csharp:
@@ -1297,6 +1468,7 @@ items:
   assemblies:
   - System.Data.Common
   namespace: System.Data.Common
+  summary: "\n<p>Gets the name of the column, given the zero-based column ordinal.</p>\n"
   syntax:
     content: public abstract string GetName(int ordinal)
     content.vb: Public MustOverride Function GetName(ordinal As Integer) As String
@@ -1334,6 +1506,7 @@ items:
   assemblies:
   - System.Data.Common
   namespace: System.Data.Common
+  summary: "\n<p>Gets the column ordinal given the name of the column.</p>\n"
   syntax:
     content: public abstract int GetOrdinal(string name)
     content.vb: Public MustOverride Function GetOrdinal(name As String) As Integer
@@ -1342,6 +1515,10 @@ items:
       type: System.String
     return:
       type: System.Int32
+  exceptions:
+  - type: System.IndexOutOfRangeException
+    commentId: T:System.IndexOutOfRangeException
+    description: "\n<p>The name specified is not a valid column name.</p>\n"
   implements:
   - System.Data.IDataRecord.GetOrdinal(System.String)
   modifiers.csharp:
@@ -1371,6 +1548,9 @@ items:
   assemblies:
   - System.Data.Common
   namespace: System.Data.Common
+  summary: "\n<p>Returns the provider-specific field type of the specified column.</p>\n"
+  example:
+  - 
   syntax:
     content: public virtual Type GetProviderSpecificFieldType(int ordinal)
     content.vb: Public Overridable Function GetProviderSpecificFieldType(ordinal As Integer) As Type
@@ -1378,7 +1558,7 @@ items:
     - id: ordinal
       type: System.Int32
     return:
-      type: Type
+      type: System.Type
   modifiers.csharp:
   - public
   - virtual
@@ -1406,14 +1586,16 @@ items:
   assemblies:
   - System.Data.Common
   namespace: System.Data.Common
+  summary: "\n<p>Gets the value of the specified column as an instance of <xref href=\"System.Object\" data-throw-if-not-resolved=\"false\"></xref>.</p>\n"
+  remarks: "\n<p>To determine the specific type of the object returned, use <xref href=\"System.Data.Common.DbDataReader.GetProviderSpecificFieldType(System.Int32)\" data-throw-if-not-resolved=\"false\"></xref>.</p>\n"
   syntax:
-    content: public virtual Object GetProviderSpecificValue(int ordinal)
+    content: public virtual object GetProviderSpecificValue(int ordinal)
     content.vb: Public Overridable Function GetProviderSpecificValue(ordinal As Integer) As Object
     parameters:
     - id: ordinal
       type: System.Int32
     return:
-      type: Object
+      type: System.Object
   modifiers.csharp:
   - public
   - virtual
@@ -1441,6 +1623,9 @@ items:
   assemblies:
   - System.Data.Common
   namespace: System.Data.Common
+  summary: "\n<p>Gets all provider-specific attribute columns in the collection for the current row.</p>\n"
+  example:
+  - 
   syntax:
     content: public virtual int GetProviderSpecificValues(object[] values)
     content.vb: Public Overridable Function GetProviderSpecificValues(values As Object()) As Integer
@@ -1478,6 +1663,8 @@ items:
   assemblies:
   - System.Data.Common
   namespace: System.Data.Common
+  summary: "\n<p>Retrieves data as a <xref href=\"System.IO.Stream\" data-throw-if-not-resolved=\"false\"></xref>.</p>\n"
+  remarks: "\n<p>\n<xref href=\"System.Data.Common.DbDataReader.GetStream(System.Int32)\" data-throw-if-not-resolved=\"false\"></xref> only supports the retrieval of values that can be converted to byte arrays.</p>\n<p>For more information, see SqlClient Streaming Support.</p>\n"
   syntax:
     content: public virtual Stream GetStream(int ordinal)
     content.vb: Public Overridable Function GetStream(ordinal As Integer) As Stream
@@ -1485,7 +1672,17 @@ items:
     - id: ordinal
       type: System.Int32
     return:
-      type: Stream
+      type: System.IO.Stream
+  exceptions:
+  - type: System.InvalidOperationException
+    commentId: T:System.InvalidOperationException
+    description: "\n<p>The connection drops or is closed during the data retrieval.</p>\n<p>The <xref href=\"System.Data.Common.DbDataReader\" data-throw-if-not-resolved=\"false\"></xref> is closed during the data retrieval.</p>\n<p>There is no data ready to be read (for example, the first <xref href=\"System.Data.Common.DbDataReader.Read\" data-throw-if-not-resolved=\"false\"></xref> hasn't been called, or returned false).</p>\n<p>Tried to read a previously-read column in sequential mode.</p>\n<p>There was an asynchronous operation in progress. This applies to all Get* methods when running in sequential mode, as they could be called while reading a stream.</p>\n"
+  - type: System.IndexOutOfRangeException
+    commentId: T:System.IndexOutOfRangeException
+    description: "\n<p>Trying to read a column that does not exist.</p>\n"
+  - type: System.InvalidCastException
+    commentId: T:System.InvalidCastException
+    description: "\n<p>The returned type was not one of the types below:</p>\n<ul><li>\n<p>binary</p>\n</li><li>\n<p>image</p>\n</li><li>\n<p>varbinary</p>\n</li><li>\n<p>udt</p>\n</li></ul>\n"
   modifiers.csharp:
   - public
   - virtual
@@ -1513,14 +1710,19 @@ items:
   assemblies:
   - System.Data.Common
   namespace: System.Data.Common
+  summary: "\n<p>Gets the value of the specified column as an instance of <xref href=\"System.String\" data-throw-if-not-resolved=\"false\"></xref>.</p>\n"
   syntax:
-    content: public abstract String GetString(int ordinal)
+    content: public abstract string GetString(int ordinal)
     content.vb: Public MustOverride Function GetString(ordinal As Integer) As String
     parameters:
     - id: ordinal
       type: System.Int32
     return:
-      type: String
+      type: System.String
+  exceptions:
+  - type: System.InvalidCastException
+    commentId: T:System.InvalidCastException
+    description: "\n<p>The specified cast is not valid. </p>\n"
   implements:
   - System.Data.IDataRecord.GetString(System.Int32)
   modifiers.csharp:
@@ -1550,6 +1752,8 @@ items:
   assemblies:
   - System.Data.Common
   namespace: System.Data.Common
+  summary: "\n<p>Retrieves data as a <xref href=\"System.IO.TextReader\" data-throw-if-not-resolved=\"false\"></xref>.</p>\n"
+  remarks: "\n<p>\n<xref href=\"System.Data.Common.DbDataReader.GetTextReader(System.Int32)\" data-throw-if-not-resolved=\"false\"></xref> only supports the retrieval of values that can be converted to character arrays (strings).</p>\n<p>For more information, see SqlClient Streaming Support.</p>\n"
   syntax:
     content: public virtual TextReader GetTextReader(int ordinal)
     content.vb: Public Overridable Function GetTextReader(ordinal As Integer) As TextReader
@@ -1557,7 +1761,17 @@ items:
     - id: ordinal
       type: System.Int32
     return:
-      type: TextReader
+      type: System.IO.TextReader
+  exceptions:
+  - type: System.InvalidOperationException
+    commentId: T:System.InvalidOperationException
+    description: "\n<p>The connection drops or is closed during the data retrieval.</p>\n<p>The <xref href=\"System.Data.Common.DbDataReader\" data-throw-if-not-resolved=\"false\"></xref> is closed during the data retrieval.</p>\n<p>There is no data ready to be read (for example, the first <xref href=\"System.Data.Common.DbDataReader.Read\" data-throw-if-not-resolved=\"false\"></xref> hasn't been called, or returned false).</p>\n<p>Tried to read a previously-read column in sequential mode.</p>\n<p>There was an asynchronous operation in progress. This applies to all Get* methods when running in sequential mode, as they could be called while reading a stream.</p>\n"
+  - type: System.IndexOutOfRangeException
+    commentId: T:System.IndexOutOfRangeException
+    description: "\n<p>Trying to read a column that does not exist.</p>\n"
+  - type: System.InvalidCastException
+    commentId: T:System.InvalidCastException
+    description: "\n<p>The returned type was not one of the types below:</p>\n<ul><li>\n<p>char</p>\n</li><li>\n<p>nchar</p>\n</li><li>\n<p>ntext</p>\n</li><li>\n<p>nvarchar</p>\n</li><li>\n<p>text</p>\n</li><li>\n<p>varchar</p>\n</li></ul>\n"
   modifiers.csharp:
   - public
   - virtual
@@ -1585,14 +1799,15 @@ items:
   assemblies:
   - System.Data.Common
   namespace: System.Data.Common
+  summary: "\n<p>Gets the value of the specified column as an instance of <xref href=\"System.Object\" data-throw-if-not-resolved=\"false\"></xref>.</p>\n"
   syntax:
-    content: public abstract Object GetValue(int ordinal)
+    content: public abstract object GetValue(int ordinal)
     content.vb: Public MustOverride Function GetValue(ordinal As Integer) As Object
     parameters:
     - id: ordinal
       type: System.Int32
     return:
-      type: Object
+      type: System.Object
   implements:
   - System.Data.IDataRecord.GetValue(System.Int32)
   modifiers.csharp:
@@ -1622,6 +1837,9 @@ items:
   assemblies:
   - System.Data.Common
   namespace: System.Data.Common
+  summary: "\n<p>Populates an array of objects with the column values of the current row.</p>\n"
+  example:
+  - 
   syntax:
     content: public abstract int GetValues(object[] values)
     content.vb: Public MustOverride Function GetValues(values As Object()) As Integer
@@ -1661,6 +1879,8 @@ items:
   assemblies:
   - System.Data.Common
   namespace: System.Data.Common
+  summary: "\n<p>Gets a value that indicates whether the column contains nonexistent or missing values.</p>\n"
+  remarks: "\n<p>Call this method to check for null column values before calling the typed get methods (for example, <xref href=\"System.Data.Common.DbDataReader.GetByte(System.Int32)\" data-throw-if-not-resolved=\"false\"></xref>, <xref href=\"System.Data.Common.DbDataReader.GetChar(System.Int32)\" data-throw-if-not-resolved=\"false\"></xref>, and so on) to avoid raising an error.</p>\n"
   syntax:
     content: public abstract bool IsDBNull(int ordinal)
     content.vb: Public MustOverride Function IsDBNull(ordinal As Integer) As Boolean
@@ -1698,6 +1918,8 @@ items:
   assemblies:
   - System.Data.Common
   namespace: System.Data.Common
+  summary: "\n<p>An asynchronous version of <xref href=\"System.Data.Common.DbDataReader.IsDBNull(System.Int32)\" data-throw-if-not-resolved=\"false\"></xref>, which gets a value that indicates whether the column contains non-existent or missing values.</p>\n"
+  remarks: "\n<p>For more information, see SqlClient Streaming Support.</p>\n"
   syntax:
     content: public Task<bool> IsDBNullAsync(int ordinal)
     content.vb: Public Function IsDBNullAsync(ordinal As Integer) As Task(Of Boolean)
@@ -1705,7 +1927,14 @@ items:
     - id: ordinal
       type: System.Int32
     return:
-      type: Task{System.Boolean}
+      type: System.Threading.Tasks.Task{System.Boolean}
+  exceptions:
+  - type: System.InvalidOperationException
+    commentId: T:System.InvalidOperationException
+    description: "\n<p>The connection drops or is closed during the data retrieval.</p>\n<p>The <xref href=\"System.Data.Common.DbDataReader\" data-throw-if-not-resolved=\"false\"></xref> is closed during the data retrieval.</p>\n<p>There is no data ready to be read (for example, the first <xref href=\"System.Data.Common.DbDataReader.Read\" data-throw-if-not-resolved=\"false\"></xref> hasn't been called, or returned false).</p>\n<p>Trying to read a previously read column in sequential mode.</p>\n<p>There was an asynchronous operation in progress. This applies to all Get* methods when running in sequential mode, as they could be called while reading a stream.</p>\n"
+  - type: System.IndexOutOfRangeException
+    commentId: T:System.IndexOutOfRangeException
+    description: "\n<p>Trying to read a column that does not exist.</p>\n"
   modifiers.csharp:
   - public
   modifiers.vb:
@@ -1717,23 +1946,25 @@ items:
   langs:
   - csharp
   - vb
-  name: IsDBNullAsync(Int32, Threading.CancellationToken)
+  name: IsDBNullAsync(Int32, CancellationToken)
   fullName: System.Data.Common.DbDataReader.IsDBNullAsync(System.Int32, System.Threading.CancellationToken)
   type: Method
   source:
     remote:
-      path: src/System.Data.Common/ref/System.Data.Common.cs
+      path: src/System.Data.Common/src/System/Data/Common/DbDataReader.cs
       branch: master
       repo: https://github.com/dotnet/corefx.git
     id: IsDBNullAsync
-    path: src/System.Data.Common/ref/System.Data.Common.cs
-    startLine: 355
+    path: src/System.Data.Common/src/System/Data/Common/DbDataReader.cs
+    startLine: 216
   assemblies:
   - System.Data.Common
   namespace: System.Data.Common
+  summary: "\n<p>An asynchronous version of <xref href=\"System.Data.Common.DbDataReader.IsDBNull(System.Int32)\" data-throw-if-not-resolved=\"false\"></xref>, which gets a value that indicates whether the column contains non-existent or missing values. Optionally, sends a notification that operations should be cancelled.</p>\n"
+  remarks: "\n<p>For more information, see SqlClient Streaming Support.</p>\n"
   syntax:
-    content: public virtual Threading.Tasks.Task<bool> IsDBNullAsync(int ordinal, Threading.CancellationToken cancellationToken)
-    content.vb: Public Overridable Function IsDBNullAsync(ordinal As Integer, cancellationToken As Threading.CancellationToken) As Threading.Tasks.Task(Of Boolean)
+    content: public virtual Task<bool> IsDBNullAsync(int ordinal, CancellationToken cancellationToken)
+    content.vb: Public Overridable Function IsDBNullAsync(ordinal As Integer, cancellationToken As CancellationToken) As Task(Of Boolean)
     parameters:
     - id: ordinal
       type: System.Int32
@@ -1741,6 +1972,13 @@ items:
       type: System.Threading.CancellationToken
     return:
       type: System.Threading.Tasks.Task{System.Boolean}
+  exceptions:
+  - type: System.InvalidOperationException
+    commentId: T:System.InvalidOperationException
+    description: "\n<p>The connection drops or is closed during the data retrieval.</p>\n<p>The <xref href=\"System.Data.Common.DbDataReader\" data-throw-if-not-resolved=\"false\"></xref> is closed during the data retrieval.</p>\n<p>There is no data ready to be read (for example, the first <xref href=\"System.Data.Common.DbDataReader.Read\" data-throw-if-not-resolved=\"false\"></xref> hasn't been called, or returned false).</p>\n<p>Trying to read a previously read column in sequential mode.</p>\n<p>There was an asynchronous operation in progress. This applies to all Get* methods when running in sequential mode, as they could be called while reading a stream.</p>\n"
+  - type: System.IndexOutOfRangeException
+    commentId: T:System.IndexOutOfRangeException
+    description: "\n<p>Trying to read a column that does not exist.</p>\n"
   modifiers.csharp:
   - public
   - virtual
@@ -1768,6 +2006,8 @@ items:
   assemblies:
   - System.Data.Common
   namespace: System.Data.Common
+  summary: "\n<p>Advances the reader to the next result when reading the results of a batch of statements.</p>\n"
+  remarks: "\n<p>This method allows you to process multiple result sets returned when a batch is submitted to the data provider.</p>\n"
   syntax:
     content: public abstract bool NextResult()
     content.vb: Public MustOverride Function NextResult As Boolean
@@ -1802,11 +2042,17 @@ items:
   assemblies:
   - System.Data.Common
   namespace: System.Data.Common
+  summary: "\n<p>An asynchronous version of <xref href=\"System.Data.Common.DbDataReader.NextResult\" data-throw-if-not-resolved=\"false\"></xref>, which advances the reader to the next result when reading the results of a batch of statements.</p>\n<p>Invokes <xref href=\"System.Data.Common.DbDataReader.NextResultAsync(System.Threading.CancellationToken)\" data-throw-if-not-resolved=\"false\"></xref> with CancellationToken.None.</p>\n"
+  remarks: "\n<p>For more information about asynchronous programming, see Asynchronous Programming.</p>\n"
   syntax:
     content: public Task<bool> NextResultAsync()
     content.vb: Public Function NextResultAsync As Task(Of Boolean)
     return:
-      type: Task{System.Boolean}
+      type: System.Threading.Tasks.Task{System.Boolean}
+  exceptions:
+  - type: System.Data.Common.DbException
+    commentId: T:System.Data.Common.DbException
+    description: "\n<p>An error occurred while executing the command text.</p>\n"
   modifiers.csharp:
   - public
   modifiers.vb:
@@ -1818,28 +2064,34 @@ items:
   langs:
   - csharp
   - vb
-  name: NextResultAsync(Threading.CancellationToken)
+  name: NextResultAsync(CancellationToken)
   fullName: System.Data.Common.DbDataReader.NextResultAsync(System.Threading.CancellationToken)
   type: Method
   source:
     remote:
-      path: src/System.Data.Common/ref/System.Data.Common.cs
+      path: src/System.Data.Common/src/System/Data/Common/DbDataReader.cs
       branch: master
       repo: https://github.com/dotnet/corefx.git
     id: NextResultAsync
-    path: src/System.Data.Common/ref/System.Data.Common.cs
-    startLine: 358
+    path: src/System.Data.Common/src/System/Data/Common/DbDataReader.cs
+    startLine: 268
   assemblies:
   - System.Data.Common
   namespace: System.Data.Common
+  summary: "\n<p>This is the asynchronous version of <xref href=\"System.Data.Common.DbDataReader.NextResult\" data-throw-if-not-resolved=\"false\"></xref>. Providers should override with an appropriate implementation. The <em>cancellationToken</em> may optionally be ignored.</p>\n<p>The default implementation invokes the synchronous <xref href=\"System.Data.Common.DbDataReader.NextResult\" data-throw-if-not-resolved=\"false\"></xref> method and returns a completed task, blocking the calling thread. The default implementation will return a cancelled task if passed an already cancelled <em>cancellationToken</em>. Exceptions thrown by <xref href=\"System.Data.Common.DbDataReader.NextResult\" data-throw-if-not-resolved=\"false\"></xref> will be communicated via the returned Task Exception property.</p>\n<p>Other methods and properties of the DbDataReader object should not be invoked while the returned Task is not yet completed.</p>\n"
+  remarks: "\n<p>For more information about asynchronous programming, see Asynchronous Programming.</p>\n"
   syntax:
-    content: public virtual Threading.Tasks.Task<bool> NextResultAsync(Threading.CancellationToken cancellationToken)
-    content.vb: Public Overridable Function NextResultAsync(cancellationToken As Threading.CancellationToken) As Threading.Tasks.Task(Of Boolean)
+    content: public virtual Task<bool> NextResultAsync(CancellationToken cancellationToken)
+    content.vb: Public Overridable Function NextResultAsync(cancellationToken As CancellationToken) As Task(Of Boolean)
     parameters:
     - id: cancellationToken
       type: System.Threading.CancellationToken
     return:
       type: System.Threading.Tasks.Task{System.Boolean}
+  exceptions:
+  - type: System.Data.Common.DbException
+    commentId: T:System.Data.Common.DbException
+    description: "\n<p>An error occurred while executing the command text.</p>\n"
   modifiers.csharp:
   - public
   - virtual
@@ -1867,6 +2119,8 @@ items:
   assemblies:
   - System.Data.Common
   namespace: System.Data.Common
+  summary: "\n<p>Advances the reader to the next record in a result set.</p>\n"
+  remarks: "\n<p>The default position of a data reader is before the first record. Therefore, you must call <xref href=\"System.Data.Common.DbDataReader.Read\" data-throw-if-not-resolved=\"false\"></xref> to begin accessing data.</p>\n"
   syntax:
     content: public abstract bool Read()
     content.vb: Public MustOverride Function Read As Boolean
@@ -1901,11 +2155,17 @@ items:
   assemblies:
   - System.Data.Common
   namespace: System.Data.Common
+  summary: "\n<p>An asynchronous version of <xref href=\"System.Data.Common.DbDataReader.Read\" data-throw-if-not-resolved=\"false\"></xref>, which advances the reader to the next record in a result set. This method invokes <xref href=\"System.Data.Common.DbDataReader.ReadAsync(System.Threading.CancellationToken)\" data-throw-if-not-resolved=\"false\"></xref> with CancellationToken.None.</p>\n"
+  remarks: "\n<p>For more information about asynchronous programming, see Asynchronous Programming.</p>\n"
   syntax:
     content: public Task<bool> ReadAsync()
     content.vb: Public Function ReadAsync As Task(Of Boolean)
     return:
-      type: Task{System.Boolean}
+      type: System.Threading.Tasks.Task{System.Boolean}
+  exceptions:
+  - type: System.Data.Common.DbException
+    commentId: T:System.Data.Common.DbException
+    description: "\n<p>An error occurred while executing the command text.</p>\n"
   modifiers.csharp:
   - public
   modifiers.vb:
@@ -1917,28 +2177,34 @@ items:
   langs:
   - csharp
   - vb
-  name: ReadAsync(Threading.CancellationToken)
+  name: ReadAsync(CancellationToken)
   fullName: System.Data.Common.DbDataReader.ReadAsync(System.Threading.CancellationToken)
   type: Method
   source:
     remote:
-      path: src/System.Data.Common/ref/System.Data.Common.cs
+      path: src/System.Data.Common/src/System/Data/Common/DbDataReader.cs
       branch: master
       repo: https://github.com/dotnet/corefx.git
     id: ReadAsync
-    path: src/System.Data.Common/ref/System.Data.Common.cs
-    startLine: 361
+    path: src/System.Data.Common/src/System/Data/Common/DbDataReader.cs
+    startLine: 244
   assemblies:
   - System.Data.Common
   namespace: System.Data.Common
+  summary: "\n<p>This is the asynchronous version of <xref href=\"System.Data.Common.DbDataReader.Read\" data-throw-if-not-resolved=\"false\"></xref>.  Providers should override with an appropriate implementation. The cancellationToken may optionally be ignored.</p>\n<p>The default implementation invokes the synchronous <xref href=\"System.Data.Common.DbDataReader.Read\" data-throw-if-not-resolved=\"false\"></xref> method and returns a completed task, blocking the calling thread. The default implementation will return a cancelled task if passed an already cancelled cancellationToken.  Exceptions thrown by Read will be communicated via the returned Task Exception property.</p>\n<p>Do not invoke other methods and properties of the <strong>DbDataReader</strong> object until the returned Task is complete.</p>\n"
+  remarks: "\n<p>For more information about asynchronous programming, see Asynchronous Programming.</p>\n"
   syntax:
-    content: public virtual Threading.Tasks.Task<bool> ReadAsync(Threading.CancellationToken cancellationToken)
-    content.vb: Public Overridable Function ReadAsync(cancellationToken As Threading.CancellationToken) As Threading.Tasks.Task(Of Boolean)
+    content: public virtual Task<bool> ReadAsync(CancellationToken cancellationToken)
+    content.vb: Public Overridable Function ReadAsync(cancellationToken As CancellationToken) As Task(Of Boolean)
     parameters:
     - id: cancellationToken
       type: System.Threading.CancellationToken
     return:
       type: System.Threading.Tasks.Task{System.Boolean}
+  exceptions:
+  - type: System.Data.Common.DbException
+    commentId: T:System.Data.Common.DbException
+    description: "\n<p>An error occurred while executing the command text.</p>\n"
   modifiers.csharp:
   - public
   - virtual
@@ -1967,6 +2233,8 @@ items:
   assemblies:
   - System.Data.Common
   namespace: System.Data.Common
+  summary: "\n<p>For a description of this member, see <xref href=\"System.Data.IDataRecord.GetData(System.Int32)\" data-throw-if-not-resolved=\"false\"></xref>.</p>\n"
+  remarks: "\n<p>This member is an explicit interface member implementation. It can be used only when the <xref href=\"System.Data.Common.DbDataReader\" data-throw-if-not-resolved=\"false\"></xref> instance is cast to an <xref href=\"System.Data.IDataRecord\" data-throw-if-not-resolved=\"false\"></xref> interface.</p>\n"
   syntax:
     content: IDataReader IDataRecord.GetData(int ordinal)
     content.vb: Function System.Data.IDataRecord.GetData(ordinal As Integer) As IDataReader Implements IDataRecord.GetData
@@ -2046,6 +2314,11 @@ references:
   isExternal: false
   name: Object
   fullName: System.Object
+- uid: System.Collections.IEnumerable
+  parent: System.Collections
+  isExternal: false
+  name: IEnumerable
+  fullName: System.Collections.IEnumerable
 - uid: System.Data.IDataReader
   parent: System.Data
   isExternal: false
@@ -2061,10 +2334,223 @@ references:
   isExternal: false
   name: IDisposable
   fullName: System.IDisposable
+- uid: System.Object.ToString
+  parent: System.Object
+  isExternal: true
+  name: ToString()
+  fullName: System.Object.ToString()
+  spec.csharp:
+  - uid: System.Object.ToString
+    name: ToString
+    fullName: System.Object.ToString
+    isExternal: true
+  - name: (
+    fullName: (
+  - name: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.ToString
+    name: ToString
+    fullName: System.Object.ToString
+    isExternal: true
+  - name: (
+    fullName: (
+  - name: )
+    fullName: )
+- uid: System.Object.Equals(System.Object)
+  parent: System.Object
+  isExternal: true
+  name: Equals(Object)
+  fullName: System.Object.Equals(System.Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    fullName: )
+- uid: System.Object.Equals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  name: Equals(Object, Object)
+  fullName: System.Object.Equals(System.Object, System.Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    fullName: )
+- uid: System.Object.ReferenceEquals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  name: ReferenceEquals(Object, Object)
+  fullName: System.Object.ReferenceEquals(System.Object, System.Object)
+  spec.csharp:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    fullName: System.Object.ReferenceEquals
+    isExternal: true
+  - name: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    fullName: System.Object.ReferenceEquals
+    isExternal: true
+  - name: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    fullName: )
+- uid: System.Object.GetHashCode
+  parent: System.Object
+  isExternal: true
+  name: GetHashCode()
+  fullName: System.Object.GetHashCode()
+  spec.csharp:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    fullName: System.Object.GetHashCode
+    isExternal: true
+  - name: (
+    fullName: (
+  - name: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    fullName: System.Object.GetHashCode
+    isExternal: true
+  - name: (
+    fullName: (
+  - name: )
+    fullName: )
+- uid: System.Object.GetType
+  parent: System.Object
+  isExternal: true
+  name: GetType()
+  fullName: System.Object.GetType()
+  spec.csharp:
+  - uid: System.Object.GetType
+    name: GetType
+    fullName: System.Object.GetType
+    isExternal: true
+  - name: (
+    fullName: (
+  - name: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.GetType
+    name: GetType
+    fullName: System.Object.GetType
+    isExternal: true
+  - name: (
+    fullName: (
+  - name: )
+    fullName: )
+- uid: System.Object.MemberwiseClone
+  parent: System.Object
+  isExternal: true
+  name: MemberwiseClone()
+  fullName: System.Object.MemberwiseClone()
+  spec.csharp:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    fullName: System.Object.MemberwiseClone
+    isExternal: true
+  - name: (
+    fullName: (
+  - name: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    fullName: System.Object.MemberwiseClone
+    isExternal: true
+  - name: (
+    fullName: (
+  - name: )
+    fullName: )
 - uid: System
   isExternal: false
   name: System
   fullName: System
+- uid: System.Collections
+  isExternal: false
+  name: System.Collections
+  fullName: System.Collections
 - uid: System.Data
   isExternal: false
   name: System.Data
@@ -2166,6 +2652,27 @@ references:
   isExternal: false
   name: RecordsAffected
   fullName: System.Data.IDataReader.RecordsAffected
+- uid: System.IDisposable.Dispose
+  parent: System.IDisposable
+  isExternal: false
+  name: Dispose()
+  fullName: System.IDisposable.Dispose()
+  spec.csharp:
+  - uid: System.IDisposable.Dispose
+    name: Dispose
+    fullName: System.IDisposable.Dispose
+  - name: (
+    fullName: (
+  - name: )
+    fullName: )
+  spec.vb:
+  - uid: System.IDisposable.Dispose
+    name: Dispose
+    fullName: System.IDisposable.Dispose
+  - name: (
+    fullName: (
+  - name: )
+    fullName: )
 - uid: System.Data.IDataRecord.GetBoolean(System.Int32)
   parent: System.Data.IDataRecord
   isExternal: true
@@ -2318,7 +2825,7 @@ references:
   name: Int64
   fullName: System.Int64
 - uid: System.Byte[]
-  isExternal: false
+  isExternal: true
   name: Byte[]
   fullName: System.Byte[]
   fullname.vb: System.Byte()
@@ -2327,12 +2834,14 @@ references:
   - uid: System.Byte
     name: Byte
     fullName: System.Byte
+    isExternal: true
   - name: '[]'
     fullName: '[]'
   spec.vb:
   - uid: System.Byte
     name: Byte
     fullName: System.Byte
+    isExternal: true
   - name: ()
     fullName: ()
 - uid: System.Data.IDataRecord.GetChar(System.Int32)
@@ -2453,7 +2962,7 @@ references:
   - name: )
     fullName: )
 - uid: System.Char[]
-  isExternal: false
+  isExternal: true
   name: Char[]
   fullName: System.Char[]
   fullname.vb: System.Char()
@@ -2462,12 +2971,14 @@ references:
   - uid: System.Char
     name: Char
     fullName: System.Char
+    isExternal: true
   - name: '[]'
     fullName: '[]'
   spec.vb:
   - uid: System.Char
     name: Char
     fullName: System.Char
+    isExternal: true
   - name: ()
     fullName: ()
 - uid: System.Data.Common.DbDataReader
@@ -2606,15 +3117,32 @@ references:
   isExternal: false
   name: Double
   fullName: System.Double
+- uid: System.Collections.IEnumerable.GetEnumerator
+  parent: System.Collections.IEnumerable
+  isExternal: false
+  name: GetEnumerator()
+  fullName: System.Collections.IEnumerable.GetEnumerator()
+  spec.csharp:
+  - uid: System.Collections.IEnumerable.GetEnumerator
+    name: GetEnumerator
+    fullName: System.Collections.IEnumerable.GetEnumerator
+  - name: (
+    fullName: (
+  - name: )
+    fullName: )
+  spec.vb:
+  - uid: System.Collections.IEnumerable.GetEnumerator
+    name: GetEnumerator
+    fullName: System.Collections.IEnumerable.GetEnumerator
+  - name: (
+    fullName: (
+  - name: )
+    fullName: )
 - uid: System.Collections.IEnumerator
   parent: System.Collections
   isExternal: false
-  name: Collections.IEnumerator
+  name: IEnumerator
   fullName: System.Collections.IEnumerator
-- uid: System.Collections
-  isExternal: false
-  name: System.Collections
-  fullName: System.Collections
 - uid: System.Data.IDataRecord.GetFieldType(System.Int32)
   parent: System.Data.IDataRecord
   isExternal: true
@@ -2654,14 +3182,15 @@ references:
   name: T
   fullName: T
 - uid: System.Threading.Tasks.Task{{T}}
+  parent: System.Threading.Tasks
   definition: System.Threading.Tasks.Task`1
-  name: Threading.Tasks.Task<T>
+  name: Task<T>
   fullName: System.Threading.Tasks.Task<T>
   fullname.vb: System.Threading.Tasks.Task(Of T)
-  name.vb: Threading.Tasks.Task(Of T)
+  name.vb: Task(Of T)
   spec.csharp:
   - uid: System.Threading.Tasks.Task`1
-    name: Threading.Tasks.Task
+    name: Task
     fullName: System.Threading.Tasks.Task
     isExternal: true
   - name: <
@@ -2672,7 +3201,7 @@ references:
     fullName: '>'
   spec.vb:
   - uid: System.Threading.Tasks.Task`1
-    name: Threading.Tasks.Task
+    name: Task
     fullName: System.Threading.Tasks.Task
     isExternal: true
   - name: '(Of '
@@ -2684,26 +3213,28 @@ references:
 - uid: System.Threading.Tasks.Task`1
   parent: System.Threading.Tasks
   isExternal: false
-  name: Threading.Tasks.Task<>
-  fullName: System.Threading.Tasks.Task<>
-  fullname.vb: System.Threading.Tasks.Task(Of )
-  name.vb: Threading.Tasks.Task(Of )
+  name: Task<TResult>
+  fullName: System.Threading.Tasks.Task<TResult>
+  fullname.vb: System.Threading.Tasks.Task(Of TResult)
+  name.vb: Task(Of TResult)
   spec.csharp:
   - uid: System.Threading.Tasks.Task`1
-    name: Threading.Tasks.Task
+    name: Task
     fullName: System.Threading.Tasks.Task
   - name: <
     fullName: <
-  - {}
+  - name: TResult
+    fullName: TResult
   - name: '>'
     fullName: '>'
   spec.vb:
   - uid: System.Threading.Tasks.Task`1
-    name: Threading.Tasks.Task
+    name: Task
     fullName: System.Threading.Tasks.Task
   - name: '(Of '
     fullName: '(Of '
-  - {}
+  - name: TResult
+    fullName: TResult
   - name: )
     fullName: )
 - uid: System.Threading.Tasks
@@ -2713,7 +3244,7 @@ references:
 - uid: System.Threading.CancellationToken
   parent: System.Threading
   isExternal: false
-  name: Threading.CancellationToken
+  name: CancellationToken
   fullName: System.Threading.CancellationToken
 - uid: System.Threading
   isExternal: false
@@ -2938,7 +3469,7 @@ references:
   - name: )
     fullName: )
 - uid: System.Object[]
-  isExternal: false
+  isExternal: true
   name: Object[]
   fullName: System.Object[]
   fullname.vb: System.Object()
@@ -2947,18 +3478,20 @@ references:
   - uid: System.Object
     name: Object
     fullName: System.Object
+    isExternal: true
   - name: '[]'
     fullName: '[]'
   spec.vb:
   - uid: System.Object
     name: Object
     fullName: System.Object
+    isExternal: true
   - name: ()
     fullName: ()
 - uid: System.IO.Stream
   parent: System.IO
   isExternal: false
-  name: IO.Stream
+  name: Stream
   fullName: System.IO.Stream
 - uid: System.IO
   isExternal: false
@@ -2996,7 +3529,7 @@ references:
 - uid: System.IO.TextReader
   parent: System.IO
   isExternal: false
-  name: IO.TextReader
+  name: TextReader
   fullName: System.IO.TextReader
 - uid: System.Data.IDataRecord.GetValue(System.Int32)
   parent: System.Data.IDataRecord
@@ -3092,14 +3625,15 @@ references:
   - name: )
     fullName: )
 - uid: System.Threading.Tasks.Task{System.Boolean}
+  parent: System.Threading.Tasks
   definition: System.Threading.Tasks.Task`1
-  name: Tasks.Task<Boolean>
+  name: Task<Boolean>
   fullName: System.Threading.Tasks.Task<System.Boolean>
   fullname.vb: System.Threading.Tasks.Task(Of System.Boolean)
-  name.vb: Tasks.Task(Of Boolean)
+  name.vb: Task(Of Boolean)
   spec.csharp:
   - uid: System.Threading.Tasks.Task`1
-    name: Tasks.Task
+    name: Task
     fullName: System.Threading.Tasks.Task
     isExternal: true
   - name: <
@@ -3112,7 +3646,7 @@ references:
     fullName: '>'
   spec.vb:
   - uid: System.Threading.Tasks.Task`1
-    name: Tasks.Task
+    name: Task
     fullName: System.Threading.Tasks.Task
     isExternal: true
   - name: '(Of '
@@ -3241,3 +3775,25 @@ references:
   isExternal: false
   name: DataTable
   fullName: System.Data.DataTable
+- uid: System.NotSupportedException
+  parent: System
+  isExternal: false
+  name: NotSupportedException
+  fullName: System.NotSupportedException
+- uid: System.InvalidOperationException
+  parent: System
+  isExternal: false
+  name: InvalidOperationException
+  fullName: System.InvalidOperationException
+- uid: System.IndexOutOfRangeException
+  isExternal: false
+  name: IndexOutOfRangeException
+  fullName: System.IndexOutOfRangeException
+- uid: System.InvalidCastException
+  isExternal: false
+  name: InvalidCastException
+  fullName: System.InvalidCastException
+- uid: System.Data.Common.DbException
+  isExternal: false
+  name: DbException
+  fullName: System.Data.Common.DbException

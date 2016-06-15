@@ -45,13 +45,34 @@ items:
   assemblies:
   - System.Diagnostics.PerformanceCounter
   namespace: System.Diagnostics
+  summary: "\n<p>Represents a Windows NT performance counter component.</p>\n"
+  remarks: "\n<p>The <xref href=\"System.Diagnostics.PerformanceCounter\" data-throw-if-not-resolved=\"false\"></xref> component can be used for both reading existing predefined or custom counters and publishing (writing) performance data to custom counters.</p>\n<p>There are numerous predefined counters listed in the Windows Performance Monitor's <see href=\"http://go.microsoft.com/fwlink/p/?LinkId=257854\">Add Counters dialog box</see>. To learn about the .NET Framework performance counters, see Performance Counters in the .NET Framework.</p>\n<p>This type implements the <xref href=\"System.IDisposable\" data-throw-if-not-resolved=\"false\"></xref> interface. When you have finished using the type, you should dispose of it either directly or indirectly. To dispose of the type directly, call its <xref href=\"System.IDisposable.Dispose\" data-throw-if-not-resolved=\"false\"></xref> method in a <strong>try</strong>/<strong>catch</strong> block. To dispose of it indirectly, use a language construct such as <strong>using</strong> (in C#) or <strong>Using</strong> (in Visual Basic). For more information, see the “Using an Object that Implements IDisposable” section in the <xref href=\"System.IDisposable\" data-throw-if-not-resolved=\"false\"></xref> interface topic.</p>\n<p>In versions 1.0 and 1.1 of the .NET Framework, this class requires immediate callers to be fully trusted. Starting with the .NET Framework version 2.0, this class requires <xref href=\"System.Diagnostics.PerformanceCounterPermission\" data-throw-if-not-resolved=\"false\"></xref> for specific actions. It is strongly recommended that <xref href=\"System.Diagnostics.PerformanceCounterPermission\" data-throw-if-not-resolved=\"false\"></xref> not be granted to semi-trusted code.  The ability to read and write performance counters allows code to perform actions such as enumerating executing processes and obtaining information about them. </p>\n<p>In addition, passing a <xref href=\"System.Diagnostics.PerformanceCounter\" data-throw-if-not-resolved=\"false\"></xref> object to less-trusted code can create a security issue. Never pass performance counter objects, such as a <xref href=\"System.Diagnostics.PerformanceCounterCategory\" data-throw-if-not-resolved=\"false\"></xref> or <xref href=\"System.Diagnostics.PerformanceCounter\" data-throw-if-not-resolved=\"false\"></xref>, to less trusted code.</p>\n<p>To read from a performance counter, create an instance of the <xref href=\"System.Diagnostics.PerformanceCounter\" data-throw-if-not-resolved=\"false\"></xref> class, set the <xref href=\"System.Diagnostics.PerformanceCounter.CategoryName\" data-throw-if-not-resolved=\"false\"></xref>, <xref href=\"System.Diagnostics.PerformanceCounter.CounterName\" data-throw-if-not-resolved=\"false\"></xref>, and, optionally, the <xref href=\"System.Diagnostics.PerformanceCounter.InstanceName\" data-throw-if-not-resolved=\"false\"></xref> or <xref href=\"System.Diagnostics.PerformanceCounter.MachineName\" data-throw-if-not-resolved=\"false\"></xref> properties, and then call the <xref href=\"System.Diagnostics.PerformanceCounter.NextValue\" data-throw-if-not-resolved=\"false\"></xref> method to take a performance counter reading.</p>\n<p>To publish performance counter data, create one or more custom counters using the <xref href=\"System.Diagnostics.PerformanceCounterCategory.Create(System.String,System.String,System.Diagnostics.CounterCreationDataCollection)\" data-throw-if-not-resolved=\"false\"></xref> method, create an instance of the <xref href=\"System.Diagnostics.PerformanceCounter\" data-throw-if-not-resolved=\"false\"></xref> class, set the <xref href=\"System.Diagnostics.PerformanceCounter.CategoryName\" data-throw-if-not-resolved=\"false\"></xref>, <xref href=\"System.Diagnostics.PerformanceCounter.CounterName\" data-throw-if-not-resolved=\"false\"></xref> and, optionally, <xref href=\"System.Diagnostics.PerformanceCounter.InstanceName\" data-throw-if-not-resolved=\"false\"></xref> or <xref href=\"System.Diagnostics.PerformanceCounter.MachineName\" data-throw-if-not-resolved=\"false\"></xref> properties, and then call the <xref href=\"System.Diagnostics.PerformanceCounter.IncrementBy(System.Int64)\" data-throw-if-not-resolved=\"false\"></xref>, <xref href=\"System.Diagnostics.PerformanceCounter.Increment\" data-throw-if-not-resolved=\"false\"></xref>, or <xref href=\"System.Diagnostics.PerformanceCounter.Decrement\" data-throw-if-not-resolved=\"false\"></xref> methods, or set the <xref href=\"System.Diagnostics.PerformanceCounter.RawValue\" data-throw-if-not-resolved=\"false\"></xref> property to change the value of your custom counter.</p>\n<p>The <xref href=\"System.Diagnostics.PerformanceCounter.Increment\" data-throw-if-not-resolved=\"false\"></xref>, <xref href=\"System.Diagnostics.PerformanceCounter.IncrementBy(System.Int64)\" data-throw-if-not-resolved=\"false\"></xref>, and <xref href=\"System.Diagnostics.PerformanceCounter.Decrement\" data-throw-if-not-resolved=\"false\"></xref> methods use interlocks to update the counter value. This helps keep the counter value accurate in multithreaded or multiprocess scenarios, but also results in a performance penalty. If you do not need the accuracy that interlocked operations provide, you can update the <xref href=\"System.Diagnostics.PerformanceCounter.RawValue\" data-throw-if-not-resolved=\"false\"></xref> property directly for up to a 5 times performance improvement.  However, in multithreaded scenarios, some updates to the counter value might be ignored, resulting in inaccurate data.</p>\n<p>The counter is the mechanism by which performance data is collected. The registry stores the names of all the counters, each of which is related to a specific area of system functionality. Examples include a processor's busy time, memory usage, or the number of bytes received over a network connection.</p>\n<p>Each counter is uniquely identified through its name and its location. In the same way that a file path includes a drive, a directory, one or more subdirectories, and a file name, counter information consists of four elements: the computer, the category, the category instance, and the counter name.</p>\n<p>The counter information must include the category, or performance object, that the counter measures data for. A computer's categories include physical components, such as processors, disks, and memory. There are also system categories, such as processes and threads. Each category is related to a functional element within the computer and has a set of standard counters assigned to it. These objects are listed in the Performance object drop-down list of the Add Counters dialog box within the Windows 2000 System Monitor, and you must include them in the counter path. Performance data is grouped by the category to which is it related.</p>\n<p>In certain cases, several copies of the same category can exist. For example, several processes and threads run simultaneously, and some computers contain more than one processor. The category copies are called category instances, and each instance has a set of standard counters assigned to it. If a category can have more than one instance, an instance specification must be included in the counter information.</p>\n<p>To obtain performance data for counters that required an initial or previous value for performing the necessary calculation, call the <xref href=\"System.Diagnostics.PerformanceCounter.NextValue\" data-throw-if-not-resolved=\"false\"></xref> method twice and use the information returned as your application requires.</p>\n<p>Performance counter categories installed with the .NET Framework 2.0 use separate shared memory, with each performance counter category having its own memory. You can specify the size of separate shared memory by creating a DWORD named FileMappingSize in the registry key HKEY_LOCAL_MACHINE\\SYSTEM\\CurrentControlSet\\Services\\<category name>\\Performance. The FileMappingSize value is set to the shared memory size of the category. The default size is 131072 decimal. If the FileMappingSize value is not present, the <strong>fileMappingSize</strong> attribute value for the <strong>performanceCounters</strong> element specified in the Machine.config file is used, causing additional overhead for configuration file processing. You can realize a performance improvement for application startup by setting the file mapping size in the registry. For more information about the file mapping size, see <performanceCounters> Element.</p>\n"
+  example:
+  - "\n<p>The following code example demonstrates the use of the <xref href=\"System.Diagnostics.PerformanceCounter\" data-throw-if-not-resolved=\"false\"></xref> class to create and use an <xref href=\"System.Diagnostics.PerformanceCounterType.AverageCount64\" data-throw-if-not-resolved=\"false\"></xref> counter type. The example creates categories, sets up counters, collects data from the counters, and calls the <xref href=\"System.Diagnostics.CounterSampleCalculator\" data-throw-if-not-resolved=\"false\"></xref> class to interpret the performance counter data. The intermediate and final results are displayed in the console window. For additional examples of other performance counter types, see the <xref href=\"System.Diagnostics.PerformanceCounterType\" data-throw-if-not-resolved=\"false\"></xref> enumeration.</p>PerformanceCounterType.AverageCounter64#1"
   syntax:
-    content: 'public sealed class PerformanceCounter : object'
-    content.vb: >-
-      Public NotInheritable Class PerformanceCounter
-          Inherits Object
+    content: public sealed class PerformanceCounter
+    content.vb: Public NotInheritable Class PerformanceCounter
+  seealso:
+  - type: System.Diagnostics.PerformanceCounterType
+    commentId: T:System.Diagnostics.PerformanceCounterType
+  - type: System.Diagnostics.CounterCreationData
+    commentId: T:System.Diagnostics.CounterCreationData
+  - type: System.Diagnostics.CounterCreationDataCollection
+    commentId: T:System.Diagnostics.CounterCreationDataCollection
+  - type: System.Diagnostics.CounterSample
+    commentId: T:System.Diagnostics.CounterSample
+  - type: System.Diagnostics.CounterSampleCalculator
+    commentId: T:System.Diagnostics.CounterSampleCalculator
   inheritance:
   - System.Object
+  inheritedMembers:
+  - System.Object.ToString
+  - System.Object.Equals(System.Object)
+  - System.Object.Equals(System.Object,System.Object)
+  - System.Object.ReferenceEquals(System.Object,System.Object)
+  - System.Object.GetHashCode
+  - System.Object.GetType
+  - System.Object.MemberwiseClone
   modifiers.csharp:
   - public
   - sealed
@@ -81,11 +102,24 @@ items:
   assemblies:
   - System.Diagnostics.PerformanceCounter
   namespace: System.Diagnostics
+  summary: "\n<p>Specifies the size, in bytes, of the global memory shared by performance counters. The default size is 524,288 bytes.</p>\n"
   syntax:
-    content: public static int DefaultFileMappingSize
-    content.vb: Public Shared DefaultFileMappingSize As Integer
+    content: >-
+      [Obsolete("This field has been deprecated and is not used.  Use machine.config or an application configuration file to set the size of the PerformanceCounter file mapping.")]
+
+      public static int DefaultFileMappingSize
+    content.vb: >-
+      <Obsolete("This field has been deprecated and is not used.  Use machine.config or an application configuration file to set the size of the PerformanceCounter file mapping.")>
+
+      Public Shared DefaultFileMappingSize As Integer
     return:
       type: System.Int32
+  attributes:
+  - type: System.ObsoleteAttribute
+    ctor: System.ObsoleteAttribute.#ctor(System.String)
+    arguments:
+    - type: System.String
+      value: This field has been deprecated and is not used.  Use machine.config or an application configuration file to set the size of the PerformanceCounter file mapping.
   modifiers.csharp:
   - public
   - static
@@ -113,9 +147,22 @@ items:
   assemblies:
   - System.Diagnostics.PerformanceCounter
   namespace: System.Diagnostics
+  summary: "\n<p>Initializes a new, read-only instance of the <xref href=\"System.Diagnostics.PerformanceCounter\" data-throw-if-not-resolved=\"false\"></xref> class, without associating the instance with any system or custom performance counter.</p>\n"
+  remarks: "\n<p>This overload of the constructor sets the <xref href=\"System.Diagnostics.PerformanceCounter.CategoryName\" data-throw-if-not-resolved=\"false\"></xref>, <xref href=\"System.Diagnostics.PerformanceCounter.CounterName\" data-throw-if-not-resolved=\"false\"></xref>, and <xref href=\"System.Diagnostics.PerformanceCounter.InstanceName\" data-throw-if-not-resolved=\"false\"></xref> properties to empty strings (\"\"), and sets the <xref href=\"System.Diagnostics.PerformanceCounter.MachineName\" data-throw-if-not-resolved=\"false\"></xref> property to the local computer, (\".\").</p>\n<p>This constructor does not initialize the performance counter, so it does not associate the instance with an existing counter on the local computer. To point to a specific performance counter, set the <xref href=\"System.Diagnostics.PerformanceCounter.CategoryName\" data-throw-if-not-resolved=\"false\"></xref>, <xref href=\"System.Diagnostics.PerformanceCounter.CounterName\" data-throw-if-not-resolved=\"false\"></xref>, and, optionally, the <xref href=\"System.Diagnostics.PerformanceCounter.InstanceName\" data-throw-if-not-resolved=\"false\"></xref> and <xref href=\"System.Diagnostics.PerformanceCounter.MachineName\" data-throw-if-not-resolved=\"false\"></xref> properties before reading any other properties or attempting to read from a counter. To write to a performance counter, set the <xref href=\"System.Diagnostics.PerformanceCounter.ReadOnly\" data-throw-if-not-resolved=\"false\"></xref> property to <strong>false</strong>.</p>\n<p>The <xref href=\"System.Security.Permissions.HostProtectionAttribute\" data-throw-if-not-resolved=\"false\"></xref> attribute applied to this member has the following <xref href=\"System.Security.Permissions.HostProtectionAttribute.Resources\" data-throw-if-not-resolved=\"false\"></xref> property value: <xref href=\"System.Security.Permissions.HostProtectionResource.Synchronization\" data-throw-if-not-resolved=\"false\"></xref> | <xref href=\"System.Security.Permissions.HostProtectionResource.SharedState\" data-throw-if-not-resolved=\"false\"></xref>. The <xref href=\"System.Security.Permissions.HostProtectionAttribute\" data-throw-if-not-resolved=\"false\"></xref> does not affect desktop applications (which are typically started by double-clicking an icon, typing a command, or entering a URL in a browser). For more information, see the <xref href=\"System.Security.Permissions.HostProtectionAttribute\" data-throw-if-not-resolved=\"false\"></xref> class or SQL Server Programming and Host Protection Attributes.</p>\n"
+  example:
+  - "\n<p>The following code example creates a default instance of the <xref href=\"System.Diagnostics.PerformanceCounter\" data-throw-if-not-resolved=\"false\"></xref> class. After the instance is created, the <xref href=\"System.Diagnostics.PerformanceCounter.CategoryName\" data-throw-if-not-resolved=\"false\"></xref>, <xref href=\"System.Diagnostics.PerformanceCounter.CounterName\" data-throw-if-not-resolved=\"false\"></xref>, and <xref href=\"System.Diagnostics.PerformanceCounter.InstanceName\" data-throw-if-not-resolved=\"false\"></xref> property values are set, and the results of a call to the <xref href=\"System.Diagnostics.PerformanceCounter.NextValue\" data-throw-if-not-resolved=\"false\"></xref> method are displayed.</p>PerfCounter#1"
   syntax:
     content: public PerformanceCounter()
     content.vb: Public Sub New
+  exceptions:
+  - type: System.PlatformNotSupportedException
+    commentId: T:System.PlatformNotSupportedException
+    description: "\n<p>The platform is Windows 98 or Windows Millennium Edition (Me), which does not support performance counters. </p>\n"
+  see:
+  - type: System.Diagnostics.PerformanceCounterPermission
+    commentId: T:System.Diagnostics.PerformanceCounterPermission
+  - type: System.Diagnostics.PerformanceCounterPermission
+    commentId: T:System.Diagnostics.PerformanceCounterPermission
   modifiers.csharp:
   - public
   modifiers.vb:
@@ -141,14 +188,39 @@ items:
   assemblies:
   - System.Diagnostics.PerformanceCounter
   namespace: System.Diagnostics
+  summary: "\n<p>Initializes a new, read-only instance of the <xref href=\"System.Diagnostics.PerformanceCounter\" data-throw-if-not-resolved=\"false\"></xref> class and associates it with the specified system or custom performance counter on the local computer. This constructor requires that the category have a single instance.</p>\n"
+  remarks: "\n<p>The parameter strings are not case-sensitive.</p>\n<p>Use this overload to access a counter on the local computer that belongs to a category containing a single performance counter category instance. If you attempt to use this constructor to point this <xref href=\"System.Diagnostics.PerformanceCounter\" data-throw-if-not-resolved=\"false\"></xref> instance to a category that contains multiple instances, the constructor throws an exception. This overload can access any read-only or read/write counter, but does so in a read-only mode. A <xref href=\"System.Diagnostics.PerformanceCounter\" data-throw-if-not-resolved=\"false\"></xref> instance created using this overload cannot write to the counter, even if the counter itself is read/write.</p>\n<p>This overload of the constructor sets the <xref href=\"System.Diagnostics.PerformanceCounter.CategoryName\" data-throw-if-not-resolved=\"false\"></xref> and <xref href=\"System.Diagnostics.PerformanceCounter.CounterName\" data-throw-if-not-resolved=\"false\"></xref> properties to the values you pass in, sets the <xref href=\"System.Diagnostics.PerformanceCounter.MachineName\" data-throw-if-not-resolved=\"false\"></xref> property to the local computer, \".\", and sets the <xref href=\"System.Diagnostics.PerformanceCounter.InstanceName\" data-throw-if-not-resolved=\"false\"></xref> property to an empty string (\"\").</p>\n<p>This constructor initializes the performance counter and associates the instance with an existing counter (either a system or a custom counter) on the local computer. The values that you pass in for the <xref href=\"System.Diagnostics.PerformanceCounter.CategoryName\" data-throw-if-not-resolved=\"false\"></xref> and <xref href=\"System.Diagnostics.PerformanceCounter.CounterName\" data-throw-if-not-resolved=\"false\"></xref> properties must point to an existing performance counter on the local computer.</p>\n<p>To read performance counters in Windows Vista, Windows XP Professional x64 Edition, or Windows Server 2003, you must either be a member of the Performance Monitor Users group or have administrative privileges. </p>\n<p>To avoid having to elevate your privileges to access performance counters in Windows Vista, add yourself to the Performance Monitor Users group.</p>\n<p>In Windows Vista, User Account Control (UAC) determines the privileges of a user. If you are a member of the Built-in Administrators group, you are assigned two run-time access tokens: a standard user access token and an administrator access token. By default, you are in the standard user role. To execute the code that accesses performance counters, you must first elevate your privileges from standard user to administrator. You can do this when you start an application by right-clicking the application icon and indicating that you want to run as an administrator.</p>\n"
   syntax:
     content: public PerformanceCounter(string categoryName, string counterName)
     content.vb: Public Sub New(categoryName As String, counterName As String)
     parameters:
     - id: categoryName
       type: System.String
+      description: "\n<p>The name of the performance counter category (performance object) with which this performance counter is associated. </p>\n"
     - id: counterName
       type: System.String
+      description: "\n<p>The name of the performance counter. </p>\n"
+  exceptions:
+  - type: System.InvalidOperationException
+    commentId: T:System.InvalidOperationException
+    description: "\n<p>\n<em>categoryName</em> is an empty string (\"\").</p>\n<p>-or- </p>\n<p>\n<em>counterName</em> is an empty string (\"\").</p>\n<p>-or- </p>\n<p>The category specified does not exist. </p>\n<p>-or-</p>\n<p>The category specified is marked as multi-instance and requires the performance counter to be created with an instance name.</p>\n<p>-or-</p>\n<p>\n<em>categoryName</em> and <em>counterName</em> have been localized into different languages.</p>\n"
+  - type: System.ArgumentNullException
+    commentId: T:System.ArgumentNullException
+    description: "\n<p>\n<em>categoryName</em> or <em>counterName</em> is <strong>null</strong>. </p>\n"
+  - type: System.ComponentModel.Win32Exception
+    commentId: T:System.ComponentModel.Win32Exception
+    description: "\n<p>An error occurred when accessing a system API. </p>\n"
+  - type: System.PlatformNotSupportedException
+    commentId: T:System.PlatformNotSupportedException
+    description: "\n<p>The platform is Windows 98 or Windows Millennium Edition (Me), which does not support performance counters. </p>\n"
+  - type: System.UnauthorizedAccessException
+    commentId: T:System.UnauthorizedAccessException
+    description: "\n<p>Code that is executing without administrative privileges attempted to read a performance counter.</p>\n"
+  see:
+  - type: System.Diagnostics.PerformanceCounterPermission
+    commentId: T:System.Diagnostics.PerformanceCounterPermission
+  - type: System.Diagnostics.PerformanceCounterPermission
+    commentId: T:System.Diagnostics.PerformanceCounterPermission
   modifiers.csharp:
   - public
   modifiers.vb:
@@ -174,16 +246,44 @@ items:
   assemblies:
   - System.Diagnostics.PerformanceCounter
   namespace: System.Diagnostics
+  summary: "\n<p>Initializes a new, read-only or read/write instance of the <xref href=\"System.Diagnostics.PerformanceCounter\" data-throw-if-not-resolved=\"false\"></xref> class and associates it with the specified system or custom performance counter on the local computer. This constructor requires that the category contain a single instance.</p>\n"
+  remarks: "\n<p>The parameter strings are not case-sensitive.</p>\n<p>Use this overload to access a read-only or read/write counter on the local computer that belongs to a category containing a single performance counter category instance. If you attempt to use this constructor to point this <xref href=\"System.Diagnostics.PerformanceCounter\" data-throw-if-not-resolved=\"false\"></xref> instance to a category that contains multiple instances, the constructor throws an exception.</p>\n<p>This overload of the constructor sets the <xref href=\"System.Diagnostics.PerformanceCounter.CategoryName\" data-throw-if-not-resolved=\"false\"></xref>, <xref href=\"System.Diagnostics.PerformanceCounter.CounterName\" data-throw-if-not-resolved=\"false\"></xref>, and <xref href=\"System.Diagnostics.PerformanceCounter.ReadOnly\" data-throw-if-not-resolved=\"false\"></xref> properties to the values you pass in, sets the <xref href=\"System.Diagnostics.PerformanceCounter.MachineName\" data-throw-if-not-resolved=\"false\"></xref> property to the local computer, \".\", and sets the <xref href=\"System.Diagnostics.PerformanceCounter.InstanceName\" data-throw-if-not-resolved=\"false\"></xref> property to an empty string (\"\").</p>\n<p>This constructor initializes the performance counter and associates the instance with an existing counter (either a system or a custom counter) on the local computer. The values that you pass in for the <xref href=\"System.Diagnostics.PerformanceCounter.CategoryName\" data-throw-if-not-resolved=\"false\"></xref> and <xref href=\"System.Diagnostics.PerformanceCounter.CounterName\" data-throw-if-not-resolved=\"false\"></xref> properties must point to an existing performance counter on the local computer. If the performance counter instance that you point to is not valid, calling the constructor throws an exception.</p>\n<p>You can use this overload to connect to a system counter, but you cannot write to a system counter. Therefore, setting <em>readOnly</em> to <strong>false</strong> when connecting to a system counter causes the constructor to throw an exception.</p>\n<p>To read performance counters in Windows Vista, Windows XP Professional x64 Edition, or Windows Server 2003, you must either be a member of the Performance Monitor Users group or have administrative privileges. </p>\n<p>To avoid having to elevate your privileges to access performance counters in Windows Vista, add yourself to the Performance Monitor Users group.</p>\n<p>In Windows Vista, User Account Control (UAC) determines the privileges of a user. If you are a member of the Built-in Administrators group, you are assigned two run-time access tokens: a standard user access token and an administrator access token. By default, you are in the standard user role. To execute the code that accesses performance counters, you must first elevate your privileges from standard user to administrator. You can do this when you start an application by right-clicking the application icon and indicating that you want to run as an administrator.</p>\n"
+  example:
+  - "\n<p>The following code example creates an instance of the <xref href=\"System.Diagnostics.PerformanceCounter\" data-throw-if-not-resolved=\"false\"></xref> class. The example passes in category names, counter names, and a flag value indicating that the counter is not read-only. This code example is part of a larger example for the <xref href=\"System.Diagnostics.PerformanceCounter\" data-throw-if-not-resolved=\"false\"></xref> class.</p>PerformanceCounterType.AverageCounter64#2"
   syntax:
     content: public PerformanceCounter(string categoryName, string counterName, bool readOnly)
     content.vb: Public Sub New(categoryName As String, counterName As String, readOnly As Boolean)
     parameters:
     - id: categoryName
       type: System.String
+      description: "\n<p>The name of the performance counter category (performance object) with which this performance counter is associated. </p>\n"
     - id: counterName
       type: System.String
+      description: "\n<p>The name of the performance counter. </p>\n"
     - id: readOnly
       type: System.Boolean
+      description: "\n<p>\n<strong>true</strong> to access the counter in read-only mode (although the counter itself could be read/write); <strong>false</strong> to access the counter in read/write mode. </p>\n"
+  exceptions:
+  - type: System.InvalidOperationException
+    commentId: T:System.InvalidOperationException
+    description: "\n<p>The <em>categoryName</em> is an empty string (\"\").</p>\n<p>-or- </p>\n<p>The <em>counterName</em> is an empty string (\"\").</p>\n<p>-or- </p>\n<p>The category specified does not exist. (if <em>readOnly</em> is <strong>true</strong>). </p>\n<p>-or- </p>\n<p>The category specified is not a .NET Framework custom category (if <em>readOnly</em> is <strong>false</strong>). </p>\n<p>-or-</p>\n<p>The category specified is marked as multi-instance and requires the performance counter to be created with an instance name.</p>\n<p>-or-</p>\n<p>\n<em>categoryName</em> and <em>counterName</em> have been localized into different languages.</p>\n"
+  - type: System.ArgumentNullException
+    commentId: T:System.ArgumentNullException
+    description: "\n<p>\n<em>categoryName</em> or <em>counterName</em> is <strong>null</strong>. </p>\n"
+  - type: System.ComponentModel.Win32Exception
+    commentId: T:System.ComponentModel.Win32Exception
+    description: "\n<p>An error occurred when accessing a system API. </p>\n"
+  - type: System.PlatformNotSupportedException
+    commentId: T:System.PlatformNotSupportedException
+    description: "\n<p>The platform is Windows 98 or Windows Millennium Edition (Me), which does not support performance counters. </p>\n"
+  - type: System.UnauthorizedAccessException
+    commentId: T:System.UnauthorizedAccessException
+    description: "\n<p>Code that is executing without administrative privileges attempted to read a performance counter.</p>\n"
+  see:
+  - type: System.Diagnostics.PerformanceCounterPermission
+    commentId: T:System.Diagnostics.PerformanceCounterPermission
+  - type: System.Diagnostics.PerformanceCounterPermission
+    commentId: T:System.Diagnostics.PerformanceCounterPermission
   modifiers.csharp:
   - public
   modifiers.vb:
@@ -209,16 +309,42 @@ items:
   assemblies:
   - System.Diagnostics.PerformanceCounter
   namespace: System.Diagnostics
+  summary: "\n<p>Initializes a new, read-only instance of the <xref href=\"System.Diagnostics.PerformanceCounter\" data-throw-if-not-resolved=\"false\"></xref> class and associates it with the specified system or custom performance counter and category instance on the local computer.</p>\n"
+  remarks: "\n<p>The parameter strings are not case-sensitive.</p>\n<p>This overload of the constructor sets the <xref href=\"System.Diagnostics.PerformanceCounter.CategoryName\" data-throw-if-not-resolved=\"false\"></xref>, <xref href=\"System.Diagnostics.PerformanceCounter.CounterName\" data-throw-if-not-resolved=\"false\"></xref>, and <xref href=\"System.Diagnostics.PerformanceCounter.InstanceName\" data-throw-if-not-resolved=\"false\"></xref> properties to the values you pass in, and sets the <xref href=\"System.Diagnostics.PerformanceCounter.MachineName\" data-throw-if-not-resolved=\"false\"></xref> property to the local computer, \".\".</p>\n<p>This constructor initializes the performance counter and associates the instance with an existing counter (either a system or a custom counter) on the local computer. The values that you pass in for the <xref href=\"System.Diagnostics.PerformanceCounter.CategoryName\" data-throw-if-not-resolved=\"false\"></xref>, <xref href=\"System.Diagnostics.PerformanceCounter.CounterName\" data-throw-if-not-resolved=\"false\"></xref>, and <xref href=\"System.Diagnostics.PerformanceCounter.InstanceName\" data-throw-if-not-resolved=\"false\"></xref> properties must point to an existing performance counter on the local computer. If the performance counter instance you point to is not valid, calling the constructor throws an exception.</p>\n<p>This overload can access any read-only or read/write counter, but does so in a read-only mode. A <xref href=\"System.Diagnostics.PerformanceCounter\" data-throw-if-not-resolved=\"false\"></xref> instance created using this overload cannot write to the counter, even if the counter itself is read/write.</p>\n<p>To create a performance category instance, specify an <em>instanceName</em> on the <xref href=\"System.Diagnostics.PerformanceCounter.#ctor\" data-throw-if-not-resolved=\"false\"></xref> constructor. If the category instance specified by <em>instanceName</em> already exists the new object will reference the existing category instance.</p>\n<p>To read performance counters in Windows Vista, Windows XP Professional x64 Edition, or Windows Server 2003, you must either be a member of the Performance Monitor Users group or have administrative privileges. </p>\n<p>To avoid having to elevate your privileges to access performance counters in Windows Vista, add yourself to the Performance Monitor Users group.</p>\n<p>In Windows Vista, User Account Control (UAC) determines the privileges of a user. If you are a member of the Built-in Administrators group, you are assigned two run-time access tokens: a standard user access token and an administrator access token. By default, you are in the standard user role. To execute the code that accesses performance counters, you must first elevate your privileges from standard user to administrator. You can do this when you start an application by right-clicking the application icon and indicating that you want to run as an administrator.</p>\n<p></p>\n"
   syntax:
     content: public PerformanceCounter(string categoryName, string counterName, string instanceName)
     content.vb: Public Sub New(categoryName As String, counterName As String, instanceName As String)
     parameters:
     - id: categoryName
       type: System.String
+      description: "\n<p>The name of the performance counter category (performance object) with which this performance counter is associated. </p>\n"
     - id: counterName
       type: System.String
+      description: "\n<p>The name of the performance counter. </p>\n"
     - id: instanceName
       type: System.String
+      description: "\n<p>The name of the performance counter category instance, or an empty string (\"\"), if the category contains a single instance. </p>\n"
+  exceptions:
+  - type: System.InvalidOperationException
+    commentId: T:System.InvalidOperationException
+    description: "\n<p>\n<em>categoryName</em> is an empty string (\"\").</p>\n<p>-or- </p>\n<p>\n<em>counterName</em> is an empty string (\"\").</p>\n<p>-or- </p>\n<p>The category specified is not valid. </p>\n<p>-or-</p>\n<p>The category specified is marked as multi-instance and requires the performance counter to be created with an instance name.</p>\n<p>-or-</p>\n<p>\n<em>instanceName</em> is longer than 127 characters.</p>\n<p>-or-</p>\n<p>\n<em>categoryName</em> and <em>counterName</em> have been localized into different languages.</p>\n"
+  - type: System.ArgumentNullException
+    commentId: T:System.ArgumentNullException
+    description: "\n<p>\n<em>categoryName</em> or <em>counterName</em> is <strong>null</strong>. </p>\n"
+  - type: System.ComponentModel.Win32Exception
+    commentId: T:System.ComponentModel.Win32Exception
+    description: "\n<p>An error occurred when accessing a system API. </p>\n"
+  - type: System.PlatformNotSupportedException
+    commentId: T:System.PlatformNotSupportedException
+    description: "\n<p>The platform is Windows 98 or Windows Millennium Edition (Me), which does not support performance counters. </p>\n"
+  - type: System.UnauthorizedAccessException
+    commentId: T:System.UnauthorizedAccessException
+    description: "\n<p>Code that is executing without administrative privileges attempted to read a performance counter.</p>\n"
+  see:
+  - type: System.Diagnostics.PerformanceCounterPermission
+    commentId: T:System.Diagnostics.PerformanceCounterPermission
+  - type: System.Diagnostics.PerformanceCounterPermission
+    commentId: T:System.Diagnostics.PerformanceCounterPermission
   modifiers.csharp:
   - public
   modifiers.vb:
@@ -244,18 +370,45 @@ items:
   assemblies:
   - System.Diagnostics.PerformanceCounter
   namespace: System.Diagnostics
+  summary: "\n<p>Initializes a new, read-only or read/write instance of the <xref href=\"System.Diagnostics.PerformanceCounter\" data-throw-if-not-resolved=\"false\"></xref> class and associates it with the specified system or custom performance counter and category instance on the local computer.</p>\n"
+  remarks: "\n<p>The parameter strings are not case-sensitive.</p>\n<p>Use this overload to access a performance counter in either read-only or read/write mode.</p>\n<p>This overload of the constructor sets the <xref href=\"System.Diagnostics.PerformanceCounter.CategoryName\" data-throw-if-not-resolved=\"false\"></xref>, <xref href=\"System.Diagnostics.PerformanceCounter.CounterName\" data-throw-if-not-resolved=\"false\"></xref>, and <xref href=\"System.Diagnostics.PerformanceCounter.InstanceName\" data-throw-if-not-resolved=\"false\"></xref> properties to the values you pass in, it and sets the <xref href=\"System.Diagnostics.PerformanceCounter.MachineName\" data-throw-if-not-resolved=\"false\"></xref> property to the local computer, \".\".</p>\n<p>This constructor initializes the performance counter and associates the instance with an existing counter (either a system or a custom counter) on the local computer. The values that you pass in for the <xref href=\"System.Diagnostics.PerformanceCounter.CategoryName\" data-throw-if-not-resolved=\"false\"></xref>, <xref href=\"System.Diagnostics.PerformanceCounter.CounterName\" data-throw-if-not-resolved=\"false\"></xref>, and <xref href=\"System.Diagnostics.PerformanceCounter.InstanceName\" data-throw-if-not-resolved=\"false\"></xref> properties must point to an existing performance counter on the local computer. If the performance counter instance that you point to is not valid, calling the constructor throws an exception.</p>\n<p>You can use this overload to connect to a system counter, but you cannot write to a system counter. Therefore, setting <em>readOnly</em> to <strong>false</strong> when connecting to a system counter causes the constructor to throw an exception.</p>\n<p>To create a performance category instance, specify an <em>instanceName</em> on the <xref href=\"System.Diagnostics.PerformanceCounter.#ctor\" data-throw-if-not-resolved=\"false\"></xref> constructor. If the category instance specified by <em>instanceName</em> already exists the new object will reference the existing category instance.</p>\n<p>To read performance counters in Windows Vista, Windows XP Professional x64 Edition, or Windows Server 2003, you must either be a member of the Performance Monitor Users group or have administrative privileges. </p>\n<p>To avoid having to elevate your privileges to access performance counters in Windows Vista, add yourself to the Performance Monitor Users group.</p>\n<p>In Windows Vista, User Account Control (UAC) determines the privileges of a user. If you are a member of the Built-in Administrators group, you are assigned two run-time access tokens: a standard user access token and an administrator access token. By default, you are in the standard user role. To execute the code that accesses performance counters, you must first elevate your privileges from standard user to administrator. You can do this when you start an application by right-clicking the application icon and indicating that you want to run as an administrator.</p>\n"
   syntax:
     content: public PerformanceCounter(string categoryName, string counterName, string instanceName, bool readOnly)
     content.vb: Public Sub New(categoryName As String, counterName As String, instanceName As String, readOnly As Boolean)
     parameters:
     - id: categoryName
       type: System.String
+      description: "\n<p>The name of the performance counter category (performance object) with which this performance counter is associated. </p>\n"
     - id: counterName
       type: System.String
+      description: "\n<p>The name of the performance counter. </p>\n"
     - id: instanceName
       type: System.String
+      description: "\n<p>The name of the performance counter category instance, or an empty string (\"\"), if the category contains a single instance. </p>\n"
     - id: readOnly
       type: System.Boolean
+      description: "\n<p>\n<strong>true</strong> to access a counter in read-only mode; <strong>false</strong> to access a counter in read/write mode. </p>\n"
+  exceptions:
+  - type: System.InvalidOperationException
+    commentId: T:System.InvalidOperationException
+    description: "\n<p>\n<em>categoryName</em> is an empty string (\"\").</p>\n<p>-or- </p>\n<p>\n<em>counterName</em> is an empty string (\"\").</p>\n<p>-or- </p>\n<p>The read/write permission setting requested is invalid for this counter.</p>\n<p>-or- </p>\n<p>The category specified does not exist (if <em>readOnly</em> is <strong>true</strong>). </p>\n<p>-or- </p>\n<p>The category specified is not a .NET Framework custom category (if <em>readOnly</em> is <strong>false</strong>). </p>\n<p>-or-</p>\n<p>The category specified is marked as multi-instance and requires the performance counter to be created with an instance name.</p>\n<p>-or-</p>\n<p>\n<em>instanceName</em> is longer than 127 characters.</p>\n<p>-or-</p>\n<p>\n<em>categoryName</em> and <em>counterName</em> have been localized into different languages.</p>\n"
+  - type: System.ArgumentNullException
+    commentId: T:System.ArgumentNullException
+    description: "\n<p>\n<em>categoryName</em> or <em>counterName</em> is <strong>null</strong>. </p>\n"
+  - type: System.ComponentModel.Win32Exception
+    commentId: T:System.ComponentModel.Win32Exception
+    description: "\n<p>An error occurred when accessing a system API. </p>\n"
+  - type: System.PlatformNotSupportedException
+    commentId: T:System.PlatformNotSupportedException
+    description: "\n<p>The platform is Windows 98 or Windows Millennium Edition (Me), which does not support performance counters. </p>\n"
+  - type: System.UnauthorizedAccessException
+    commentId: T:System.UnauthorizedAccessException
+    description: "\n<p>Code that is executing without administrative privileges attempted to read a performance counter.</p>\n"
+  see:
+  - type: System.Diagnostics.PerformanceCounterPermission
+    commentId: T:System.Diagnostics.PerformanceCounterPermission
+  - type: System.Diagnostics.PerformanceCounterPermission
+    commentId: T:System.Diagnostics.PerformanceCounterPermission
   modifiers.csharp:
   - public
   modifiers.vb:
@@ -281,18 +434,48 @@ items:
   assemblies:
   - System.Diagnostics.PerformanceCounter
   namespace: System.Diagnostics
+  summary: "\n<p>Initializes a new, read-only instance of the <xref href=\"System.Diagnostics.PerformanceCounter\" data-throw-if-not-resolved=\"false\"></xref> class and associates it with the specified system or custom performance counter and category instance, on the specified computer.</p>\n"
+  remarks: "\n<p>The parameter strings are not case-sensitive.</p>\n<p>This overload of the constructor sets the <xref href=\"System.Diagnostics.PerformanceCounter.CategoryName\" data-throw-if-not-resolved=\"false\"></xref>, <xref href=\"System.Diagnostics.PerformanceCounter.CounterName\" data-throw-if-not-resolved=\"false\"></xref>, <xref href=\"System.Diagnostics.PerformanceCounter.InstanceName\" data-throw-if-not-resolved=\"false\"></xref>, and <xref href=\"System.Diagnostics.PerformanceCounter.MachineName\" data-throw-if-not-resolved=\"false\"></xref> properties to the values you pass in.</p>\n<p>This constructor initializes the performance counter and associates the instance with an existing counter (either a system or a custom counter) on the specified computer. The values that you pass in for the <xref href=\"System.Diagnostics.PerformanceCounter.CategoryName\" data-throw-if-not-resolved=\"false\"></xref>, <xref href=\"System.Diagnostics.PerformanceCounter.CounterName\" data-throw-if-not-resolved=\"false\"></xref>, <xref href=\"System.Diagnostics.PerformanceCounter.InstanceName\" data-throw-if-not-resolved=\"false\"></xref> and <xref href=\"System.Diagnostics.PerformanceCounter.MachineName\" data-throw-if-not-resolved=\"false\"></xref> properties must point to an existing performance counter. If the performance counter instance you point to is not valid, calling the constructor throws an exception. This overload can access any read-only or read/write counter, but does so in a read-only mode. A <xref href=\"System.Diagnostics.PerformanceCounter\" data-throw-if-not-resolved=\"false\"></xref> instance created using this overload cannot write to the counter, even if the counter itself is read/write.</p>\n<p>You cannot write to remote performance counters. There is no overload that allows you to specify a read/write instance of the <xref href=\"System.Diagnostics.PerformanceCounter\" data-throw-if-not-resolved=\"false\"></xref> class that connects to a remote computer.</p>\n<p>To create a performance category instance, specify an <em>instanceName</em> on the <xref href=\"System.Diagnostics.PerformanceCounter.#ctor\" data-throw-if-not-resolved=\"false\"></xref> constructor. If the category instance specified by <em>instanceName</em> already exists the new object will reference the existing category instance.</p>\n<p>To read performance counters in Windows Vista, Windows XP Professional x64 Edition, or Windows Server 2003, you must either be a member of the Performance Monitor Users group or have administrative privileges. </p>\n<p>To avoid having to elevate your privileges to access performance counters in Windows Vista, add yourself to the Performance Monitor Users group.</p>\n<p>In Windows Vista, User Account Control (UAC) determines the privileges of a user. If you are a member of the Built-in Administrators group, you are assigned two run-time access tokens: a standard user access token and an administrator access token. By default, you are in the standard user role. To execute the code that accesses performance counters, you must first elevate your privileges from standard user to administrator. You can do this when you start an application by right-clicking the application icon and indicating that you want to run as an administrator.</p>\n<p>In Windows Vista, when the remote computer is a member of a workgroup, you may need to disable UAC so that the local user account is not filtered and can be elevated to an administrator account. For security reasons, disabling UAC should be a last resort. For information on disabling UAC, see <see href=\"http://go.microsoft.com/fwlink/?LinkId=91617\">User Account Control and WMI</see>. </p>\n<p></p>\n"
   syntax:
     content: public PerformanceCounter(string categoryName, string counterName, string instanceName, string machineName)
     content.vb: Public Sub New(categoryName As String, counterName As String, instanceName As String, machineName As String)
     parameters:
     - id: categoryName
       type: System.String
+      description: "\n<p>The name of the performance counter category (performance object) with which this performance counter is associated. </p>\n"
     - id: counterName
       type: System.String
+      description: "\n<p>The name of the performance counter. </p>\n"
     - id: instanceName
       type: System.String
+      description: "\n<p>The name of the performance counter category instance, or an empty string (\"\"), if the category contains a single instance. </p>\n"
     - id: machineName
       type: System.String
+      description: "\n<p>The computer on which the performance counter and its associated category exist. </p>\n"
+  exceptions:
+  - type: System.InvalidOperationException
+    commentId: T:System.InvalidOperationException
+    description: "\n<p>\n<em>categoryName</em> is an empty string (\"\").</p>\n<p>-or- </p>\n<p>\n<em>counterName</em> is an empty string (\"\").</p>\n<p>-or- </p>\n<p>The read/write permission setting requested is invalid for this counter.</p>\n<p>-or- </p>\n<p>The counter does not exist on the specified computer. </p>\n<p>-or-</p>\n<p>The category specified is marked as multi-instance and requires the performance counter to be created with an instance name.</p>\n<p>-or-</p>\n<p>\n<em>instanceName</em> is longer than 127 characters.</p>\n<p>-or-</p>\n<p>\n<em>categoryName</em> and <em>counterName</em> have been localized into different languages.</p>\n"
+  - type: System.ArgumentException
+    commentId: T:System.ArgumentException
+    description: "\n<p>The <em>machineName</em> parameter is not valid. </p>\n"
+  - type: System.ArgumentNullException
+    commentId: T:System.ArgumentNullException
+    description: "\n<p>\n<em>categoryName</em> or <em>counterName</em> is <strong>null</strong>. </p>\n"
+  - type: System.ComponentModel.Win32Exception
+    commentId: T:System.ComponentModel.Win32Exception
+    description: "\n<p>An error occurred when accessing a system API. </p>\n"
+  - type: System.PlatformNotSupportedException
+    commentId: T:System.PlatformNotSupportedException
+    description: "\n<p>The platform is Windows 98 or Windows Millennium Edition (Me), which does not support performance counters. </p>\n"
+  - type: System.UnauthorizedAccessException
+    commentId: T:System.UnauthorizedAccessException
+    description: "\n<p>Code that is executing without administrative privileges attempted to read a performance counter.</p>\n"
+  see:
+  - type: System.Diagnostics.PerformanceCounterPermission
+    commentId: T:System.Diagnostics.PerformanceCounterPermission
+  - type: System.Diagnostics.PerformanceCounterPermission
+    commentId: T:System.Diagnostics.PerformanceCounterPermission
   modifiers.csharp:
   - public
   modifiers.vb:
@@ -318,12 +501,27 @@ items:
   assemblies:
   - System.Diagnostics.PerformanceCounter
   namespace: System.Diagnostics
+  summary: "\n<p>Gets or sets the name of the performance counter category for this performance counter.</p>\n"
+  remarks: "\n<p>The <xref href=\"System.Diagnostics.PerformanceCounter.CategoryName\" data-throw-if-not-resolved=\"false\"></xref> is displayed in the <strong>Performance Object</strong> field of Performance Counter Manager MMC snap in's <strong>Add Counter</strong> dialog box.</p>\n<p>A performance counter monitors the behavior of a category, or performance object, on a computer. Categories include physical components (such as processors, disks, and memory) and system objects (such as processes and threads). System counters that are related to the same performance object are grouped into a category that indicates their common focus. When you create an instance of the <xref href=\"System.Diagnostics.PerformanceCounter\" data-throw-if-not-resolved=\"false\"></xref> class, you first indicate the category with which the component will interact, and then you choose a counter from that category.</p>\n<p>For example, one Windows counter category is the Memory category. System counters within this category track memory data such as the number of bytes available and the number of bytes cached. If you wanted to work with the bytes cached in your application, you would create an instance of the <xref href=\"System.Diagnostics.PerformanceCounter\" data-throw-if-not-resolved=\"false\"></xref> component, connect it to the Memory category, and then pick the appropriate counter (in this case, Cached Bytes) from that category.</p>\n<p>Although your system makes many more counter categories available, the categories that you will probably interact with most frequently are the Cache, Memory, Objects, PhysicalDisk, Process, Processor, Server, System, and Thread categories.</p>\n"
+  example:
+  - "\n<p>The following code example creates a default instance of the <xref href=\"System.Diagnostics.PerformanceCounter\" data-throw-if-not-resolved=\"false\"></xref> class. After the instance is created, the <xref href=\"System.Diagnostics.PerformanceCounter.CategoryName\" data-throw-if-not-resolved=\"false\"></xref>, <xref href=\"System.Diagnostics.PerformanceCounter.CounterName\" data-throw-if-not-resolved=\"false\"></xref>, and <xref href=\"System.Diagnostics.PerformanceCounter.InstanceName\" data-throw-if-not-resolved=\"false\"></xref> property values are set, and the results of a call to the <xref href=\"System.Diagnostics.PerformanceCounter.NextValue\" data-throw-if-not-resolved=\"false\"></xref> method are displayed.</p>PerfCounter#1"
   syntax:
     content: public string CategoryName { get; set; }
     content.vb: Public Property CategoryName As String
     parameters: []
     return:
       type: System.String
+      description: "\n<p>The name of the performance counter category (performance object) with which this performance counter is associated.</p>\n"
+  exceptions:
+  - type: System.ArgumentNullException
+    commentId: T:System.ArgumentNullException
+    description: "\n<p>The <xref href=\"System.Diagnostics.PerformanceCounter.CategoryName\" data-throw-if-not-resolved=\"false\"></xref> is <strong>null</strong>. </p>\n"
+  - type: System.PlatformNotSupportedException
+    commentId: T:System.PlatformNotSupportedException
+    description: "\n<p>The platform is Windows 98 or Windows Millennium Edition (Me), which does not support performance counters. </p>\n"
+  seealso:
+  - type: System.Diagnostics.Process.ProcessName
+    commentId: P:System.Diagnostics.Process.ProcessName
   modifiers.csharp:
   - public
   - get
@@ -351,12 +549,28 @@ items:
   assemblies:
   - System.Diagnostics.PerformanceCounter
   namespace: System.Diagnostics
+  summary: "\n<p>Gets the description for this performance counter.</p>\n"
+  remarks: "\n<p>The Add Counters dialog box of the Performance Counter Manager MMC snap in displays the <xref href=\"System.Diagnostics.PerformanceCounter.CounterHelp\" data-throw-if-not-resolved=\"false\"></xref> text when a user selects a counter from the counters list and clicks the Explain button.</p>\n<p>When you create a new counter, use the <xref href=\"System.Diagnostics.PerformanceCounter.CounterHelp\" data-throw-if-not-resolved=\"false\"></xref> text to describe what the counter monitors do so the user can determine whether to add the counter to the System Monitor's display.</p>\n<p>If the value for the <xref href=\"System.Diagnostics.PerformanceCounter.InstanceLifetime\" data-throw-if-not-resolved=\"false\"></xref> property is <xref href=\"System.Diagnostics.PerformanceCounterInstanceLifetime.Process\" data-throw-if-not-resolved=\"false\"></xref> and the performance counter category was created with .NET Framework version 1.0 or 1.1, an <xref href=\"System.InvalidOperationException\" data-throw-if-not-resolved=\"false\"></xref> is thrown. Performance counter categories created with earlier versions use global shared memory, and the value for <xref href=\"System.Diagnostics.PerformanceCounter.InstanceLifetime\" data-throw-if-not-resolved=\"false\"></xref> must be <xref href=\"System.Diagnostics.PerformanceCounterInstanceLifetime.Global\" data-throw-if-not-resolved=\"false\"></xref>. If the category is not used by applications running on versions 1.0 or 1.1 of the .NET Framework, delete and recreate the category.</p>\n<p>To read performance counters in Windows Vista, Windows XP Professional x64 Edition, or Windows Server 2003, you must either be a member of the Performance Monitor Users group or have administrative privileges. </p>\n<p>To avoid having to elevate your privileges to access performance counters in Windows Vista, add yourself to the Performance Monitor Users group.</p>\n<p>In Windows Vista, User Account Control (UAC) determines the privileges of a user. If you are a member of the Built-in Administrators group, you are assigned two run-time access tokens: a standard user access token and an administrator access token. By default, you are in the standard user role. To execute the code that accesses performance counters, you must first elevate your privileges from standard user to administrator. You can do this when you start an application by right-clicking the application icon and indicating that you want to run as an administrator.</p>\n"
   syntax:
     content: public string CounterHelp { get; }
     content.vb: Public ReadOnly Property CounterHelp As String
     parameters: []
     return:
       type: System.String
+      description: "\n<p>A description of the item or quantity that this performance counter measures.</p>\n"
+  exceptions:
+  - type: System.InvalidOperationException
+    commentId: T:System.InvalidOperationException
+    description: "\n<p>The <xref href=\"System.Diagnostics.PerformanceCounter\" data-throw-if-not-resolved=\"false\"></xref> instance is not associated with a performance counter. </p>\n<p>-or-</p>\n<p>The <xref href=\"System.Diagnostics.PerformanceCounter.InstanceLifetime\" data-throw-if-not-resolved=\"false\"></xref> property is set to <xref href=\"System.Diagnostics.PerformanceCounterInstanceLifetime.Process\" data-throw-if-not-resolved=\"false\"></xref>  when using global shared memory.</p>\n"
+  - type: System.PlatformNotSupportedException
+    commentId: T:System.PlatformNotSupportedException
+    description: "\n<p>The platform is Windows 98 or Windows Millennium Edition (Me), which does not support performance counters. </p>\n"
+  - type: System.UnauthorizedAccessException
+    commentId: T:System.UnauthorizedAccessException
+    description: "\n<p>Code that is executing without administrative privileges attempted to read a performance counter.</p>\n"
+  see:
+  - type: System.Diagnostics.PerformanceCounterPermission
+    commentId: T:System.Diagnostics.PerformanceCounterPermission
   modifiers.csharp:
   - public
   - get
@@ -384,12 +598,24 @@ items:
   assemblies:
   - System.Diagnostics.PerformanceCounter
   namespace: System.Diagnostics
+  summary: "\n<p>Gets or sets the name of the performance counter that is associated with this <xref href=\"System.Diagnostics.PerformanceCounter\" data-throw-if-not-resolved=\"false\"></xref> instance.</p>\n"
+  remarks: "\n<p>You can get a list of available pre-existing counters from the Windows Performance Manager’s <see href=\"http://go.microsoft.com/fwlink/p/?LinkId=257854\">Add Counters dialog box</see>. </p>\n"
+  example:
+  - "\n<p>The following code example shows how to set the <xref href=\"System.Diagnostics.PerformanceCounter.CounterName\" data-throw-if-not-resolved=\"false\"></xref> property to a typical counter name.</p>PerfCounter#1"
   syntax:
     content: public string CounterName { get; set; }
     content.vb: Public Property CounterName As String
     parameters: []
     return:
       type: System.String
+      description: "\n<p>The name of the counter, which generally describes the quantity being counted. This name is displayed in the list of counters of the Performance Counter Manager MMC snap in's Add Counters dialog box.</p>\n"
+  exceptions:
+  - type: System.ArgumentNullException
+    commentId: T:System.ArgumentNullException
+    description: "\n<p>The <xref href=\"System.Diagnostics.PerformanceCounter.CounterName\" data-throw-if-not-resolved=\"false\"></xref> is <strong>null</strong>. </p>\n"
+  - type: System.PlatformNotSupportedException
+    commentId: T:System.PlatformNotSupportedException
+    description: "\n<p>The platform is Windows 98 or Windows Millennium Edition (Me), which does not support performance counters. </p>\n"
   modifiers.csharp:
   - public
   - get
@@ -417,12 +643,31 @@ items:
   assemblies:
   - System.Diagnostics.PerformanceCounter
   namespace: System.Diagnostics
+  summary: "\n<p>Gets the counter type of the associated performance counter.</p>\n"
+  remarks: "\n<p>The <xref href=\"System.Diagnostics.PerformanceCounterType\" data-throw-if-not-resolved=\"false\"></xref> enumeration contains the types of performance counters that you can interact with. Some of the counter types represent calculated values, such as the average of the counter measurements the system has taken. Other types represent raw, or uncalculated, values. The following table shows the counter types that you will interact with most frequently.</p>\n<p>Counter's Responsibility </p>\n<p>PerformanceCounterType Value </p>\n<p>Example </p>\n<p>When you create a counter whose type requires the use of a corresponding base counter, you must declare the counter and the base in the <xref href=\"System.Diagnostics.CounterCreationDataCollection\" data-throw-if-not-resolved=\"false\"></xref> you pass into the <xref href=\"System.Diagnostics.PerformanceCounterCategory.Create(System.String,System.String,System.Diagnostics.CounterCreationDataCollection)\" data-throw-if-not-resolved=\"false\"></xref> method.</p>\n<p>If the value for the <xref href=\"System.Diagnostics.PerformanceCounter.InstanceLifetime\" data-throw-if-not-resolved=\"false\"></xref> property is <xref href=\"System.Diagnostics.PerformanceCounterInstanceLifetime.Process\" data-throw-if-not-resolved=\"false\"></xref> and the performance counter category was created with .NET Framework version 1.0 or 1.1, an <xref href=\"System.InvalidOperationException\" data-throw-if-not-resolved=\"false\"></xref> is thrown. Performance counter categories created with earlier versions use global shared memory, and the value for <xref href=\"System.Diagnostics.PerformanceCounter.InstanceLifetime\" data-throw-if-not-resolved=\"false\"></xref> must be <xref href=\"System.Diagnostics.PerformanceCounterInstanceLifetime.Global\" data-throw-if-not-resolved=\"false\"></xref>. If the category is not used by applications running on versions 1.0 or 1.1 of the .NET Framework, delete and recreate the category.</p>\n<p>To read performance counters in Windows Vista, Windows XP Professional x64 Edition, or Windows Server 2003, you must either be a member of the Performance Monitor Users group or have administrative privileges. </p>\n<p>To avoid having to elevate your privileges to access performance counters in Windows Vista, add yourself to the Performance Monitor Users group.</p>\n<p>In Windows Vista, User Account Control (UAC) determines the privileges of a user. If you are a member of the Built-in Administrators group, you are assigned two run-time access tokens: a standard user access token and an administrator access token. By default, you are in the standard user role. To execute the code that accesses performance counters, you must first elevate your privileges from standard user to administrator. You can do this when you start an application by right-clicking the application icon and indicating that you want to run as an administrator.</p>\n"
   syntax:
     content: public PerformanceCounterType CounterType { get; }
     content.vb: Public ReadOnly Property CounterType As PerformanceCounterType
     parameters: []
     return:
       type: System.Diagnostics.PerformanceCounterType
+      description: "\n<p>A <xref href=\"System.Diagnostics.PerformanceCounterType\" data-throw-if-not-resolved=\"false\"></xref> that describes both how the counter interacts with a monitoring application and the nature of the values it contains (for example, calculated or uncalculated).</p>\n"
+  exceptions:
+  - type: System.InvalidOperationException
+    commentId: T:System.InvalidOperationException
+    description: "\n<p>The instance is not correctly associated with a performance counter. </p>\n<p>-or-</p>\n<p>The <xref href=\"System.Diagnostics.PerformanceCounter.InstanceLifetime\" data-throw-if-not-resolved=\"false\"></xref> property is set to <xref href=\"System.Diagnostics.PerformanceCounterInstanceLifetime.Process\" data-throw-if-not-resolved=\"false\"></xref>  when using global shared memory.</p>\n"
+  - type: System.PlatformNotSupportedException
+    commentId: T:System.PlatformNotSupportedException
+    description: "\n<p>The platform is Windows 98 or Windows Millennium Edition (Me), which does not support performance counters. </p>\n"
+  - type: System.UnauthorizedAccessException
+    commentId: T:System.UnauthorizedAccessException
+    description: "\n<p>Code that is executing without administrative privileges attempted to read a performance counter.</p>\n"
+  seealso:
+  - type: System.Diagnostics.PerformanceCounterType
+    commentId: T:System.Diagnostics.PerformanceCounterType
+  see:
+  - type: System.Diagnostics.PerformanceCounterPermission
+    commentId: T:System.Diagnostics.PerformanceCounterPermission
   modifiers.csharp:
   - public
   - get
@@ -450,12 +695,22 @@ items:
   assemblies:
   - System.Diagnostics.PerformanceCounter
   namespace: System.Diagnostics
+  summary: "\n<p>Gets or sets the lifetime of a process.</p>\n"
+  remarks: "\n<p>If the performance counter category is created with the .NET Framework version 1.0 or 1.1, it uses global shared memory, and the value for <xref href=\"System.Diagnostics.PerformanceCounter.InstanceLifetime\" data-throw-if-not-resolved=\"false\"></xref> must be <xref href=\"System.Diagnostics.PerformanceCounterInstanceLifetime.Global\" data-throw-if-not-resolved=\"false\"></xref>. If the category is not used by applications running on versions 1.0 or 1.1 of the .NET Framework, delete and recreate the category.</p>\n<p>If the value of the <xref href=\"System.Diagnostics.PerformanceCounter.CounterType\" data-throw-if-not-resolved=\"false\"></xref> property is <xref href=\"System.Diagnostics.PerformanceCounterCategoryType.SingleInstance\" data-throw-if-not-resolved=\"false\"></xref>, the <xref href=\"System.Diagnostics.PerformanceCounter.InstanceLifetime\" data-throw-if-not-resolved=\"false\"></xref> value for the performance counter must be <xref href=\"System.Diagnostics.PerformanceCounterInstanceLifetime.Global\" data-throw-if-not-resolved=\"false\"></xref>.</p>\n"
   syntax:
     content: public PerformanceCounterInstanceLifetime InstanceLifetime { get; set; }
     content.vb: Public Property InstanceLifetime As PerformanceCounterInstanceLifetime
     parameters: []
     return:
       type: System.Diagnostics.PerformanceCounterInstanceLifetime
+      description: "\n<p>One of the <xref href=\"System.Diagnostics.PerformanceCounterInstanceLifetime\" data-throw-if-not-resolved=\"false\"></xref> values. The default is <xref href=\"System.Diagnostics.PerformanceCounterInstanceLifetime.Global\" data-throw-if-not-resolved=\"false\"></xref>.</p>\n"
+  exceptions:
+  - type: System.ArgumentOutOfRangeException
+    commentId: T:System.ArgumentOutOfRangeException
+    description: "\n<p>The value set is not a member of the <xref href=\"System.Diagnostics.PerformanceCounterInstanceLifetime\" data-throw-if-not-resolved=\"false\"></xref> enumeration. </p>\n"
+  - type: System.InvalidOperationException
+    commentId: T:System.InvalidOperationException
+    description: "\n<p>\n<xref href=\"System.Diagnostics.PerformanceCounter.InstanceLifetime\" data-throw-if-not-resolved=\"false\"></xref> is set after the <xref href=\"System.Diagnostics.PerformanceCounter\" data-throw-if-not-resolved=\"false\"></xref> has been initialized.</p>\n"
   modifiers.csharp:
   - public
   - get
@@ -483,12 +738,17 @@ items:
   assemblies:
   - System.Diagnostics.PerformanceCounter
   namespace: System.Diagnostics
+  summary: "\n<p>Gets or sets an instance name for this performance counter.</p>\n"
+  remarks: "\n<p>Instance names must be shorter than 128 characters in length.</p>\n<p>In some situations, categories are subdivided into instances, which track data about multiple occurrences of the object that a category relates to. Instances apply to the category as whole, rather than to individual counters. Every counter within a category has each instance defined for the category. For example, the Process category contains instances named Idle and System. Every counter within the Process category thus contains data for each instance, showing information about either idle processes or system processes.</p>\n<p>Many categories do not contain multiple instances, so you can leave this property empty to indicate that no instance is associated with the category.</p>\n<p>If this <xref href=\"System.Diagnostics.PerformanceCounter\" data-throw-if-not-resolved=\"false\"></xref> instance points to a noncustom category, you can choose from only the existing category instances. You can create new category instances only in custom categories, which allow you to define as many counters and category instances as you need.</p>\n<p>To create a performance category instance, specify an <em>instanceName</em> on the <xref href=\"System.Diagnostics.PerformanceCounter.#ctor\" data-throw-if-not-resolved=\"false\"></xref> constructor. If the category instance specified by <em>instanceName</em> already exists the new object will reference the existing category instance. </p>\n<p> Do not use the characters \"(\", \")\", \"#\", \"\\\", or \"/\" in the instance name. If any of these characters are used, the Performance Console (see Runtime Profiling) may not correctly display the instance values.</p>\n<p>If the instance name is automatically generated and might contain the characters \"(\", \")\", \"#\", \"\\\", or \"/\", use the character mapping in the following table.</p>\n<p>Character</p>\n<p>Mapped character</p>\n<table><tbody><tr><td>\n<p>(</p>\n</td><td>\n<p>[</p>\n</td></tr><tr><td>\n<p>)</p>\n</td><td>\n<p>]</p>\n</td></tr><tr><td>\n<p>#</p>\n</td><td>\n<p>_</p>\n</td></tr><tr><td>\n<p>\\</p>\n</td><td>\n<p>_</p>\n</td></tr><tr><td>\n<p>/</p>\n</td><td>\n<p>_</p>\n</td></tr></tbody></table>\n<p>The <xref href=\"System.AppDomain.FriendlyName\" data-throw-if-not-resolved=\"false\"></xref> property of the <xref href=\"System.AppDomain\" data-throw-if-not-resolved=\"false\"></xref> object obtained from the <xref href=\"System.AppDomain.CurrentDomain\" data-throw-if-not-resolved=\"false\"></xref> property is a common source of instance names that can contain invalid characters.</p>\n"
+  example:
+  - "\n<p>The following code example creates a default instance of the <xref href=\"System.Diagnostics.PerformanceCounter\" data-throw-if-not-resolved=\"false\"></xref> class. After the instance is created, the <xref href=\"System.Diagnostics.PerformanceCounter.CategoryName\" data-throw-if-not-resolved=\"false\"></xref>, <xref href=\"System.Diagnostics.PerformanceCounter.CounterName\" data-throw-if-not-resolved=\"false\"></xref>, and <xref href=\"System.Diagnostics.PerformanceCounter.InstanceName\" data-throw-if-not-resolved=\"false\"></xref> property values are set, and the results of a call to the <xref href=\"System.Diagnostics.PerformanceCounter.NextValue\" data-throw-if-not-resolved=\"false\"></xref> method are displayed.</p>PerfCounter#1"
   syntax:
     content: public string InstanceName { get; set; }
     content.vb: Public Property InstanceName As String
     parameters: []
     return:
       type: System.String
+      description: "\n<p>The name of the performance counter category instance, or an empty string (\"\"), if the counter is a single-instance counter.</p>\n"
   modifiers.csharp:
   - public
   - get
@@ -516,12 +776,22 @@ items:
   assemblies:
   - System.Diagnostics.PerformanceCounter
   namespace: System.Diagnostics
+  summary: "\n<p>Gets or sets the computer name for this performance counter </p>\n"
+  remarks: "\n<p>You can write values only to counters that reside on the local computer. However, you can read counter values from any computer in the enterprise for which you have access privileges.</p>\n<p>When you set the <xref href=\"System.Diagnostics.PerformanceCounter.MachineName\" data-throw-if-not-resolved=\"false\"></xref> property to point to a remote computer, the <xref href=\"System.Diagnostics.PerformanceCounter\" data-throw-if-not-resolved=\"false\"></xref> instance attempts to open the counter on that computer. If the counter does not exist, setting this property throws an exception.</p>\n"
   syntax:
     content: public string MachineName { get; set; }
     content.vb: Public Property MachineName As String
     parameters: []
     return:
       type: System.String
+      description: "\n<p>The server on which the performance counter and its associated category reside.</p>\n"
+  exceptions:
+  - type: System.ArgumentException
+    commentId: T:System.ArgumentException
+    description: "\n<p>The <xref href=\"System.Diagnostics.PerformanceCounter.MachineName\" data-throw-if-not-resolved=\"false\"></xref> format is invalid. </p>\n"
+  - type: System.PlatformNotSupportedException
+    commentId: T:System.PlatformNotSupportedException
+    description: "\n<p>The platform is Windows 98 or Windows Millennium Edition (Me), which does not support performance counters. </p>\n"
   modifiers.csharp:
   - public
   - get
@@ -549,12 +819,35 @@ items:
   assemblies:
   - System.Diagnostics.PerformanceCounter
   namespace: System.Diagnostics
+  summary: "\n<p>Gets or sets the raw, or uncalculated, value of this counter.</p>\n"
+  remarks: "\n<p>If the counter type is a 32-bit size and you attempt to set this property to a value that is too large to fit, the property truncates the value to 32 bits. When reading custom counters on the local computer, using the <xref href=\"System.Diagnostics.PerformanceCounter.RawValue\" data-throw-if-not-resolved=\"false\"></xref> property rather than a calculated value can produce significantly better performance in scenarios where the raw value is sufficient.</p>\n<p>If the counter that you are reading is read-only, getting the <xref href=\"System.Diagnostics.PerformanceCounter.RawValue\" data-throw-if-not-resolved=\"false\"></xref> property samples the counter at the time that the property is called. This action is equivalent to making an initial call to the <xref href=\"System.Diagnostics.PerformanceCounter.NextSample\" data-throw-if-not-resolved=\"false\"></xref> method. If you subsequently call <xref href=\"System.Diagnostics.PerformanceCounter.NextSample\" data-throw-if-not-resolved=\"false\"></xref>, you can perform calculations on the values that both calls returned.</p>\n<p>Because system counters are read-only, you can get but not set their raw values.</p>\n<p>The <xref href=\"System.Diagnostics.PerformanceCounter.Increment\" data-throw-if-not-resolved=\"false\"></xref>, <xref href=\"System.Diagnostics.PerformanceCounter.IncrementBy(System.Int64)\" data-throw-if-not-resolved=\"false\"></xref>, and <xref href=\"System.Diagnostics.PerformanceCounter.Decrement\" data-throw-if-not-resolved=\"false\"></xref> methods use interlocks to update the counter value. This helps keep the counter value accurate in multithreaded or multiprocess scenarios, but also results in a performance penalty. If you do not need the accuracy that interlocked operations provide, you can update the <xref href=\"System.Diagnostics.PerformanceCounter.RawValue\" data-throw-if-not-resolved=\"false\"></xref> property directly for up to a 5 times performance improvement.  However, in multithreaded scenarios, some updates to the counter value might be ignored, resulting in inaccurate data.</p>\n<p>If the value for the <xref href=\"System.Diagnostics.PerformanceCounter.InstanceLifetime\" data-throw-if-not-resolved=\"false\"></xref> property is <xref href=\"System.Diagnostics.PerformanceCounterInstanceLifetime.Process\" data-throw-if-not-resolved=\"false\"></xref> and the performance counter category was created with .NET Framework version 1.0 or 1.1, an <xref href=\"System.InvalidOperationException\" data-throw-if-not-resolved=\"false\"></xref> is thrown. Performance counter categories created with earlier versions use global shared memory, and the value for <xref href=\"System.Diagnostics.PerformanceCounter.InstanceLifetime\" data-throw-if-not-resolved=\"false\"></xref> must be <xref href=\"System.Diagnostics.PerformanceCounterInstanceLifetime.Global\" data-throw-if-not-resolved=\"false\"></xref>. If the category is not used by applications running on versions 1.0 or 1.1 of the .NET Framework, delete and recreate the category.</p>\n<p>To read performance counters in Windows Vista, Windows XP Professional x64 Edition, or Windows Server 2003, you must either be a member of the Performance Monitor Users group or have administrative privileges. </p>\n<p>To avoid having to elevate your privileges to access performance counters in Windows Vista, add yourself to the Performance Monitor Users group.</p>\n<p>In Windows Vista, User Account Control (UAC) determines the privileges of a user. If you are a member of the Built-in Administrators group, you are assigned two run-time access tokens: a standard user access token and an administrator access token. By default, you are in the standard user role. To execute the code that accesses performance counters, you must first elevate your privileges from standard user to administrator. You can do this when you start an application by right-clicking the application icon and indicating that you want to run as an administrator.</p>\n"
+  example:
+  - "\n<p>The following example uses the <xref href=\"System.Diagnostics.CounterSample\" data-throw-if-not-resolved=\"false\"></xref> class to display the value of the <xref href=\"System.Diagnostics.PerformanceCounter.RawValue\" data-throw-if-not-resolved=\"false\"></xref> property for a counter.</p>PerformanceCounterType.AverageCounter64#1"
   syntax:
     content: public long RawValue { get; set; }
     content.vb: Public Property RawValue As Long
     parameters: []
     return:
       type: System.Int64
+      description: "\n<p>The raw value of the counter.</p>\n"
+  exceptions:
+  - type: System.InvalidOperationException
+    commentId: T:System.InvalidOperationException
+    description: "\n<p>You are trying to set the counter's raw value, but the counter is read-only.</p>\n<p>-or- </p>\n<p>The instance is not correctly associated with a performance counter. </p>\n<p>-or-</p>\n<p>The <xref href=\"System.Diagnostics.PerformanceCounter.InstanceLifetime\" data-throw-if-not-resolved=\"false\"></xref> property is set to <xref href=\"System.Diagnostics.PerformanceCounterInstanceLifetime.Process\" data-throw-if-not-resolved=\"false\"></xref>  when using global shared memory.</p>\n"
+  - type: System.ComponentModel.Win32Exception
+    commentId: T:System.ComponentModel.Win32Exception
+    description: "\n<p>An error occurred when accessing a system API. </p>\n"
+  - type: System.PlatformNotSupportedException
+    commentId: T:System.PlatformNotSupportedException
+    description: "\n<p>The platform is Windows 98 or Windows Millennium Edition (Me), which does not support performance counters. </p>\n"
+  - type: System.UnauthorizedAccessException
+    commentId: T:System.UnauthorizedAccessException
+    description: "\n<p>Code that is executing without administrative privileges attempted to read a performance counter.</p>\n"
+  see:
+  - type: System.Diagnostics.PerformanceCounterPermission
+    commentId: T:System.Diagnostics.PerformanceCounterPermission
+  - type: System.Diagnostics.PerformanceCounterPermission
+    commentId: T:System.Diagnostics.PerformanceCounterPermission
   modifiers.csharp:
   - public
   - get
@@ -582,12 +875,15 @@ items:
   assemblies:
   - System.Diagnostics.PerformanceCounter
   namespace: System.Diagnostics
+  summary: "\n<p>Gets or sets a value indicating whether this <xref href=\"System.Diagnostics.PerformanceCounter\" data-throw-if-not-resolved=\"false\"></xref> instance is in read-only mode.</p>\n"
+  remarks: "\n<p>For a system counter, <xref href=\"System.Diagnostics.PerformanceCounter.ReadOnly\" data-throw-if-not-resolved=\"false\"></xref> should always <strong>true</strong>. You cannot write to a system counter.</p>\n"
   syntax:
     content: public bool ReadOnly { get; set; }
     content.vb: Public Property ReadOnly As Boolean
     parameters: []
     return:
       type: System.Boolean
+      description: "\n<p>\n<strong>true</strong>, if the <xref href=\"System.Diagnostics.PerformanceCounter\" data-throw-if-not-resolved=\"false\"></xref> instance is in read-only mode (even if the counter itself is a custom .NET Framework counter); <strong>false</strong> if it is in read/write mode. The default is the value set by the constructor.</p>\n"
   modifiers.csharp:
   - public
   - get
@@ -615,6 +911,8 @@ items:
   assemblies:
   - System.Diagnostics.PerformanceCounter
   namespace: System.Diagnostics
+  summary: "\n<p>Begins the initialization of a <xref href=\"System.Diagnostics.PerformanceCounter\" data-throw-if-not-resolved=\"false\"></xref> instance used on a form or by another component. The initialization occurs at runtime.</p>\n"
+  remarks: "\n<p>The Visual Studio 2005 design environment uses this method to start the initialization of a component that is used on a form or by another component. The <xref href=\"System.Diagnostics.PerformanceCounter.EndInit\" data-throw-if-not-resolved=\"false\"></xref> method ends the initialization. Using the <xref href=\"System.Diagnostics.PerformanceCounter.BeginInit\" data-throw-if-not-resolved=\"false\"></xref> and <xref href=\"System.Diagnostics.PerformanceCounter.EndInit\" data-throw-if-not-resolved=\"false\"></xref> methods prevents the component from being used before it is fully initialized.</p>\n"
   syntax:
     content: public void BeginInit()
     content.vb: Public Sub BeginInit
@@ -643,6 +941,8 @@ items:
   assemblies:
   - System.Diagnostics.PerformanceCounter
   namespace: System.Diagnostics
+  summary: "\n<p>Closes the performance counter and frees all the resources allocated by this performance counter instance.</p>\n"
+  remarks: "\n<p>When you associate this <xref href=\"System.Diagnostics.PerformanceCounter\" data-throw-if-not-resolved=\"false\"></xref> instance with a performance counter that resides on the server, the system initializes the instance and allocates memory to contain counter sample information. The <xref href=\"System.Diagnostics.PerformanceCounter.Close\" data-throw-if-not-resolved=\"false\"></xref> method frees the resources allocated by the object.</p>\n"
   syntax:
     content: public void Close()
     content.vb: Public Sub Close
@@ -671,9 +971,16 @@ items:
   assemblies:
   - System.Diagnostics.PerformanceCounter
   namespace: System.Diagnostics
+  summary: "\n<p>Ends the initialization of a <xref href=\"System.Diagnostics.PerformanceCounter\" data-throw-if-not-resolved=\"false\"></xref> instance that is used on a form or by another component. The initialization occurs at runtime.</p>\n"
+  remarks: "\n<p>The Visual Studio 2005 design environment uses this method to end the initialization of a component that is used on a form or by another component. The <xref href=\"System.Diagnostics.PerformanceCounter.BeginInit\" data-throw-if-not-resolved=\"false\"></xref> method starts the initialization. Using the <xref href=\"System.Diagnostics.PerformanceCounter.BeginInit\" data-throw-if-not-resolved=\"false\"></xref> and <xref href=\"System.Diagnostics.PerformanceCounter.EndInit\" data-throw-if-not-resolved=\"false\"></xref> methods prevents the component from being used before it is fully initialized.</p>\n"
   syntax:
     content: public void EndInit()
     content.vb: Public Sub
+  see:
+  - type: System.Diagnostics.PerformanceCounterPermission
+    commentId: T:System.Diagnostics.PerformanceCounterPermission
+  - type: System.Diagnostics.PerformanceCounterPermission
+    commentId: T:System.Diagnostics.PerformanceCounterPermission
   modifiers.csharp:
   - public
   modifiers.vb:
@@ -699,11 +1006,29 @@ items:
   assemblies:
   - System.Diagnostics.PerformanceCounter
   namespace: System.Diagnostics
+  summary: "\n<p>Increments the associated performance counter by one through an efficient atomic operation.</p>\n"
+  remarks: "\n<p>You can write only to custom counters. All system counters are read-only.</p>\n<p>The <xref href=\"System.Diagnostics.PerformanceCounter.Increment\" data-throw-if-not-resolved=\"false\"></xref>, <xref href=\"System.Diagnostics.PerformanceCounter.IncrementBy(System.Int64)\" data-throw-if-not-resolved=\"false\"></xref>, and <xref href=\"System.Diagnostics.PerformanceCounter.Decrement\" data-throw-if-not-resolved=\"false\"></xref> methods use interlocks to update the counter value. This helps keep the counter value accurate in multithreaded or multiprocess scenarios, but also results in a performance penalty. If you do not need the accuracy that interlocked operations provide, you can update the <xref href=\"System.Diagnostics.PerformanceCounter.RawValue\" data-throw-if-not-resolved=\"false\"></xref> property directly for up to a 5 times performance improvement.  However, in multithreaded scenarios, some updates to the counter value might be ignored, resulting in inaccurate data.</p>\n<p>If the value for the <xref href=\"System.Diagnostics.PerformanceCounter.InstanceLifetime\" data-throw-if-not-resolved=\"false\"></xref> property is <xref href=\"System.Diagnostics.PerformanceCounterInstanceLifetime.Process\" data-throw-if-not-resolved=\"false\"></xref> and the performance counter category was created with .NET Framework version 1.0 or 1.1, an <xref href=\"System.InvalidOperationException\" data-throw-if-not-resolved=\"false\"></xref> is thrown. Performance counter categories created with earlier versions use global shared memory, and the value for <xref href=\"System.Diagnostics.PerformanceCounter.InstanceLifetime\" data-throw-if-not-resolved=\"false\"></xref> must be <xref href=\"System.Diagnostics.PerformanceCounterInstanceLifetime.Global\" data-throw-if-not-resolved=\"false\"></xref>. If the category is not used by applications running on versions 1.0 or 1.1 of the .NET Framework, delete and recreate the category.</p>\n<p></p>\n"
   syntax:
     content: public long Increment()
     content.vb: Public Function Increment As Long
     return:
       type: System.Int64
+      description: "\n<p>The incremented counter value.</p>\n"
+  exceptions:
+  - type: System.InvalidOperationException
+    commentId: T:System.InvalidOperationException
+    description: "\n<p>The counter is read-only, so the application cannot increment it.</p>\n<p>-or- </p>\n<p>The instance is not correctly associated with a performance counter. </p>\n<p>-or-</p>\n<p>The <xref href=\"System.Diagnostics.PerformanceCounter.InstanceLifetime\" data-throw-if-not-resolved=\"false\"></xref> property is set to <xref href=\"System.Diagnostics.PerformanceCounterInstanceLifetime.Process\" data-throw-if-not-resolved=\"false\"></xref>  when using global shared memory.</p>\n"
+  - type: System.ComponentModel.Win32Exception
+    commentId: T:System.ComponentModel.Win32Exception
+    description: "\n<p>An error occurred when accessing a system API. </p>\n"
+  - type: System.PlatformNotSupportedException
+    commentId: T:System.PlatformNotSupportedException
+    description: "\n<p>The platform is Windows 98 or Windows Millennium Edition (Me), which does not support performance counters. </p>\n"
+  see:
+  - type: System.Diagnostics.PerformanceCounterPermission
+    commentId: T:System.Diagnostics.PerformanceCounterPermission
+  - type: System.Diagnostics.PerformanceCounterPermission
+    commentId: T:System.Diagnostics.PerformanceCounterPermission
   modifiers.csharp:
   - public
   modifiers.vb:
@@ -729,14 +1054,35 @@ items:
   assemblies:
   - System.Diagnostics.PerformanceCounter
   namespace: System.Diagnostics
+  summary: "\n<p>Increments or decrements the value of the associated performance counter by a specified amount through an efficient atomic operation.</p>\n"
+  remarks: "\n<p>You can write only to custom counters. All system counters are read-only.</p>\n<p>The <xref href=\"System.Diagnostics.PerformanceCounter.Increment\" data-throw-if-not-resolved=\"false\"></xref>, <xref href=\"System.Diagnostics.PerformanceCounter.IncrementBy(System.Int64)\" data-throw-if-not-resolved=\"false\"></xref>, and <xref href=\"System.Diagnostics.PerformanceCounter.Decrement\" data-throw-if-not-resolved=\"false\"></xref> methods use interlocks to update the counter value. This helps keep the counter value accurate in multithreaded or multiprocess scenarios, but also results in a performance penalty. If you do not need the accuracy that interlocked operations provide, you can update the <xref href=\"System.Diagnostics.PerformanceCounter.RawValue\" data-throw-if-not-resolved=\"false\"></xref> property directly for up to a 5 times performance improvement.  However, in multithreaded scenarios, some updates to the counter value might be ignored, resulting in inaccurate data.</p>\n<p>If the value forthe <xref href=\"System.Diagnostics.PerformanceCounter.InstanceLifetime\" data-throw-if-not-resolved=\"false\"></xref> property is <xref href=\"System.Diagnostics.PerformanceCounterInstanceLifetime.Process\" data-throw-if-not-resolved=\"false\"></xref> and the performance counter category was created with .NET Framework version 1.0 or 1.1, an <xref href=\"System.InvalidOperationException\" data-throw-if-not-resolved=\"false\"></xref> is thrown. Performance counter categories created with earlier versions use global shared memory, and the value for <xref href=\"System.Diagnostics.PerformanceCounter.InstanceLifetime\" data-throw-if-not-resolved=\"false\"></xref> must be <xref href=\"System.Diagnostics.PerformanceCounterInstanceLifetime.Global\" data-throw-if-not-resolved=\"false\"></xref>. If the category is not used by applications running on versions 1.0 or 1.1 of the .NET Framework, delete and recreate the category.</p>\n"
+  example:
+  - "\n<p>The following code example demonstrates how to use the <xref href=\"System.Diagnostics.PerformanceCounter.IncrementBy(System.Int64)\" data-throw-if-not-resolved=\"false\"></xref> method to add increments to a counter. This code example is part of a larger example for the <xref href=\"System.Diagnostics.PerformanceCounter\" data-throw-if-not-resolved=\"false\"></xref> class.</p>PerformanceCounterType.AverageCounter64#3"
   syntax:
     content: public long IncrementBy(long value)
     content.vb: Public Function IncrementBy(value As Long) As Long
     parameters:
     - id: value
       type: System.Int64
+      description: "\n<p>The value to increment by. (A negative value decrements the counter.) </p>\n"
     return:
       type: System.Int64
+      description: "\n<p>The new counter value.</p>\n"
+  exceptions:
+  - type: System.InvalidOperationException
+    commentId: T:System.InvalidOperationException
+    description: "\n<p>The counter is read-only, so the application cannot increment it.</p>\n<p>-or- </p>\n<p>The instance is not correctly associated with a performance counter. </p>\n<p>-or-</p>\n<p>The <xref href=\"System.Diagnostics.PerformanceCounter.InstanceLifetime\" data-throw-if-not-resolved=\"false\"></xref> property is set to <xref href=\"System.Diagnostics.PerformanceCounterInstanceLifetime.Process\" data-throw-if-not-resolved=\"false\"></xref>  when using global shared memory.</p>\n"
+  - type: System.ComponentModel.Win32Exception
+    commentId: T:System.ComponentModel.Win32Exception
+    description: "\n<p>An error occurred when accessing a system API. </p>\n"
+  - type: System.PlatformNotSupportedException
+    commentId: T:System.PlatformNotSupportedException
+    description: "\n<p>The platform is Windows 98 or Windows Millennium Edition (Me), which does not support performance counters. </p>\n"
+  see:
+  - type: System.Diagnostics.PerformanceCounterPermission
+    commentId: T:System.Diagnostics.PerformanceCounterPermission
+  - type: System.Diagnostics.PerformanceCounterPermission
+    commentId: T:System.Diagnostics.PerformanceCounterPermission
   modifiers.csharp:
   - public
   modifiers.vb:
@@ -762,11 +1108,32 @@ items:
   assemblies:
   - System.Diagnostics.PerformanceCounter
   namespace: System.Diagnostics
+  summary: "\n<p>Obtains a counter sample, and returns the raw, or uncalculated, value for it.</p>\n"
+  remarks: "\n<p>This method is generally used for counters that contain uncalculated values.</p>\n<p>If the value for the <xref href=\"System.Diagnostics.PerformanceCounter.InstanceLifetime\" data-throw-if-not-resolved=\"false\"></xref> property is <xref href=\"System.Diagnostics.PerformanceCounterInstanceLifetime.Process\" data-throw-if-not-resolved=\"false\"></xref> and the performance counter category was created with .NET Framework version 1.0 or 1.1, an <xref href=\"System.InvalidOperationException\" data-throw-if-not-resolved=\"false\"></xref> is thrown. Performance counter categories created with earlier versions use global shared memory, and the value for <xref href=\"System.Diagnostics.PerformanceCounter.InstanceLifetime\" data-throw-if-not-resolved=\"false\"></xref> must be <xref href=\"System.Diagnostics.PerformanceCounterInstanceLifetime.Global\" data-throw-if-not-resolved=\"false\"></xref>. If the category is not used by applications running on versions 1.0 or 1.1 of the .NET Framework, delete and recreate the category.</p>\n<p>To read performance counters in Windows Vista, Windows XP Professional x64 Edition, or Windows Server 2003, you must either be a member of the Performance Monitor Users group or have administrative privileges. </p>\n<p>To avoid having to elevate your privileges to access performance counters in Windows Vista, add yourself to the Performance Monitor Users group.</p>\n<p>In Windows Vista, User Account Control (UAC) determines the privileges of a user. If you are a member of the Built-in Administrators group, you are assigned two run-time access tokens: a standard user access token and an administrator access token. By default, you are in the standard user role. To execute the code that accesses performance counters, you must first elevate your privileges from standard user to administrator. You can do this when you start an application by right-clicking the application icon and indicating that you want to run as an administrator.</p>\n"
+  example:
+  - "\n<p>The following code example demonstrates how to use the <xref href=\"System.Diagnostics.PerformanceCounter.NextSample\" data-throw-if-not-resolved=\"false\"></xref> method to obtain the next uncalculated value of a counter. This code example is part of a larger example for the <xref href=\"System.Diagnostics.PerformanceCounter\" data-throw-if-not-resolved=\"false\"></xref> class.</p>PerformanceCounterType.AverageCounter64#3"
   syntax:
     content: public CounterSample NextSample()
     content.vb: Public Function NextSample As CounterSample
     return:
       type: System.Diagnostics.CounterSample
+      description: "\n<p>A <xref href=\"System.Diagnostics.CounterSample\" data-throw-if-not-resolved=\"false\"></xref> that represents the next raw value that the system obtains for this counter.</p>\n"
+  exceptions:
+  - type: System.InvalidOperationException
+    commentId: T:System.InvalidOperationException
+    description: "\n<p>The instance is not correctly associated with a performance counter. </p>\n<p>-or-</p>\n<p>The <xref href=\"System.Diagnostics.PerformanceCounter.InstanceLifetime\" data-throw-if-not-resolved=\"false\"></xref> property is set to <xref href=\"System.Diagnostics.PerformanceCounterInstanceLifetime.Process\" data-throw-if-not-resolved=\"false\"></xref>  when using global shared memory.</p>\n"
+  - type: System.ComponentModel.Win32Exception
+    commentId: T:System.ComponentModel.Win32Exception
+    description: "\n<p>An error occurred when accessing a system API. </p>\n"
+  - type: System.PlatformNotSupportedException
+    commentId: T:System.PlatformNotSupportedException
+    description: "\n<p>The platform is Windows 98 or Windows Millennium Edition (Me), which does not support performance counters. </p>\n"
+  - type: System.UnauthorizedAccessException
+    commentId: T:System.UnauthorizedAccessException
+    description: "\n<p>Code that is executing without administrative privileges attempted to read a performance counter.</p>\n"
+  see:
+  - type: System.Diagnostics.PerformanceCounterPermission
+    commentId: T:System.Diagnostics.PerformanceCounterPermission
   modifiers.csharp:
   - public
   modifiers.vb:
@@ -792,11 +1159,32 @@ items:
   assemblies:
   - System.Diagnostics.PerformanceCounter
   namespace: System.Diagnostics
+  summary: "\n<p>Obtains a counter sample and returns the calculated value for it.</p>\n"
+  remarks: "\n<p>If the calculated value of a counter depends on two counter reads, the first read operation returns 0.0. Resetting the performance counter properties to specify a different counter is equivalent to creating a new performance counter, and the first read operation using the new properties returns 0.0. The recommended delay time between calls to the <xref href=\"System.Diagnostics.PerformanceCounter.NextValue\" data-throw-if-not-resolved=\"false\"></xref> method is one second, to allow the counter to perform the next incremental read.</p>\n<p>To read performance counters, you must have administrative privileges. In Windows Vista, User Account Control (UAC) determines the privileges of a user. If you are a member of the Built-in Administrators group, you are assigned two run-time access tokens: a standard user access token and an administrator access token. By default, you are in the standard user role. To execute the code that accesses performance counters, you must first elevate your privileges from standard user to administrator. You can do this when you start an application by right-clicking the application icon and indicating that you want to run as an administrator.</p>\n"
+  example:
+  - "\n<p>The following code example creates an <xref href=\"System.Diagnostics.PerformanceCounterType.ElapsedTime\" data-throw-if-not-resolved=\"false\"></xref> counter and uses the <xref href=\"System.Diagnostics.PerformanceCounter.NextValue\" data-throw-if-not-resolved=\"false\"></xref> method to display the counter's values over a time period.</p>PerformanceCounterType.ElapsedTime#2"
   syntax:
     content: public float NextValue()
     content.vb: Public Function NextValue As Single
     return:
       type: System.Single
+      description: "\n<p>The next calculated value that the system obtains for this counter.</p>\n"
+  exceptions:
+  - type: System.InvalidOperationException
+    commentId: T:System.InvalidOperationException
+    description: "\n<p>The instance is not correctly associated with a performance counter. </p>\n"
+  - type: System.ComponentModel.Win32Exception
+    commentId: T:System.ComponentModel.Win32Exception
+    description: "\n<p>An error occurred when accessing a system API. </p>\n"
+  - type: System.PlatformNotSupportedException
+    commentId: T:System.PlatformNotSupportedException
+    description: "\n<p>The platform is Windows 98 or Windows Millennium Edition (Me), which does not support performance counters. </p>\n"
+  - type: System.UnauthorizedAccessException
+    commentId: T:System.UnauthorizedAccessException
+    description: "\n<p>Code that is executing without administrative privileges attempted to read a performance counter.</p>\n"
+  see:
+  - type: System.Diagnostics.PerformanceCounterPermission
+    commentId: T:System.Diagnostics.PerformanceCounterPermission
   modifiers.csharp:
   - public
   modifiers.vb:
@@ -822,9 +1210,24 @@ items:
   assemblies:
   - System.Diagnostics.PerformanceCounter
   namespace: System.Diagnostics
+  summary: "\n<p>Deletes the category instance specified by the <xref href=\"System.Diagnostics.PerformanceCounter\" data-throw-if-not-resolved=\"false\"></xref> object <xref href=\"System.Diagnostics.PerformanceCounter.InstanceName\" data-throw-if-not-resolved=\"false\"></xref> property.</p>\n"
+  remarks: "\n<p>You can remove an instance only for a custom counter. All system counters are read-only, so attempting to remove one of them throws an exception.</p>\n<p>To avoid a possible race condition when the performance counter shared memory is released, it is recommended that the <xref href=\"System.Diagnostics.PerformanceCounter.RemoveInstance\" data-throw-if-not-resolved=\"false\"></xref> method be called from the <xref href=\"System.AppDomain.DomainUnload\" data-throw-if-not-resolved=\"false\"></xref> event handler.</p>\n<p>To create a performance category instance, specify an <em>instanceName</em> on the <xref href=\"System.Diagnostics.PerformanceCounter.#ctor\" data-throw-if-not-resolved=\"false\"></xref> constructor. If the category instance specified by <em>instanceName</em> already exists the new object will reference the existing category instance.</p>\n<p>If the value for the <xref href=\"System.Diagnostics.PerformanceCounter.InstanceLifetime\" data-throw-if-not-resolved=\"false\"></xref> property is <xref href=\"System.Diagnostics.PerformanceCounterInstanceLifetime.Process\" data-throw-if-not-resolved=\"false\"></xref> and the performance counter category was created with .NET Framework version 1.0 or 1.1, an <xref href=\"System.InvalidOperationException\" data-throw-if-not-resolved=\"false\"></xref> is thrown. Performance counter categories created with earlier versions use global shared memory, and the value for <xref href=\"System.Diagnostics.PerformanceCounter.InstanceLifetime\" data-throw-if-not-resolved=\"false\"></xref> must be <xref href=\"System.Diagnostics.PerformanceCounterInstanceLifetime.Global\" data-throw-if-not-resolved=\"false\"></xref>. If the category is not used by applications running on versions 1.0 or 1.1 of the .NET Framework, delete and recreate the category.</p>\n"
   syntax:
     content: public void RemoveInstance()
     content.vb: Public Sub RemoveInstance
+  exceptions:
+  - type: System.InvalidOperationException
+    commentId: T:System.InvalidOperationException
+    description: "\n<p>This counter is read-only, so any instance that is associated with the category cannot be removed.</p>\n<p>-or- </p>\n<p>The instance is not correctly associated with a performance counter. </p>\n<p>-or-</p>\n<p>The <xref href=\"System.Diagnostics.PerformanceCounter.InstanceLifetime\" data-throw-if-not-resolved=\"false\"></xref> property is set to <xref href=\"System.Diagnostics.PerformanceCounterInstanceLifetime.Process\" data-throw-if-not-resolved=\"false\"></xref>  when using global shared memory.</p>\n"
+  - type: System.ComponentModel.Win32Exception
+    commentId: T:System.ComponentModel.Win32Exception
+    description: "\n<p>An error occurred when accessing a system API. </p>\n"
+  - type: System.PlatformNotSupportedException
+    commentId: T:System.PlatformNotSupportedException
+    description: "\n<p>The platform is Windows 98 or Windows Millennium Edition (Me), which does not support performance counters. </p>\n"
+  see:
+  - type: System.Diagnostics.PerformanceCounterPermission
+    commentId: T:System.Diagnostics.PerformanceCounterPermission
   modifiers.csharp:
   - public
   modifiers.vb:
@@ -839,6 +1242,215 @@ references:
   isExternal: false
   name: Object
   fullName: System.Object
+- uid: System.Object.ToString
+  parent: System.Object
+  isExternal: true
+  name: ToString()
+  fullName: System.Object.ToString()
+  spec.csharp:
+  - uid: System.Object.ToString
+    name: ToString
+    fullName: System.Object.ToString
+    isExternal: true
+  - name: (
+    fullName: (
+  - name: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.ToString
+    name: ToString
+    fullName: System.Object.ToString
+    isExternal: true
+  - name: (
+    fullName: (
+  - name: )
+    fullName: )
+- uid: System.Object.Equals(System.Object)
+  parent: System.Object
+  isExternal: true
+  name: Equals(Object)
+  fullName: System.Object.Equals(System.Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    fullName: )
+- uid: System.Object.Equals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  name: Equals(Object, Object)
+  fullName: System.Object.Equals(System.Object, System.Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    fullName: )
+- uid: System.Object.ReferenceEquals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  name: ReferenceEquals(Object, Object)
+  fullName: System.Object.ReferenceEquals(System.Object, System.Object)
+  spec.csharp:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    fullName: System.Object.ReferenceEquals
+    isExternal: true
+  - name: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    fullName: System.Object.ReferenceEquals
+    isExternal: true
+  - name: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    fullName: )
+- uid: System.Object.GetHashCode
+  parent: System.Object
+  isExternal: true
+  name: GetHashCode()
+  fullName: System.Object.GetHashCode()
+  spec.csharp:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    fullName: System.Object.GetHashCode
+    isExternal: true
+  - name: (
+    fullName: (
+  - name: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    fullName: System.Object.GetHashCode
+    isExternal: true
+  - name: (
+    fullName: (
+  - name: )
+    fullName: )
+- uid: System.Object.GetType
+  parent: System.Object
+  isExternal: true
+  name: GetType()
+  fullName: System.Object.GetType()
+  spec.csharp:
+  - uid: System.Object.GetType
+    name: GetType
+    fullName: System.Object.GetType
+    isExternal: true
+  - name: (
+    fullName: (
+  - name: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.GetType
+    name: GetType
+    fullName: System.Object.GetType
+    isExternal: true
+  - name: (
+    fullName: (
+  - name: )
+    fullName: )
+- uid: System.Object.MemberwiseClone
+  parent: System.Object
+  isExternal: true
+  name: MemberwiseClone()
+  fullName: System.Object.MemberwiseClone()
+  spec.csharp:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    fullName: System.Object.MemberwiseClone
+    isExternal: true
+  - name: (
+    fullName: (
+  - name: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    fullName: System.Object.MemberwiseClone
+    isExternal: true
+  - name: (
+    fullName: (
+  - name: )
+    fullName: )
 - uid: System
   isExternal: false
   name: System
@@ -883,3 +1495,34 @@ references:
   isExternal: false
   name: Single
   fullName: System.Single
+- uid: System.PlatformNotSupportedException
+  isExternal: false
+  name: PlatformNotSupportedException
+  fullName: System.PlatformNotSupportedException
+- uid: System.InvalidOperationException
+  parent: System
+  isExternal: false
+  name: InvalidOperationException
+  fullName: System.InvalidOperationException
+- uid: System.ArgumentNullException
+  isExternal: false
+  name: ArgumentNullException
+  fullName: System.ArgumentNullException
+- uid: System.ComponentModel.Win32Exception
+  isExternal: false
+  name: Win32Exception
+  fullName: System.ComponentModel.Win32Exception
+- uid: System.UnauthorizedAccessException
+  parent: System
+  isExternal: false
+  name: UnauthorizedAccessException
+  fullName: System.UnauthorizedAccessException
+- uid: System.ArgumentException
+  parent: System
+  isExternal: false
+  name: ArgumentException
+  fullName: System.ArgumentException
+- uid: System.ArgumentOutOfRangeException
+  isExternal: false
+  name: ArgumentOutOfRangeException
+  fullName: System.ArgumentOutOfRangeException

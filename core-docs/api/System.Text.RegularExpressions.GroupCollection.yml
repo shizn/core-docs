@@ -8,6 +8,9 @@ items:
   - System.Text.RegularExpressions.GroupCollection.GetEnumerator
   - System.Text.RegularExpressions.GroupCollection.Item(System.Int32)
   - System.Text.RegularExpressions.GroupCollection.Item(System.String)
+  - System.Text.RegularExpressions.GroupCollection.System#Collections#ICollection#CopyTo(System.Array,System.Int32)
+  - System.Text.RegularExpressions.GroupCollection.System#Collections#ICollection#IsSynchronized
+  - System.Text.RegularExpressions.GroupCollection.System#Collections#ICollection#SyncRoot
   langs:
   - csharp
   - vb
@@ -16,24 +19,40 @@ items:
   type: Class
   source:
     remote:
-      path: src/System.Text.RegularExpressions/src/System/Text/RegularExpressions/RegexGroupCollection.cs
+      path: src/System.Text.RegularExpressions/ref/System.Text.RegularExpressions.cs
       branch: master
       repo: https://github.com/dotnet/corefx.git
     id: GroupCollection
-    path: src/System.Text.RegularExpressions/src/System/Text/RegularExpressions/RegexGroupCollection.cs
-    startLine: 17
+    path: src/System.Text.RegularExpressions/ref/System.Text.RegularExpressions.cs
+    startLine: 34
   assemblies:
   - System.Text.RegularExpressions
   namespace: System.Text.RegularExpressions
+  summary: "\n<p>Returns the set of captured groups in a single match.</p>\n"
+  remarks: "\n<p>The <xref href=\"System.Text.RegularExpressions.GroupCollection\" data-throw-if-not-resolved=\"false\"></xref> class is a zero-based collection class that consists of one or more <xref href=\"System.Text.RegularExpressions.Group\" data-throw-if-not-resolved=\"false\"></xref> objects that provide information about captured groups in a regular expression match. The collection is immutable (read-only) and has no public constructor. A <xref href=\"System.Text.RegularExpressions.GroupCollection\" data-throw-if-not-resolved=\"false\"></xref> object is returned by the <xref href=\"System.Text.RegularExpressions.Match.Groups\" data-throw-if-not-resolved=\"false\"></xref> property. </p>\n<p>The collection contains one or more <xref href=\"System.Text.RegularExpressions.Group\" data-throw-if-not-resolved=\"false\"></xref> objects. If the match is successful, the first element in the collection contains the <xref href=\"System.Text.RegularExpressions.Group\" data-throw-if-not-resolved=\"false\"></xref> object that corresponds to the entire match. Each subsequent element represents a captured group, if the regular expression includes capturing groups. Matches from numbered (unnamed) capturing groups appear in numeric order before matches from named capturing groups. If the match is unsuccessful, the collection contains a single <xref href=\"System.Text.RegularExpressions.Group\" data-throw-if-not-resolved=\"false\"></xref> object whose <xref href=\"System.Text.RegularExpressions.Group.Success\" data-throw-if-not-resolved=\"false\"></xref> property is <strong>false</strong> and whose <xref href=\"System.Text.RegularExpressions.Capture.Value\" data-throw-if-not-resolved=\"false\"></xref> property equals <xref href=\"System.String.Empty\" data-throw-if-not-resolved=\"false\"></xref>. For more information, see the \"Grouping Constructs and Regular Expression Objects\" section in the Grouping Constructs in Regular Expressions article.  </p>\n<p>To iterate through the members of the collection, you should use the collection iteration construct provided by your language (such as <strong>foreach</strong> in C# and <strong>For Each</strong>…<strong>Next</strong> in Visual Basic) instead of retrieving the enumerator that is returned by the <xref href=\"System.Text.RegularExpressions.GroupCollection.GetEnumerator\" data-throw-if-not-resolved=\"false\"></xref> method. In addition, you can access individual numbered captured groups from the <xref href=\"System.Text.RegularExpressions.GroupCollection.Item(System.Int32)\" data-throw-if-not-resolved=\"false\"></xref> property (the indexer in C#), and you can access individual named captured groups from the <xref href=\"System.Text.RegularExpressions.GroupCollection.Item(System.String)\" data-throw-if-not-resolved=\"false\"></xref> property. Note that you can retrieve an array that contains the numbers and names of all capturing groups by calling the <xref href=\"System.Text.RegularExpressions.Regex.GetGroupNumbers\" data-throw-if-not-resolved=\"false\"></xref> and <xref href=\"System.Text.RegularExpressions.Regex.GetGroupNames\" data-throw-if-not-resolved=\"false\"></xref> methods, respectively. Both are instance methods and require that you instantiate a <xref href=\"System.Text.RegularExpressions.Regex\" data-throw-if-not-resolved=\"false\"></xref> object that represents the regular expression to be matched. </p>\n"
+  example:
+  - "\n<p>The following example uses a regular expression with capturing groups to extract information about trademarks and registered trademarks used in text. The regular expression pattern is <code>\\b(\\w+?)([\\u00AE\\u2122])</code>, which is interpreted as shown in the following table. </p>\n<p>Pattern </p>\n<p>Description</p>\n<table><tbody><tr><td>\n<p>\n<code>\\b</code>\n</p>\n</td><td>\n<p>Look for a word boundary.</p>\n</td></tr><tr><td>\n<p>\n<code>(\\w+?)</code>\n</p>\n</td><td>\n<p>Look for one or more word characters. Together, these form the trademarked name. (Note that this regular expression assumes that a trademark consists of a single word.) This is the first capturing group.</p>\n</td></tr><tr><td>\n<p>\n<code>([\\u00AE\\u2122])</code>\n</p>\n</td><td>\n<p>Look for either the ® or the ™ character. This is the second capturing group.</p>\n</td></tr></tbody></table>\n<p>For each match, the <xref href=\"System.Text.RegularExpressions.GroupCollection\" data-throw-if-not-resolved=\"false\"></xref> contains three <xref href=\"System.Text.RegularExpressions.Group\" data-throw-if-not-resolved=\"false\"></xref> objects. The first object contains the string that matches the entire regular expression. The second object, which represents the first captured group, contains the product name. The third object, which represents the second captured group, contains the trademark or registered trademark symbol.</p>System.Text.RegularExpressions.GroupCollection#1"
   syntax:
-    content: 'public class GroupCollection : ICollection'
+    content: 'public class GroupCollection : ICollection, IEnumerable'
     content.vb: >-
       Public Class GroupCollection
-          Inherits ICollection
+          Implements ICollection, IEnumerable
+  seealso:
+  - type: System.Text.RegularExpressions.Group
+    commentId: T:System.Text.RegularExpressions.Group
   inheritance:
   - System.Object
   implements:
+  - System.Collections.ICollection
   - System.Collections.IEnumerable
+  inheritedMembers:
+  - System.Object.ToString
+  - System.Object.Equals(System.Object)
+  - System.Object.Equals(System.Object,System.Object)
+  - System.Object.ReferenceEquals(System.Object,System.Object)
+  - System.Object.GetHashCode
+  - System.Object.GetType
+  - System.Object.MemberwiseClone
   modifiers.csharp:
   - public
   - class
@@ -52,21 +71,26 @@ items:
   type: Property
   source:
     remote:
-      path: src/System.Text.RegularExpressions/src/System/Text/RegularExpressions/RegexGroupCollection.cs
+      path: src/System.Text.RegularExpressions/ref/System.Text.RegularExpressions.cs
       branch: master
       repo: https://github.com/dotnet/corefx.git
     id: Count
-    path: src/System.Text.RegularExpressions/src/System/Text/RegularExpressions/RegexGroupCollection.cs
-    startLine: 34
+    path: src/System.Text.RegularExpressions/ref/System.Text.RegularExpressions.cs
+    startLine: 37
   assemblies:
   - System.Text.RegularExpressions
   namespace: System.Text.RegularExpressions
+  summary: "\n<p>Returns the number of groups in the collection.</p>\n"
+  remarks: "\n<p>The <xref href=\"System.Text.RegularExpressions.GroupCollection\" data-throw-if-not-resolved=\"false\"></xref> object always has at least one member. If a match is unsuccessful, the <xref href=\"System.Text.RegularExpressions.Match.Groups\" data-throw-if-not-resolved=\"false\"></xref> property returns a <xref href=\"System.Text.RegularExpressions.GroupCollection\" data-throw-if-not-resolved=\"false\"></xref> object that contains a single member.</p>\n"
   syntax:
     content: public int Count { get; }
     content.vb: Public ReadOnly Property Count As Integer
     parameters: []
     return:
       type: System.Int32
+      description: "\n<p>The number of groups in the collection.</p>\n"
+  implements:
+  - System.Collections.ICollection.Count
   modifiers.csharp:
   - public
   - get
@@ -85,23 +109,29 @@ items:
   type: Property
   source:
     remote:
-      path: src/System.Text.RegularExpressions/src/System/Text/RegularExpressions/RegexGroupCollection.cs
+      path: src/System.Text.RegularExpressions/ref/System.Text.RegularExpressions.cs
       branch: master
       repo: https://github.com/dotnet/corefx.git
     id: this[]
-    path: src/System.Text.RegularExpressions/src/System/Text/RegularExpressions/RegexGroupCollection.cs
-    startLine: 39
+    path: src/System.Text.RegularExpressions/ref/System.Text.RegularExpressions.cs
+    startLine: 38
   assemblies:
   - System.Text.RegularExpressions
   namespace: System.Text.RegularExpressions
+  summary: "\n<p>Enables access to a member of the collection by integer index.</p>\n"
+  remarks: "\n<p>The <xref href=\"System.Text.RegularExpressions.GroupCollection.Item(System.Int32)\" data-throw-if-not-resolved=\"false\"></xref> property is the index (in C#) or the default property (in Visual Basic) of the <xref href=\"System.Text.RegularExpressions.GroupCollection\" data-throw-if-not-resolved=\"false\"></xref> class. It allows you to enumerate the members of the collection by using a <strong>foreach</strong> statement in C# or a <strong>For Each</strong> statement in Visual Basic.  </p>\n<p>You can also use this property to retrieve individual captured groups by their index number. You can retrieve an array that contains the numbers of all capturing groups in a regular expression by calling the instance <xref href=\"System.Text.RegularExpressions.Regex.GetGroupNumbers\" data-throw-if-not-resolved=\"false\"></xref> method. You can also map named capturing groups to their numbers by calling the instance <xref href=\"System.Text.RegularExpressions.Regex.GroupNumberFromName(System.String)\" data-throw-if-not-resolved=\"false\"></xref> method. </p>\n<p>You can determine the number of items in the collection by retrieving the value of the <xref href=\"System.Text.RegularExpressions.GroupCollection.Count\" data-throw-if-not-resolved=\"false\"></xref> property. Valid values for the <em>groupnum</em> parameter range from 0 to one less than the number of items in the collection.</p>\n<p>The <xref href=\"System.Text.RegularExpressions.GroupCollection\" data-throw-if-not-resolved=\"false\"></xref> object returned by the <xref href=\"System.Text.RegularExpressions.Match.Groups\" data-throw-if-not-resolved=\"false\"></xref> property always has at least one member. If the regular expression engine cannot find any matches in a particular input string, the single <xref href=\"System.Text.RegularExpressions.Group\" data-throw-if-not-resolved=\"false\"></xref> object in the collection has its <xref href=\"System.Text.RegularExpressions.Group.Success\" data-throw-if-not-resolved=\"false\"></xref> property set to <strong>false</strong> and its <strong>Group.Value</strong> property set to <xref href=\"System.String.Empty\" data-throw-if-not-resolved=\"false\"></xref>. </p>\n<p>If <em>groupnum</em> is not the index of a member of the collection, or if <em>groupnum</em> is the index of a capturing group that has not been matched in the input string, the method returns a <xref href=\"System.Text.RegularExpressions.Group\" data-throw-if-not-resolved=\"false\"></xref> object whose <xref href=\"System.Text.RegularExpressions.Group.Success\" data-throw-if-not-resolved=\"false\"></xref> property is <strong>false</strong> and whose <strong>Group.Value</strong> property is <xref href=\"System.String.Empty\" data-throw-if-not-resolved=\"false\"></xref>.</p>\n"
+  example:
+  - "\n<p>The following example defines a regular expression that consists of two numbered groups. The first group captures one or more consecutive digits. The second group matches a single character. Because the regular expression engine looks for zero or one occurrence of the first group, it does not always find a match even if the regular expression match is successful. The example then illustrates the result when the <xref href=\"System.Text.RegularExpressions.GroupCollection.Item(System.Int32)\" data-throw-if-not-resolved=\"false\"></xref> property is used to retrieve an unmatched group, a matched group, and a group that is not defined in the regular expression. The example defines a regular expression pattern <code>(\\d+)*(\\w)\\2</code>, which is interpreted as shown in the following table.</p>\n<p>Pattern</p>\n<p>Description</p>\n<table><tbody><tr><td>\n<p>\n<code>(\\d+)*</code>\n</p>\n</td><td>\n<p>Match one or more occurrence of a decimal digit. This is the first capturing group. Match this pattern either zero or one time.</p>\n</td></tr><tr><td>\n<p>\n<code>(\\w)</code>\n</p>\n</td><td>\n<p>This is the second capturing group.</p>\n</td></tr><tr><td>\n<p>\n<code>\\k</code>\n</p>\n</td><td>\n<p>Match the string captured by the second capturing group.</p>\n</td></tr></tbody></table>System.Text.RegularExpressions.GroupCollection.Item#2"
   syntax:
     content: public Group this[int groupnum] { get; }
     content.vb: Public ReadOnly Property Item(groupnum As Integer) As Group
     parameters:
     - id: groupnum
       type: System.Int32
+      description: "\n<p>The zero-based index of the collection member to be retrieved. </p>\n"
     return:
       type: System.Text.RegularExpressions.Group
+      description: "\n<p>The member of the collection specified by <em>groupnum</em>.</p>\n"
   modifiers.csharp:
   - public
   - get
@@ -122,23 +152,29 @@ items:
   type: Property
   source:
     remote:
-      path: src/System.Text.RegularExpressions/src/System/Text/RegularExpressions/RegexGroupCollection.cs
+      path: src/System.Text.RegularExpressions/ref/System.Text.RegularExpressions.cs
       branch: master
       repo: https://github.com/dotnet/corefx.git
     id: this[]
-    path: src/System.Text.RegularExpressions/src/System/Text/RegularExpressions/RegexGroupCollection.cs
-    startLine: 44
+    path: src/System.Text.RegularExpressions/ref/System.Text.RegularExpressions.cs
+    startLine: 39
   assemblies:
   - System.Text.RegularExpressions
   namespace: System.Text.RegularExpressions
+  summary: "\n<p>Enables access to a member of the collection by string index.</p>\n"
+  remarks: "\n<p>\n<em>groupName</em> can be either the name of a capturing group that is defined by the <strong>(?<</strong>name<strong>>)</strong> element in a regular expression, or the string representation of the number of a capturing group that is defined by a grouping construct. For more information about groups in regular expressions, see Grouping Constructs in Regular Expressions.</p>\n<p>You can retrieve the names of all the captured groups in a <xref href=\"System.Text.RegularExpressions.Regex\" data-throw-if-not-resolved=\"false\"></xref> object by calling the <xref href=\"System.Text.RegularExpressions.Regex.GetGroupNames\" data-throw-if-not-resolved=\"false\"></xref> method. You can also map the numbers of capturing groups in a regular expression to their names by calling the <xref href=\"System.Text.RegularExpressions.Regex.GroupNameFromNumber(System.Int32)\" data-throw-if-not-resolved=\"false\"></xref> method. Individual names from the array can then be passed to the <xref href=\"System.Text.RegularExpressions.GroupCollection.Item(System.String)\" data-throw-if-not-resolved=\"false\"></xref> property to retrieve the captured string. </p>\n<p>If <em>groupname</em> is not the name of a capturing group in the collection, or if <em>groupname</em> is the name of a capturing group that has not been matched in the input string, the method returns a <xref href=\"System.Text.RegularExpressions.Group\" data-throw-if-not-resolved=\"false\"></xref> object whose <xref href=\"System.Text.RegularExpressions.Group.Success\" data-throw-if-not-resolved=\"false\"></xref> property is <strong>false</strong> and whose <strong>Group.Value</strong> property is <xref href=\"System.String.Empty\" data-throw-if-not-resolved=\"false\"></xref>.</p>\n"
+  example:
+  - "\n<p>The following example defines a regular expression that consists of two named groups. The first group, <code>numbers</code>, captures one or more consecutive digits. The second group, <code>letter</code>, matches a single character. Because the regular expression engine looks for zero or one occurrence of the pattern defined by the <code>numbers</code> group, the <code>numbers</code> group is not always present even if a match is successful. The example then illustrates the result when the <xref href=\"System.Text.RegularExpressions.GroupCollection.Item(System.String)\" data-throw-if-not-resolved=\"false\"></xref> property is used to retrieve an unmatched group, a matched group, and a group that is not defined in the regular expression. The example defines a regular expression pattern <code>(?<numbers>\\d+)*(?<letter>\\w)\\k<letter></code>, which is interpreted as shown in the following table.</p>\n<p>Pattern</p>\n<p>Description</p>\n<table><tbody><tr><td>\n<p>\n<code>(?<numbers>\\d+)*</code>\n</p>\n</td><td>\n<p>Match one or more occurrence of a decimal digit. Name this the <code>numbers</code> capturing group. Match this pattern either zero or one time.</p>\n</td></tr><tr><td>\n<p>\n<code>(?<letter>\\w)</code>\n</p>\n</td><td>\n<p>Match a single word character. Name this the <code>letter</code> capturing group.</p>\n</td></tr><tr><td>\n<p>\n<code>\\k<letter></code>\n</p>\n</td><td>\n<p>Match the string captured by the <code>letter</code> capturing group.</p>\n</td></tr></tbody></table>System.Text.RegularExpressions.GroupCollection.Item#1"
   syntax:
     content: public Group this[string groupname] { get; }
     content.vb: Public ReadOnly Property Item(groupname As String) As Group
     parameters:
     - id: groupname
       type: System.String
+      description: "\n<p>The name of a capturing group. </p>\n"
     return:
       type: System.Text.RegularExpressions.Group
+      description: "\n<p>The member of the collection specified by <em>groupname</em>.</p>\n"
   modifiers.csharp:
   - public
   - get
@@ -147,6 +183,76 @@ items:
   - ReadOnly
   fullName.vb: System.Text.RegularExpressions.GroupCollection.Item(System.String)
   name.vb: Item(String)
+- uid: System.Text.RegularExpressions.GroupCollection.System#Collections#ICollection#IsSynchronized
+  commentId: P:System.Text.RegularExpressions.GroupCollection.System#Collections#ICollection#IsSynchronized
+  id: System#Collections#ICollection#IsSynchronized
+  isEii: true
+  parent: System.Text.RegularExpressions.GroupCollection
+  langs:
+  - csharp
+  - vb
+  name: ICollection.IsSynchronized
+  fullName: System.Text.RegularExpressions.GroupCollection.System.Collections.ICollection.IsSynchronized
+  type: Property
+  source:
+    remote:
+      path: src/System.Text.RegularExpressions/ref/System.Text.RegularExpressions.cs
+      branch: master
+      repo: https://github.com/dotnet/corefx.git
+    id: System.Collections.ICollection.IsSynchronized
+    path: src/System.Text.RegularExpressions/ref/System.Text.RegularExpressions.cs
+    startLine: 40
+  assemblies:
+  - System.Text.RegularExpressions
+  namespace: System.Text.RegularExpressions
+  syntax:
+    content: bool ICollection.IsSynchronized { get; }
+    content.vb: ReadOnly WriteOnly Property System.Collections.ICollection.IsSynchronized As Boolean Implements ICollection.IsSynchronized
+    parameters: []
+    return:
+      type: System.Boolean
+  implements:
+  - System.Collections.ICollection.IsSynchronized
+  modifiers.csharp:
+  - get
+  modifiers.vb:
+  - ReadOnly
+  name.vb: System.Collections.ICollection.IsSynchronized
+- uid: System.Text.RegularExpressions.GroupCollection.System#Collections#ICollection#SyncRoot
+  commentId: P:System.Text.RegularExpressions.GroupCollection.System#Collections#ICollection#SyncRoot
+  id: System#Collections#ICollection#SyncRoot
+  isEii: true
+  parent: System.Text.RegularExpressions.GroupCollection
+  langs:
+  - csharp
+  - vb
+  name: ICollection.SyncRoot
+  fullName: System.Text.RegularExpressions.GroupCollection.System.Collections.ICollection.SyncRoot
+  type: Property
+  source:
+    remote:
+      path: src/System.Text.RegularExpressions/ref/System.Text.RegularExpressions.cs
+      branch: master
+      repo: https://github.com/dotnet/corefx.git
+    id: System.Collections.ICollection.SyncRoot
+    path: src/System.Text.RegularExpressions/ref/System.Text.RegularExpressions.cs
+    startLine: 41
+  assemblies:
+  - System.Text.RegularExpressions
+  namespace: System.Text.RegularExpressions
+  syntax:
+    content: object ICollection.SyncRoot { get; }
+    content.vb: ReadOnly WriteOnly Property System.Collections.ICollection.SyncRoot As Object Implements ICollection.SyncRoot
+    parameters: []
+    return:
+      type: System.Object
+  implements:
+  - System.Collections.ICollection.SyncRoot
+  modifiers.csharp:
+  - get
+  modifiers.vb:
+  - ReadOnly
+  name.vb: System.Collections.ICollection.SyncRoot
 - uid: System.Text.RegularExpressions.GroupCollection.GetEnumerator
   commentId: M:System.Text.RegularExpressions.GroupCollection.GetEnumerator
   id: GetEnumerator
@@ -159,24 +265,62 @@ items:
   type: Method
   source:
     remote:
-      path: src/System.Text.RegularExpressions/src/System/Text/RegularExpressions/RegexGroupCollection.cs
+      path: src/System.Text.RegularExpressions/ref/System.Text.RegularExpressions.cs
       branch: master
       repo: https://github.com/dotnet/corefx.git
     id: GetEnumerator
-    path: src/System.Text.RegularExpressions/src/System/Text/RegularExpressions/RegexGroupCollection.cs
-    startLine: 58
+    path: src/System.Text.RegularExpressions/ref/System.Text.RegularExpressions.cs
+    startLine: 42
   assemblies:
   - System.Text.RegularExpressions
   namespace: System.Text.RegularExpressions
+  summary: "\n<p>Provides an enumerator that iterates through the collection.</p>\n"
+  remarks: "\n<p>Instead of calling the <xref href=\"System.Text.RegularExpressions.GroupCollection.GetEnumerator\" data-throw-if-not-resolved=\"false\"></xref> method to retrieve an enumerator that lets you iterate through the <xref href=\"System.Text.RegularExpressions.Group\" data-throw-if-not-resolved=\"false\"></xref> objects in the collection, you should use the group iteration construct (such as <strong>foreach</strong> in C# and <strong>For Each</strong>…<strong>Next</strong> in Visual Basic) that is provided by your programming language.</p>\n"
   syntax:
     content: public IEnumerator GetEnumerator()
     content.vb: Public Function GetEnumerator As IEnumerator
     return:
-      type: IEnumerator
+      type: System.Collections.IEnumerator
+      description: "\n<p>An enumerator that contains all <xref href=\"System.Text.RegularExpressions.Group\" data-throw-if-not-resolved=\"false\"></xref> objects in the <xref href=\"System.Text.RegularExpressions.GroupCollection\" data-throw-if-not-resolved=\"false\"></xref>.</p>\n"
+  implements:
+  - System.Collections.IEnumerable.GetEnumerator
   modifiers.csharp:
   - public
   modifiers.vb:
   - Public
+- uid: System.Text.RegularExpressions.GroupCollection.System#Collections#ICollection#CopyTo(System.Array,System.Int32)
+  commentId: M:System.Text.RegularExpressions.GroupCollection.System#Collections#ICollection#CopyTo(System.Array,System.Int32)
+  id: System#Collections#ICollection#CopyTo(System.Array,System.Int32)
+  isEii: true
+  parent: System.Text.RegularExpressions.GroupCollection
+  langs:
+  - csharp
+  - vb
+  name: ICollection.CopyTo(Array, Int32)
+  fullName: System.Text.RegularExpressions.GroupCollection.System.Collections.ICollection.CopyTo(System.Array, System.Int32)
+  type: Method
+  source:
+    remote:
+      path: src/System.Text.RegularExpressions/ref/System.Text.RegularExpressions.cs
+      branch: master
+      repo: https://github.com/dotnet/corefx.git
+    id: System.Collections.ICollection.CopyTo
+    path: src/System.Text.RegularExpressions/ref/System.Text.RegularExpressions.cs
+    startLine: 43
+  assemblies:
+  - System.Text.RegularExpressions
+  namespace: System.Text.RegularExpressions
+  syntax:
+    content: void ICollection.CopyTo(Array array, int arrayIndex)
+    content.vb: Sub System.Collections.ICollection.CopyTo(array As Array, arrayIndex As Integer) Implements ICollection.CopyTo
+    parameters:
+    - id: array
+      type: System.Array
+    - id: arrayIndex
+      type: System.Int32
+  implements:
+  - System.Collections.ICollection.CopyTo(System.Array,System.Int32)
+  name.vb: System.Collections.ICollection.CopyTo(Array, Int32)
 references:
 - uid: System.Text.RegularExpressions
   isExternal: false
@@ -187,11 +331,225 @@ references:
   isExternal: false
   name: Object
   fullName: System.Object
+- uid: System.Collections.ICollection
+  parent: System.Collections
+  isExternal: false
+  name: ICollection
+  fullName: System.Collections.ICollection
 - uid: System.Collections.IEnumerable
   parent: System.Collections
   isExternal: false
-  name: Collections.IEnumerable
+  name: IEnumerable
   fullName: System.Collections.IEnumerable
+- uid: System.Object.ToString
+  parent: System.Object
+  isExternal: true
+  name: ToString()
+  fullName: System.Object.ToString()
+  spec.csharp:
+  - uid: System.Object.ToString
+    name: ToString
+    fullName: System.Object.ToString
+    isExternal: true
+  - name: (
+    fullName: (
+  - name: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.ToString
+    name: ToString
+    fullName: System.Object.ToString
+    isExternal: true
+  - name: (
+    fullName: (
+  - name: )
+    fullName: )
+- uid: System.Object.Equals(System.Object)
+  parent: System.Object
+  isExternal: true
+  name: Equals(Object)
+  fullName: System.Object.Equals(System.Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    fullName: )
+- uid: System.Object.Equals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  name: Equals(Object, Object)
+  fullName: System.Object.Equals(System.Object, System.Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    fullName: )
+- uid: System.Object.ReferenceEquals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  name: ReferenceEquals(Object, Object)
+  fullName: System.Object.ReferenceEquals(System.Object, System.Object)
+  spec.csharp:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    fullName: System.Object.ReferenceEquals
+    isExternal: true
+  - name: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    fullName: System.Object.ReferenceEquals
+    isExternal: true
+  - name: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    fullName: )
+- uid: System.Object.GetHashCode
+  parent: System.Object
+  isExternal: true
+  name: GetHashCode()
+  fullName: System.Object.GetHashCode()
+  spec.csharp:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    fullName: System.Object.GetHashCode
+    isExternal: true
+  - name: (
+    fullName: (
+  - name: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    fullName: System.Object.GetHashCode
+    isExternal: true
+  - name: (
+    fullName: (
+  - name: )
+    fullName: )
+- uid: System.Object.GetType
+  parent: System.Object
+  isExternal: true
+  name: GetType()
+  fullName: System.Object.GetType()
+  spec.csharp:
+  - uid: System.Object.GetType
+    name: GetType
+    fullName: System.Object.GetType
+    isExternal: true
+  - name: (
+    fullName: (
+  - name: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.GetType
+    name: GetType
+    fullName: System.Object.GetType
+    isExternal: true
+  - name: (
+    fullName: (
+  - name: )
+    fullName: )
+- uid: System.Object.MemberwiseClone
+  parent: System.Object
+  isExternal: true
+  name: MemberwiseClone()
+  fullName: System.Object.MemberwiseClone()
+  spec.csharp:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    fullName: System.Object.MemberwiseClone
+    isExternal: true
+  - name: (
+    fullName: (
+  - name: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    fullName: System.Object.MemberwiseClone
+    isExternal: true
+  - name: (
+    fullName: (
+  - name: )
+    fullName: )
 - uid: System
   isExternal: false
   name: System
@@ -200,6 +558,11 @@ references:
   isExternal: false
   name: System.Collections
   fullName: System.Collections
+- uid: System.Collections.ICollection.Count
+  parent: System.Collections.ICollection
+  isExternal: false
+  name: Count
+  fullName: System.Collections.ICollection.Count
 - uid: System.Int32
   parent: System
   isExternal: false
@@ -215,8 +578,88 @@ references:
   isExternal: false
   name: String
   fullName: System.String
+- uid: System.Collections.ICollection.IsSynchronized
+  parent: System.Collections.ICollection
+  isExternal: false
+  name: IsSynchronized
+  fullName: System.Collections.ICollection.IsSynchronized
+- uid: System.Boolean
+  parent: System
+  isExternal: false
+  name: Boolean
+  fullName: System.Boolean
+- uid: System.Collections.ICollection.SyncRoot
+  parent: System.Collections.ICollection
+  isExternal: false
+  name: SyncRoot
+  fullName: System.Collections.ICollection.SyncRoot
+- uid: System.Collections.IEnumerable.GetEnumerator
+  parent: System.Collections.IEnumerable
+  isExternal: false
+  name: GetEnumerator()
+  fullName: System.Collections.IEnumerable.GetEnumerator()
+  spec.csharp:
+  - uid: System.Collections.IEnumerable.GetEnumerator
+    name: GetEnumerator
+    fullName: System.Collections.IEnumerable.GetEnumerator
+  - name: (
+    fullName: (
+  - name: )
+    fullName: )
+  spec.vb:
+  - uid: System.Collections.IEnumerable.GetEnumerator
+    name: GetEnumerator
+    fullName: System.Collections.IEnumerable.GetEnumerator
+  - name: (
+    fullName: (
+  - name: )
+    fullName: )
 - uid: System.Collections.IEnumerator
   parent: System.Collections
   isExternal: false
-  name: Collections.IEnumerator
+  name: IEnumerator
   fullName: System.Collections.IEnumerator
+- uid: System.Collections.ICollection.CopyTo(System.Array,System.Int32)
+  parent: System.Collections.ICollection
+  isExternal: true
+  name: CopyTo(Array, Int32)
+  fullName: System.Collections.ICollection.CopyTo(System.Array, System.Int32)
+  spec.csharp:
+  - uid: System.Collections.ICollection.CopyTo(System.Array,System.Int32)
+    name: CopyTo
+    fullName: System.Collections.ICollection.CopyTo
+  - name: (
+    fullName: (
+  - uid: System.Array
+    name: Array
+    fullName: System.Array
+  - name: ', '
+    fullName: ', '
+  - uid: System.Int32
+    name: Int32
+    fullName: System.Int32
+    isExternal: true
+  - name: )
+    fullName: )
+  spec.vb:
+  - uid: System.Collections.ICollection.CopyTo(System.Array,System.Int32)
+    name: CopyTo
+    fullName: System.Collections.ICollection.CopyTo
+  - name: (
+    fullName: (
+  - uid: System.Array
+    name: Array
+    fullName: System.Array
+  - name: ', '
+    fullName: ', '
+  - uid: System.Int32
+    name: Int32
+    fullName: System.Int32
+    isExternal: true
+  - name: )
+    fullName: )
+- uid: System.Array
+  parent: System
+  isExternal: false
+  name: Array
+  fullName: System.Array

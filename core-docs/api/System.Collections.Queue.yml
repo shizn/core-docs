@@ -44,17 +44,35 @@ items:
   example:
   - "\n<p>The following example shows how to create and add values to a <xref href=\"System.Collections.Queue\" data-throw-if-not-resolved=\"false\"></xref> and how to print out its values.</p>Classic Queue Example#1"
   syntax:
-    content: 'public class Queue : ICollection'
+    content: >-
+      [DebuggerTypeProxy(typeof (Queue.QueueDebugView))]
+
+      [DebuggerDisplay("Count = {Count}")]
+
+      public class Queue : ICollection, IEnumerable
     content.vb: >-
+      <DebuggerTypeProxy(GetType(Queue.QueueDebugView))>
+
+      <DebuggerDisplay("Count = {Count}")>
+
       Public Class Queue
-          Inherits ICollection
+          Implements ICollection, IEnumerable
   seealso:
   - type: System.Collections.Generic.Queue`1
     commentId: T:System.Collections.Generic.Queue`1
   inheritance:
   - System.Object
   implements:
+  - System.Collections.ICollection
   - System.Collections.IEnumerable
+  inheritedMembers:
+  - System.Object.ToString
+  - System.Object.Equals(System.Object)
+  - System.Object.Equals(System.Object,System.Object)
+  - System.Object.ReferenceEquals(System.Object,System.Object)
+  - System.Object.GetHashCode
+  - System.Object.GetType
+  - System.Object.MemberwiseClone
   modifiers.csharp:
   - public
   - class
@@ -103,12 +121,12 @@ items:
   type: Constructor
   source:
     remote:
-      path: src/System.Collections.NonGeneric/ref/System.Collections.NonGeneric.cs
+      path: src/System.Collections.NonGeneric/src/System/Collections/Queue.cs
       branch: master
       repo: https://github.com/dotnet/corefx.git
     id: .ctor
-    path: src/System.Collections.NonGeneric/ref/System.Collections.NonGeneric.cs
-    startLine: 181
+    path: src/System.Collections.NonGeneric/src/System/Collections/Queue.cs
+    startLine: 71
   assemblies:
   - System.Collections.NonGeneric
   namespace: System.Collections
@@ -120,7 +138,6 @@ items:
     parameters:
     - id: col
       type: System.Collections.ICollection
-      description: "\n<p>The <xref href=\"System.Collections.ICollection\" data-throw-if-not-resolved=\"false\"></xref> to copy elements from. </p>\n"
   exceptions:
   - type: System.ArgumentNullException
     commentId: T:System.ArgumentNullException
@@ -237,6 +254,8 @@ items:
     parameters: []
     return:
       type: System.Int32
+  implements:
+  - System.Collections.ICollection.Count
   modifiers.csharp:
   - public
   - virtual
@@ -281,6 +300,8 @@ items:
     commentId: P:System.Collections.Queue.SyncRoot
   - type: System.Collections.Queue.Synchronized(System.Collections.Queue)
     commentId: M:System.Collections.Queue.Synchronized(System.Collections.Queue)
+  implements:
+  - System.Collections.ICollection.IsSynchronized
   modifiers.csharp:
   - public
   - virtual
@@ -315,16 +336,18 @@ items:
   example:
   - "\n<p>The following code example shows how to lock the collection using the <xref href=\"System.Collections.Queue.SyncRoot\" data-throw-if-not-resolved=\"false\"></xref> during the entire enumeration. Retrieving the value of this property is an O(1) operation.</p>Classic Queue.IsSynchronized Example#2"
   syntax:
-    content: public virtual Object SyncRoot { get; }
+    content: public virtual object SyncRoot { get; }
     content.vb: Public Overridable ReadOnly Property SyncRoot As Object
     parameters: []
     return:
-      type: Object
+      type: System.Object
   seealso:
   - type: System.Collections.Queue.IsSynchronized
     commentId: P:System.Collections.Queue.IsSynchronized
   - type: System.Collections.Queue.Synchronized(System.Collections.Queue)
     commentId: M:System.Collections.Queue.Synchronized(System.Collections.Queue)
+  implements:
+  - System.Collections.ICollection.SyncRoot
   modifiers.csharp:
   - public
   - virtual
@@ -394,10 +417,10 @@ items:
   summary: "\n<p>Creates a shallow copy of the <xref href=\"System.Collections.Queue\" data-throw-if-not-resolved=\"false\"></xref>.</p>\n"
   remarks: "\n<p>A shallow copy of a collection copies only the elements of the collection, whether they are reference types or value types, but it does not copy the objects that the references refer to. The references in the new collection point to the same objects that the references in the original collection point to.</p>\n<p>In contrast, a deep copy of a collection copies the elements and everything directly or indirectly referenced by the elements.</p>\n<p>This method is an O(<em>n</em>) operation, where <em>n</em> is <xref href=\"System.Collections.Queue.Count\" data-throw-if-not-resolved=\"false\"></xref>.</p>\n"
   syntax:
-    content: public virtual Object Clone()
+    content: public virtual object Clone()
     content.vb: Public Overridable Function Clone As Object
     return:
-      type: Object
+      type: System.Object
   modifiers.csharp:
   - public
   - virtual
@@ -416,12 +439,12 @@ items:
   type: Method
   source:
     remote:
-      path: src/System.Collections.NonGeneric/ref/System.Collections.NonGeneric.cs
+      path: src/System.Collections.NonGeneric/src/System/Collections/Queue.cs
       branch: master
       repo: https://github.com/dotnet/corefx.git
     id: Contains
-    path: src/System.Collections.NonGeneric/ref/System.Collections.NonGeneric.cs
-    startLine: 189
+    path: src/System.Collections.NonGeneric/src/System/Collections/Queue.cs
+    startLine: 239
   assemblies:
   - System.Collections.NonGeneric
   namespace: System.Collections
@@ -433,10 +456,8 @@ items:
     parameters:
     - id: obj
       type: System.Object
-      description: "\n<p>The <xref href=\"System.Object\" data-throw-if-not-resolved=\"false\"></xref> to locate in the <xref href=\"System.Collections.Queue\" data-throw-if-not-resolved=\"false\"></xref>. The value can be <strong>null</strong>. </p>\n"
     return:
       type: System.Boolean
-      description: "\n<p>\n<strong>true</strong> if <em>obj</em> is found in the <xref href=\"System.Collections.Queue\" data-throw-if-not-resolved=\"false\"></xref>; otherwise, <strong>false</strong>.</p>\n"
   modifiers.csharp:
   - public
   - virtual
@@ -455,12 +476,12 @@ items:
   type: Method
   source:
     remote:
-      path: src/System.Collections.NonGeneric/ref/System.Collections.NonGeneric.cs
+      path: src/System.Collections.NonGeneric/src/System/Collections/Queue.cs
       branch: master
       repo: https://github.com/dotnet/corefx.git
     id: CopyTo
-    path: src/System.Collections.NonGeneric/ref/System.Collections.NonGeneric.cs
-    startLine: 190
+    path: src/System.Collections.NonGeneric/src/System/Collections/Queue.cs
+    startLine: 144
   assemblies:
   - System.Collections.NonGeneric
   namespace: System.Collections
@@ -474,10 +495,8 @@ items:
     parameters:
     - id: array
       type: System.Array
-      description: "\n<p>The one-dimensional <xref href=\"System.Array\" data-throw-if-not-resolved=\"false\"></xref> that is the destination of the elements copied from <xref href=\"System.Collections.Queue\" data-throw-if-not-resolved=\"false\"></xref>. The <xref href=\"System.Array\" data-throw-if-not-resolved=\"false\"></xref> must have zero-based indexing. </p>\n"
     - id: index
       type: System.Int32
-      description: "\n<p>The zero-based index in <em>array</em> at which copying begins. </p>\n"
   exceptions:
   - type: System.ArgumentNullException
     commentId: T:System.ArgumentNullException
@@ -491,6 +510,8 @@ items:
   - type: System.ArrayTypeMismatchException
     commentId: T:System.ArrayTypeMismatchException
     description: "\n<p>The type of the source <xref href=\"System.Collections.Queue\" data-throw-if-not-resolved=\"false\"></xref> cannot be cast automatically to the type of the destination <em>array</em>. </p>\n"
+  implements:
+  - System.Collections.ICollection.CopyTo(System.Array,System.Int32)
   modifiers.csharp:
   - public
   - virtual
@@ -523,10 +544,10 @@ items:
   example:
   - "\n<p>The following example shows how to add elements to the <xref href=\"System.Collections.Queue\" data-throw-if-not-resolved=\"false\"></xref>, remove elements from the <xref href=\"System.Collections.Queue\" data-throw-if-not-resolved=\"false\"></xref>, or view the element at the beginning of the <xref href=\"System.Collections.Queue\" data-throw-if-not-resolved=\"false\"></xref>.</p>Classic Queue.Enqueue Example#1"
   syntax:
-    content: public virtual Object Dequeue()
+    content: public virtual object Dequeue()
     content.vb: Public Overridable Function Dequeue As Object
     return:
-      type: Object
+      type: System.Object
   exceptions:
   - type: System.InvalidOperationException
     commentId: T:System.InvalidOperationException
@@ -554,12 +575,12 @@ items:
   type: Method
   source:
     remote:
-      path: src/System.Collections.NonGeneric/ref/System.Collections.NonGeneric.cs
+      path: src/System.Collections.NonGeneric/src/System/Collections/Queue.cs
       branch: master
       repo: https://github.com/dotnet/corefx.git
     id: Enqueue
-    path: src/System.Collections.NonGeneric/ref/System.Collections.NonGeneric.cs
-    startLine: 192
+    path: src/System.Collections.NonGeneric/src/System/Collections/Queue.cs
+    startLine: 169
   assemblies:
   - System.Collections.NonGeneric
   namespace: System.Collections
@@ -573,7 +594,6 @@ items:
     parameters:
     - id: obj
       type: System.Object
-      description: "\n<p>The object to add to the <xref href=\"System.Collections.Queue\" data-throw-if-not-resolved=\"false\"></xref>. The value can be <strong>null</strong>. </p>\n"
   seealso:
   - type: System.Collections.Queue.Dequeue
     commentId: M:System.Collections.Queue.Dequeue
@@ -612,10 +632,12 @@ items:
     content: public virtual IEnumerator GetEnumerator()
     content.vb: Public Overridable Function GetEnumerator As IEnumerator
     return:
-      type: IEnumerator
+      type: System.Collections.IEnumerator
   seealso:
   - type: System.Collections.IEnumerator
     commentId: T:System.Collections.IEnumerator
+  implements:
+  - System.Collections.IEnumerable.GetEnumerator
   modifiers.csharp:
   - public
   - virtual
@@ -648,10 +670,10 @@ items:
   example:
   - "\n<p>The following example shows how to add elements to the <xref href=\"System.Collections.Queue\" data-throw-if-not-resolved=\"false\"></xref>, remove elements from the <xref href=\"System.Collections.Queue\" data-throw-if-not-resolved=\"false\"></xref>, or view the element at the beginning of the <xref href=\"System.Collections.Queue\" data-throw-if-not-resolved=\"false\"></xref>.</p>Classic Queue.Enqueue Example#1"
   syntax:
-    content: public virtual Object Peek()
+    content: public virtual object Peek()
     content.vb: Public Overridable Function Peek As Object
     return:
-      type: Object
+      type: System.Object
   exceptions:
   - type: System.InvalidOperationException
     commentId: T:System.InvalidOperationException
@@ -741,10 +763,10 @@ items:
   example:
   - "\n<p>The following example shows how to copy a <xref href=\"System.Collections.Queue\" data-throw-if-not-resolved=\"false\"></xref> into a one-dimensional array.</p>Classic Queue.CopyTo Example#1"
   syntax:
-    content: public virtual Object[] ToArray()
+    content: public virtual object[] ToArray()
     content.vb: Public Overridable Function ToArray As Object()
     return:
-      type: Object[]
+      type: System.Object[]
   modifiers.csharp:
   - public
   - virtual
@@ -802,20 +824,229 @@ references:
   isExternal: false
   name: Object
   fullName: System.Object
+- uid: System.Collections.ICollection
+  parent: System.Collections
+  isExternal: false
+  name: ICollection
+  fullName: System.Collections.ICollection
 - uid: System.Collections.IEnumerable
   parent: System.Collections
   isExternal: false
-  name: Collections.IEnumerable
+  name: IEnumerable
   fullName: System.Collections.IEnumerable
+- uid: System.Object.ToString
+  parent: System.Object
+  isExternal: true
+  name: ToString()
+  fullName: System.Object.ToString()
+  spec.csharp:
+  - uid: System.Object.ToString
+    name: ToString
+    fullName: System.Object.ToString
+    isExternal: true
+  - name: (
+    fullName: (
+  - name: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.ToString
+    name: ToString
+    fullName: System.Object.ToString
+    isExternal: true
+  - name: (
+    fullName: (
+  - name: )
+    fullName: )
+- uid: System.Object.Equals(System.Object)
+  parent: System.Object
+  isExternal: true
+  name: Equals(Object)
+  fullName: System.Object.Equals(System.Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    fullName: )
+- uid: System.Object.Equals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  name: Equals(Object, Object)
+  fullName: System.Object.Equals(System.Object, System.Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    fullName: )
+- uid: System.Object.ReferenceEquals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  name: ReferenceEquals(Object, Object)
+  fullName: System.Object.ReferenceEquals(System.Object, System.Object)
+  spec.csharp:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    fullName: System.Object.ReferenceEquals
+    isExternal: true
+  - name: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    fullName: System.Object.ReferenceEquals
+    isExternal: true
+  - name: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    fullName: )
+- uid: System.Object.GetHashCode
+  parent: System.Object
+  isExternal: true
+  name: GetHashCode()
+  fullName: System.Object.GetHashCode()
+  spec.csharp:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    fullName: System.Object.GetHashCode
+    isExternal: true
+  - name: (
+    fullName: (
+  - name: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    fullName: System.Object.GetHashCode
+    isExternal: true
+  - name: (
+    fullName: (
+  - name: )
+    fullName: )
+- uid: System.Object.GetType
+  parent: System.Object
+  isExternal: true
+  name: GetType()
+  fullName: System.Object.GetType()
+  spec.csharp:
+  - uid: System.Object.GetType
+    name: GetType
+    fullName: System.Object.GetType
+    isExternal: true
+  - name: (
+    fullName: (
+  - name: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.GetType
+    name: GetType
+    fullName: System.Object.GetType
+    isExternal: true
+  - name: (
+    fullName: (
+  - name: )
+    fullName: )
+- uid: System.Object.MemberwiseClone
+  parent: System.Object
+  isExternal: true
+  name: MemberwiseClone()
+  fullName: System.Object.MemberwiseClone()
+  spec.csharp:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    fullName: System.Object.MemberwiseClone
+    isExternal: true
+  - name: (
+    fullName: (
+  - name: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    fullName: System.Object.MemberwiseClone
+    isExternal: true
+  - name: (
+    fullName: (
+  - name: )
+    fullName: )
 - uid: System
   isExternal: false
   name: System
   fullName: System
-- uid: System.Collections.ICollection
-  parent: System.Collections
-  isExternal: false
-  name: Collections.ICollection
-  fullName: System.Collections.ICollection
 - uid: System.Int32
   parent: System
   isExternal: false
@@ -826,20 +1057,95 @@ references:
   isExternal: false
   name: Single
   fullName: System.Single
+- uid: System.Collections.ICollection.Count
+  parent: System.Collections.ICollection
+  isExternal: false
+  name: Count
+  fullName: System.Collections.ICollection.Count
+- uid: System.Collections.ICollection.IsSynchronized
+  parent: System.Collections.ICollection
+  isExternal: false
+  name: IsSynchronized
+  fullName: System.Collections.ICollection.IsSynchronized
 - uid: System.Boolean
   parent: System
   isExternal: false
   name: Boolean
   fullName: System.Boolean
+- uid: System.Collections.ICollection.SyncRoot
+  parent: System.Collections.ICollection
+  isExternal: false
+  name: SyncRoot
+  fullName: System.Collections.ICollection.SyncRoot
+- uid: System.Collections.ICollection.CopyTo(System.Array,System.Int32)
+  parent: System.Collections.ICollection
+  isExternal: true
+  name: CopyTo(Array, Int32)
+  fullName: System.Collections.ICollection.CopyTo(System.Array, System.Int32)
+  spec.csharp:
+  - uid: System.Collections.ICollection.CopyTo(System.Array,System.Int32)
+    name: CopyTo
+    fullName: System.Collections.ICollection.CopyTo
+  - name: (
+    fullName: (
+  - uid: System.Array
+    name: Array
+    fullName: System.Array
+  - name: ', '
+    fullName: ', '
+  - uid: System.Int32
+    name: Int32
+    fullName: System.Int32
+    isExternal: true
+  - name: )
+    fullName: )
+  spec.vb:
+  - uid: System.Collections.ICollection.CopyTo(System.Array,System.Int32)
+    name: CopyTo
+    fullName: System.Collections.ICollection.CopyTo
+  - name: (
+    fullName: (
+  - uid: System.Array
+    name: Array
+    fullName: System.Array
+  - name: ', '
+    fullName: ', '
+  - uid: System.Int32
+    name: Int32
+    fullName: System.Int32
+    isExternal: true
+  - name: )
+    fullName: )
 - uid: System.Array
   parent: System
   isExternal: false
   name: Array
   fullName: System.Array
+- uid: System.Collections.IEnumerable.GetEnumerator
+  parent: System.Collections.IEnumerable
+  isExternal: false
+  name: GetEnumerator()
+  fullName: System.Collections.IEnumerable.GetEnumerator()
+  spec.csharp:
+  - uid: System.Collections.IEnumerable.GetEnumerator
+    name: GetEnumerator
+    fullName: System.Collections.IEnumerable.GetEnumerator
+  - name: (
+    fullName: (
+  - name: )
+    fullName: )
+  spec.vb:
+  - uid: System.Collections.IEnumerable.GetEnumerator
+    name: GetEnumerator
+    fullName: System.Collections.IEnumerable.GetEnumerator
+  - name: (
+    fullName: (
+  - name: )
+    fullName: )
 - uid: System.Collections.IEnumerator
   parent: System.Collections
   isExternal: false
-  name: Collections.IEnumerator
+  name: IEnumerator
   fullName: System.Collections.IEnumerator
 - uid: System.Collections.Queue
   parent: System.Collections
@@ -847,7 +1153,7 @@ references:
   name: Queue
   fullName: System.Collections.Queue
 - uid: System.Object[]
-  isExternal: false
+  isExternal: true
   name: Object[]
   fullName: System.Object[]
   fullname.vb: System.Object()
@@ -856,12 +1162,14 @@ references:
   - uid: System.Object
     name: Object
     fullName: System.Object
+    isExternal: true
   - name: '[]'
     fullName: '[]'
   spec.vb:
   - uid: System.Object
     name: Object
     fullName: System.Object
+    isExternal: true
   - name: ()
     fullName: ()
 - uid: System.ArgumentNullException

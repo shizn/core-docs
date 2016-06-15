@@ -89,14 +89,34 @@ items:
   assemblies:
   - System.Data.SqlClient
   namespace: System.Data.SqlTypes
+  summary: "\n<p>Represents a variable-length stream of characters to be stored in or retrieved from the database. <xref href=\"System.Data.SqlTypes.SqlString\" data-throw-if-not-resolved=\"false\"></xref> has a different underlying data structure from its corresponding .NET Framework <xref href=\"System.String\" data-throw-if-not-resolved=\"false\"></xref> data type.</p>\n"
+  remarks: "\n<p>\n<xref href=\"System.String\" data-throw-if-not-resolved=\"false\"></xref> always uses the default <xref href=\"System.Globalization.CultureInfo\" data-throw-if-not-resolved=\"false\"></xref> from the current thread, but <xref href=\"System.Data.SqlTypes.SqlString\" data-throw-if-not-resolved=\"false\"></xref> contains its own locale Id and compare flags. The comparison result of two <xref href=\"System.Data.SqlTypes.SqlString\" data-throw-if-not-resolved=\"false\"></xref> structures is independent of operating system and current thread locale. </p>\n<p>When you use <xref href=\"System.Data.SqlTypes.SqlString\" data-throw-if-not-resolved=\"false\"></xref> comparison operators, note that if the LCIDs of arguments are different, comparison functions throw an exception because they cannot be compared. For example, the statement </p>\n<pre><code> SqlString mySqlString = new SqlString(\"abc\");</code></pre>\n<p>is equivalent to </p>\n<pre><code> SqlString mySqlString = new SqlString(\"abc\", CultureInfo.CurrentCulture.LCID);</code></pre>\n"
   syntax:
-    content: 'public struct SqlString : INullable, IComparable'
+    content: >-
+      [StructLayout(LayoutKind.Sequential)]
+
+      public struct SqlString : INullable, IComparable
     content.vb: >-
+      <StructLayout(LayoutKind.Sequential)>
+
       Public Structure SqlString
           Implements INullable, IComparable
+  seealso:
+  - type: System.Globalization.CultureInfo.CurrentCulture
+    commentId: P:System.Globalization.CultureInfo.CurrentCulture
   implements:
   - System.Data.SqlTypes.INullable
   - System.IComparable
+  inheritedMembers:
+  - System.Object.Equals(System.Object,System.Object)
+  - System.Object.ReferenceEquals(System.Object,System.Object)
+  - System.Object.GetType
+  attributes:
+  - type: System.Runtime.InteropServices.StructLayoutAttribute
+    ctor: System.Runtime.InteropServices.StructLayoutAttribute.#ctor(System.Runtime.InteropServices.LayoutKind)
+    arguments:
+    - type: System.Runtime.InteropServices.LayoutKind
+      value: 0
   modifiers.csharp:
   - public
   - struct
@@ -124,6 +144,8 @@ items:
   assemblies:
   - System.Data.SqlClient
   namespace: System.Data.SqlTypes
+  summary: "\n<p>Specifies that sorts should be based on a characters numeric value instead of its alphabetical value.</p>\n"
+  remarks: "\n<p>\n<xref href=\"System.Data.SqlTypes.SqlString.BinarySort\" data-throw-if-not-resolved=\"false\"></xref> functions as a constant for the <xref href=\"System.Data.SqlTypes.SqlString\" data-throw-if-not-resolved=\"false\"></xref> class.</p>\n"
   syntax:
     content: public static readonly int BinarySort
     content.vb: Public Shared ReadOnly BinarySort As Integer
@@ -158,6 +180,7 @@ items:
   assemblies:
   - System.Data.SqlClient
   namespace: System.Data.SqlTypes
+  summary: "\n<p>Specifies that sorts should be based on a character's numeric value instead of its alphabetical value.</p>\n"
   syntax:
     content: public static readonly int BinarySort2
     content.vb: Public Shared ReadOnly BinarySort2 As Integer
@@ -192,6 +215,8 @@ items:
   assemblies:
   - System.Data.SqlClient
   namespace: System.Data.SqlTypes
+  summary: "\n<p>Specifies that <xref href=\"System.Data.SqlTypes.SqlString\" data-throw-if-not-resolved=\"false\"></xref> comparisons should ignore case.</p>\n"
+  remarks: "\n<p>\n<xref href=\"System.Data.SqlTypes.SqlString.IgnoreCase\" data-throw-if-not-resolved=\"false\"></xref> functions as a constant for the <xref href=\"System.Data.SqlTypes.SqlString\" data-throw-if-not-resolved=\"false\"></xref> class.</p>\n"
   syntax:
     content: public static readonly int IgnoreCase
     content.vb: Public Shared ReadOnly IgnoreCase As Integer
@@ -226,6 +251,8 @@ items:
   assemblies:
   - System.Data.SqlClient
   namespace: System.Data.SqlTypes
+  summary: "\n<p>Specifies that the string comparison must ignore the Kana type. </p>\n"
+  remarks: "\n<p>Kana type refers to Japanese hiragana and katakana characters that represent phonetic sounds in the Japanese language. Hiragana is used for native Japanese expressions and words, while katakana is used for words borrowed from other languages, such as \"computer\" or \"Internet\". A phonetic sound can be expressed in both hiragana and katakana. If this value is selected, the hiragana character for one sound is considered equal to the katakana character for the same sound.</p>\n<p>\n<xref href=\"System.Data.SqlTypes.SqlString.IgnoreKanaType\" data-throw-if-not-resolved=\"false\"></xref> functions as a constant for the <xref href=\"System.Data.SqlTypes.SqlString\" data-throw-if-not-resolved=\"false\"></xref> class.</p>\n"
   syntax:
     content: public static readonly int IgnoreKanaType
     content.vb: Public Shared ReadOnly IgnoreKanaType As Integer
@@ -260,6 +287,8 @@ items:
   assemblies:
   - System.Data.SqlClient
   namespace: System.Data.SqlTypes
+  summary: "\n<p>Specifies that the string comparison must ignore non-space combining characters, such as diacritics. </p>\n"
+  remarks: "\n<p>The Unicode Standard defines combining characters as characters that are combined with base characters to produce a new character. Non-space combining characters do not use character space by themselves when rendered. For more information about non-space combining characters, see the Unicode Standard at http://www.unicode.org.</p>\n<p>\n<xref href=\"System.Data.SqlTypes.SqlString.IgnoreNonSpace\" data-throw-if-not-resolved=\"false\"></xref> functions as a constant for the <xref href=\"System.Data.SqlTypes.SqlString\" data-throw-if-not-resolved=\"false\"></xref> class.</p>\n"
   syntax:
     content: public static readonly int IgnoreNonSpace
     content.vb: Public Shared ReadOnly IgnoreNonSpace As Integer
@@ -294,6 +323,8 @@ items:
   assemblies:
   - System.Data.SqlClient
   namespace: System.Data.SqlTypes
+  summary: "\n<p>Specifies that the string comparison must ignore the character width. </p>\n"
+  remarks: "\n<p>For example, Japanese katakana characters can be written as full-width or half-width and, if this value is selected, the katakana characters written as full-width are considered equal to the same characters written in half-width.</p>\n<p>\n<xref href=\"System.Data.SqlTypes.SqlString.IgnoreWidth\" data-throw-if-not-resolved=\"false\"></xref> functions as a constant for the <xref href=\"System.Data.SqlTypes.SqlString\" data-throw-if-not-resolved=\"false\"></xref> class.</p>\n"
   syntax:
     content: public static readonly int IgnoreWidth
     content.vb: Public Shared ReadOnly IgnoreWidth As Integer
@@ -325,6 +356,8 @@ items:
   assemblies:
   - System.Data.SqlClient
   namespace: System.Data.SqlTypes
+  summary: "\n<p>Represents a <xref href=\"System.DBNull\" data-throw-if-not-resolved=\"false\"></xref> that can be assigned to this instance of the <xref href=\"System.Data.SqlTypes.SqlString\" data-throw-if-not-resolved=\"false\"></xref> structure.</p>\n"
+  remarks: "\n<p>\n<strong>Null</strong> functions as a constant for the <xref href=\"System.Data.SqlTypes.SqlString\" data-throw-if-not-resolved=\"false\"></xref> structure.  For more information, see Handling Null Values.</p>\n"
   syntax:
     content: public static readonly SqlString Null
     content.vb: Public Shared ReadOnly Null As SqlString
@@ -359,6 +392,7 @@ items:
   assemblies:
   - System.Data.SqlClient
   namespace: System.Data.SqlTypes
+  summary: "\n<p>Initializes a new instance of the <xref href=\"System.Data.SqlTypes.SqlString\" data-throw-if-not-resolved=\"false\"></xref> structure using the specified locale id, compare options, and data.</p>\n"
   syntax:
     content: public SqlString(int lcid, SqlCompareOptions compareOptions, byte[] data)
     content.vb: Public Sub New(lcid As Integer, compareOptions As SqlCompareOptions, data As Byte())
@@ -396,6 +430,7 @@ items:
   assemblies:
   - System.Data.SqlClient
   namespace: System.Data.SqlTypes
+  summary: "\n<p>Initializes a new instance of the <xref href=\"System.Data.SqlTypes.SqlString\" data-throw-if-not-resolved=\"false\"></xref> class.</p>\n"
   syntax:
     content: public SqlString(int lcid, SqlCompareOptions compareOptions, byte[] data, bool fUnicode)
     content.vb: Public Sub New(lcid As Integer, compareOptions As SqlCompareOptions, data As Byte(), fUnicode As Boolean)
@@ -435,6 +470,7 @@ items:
   assemblies:
   - System.Data.SqlClient
   namespace: System.Data.SqlTypes
+  summary: "\n<p>Initializes a new instance of the <xref href=\"System.Data.SqlTypes.SqlString\" data-throw-if-not-resolved=\"false\"></xref> class.</p>\n"
   syntax:
     content: public SqlString(int lcid, SqlCompareOptions compareOptions, byte[] data, int index, int count)
     content.vb: Public Sub New(lcid As Integer, compareOptions As SqlCompareOptions, data As Byte(), index As Integer, count As Integer)
@@ -476,6 +512,7 @@ items:
   assemblies:
   - System.Data.SqlClient
   namespace: System.Data.SqlTypes
+  summary: "\n<p>Initializes a new instance of the <xref href=\"System.Data.SqlTypes.SqlString\" data-throw-if-not-resolved=\"false\"></xref> class.</p>\n"
   syntax:
     content: public SqlString(int lcid, SqlCompareOptions compareOptions, byte[] data, int index, int count, bool fUnicode)
     content.vb: Public Sub New(lcid As Integer, compareOptions As SqlCompareOptions, data As Byte(), index As Integer, count As Integer, fUnicode As Boolean)
@@ -510,15 +547,16 @@ items:
   type: Constructor
   source:
     remote:
-      path: src/System.Data.SqlClient/ref/System.Data.SqlClient.cs
+      path: src/System.Data.SqlClient/src/System/Data/SqlTypes/SQLString.cs
       branch: master
       repo: https://github.com/dotnet/corefx.git
     id: .ctor
-    path: src/System.Data.SqlClient/ref/System.Data.SqlClient.cs
-    startLine: 1394
+    path: src/System.Data.SqlClient/src/System/Data/SqlTypes/SQLString.cs
+    startLine: 206
   assemblies:
   - System.Data.SqlClient
   namespace: System.Data.SqlTypes
+  summary: "\n<p>Initializes a new instance of the <xref href=\"System.Data.SqlTypes.SqlString\" data-throw-if-not-resolved=\"false\"></xref> structure using the specified string.</p>\n"
   syntax:
     content: public SqlString(string data)
     content.vb: Public Sub New(data As String)
@@ -541,15 +579,16 @@ items:
   type: Constructor
   source:
     remote:
-      path: src/System.Data.SqlClient/ref/System.Data.SqlClient.cs
+      path: src/System.Data.SqlClient/src/System/Data/SqlTypes/SQLString.cs
       branch: master
       repo: https://github.com/dotnet/corefx.git
     id: .ctor
-    path: src/System.Data.SqlClient/ref/System.Data.SqlClient.cs
-    startLine: 1395
+    path: src/System.Data.SqlClient/src/System/Data/SqlTypes/SQLString.cs
+    startLine: 197
   assemblies:
   - System.Data.SqlClient
   namespace: System.Data.SqlTypes
+  summary: "\n<p>Initializes a new instance of the <xref href=\"System.Data.SqlTypes.SqlString\" data-throw-if-not-resolved=\"false\"></xref> structure using the specified string and locale id values.</p>\n"
   syntax:
     content: public SqlString(string data, int lcid)
     content.vb: Public Sub New(data As String, lcid As Integer)
@@ -574,15 +613,16 @@ items:
   type: Constructor
   source:
     remote:
-      path: src/System.Data.SqlClient/ref/System.Data.SqlClient.cs
+      path: src/System.Data.SqlClient/src/System/Data/SqlTypes/SQLString.cs
       branch: master
       repo: https://github.com/dotnet/corefx.git
     id: .ctor
-    path: src/System.Data.SqlClient/ref/System.Data.SqlClient.cs
-    startLine: 1396
+    path: src/System.Data.SqlClient/src/System/Data/SqlTypes/SQLString.cs
+    startLine: 174
   assemblies:
   - System.Data.SqlClient
   namespace: System.Data.SqlTypes
+  summary: "\n<p>Initializes a new instance of the <xref href=\"System.Data.SqlTypes.SqlString\" data-throw-if-not-resolved=\"false\"></xref> structure using the specified string, locale id, and compare option values.</p>\n"
   syntax:
     content: public SqlString(string data, int lcid, SqlCompareOptions compareOptions)
     content.vb: Public Sub New(data As String, lcid As Integer, compareOptions As SqlCompareOptions)
@@ -618,12 +658,13 @@ items:
   assemblies:
   - System.Data.SqlClient
   namespace: System.Data.SqlTypes
+  summary: "\n<p>Gets the <xref href=\"System.Globalization.CompareInfo\" data-throw-if-not-resolved=\"false\"></xref> object that defines how string comparisons should be performed for this <xref href=\"System.Data.SqlTypes.SqlString\" data-throw-if-not-resolved=\"false\"></xref> structure.</p>\n"
   syntax:
     content: public CompareInfo CompareInfo { get; }
     content.vb: Public ReadOnly Property CompareInfo As CompareInfo
     parameters: []
     return:
-      type: CompareInfo
+      type: System.Globalization.CompareInfo
   modifiers.csharp:
   - public
   - get
@@ -651,12 +692,13 @@ items:
   assemblies:
   - System.Data.SqlClient
   namespace: System.Data.SqlTypes
+  summary: "\n<p>Gets the <xref href=\"System.Globalization.CultureInfo\" data-throw-if-not-resolved=\"false\"></xref> structure that represents information about the culture of this <xref href=\"System.Data.SqlTypes.SqlString\" data-throw-if-not-resolved=\"false\"></xref> object.</p>\n"
   syntax:
     content: public CultureInfo CultureInfo { get; }
     content.vb: Public ReadOnly Property CultureInfo As CultureInfo
     parameters: []
     return:
-      type: CultureInfo
+      type: System.Globalization.CultureInfo
   modifiers.csharp:
   - public
   - get
@@ -684,6 +726,8 @@ items:
   assemblies:
   - System.Data.SqlClient
   namespace: System.Data.SqlTypes
+  summary: "\n<p>Indicates whether this <xref href=\"System.Data.SqlTypes.SqlString\" data-throw-if-not-resolved=\"false\"></xref> structure is null.</p>\n"
+  remarks: "\n<p>For more information, see Handling Null Values.</p>\n"
   syntax:
     content: public bool IsNull { get; }
     content.vb: Public ReadOnly Property IsNull As Boolean
@@ -719,6 +763,7 @@ items:
   assemblies:
   - System.Data.SqlClient
   namespace: System.Data.SqlTypes
+  summary: "\n<p>Specifies the geographical locale and language for the <xref href=\"System.Data.SqlTypes.SqlString\" data-throw-if-not-resolved=\"false\"></xref> structure.</p>\n"
   syntax:
     content: public int LCID { get; }
     content.vb: Public ReadOnly Property LCID As Integer
@@ -752,6 +797,7 @@ items:
   assemblies:
   - System.Data.SqlClient
   namespace: System.Data.SqlTypes
+  summary: "\n<p>A combination of one or more of the <xref href=\"System.Data.SqlTypes.SqlCompareOptions\" data-throw-if-not-resolved=\"false\"></xref> enumeration values that represent the way in which this <xref href=\"System.Data.SqlTypes.SqlString\" data-throw-if-not-resolved=\"false\"></xref> should be compared to other <xref href=\"System.Data.SqlTypes.SqlString\" data-throw-if-not-resolved=\"false\"></xref> structures.</p>\n"
   syntax:
     content: public SqlCompareOptions SqlCompareOptions { get; }
     content.vb: Public ReadOnly Property SqlCompareOptions As SqlCompareOptions
@@ -785,12 +831,17 @@ items:
   assemblies:
   - System.Data.SqlClient
   namespace: System.Data.SqlTypes
+  summary: "\n<p>Gets the string that is stored in this <xref href=\"System.Data.SqlTypes.SqlString\" data-throw-if-not-resolved=\"false\"></xref> structure. This property is read-only.</p>\n"
   syntax:
-    content: public String Value { get; }
+    content: public string Value { get; }
     content.vb: Public ReadOnly Property Value As String
     parameters: []
     return:
-      type: String
+      type: System.String
+  exceptions:
+  - type: System.Data.SqlTypes.SqlNullValueException
+    commentId: T:System.Data.SqlTypes.SqlNullValueException
+    description: "\n<p>The value of the string is <xref href=\"System.Data.SqlTypes.SqlString.Null\" data-throw-if-not-resolved=\"false\"></xref>. </p>\n"
   modifiers.csharp:
   - public
   - get
@@ -818,6 +869,8 @@ items:
   assemblies:
   - System.Data.SqlClient
   namespace: System.Data.SqlTypes
+  summary: "\n<p>Concatenates two specified <xref href=\"System.Data.SqlTypes.SqlString\" data-throw-if-not-resolved=\"false\"></xref> values to create a new <xref href=\"System.Data.SqlTypes.SqlString\" data-throw-if-not-resolved=\"false\"></xref> structure.</p>\n"
+  remarks: "\n<p>\n<em>x</em> will appear first in the resulting <xref href=\"System.Data.SqlTypes.SqlString\" data-throw-if-not-resolved=\"false\"></xref>, followed by <em>y</em>.</p>\n"
   syntax:
     content: public static SqlString Add(SqlString x, SqlString y)
     content.vb: Public Shared Function Add(x As SqlString, y As SqlString) As SqlString
@@ -855,6 +908,7 @@ items:
   assemblies:
   - System.Data.SqlClient
   namespace: System.Data.SqlTypes
+  summary: "\n<p>Creates a copy of this <xref href=\"System.Data.SqlTypes.SqlString\" data-throw-if-not-resolved=\"false\"></xref> object.</p>\n"
   syntax:
     content: public SqlString Clone()
     content.vb: Public Function Clone As SqlString
@@ -885,6 +939,7 @@ items:
   assemblies:
   - System.Data.SqlClient
   namespace: System.Data.SqlTypes
+  summary: "\n<p>Gets the <xref href=\"System.Globalization.CompareOptions\" data-throw-if-not-resolved=\"false\"></xref> enumeration equilvalent of the specified <xref href=\"System.Data.SqlTypes.SqlCompareOptions\" data-throw-if-not-resolved=\"false\"></xref> value.</p>\n"
   syntax:
     content: public static CompareOptions CompareOptionsFromSqlCompareOptions(SqlCompareOptions compareOptions)
     content.vb: Public Shared Function CompareOptionsFromSqlCompareOptions(compareOptions As SqlCompareOptions) As CompareOptions
@@ -892,7 +947,7 @@ items:
     - id: compareOptions
       type: System.Data.SqlTypes.SqlCompareOptions
     return:
-      type: CompareOptions
+      type: System.Globalization.CompareOptions
   modifiers.csharp:
   - public
   - static
@@ -920,6 +975,7 @@ items:
   assemblies:
   - System.Data.SqlClient
   namespace: System.Data.SqlTypes
+  summary: "\n<p>Compares this <xref href=\"System.Data.SqlTypes.SqlString\" data-throw-if-not-resolved=\"false\"></xref> instance to the supplied <xref href=\"System.Data.SqlTypes.SqlString\" data-throw-if-not-resolved=\"false\"></xref> and returns an indication of their relative values.</p>\n"
   syntax:
     content: public int CompareTo(SqlString value)
     content.vb: Public Function CompareTo(value As SqlString) As Integer
@@ -944,15 +1000,16 @@ items:
   type: Method
   source:
     remote:
-      path: src/System.Data.SqlClient/ref/System.Data.SqlClient.cs
+      path: src/System.Data.SqlClient/src/System/Data/SqlTypes/SQLString.cs
       branch: master
       repo: https://github.com/dotnet/corefx.git
     id: CompareTo
-    path: src/System.Data.SqlClient/ref/System.Data.SqlClient.cs
-    startLine: 1407
+    path: src/System.Data.SqlClient/src/System/Data/SqlTypes/SQLString.cs
+    startLine: 959
   assemblies:
   - System.Data.SqlClient
   namespace: System.Data.SqlTypes
+  summary: "\n<p>Compares this <xref href=\"System.Data.SqlTypes.SqlString\" data-throw-if-not-resolved=\"false\"></xref> object to the supplied <xref href=\"System.Object\" data-throw-if-not-resolved=\"false\"></xref> and returns an indication of their relative values.</p>\n"
   syntax:
     content: public int CompareTo(object value)
     content.vb: Public Function CompareTo(value As Object) As Integer
@@ -961,6 +1018,8 @@ items:
       type: System.Object
     return:
       type: System.Int32
+  implements:
+  - System.IComparable.CompareTo(System.Object)
   modifiers.csharp:
   - public
   modifiers.vb:
@@ -986,6 +1045,7 @@ items:
   assemblies:
   - System.Data.SqlClient
   namespace: System.Data.SqlTypes
+  summary: "\n<p>Concatenates the two specified <xref href=\"System.Data.SqlTypes.SqlString\" data-throw-if-not-resolved=\"false\"></xref> structures.</p>\n"
   syntax:
     content: public static SqlString Concat(SqlString x, SqlString y)
     content.vb: Public Shared Function Concat(x As SqlString, y As SqlString) As SqlString
@@ -1023,6 +1083,7 @@ items:
   assemblies:
   - System.Data.SqlClient
   namespace: System.Data.SqlTypes
+  summary: "\n<p>Performs a logical comparison of the two <xref href=\"System.Data.SqlTypes.SqlString\" data-throw-if-not-resolved=\"false\"></xref> operands to determine whether they are equal.</p>\n"
   syntax:
     content: public static SqlBoolean Equals(SqlString x, SqlString y)
     content.vb: Public Shared Function Equals(x As SqlString, y As SqlString) As SqlBoolean
@@ -1051,15 +1112,16 @@ items:
   type: Method
   source:
     remote:
-      path: src/System.Data.SqlClient/ref/System.Data.SqlClient.cs
+      path: src/System.Data.SqlClient/src/System/Data/SqlTypes/SQLString.cs
       branch: master
       repo: https://github.com/dotnet/corefx.git
     id: Equals
-    path: src/System.Data.SqlClient/ref/System.Data.SqlClient.cs
-    startLine: 1410
+    path: src/System.Data.SqlClient/src/System/Data/SqlTypes/SQLString.cs
+    startLine: 999
   assemblies:
   - System.Data.SqlClient
   namespace: System.Data.SqlTypes
+  summary: "\n<p>Compares the supplied object parameter to the <xref href=\"System.Data.SqlTypes.SqlString.Value\" data-throw-if-not-resolved=\"false\"></xref> property of the <xref href=\"System.Data.SqlTypes.SqlString\" data-throw-if-not-resolved=\"false\"></xref> object.</p>\n"
   syntax:
     content: public override bool Equals(object value)
     content.vb: Public Overrides Function Equals(value As Object) As Boolean
@@ -1068,6 +1130,7 @@ items:
       type: System.Object
     return:
       type: System.Boolean
+  overridden: System.ValueType.Equals(System.Object)
   modifiers.csharp:
   - public
   - override
@@ -1095,11 +1158,13 @@ items:
   assemblies:
   - System.Data.SqlClient
   namespace: System.Data.SqlTypes
+  summary: "\n<p>Gets the hash code for this instance.</p>\n"
   syntax:
     content: public override int GetHashCode()
     content.vb: Public Overrides Function GetHashCode As Integer
     return:
       type: System.Int32
+  overridden: System.ValueType.GetHashCode
   modifiers.csharp:
   - public
   - override
@@ -1127,6 +1192,7 @@ items:
   assemblies:
   - System.Data.SqlClient
   namespace: System.Data.SqlTypes
+  summary: "\n<p>Gets an array of bytes, that contains the contents of the <xref href=\"System.Data.SqlTypes.SqlString\" data-throw-if-not-resolved=\"false\"></xref> in ANSI format.</p>\n"
   syntax:
     content: public byte[] GetNonUnicodeBytes()
     content.vb: Public Function GetNonUnicodeBytes As Byte()
@@ -1157,6 +1223,7 @@ items:
   assemblies:
   - System.Data.SqlClient
   namespace: System.Data.SqlTypes
+  summary: "\n<p>Gets an array of bytes, that contains the contents of the <xref href=\"System.Data.SqlTypes.SqlString\" data-throw-if-not-resolved=\"false\"></xref> in Unicode format.</p>\n"
   syntax:
     content: public byte[] GetUnicodeBytes()
     content.vb: Public Function GetUnicodeBytes As Byte()
@@ -1187,6 +1254,7 @@ items:
   assemblies:
   - System.Data.SqlClient
   namespace: System.Data.SqlTypes
+  summary: "\n<p>Performs a logical comparison of the two <xref href=\"System.Data.SqlTypes.SqlString\" data-throw-if-not-resolved=\"false\"></xref> operands to determine whether the first is greater than the second.</p>\n"
   syntax:
     content: public static SqlBoolean GreaterThan(SqlString x, SqlString y)
     content.vb: Public Shared Function GreaterThan(x As SqlString, y As SqlString) As SqlBoolean
@@ -1224,6 +1292,7 @@ items:
   assemblies:
   - System.Data.SqlClient
   namespace: System.Data.SqlTypes
+  summary: "\n<p>Performs a logical comparison of the two <xref href=\"System.Data.SqlTypes.SqlString\" data-throw-if-not-resolved=\"false\"></xref> operands to determine whether the first is greater than or equal to the second.</p>\n"
   syntax:
     content: public static SqlBoolean GreaterThanOrEqual(SqlString x, SqlString y)
     content.vb: Public Shared Function GreaterThanOrEqual(x As SqlString, y As SqlString) As SqlBoolean
@@ -1261,6 +1330,7 @@ items:
   assemblies:
   - System.Data.SqlClient
   namespace: System.Data.SqlTypes
+  summary: "\n<p>Performs a logical comparison of the two <xref href=\"System.Data.SqlTypes.SqlString\" data-throw-if-not-resolved=\"false\"></xref> operands to determine whether the first is less than the second.</p>\n"
   syntax:
     content: public static SqlBoolean LessThan(SqlString x, SqlString y)
     content.vb: Public Shared Function LessThan(x As SqlString, y As SqlString) As SqlBoolean
@@ -1298,6 +1368,7 @@ items:
   assemblies:
   - System.Data.SqlClient
   namespace: System.Data.SqlTypes
+  summary: "\n<p>Performs a logical comparison of the two <xref href=\"System.Data.SqlTypes.SqlString\" data-throw-if-not-resolved=\"false\"></xref> operands to determine whether the first is less than or equal to the second.</p>\n"
   syntax:
     content: public static SqlBoolean LessThanOrEqual(SqlString x, SqlString y)
     content.vb: Public Shared Function LessThanOrEqual(x As SqlString, y As SqlString) As SqlBoolean
@@ -1335,6 +1406,7 @@ items:
   assemblies:
   - System.Data.SqlClient
   namespace: System.Data.SqlTypes
+  summary: "\n<p>Performs a logical comparison of the two <xref href=\"System.Data.SqlTypes.SqlString\" data-throw-if-not-resolved=\"false\"></xref> operands to determine whether they are not equal.</p>\n"
   syntax:
     content: public static SqlBoolean NotEquals(SqlString x, SqlString y)
     content.vb: Public Shared Function NotEquals(x As SqlString, y As SqlString) As SqlBoolean
@@ -1372,6 +1444,7 @@ items:
   assemblies:
   - System.Data.SqlClient
   namespace: System.Data.SqlTypes
+  summary: "\n<p>Concatenates the two specified <xref href=\"System.Data.SqlTypes.SqlString\" data-throw-if-not-resolved=\"false\"></xref> structures.</p>\n"
   syntax:
     content: public static SqlString operator +(SqlString x, SqlString y)
     content.vb: Public Shared Operator +(x As SqlString, y As SqlString) As SqlString
@@ -1409,6 +1482,7 @@ items:
   assemblies:
   - System.Data.SqlClient
   namespace: System.Data.SqlTypes
+  summary: "\n<p>Performs a logical comparison of the two <xref href=\"System.Data.SqlTypes.SqlString\" data-throw-if-not-resolved=\"false\"></xref> operands to determine whether they are equal.</p>\n"
   syntax:
     content: public static SqlBoolean operator ==(SqlString x, SqlString y)
     content.vb: Public Shared Operator =(x As SqlString, y As SqlString) As SqlBoolean
@@ -1446,6 +1520,7 @@ items:
   assemblies:
   - System.Data.SqlClient
   namespace: System.Data.SqlTypes
+  summary: "\n<p>Converts the specified <xref href=\"System.Data.SqlTypes.SqlBoolean\" data-throw-if-not-resolved=\"false\"></xref> structure to <xref href=\"System.Data.SqlTypes.SqlString\" data-throw-if-not-resolved=\"false\"></xref>.</p>\n"
   syntax:
     content: public static explicit operator SqlString(SqlBoolean x)
     content.vb: Public Shared Narrowing Operator CType(x As SqlBoolean) As SqlString
@@ -1483,6 +1558,7 @@ items:
   assemblies:
   - System.Data.SqlClient
   namespace: System.Data.SqlTypes
+  summary: "\n<p>Converts the specified <xref href=\"System.Data.SqlTypes.SqlByte\" data-throw-if-not-resolved=\"false\"></xref> structure to <xref href=\"System.Data.SqlTypes.SqlString\" data-throw-if-not-resolved=\"false\"></xref>.</p>\n"
   syntax:
     content: public static explicit operator SqlString(SqlByte x)
     content.vb: Public Shared Narrowing Operator CType(x As SqlByte) As SqlString
@@ -1520,6 +1596,7 @@ items:
   assemblies:
   - System.Data.SqlClient
   namespace: System.Data.SqlTypes
+  summary: "\n<p>Converts the specified <xref href=\"System.Data.SqlTypes.SqlDateTime\" data-throw-if-not-resolved=\"false\"></xref> parameter to <xref href=\"System.Data.SqlTypes.SqlString\" data-throw-if-not-resolved=\"false\"></xref>.</p>\n"
   syntax:
     content: public static explicit operator SqlString(SqlDateTime x)
     content.vb: Public Shared Narrowing Operator CType(x As SqlDateTime) As SqlString
@@ -1557,6 +1634,7 @@ items:
   assemblies:
   - System.Data.SqlClient
   namespace: System.Data.SqlTypes
+  summary: "\n<p>Converts the specified <xref href=\"System.Data.SqlTypes.SqlDecimal\" data-throw-if-not-resolved=\"false\"></xref> parameter to <xref href=\"System.Data.SqlTypes.SqlString\" data-throw-if-not-resolved=\"false\"></xref>.</p>\n"
   syntax:
     content: public static explicit operator SqlString(SqlDecimal x)
     content.vb: Public Shared Narrowing Operator CType(x As SqlDecimal) As SqlString
@@ -1594,6 +1672,7 @@ items:
   assemblies:
   - System.Data.SqlClient
   namespace: System.Data.SqlTypes
+  summary: "\n<p>Converts the specified <xref href=\"System.Data.SqlTypes.SqlDouble\" data-throw-if-not-resolved=\"false\"></xref> parameter to <xref href=\"System.Data.SqlTypes.SqlString\" data-throw-if-not-resolved=\"false\"></xref>.</p>\n"
   syntax:
     content: public static explicit operator SqlString(SqlDouble x)
     content.vb: Public Shared Narrowing Operator CType(x As SqlDouble) As SqlString
@@ -1631,6 +1710,7 @@ items:
   assemblies:
   - System.Data.SqlClient
   namespace: System.Data.SqlTypes
+  summary: "\n<p>Converts the specified <xref href=\"System.Data.SqlTypes.SqlGuid\" data-throw-if-not-resolved=\"false\"></xref> parameter to <xref href=\"System.Data.SqlTypes.SqlString\" data-throw-if-not-resolved=\"false\"></xref>.</p>\n"
   syntax:
     content: public static explicit operator SqlString(SqlGuid x)
     content.vb: Public Shared Narrowing Operator CType(x As SqlGuid) As SqlString
@@ -1668,6 +1748,7 @@ items:
   assemblies:
   - System.Data.SqlClient
   namespace: System.Data.SqlTypes
+  summary: "\n<p>Converts the specified <xref href=\"System.Data.SqlTypes.SqlInt16\" data-throw-if-not-resolved=\"false\"></xref> parameter to <xref href=\"System.Data.SqlTypes.SqlString\" data-throw-if-not-resolved=\"false\"></xref>.</p>\n"
   syntax:
     content: public static explicit operator SqlString(SqlInt16 x)
     content.vb: Public Shared Narrowing Operator CType(x As SqlInt16) As SqlString
@@ -1705,6 +1786,7 @@ items:
   assemblies:
   - System.Data.SqlClient
   namespace: System.Data.SqlTypes
+  summary: "\n<p>Converts the specified <xref href=\"System.Data.SqlTypes.SqlInt32\" data-throw-if-not-resolved=\"false\"></xref> parameter to <xref href=\"System.Data.SqlTypes.SqlString\" data-throw-if-not-resolved=\"false\"></xref>.</p>\n"
   syntax:
     content: public static explicit operator SqlString(SqlInt32 x)
     content.vb: Public Shared Narrowing Operator CType(x As SqlInt32) As SqlString
@@ -1742,6 +1824,7 @@ items:
   assemblies:
   - System.Data.SqlClient
   namespace: System.Data.SqlTypes
+  summary: "\n<p>Converts the specified <xref href=\"System.Data.SqlTypes.SqlInt64\" data-throw-if-not-resolved=\"false\"></xref> parameter to <xref href=\"System.Data.SqlTypes.SqlString\" data-throw-if-not-resolved=\"false\"></xref>.</p>\n"
   syntax:
     content: public static explicit operator SqlString(SqlInt64 x)
     content.vb: Public Shared Narrowing Operator CType(x As SqlInt64) As SqlString
@@ -1779,6 +1862,7 @@ items:
   assemblies:
   - System.Data.SqlClient
   namespace: System.Data.SqlTypes
+  summary: "\n<p>Converts the specified <xref href=\"System.Data.SqlTypes.SqlMoney\" data-throw-if-not-resolved=\"false\"></xref> parameter to <xref href=\"System.Data.SqlTypes.SqlString\" data-throw-if-not-resolved=\"false\"></xref>.</p>\n"
   syntax:
     content: public static explicit operator SqlString(SqlMoney x)
     content.vb: Public Shared Narrowing Operator CType(x As SqlMoney) As SqlString
@@ -1816,6 +1900,7 @@ items:
   assemblies:
   - System.Data.SqlClient
   namespace: System.Data.SqlTypes
+  summary: "\n<p>Converts the specified <xref href=\"System.Data.SqlTypes.SqlSingle\" data-throw-if-not-resolved=\"false\"></xref> parameter to <xref href=\"System.Data.SqlTypes.SqlString\" data-throw-if-not-resolved=\"false\"></xref>.</p>\n"
   syntax:
     content: public static explicit operator SqlString(SqlSingle x)
     content.vb: Public Shared Narrowing Operator CType(x As SqlSingle) As SqlString
@@ -1844,15 +1929,16 @@ items:
   type: Operator
   source:
     remote:
-      path: src/System.Data.SqlClient/ref/System.Data.SqlClient.cs
+      path: src/System.Data.SqlClient/src/System/Data/SqlTypes/SQLString.cs
       branch: master
       repo: https://github.com/dotnet/corefx.git
     id: op_Explicit
-    path: src/System.Data.SqlClient/ref/System.Data.SqlClient.cs
-    startLine: 1432
+    path: src/System.Data.SqlClient/src/System/Data/SqlTypes/SQLString.cs
+    startLine: 337
   assemblies:
   - System.Data.SqlClient
   namespace: System.Data.SqlTypes
+  summary: "\n<p>Converts a <xref href=\"System.Data.SqlTypes.SqlString\" data-throw-if-not-resolved=\"false\"></xref> to a <xref href=\"System.String\" data-throw-if-not-resolved=\"false\"></xref></p>\n"
   syntax:
     content: public static explicit operator string (SqlString x)
     content.vb: Public Shared Narrowing Operator CType(x As SqlString) As String
@@ -1890,6 +1976,7 @@ items:
   assemblies:
   - System.Data.SqlClient
   namespace: System.Data.SqlTypes
+  summary: "\n<p>Performs a logical comparison of the two <xref href=\"System.Data.SqlTypes.SqlString\" data-throw-if-not-resolved=\"false\"></xref> operands to determine whether the first is greater than the second.</p>\n"
   syntax:
     content: public static SqlBoolean operator>(SqlString x, SqlString y)
     content.vb: Public Shared Operator>(x As SqlString, y As SqlString) As SqlBoolean
@@ -1927,6 +2014,7 @@ items:
   assemblies:
   - System.Data.SqlClient
   namespace: System.Data.SqlTypes
+  summary: "\n<p>Performs a logical comparison of the two <xref href=\"System.Data.SqlTypes.SqlString\" data-throw-if-not-resolved=\"false\"></xref> operands to determine whether the first is greater than or equal to the second.</p>\n"
   syntax:
     content: public static SqlBoolean operator >=(SqlString x, SqlString y)
     content.vb: Public Shared Operator >=(x As SqlString, y As SqlString) As SqlBoolean
@@ -1955,15 +2043,16 @@ items:
   type: Operator
   source:
     remote:
-      path: src/System.Data.SqlClient/ref/System.Data.SqlClient.cs
+      path: src/System.Data.SqlClient/src/System/Data/SqlTypes/SQLString.cs
       branch: master
       repo: https://github.com/dotnet/corefx.git
     id: op_Implicit
-    path: src/System.Data.SqlClient/ref/System.Data.SqlClient.cs
-    startLine: 1435
+    path: src/System.Data.SqlClient/src/System/Data/SqlTypes/SQLString.cs
+    startLine: 328
   assemblies:
   - System.Data.SqlClient
   namespace: System.Data.SqlTypes
+  summary: "\n<p>Converts the <xref href=\"System.String\" data-throw-if-not-resolved=\"false\"></xref> parameter to a <xref href=\"System.Data.SqlTypes.SqlString\" data-throw-if-not-resolved=\"false\"></xref>.</p>\n"
   syntax:
     content: public static implicit operator SqlString(string x)
     content.vb: Public Shared Widening Operator CType(x As String) As SqlString
@@ -2001,6 +2090,7 @@ items:
   assemblies:
   - System.Data.SqlClient
   namespace: System.Data.SqlTypes
+  summary: "\n<p>Performs a logical comparison of the two <xref href=\"System.Data.SqlTypes.SqlString\" data-throw-if-not-resolved=\"false\"></xref> operands to determine whether they are not equal.</p>\n"
   syntax:
     content: public static SqlBoolean operator !=(SqlString x, SqlString y)
     content.vb: Public Shared Operator <>(x As SqlString, y As SqlString) As SqlBoolean
@@ -2038,6 +2128,7 @@ items:
   assemblies:
   - System.Data.SqlClient
   namespace: System.Data.SqlTypes
+  summary: "\n<p>Performs a logical comparison of the two <xref href=\"System.Data.SqlTypes.SqlString\" data-throw-if-not-resolved=\"false\"></xref> operands to determine whether the first is less than the second.</p>\n"
   syntax:
     content: public static SqlBoolean operator <(SqlString x, SqlString y)
     content.vb: Public Shared Operator <(x As SqlString, y As SqlString) As SqlBoolean
@@ -2075,6 +2166,7 @@ items:
   assemblies:
   - System.Data.SqlClient
   namespace: System.Data.SqlTypes
+  summary: "\n<p>Performs a logical comparison of the two <xref href=\"System.Data.SqlTypes.SqlString\" data-throw-if-not-resolved=\"false\"></xref> operands to determine whether the first is less than or equal to the second.</p>\n"
   syntax:
     content: public static SqlBoolean operator <=(SqlString x, SqlString y)
     content.vb: Public Shared Operator <=(x As SqlString, y As SqlString) As SqlBoolean
@@ -2112,6 +2204,7 @@ items:
   assemblies:
   - System.Data.SqlClient
   namespace: System.Data.SqlTypes
+  summary: "\n<p>Converts this <xref href=\"System.Data.SqlTypes.SqlString\" data-throw-if-not-resolved=\"false\"></xref> structure to <xref href=\"System.Data.SqlTypes.SqlBoolean\" data-throw-if-not-resolved=\"false\"></xref>.</p>\n"
   syntax:
     content: public SqlBoolean ToSqlBoolean()
     content.vb: Public Function ToSqlBoolean As SqlBoolean
@@ -2142,6 +2235,7 @@ items:
   assemblies:
   - System.Data.SqlClient
   namespace: System.Data.SqlTypes
+  summary: "\n<p>Converts this <xref href=\"System.Data.SqlTypes.SqlString\" data-throw-if-not-resolved=\"false\"></xref> structure to <xref href=\"System.Data.SqlTypes.SqlByte\" data-throw-if-not-resolved=\"false\"></xref>.</p>\n"
   syntax:
     content: public SqlByte ToSqlByte()
     content.vb: Public Function ToSqlByte As SqlByte
@@ -2172,6 +2266,7 @@ items:
   assemblies:
   - System.Data.SqlClient
   namespace: System.Data.SqlTypes
+  summary: "\n<p>Converts this <xref href=\"System.Data.SqlTypes.SqlString\" data-throw-if-not-resolved=\"false\"></xref> structure to <xref href=\"System.Data.SqlTypes.SqlDateTime\" data-throw-if-not-resolved=\"false\"></xref>.</p>\n"
   syntax:
     content: public SqlDateTime ToSqlDateTime()
     content.vb: Public Function ToSqlDateTime As SqlDateTime
@@ -2202,6 +2297,7 @@ items:
   assemblies:
   - System.Data.SqlClient
   namespace: System.Data.SqlTypes
+  summary: "\n<p>Converts this <xref href=\"System.Data.SqlTypes.SqlString\" data-throw-if-not-resolved=\"false\"></xref> structure to <xref href=\"System.Data.SqlTypes.SqlDecimal\" data-throw-if-not-resolved=\"false\"></xref>.</p>\n"
   syntax:
     content: public SqlDecimal ToSqlDecimal()
     content.vb: Public Function ToSqlDecimal As SqlDecimal
@@ -2232,6 +2328,7 @@ items:
   assemblies:
   - System.Data.SqlClient
   namespace: System.Data.SqlTypes
+  summary: "\n<p>Converts this <xref href=\"System.Data.SqlTypes.SqlString\" data-throw-if-not-resolved=\"false\"></xref> structure to <xref href=\"System.Data.SqlTypes.SqlDouble\" data-throw-if-not-resolved=\"false\"></xref>.</p>\n"
   syntax:
     content: public SqlDouble ToSqlDouble()
     content.vb: Public Function ToSqlDouble As SqlDouble
@@ -2262,6 +2359,7 @@ items:
   assemblies:
   - System.Data.SqlClient
   namespace: System.Data.SqlTypes
+  summary: "\n<p>Converts this <xref href=\"System.Data.SqlTypes.SqlString\" data-throw-if-not-resolved=\"false\"></xref> structure to <xref href=\"System.Data.SqlTypes.SqlGuid\" data-throw-if-not-resolved=\"false\"></xref>.</p>\n"
   syntax:
     content: public SqlGuid ToSqlGuid()
     content.vb: Public Function ToSqlGuid As SqlGuid
@@ -2292,6 +2390,7 @@ items:
   assemblies:
   - System.Data.SqlClient
   namespace: System.Data.SqlTypes
+  summary: "\n<p>Converts this <xref href=\"System.Data.SqlTypes.SqlString\" data-throw-if-not-resolved=\"false\"></xref> structure to <xref href=\"System.Data.SqlTypes.SqlInt16\" data-throw-if-not-resolved=\"false\"></xref>. </p>\n"
   syntax:
     content: public SqlInt16 ToSqlInt16()
     content.vb: Public Function ToSqlInt16 As SqlInt16
@@ -2322,6 +2421,7 @@ items:
   assemblies:
   - System.Data.SqlClient
   namespace: System.Data.SqlTypes
+  summary: "\n<p>Converts this <xref href=\"System.Data.SqlTypes.SqlString\" data-throw-if-not-resolved=\"false\"></xref> structure to <xref href=\"System.Data.SqlTypes.SqlInt32\" data-throw-if-not-resolved=\"false\"></xref>.</p>\n"
   syntax:
     content: public SqlInt32 ToSqlInt32()
     content.vb: Public Function ToSqlInt32 As SqlInt32
@@ -2352,6 +2452,7 @@ items:
   assemblies:
   - System.Data.SqlClient
   namespace: System.Data.SqlTypes
+  summary: "\n<p>Converts this <xref href=\"System.Data.SqlTypes.SqlString\" data-throw-if-not-resolved=\"false\"></xref> structure to <xref href=\"System.Data.SqlTypes.SqlInt64\" data-throw-if-not-resolved=\"false\"></xref>.</p>\n"
   syntax:
     content: public SqlInt64 ToSqlInt64()
     content.vb: Public Function ToSqlInt64 As SqlInt64
@@ -2382,6 +2483,7 @@ items:
   assemblies:
   - System.Data.SqlClient
   namespace: System.Data.SqlTypes
+  summary: "\n<p>Converts this <xref href=\"System.Data.SqlTypes.SqlString\" data-throw-if-not-resolved=\"false\"></xref> structure to <xref href=\"System.Data.SqlTypes.SqlMoney\" data-throw-if-not-resolved=\"false\"></xref>.</p>\n"
   syntax:
     content: public SqlMoney ToSqlMoney()
     content.vb: Public Function ToSqlMoney As SqlMoney
@@ -2412,6 +2514,7 @@ items:
   assemblies:
   - System.Data.SqlClient
   namespace: System.Data.SqlTypes
+  summary: "\n<p>Converts this <xref href=\"System.Data.SqlTypes.SqlString\" data-throw-if-not-resolved=\"false\"></xref> structure to <xref href=\"System.Data.SqlTypes.SqlSingle\" data-throw-if-not-resolved=\"false\"></xref>.</p>\n"
   syntax:
     content: public SqlSingle ToSqlSingle()
     content.vb: Public Function ToSqlSingle As SqlSingle
@@ -2442,11 +2545,13 @@ items:
   assemblies:
   - System.Data.SqlClient
   namespace: System.Data.SqlTypes
+  summary: "\n<p>Converts a <xref href=\"System.Data.SqlTypes.SqlString\" data-throw-if-not-resolved=\"false\"></xref> object to a <xref href=\"System.String\" data-throw-if-not-resolved=\"false\"></xref>.</p>\n"
   syntax:
-    content: public override String ToString()
+    content: public override string ToString()
     content.vb: Public Overrides Function ToString As String
     return:
-      type: String
+      type: System.String
+  overridden: System.ValueType.ToString
   modifiers.csharp:
   - public
   - override
@@ -2468,10 +2573,124 @@ references:
   isExternal: false
   name: IComparable
   fullName: System.IComparable
+- uid: System.Object.Equals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  name: Equals(Object, Object)
+  fullName: System.Object.Equals(System.Object, System.Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    fullName: )
+- uid: System.Object.ReferenceEquals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  name: ReferenceEquals(Object, Object)
+  fullName: System.Object.ReferenceEquals(System.Object, System.Object)
+  spec.csharp:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    fullName: System.Object.ReferenceEquals
+    isExternal: true
+  - name: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    fullName: System.Object.ReferenceEquals
+    isExternal: true
+  - name: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    fullName: )
+- uid: System.Object.GetType
+  parent: System.Object
+  isExternal: true
+  name: GetType()
+  fullName: System.Object.GetType()
+  spec.csharp:
+  - uid: System.Object.GetType
+    name: GetType
+    fullName: System.Object.GetType
+    isExternal: true
+  - name: (
+    fullName: (
+  - name: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.GetType
+    name: GetType
+    fullName: System.Object.GetType
+    isExternal: true
+  - name: (
+    fullName: (
+  - name: )
+    fullName: )
 - uid: System
   isExternal: false
   name: System
   fullName: System
+- uid: System.Object
+  parent: System
+  isExternal: false
+  name: Object
+  fullName: System.Object
 - uid: System.Int32
   parent: System
   isExternal: false
@@ -2488,7 +2707,7 @@ references:
   name: SqlCompareOptions
   fullName: System.Data.SqlTypes.SqlCompareOptions
 - uid: System.Byte[]
-  isExternal: false
+  isExternal: true
   name: Byte[]
   fullName: System.Byte[]
   fullname.vb: System.Byte()
@@ -2497,12 +2716,14 @@ references:
   - uid: System.Byte
     name: Byte
     fullName: System.Byte
+    isExternal: true
   - name: '[]'
     fullName: '[]'
   spec.vb:
   - uid: System.Byte
     name: Byte
     fullName: System.Byte
+    isExternal: true
   - name: ()
     fullName: ()
 - uid: System.Boolean
@@ -2539,16 +2760,95 @@ references:
   isExternal: false
   name: CompareOptions
   fullName: System.Globalization.CompareOptions
-- uid: System.Object
-  parent: System
-  isExternal: false
-  name: Object
-  fullName: System.Object
+- uid: System.IComparable.CompareTo(System.Object)
+  parent: System.IComparable
+  isExternal: true
+  name: CompareTo(Object)
+  fullName: System.IComparable.CompareTo(System.Object)
+  spec.csharp:
+  - uid: System.IComparable.CompareTo(System.Object)
+    name: CompareTo
+    fullName: System.IComparable.CompareTo
+  - name: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    fullName: )
+  spec.vb:
+  - uid: System.IComparable.CompareTo(System.Object)
+    name: CompareTo
+    fullName: System.IComparable.CompareTo
+  - name: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    fullName: )
 - uid: System.Data.SqlTypes.SqlBoolean
   parent: System.Data.SqlTypes
   isExternal: false
   name: SqlBoolean
   fullName: System.Data.SqlTypes.SqlBoolean
+- uid: System.ValueType.Equals(System.Object)
+  parent: System.ValueType
+  isExternal: true
+  name: Equals(Object)
+  fullName: System.ValueType.Equals(System.Object)
+  spec.csharp:
+  - uid: System.ValueType.Equals(System.Object)
+    name: Equals
+    fullName: System.ValueType.Equals
+  - name: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    fullName: )
+  spec.vb:
+  - uid: System.ValueType.Equals(System.Object)
+    name: Equals
+    fullName: System.ValueType.Equals
+  - name: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    fullName: )
+- uid: System.ValueType
+  parent: System
+  isExternal: false
+  name: ValueType
+  fullName: System.ValueType
+- uid: System.ValueType.GetHashCode
+  parent: System.ValueType
+  isExternal: false
+  name: GetHashCode()
+  fullName: System.ValueType.GetHashCode()
+  spec.csharp:
+  - uid: System.ValueType.GetHashCode
+    name: GetHashCode
+    fullName: System.ValueType.GetHashCode
+  - name: (
+    fullName: (
+  - name: )
+    fullName: )
+  spec.vb:
+  - uid: System.ValueType.GetHashCode
+    name: GetHashCode
+    fullName: System.ValueType.GetHashCode
+  - name: (
+    fullName: (
+  - name: )
+    fullName: )
 - uid: System.Data.SqlTypes.SqlByte
   parent: System.Data.SqlTypes
   isExternal: false
@@ -2599,3 +2899,28 @@ references:
   isExternal: false
   name: SqlSingle
   fullName: System.Data.SqlTypes.SqlSingle
+- uid: System.ValueType.ToString
+  parent: System.ValueType
+  isExternal: false
+  name: ToString()
+  fullName: System.ValueType.ToString()
+  spec.csharp:
+  - uid: System.ValueType.ToString
+    name: ToString
+    fullName: System.ValueType.ToString
+  - name: (
+    fullName: (
+  - name: )
+    fullName: )
+  spec.vb:
+  - uid: System.ValueType.ToString
+    name: ToString
+    fullName: System.ValueType.ToString
+  - name: (
+    fullName: (
+  - name: )
+    fullName: )
+- uid: System.Data.SqlTypes.SqlNullValueException
+  isExternal: false
+  name: SqlNullValueException
+  fullName: System.Data.SqlTypes.SqlNullValueException

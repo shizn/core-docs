@@ -17,22 +17,26 @@ items:
   type: Class
   source:
     remote:
-      path: src/System.Text.Encoding/ref/System.Text.Encoding.cs
+      path: src/mscorlib/src/System/Text/DecoderFallback.cs
       branch: master
-      repo: https://github.com/dotnet/corefx.git
+      repo: https://github.com/dotnet/coreclr.git
     id: DecoderFallback
-    path: src/System.Text.Encoding/ref/System.Text.Encoding.cs
-    startLine: 30
+    path: src/mscorlib/src/System/Text/DecoderFallback.cs
+    startLine: 13
   assemblies:
   - System.Text.Encoding
   namespace: System.Text
   summary: "\n<p>Provides a failure-handling mechanism, called a fallback, for an encoded input byte sequence that cannot be converted to an output character. </p>\n"
   remarks: "\n<p>An encoding maps a Unicode character to an encoded sequence of bytes. A particular encoding is represented by a type that is derived from the <xref href=\"System.Text.Encoding\" data-throw-if-not-resolved=\"false\"></xref> class. Specifically, a character is encoded to a byte sequence by calling the encoding type's <xref href=\"System.Text.Encoding.GetBytes(System.String)\" data-throw-if-not-resolved=\"false\"></xref> method, and the byte sequence is decoded to a character array or a string by calling the <xref href=\"System.Text.Encoding.GetChars(System.Byte[])\" data-throw-if-not-resolved=\"false\"></xref> or <xref href=\"System.Text.Encoding.GetString(System.Byte[])\" data-throw-if-not-resolved=\"false\"></xref> method. </p>\n<p>A decoding operation can fail if the input byte sequence cannot be mapped by the encoding. For example, an <xref href=\"System.Text.ASCIIEncoding\" data-throw-if-not-resolved=\"false\"></xref> object cannot decode a byte sequence if that sequence represents a character that has a code point value that is outside the range U+0000 to U+007F. </p>\n<p>When a decoding conversion cannot be performed, the .NET Framework provides a failure-handling mechanism called a fallback. Your application can use predefined .NET Framework decoder fallbacks, or it can create a custom decoder fallback derived from the <xref href=\"System.Text.DecoderFallback\" data-throw-if-not-resolved=\"false\"></xref> and <xref href=\"System.Text.DecoderFallbackBuffer\" data-throw-if-not-resolved=\"false\"></xref> classes. </p>\n<p>\n<xref href=\"System.Text.DecoderFallback\" data-throw-if-not-resolved=\"false\"></xref> and <xref href=\"System.Text.DecoderFallbackBuffer\" data-throw-if-not-resolved=\"false\"></xref> are the base classes for all decoding fallback handlers in the .NET Framework. They support the following three kinds of fallback handling mechanisms:</p>\n<ul><li>\n<p>Best-fit fallback, which maps valid Unicode characters that cannot be decoded to an approximate equivalent. For example, a best-fit fallback handler for the <xref href=\"System.Text.ASCIIEncoding\" data-throw-if-not-resolved=\"false\"></xref> class might map Æ (U+00C6) to AE (U+0041 + U+0045). A best-fit fallback handler might also be implemented to transliterate one alphabet (such as Cyrillic) to another (such as Latin or Roman). The .NET Framework does not provide any public best-fit fallback implementations.</p>\n</li><li>\n<p>Replacement fallback, which replaces each character that cannot be decoded with a predefined string. The .NET Framework provides a predefined replacement fallback handler. The <xref href=\"System.Text.DecoderReplacementFallback\" data-throw-if-not-resolved=\"false\"></xref> class replaces each byte sequence that cannot be decoded with a question mark character (\"?\", or U+003F) or a REPLACEMENT CHARACTER (U+FFFD). You can customize the replacement string by specifying a substitute in the call to the <xref href=\"System.Text.DecoderReplacementFallback.#ctor(System.String)\" data-throw-if-not-resolved=\"false\"></xref> constructor. After the substitute string is emitted, the decoding operation continues converting the remainder of the input.</p>\n</li><li>\n<p>Exception fallback, which throws an exception when a byte sequence cannot be decoded. The .NET Framework provides a predefined exception fallback handler. The <xref href=\"System.Text.DecoderExceptionFallback\" data-throw-if-not-resolved=\"false\"></xref> class throws a <xref href=\"System.Text.DecoderFallbackException\" data-throw-if-not-resolved=\"false\"></xref> when an invalid byte sequence is encountered, and the decoding operation terminates.</p>\n</li></ul>\n<p>If you choose to implement a custom solution, you must override the following abstract members of the <xref href=\"System.Text.DecoderFallback\" data-throw-if-not-resolved=\"false\"></xref> class:</p>\n<ul><li>\n<p>The <xref href=\"System.Text.DecoderFallback.CreateFallbackBuffer\" data-throw-if-not-resolved=\"false\"></xref> method, which returns a class instance derived from <xref href=\"System.Text.DecoderFallbackBuffer\" data-throw-if-not-resolved=\"false\"></xref>. Depending on the type of fallback handler that you are developing, the <xref href=\"System.Text.DecoderFallbackBuffer\" data-throw-if-not-resolved=\"false\"></xref> implementation is responsible for performing the mapping or replacement, or for throwing the exception.</p>\n</li><li>\n<p>The <xref href=\"System.Text.DecoderFallback.MaxCharCount\" data-throw-if-not-resolved=\"false\"></xref> property, which returns the maximum number of characters that the fallback implementation can return. For an exception fallback handler, its value should be zero.</p>\n</li></ul>\n<p>For more information about encoding, decoding, and fallback strategies, see Character Encoding in the .NET Framework.</p>\n"
   syntax:
-    content: 'public abstract class DecoderFallback : object'
+    content: >-
+      [Serializable]
+
+      public abstract class DecoderFallback
     content.vb: >-
+      <Serializable>
+
       Public MustInherit Class DecoderFallback
-          Inherits Object
   seealso:
   - type: System.Text.DecoderFallbackBuffer
     commentId: T:System.Text.DecoderFallbackBuffer
@@ -42,6 +46,14 @@ items:
     commentId: T:System.Text.DecoderExceptionFallback
   inheritance:
   - System.Object
+  inheritedMembers:
+  - System.Object.ToString
+  - System.Object.Equals(System.Object)
+  - System.Object.Equals(System.Object,System.Object)
+  - System.Object.ReferenceEquals(System.Object,System.Object)
+  - System.Object.GetHashCode
+  - System.Object.GetType
+  - System.Object.MemberwiseClone
   modifiers.csharp:
   - public
   - abstract
@@ -91,12 +103,12 @@ items:
   type: Property
   source:
     remote:
-      path: src/System.Text.Encoding/ref/System.Text.Encoding.cs
+      path: src/mscorlib/src/System/Text/DecoderFallback.cs
       branch: master
-      repo: https://github.com/dotnet/corefx.git
+      repo: https://github.com/dotnet/coreclr.git
     id: ExceptionFallback
-    path: src/System.Text.Encoding/ref/System.Text.Encoding.cs
-    startLine: 33
+    path: src/mscorlib/src/System/Text/DecoderFallback.cs
+    startLine: 52
   assemblies:
   - System.Text.Encoding
   namespace: System.Text
@@ -107,7 +119,6 @@ items:
     parameters: []
     return:
       type: System.Text.DecoderFallback
-      description: "\n<p>A type derived from the <xref href=\"System.Text.DecoderFallback\" data-throw-if-not-resolved=\"false\"></xref> class. The default value is a <xref href=\"System.Text.DecoderExceptionFallback\" data-throw-if-not-resolved=\"false\"></xref> object.</p>\n"
   modifiers.csharp:
   - public
   - static
@@ -128,12 +139,12 @@ items:
   type: Property
   source:
     remote:
-      path: src/System.Text.Encoding/ref/System.Text.Encoding.cs
+      path: src/mscorlib/src/System/Text/DecoderFallback.cs
       branch: master
-      repo: https://github.com/dotnet/corefx.git
+      repo: https://github.com/dotnet/coreclr.git
     id: MaxCharCount
-    path: src/System.Text.Encoding/ref/System.Text.Encoding.cs
-    startLine: 34
+    path: src/mscorlib/src/System/Text/DecoderFallback.cs
+    startLine: 75
   assemblies:
   - System.Text.Encoding
   namespace: System.Text
@@ -145,7 +156,6 @@ items:
     parameters: []
     return:
       type: System.Int32
-      description: "\n<p>The maximum number of characters the current <xref href=\"System.Text.DecoderFallback\" data-throw-if-not-resolved=\"false\"></xref> object can return.</p>\n"
   modifiers.csharp:
   - public
   - abstract
@@ -166,12 +176,12 @@ items:
   type: Property
   source:
     remote:
-      path: src/System.Text.Encoding/ref/System.Text.Encoding.cs
+      path: src/mscorlib/src/System/Text/DecoderFallback.cs
       branch: master
-      repo: https://github.com/dotnet/corefx.git
+      repo: https://github.com/dotnet/coreclr.git
     id: ReplacementFallback
-    path: src/System.Text.Encoding/ref/System.Text.Encoding.cs
-    startLine: 35
+    path: src/mscorlib/src/System/Text/DecoderFallback.cs
+    startLine: 38
   assemblies:
   - System.Text.Encoding
   namespace: System.Text
@@ -182,7 +192,6 @@ items:
     parameters: []
     return:
       type: System.Text.DecoderFallback
-      description: "\n<p>A type derived from the <xref href=\"System.Text.DecoderFallback\" data-throw-if-not-resolved=\"false\"></xref> class. The default value is a <xref href=\"System.Text.DecoderReplacementFallback\" data-throw-if-not-resolved=\"false\"></xref> object that emits the QUESTION MARK character (\"?\", U+003F) in place of unknown byte sequences. </p>\n"
   modifiers.csharp:
   - public
   - static
@@ -203,12 +212,12 @@ items:
   type: Method
   source:
     remote:
-      path: src/System.Text.Encoding/ref/System.Text.Encoding.cs
+      path: src/mscorlib/src/System/Text/DecoderFallback.cs
       branch: master
-      repo: https://github.com/dotnet/corefx.git
+      repo: https://github.com/dotnet/coreclr.git
     id: CreateFallbackBuffer
-    path: src/System.Text.Encoding/ref/System.Text.Encoding.cs
-    startLine: 36
+    path: src/mscorlib/src/System/Text/DecoderFallback.cs
+    startLine: 71
   assemblies:
   - System.Text.Encoding
   namespace: System.Text
@@ -219,7 +228,6 @@ items:
     content.vb: Public MustOverride Function CreateFallbackBuffer As DecoderFallbackBuffer
     return:
       type: System.Text.DecoderFallbackBuffer
-      description: "\n<p>An object that provides a fallback buffer for a decoder.</p>\n"
   seealso:
   - type: System.Text.DecoderFallbackBuffer
     commentId: T:System.Text.DecoderFallbackBuffer
@@ -239,6 +247,215 @@ references:
   isExternal: false
   name: Object
   fullName: System.Object
+- uid: System.Object.ToString
+  parent: System.Object
+  isExternal: true
+  name: ToString()
+  fullName: System.Object.ToString()
+  spec.csharp:
+  - uid: System.Object.ToString
+    name: ToString
+    fullName: System.Object.ToString
+    isExternal: true
+  - name: (
+    fullName: (
+  - name: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.ToString
+    name: ToString
+    fullName: System.Object.ToString
+    isExternal: true
+  - name: (
+    fullName: (
+  - name: )
+    fullName: )
+- uid: System.Object.Equals(System.Object)
+  parent: System.Object
+  isExternal: true
+  name: Equals(Object)
+  fullName: System.Object.Equals(System.Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    fullName: )
+- uid: System.Object.Equals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  name: Equals(Object, Object)
+  fullName: System.Object.Equals(System.Object, System.Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    fullName: )
+- uid: System.Object.ReferenceEquals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  name: ReferenceEquals(Object, Object)
+  fullName: System.Object.ReferenceEquals(System.Object, System.Object)
+  spec.csharp:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    fullName: System.Object.ReferenceEquals
+    isExternal: true
+  - name: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    fullName: System.Object.ReferenceEquals
+    isExternal: true
+  - name: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    fullName: )
+- uid: System.Object.GetHashCode
+  parent: System.Object
+  isExternal: true
+  name: GetHashCode()
+  fullName: System.Object.GetHashCode()
+  spec.csharp:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    fullName: System.Object.GetHashCode
+    isExternal: true
+  - name: (
+    fullName: (
+  - name: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    fullName: System.Object.GetHashCode
+    isExternal: true
+  - name: (
+    fullName: (
+  - name: )
+    fullName: )
+- uid: System.Object.GetType
+  parent: System.Object
+  isExternal: true
+  name: GetType()
+  fullName: System.Object.GetType()
+  spec.csharp:
+  - uid: System.Object.GetType
+    name: GetType
+    fullName: System.Object.GetType
+    isExternal: true
+  - name: (
+    fullName: (
+  - name: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.GetType
+    name: GetType
+    fullName: System.Object.GetType
+    isExternal: true
+  - name: (
+    fullName: (
+  - name: )
+    fullName: )
+- uid: System.Object.MemberwiseClone
+  parent: System.Object
+  isExternal: true
+  name: MemberwiseClone()
+  fullName: System.Object.MemberwiseClone()
+  spec.csharp:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    fullName: System.Object.MemberwiseClone
+    isExternal: true
+  - name: (
+    fullName: (
+  - name: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    fullName: System.Object.MemberwiseClone
+    isExternal: true
+  - name: (
+    fullName: (
+  - name: )
+    fullName: )
 - uid: System
   isExternal: false
   name: System

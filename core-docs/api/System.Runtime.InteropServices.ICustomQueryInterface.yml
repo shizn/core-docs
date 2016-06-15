@@ -13,20 +13,32 @@ items:
   type: Interface
   source:
     remote:
-      path: src/System.Runtime.InteropServices/ref/System.Runtime.InteropServices.cs
+      path: src/mscorlib/src/System/Runtime/InteropServices/ICustomQueryInterface.cs
       branch: master
-      repo: https://github.com/dotnet/corefx.git
+      repo: https://github.com/dotnet/coreclr.git
     id: ICustomQueryInterface
-    path: src/System.Runtime.InteropServices/ref/System.Runtime.InteropServices.cs
-    startLine: 311
+    path: src/mscorlib/src/System/Runtime/InteropServices/ICustomQueryInterface.cs
+    startLine: 32
   assemblies:
   - System.Runtime.InteropServices
   namespace: System.Runtime.InteropServices
   summary: "\n<p>Enables developers to provide a custom, managed implementation of the <see href=\"http://go.microsoft.com/fwlink/?LinkID=144867\">IUnknown::QueryInterface(REFIID riid, void **ppvObject)</see> method.</p>\n"
   remarks: "\n<p>This class permits advanced users to provide a customized managed implementation of the <strong>QueryInterface</strong> method.</p>\n<p>Managed and native applications can use the customized implementation to return a specific interface for a specified interface ID, except for IID_IUnknown. That is, when <strong>QueryInterface</strong> is called, it will ignore custom implementations if its <em>riid</em> parameter is set to IID_IUnknown. However, you may still return <see href=\"http://go.microsoft.com/fwlink/?LinkId=148003\">IUnknown</see> as the <em>ppvObject</em>.</p>\n<p>Developers can provide custom implementations for all interfaces (except for <strong>IUnknown</strong>) if they define and implement a valid corresponding interface. </p>\n<p>A valid user-defined interface has a v-table layout that matches the unmanaged COM interface exactly, and its <xref href=\"System.Runtime.InteropServices.InterfaceTypeAttribute\" data-throw-if-not-resolved=\"false\"></xref> is <xref href=\"System.Runtime.InteropServices.ComInterfaceType.InterfaceIsIUnknown\" data-throw-if-not-resolved=\"false\"></xref>. </p>\n"
   syntax:
-    content: public interface ICustomQueryInterface
-    content.vb: Public Interface ICustomQueryInterface
+    content: >-
+      [ComVisible(false)]
+
+      public interface ICustomQueryInterface
+    content.vb: >-
+      <ComVisible(False)>
+
+      Public Interface ICustomQueryInterface
+  attributes:
+  - type: System.ObsoleteAttribute
+    ctor: System.ObsoleteAttribute.#ctor(System.String)
+    arguments:
+    - type: System.String
+      value: ICustomQueryInterface may be unavailable in future releases.
   modifiers.csharp:
   - public
   - interface
@@ -45,12 +57,12 @@ items:
   type: Method
   source:
     remote:
-      path: src/System.Runtime.InteropServices/ref/System.Runtime.InteropServices.cs
+      path: src/mscorlib/src/System/Runtime/InteropServices/ICustomQueryInterface.cs
       branch: master
-      repo: https://github.com/dotnet/corefx.git
+      repo: https://github.com/dotnet/coreclr.git
     id: GetInterface
-    path: src/System.Runtime.InteropServices/ref/System.Runtime.InteropServices.cs
-    startLine: 315
+    path: src/mscorlib/src/System/Runtime/InteropServices/ICustomQueryInterface.cs
+    startLine: 35
   assemblies:
   - System.Runtime.InteropServices
   namespace: System.Runtime.InteropServices
@@ -59,21 +71,32 @@ items:
   example:
   - 
   syntax:
-    content: CustomQueryInterfaceResult GetInterface(ref Guid iid, out IntPtr ppv)
-    content.vb: Function GetInterface(ByRef iid As Guid, ByRef ppv As IntPtr) As CustomQueryInterfaceResult
+    content: >-
+      [SecurityCritical]
+
+      CustomQueryInterfaceResult GetInterface([In] ref Guid iid, out IntPtr ppv)
+    content.vb: >-
+      <SecurityCritical>
+
+      Function GetInterface(ByRef iid As Guid, ByRef ppv As IntPtr) As CustomQueryInterfaceResult
     parameters:
     - id: iid
       type: System.Guid
-      description: "\n<p>The GUID of the requested interface.</p>\n"
+      attributes:
+      - type: System.Runtime.InteropServices.InAttribute
+        ctor: System.Runtime.InteropServices.InAttribute.#ctor
+        arguments: []
     - id: ppv
       type: System.IntPtr
-      description: "\n<p>A reference to the requested interface, when this method returns.</p>\n"
     return:
       type: System.Runtime.InteropServices.CustomQueryInterfaceResult
-      description: "\n<p>One of the enumeration values that indicates whether a custom implementation of <see href=\"http://go.microsoft.com/fwlink/?LinkID=144867\">IUnknown::QueryInterface</see> was used.</p>\n"
   see:
   - type: System.Security.SecurityCriticalAttribute
     commentId: T:System.Security.SecurityCriticalAttribute
+  attributes:
+  - type: System.Security.SecurityCriticalAttribute
+    ctor: System.Security.SecurityCriticalAttribute.#ctor
+    arguments: []
   fullName.vb: System.Runtime.InteropServices.ICustomQueryInterface.GetInterface(ByRef System.Guid, ByRef System.IntPtr)
   name.vb: GetInterface(ByRef Guid, ByRef IntPtr)
 references:

@@ -16,20 +16,30 @@ items:
   type: Class
   source:
     remote:
-      path: src/System.Runtime/ref/System.Runtime.cs
+      path: src/mscorlib/src/System/ValueType.cs
       branch: master
-      repo: https://github.com/dotnet/corefx.git
+      repo: https://github.com/dotnet/coreclr.git
     id: ValueType
-    path: src/System.Runtime/ref/System.Runtime.cs
-    startLine: 2226
+    path: src/mscorlib/src/System/ValueType.cs
+    startLine: 18
   assemblies:
   - System.Runtime
   namespace: System
   summary: "\n<p>Provides the base class for value types.</p>\n"
   remarks: "\n<p>\n<xref href=\"System.ValueType\" data-throw-if-not-resolved=\"false\"></xref> overrides the virtual methods from <xref href=\"System.Object\" data-throw-if-not-resolved=\"false\"></xref> with more appropriate implementations for value types. See also <xref href=\"System.Enum\" data-throw-if-not-resolved=\"false\"></xref>, which inherits from <xref href=\"System.ValueType\" data-throw-if-not-resolved=\"false\"></xref>.</p>\n<p>Data types are separated into value types and reference types. Value types are either stack-allocated or allocated inline in a structure. Reference types are heap-allocated. Both reference and value types are derived from the ultimate base class <xref href=\"System.Object\" data-throw-if-not-resolved=\"false\"></xref>. In cases where it is necessary for a value type to behave like an object, a wrapper that makes the value type look like a reference object is allocated on the heap, and the value type's value is copied into it. The wrapper is marked so the system knows that it contains a value type. This process is known as boxing, and the reverse process is known as unboxing. Boxing and unboxing allow any type to be treated as an object.</p>\n<p>Although <xref href=\"System.ValueType\" data-throw-if-not-resolved=\"false\"></xref> is the implicit base class for value types, you cannot create a class that inherits from <xref href=\"System.ValueType\" data-throw-if-not-resolved=\"false\"></xref> directly. Instead, individual compilers provide a language keyword or construct (such as <strong>struct</strong> in C# and <strong>Structure</strong>…<strong>End Structure</strong> in Visual Basic) to support the creation of value types.</p>\n<p>Aside from serving as the base class for value types in the .NET Framework, the <xref href=\"System.ValueType\" data-throw-if-not-resolved=\"false\"></xref> structure is generally not used directly in code. However, it can be used as a parameter in method calls to restrict possible arguments to value types instead of all objects, or to permit a method to handle a number of different value types. The following example illustrates how <xref href=\"System.ValueType\" data-throw-if-not-resolved=\"false\"></xref> prevents reference types from being passed to methods. It defines a class named <code>Utility</code> that contains four methods: <code>IsNumeric</code>, which indicates whether its argument is a number; <code>IsInteger</code>, which indicates whether its argument is an integer; <code>IsFloat</code>, which indicates whether its argument is a floating-point number; and <code>Compare</code>, which indicates the relationship between two numeric values. In each case, the method parameters are of type <xref href=\"System.ValueType\" data-throw-if-not-resolved=\"false\"></xref>, and reference types are prevented from being passed to the methods.</p>System.ValueType.Structure#1<p>The following example illustrates calls to the methods of the <code>Utility</code> class.</p>System.ValueType.Structure#2"
   syntax:
-    content: public abstract class ValueType
-    content.vb: Public MustInherit Class ValueType
+    content: >-
+      [Serializable]
+
+      [ComVisible(true)]
+
+      public abstract class ValueType
+    content.vb: >-
+      <Serializable>
+
+      <ComVisible(True)>
+
+      Public MustInherit Class ValueType
   seealso:
   - type: System.Object
     commentId: T:System.Object
@@ -39,9 +49,9 @@ items:
   - System.Object
   inheritedMembers:
   - System.Object.Equals(System.Object,System.Object)
+  - System.Object.ReferenceEquals(System.Object,System.Object)
   - System.Object.GetType
   - System.Object.MemberwiseClone
-  - System.Object.ReferenceEquals(System.Object,System.Object)
   modifiers.csharp:
   - public
   - abstract
@@ -93,12 +103,12 @@ items:
   type: Method
   source:
     remote:
-      path: src/System.Runtime/ref/System.Runtime.cs
+      path: src/mscorlib/src/System/ValueType.cs
       branch: master
-      repo: https://github.com/dotnet/corefx.git
+      repo: https://github.com/dotnet/coreclr.git
     id: Equals
-    path: src/System.Runtime/ref/System.Runtime.cs
-    startLine: 2229
+    path: src/mscorlib/src/System/ValueType.cs
+    startLine: 22
   assemblies:
   - System.Runtime
   namespace: System
@@ -107,15 +117,19 @@ items:
   example:
   - <p>The following example demonstrates how the <xref href="System.ValueType.Equals(System.Object)" data-throw-if-not-resolved="false"></xref> method can be overridden by a derived value type.</p>ValueType.Equals Example#1
   syntax:
-    content: public override bool Equals(object obj)
-    content.vb: Public Overrides Function Equals(obj As Object) As Boolean
+    content: >-
+      [SecuritySafeCritical]
+
+      public override bool Equals(object obj)
+    content.vb: >-
+      <SecuritySafeCritical>
+
+      Public Overrides Function Equals(obj As Object) As Boolean
     parameters:
     - id: obj
       type: System.Object
-      description: "\n<p>The object to compare with the current instance. </p>\n"
     return:
       type: System.Boolean
-      description: "\n<p>\n<strong>true</strong> if <em>obj</em> and this instance are the same type and represent the same value; otherwise, <strong>false</strong>. </p>\n"
   overridden: System.Object.Equals(System.Object)
   modifiers.csharp:
   - public
@@ -134,13 +148,8 @@ items:
   fullName: System.ValueType.GetHashCode()
   type: Method
   source:
-    remote:
-      path: src/System.Runtime/ref/System.Runtime.cs
-      branch: master
-      repo: https://github.com/dotnet/corefx.git
-    id: GetHashCode
-    path: src/System.Runtime/ref/System.Runtime.cs
-    startLine: 2230
+    path: System.Private.CoreLib
+    isExternal: true
   assemblies:
   - System.Runtime
   namespace: System
@@ -149,11 +158,20 @@ items:
   example:
   - <p>The following example demonstrates how the <xref href="System.ValueType.GetHashCode" data-throw-if-not-resolved="false"></xref> method can be overridden by a derived value type.</p>ValueType.Equals Example#1
   syntax:
-    content: public override int GetHashCode()
-    content.vb: Public Overrides Function GetHashCode As Integer
+    content: >-
+      [SecuritySafeCritical]
+
+      [MethodImpl(MethodImplOptions.InternalCall)]
+
+      public override int GetHashCode()
+    content.vb: >-
+      <SecuritySafeCritical>
+
+      <MethodImpl(MethodImplOptions.InternalCall)>
+
+      Public Overrides Function GetHashCode As Integer
     return:
       type: System.Int32
-      description: "\n<p>A 32-bit signed integer that is the hash code for this instance.</p>\n"
   overridden: System.Object.GetHashCode
   modifiers.csharp:
   - public
@@ -173,12 +191,12 @@ items:
   type: Method
   source:
     remote:
-      path: src/System.Runtime/ref/System.Runtime.cs
+      path: src/mscorlib/src/System/ValueType.cs
       branch: master
-      repo: https://github.com/dotnet/corefx.git
+      repo: https://github.com/dotnet/coreclr.git
     id: ToString
-    path: src/System.Runtime/ref/System.Runtime.cs
-    startLine: 2231
+    path: src/mscorlib/src/System/ValueType.cs
+    startLine: 87
   assemblies:
   - System.Runtime
   namespace: System
@@ -189,7 +207,6 @@ items:
     content.vb: Public Overrides Function ToString As String
     return:
       type: System.String
-      description: "\n<p>The fully qualified type name.</p>\n"
   overridden: System.Object.ToString
   modifiers.csharp:
   - public
@@ -209,145 +226,165 @@ references:
   fullName: System.Object
 - uid: System.Object.Equals(System.Object,System.Object)
   parent: System.Object
-  isExternal: false
+  isExternal: true
   name: Equals(Object, Object)
   fullName: System.Object.Equals(System.Object, System.Object)
   spec.csharp:
   - uid: System.Object.Equals(System.Object,System.Object)
     name: Equals
     fullName: System.Object.Equals
+    isExternal: true
   - name: (
     fullName: (
   - uid: System.Object
     name: Object
     fullName: System.Object
+    isExternal: true
   - name: ', '
     fullName: ', '
   - uid: System.Object
     name: Object
     fullName: System.Object
+    isExternal: true
   - name: )
     fullName: )
   spec.vb:
   - uid: System.Object.Equals(System.Object,System.Object)
     name: Equals
     fullName: System.Object.Equals
+    isExternal: true
   - name: (
     fullName: (
   - uid: System.Object
     name: Object
     fullName: System.Object
+    isExternal: true
   - name: ', '
     fullName: ', '
   - uid: System.Object
     name: Object
     fullName: System.Object
-  - name: )
-    fullName: )
-- uid: System.Object.GetType
-  parent: System.Object
-  isExternal: false
-  name: GetType()
-  fullName: System.Object.GetType()
-  spec.csharp:
-  - uid: System.Object.GetType
-    name: GetType
-    fullName: System.Object.GetType
-  - name: (
-    fullName: (
-  - name: )
-    fullName: )
-  spec.vb:
-  - uid: System.Object.GetType
-    name: GetType
-    fullName: System.Object.GetType
-  - name: (
-    fullName: (
-  - name: )
-    fullName: )
-- uid: System.Object.MemberwiseClone
-  parent: System.Object
-  isExternal: false
-  name: MemberwiseClone()
-  fullName: System.Object.MemberwiseClone()
-  spec.csharp:
-  - uid: System.Object.MemberwiseClone
-    name: MemberwiseClone
-    fullName: System.Object.MemberwiseClone
-  - name: (
-    fullName: (
-  - name: )
-    fullName: )
-  spec.vb:
-  - uid: System.Object.MemberwiseClone
-    name: MemberwiseClone
-    fullName: System.Object.MemberwiseClone
-  - name: (
-    fullName: (
+    isExternal: true
   - name: )
     fullName: )
 - uid: System.Object.ReferenceEquals(System.Object,System.Object)
   parent: System.Object
-  isExternal: false
+  isExternal: true
   name: ReferenceEquals(Object, Object)
   fullName: System.Object.ReferenceEquals(System.Object, System.Object)
   spec.csharp:
   - uid: System.Object.ReferenceEquals(System.Object,System.Object)
     name: ReferenceEquals
     fullName: System.Object.ReferenceEquals
+    isExternal: true
   - name: (
     fullName: (
   - uid: System.Object
     name: Object
     fullName: System.Object
+    isExternal: true
   - name: ', '
     fullName: ', '
   - uid: System.Object
     name: Object
     fullName: System.Object
+    isExternal: true
   - name: )
     fullName: )
   spec.vb:
   - uid: System.Object.ReferenceEquals(System.Object,System.Object)
     name: ReferenceEquals
     fullName: System.Object.ReferenceEquals
+    isExternal: true
   - name: (
     fullName: (
   - uid: System.Object
     name: Object
     fullName: System.Object
+    isExternal: true
   - name: ', '
     fullName: ', '
   - uid: System.Object
     name: Object
     fullName: System.Object
+    isExternal: true
+  - name: )
+    fullName: )
+- uid: System.Object.GetType
+  parent: System.Object
+  isExternal: true
+  name: GetType()
+  fullName: System.Object.GetType()
+  spec.csharp:
+  - uid: System.Object.GetType
+    name: GetType
+    fullName: System.Object.GetType
+    isExternal: true
+  - name: (
+    fullName: (
+  - name: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.GetType
+    name: GetType
+    fullName: System.Object.GetType
+    isExternal: true
+  - name: (
+    fullName: (
+  - name: )
+    fullName: )
+- uid: System.Object.MemberwiseClone
+  parent: System.Object
+  isExternal: true
+  name: MemberwiseClone()
+  fullName: System.Object.MemberwiseClone()
+  spec.csharp:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    fullName: System.Object.MemberwiseClone
+    isExternal: true
+  - name: (
+    fullName: (
+  - name: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    fullName: System.Object.MemberwiseClone
+    isExternal: true
+  - name: (
+    fullName: (
   - name: )
     fullName: )
 - uid: System.Object.Equals(System.Object)
   parent: System.Object
-  isExternal: false
+  isExternal: true
   name: Equals(Object)
   fullName: System.Object.Equals(System.Object)
   spec.csharp:
   - uid: System.Object.Equals(System.Object)
     name: Equals
     fullName: System.Object.Equals
+    isExternal: true
   - name: (
     fullName: (
   - uid: System.Object
     name: Object
     fullName: System.Object
+    isExternal: true
   - name: )
     fullName: )
   spec.vb:
   - uid: System.Object.Equals(System.Object)
     name: Equals
     fullName: System.Object.Equals
+    isExternal: true
   - name: (
     fullName: (
   - uid: System.Object
     name: Object
     fullName: System.Object
+    isExternal: true
   - name: )
     fullName: )
 - uid: System.Boolean
@@ -357,13 +394,14 @@ references:
   fullName: System.Boolean
 - uid: System.Object.GetHashCode
   parent: System.Object
-  isExternal: false
+  isExternal: true
   name: GetHashCode()
   fullName: System.Object.GetHashCode()
   spec.csharp:
   - uid: System.Object.GetHashCode
     name: GetHashCode
     fullName: System.Object.GetHashCode
+    isExternal: true
   - name: (
     fullName: (
   - name: )
@@ -372,6 +410,7 @@ references:
   - uid: System.Object.GetHashCode
     name: GetHashCode
     fullName: System.Object.GetHashCode
+    isExternal: true
   - name: (
     fullName: (
   - name: )
@@ -383,13 +422,14 @@ references:
   fullName: System.Int32
 - uid: System.Object.ToString
   parent: System.Object
-  isExternal: false
+  isExternal: true
   name: ToString()
   fullName: System.Object.ToString()
   spec.csharp:
   - uid: System.Object.ToString
     name: ToString
     fullName: System.Object.ToString
+    isExternal: true
   - name: (
     fullName: (
   - name: )
@@ -398,6 +438,7 @@ references:
   - uid: System.Object.ToString
     name: ToString
     fullName: System.Object.ToString
+    isExternal: true
   - name: (
     fullName: (
   - name: )

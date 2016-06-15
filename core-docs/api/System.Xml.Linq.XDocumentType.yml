@@ -29,6 +29,10 @@ items:
   assemblies:
   - System.Xml.XDocument
   namespace: System.Xml.Linq
+  summary: "\n<p>Represents an XML Document Type Definition (DTD). </p>\n"
+  remarks: "\n<p>Data Type Definitions (DTD) in XML are a way to do the following:</p>\n<ul><li>\n<p>Validate XML trees to a limited extent.</p>\n</li><li>\n<p>Expand entities, which is a form of text replacement.</p>\n</li><li>\n<p>Supply default attributes.</p>\n</li></ul>\n<p>This class represents the XML concept of a DTD.</p>\n<p>DTD support in LINQ to XML is limited. </p>\n<p>LINQ to XML will expand internal entities by default, but it will not resolve external entity references unless an <xref href=\"System.Xml.XmlReader\" data-throw-if-not-resolved=\"false\"></xref> with an associated <xref href=\"System.Xml.XmlResolver\" data-throw-if-not-resolved=\"false\"></xref> is used to load the XML tree. </p>\n<p>LINQ to XML will not validate a document against a DTD, but you can use a validating <xref href=\"System.Xml.XmlReader\" data-throw-if-not-resolved=\"false\"></xref> to perform DTD validation if necessary.</p>\n<p>To validate an LINQ to XML tree against an XML schema, use the <see cref=\"Overload:System.Xml.Schema.Extensions.Validate\"></see> method.</p>\n<p>When a document contains entity references that are defined in a DTD, the references are expanded upon creation of the XML tree. However, when you serialize or save the XML tree, the content of the expanded entities is preserved; the entity references are not.</p>\n<p>Default attributes from the DTD will be materialized as regular attributes in the XML tree. After a default attribute from the DTD is materialized, there is no way to determine that the attribute was a default attribute from the DTD.</p>\n<p>You can populate an XML tree with an XML document that contains an internal DTD. The XML tree will then contain a <xref href=\"System.Xml.Linq.XDocument.DocumentType\" data-throw-if-not-resolved=\"false\"></xref> node. When you serialize or save the tree, the internal DTD will also be saved as part of the document.</p>\n"
+  example:
+  - 
   syntax:
     content: 'public class XDocumentType : XNode'
     content.vb: >-
@@ -106,18 +110,25 @@ items:
   assemblies:
   - System.Xml.XDocument
   namespace: System.Xml.Linq
+  summary: "\n<p>Initializes an instance of the <xref href=\"System.Xml.Linq.XDocumentType\" data-throw-if-not-resolved=\"false\"></xref> class. </p>\n"
+  example:
+  - "\n<p>The following example creates a document with an internal DTD. When it creates the <xref href=\"System.Xml.Linq.XDocumentType\" data-throw-if-not-resolved=\"false\"></xref> object, it specifies the qualified name of the DTD (Pubs), and a string that contains the internal subset. Because the document does not use a public or private external DTD, the <em>publicId</em> and <em>systemId</em> are set to <strong>null</strong>.</p>\n<pre><code class=\"c#\">string internalSubset = @\"<!ELEMENT Pubs (Book+)>\n<!ELEMENT Book (Title, Author)>\n<!ELEMENT Title (#PCDATA)>\n<!ELEMENT Author (#PCDATA)>\";\n\nstring target = \"xml-stylesheet\";\nstring data = \"href=\\\"mystyle.css\\\" title=\\\"Compact\\\" type=\\\"text/css\\\"\";\n\nXDocument doc = new XDocument(\nnew XComment(\"This is a comment.\"),\nnew XProcessingInstruction(target, data),\nnew XDocumentType(\"Pubs\", null, null, internalSubset),\nnew XElement(\"Pubs\", \nnew XElement(\"Book\",\n    new XElement(\"Title\", \"Artifacts of Roman Civilization\"),\n    new XElement(\"Author\", \"Moreno, Jordao\")\n),\nnew XElement(\"Book\",\n    new XElement(\"Title\", \"Midieval Tools and Implements\"),\n    new XElement(\"Author\", \"Gazit, Inbar\")\n)\n),\nnew XComment(\"This is another comment.\")\n);\ndoc.Declaration = new XDeclaration(\"1.0\", \"utf-8\", \"true\");\n\nConsole.WriteLine(doc);</code></pre>\n<pre><code class=\"vb\">Dim internalSubset = _\n\"<!ELEMENT Pubs (Book+)>\" & Environment.NewLine & _\n\"<!ELEMENT Book (Title, Author)>\" & Environment.NewLine & _\n\"<!ELEMENT Title (#PCDATA)>\" & Environment.NewLine & _\n\"<!ELEMENT Author (#PCDATA)>\"\n\nDim doc As XDocument = _\n<?xml version=\"1.0\" encoding=\"utf-8\" standalone=\"yes\"?>\n<!--This is a comment.-->\n<?xml-stylesheet href=\"mystyle.css\" title=\"Compact\" type=\"text/css\"?>\n<Pubs>\n<Book>\n    <Title>Artifacts of Roman Civilization</Title>\n    <Author>Moreno, Jordao</Author>\n</Book>\n<Book>\n    <Title>Midieval Tools and Implements</Title>\n    <Author>Gazit, Inbar</Author>\n</Book>\n</Pubs>\n<!--This is another comment.-->\n\ndoc.FirstNode.NextNode.AddAfterSelf(new XDocumentType(\"Pubs\", Nothing, Nothing, internalSubset))\n\nConsole.WriteLine(doc)</code></pre>\n<p>This example produces the following output:</p>\n<pre><code class=\"xml\"><!--This is a comment.-->\n<?xml-stylesheet href=\"mystyle.css\" title=\"Compact\" type=\"text/css\"?>\n<!DOCTYPE Pubs [<!ELEMENT Pubs (Book+)>\n<!ELEMENT Book (Title, Author)>\n<!ELEMENT Title (#PCDATA)>\n<!ELEMENT Author (#PCDATA)>]>\n<Pubs>\n<Book>\n<Title>Artifacts of Roman Civilization</Title>\n<Author>Moreno, Jordao</Author>\n</Book>\n<Book>\n<Title>Midieval Tools and Implements</Title>\n<Author>Gazit, Inbar</Author>\n</Book>\n</Pubs>\n<!--This is another comment.--></code></pre>\n"
   syntax:
     content: public XDocumentType(string name, string publicId, string systemId, string internalSubset)
     content.vb: Public Sub New(name As String, publicId As String, systemId As String, internalSubset As String)
     parameters:
     - id: name
       type: System.String
+      description: "\n<p>A <xref href=\"System.String\" data-throw-if-not-resolved=\"false\"></xref> that contains the qualified name of the DTD, which is the same as the qualified name of the root element of the XML document.</p>\n"
     - id: publicId
       type: System.String
+      description: "\n<p>A <xref href=\"System.String\" data-throw-if-not-resolved=\"false\"></xref> that contains the public identifier of an external public DTD.</p>\n"
     - id: systemId
       type: System.String
+      description: "\n<p>A <xref href=\"System.String\" data-throw-if-not-resolved=\"false\"></xref> that contains the system identifier of an external private DTD.</p>\n"
     - id: internalSubset
       type: System.String
+      description: "\n<p>A <xref href=\"System.String\" data-throw-if-not-resolved=\"false\"></xref> that contains the internal subset for an internal DTD.</p>\n"
   modifiers.csharp:
   - public
   modifiers.vb:
@@ -143,12 +154,17 @@ items:
   assemblies:
   - System.Xml.XDocument
   namespace: System.Xml.Linq
+  summary: "\n<p>Initializes an instance of the <xref href=\"System.Xml.Linq.XDocumentType\" data-throw-if-not-resolved=\"false\"></xref> class from another <xref href=\"System.Xml.Linq.XDocumentType\" data-throw-if-not-resolved=\"false\"></xref> object.</p>\n"
+  remarks: "\n<p>This constructor is primarily used internally when making a deep copy of an XML tree.</p>\n"
+  example:
+  - 
   syntax:
     content: public XDocumentType(XDocumentType other)
     content.vb: Public Sub New(other As XDocumentType)
     parameters:
     - id: other
       type: System.Xml.Linq.XDocumentType
+      description: "\n<p>An <xref href=\"System.Xml.Linq.XDocumentType\" data-throw-if-not-resolved=\"false\"></xref> object to copy from.</p>\n"
   modifiers.csharp:
   - public
   modifiers.vb:
@@ -174,12 +190,16 @@ items:
   assemblies:
   - System.Xml.XDocument
   namespace: System.Xml.Linq
+  summary: "\n<p>Gets or sets the internal subset for this Document Type Definition (DTD).</p>\n"
+  example:
+  - "\n<p>The following example creates a document with a DTD that contains an internal subset.</p>\n<pre><code class=\"c#\">string internalSubset = @\"<!ELEMENT Pubs (Book+)>\n<!ELEMENT Book (Title, Author)>\n<!ELEMENT Title (#PCDATA)>\n<!ELEMENT Author (#PCDATA)>\";\n\nstring target = \"xml-stylesheet\";\nstring data = \"href=\\\"mystyle.css\\\" title=\\\"Compact\\\" type=\\\"text/css\\\"\";\n\nXDocument doc = new XDocument(\nnew XComment(\"This is a comment.\"),\nnew XProcessingInstruction(target, data),\nnew XDocumentType(\"Pubs\", null, null, internalSubset),\nnew XElement(\"Pubs\", \nnew XElement(\"Book\",\n    new XElement(\"Title\", \"Artifacts of Roman Civilization\"),\n    new XElement(\"Author\", \"Moreno, Jordao\")\n),\nnew XElement(\"Book\",\n    new XElement(\"Title\", \"Midieval Tools and Implements\"),\n    new XElement(\"Author\", \"Gazit, Inbar\")\n)\n),\nnew XComment(\"This is another comment.\")\n);\ndoc.Declaration = new XDeclaration(\"1.0\", \"utf-8\", \"true\");\n\nConsole.WriteLine(doc.DocumentType.InternalSubset);</code></pre>\n<pre><code class=\"vb\">Dim internalSubset = _\n\"<!ELEMENT Pubs (Book+)>\" & Environment.NewLine & _\n\"<!ELEMENT Book (Title, Author)>\" & Environment.NewLine & _\n\"<!ELEMENT Title (#PCDATA)>\" & Environment.NewLine & _\n\"<!ELEMENT Author (#PCDATA)>\"\n\nDim doc As XDocument = _\n<?xml version=\"1.0\" encoding=\"utf-8\" standalone=\"yes\"?>\n<!--This is a comment.-->\n<?xml-stylesheet href='mystyle.css' title='Compact' type='text/css'?>\n<Pubs>\n<Book>\n    <Title>Artifacts of Roman Civilization</Title>\n    <Author>Moreno, Jordao</Author>\n</Book>\n<Book>\n    <Title>Midieval Tools and Implements</Title>\n    <Author>Gazit, Inbar</Author>\n</Book>\n</Pubs>\n<!--This is another comment.-->\n\ndoc.FirstNode.AddAfterSelf(new XDocumentType(\"Pubs\", Nothing, Nothing, internalSubset))\n\nConsole.WriteLine(doc.DocumentType.InternalSubset)</code></pre>\n<p>This example produces the following output:</p>\n<pre><code><!ELEMENT Pubs (Book+)>\n<!ELEMENT Book (Title, Author)>\n<!ELEMENT Title (#PCDATA)>\n<!ELEMENT Author (#PCDATA)></code></pre>\n"
   syntax:
     content: public string InternalSubset { get; set; }
     content.vb: Public Property InternalSubset As String
     parameters: []
     return:
       type: System.String
+      description: "\n<p>A <xref href=\"System.String\" data-throw-if-not-resolved=\"false\"></xref> that contains the internal subset for this Document Type Definition (DTD).</p>\n"
   modifiers.csharp:
   - public
   - get
@@ -207,12 +227,16 @@ items:
   assemblies:
   - System.Xml.XDocument
   namespace: System.Xml.Linq
+  summary: "\n<p>Gets or sets the name for this Document Type Definition (DTD).</p>\n"
+  example:
+  - "\n<p>The following example creates an XML document that contains a DTD. After creating the document, it retrieves the qualified name of the DTD using this property.</p>\n<pre><code class=\"c#\">string internalSubset = @\"<!ELEMENT Pubs (Book+)>\n<!ELEMENT Book (Title, Author)>\n<!ELEMENT Title (#PCDATA)>\n<!ELEMENT Author (#PCDATA)>\";\n\nstring target = \"xml-stylesheet\";\nstring data = \"href=\\\"mystyle.css\\\" title=\\\"Compact\\\" type=\\\"text/css\\\"\";\n\nXDocument doc = new XDocument(\nnew XComment(\"This is a comment.\"),\nnew XProcessingInstruction(target, data),\nnew XDocumentType(\"Pubs\", null, null, internalSubset),\nnew XElement(\"Pubs\", \nnew XElement(\"Book\",\n    new XElement(\"Title\", \"Artifacts of Roman Civilization\"),\n    new XElement(\"Author\", \"Moreno, Jordao\")\n),\nnew XElement(\"Book\",\n    new XElement(\"Title\", \"Midieval Tools and Implements\"),\n    new XElement(\"Author\", \"Gazit, Inbar\")\n)\n),\nnew XComment(\"This is another comment.\")\n);\ndoc.Declaration = new XDeclaration(\"1.0\", \"utf-8\", \"true\");\n\nConsole.WriteLine(doc.DocumentType.Name);</code></pre>\n<pre><code class=\"vb\">Dim internalSubset = _\n\"<!ELEMENT Pubs (Book+)>\" & Environment.NewLine & _\n\"<!ELEMENT Book (Title, Author)>\" & Environment.NewLine & _\n\"<!ELEMENT Title (#PCDATA)>\" & Environment.NewLine & _\n\"<!ELEMENT Author (#PCDATA)>\"\n\nDim doc As XDocument = _\n<?xml version=\"1.0\" encoding=\"utf-8\" standalone=\"yes\"?>\n<!--This is a comment.-->\n<?xml-stylesheet href='mystyle.css' title='Compact' type='text/css'?>\n<Pubs>\n<Book>\n    <Title>Artifacts of Roman Civilization</Title>\n    <Author>Moreno, Jordao</Author>\n    </Book>\n<Book>\n    <Title>Midieval Tools and Implements</Title>\n    <Author>Gazit, Inbar</Author>\n</Book>\n</Pubs>\n<!--This is another comment.-->\n\ndoc.FirstNode.AddAfterSelf(new XDocumentType(\"Pubs\", Nothing, Nothing, internalSubset))\n\nConsole.WriteLine(doc.DocumentType.Name)</code></pre>\n<p>This example produces the following output:</p>\n<pre><code>Pubs</code></pre>\n"
   syntax:
     content: public string Name { get; set; }
     content.vb: Public Property Name As String
     parameters: []
     return:
       type: System.String
+      description: "\n<p>A <xref href=\"System.String\" data-throw-if-not-resolved=\"false\"></xref> that contains the name for this Document Type Definition (DTD).</p>\n"
   modifiers.csharp:
   - public
   - get
@@ -240,12 +264,17 @@ items:
   assemblies:
   - System.Xml.XDocument
   namespace: System.Xml.Linq
+  summary: "\n<p>Gets the node type for this node.</p>\n"
+  remarks: "\n<p>Because all classes that derive from <xref href=\"System.Xml.Linq.XObject\" data-throw-if-not-resolved=\"false\"></xref> contain a <xref href=\"System.Xml.Linq.XObject.NodeType\" data-throw-if-not-resolved=\"false\"></xref> property, you can write code that operates on collections of concrete subclass of <xref href=\"System.Xml.Linq.XObject\" data-throw-if-not-resolved=\"false\"></xref>. Your code can then test for the node type of each node in the collection.</p>\n"
+  example:
+  - "\n<p>The following example shows the use of this property to retrieve the node type for an <xref href=\"System.Xml.Linq.XDocumentType\" data-throw-if-not-resolved=\"false\"></xref> object.</p>\n<pre><code class=\"c#\">string internalSubset = @\"<!ELEMENT Pubs (Book+)>\n<!ELEMENT Book (Title, Author)>\n<!ELEMENT Title (#PCDATA)>\n<!ELEMENT Author (#PCDATA)>\";\n\nstring target = \"xml-stylesheet\";\nstring data = \"href=\\\"mystyle.css\\\" title=\\\"Compact\\\" type=\\\"text/css\\\"\";\n\nXDocument doc = new XDocument(\nnew XComment(\"This is a comment.\"),\nnew XProcessingInstruction(target, data),\nnew XDocumentType(\"Pubs\", null, null, internalSubset),\nnew XElement(\"Pubs\", \nnew XElement(\"Book\",\n    new XElement(\"Title\", \"Artifacts of Roman Civilization\"),\n    new XElement(\"Author\", \"Moreno, Jordao\")\n),\nnew XElement(\"Book\",\n    new XElement(\"Title\", \"Midieval Tools and Implements\"),\n    new XElement(\"Author\", \"Gazit, Inbar\")\n)\n),\nnew XComment(\"This is another comment.\")\n);\ndoc.Declaration = new XDeclaration(\"1.0\", \"utf-8\", \"true\");\n\nConsole.WriteLine(doc.DocumentType.NodeType);</code></pre>\n<pre><code class=\"vb\">Dim internalSubset = _\n\"<!ELEMENT Pubs (Book+)>\" & Environment.NewLine & _\n\"<!ELEMENT Book (Title, Author)>\" & Environment.NewLine & _\n\"<!ELEMENT Title (#PCDATA)>\" & Environment.NewLine & _\n\"<!ELEMENT Author (#PCDATA)>\"\n\nDim doc As XDocument = _ \n<?xml version=\"1.0\" encoding=\"utf-8\" standalone=\"yes\"?>\n<!--This is a comment.-->\n<?xml-stylesheet href='mystyle.css' title='Compact' type='text/css'?>\n<Pubs>\n<Book>\n    <Title>Artifacts of Roman Civilization</Title>\n    <Author>Moreno, Jordao</Author>\n</Book>\n<Book>\n    <Title>Midieval Tools and Implements</Title>\n    <Author>Gazit, Inbar</Author>\n</Book>\n</Pubs>\n<!--This is another comment.-->\n\ndoc.FirstNode.AddAfterSelf(new XDocumentType(\"Pubs\", Nothing, Nothing, internalSubset))\n\nConsole.WriteLine(doc.DocumentType.NodeType.ToString())</code></pre>\n<p>This example produces the following output:</p>\n<pre><code>DocumentType</code></pre>\n"
   syntax:
     content: public override XmlNodeType NodeType { get; }
     content.vb: Public Overrides ReadOnly Property NodeType As XmlNodeType
     parameters: []
     return:
       type: System.Xml.XmlNodeType
+      description: "\n<p>The node type. For <xref href=\"System.Xml.Linq.XDocumentType\" data-throw-if-not-resolved=\"false\"></xref> objects, this value is <xref href=\"System.Xml.XmlNodeType.DocumentType\" data-throw-if-not-resolved=\"false\"></xref>.</p>\n"
   overridden: System.Xml.Linq.XObject.NodeType
   modifiers.csharp:
   - public
@@ -276,12 +305,17 @@ items:
   assemblies:
   - System.Xml.XDocument
   namespace: System.Xml.Linq
+  summary: "\n<p>Gets or sets the public identifier for this Document Type Definition (DTD).</p>\n"
+  remarks: "\n<p>If an XML document uses an external public DTD, this property will contain the public identifier of the external DTD.</p>\n"
+  example:
+  - 
   syntax:
     content: public string PublicId { get; set; }
     content.vb: Public Property PublicId As String
     parameters: []
     return:
       type: System.String
+      description: "\n<p>A <xref href=\"System.String\" data-throw-if-not-resolved=\"false\"></xref> that contains the public identifier for this Document Type Definition (DTD).</p>\n"
   modifiers.csharp:
   - public
   - get
@@ -309,12 +343,17 @@ items:
   assemblies:
   - System.Xml.XDocument
   namespace: System.Xml.Linq
+  summary: "\n<p>Gets or sets the system identifier for this Document Type Definition (DTD).</p>\n"
+  remarks: "\n<p>If an XML document uses an external private DTD, this property will contain the private identifier of the external DTD.</p>\n"
+  example:
+  - "\n<p>The following example creates an XML document that refers to an external private DTD. The DTD does not have an internal subset. The call to the <xref href=\"System.Xml.Linq.XDocumentType\" data-throw-if-not-resolved=\"false\"></xref> constructor reflects the use of the external private DTD. It passes <strong>null</strong> for the internal subset.</p>\n<pre><code class=\"c#\">string pubsDtd =\n@\"<!ELEMENT Pubs (Book+)>\n<!ELEMENT Book (Title, Author)>\n<!ELEMENT Title (#PCDATA)>\n<!ELEMENT Author (#PCDATA)>\";\nFile.WriteAllText(\"Pubs.dtd\", pubsDtd);\n\nstring target = \"xml-stylesheet\";\nstring data = \"href=\\\"mystyle.css\\\" title=\\\"Compact\\\" type=\\\"text/css\\\"\";\n\nXDocument doc = new XDocument(\nnew XDocumentType(\"Pubs\", null, \"Pubs.dtd\", null),\nnew XElement(\"Pubs\", \nnew XElement(\"Book\",\n    new XElement(\"Title\", \"Artifacts of Roman Civilization\"),\n    new XElement(\"Author\", \"Moreno, Jordao\")\n),\nnew XElement(\"Book\",\n    new XElement(\"Title\", \"Midieval Tools and Implements\"),\n    new XElement(\"Author\", \"Gazit, Inbar\")\n)\n),\nnew XComment(\"This is another comment.\")\n);\ndoc.Declaration = new XDeclaration(\"1.0\", \"utf-8\", \"true\");\ndoc.Save(\"Pubs.xml\");\n\n// Validate Pubs.xml against Pubs.dtd.\nXmlReaderSettings xrs = new XmlReaderSettings();\nxrs.ProhibitDtd = false;\nxrs.ValidationType = ValidationType.DTD;\nxrs.ConformanceLevel = ConformanceLevel.Auto;\nXmlReader xr = XmlReader.Create(\"Pubs.xml\", xrs);\nXDocument doc2 = XDocument.Load(xr);\n\nXDocumentType dt = doc2.Document.DocumentType;\nConsole.WriteLine(\"SystemId:{0}\", dt.SystemId);</code></pre>\n<pre><code class=\"vb\">Dim pubsDtd As String = _ \n\"<!ELEMENT Pubs (Book+)>\" & Environment.NewLine & _\n\"<!ELEMENT Book (Title, Author)>\" & Environment.NewLine & _\n\"<!ELEMENT Title (#PCDATA)>\" & Environment.NewLine & _\n\"<!ELEMENT Author (#PCDATA)>\"\nFile.WriteAllText(\"Pubs.dtd\", pubsDtd)\n\nDim target As String = \"xml-stylesheet\"\nDim data As String = \"href='mystyle.css' title='Compact' type='text/css'\"\n\nDim doc As XDocument = _\n<?xml version='1.0'?>\n<Pubs>\n<Book>\n    <Title>Artifacts of Roman Civilization</Title>\n    <Author>Moreno, Jordao</Author>\n</Book>\n<Book>\n    <Title>Midieval Tools and Implements</Title>\n    <Author>Gazit, Inbar</Author>\n</Book>\n</Pubs>\n<!--This is another comment.-->\n\ndoc _\n.FirstNode _\n.AddBeforeSelf(New XDocumentType(\"Pubs\", Nothing, \"Pubs.dtd\", Nothing))\n\ndoc.Declaration = New XDeclaration(\"1.0\", \"utf-8\", \"true\")\ndoc.Save(\"Pubs.xml\")\n\n' Validate Pubs.xml against Pubs.dtd.\nDim xrs As XmlReaderSettings = New XmlReaderSettings()\nxrs.ProhibitDtd = False\nxrs.ValidationType = ValidationType.DTD\nxrs.ConformanceLevel = ConformanceLevel.Auto\nDim xr As XmlReader = XmlReader.Create(\"Pubs.xml\", xrs)\nDim doc2 As XDocument = XDocument.Load(xr)\n\nDim dt As XDocumentType = doc2.Document.DocumentType\nConsole.WriteLine(\"SystemId:{0}\", dt.SystemId)</code></pre>\n<p>This example produces the following output:</p>\n<pre><code>SystemId:Pubs.dtd</code></pre>\n"
   syntax:
     content: public string SystemId { get; set; }
     content.vb: Public Property SystemId As String
     parameters: []
     return:
       type: System.String
+      description: "\n<p>A <xref href=\"System.String\" data-throw-if-not-resolved=\"false\"></xref> that contains the system identifier for this Document Type Definition (DTD).</p>\n"
   modifiers.csharp:
   - public
   - get
@@ -342,12 +381,15 @@ items:
   assemblies:
   - System.Xml.XDocument
   namespace: System.Xml.Linq
+  summary: "\n<p>Write this <xref href=\"System.Xml.Linq.XDocumentType\" data-throw-if-not-resolved=\"false\"></xref> to an <xref href=\"System.Xml.XmlWriter\" data-throw-if-not-resolved=\"false\"></xref>.</p>\n"
+  remarks: "\n<p>This method is primarily used internally by the methods that write an XML tree to an <xref href=\"System.Xml.XmlWriter\" data-throw-if-not-resolved=\"false\"></xref>.</p>\n"
   syntax:
     content: public override void WriteTo(XmlWriter writer)
     content.vb: Public Overrides Sub WriteTo(writer As XmlWriter)
     parameters:
     - id: writer
       type: System.Xml.XmlWriter
+      description: "\n<p>An <xref href=\"System.Xml.XmlWriter\" data-throw-if-not-resolved=\"false\"></xref> into which this method will write.</p>\n"
   overridden: System.Xml.Linq.XNode.WriteTo(System.Xml.XmlWriter)
   modifiers.csharp:
   - public

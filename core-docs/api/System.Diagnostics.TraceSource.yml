@@ -35,13 +35,23 @@ items:
   assemblies:
   - System.Diagnostics.TraceSource
   namespace: System.Diagnostics
+  summary: "\n<p>Provides a set of methods and properties that enable applications to trace the execution of code and associate trace messages with their source. </p>\n"
+  remarks: "\n<p>The <xref href=\"System.Diagnostics.TraceSource\" data-throw-if-not-resolved=\"false\"></xref> class is used by applications to produce traces that can be associated with the application. <xref href=\"System.Diagnostics.TraceSource\" data-throw-if-not-resolved=\"false\"></xref> provides tracing methods that allow you to easily trace events, trace data, and issue informational traces. Trace output from <xref href=\"System.Diagnostics.TraceSource\" data-throw-if-not-resolved=\"false\"></xref> can be controlled by configuration file settings. The configuration file is located in the folder with the application executable and has the name of the application with the .config file name extension added. For example, the name of the configuration file for TraceSourceSample.exe is TraceSourceSample.exe.config. The configuration file can be used to determine where the trace information is to be sent and what levels of activity are to be traced. The following example shows the contents of a sample application configuration file.</p>\n<pre><code><configuration>\n<system.diagnostics>\n<sources>\n<source name=\"TraceTest\" switchName=\"SourceSwitch\" \nswitchType=\"System.Diagnostics.SourceSwitch\" >\n<listeners>\n  <add name=\"console\" />\n  <remove name =\"Default\" />\n</listeners>\n</source>\n</sources>\n<switches>\n<!-- You can set the level at which tracing is to occur -->\n<add name=\"SourceSwitch\" value=\"Warning\" />\n<!-- You can turn tracing off -->\n<!--add name=\"SourceSwitch\" value=\"Off\" -->\n</switches>\n<sharedListeners>\n<add name=\"console\" \ntype=\"System.Diagnostics.ConsoleTraceListener\" \ninitializeData=\"false\"/>\n</sharedListeners>\n<trace autoflush=\"true\" indentsize=\"4\">\n<listeners>\n<add name=\"console\" />\n</listeners>\n</trace>\n</system.diagnostics>\n</configuration></code></pre>\n<p>The <xref href=\"System.Diagnostics.TraceSource\" data-throw-if-not-resolved=\"false\"></xref> class is identified by the name of a source, typically the name of the application.  The trace messages coming from a particular component can be initiated by a particular trace source, allowing all messages coming from that component to be easily identified.</p>\n<p>\n<xref href=\"System.Diagnostics.TraceSource\" data-throw-if-not-resolved=\"false\"></xref> defines tracing methods but does not actually provide any specific mechanism for generating and storing tracing data. The tracing data is produced by trace listeners, which are plug-ins that can be loaded by trace sources. </p>\n<p>You should not call the tracing methods during finalization. Doing so can result in an <xref href=\"System.ObjectDisposedException\" data-throw-if-not-resolved=\"false\"></xref> being thrown.</p>\n<p>You can customize the tracing output's target by adding or removing <xref href=\"System.Diagnostics.TraceListener\" data-throw-if-not-resolved=\"false\"></xref> instances to or from the collection stored in the <xref href=\"System.Diagnostics.TraceSource.Listeners\" data-throw-if-not-resolved=\"false\"></xref> property. By default, trace output is produced using an instance of the <xref href=\"System.Diagnostics.DefaultTraceListener\" data-throw-if-not-resolved=\"false\"></xref> class. The preceding configuration file example demonstrates removing the <xref href=\"System.Diagnostics.DefaultTraceListener\" data-throw-if-not-resolved=\"false\"></xref> and adding a <xref href=\"System.Diagnostics.ConsoleTraceListener\" data-throw-if-not-resolved=\"false\"></xref> to produce the trace output for the trace source. For more information, see <listeners> Element for <source> and <sharedListeners> Element.</p>\n<p>Adding a trace listener to the <xref href=\"System.Diagnostics.TraceSource.Listeners\" data-throw-if-not-resolved=\"false\"></xref> collection can cause an exception to be thrown while tracing, if a resource used by the trace listener is not available. The conditions and the exception thrown depend on the trace listener and cannot be enumerated in this topic. It may be useful to place calls to the <xref href=\"System.Diagnostics.TraceSource\" data-throw-if-not-resolved=\"false\"></xref> methods in <strong>try</strong>/<strong>catch</strong> blocks to detect and handle any exceptions from trace listeners.</p>\n<p>The <xref href=\"System.Diagnostics.SourceSwitch\" data-throw-if-not-resolved=\"false\"></xref> class provides the means to dynamically control the tracing output. The preceding configuration file example shows how you can turn off tracing from a trace source and control the level at which tracing occurs.  You can modify the value of the source switch without recompiling your application. For information on using the configuration file to set a switch, see <xref href=\"System.Diagnostics.Switch\" data-throw-if-not-resolved=\"false\"></xref> and How to: Create, Initialize and Configure Trace Switches.</p>\n<p>If you modify a configuration file while an application is executing, the application must be stopped and restarted or the <xref href=\"System.Diagnostics.Trace.Refresh\" data-throw-if-not-resolved=\"false\"></xref> method must be called before the new settings take effect.</p>\n<p>The <xref href=\"System.Diagnostics.TraceEventType\" data-throw-if-not-resolved=\"false\"></xref> enumeration is used to define the event type of the trace message. Trace filters use the <xref href=\"System.Diagnostics.TraceEventType\" data-throw-if-not-resolved=\"false\"></xref> to determine if a trace listener should produce the trace message.</p>\n<p>The trace listeners can optionally have an additional layer of filtering through a trace filter.  If a trace listener has an associated filter, the listener calls the <xref href=\"System.Diagnostics.TraceFilter.ShouldTrace(System.Diagnostics.TraceEventCache,System.String,System.Diagnostics.TraceEventType,System.Int32,System.String,System.Object[],System.Object,System.Object[])\" data-throw-if-not-resolved=\"false\"></xref> method on that filter to determine whether or not to produce the trace information.</p>\n<p>The trace listeners use the values of the <xref href=\"System.Diagnostics.Trace\" data-throw-if-not-resolved=\"false\"></xref> class properties <xref href=\"System.Diagnostics.Trace.Indent\" data-throw-if-not-resolved=\"false\"></xref>, <xref href=\"System.Diagnostics.Trace.IndentSize\" data-throw-if-not-resolved=\"false\"></xref>, and <xref href=\"System.Diagnostics.Trace.AutoFlush\" data-throw-if-not-resolved=\"false\"></xref> to format trace output. You can use configuration file attributes to set the <xref href=\"System.Diagnostics.Trace.Indent\" data-throw-if-not-resolved=\"false\"></xref>, <xref href=\"System.Diagnostics.Trace.IndentSize\" data-throw-if-not-resolved=\"false\"></xref>, and <xref href=\"System.Diagnostics.Trace.AutoFlush\" data-throw-if-not-resolved=\"false\"></xref> properties. The following example sets the <xref href=\"System.Diagnostics.Trace.AutoFlush\" data-throw-if-not-resolved=\"false\"></xref> property to <strong>false</strong> and the <xref href=\"System.Diagnostics.Trace.IndentSize\" data-throw-if-not-resolved=\"false\"></xref> property to 3. </p>\n<pre><code><configuration>\n<system.diagnostics>\n<trace autoflush=\"false\" indentsize=\"3\" />\n</system.diagnostics>\n</configuration></code></pre>\n"
+  example:
+  - "\n<p>The following code example shows the use of the <xref href=\"System.Diagnostics.TraceSource\" data-throw-if-not-resolved=\"false\"></xref> class to forward traces to listeners.  The example also demonstrates switch and filter usage.  </p>System.Diagnostics.TraceSource2#1"
   syntax:
-    content: 'public class TraceSource : object'
-    content.vb: >-
-      Public Class TraceSource
-          Inherits Object
+    content: public class TraceSource
+    content.vb: Public Class TraceSource
   inheritance:
   - System.Object
+  inheritedMembers:
+  - System.Object.ToString
+  - System.Object.Equals(System.Object)
+  - System.Object.Equals(System.Object,System.Object)
+  - System.Object.ReferenceEquals(System.Object,System.Object)
+  - System.Object.GetHashCode
+  - System.Object.GetType
+  - System.Object.MemberwiseClone
   modifiers.csharp:
   - public
   - class
@@ -69,12 +79,23 @@ items:
   assemblies:
   - System.Diagnostics.TraceSource
   namespace: System.Diagnostics
+  summary: "\n<p>Initializes a new instance of the <xref href=\"System.Diagnostics.TraceSource\" data-throw-if-not-resolved=\"false\"></xref> class, using the specified name for the source. </p>\n"
+  remarks: "\n<p>The source name is used to identify traces. It is used by a <xref href=\"System.Diagnostics.SourceFilter\" data-throw-if-not-resolved=\"false\"></xref> to determine whether a trace listener should produce the trace. The recommended practice is to use the name of the application for the source name.</p>\n<p>It is not necessary to create a new <xref href=\"System.Diagnostics.TraceSource\" data-throw-if-not-resolved=\"false\"></xref> instance for each trace request. Create one <xref href=\"System.Diagnostics.TraceSource\" data-throw-if-not-resolved=\"false\"></xref> instance and use it for all trace requests for the application.</p>\n"
+  example:
+  - "\n<p>The following code example shows the use of the <xref href=\"System.Diagnostics.TraceSource.#ctor(System.String)\" data-throw-if-not-resolved=\"false\"></xref> constructor to create a new <xref href=\"System.Diagnostics.TraceSource\" data-throw-if-not-resolved=\"false\"></xref> object. This code example is part of a larger example provided for the <xref href=\"System.Diagnostics.TraceSource\" data-throw-if-not-resolved=\"false\"></xref> class.</p>System.Diagnostics.TraceSource2#9"
   syntax:
     content: public TraceSource(string name)
     content.vb: Public Sub New(name As String)
     parameters:
     - id: name
       type: System.String
+  exceptions:
+  - type: System.ArgumentNullException
+    commentId: T:System.ArgumentNullException
+    description: "\n<p>\n<em>name</em> is <strong>null</strong>.</p>\n"
+  - type: System.ArgumentException
+    commentId: T:System.ArgumentException
+    description: "\n<p>\n<em>name</em> is an empty string (\"\").</p>\n"
   modifiers.csharp:
   - public
   modifiers.vb:
@@ -100,6 +121,8 @@ items:
   assemblies:
   - System.Diagnostics.TraceSource
   namespace: System.Diagnostics
+  summary: "\n<p>Initializes a new instance of the <xref href=\"System.Diagnostics.TraceSource\" data-throw-if-not-resolved=\"false\"></xref> class, using the specified name for the source and the default source level at which tracing is to occur.  </p>\n"
+  remarks: "\n<p>The source name is used to identify traces. It can be used by a <xref href=\"System.Diagnostics.SourceSwitch\" data-throw-if-not-resolved=\"false\"></xref> to determine if tracing is to occur and by a <xref href=\"System.Diagnostics.SourceFilter\" data-throw-if-not-resolved=\"false\"></xref> to determine whether to produce the trace. The default source level is used by an <xref href=\"System.Diagnostics.EventTypeFilter\" data-throw-if-not-resolved=\"false\"></xref> to determine if tracing is to occur based on the source level of the message to be traced.</p>\n<p>It is not necessary to create a new <xref href=\"System.Diagnostics.TraceSource\" data-throw-if-not-resolved=\"false\"></xref> instance for each trace request. Create one <xref href=\"System.Diagnostics.TraceSource\" data-throw-if-not-resolved=\"false\"></xref> instance and use it for all trace requests for the application.</p>\n"
   syntax:
     content: public TraceSource(string name, SourceLevels defaultLevel)
     content.vb: Public Sub New(name As String, defaultLevel As SourceLevels)
@@ -108,6 +131,13 @@ items:
       type: System.String
     - id: defaultLevel
       type: System.Diagnostics.SourceLevels
+  exceptions:
+  - type: System.ArgumentNullException
+    commentId: T:System.ArgumentNullException
+    description: "\n<p>\n<em>name</em> is <strong>null</strong>.</p>\n"
+  - type: System.ArgumentException
+    commentId: T:System.ArgumentException
+    description: "\n<p>\n<em>name</em> is an empty string (\"\").</p>\n"
   modifiers.csharp:
   - public
   modifiers.vb:
@@ -133,12 +163,17 @@ items:
   assemblies:
   - System.Diagnostics.TraceSource
   namespace: System.Diagnostics
+  summary: "\n<p>Gets the collection of trace listeners for the trace source.</p>\n"
+  remarks: "\n<p>Use this property to access and perform operations on the trace listeners.</p>\n"
   syntax:
     content: public TraceListenerCollection Listeners { get; }
     content.vb: Public ReadOnly Property Listeners As TraceListenerCollection
     parameters: []
     return:
       type: System.Diagnostics.TraceListenerCollection
+  see:
+  - type: System.Security.Permissions.SecurityPermission
+    commentId: T:System.Security.Permissions.SecurityPermission
   modifiers.csharp:
   - public
   - get
@@ -166,6 +201,10 @@ items:
   assemblies:
   - System.Diagnostics.TraceSource
   namespace: System.Diagnostics
+  summary: "\n<p>Gets the name of the trace source.</p>\n"
+  remarks: "\n<p>The name is set by the <em>name</em> parameter passed to the constructor. You can refer to the trace source by using the <strong>name</strong> attribute in the configuration file.</p>\n<p>The following XML element shows referring to a trace source in the configuration file.</p>\n<pre><code><configuration>\n<system.diagnostics>\n<sources>\n<source name=\"TraceTest\">\n</source>\n</sources>\n</system.diagnostics>\n</configuration></code></pre>\n"
+  example:
+  - "\n<p>The following code sample shows how to name a trace source in the constructor call.  This code example is part of a larger example provided for the <xref href=\"System.Diagnostics.TraceSource\" data-throw-if-not-resolved=\"false\"></xref> class.</p>System.Diagnostics.TraceSource2#9"
   syntax:
     content: public string Name { get; }
     content.vb: Public ReadOnly Property Name As String
@@ -199,12 +238,21 @@ items:
   assemblies:
   - System.Diagnostics.TraceSource
   namespace: System.Diagnostics
+  summary: "\n<p>Gets or sets the source switch value.</p>\n"
+  remarks: "\n<p>The <xref href=\"System.Diagnostics.TraceSource.Switch\" data-throw-if-not-resolved=\"false\"></xref> property allows the filtering of messages before the trace source calls the listeners.</p>\n<p>The switch is used to check whether trace calls should be generated or ignored. Each trace method calls the <xref href=\"System.Diagnostics.SourceSwitch.ShouldTrace(System.Diagnostics.TraceEventType)\" data-throw-if-not-resolved=\"false\"></xref> method of the <xref href=\"System.Diagnostics.SourceSwitch\" data-throw-if-not-resolved=\"false\"></xref> to determine whether to proceed with the trace. If the call returns <strong>true</strong>, the listeners are called.</p>\n"
   syntax:
     content: public SourceSwitch Switch { get; set; }
     content.vb: Public Property Switch As SourceSwitch
     parameters: []
     return:
       type: System.Diagnostics.SourceSwitch
+  exceptions:
+  - type: System.ArgumentNullException
+    commentId: T:System.ArgumentNullException
+    description: "\n<p>\n<xref href=\"System.Diagnostics.TraceSource.Switch\" data-throw-if-not-resolved=\"false\"></xref> is set to <strong>null</strong>.</p>\n"
+  see:
+  - type: System.Security.Permissions.SecurityPermission
+    commentId: T:System.Security.Permissions.SecurityPermission
   modifiers.csharp:
   - public
   - get
@@ -232,9 +280,16 @@ items:
   assemblies:
   - System.Diagnostics.TraceSource
   namespace: System.Diagnostics
+  summary: "\n<p>Closes all the trace listeners in the trace listener collection.</p>\n"
+  remarks: "\n<p>The <xref href=\"System.Diagnostics.TraceSource.Close\" data-throw-if-not-resolved=\"false\"></xref> method calls the <xref href=\"System.Diagnostics.TraceListener.Close\" data-throw-if-not-resolved=\"false\"></xref> method of each trace listener in the <xref href=\"System.Diagnostics.TraceSource.Listeners\" data-throw-if-not-resolved=\"false\"></xref> collection.</p>\n"
+  example:
+  - "\n<p>The following code example shows how you can use the <xref href=\"System.Diagnostics.TraceSource.Close\" data-throw-if-not-resolved=\"false\"></xref> method to close all the listeners in the collection. This code example is part of a larger example provided for the <xref href=\"System.Diagnostics.TraceSource\" data-throw-if-not-resolved=\"false\"></xref> class.</p>System.Diagnostics.TraceSource2#33"
   syntax:
     content: public void Close()
     content.vb: Public Sub Close
+  see:
+  - type: System.Security.Permissions.SecurityPermission
+    commentId: T:System.Security.Permissions.SecurityPermission
   modifiers.csharp:
   - public
   modifiers.vb:
@@ -260,9 +315,17 @@ items:
   assemblies:
   - System.Diagnostics.TraceSource
   namespace: System.Diagnostics
+  summary: "\n<p>Flushes all the trace listeners in the trace listener collection.</p>\n"
+  remarks: "\n<p>The <xref href=\"System.Diagnostics.TraceSource.Flush\" data-throw-if-not-resolved=\"false\"></xref> method calls the <xref href=\"System.Diagnostics.TraceListener.Flush\" data-throw-if-not-resolved=\"false\"></xref> method of each trace listener in the <xref href=\"System.Diagnostics.TraceSource.Listeners\" data-throw-if-not-resolved=\"false\"></xref> collection.</p>\n"
+  example:
+  - "\n<p>The following code example shows how you can use the <xref href=\"System.Diagnostics.TraceSource.Flush\" data-throw-if-not-resolved=\"false\"></xref> method to flush all the listeners in the collection. This code example is part of a larger example provided for the <xref href=\"System.Diagnostics.TraceSource\" data-throw-if-not-resolved=\"false\"></xref> class.</p>System.Diagnostics.TraceSource2#33"
   syntax:
     content: public void Flush()
     content.vb: Public Sub Flush
+  exceptions:
+  - type: System.ObjectDisposedException
+    commentId: T:System.ObjectDisposedException
+    description: "\n<p>An attempt was made to trace an event during finalization.</p>\n"
   modifiers.csharp:
   - public
   modifiers.vb:
@@ -288,9 +351,19 @@ items:
   assemblies:
   - System.Diagnostics.TraceSource
   namespace: System.Diagnostics
+  summary: "\n<p>Writes trace data to the trace listeners in the <xref href=\"System.Diagnostics.TraceSource.Listeners\" data-throw-if-not-resolved=\"false\"></xref> collection using the specified event type, event identifier, and trace data.</p>\n"
+  remarks: "\n<p>The <xref href=\"System.Diagnostics.TraceSource.TraceData(System.Diagnostics.TraceEventType,System.Int32,System.Object)\" data-throw-if-not-resolved=\"false\"></xref> method, like the <see cref=\"Overload:System.Diagnostics.TraceSource.TraceEvent\"></see> method, is intended for automated tools, but it also allows the attaching of an additional object, such as an exception instance, to the trace.</p>\n<p>The <xref href=\"System.Diagnostics.TraceSource.TraceData(System.Diagnostics.TraceEventType,System.Int32,System.Object)\" data-throw-if-not-resolved=\"false\"></xref> method calls the <xref href=\"System.Diagnostics.SourceSwitch.ShouldTrace(System.Diagnostics.TraceEventType)\" data-throw-if-not-resolved=\"false\"></xref> method of the <xref href=\"System.Diagnostics.SourceSwitch\" data-throw-if-not-resolved=\"false\"></xref> object returned by the <xref href=\"System.Diagnostics.TraceSource.Switch\" data-throw-if-not-resolved=\"false\"></xref> property. If <xref href=\"System.Diagnostics.SourceSwitch.ShouldTrace(System.Diagnostics.TraceEventType)\" data-throw-if-not-resolved=\"false\"></xref> returns <strong>true</strong>, <xref href=\"System.Diagnostics.TraceSource.TraceData(System.Diagnostics.TraceEventType,System.Int32,System.Object)\" data-throw-if-not-resolved=\"false\"></xref> calls the corresponding <see cref=\"Overload:System.Diagnostics.TraceListener.TraceData\"></see> method on all listeners. Otherwise, <xref href=\"System.Diagnostics.TraceSource.TraceData(System.Diagnostics.TraceEventType,System.Int32,System.Object)\" data-throw-if-not-resolved=\"false\"></xref> returns without calling the listeners' methods.</p>\n<p>The <xref href=\"System.Diagnostics.EventLogTraceListener\" data-throw-if-not-resolved=\"false\"></xref> object is limited to a maximum <em>id</em> value of 65,535. If the <em>id</em> value specified is greater than 65,535, the <xref href=\"System.Diagnostics.EventLogTraceListener\" data-throw-if-not-resolved=\"false\"></xref> object uses 65,535.</p>\n"
+  example:
+  - "\n<p>The following code example shows the use of the <xref href=\"System.Diagnostics.TraceSource.TraceData(System.Diagnostics.TraceEventType,System.Int32,System.Object)\" data-throw-if-not-resolved=\"false\"></xref> method to filter and forward a trace message to the listeners. This code example is part of a larger example provided for the <xref href=\"System.Diagnostics.TraceSource\" data-throw-if-not-resolved=\"false\"></xref> class.</p>System.Diagnostics.TraceSource2#28"
   syntax:
-    content: public void TraceData(TraceEventType eventType, int id, object data)
-    content.vb: Public Sub TraceData(eventType As TraceEventType, id As Integer, data As Object)
+    content: >-
+      [Conditional("TRACE")]
+
+      public void TraceData(TraceEventType eventType, int id, object data)
+    content.vb: >-
+      <Conditional("TRACE")>
+
+      Public Sub TraceData(eventType As TraceEventType, id As Integer, data As Object)
     parameters:
     - id: eventType
       type: System.Diagnostics.TraceEventType
@@ -298,6 +371,16 @@ items:
       type: System.Int32
     - id: data
       type: System.Object
+  exceptions:
+  - type: System.ObjectDisposedException
+    commentId: T:System.ObjectDisposedException
+    description: "\n<p>An attempt was made to trace an event during finalization.</p>\n"
+  attributes:
+  - type: System.Diagnostics.ConditionalAttribute
+    ctor: System.Diagnostics.ConditionalAttribute.#ctor(System.String)
+    arguments:
+    - type: System.String
+      value: TRACE
   modifiers.csharp:
   - public
   modifiers.vb:
@@ -323,9 +406,17 @@ items:
   assemblies:
   - System.Diagnostics.TraceSource
   namespace: System.Diagnostics
+  summary: "\n<p>Writes trace data to the trace listeners in the <xref href=\"System.Diagnostics.TraceSource.Listeners\" data-throw-if-not-resolved=\"false\"></xref> collection using the specified event type, event identifier, and trace data array.</p>\n"
+  remarks: "\n<p>The <xref href=\"System.Diagnostics.TraceSource.TraceData(System.Diagnostics.TraceEventType,System.Int32,System.Object[])\" data-throw-if-not-resolved=\"false\"></xref> method, like the <see cref=\"Overload:System.Diagnostics.TraceSource.TraceEvent\"></see> method, is intended for automated tools, but it also allows the attaching of additional objects, such as an exception instance and a stack trace, to the trace.</p>\n<p>The <xref href=\"System.Diagnostics.TraceSource.TraceData(System.Diagnostics.TraceEventType,System.Int32,System.Object[])\" data-throw-if-not-resolved=\"false\"></xref> method calls the <xref href=\"System.Diagnostics.SourceSwitch.ShouldTrace(System.Diagnostics.TraceEventType)\" data-throw-if-not-resolved=\"false\"></xref> method of the <xref href=\"System.Diagnostics.SourceSwitch\" data-throw-if-not-resolved=\"false\"></xref> object returned by the <xref href=\"System.Diagnostics.TraceSource.Switch\" data-throw-if-not-resolved=\"false\"></xref> property. If <xref href=\"System.Diagnostics.SourceSwitch.ShouldTrace(System.Diagnostics.TraceEventType)\" data-throw-if-not-resolved=\"false\"></xref> returns <strong>true</strong>, <xref href=\"System.Diagnostics.TraceSource.TraceData(System.Diagnostics.TraceEventType,System.Int32,System.Object[])\" data-throw-if-not-resolved=\"false\"></xref> calls the corresponding <see cref=\"Overload:System.Diagnostics.TraceListener.TraceData\"></see> method on all listeners. Otherwise, <xref href=\"System.Diagnostics.TraceSource.TraceData(System.Diagnostics.TraceEventType,System.Int32,System.Object[])\" data-throw-if-not-resolved=\"false\"></xref> returns without calling the listeners' methods.</p>\n<p>The <xref href=\"System.Diagnostics.EventLogTraceListener\" data-throw-if-not-resolved=\"false\"></xref> object is limited to a maximum <em>id</em> value of 65,535. If the <em>id</em> value specified is greater than 65,535, the <xref href=\"System.Diagnostics.EventLogTraceListener\" data-throw-if-not-resolved=\"false\"></xref> object uses 65,535.</p>\n"
   syntax:
-    content: public void TraceData(TraceEventType eventType, int id, params object[] data)
-    content.vb: Public Sub TraceData(eventType As TraceEventType, id As Integer, ParamArray data As Object())
+    content: >-
+      [Conditional("TRACE")]
+
+      public void TraceData(TraceEventType eventType, int id, params object[] data)
+    content.vb: >-
+      <Conditional("TRACE")>
+
+      Public Sub TraceData(eventType As TraceEventType, id As Integer, ParamArray data As Object())
     parameters:
     - id: eventType
       type: System.Diagnostics.TraceEventType
@@ -333,6 +424,16 @@ items:
       type: System.Int32
     - id: data
       type: System.Object[]
+  exceptions:
+  - type: System.ObjectDisposedException
+    commentId: T:System.ObjectDisposedException
+    description: "\n<p>An attempt was made to trace an event during finalization.</p>\n"
+  attributes:
+  - type: System.Diagnostics.ConditionalAttribute
+    ctor: System.Diagnostics.ConditionalAttribute.#ctor(System.String)
+    arguments:
+    - type: System.String
+      value: TRACE
   modifiers.csharp:
   - public
   modifiers.vb:
@@ -360,14 +461,34 @@ items:
   assemblies:
   - System.Diagnostics.TraceSource
   namespace: System.Diagnostics
+  summary: "\n<p>Writes a trace event message to the trace listeners in the <xref href=\"System.Diagnostics.TraceSource.Listeners\" data-throw-if-not-resolved=\"false\"></xref> collection using the specified event type and event identifier.</p>\n"
+  remarks: "\n<p>The <xref href=\"System.Diagnostics.TraceSource.TraceEvent(System.Diagnostics.TraceEventType,System.Int32)\" data-throw-if-not-resolved=\"false\"></xref> method is intended to trace events that can be processed automatically by tools. For example, a monitoring tool can notify an administrator if a specific event is traced by a specific source.</p>\n<p>The <xref href=\"System.Diagnostics.TraceSource.TraceEvent(System.Diagnostics.TraceEventType,System.Int32)\" data-throw-if-not-resolved=\"false\"></xref> method calls the <xref href=\"System.Diagnostics.SourceSwitch.ShouldTrace(System.Diagnostics.TraceEventType)\" data-throw-if-not-resolved=\"false\"></xref> method of the <xref href=\"System.Diagnostics.SourceSwitch\" data-throw-if-not-resolved=\"false\"></xref> object returned by the <xref href=\"System.Diagnostics.TraceSource.Switch\" data-throw-if-not-resolved=\"false\"></xref> property. If <xref href=\"System.Diagnostics.SourceSwitch.ShouldTrace(System.Diagnostics.TraceEventType)\" data-throw-if-not-resolved=\"false\"></xref> returns <strong>true</strong>, <xref href=\"System.Diagnostics.TraceSource.TraceEvent(System.Diagnostics.TraceEventType,System.Int32)\" data-throw-if-not-resolved=\"false\"></xref> calls the corresponding <see cref=\"Overload:System.Diagnostics.TraceListener.TraceEvent\"></see> method of each listener. Otherwise, <xref href=\"System.Diagnostics.TraceSource.TraceEvent(System.Diagnostics.TraceEventType,System.Int32)\" data-throw-if-not-resolved=\"false\"></xref> returns without calling the listeners' methods.</p>\n<p>The trace content is listener specific. If the method is not overridden by the listener implementation, the default output is the name of the trace source, its numeric identity, and the event type.  Additional trace content is dependent upon the listener's <xref href=\"System.Diagnostics.TraceListener.TraceOutputOptions\" data-throw-if-not-resolved=\"false\"></xref> property value.</p>\n<p>The <xref href=\"System.Diagnostics.EventLogTraceListener\" data-throw-if-not-resolved=\"false\"></xref> object is limited to a maximum <em>id</em> value of 65,535. If the <em>id</em> value specified is greater than 65,535, the <xref href=\"System.Diagnostics.EventLogTraceListener\" data-throw-if-not-resolved=\"false\"></xref> uses 65,535.</p>\n"
+  example:
+  - "\n<p>The following code example shows the use of the <xref href=\"System.Diagnostics.TraceSource.TraceEvent(System.Diagnostics.TraceEventType,System.Int32)\" data-throw-if-not-resolved=\"false\"></xref> method to pass a trace event to the listeners. This code example is part of a larger example provided for the <xref href=\"System.Diagnostics.TraceSource\" data-throw-if-not-resolved=\"false\"></xref> class.</p>System.Diagnostics.TraceSource2#17"
   syntax:
-    content: public void TraceEvent(TraceEventType eventType, int id)
-    content.vb: Public Sub TraceEvent(eventType As TraceEventType, id As Integer)
+    content: >-
+      [Conditional("TRACE")]
+
+      public void TraceEvent(TraceEventType eventType, int id)
+    content.vb: >-
+      <Conditional("TRACE")>
+
+      Public Sub TraceEvent(eventType As TraceEventType, id As Integer)
     parameters:
     - id: eventType
       type: System.Diagnostics.TraceEventType
     - id: id
       type: System.Int32
+  exceptions:
+  - type: System.ObjectDisposedException
+    commentId: T:System.ObjectDisposedException
+    description: "\n<p>An attempt was made to trace an event during finalization.</p>\n"
+  attributes:
+  - type: System.Diagnostics.ConditionalAttribute
+    ctor: System.Diagnostics.ConditionalAttribute.#ctor(System.String)
+    arguments:
+    - type: System.String
+      value: TRACE
   modifiers.csharp:
   - public
   modifiers.vb:
@@ -393,9 +514,19 @@ items:
   assemblies:
   - System.Diagnostics.TraceSource
   namespace: System.Diagnostics
+  summary: "\n<p>Writes a trace event message to the trace listeners in the <xref href=\"System.Diagnostics.TraceSource.Listeners\" data-throw-if-not-resolved=\"false\"></xref> collection using the specified event type, event identifier, and message.</p>\n"
+  remarks: "\n<p>The <xref href=\"System.Diagnostics.TraceSource.TraceEvent(System.Diagnostics.TraceEventType,System.Int32,System.String)\" data-throw-if-not-resolved=\"false\"></xref> method is intended to trace events that can be processed automatically by tools. For example, a monitoring tool can notify an administrator if a specific event is traced by a specific source.</p>\n<p>The <xref href=\"System.Diagnostics.TraceSource.TraceEvent(System.Diagnostics.TraceEventType,System.Int32,System.String)\" data-throw-if-not-resolved=\"false\"></xref> method calls the <xref href=\"System.Diagnostics.SourceSwitch.ShouldTrace(System.Diagnostics.TraceEventType)\" data-throw-if-not-resolved=\"false\"></xref> method of the <xref href=\"System.Diagnostics.SourceSwitch\" data-throw-if-not-resolved=\"false\"></xref> object returned by the <xref href=\"System.Diagnostics.TraceSource.Switch\" data-throw-if-not-resolved=\"false\"></xref> property. If <xref href=\"System.Diagnostics.SourceSwitch.ShouldTrace(System.Diagnostics.TraceEventType)\" data-throw-if-not-resolved=\"false\"></xref> returns <strong>true</strong>, <xref href=\"System.Diagnostics.TraceSource.TraceEvent(System.Diagnostics.TraceEventType,System.Int32,System.String)\" data-throw-if-not-resolved=\"false\"></xref> calls the corresponding <see cref=\"Overload:System.Diagnostics.TraceListener.TraceEvent\"></see> method of each listener. Otherwise, <xref href=\"System.Diagnostics.TraceSource.TraceEvent(System.Diagnostics.TraceEventType,System.Int32,System.String)\" data-throw-if-not-resolved=\"false\"></xref> returns without calling the listeners' methods.</p>\n<p>The trace content is listener specific. If the method is not overridden by the listener implementation, the default output is the name of the trace source, its numeric identity, the event type, and the message.  Additional trace content is dependent upon the listener's <xref href=\"System.Diagnostics.TraceListener.TraceOutputOptions\" data-throw-if-not-resolved=\"false\"></xref> property value.</p>\n<p>The <xref href=\"System.Diagnostics.EventLogTraceListener\" data-throw-if-not-resolved=\"false\"></xref> object is limited to a maximum <em>id</em> value of 65,535. If the <em>id</em> value specified is greater than 65,535, the <xref href=\"System.Diagnostics.EventLogTraceListener\" data-throw-if-not-resolved=\"false\"></xref> object uses 65,535.</p>\n"
+  example:
+  - "\n<p>The following code example shows the use of the <xref href=\"System.Diagnostics.TraceSource.TraceEvent(System.Diagnostics.TraceEventType,System.Int32)\" data-throw-if-not-resolved=\"false\"></xref> method to pass a trace event to the listeners. This code example is part of a larger example provided for the <xref href=\"System.Diagnostics.TraceSource\" data-throw-if-not-resolved=\"false\"></xref> class.</p>System.Diagnostics.TraceSource2#18"
   syntax:
-    content: public void TraceEvent(TraceEventType eventType, int id, string message)
-    content.vb: Public Sub TraceEvent(eventType As TraceEventType, id As Integer, message As String)
+    content: >-
+      [Conditional("TRACE")]
+
+      public void TraceEvent(TraceEventType eventType, int id, string message)
+    content.vb: >-
+      <Conditional("TRACE")>
+
+      Public Sub TraceEvent(eventType As TraceEventType, id As Integer, message As String)
     parameters:
     - id: eventType
       type: System.Diagnostics.TraceEventType
@@ -403,6 +534,16 @@ items:
       type: System.Int32
     - id: message
       type: System.String
+  exceptions:
+  - type: System.ObjectDisposedException
+    commentId: T:System.ObjectDisposedException
+    description: "\n<p>An attempt was made to trace an event during finalization.</p>\n"
+  attributes:
+  - type: System.Diagnostics.ConditionalAttribute
+    ctor: System.Diagnostics.ConditionalAttribute.#ctor(System.String)
+    arguments:
+    - type: System.String
+      value: TRACE
   modifiers.csharp:
   - public
   modifiers.vb:
@@ -428,9 +569,19 @@ items:
   assemblies:
   - System.Diagnostics.TraceSource
   namespace: System.Diagnostics
+  summary: "\n<p>Writes a trace event to the trace listeners in the <xref href=\"System.Diagnostics.TraceSource.Listeners\" data-throw-if-not-resolved=\"false\"></xref> collection using the specified event type, event identifier, and argument array and format.</p>\n"
+  remarks: "\n<p>For more information about the <em>format</em> parameter, see Composite Formatting.</p>\n<p>The <xref href=\"System.Diagnostics.TraceSource.TraceEvent(System.Diagnostics.TraceEventType,System.Int32,System.String,System.Object[])\" data-throw-if-not-resolved=\"false\"></xref> method is intended to trace events that can be processed automatically by tools. For example, a monitoring tool can notify an administrator if a specific event is traced by a specific source.</p>\n<p>The <xref href=\"System.Diagnostics.TraceSource.TraceEvent(System.Diagnostics.TraceEventType,System.Int32,System.String,System.Object[])\" data-throw-if-not-resolved=\"false\"></xref> method calls the <xref href=\"System.Diagnostics.SourceSwitch.ShouldTrace(System.Diagnostics.TraceEventType)\" data-throw-if-not-resolved=\"false\"></xref> method of the <xref href=\"System.Diagnostics.SourceSwitch\" data-throw-if-not-resolved=\"false\"></xref> object returned by the <xref href=\"System.Diagnostics.TraceSource.Switch\" data-throw-if-not-resolved=\"false\"></xref> property. If <xref href=\"System.Diagnostics.SourceSwitch.ShouldTrace(System.Diagnostics.TraceEventType)\" data-throw-if-not-resolved=\"false\"></xref> returns <strong>true</strong>, <xref href=\"System.Diagnostics.TraceSource.TraceEvent(System.Diagnostics.TraceEventType,System.Int32,System.String,System.Object[])\" data-throw-if-not-resolved=\"false\"></xref> calls the corresponding <see cref=\"Overload:System.Diagnostics.TraceListener.TraceEvent\"></see> method of each listener. Otherwise, <xref href=\"System.Diagnostics.TraceSource.TraceEvent(System.Diagnostics.TraceEventType,System.Int32,System.String,System.Object[])\" data-throw-if-not-resolved=\"false\"></xref> returns without calling the listeners' methods.</p>\n<p>The trace content is listener specific. The default <xref href=\"System.Diagnostics.TraceListener.TraceEvent(System.Diagnostics.TraceEventCache,System.String,System.Diagnostics.TraceEventType,System.Int32,System.String,System.Object[])\" data-throw-if-not-resolved=\"false\"></xref> method writes the source name, event type, and numeric identity in the trace header, then calls the <xref href=\"System.String.Format(System.IFormatProvider,System.String,System.Object[])\" data-throw-if-not-resolved=\"false\"></xref> method, passing the <em>format</em> string and <em>args</em> array and using the <xref href=\"System.Globalization.CultureInfo.InvariantCulture\" data-throw-if-not-resolved=\"false\"></xref> property to format the string as the message output. </p>\n<p>The <xref href=\"System.Diagnostics.EventLogTraceListener\" data-throw-if-not-resolved=\"false\"></xref> object is limited to a maximum <em>id</em> value of 65,535. If the <em>id</em> value specified is greater than 65,535, the <xref href=\"System.Diagnostics.EventLogTraceListener\" data-throw-if-not-resolved=\"false\"></xref> object uses 65,535.</p>\n"
+  example:
+  - "\n<p>The following code example shows the use of the <xref href=\"System.Diagnostics.TraceSource.TraceEvent(System.Diagnostics.TraceEventType,System.Int32)\" data-throw-if-not-resolved=\"false\"></xref> method to pass a trace event to the listeners. This code example is part of a larger example provided for the <xref href=\"System.Diagnostics.TraceSource\" data-throw-if-not-resolved=\"false\"></xref> class.</p>System.Diagnostics.TraceSource2#24"
   syntax:
-    content: public void TraceEvent(TraceEventType eventType, int id, string format, params object[] args)
-    content.vb: Public Sub TraceEvent(eventType As TraceEventType, id As Integer, format As String, ParamArray args As Object())
+    content: >-
+      [Conditional("TRACE")]
+
+      public void TraceEvent(TraceEventType eventType, int id, string format, params object[] args)
+    content.vb: >-
+      <Conditional("TRACE")>
+
+      Public Sub TraceEvent(eventType As TraceEventType, id As Integer, format As String, ParamArray args As Object())
     parameters:
     - id: eventType
       type: System.Diagnostics.TraceEventType
@@ -440,6 +591,22 @@ items:
       type: System.String
     - id: args
       type: System.Object[]
+  exceptions:
+  - type: System.ArgumentNullException
+    commentId: T:System.ArgumentNullException
+    description: "\n<p>\n<em>format</em> is <strong>null</strong>. </p>\n"
+  - type: System.FormatException
+    commentId: T:System.FormatException
+    description: "\n<p>\n<em>format</em> is invalid.</p>\n<p>-or- </p>\n<p>The number that indicates an argument to format is less than zero, or greater than or equal to the number of specified objects to format. </p>\n"
+  - type: System.ObjectDisposedException
+    commentId: T:System.ObjectDisposedException
+    description: "\n<p>An attempt was made to trace an event during finalization.</p>\n"
+  attributes:
+  - type: System.Diagnostics.ConditionalAttribute
+    ctor: System.Diagnostics.ConditionalAttribute.#ctor(System.String)
+    arguments:
+    - type: System.String
+      value: TRACE
   modifiers.csharp:
   - public
   modifiers.vb:
@@ -467,12 +634,30 @@ items:
   assemblies:
   - System.Diagnostics.TraceSource
   namespace: System.Diagnostics
+  summary: "\n<p>Writes an informational message to the trace listeners in the <xref href=\"System.Diagnostics.TraceSource.Listeners\" data-throw-if-not-resolved=\"false\"></xref> collection using the specified message.</p>\n"
+  remarks: "\n<p>The <xref href=\"System.Diagnostics.TraceSource.TraceInformation(System.String)\" data-throw-if-not-resolved=\"false\"></xref> method provides an informational message intended to be read by users and not by tools.</p>\n<p>\n<xref href=\"System.Diagnostics.TraceSource.TraceInformation(System.String)\" data-throw-if-not-resolved=\"false\"></xref> calls the <xref href=\"System.Diagnostics.TraceSource.TraceEvent(System.Diagnostics.TraceEventType,System.Int32,System.String)\" data-throw-if-not-resolved=\"false\"></xref> method, setting <em>eventType</em> to <xref href=\"System.Diagnostics.TraceEventType.Information\" data-throw-if-not-resolved=\"false\"></xref> and passing the informative message as the message string. The <xref href=\"System.Diagnostics.TraceSource.TraceEvent(System.Diagnostics.TraceEventType,System.Int32,System.String)\" data-throw-if-not-resolved=\"false\"></xref> method in turn calls the <xref href=\"System.Diagnostics.TraceListener.TraceEvent(System.Diagnostics.TraceEventCache,System.String,System.Diagnostics.TraceEventType,System.Int32,System.String)\" data-throw-if-not-resolved=\"false\"></xref> method of each trace listener.</p>\n"
   syntax:
-    content: public void TraceInformation(string message)
-    content.vb: Public Sub TraceInformation(message As String)
+    content: >-
+      [Conditional("TRACE")]
+
+      public void TraceInformation(string message)
+    content.vb: >-
+      <Conditional("TRACE")>
+
+      Public Sub TraceInformation(message As String)
     parameters:
     - id: message
       type: System.String
+  exceptions:
+  - type: System.ObjectDisposedException
+    commentId: T:System.ObjectDisposedException
+    description: "\n<p>An attempt was made to trace an event during finalization.</p>\n"
+  attributes:
+  - type: System.Diagnostics.ConditionalAttribute
+    ctor: System.Diagnostics.ConditionalAttribute.#ctor(System.String)
+    arguments:
+    - type: System.String
+      value: TRACE
   modifiers.csharp:
   - public
   modifiers.vb:
@@ -498,14 +683,38 @@ items:
   assemblies:
   - System.Diagnostics.TraceSource
   namespace: System.Diagnostics
+  summary: "\n<p>Writes an informational message to the trace listeners in the <xref href=\"System.Diagnostics.TraceSource.Listeners\" data-throw-if-not-resolved=\"false\"></xref> collection using the specified object array and formatting information.</p>\n"
+  remarks: "\n<p>For more information about the <em>format</em> parameter, see Composite Formatting.</p>\n<p>The <xref href=\"System.Diagnostics.TraceSource.TraceInformation(System.String,System.Object[])\" data-throw-if-not-resolved=\"false\"></xref> method provides an informational message intended to be read by users and not by tools.</p>\n<p>\n<xref href=\"System.Diagnostics.TraceSource.TraceInformation(System.String,System.Object[])\" data-throw-if-not-resolved=\"false\"></xref> calls the <xref href=\"System.Diagnostics.TraceSource.TraceEvent(System.Diagnostics.TraceEventType,System.Int32,System.String,System.Object[])\" data-throw-if-not-resolved=\"false\"></xref> method, setting <em>eventType</em> to <xref href=\"System.Diagnostics.TraceEventType.Information\" data-throw-if-not-resolved=\"false\"></xref> and passing the message content as an object array with formatting information. The <xref href=\"System.Diagnostics.TraceSource.TraceEvent(System.Diagnostics.TraceEventType,System.Int32,System.String,System.Object[])\" data-throw-if-not-resolved=\"false\"></xref> method in turn calls the <xref href=\"System.Diagnostics.TraceListener.TraceEvent(System.Diagnostics.TraceEventCache,System.String,System.Diagnostics.TraceEventType,System.Int32,System.String,System.Object[])\" data-throw-if-not-resolved=\"false\"></xref> method of each trace listener.</p>\n"
   syntax:
-    content: public void TraceInformation(string format, params object[] args)
-    content.vb: Public Sub TraceInformation(format As String, ParamArray args As Object())
+    content: >-
+      [Conditional("TRACE")]
+
+      public void TraceInformation(string format, params object[] args)
+    content.vb: >-
+      <Conditional("TRACE")>
+
+      Public Sub TraceInformation(format As String, ParamArray args As Object())
     parameters:
     - id: format
       type: System.String
     - id: args
       type: System.Object[]
+  exceptions:
+  - type: System.ArgumentNullException
+    commentId: T:System.ArgumentNullException
+    description: "\n<p>\n<em>format</em> is <strong>null</strong>. </p>\n"
+  - type: System.FormatException
+    commentId: T:System.FormatException
+    description: "\n<p>\n<em>format</em> is invalid.</p>\n<p>-or- </p>\n<p>The number that indicates an argument to format is less than zero, or greater than or equal to the number of specified objects to format. </p>\n"
+  - type: System.ObjectDisposedException
+    commentId: T:System.ObjectDisposedException
+    description: "\n<p>An attempt was made to trace an event during finalization.</p>\n"
+  attributes:
+  - type: System.Diagnostics.ConditionalAttribute
+    ctor: System.Diagnostics.ConditionalAttribute.#ctor(System.String)
+    arguments:
+    - type: System.String
+      value: TRACE
   modifiers.csharp:
   - public
   modifiers.vb:
@@ -522,6 +731,215 @@ references:
   isExternal: false
   name: Object
   fullName: System.Object
+- uid: System.Object.ToString
+  parent: System.Object
+  isExternal: true
+  name: ToString()
+  fullName: System.Object.ToString()
+  spec.csharp:
+  - uid: System.Object.ToString
+    name: ToString
+    fullName: System.Object.ToString
+    isExternal: true
+  - name: (
+    fullName: (
+  - name: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.ToString
+    name: ToString
+    fullName: System.Object.ToString
+    isExternal: true
+  - name: (
+    fullName: (
+  - name: )
+    fullName: )
+- uid: System.Object.Equals(System.Object)
+  parent: System.Object
+  isExternal: true
+  name: Equals(Object)
+  fullName: System.Object.Equals(System.Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    fullName: )
+- uid: System.Object.Equals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  name: Equals(Object, Object)
+  fullName: System.Object.Equals(System.Object, System.Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    fullName: )
+- uid: System.Object.ReferenceEquals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  name: ReferenceEquals(Object, Object)
+  fullName: System.Object.ReferenceEquals(System.Object, System.Object)
+  spec.csharp:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    fullName: System.Object.ReferenceEquals
+    isExternal: true
+  - name: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    fullName: System.Object.ReferenceEquals
+    isExternal: true
+  - name: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    fullName: )
+- uid: System.Object.GetHashCode
+  parent: System.Object
+  isExternal: true
+  name: GetHashCode()
+  fullName: System.Object.GetHashCode()
+  spec.csharp:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    fullName: System.Object.GetHashCode
+    isExternal: true
+  - name: (
+    fullName: (
+  - name: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    fullName: System.Object.GetHashCode
+    isExternal: true
+  - name: (
+    fullName: (
+  - name: )
+    fullName: )
+- uid: System.Object.GetType
+  parent: System.Object
+  isExternal: true
+  name: GetType()
+  fullName: System.Object.GetType()
+  spec.csharp:
+  - uid: System.Object.GetType
+    name: GetType
+    fullName: System.Object.GetType
+    isExternal: true
+  - name: (
+    fullName: (
+  - name: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.GetType
+    name: GetType
+    fullName: System.Object.GetType
+    isExternal: true
+  - name: (
+    fullName: (
+  - name: )
+    fullName: )
+- uid: System.Object.MemberwiseClone
+  parent: System.Object
+  isExternal: true
+  name: MemberwiseClone()
+  fullName: System.Object.MemberwiseClone()
+  spec.csharp:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    fullName: System.Object.MemberwiseClone
+    isExternal: true
+  - name: (
+    fullName: (
+  - name: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    fullName: System.Object.MemberwiseClone
+    isExternal: true
+  - name: (
+    fullName: (
+  - name: )
+    fullName: )
 - uid: System
   isExternal: false
   name: System
@@ -557,7 +975,7 @@ references:
   name: Int32
   fullName: System.Int32
 - uid: System.Object[]
-  isExternal: false
+  isExternal: true
   name: Object[]
   fullName: System.Object[]
   fullname.vb: System.Object()
@@ -566,11 +984,31 @@ references:
   - uid: System.Object
     name: Object
     fullName: System.Object
+    isExternal: true
   - name: '[]'
     fullName: '[]'
   spec.vb:
   - uid: System.Object
     name: Object
     fullName: System.Object
+    isExternal: true
   - name: ()
     fullName: ()
+- uid: System.ArgumentNullException
+  isExternal: false
+  name: ArgumentNullException
+  fullName: System.ArgumentNullException
+- uid: System.ArgumentException
+  parent: System
+  isExternal: false
+  name: ArgumentException
+  fullName: System.ArgumentException
+- uid: System.ObjectDisposedException
+  isExternal: false
+  name: ObjectDisposedException
+  fullName: System.ObjectDisposedException
+- uid: System.FormatException
+  parent: System
+  isExternal: false
+  name: FormatException
+  fullName: System.FormatException

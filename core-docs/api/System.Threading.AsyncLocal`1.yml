@@ -15,12 +15,12 @@ items:
   type: Class
   source:
     remote:
-      path: src/System.Threading/ref/System.Threading.cs
+      path: src/mscorlib/src/System/Threading/AsyncLocal.cs
       branch: master
-      repo: https://github.com/dotnet/corefx.git
+      repo: https://github.com/dotnet/coreclr.git
     id: AsyncLocal
-    path: src/System.Threading/ref/System.Threading.cs
-    startLine: 21
+    path: src/mscorlib/src/System/Threading/AsyncLocal.cs
+    startLine: 40
   assemblies:
   - System.Threading
   namespace: System.Threading
@@ -29,15 +29,22 @@ items:
   example:
   - "\n<p>The following example uses the <xref href=\"System.Threading.AsyncLocal`1\" data-throw-if-not-resolved=\"false\"></xref> class to persist a string value across an asynchronous flow. It also contrasts the use of  <xref href=\"System.Threading.AsyncLocal`1\" data-throw-if-not-resolved=\"false\"></xref> with <xref href=\"System.Threading.ThreadLocal`1\" data-throw-if-not-resolved=\"false\"></xref>.</p>System.Threading.AsyncLocal#1"
   syntax:
-    content: 'public sealed class AsyncLocal<T> : object'
+    content: 'public sealed class AsyncLocal<T> : IAsyncLocal'
     content.vb: >-
       Public NotInheritable Class AsyncLocal(Of T)
-          Inherits Object
+          Implements IAsyncLocal
     typeParameters:
     - id: T
-      description: "\n<p>The type of the ambient data. </p>\n"
   inheritance:
   - System.Object
+  inheritedMembers:
+  - System.Object.ToString
+  - System.Object.Equals(System.Object)
+  - System.Object.Equals(System.Object,System.Object)
+  - System.Object.ReferenceEquals(System.Object,System.Object)
+  - System.Object.GetHashCode
+  - System.Object.GetType
+  - System.Object.MemberwiseClone
   modifiers.csharp:
   - public
   - sealed
@@ -60,12 +67,12 @@ items:
   type: Constructor
   source:
     remote:
-      path: src/System.Threading/ref/System.Threading.cs
+      path: src/mscorlib/src/System/Threading/AsyncLocal.cs
       branch: master
-      repo: https://github.com/dotnet/corefx.git
+      repo: https://github.com/dotnet/coreclr.git
     id: .ctor
-    path: src/System.Threading/ref/System.Threading.cs
-    startLine: 23
+    path: src/mscorlib/src/System/Threading/AsyncLocal.cs
+    startLine: 48
   assemblies:
   - System.Threading
   namespace: System.Threading
@@ -90,27 +97,36 @@ items:
   type: Constructor
   source:
     remote:
-      path: src/System.Threading/ref/System.Threading.cs
+      path: src/mscorlib/src/System/Threading/AsyncLocal.cs
       branch: master
-      repo: https://github.com/dotnet/corefx.git
+      repo: https://github.com/dotnet/coreclr.git
     id: .ctor
-    path: src/System.Threading/ref/System.Threading.cs
-    startLine: 24
+    path: src/mscorlib/src/System/Threading/AsyncLocal.cs
+    startLine: 56
   assemblies:
   - System.Threading
   namespace: System.Threading
   summary: "\n<p>Instantiates an <xref href=\"System.Threading.AsyncLocal`1\" data-throw-if-not-resolved=\"false\"></xref> local instance that receives change notifications. </p>\n"
   remarks: "\n<p>The delegate's signature is <strong>Action<ASyncLocalValueChangedArgs<T></strong>. </p>\n"
   syntax:
-    content: public AsyncLocal(Action<AsyncLocalValueChangedArgs<T>> valueChangedHandler)
-    content.vb: Public Sub New(valueChangedHandler As Action(Of AsyncLocalValueChangedArgs(Of T)))
+    content: >-
+      [SecurityCritical]
+
+      public AsyncLocal(Action<AsyncLocalValueChangedArgs<T>> valueChangedHandler)
+    content.vb: >-
+      <SecurityCritical>
+
+      Public Sub New(valueChangedHandler As Action(Of AsyncLocalValueChangedArgs(Of T)))
     parameters:
     - id: valueChangedHandler
       type: System.Action{System.Threading.AsyncLocalValueChangedArgs{{T}}}
-      description: "\n<p>The delegate that is called whenever the current value changes on any thread. </p>\n"
   seealso:
   - type: System.Threading.AsyncLocalValueChangedArgs`1
     commentId: T:System.Threading.AsyncLocalValueChangedArgs`1
+  attributes:
+  - type: System.Security.SecurityCriticalAttribute
+    ctor: System.Security.SecurityCriticalAttribute.#ctor
+    arguments: []
   modifiers.csharp:
   - public
   modifiers.vb:
@@ -129,23 +145,30 @@ items:
   type: Property
   source:
     remote:
-      path: src/System.Threading/ref/System.Threading.cs
+      path: src/mscorlib/src/System/Threading/AsyncLocal.cs
       branch: master
-      repo: https://github.com/dotnet/corefx.git
+      repo: https://github.com/dotnet/coreclr.git
     id: Value
-    path: src/System.Threading/ref/System.Threading.cs
-    startLine: 26
+    path: src/mscorlib/src/System/Threading/AsyncLocal.cs
+    startLine: 62
   assemblies:
   - System.Threading
   namespace: System.Threading
   summary: "\n<p>Gets or sets the value of the ambient data. </p>\n"
   syntax:
-    content: public T Value { get; set; }
+    content: >-
+      public T Value
+
+      {
+          [SecuritySafeCritical]
+          get;
+          [SecuritySafeCritical]
+          set;
+      }
     content.vb: Public Property Value As T
     parameters: []
     return:
       type: '{T}'
-      description: "\n<p>The value of the ambient data. </p>\n"
   modifiers.csharp:
   - public
   - get
@@ -163,11 +186,221 @@ references:
   isExternal: false
   name: Object
   fullName: System.Object
+- uid: System.Object.ToString
+  parent: System.Object
+  isExternal: true
+  name: ToString()
+  fullName: System.Object.ToString()
+  spec.csharp:
+  - uid: System.Object.ToString
+    name: ToString
+    fullName: System.Object.ToString
+    isExternal: true
+  - name: (
+    fullName: (
+  - name: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.ToString
+    name: ToString
+    fullName: System.Object.ToString
+    isExternal: true
+  - name: (
+    fullName: (
+  - name: )
+    fullName: )
+- uid: System.Object.Equals(System.Object)
+  parent: System.Object
+  isExternal: true
+  name: Equals(Object)
+  fullName: System.Object.Equals(System.Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    fullName: )
+- uid: System.Object.Equals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  name: Equals(Object, Object)
+  fullName: System.Object.Equals(System.Object, System.Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    fullName: )
+- uid: System.Object.ReferenceEquals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  name: ReferenceEquals(Object, Object)
+  fullName: System.Object.ReferenceEquals(System.Object, System.Object)
+  spec.csharp:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    fullName: System.Object.ReferenceEquals
+    isExternal: true
+  - name: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    fullName: System.Object.ReferenceEquals
+    isExternal: true
+  - name: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    fullName: )
+- uid: System.Object.GetHashCode
+  parent: System.Object
+  isExternal: true
+  name: GetHashCode()
+  fullName: System.Object.GetHashCode()
+  spec.csharp:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    fullName: System.Object.GetHashCode
+    isExternal: true
+  - name: (
+    fullName: (
+  - name: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    fullName: System.Object.GetHashCode
+    isExternal: true
+  - name: (
+    fullName: (
+  - name: )
+    fullName: )
+- uid: System.Object.GetType
+  parent: System.Object
+  isExternal: true
+  name: GetType()
+  fullName: System.Object.GetType()
+  spec.csharp:
+  - uid: System.Object.GetType
+    name: GetType
+    fullName: System.Object.GetType
+    isExternal: true
+  - name: (
+    fullName: (
+  - name: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.GetType
+    name: GetType
+    fullName: System.Object.GetType
+    isExternal: true
+  - name: (
+    fullName: (
+  - name: )
+    fullName: )
+- uid: System.Object.MemberwiseClone
+  parent: System.Object
+  isExternal: true
+  name: MemberwiseClone()
+  fullName: System.Object.MemberwiseClone()
+  spec.csharp:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    fullName: System.Object.MemberwiseClone
+    isExternal: true
+  - name: (
+    fullName: (
+  - name: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    fullName: System.Object.MemberwiseClone
+    isExternal: true
+  - name: (
+    fullName: (
+  - name: )
+    fullName: )
 - uid: System
   isExternal: false
   name: System
   fullName: System
 - uid: System.Action{System.Threading.AsyncLocalValueChangedArgs{{T}}}
+  parent: System
   definition: System.Action`1
   name: Action<AsyncLocalValueChangedArgs<T>>
   fullName: System.Action<System.Threading.AsyncLocalValueChangedArgs<T>>
@@ -210,18 +443,20 @@ references:
   - name: )
     fullName: )
 - uid: System.Action`1
+  parent: System
   isExternal: false
-  name: Action<>
-  fullName: System.Action<>
-  fullname.vb: System.Action(Of )
-  name.vb: Action(Of )
+  name: Action<T>
+  fullName: System.Action<T>
+  fullname.vb: System.Action(Of T)
+  name.vb: Action(Of T)
   spec.csharp:
   - uid: System.Action`1
     name: Action
     fullName: System.Action
   - name: <
     fullName: <
-  - {}
+  - name: T
+    fullName: T
   - name: '>'
     fullName: '>'
   spec.vb:
@@ -230,7 +465,8 @@ references:
     fullName: System.Action
   - name: '(Of '
     fullName: '(Of '
-  - {}
+  - name: T
+    fullName: T
   - name: )
     fullName: )
 - uid: '{T}'

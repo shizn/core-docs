@@ -25,9 +25,13 @@ items:
   assemblies:
   - System.Xml.XDocument
   namespace: System.Xml.Linq
+  summary: "\n<p>Specifies the event type when an event is raised for an <xref href=\"System.Xml.Linq.XObject\" data-throw-if-not-resolved=\"false\"></xref>.</p>\n"
+  remarks: "\n<p>This <strong>enum</strong> specifies the event type when an event is raised for an <xref href=\"System.Xml.Linq.XObject\" data-throw-if-not-resolved=\"false\"></xref>.</p>\n<p>All operations that modify the XML tree break down to a series of primitives. There are four types of primitives. Two of the primitives (Add and Remove) act on collections. Two of them (Name and Value) act on instances. There is a corresponding event for each of these primitives. </p>\n<p>You should be careful when modifying an XML tree within one of these events, because doing this might lead to unexpected results. For example, if you receive a <xref href=\"System.Xml.Linq.XObject.Changing\" data-throw-if-not-resolved=\"false\"></xref> event, and while the event is being processed you remove the node from the tree, you might not receive the <xref href=\"System.Xml.Linq.XObject.Changed\" data-throw-if-not-resolved=\"false\"></xref> event. When an event is being processed, it is valid to modify an XML tree other than the one that contains the node that is receiving the event; it is even valid to modify the same tree provided the modifications do not affect the specific nodes on which the event was raised. However, if you modify the area of the tree that contains the node receiving the event, the events that you receive and the impact to the tree are undefined. </p>\n"
+  example:
+  - "\n<p>The following example raises an event by adding an element to the tree.</p>\n<pre><code class=\"c#\">XElement root = new XElement(\"Root\", \"content\");\nroot.Changing += (sender, e) =>\n{\nConsole.WriteLine(\"Changing event raised\");\nConsole.WriteLine(\"  Sender: \" + sender.GetType());\nConsole.WriteLine(\"  Changing: \" + e.ObjectChange);\n};\nroot.Changed += (sender, e) =>\n{\nConsole.WriteLine(\"Changed event raised\");\nConsole.WriteLine(\"  Sender: \" + sender.GetType());\nConsole.WriteLine(\"  Changed: \" + e.ObjectChange);\n};\nroot.Add(new XElement(\"Child\", \"child content\"));</code></pre>\n<p>This example produces the following output:</p>\n<pre><code>Changing event raised\nSender: System.Xml.Linq.XElement\nChanging: Add\nChanged event raised\nSender: System.Xml.Linq.XElement\nChanged: Add</code></pre>\n<p>The following example raises an event by removing an element from the tree.</p>\n<pre><code class=\"c#\">XElement root = new XElement(\"Root\",\nnew XElement(\"Child\", \"content\")\n);\nroot.Changing += (sender, e) =>\n{\nConsole.WriteLine(\"Changing event raised\");\nConsole.WriteLine(\"  Sender: \" + sender.GetType());\nConsole.WriteLine(\"  Changing: \" + e.ObjectChange);\n};\nroot.Changed += (sender, e) =>\n{\nConsole.WriteLine(\"Changed event raised\");\nConsole.WriteLine(\"  Sender: \" + sender.GetType());\nConsole.WriteLine(\"  Changed: \" + e.ObjectChange);\n};\nroot.Element(\"Child\").Remove();</code></pre>\n<p>This example produces the following output:</p>\n<pre><code>Changing event raised\nSender: System.Xml.Linq.XElement\nChanging: Remove\nChanged event raised\nSender: System.Xml.Linq.XElement\nChanged: Remove</code></pre>\n<p>The following example raises an event by changing the name of an element.</p>\n<pre><code class=\"c#\">XElement root = new XElement(\"Root\", \"content\");\nroot.Changing += (sender, e) =>\n{\nConsole.WriteLine(\"Changing event raised\");\nConsole.WriteLine(\"  Sender: \" + sender.GetType());\nConsole.WriteLine(\"  Changing: \" + e.ObjectChange);\n};\nroot.Changed += (sender, e) =>\n{\nConsole.WriteLine(\"Changed event raised\");\nConsole.WriteLine(\"  Sender: \" + sender.GetType());\nConsole.WriteLine(\"  Changed: \" + e.ObjectChange);\n};\nroot.Name = \"NewName\";</code></pre>\n<p>This example produces the following output: </p>\n<pre><code>Changing event raised\nSender: System.Xml.Linq.XElement\nChanging: Name\nChanged event raised\nSender: System.Xml.Linq.XElement\nChanged: Name</code></pre>\n<p>The following example raises an event by setting the value of an attribute.</p>\n<pre><code class=\"c#\">XElement root = new XElement(\"Root\",\nnew XAttribute(\"Att\", \"att value\")\n);\nroot.Changing += (sender, e) =>\n{\nConsole.WriteLine(\"Changing event raised\");\nConsole.WriteLine(\"  Sender: \" + sender.GetType());\nConsole.WriteLine(\"  Changing: \" + e.ObjectChange);\n};\nroot.Changed += (sender, e) =>\n{\nConsole.WriteLine(\"Changed event raised\");\nConsole.WriteLine(\"  Sender: \" + sender.GetType());\nConsole.WriteLine(\"  Changed: \" + e.ObjectChange);\n};\nroot.FirstAttribute.Value = \"new contents\";</code></pre>\n<p>This example produces the following output:</p>\n<pre><code>Changing event raised\nSender: System.Xml.Linq.XAttribute\nChanging: Value\nChanged event raised\nSender: System.Xml.Linq.XAttribute\nChanged: Value</code></pre>\n"
   syntax:
-    content: 'public enum XObjectChange : int'
-    content.vb: Public Enum XObjectChange As Integer
+    content: public enum XObjectChange
+    content.vb: Public Enum XObjectChange
   modifiers.csharp:
   - public
   - enum
@@ -55,9 +59,9 @@ items:
   assemblies:
   - System.Xml.XDocument
   namespace: System.Xml.Linq
+  summary: "\n<p>An <xref href=\"System.Xml.Linq.XObject\" data-throw-if-not-resolved=\"false\"></xref> has been or will be added to an <xref href=\"System.Xml.Linq.XContainer\" data-throw-if-not-resolved=\"false\"></xref>.</p>\n"
   syntax:
-    content: Add = null
-    content.vb: Add = Nothing
+    content: Add = 0
     return:
       type: System.Xml.Linq.XObjectChange
   modifiers.csharp:
@@ -87,9 +91,9 @@ items:
   assemblies:
   - System.Xml.XDocument
   namespace: System.Xml.Linq
+  summary: "\n<p>An <xref href=\"System.Xml.Linq.XObject\" data-throw-if-not-resolved=\"false\"></xref> has been or will be renamed.</p>\n"
   syntax:
-    content: Name = null
-    content.vb: Name = Nothing
+    content: Name = 2
     return:
       type: System.Xml.Linq.XObjectChange
   modifiers.csharp:
@@ -119,9 +123,9 @@ items:
   assemblies:
   - System.Xml.XDocument
   namespace: System.Xml.Linq
+  summary: "\n<p>An <xref href=\"System.Xml.Linq.XObject\" data-throw-if-not-resolved=\"false\"></xref> has been or will be removed from an <xref href=\"System.Xml.Linq.XContainer\" data-throw-if-not-resolved=\"false\"></xref>.</p>\n"
   syntax:
-    content: Remove = null
-    content.vb: Remove = Nothing
+    content: Remove = 1
     return:
       type: System.Xml.Linq.XObjectChange
   modifiers.csharp:
@@ -151,9 +155,9 @@ items:
   assemblies:
   - System.Xml.XDocument
   namespace: System.Xml.Linq
+  summary: "\n<p>The value of an <xref href=\"System.Xml.Linq.XObject\" data-throw-if-not-resolved=\"false\"></xref> has been or will be changed. In addition, a change in the serialization of an empty element (either from an empty tag to start/end tag pair or vice versa) raises this event.</p>\n"
   syntax:
-    content: Value = null
-    content.vb: Value = Nothing
+    content: Value = 3
     return:
       type: System.Xml.Linq.XObjectChange
   modifiers.csharp:

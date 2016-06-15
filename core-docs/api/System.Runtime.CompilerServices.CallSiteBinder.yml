@@ -26,13 +26,22 @@ items:
   assemblies:
   - System.Dynamic.Runtime
   namespace: System.Runtime.CompilerServices
+  summary: "\n<p>Class responsible for runtime binding of the dynamic operations on the dynamic call site.</p>\n"
+  example:
+  - 
   syntax:
-    content: 'public abstract class CallSiteBinder : object'
-    content.vb: >-
-      Public MustInherit Class CallSiteBinder
-          Inherits Object
+    content: public abstract class CallSiteBinder
+    content.vb: Public MustInherit Class CallSiteBinder
   inheritance:
   - System.Object
+  inheritedMembers:
+  - System.Object.ToString
+  - System.Object.Equals(System.Object)
+  - System.Object.Equals(System.Object,System.Object)
+  - System.Object.ReferenceEquals(System.Object,System.Object)
+  - System.Object.GetHashCode
+  - System.Object.GetType
+  - System.Object.MemberwiseClone
   modifiers.csharp:
   - public
   - abstract
@@ -62,6 +71,9 @@ items:
   assemblies:
   - System.Dynamic.Runtime
   namespace: System.Runtime.CompilerServices
+  summary: "\n<p>Initializes a new instance of the <xref href=\"System.Runtime.CompilerServices.CallSiteBinder\" data-throw-if-not-resolved=\"false\"></xref> class.</p>\n"
+  example:
+  - 
   syntax:
     content: protected CallSiteBinder()
     content.vb: Protected Sub New
@@ -90,6 +102,9 @@ items:
   assemblies:
   - System.Dynamic.Runtime
   namespace: System.Runtime.CompilerServices
+  summary: "\n<p>Gets a label that can be used to cause the binding to be updated. It indicates that the expression's binding is no longer valid. This is typically used when the \"version\" of a dynamic object has changed.</p>\n"
+  example:
+  - 
   syntax:
     content: public static LabelTarget UpdateLabel { get; }
     content.vb: Public Shared ReadOnly Property UpdateLabel As LabelTarget
@@ -111,7 +126,7 @@ items:
   langs:
   - csharp
   - vb
-  name: Bind(Object[], Collections.ObjectModel.ReadOnlyCollection<ParameterExpression>, LabelTarget)
+  name: Bind(Object[], ReadOnlyCollection<ParameterExpression>, LabelTarget)
   fullName: System.Runtime.CompilerServices.CallSiteBinder.Bind(System.Object[], System.Collections.ObjectModel.ReadOnlyCollection<System.Linq.Expressions.ParameterExpression>, System.Linq.Expressions.LabelTarget)
   type: Method
   source:
@@ -125,18 +140,25 @@ items:
   assemblies:
   - System.Dynamic.Runtime
   namespace: System.Runtime.CompilerServices
+  summary: "\n<p>Performs the runtime binding of the dynamic operation on a set of arguments.</p>\n"
+  example:
+  - 
   syntax:
-    content: public abstract Expression Bind(object[] args, Collections.ObjectModel.ReadOnlyCollection<ParameterExpression> parameters, LabelTarget returnLabel)
-    content.vb: Public MustOverride Function Bind(args As Object(), parameters As Collections.ObjectModel.ReadOnlyCollection(Of ParameterExpression), returnLabel As LabelTarget) As Expression
+    content: public abstract Expression Bind(object[] args, ReadOnlyCollection<ParameterExpression> parameters, LabelTarget returnLabel)
+    content.vb: Public MustOverride Function Bind(args As Object(), parameters As ReadOnlyCollection(Of ParameterExpression), returnLabel As LabelTarget) As Expression
     parameters:
     - id: args
       type: System.Object[]
+      description: "\n<p>An array of arguments to the dynamic operation.</p>\n"
     - id: parameters
       type: System.Collections.ObjectModel.ReadOnlyCollection{System.Linq.Expressions.ParameterExpression}
+      description: "\n<p>The array of <xref href=\"System.Linq.Expressions.ParameterExpression\" data-throw-if-not-resolved=\"false\"></xref> instances that represent the parameters of the call site in the binding process.</p>\n"
     - id: returnLabel
       type: System.Linq.Expressions.LabelTarget
+      description: "\n<p>A LabelTarget used to return the result of the dynamic binding.</p>\n"
     return:
       type: System.Linq.Expressions.Expression
+      description: "\n<p>An Expression that performs tests on the dynamic operation arguments, and performs the dynamic operation if the tests are valid. If the tests fail on subsequent occurrences of the dynamic operation, Bind will be called again to produce a new <xref href=\"System.Linq.Expressions.Expression\" data-throw-if-not-resolved=\"false\"></xref> for the new argument types.</p>\n"
   modifiers.csharp:
   - public
   - abstract
@@ -144,7 +166,7 @@ items:
   - Public
   - MustOverride
   fullName.vb: System.Runtime.CompilerServices.CallSiteBinder.Bind(System.Object(), System.Collections.ObjectModel.ReadOnlyCollection(Of System.Linq.Expressions.ParameterExpression), System.Linq.Expressions.LabelTarget)
-  name.vb: Bind(Object(), Collections.ObjectModel.ReadOnlyCollection(Of ParameterExpression), LabelTarget)
+  name.vb: Bind(Object(), ReadOnlyCollection(Of ParameterExpression), LabelTarget)
 - uid: System.Runtime.CompilerServices.CallSiteBinder.BindDelegate``1(System.Runtime.CompilerServices.CallSite{``0},System.Object[])
   commentId: M:System.Runtime.CompilerServices.CallSiteBinder.BindDelegate``1(System.Runtime.CompilerServices.CallSite{``0},System.Object[])
   id: BindDelegate``1(System.Runtime.CompilerServices.CallSite{``0},System.Object[])
@@ -166,6 +188,9 @@ items:
   assemblies:
   - System.Dynamic.Runtime
   namespace: System.Runtime.CompilerServices
+  summary: "\n<p>Provides low-level runtime binding support. Classes can override this and provide a direct delegate for the implementation of rule. This can enable saving rules to disk, having specialized rules available at runtime, or providing a different caching policy.</p>\n"
+  example:
+  - 
   syntax:
     content: 'public virtual T BindDelegate<T>(CallSite<T> site, object[] args)where T : class'
     content.vb: Public Overridable Function BindDelegate(Of T As Class)(site As CallSite(Of T), args As Object()) As T
@@ -211,6 +236,9 @@ items:
   assemblies:
   - System.Dynamic.Runtime
   namespace: System.Runtime.CompilerServices
+  summary: "\n<p>Adds a target to the cache of known targets. The cached targets will be scanned before calling BindDelegate to produce the new rule.</p>\n"
+  example:
+  - 
   syntax:
     content: 'protected void CacheTarget<T>(T target)where T : class'
     content.vb: Protected Sub CacheTarget(Of T As Class)(target As T)
@@ -237,6 +265,215 @@ references:
   isExternal: false
   name: Object
   fullName: System.Object
+- uid: System.Object.ToString
+  parent: System.Object
+  isExternal: true
+  name: ToString()
+  fullName: System.Object.ToString()
+  spec.csharp:
+  - uid: System.Object.ToString
+    name: ToString
+    fullName: System.Object.ToString
+    isExternal: true
+  - name: (
+    fullName: (
+  - name: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.ToString
+    name: ToString
+    fullName: System.Object.ToString
+    isExternal: true
+  - name: (
+    fullName: (
+  - name: )
+    fullName: )
+- uid: System.Object.Equals(System.Object)
+  parent: System.Object
+  isExternal: true
+  name: Equals(Object)
+  fullName: System.Object.Equals(System.Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    fullName: )
+- uid: System.Object.Equals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  name: Equals(Object, Object)
+  fullName: System.Object.Equals(System.Object, System.Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    fullName: )
+- uid: System.Object.ReferenceEquals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  name: ReferenceEquals(Object, Object)
+  fullName: System.Object.ReferenceEquals(System.Object, System.Object)
+  spec.csharp:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    fullName: System.Object.ReferenceEquals
+    isExternal: true
+  - name: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    fullName: System.Object.ReferenceEquals
+    isExternal: true
+  - name: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    fullName: )
+- uid: System.Object.GetHashCode
+  parent: System.Object
+  isExternal: true
+  name: GetHashCode()
+  fullName: System.Object.GetHashCode()
+  spec.csharp:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    fullName: System.Object.GetHashCode
+    isExternal: true
+  - name: (
+    fullName: (
+  - name: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    fullName: System.Object.GetHashCode
+    isExternal: true
+  - name: (
+    fullName: (
+  - name: )
+    fullName: )
+- uid: System.Object.GetType
+  parent: System.Object
+  isExternal: true
+  name: GetType()
+  fullName: System.Object.GetType()
+  spec.csharp:
+  - uid: System.Object.GetType
+    name: GetType
+    fullName: System.Object.GetType
+    isExternal: true
+  - name: (
+    fullName: (
+  - name: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.GetType
+    name: GetType
+    fullName: System.Object.GetType
+    isExternal: true
+  - name: (
+    fullName: (
+  - name: )
+    fullName: )
+- uid: System.Object.MemberwiseClone
+  parent: System.Object
+  isExternal: true
+  name: MemberwiseClone()
+  fullName: System.Object.MemberwiseClone()
+  spec.csharp:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    fullName: System.Object.MemberwiseClone
+    isExternal: true
+  - name: (
+    fullName: (
+  - name: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    fullName: System.Object.MemberwiseClone
+    isExternal: true
+  - name: (
+    fullName: (
+  - name: )
+    fullName: )
 - uid: System
   isExternal: false
   name: System
@@ -251,7 +488,7 @@ references:
   name: System.Linq.Expressions
   fullName: System.Linq.Expressions
 - uid: System.Object[]
-  isExternal: false
+  isExternal: true
   name: Object[]
   fullName: System.Object[]
   fullname.vb: System.Object()
@@ -260,23 +497,26 @@ references:
   - uid: System.Object
     name: Object
     fullName: System.Object
+    isExternal: true
   - name: '[]'
     fullName: '[]'
   spec.vb:
   - uid: System.Object
     name: Object
     fullName: System.Object
+    isExternal: true
   - name: ()
     fullName: ()
 - uid: System.Collections.ObjectModel.ReadOnlyCollection{System.Linq.Expressions.ParameterExpression}
+  parent: System.Collections.ObjectModel
   definition: System.Collections.ObjectModel.ReadOnlyCollection`1
-  name: Collections.ObjectModel.ReadOnlyCollection<ParameterExpression>
+  name: ReadOnlyCollection<ParameterExpression>
   fullName: System.Collections.ObjectModel.ReadOnlyCollection<System.Linq.Expressions.ParameterExpression>
   fullname.vb: System.Collections.ObjectModel.ReadOnlyCollection(Of System.Linq.Expressions.ParameterExpression)
-  name.vb: Collections.ObjectModel.ReadOnlyCollection(Of ParameterExpression)
+  name.vb: ReadOnlyCollection(Of ParameterExpression)
   spec.csharp:
   - uid: System.Collections.ObjectModel.ReadOnlyCollection`1
-    name: Collections.ObjectModel.ReadOnlyCollection
+    name: ReadOnlyCollection
     fullName: System.Collections.ObjectModel.ReadOnlyCollection
     isExternal: true
   - name: <
@@ -288,7 +528,7 @@ references:
     fullName: '>'
   spec.vb:
   - uid: System.Collections.ObjectModel.ReadOnlyCollection`1
-    name: Collections.ObjectModel.ReadOnlyCollection
+    name: ReadOnlyCollection
     fullName: System.Collections.ObjectModel.ReadOnlyCollection
     isExternal: true
   - name: '(Of '
@@ -306,26 +546,28 @@ references:
 - uid: System.Collections.ObjectModel.ReadOnlyCollection`1
   parent: System.Collections.ObjectModel
   isExternal: false
-  name: Collections.ObjectModel.ReadOnlyCollection<>
-  fullName: System.Collections.ObjectModel.ReadOnlyCollection<>
-  fullname.vb: System.Collections.ObjectModel.ReadOnlyCollection(Of )
-  name.vb: Collections.ObjectModel.ReadOnlyCollection(Of )
+  name: ReadOnlyCollection<T>
+  fullName: System.Collections.ObjectModel.ReadOnlyCollection<T>
+  fullname.vb: System.Collections.ObjectModel.ReadOnlyCollection(Of T)
+  name.vb: ReadOnlyCollection(Of T)
   spec.csharp:
   - uid: System.Collections.ObjectModel.ReadOnlyCollection`1
-    name: Collections.ObjectModel.ReadOnlyCollection
+    name: ReadOnlyCollection
     fullName: System.Collections.ObjectModel.ReadOnlyCollection
   - name: <
     fullName: <
-  - {}
+  - name: T
+    fullName: T
   - name: '>'
     fullName: '>'
   spec.vb:
   - uid: System.Collections.ObjectModel.ReadOnlyCollection`1
-    name: Collections.ObjectModel.ReadOnlyCollection
+    name: ReadOnlyCollection
     fullName: System.Collections.ObjectModel.ReadOnlyCollection
   - name: '(Of '
     fullName: '(Of '
-  - {}
+  - name: T
+    fullName: T
   - name: )
     fullName: )
 - uid: System.Collections.ObjectModel

@@ -26,12 +26,12 @@ items:
   type: Class
   source:
     remote:
-      path: src/System.Runtime/ref/System.Runtime.cs
+      path: src/mscorlib/src/System/GC.cs
       branch: master
-      repo: https://github.com/dotnet/corefx.git
+      repo: https://github.com/dotnet/coreclr.git
     id: GC
-    path: src/System.Runtime/ref/System.Runtime.cs
-    startLine: 897
+    path: src/mscorlib/src/System/GC.cs
+    startLine: 63
   assemblies:
   - System.Runtime
   namespace: System
@@ -48,13 +48,13 @@ items:
   inheritance:
   - System.Object
   inheritedMembers:
+  - System.Object.ToString
   - System.Object.Equals(System.Object)
   - System.Object.Equals(System.Object,System.Object)
+  - System.Object.ReferenceEquals(System.Object,System.Object)
   - System.Object.GetHashCode
   - System.Object.GetType
   - System.Object.MemberwiseClone
-  - System.Object.ReferenceEquals(System.Object,System.Object)
-  - System.Object.ToString
   modifiers.csharp:
   - public
   - class
@@ -73,12 +73,12 @@ items:
   type: Property
   source:
     remote:
-      path: src/System.Runtime/ref/System.Runtime.cs
+      path: src/mscorlib/src/System/GC.cs
       branch: master
-      repo: https://github.com/dotnet/corefx.git
+      repo: https://github.com/dotnet/coreclr.git
     id: MaxGeneration
-    path: src/System.Runtime/ref/System.Runtime.cs
-    startLine: 899
+    path: src/mscorlib/src/System/GC.cs
+    startLine: 306
   assemblies:
   - System.Runtime
   namespace: System
@@ -87,12 +87,17 @@ items:
   example:
   - "\n<p>The following example demonstrates how to use the MaxGeneration property to display the largest generation number currently in use.</p>System.GC.Collect Int Example#1"
   syntax:
-    content: public static int MaxGeneration { get; }
+    content: >-
+      public static int MaxGeneration
+
+      {
+          [SecuritySafeCritical]
+          get;
+      }
     content.vb: Public Shared ReadOnly Property MaxGeneration As Integer
     parameters: []
     return:
       type: System.Int32
-      description: "\n<p>A value that ranges from zero to the maximum number of supported generations.</p>\n"
   seealso:
   - type: System.GC.GetGeneration(System.Object)
     commentId: M:System.GC.GetGeneration(System.Object)
@@ -116,12 +121,12 @@ items:
   type: Method
   source:
     remote:
-      path: src/System.Runtime/ref/System.Runtime.cs
+      path: src/mscorlib/src/System/GC.cs
       branch: master
-      repo: https://github.com/dotnet/corefx.git
+      repo: https://github.com/dotnet/coreclr.git
     id: AddMemoryPressure
-    path: src/System.Runtime/ref/System.Runtime.cs
-    startLine: 900
+    path: src/mscorlib/src/System/GC.cs
+    startLine: 126
   assemblies:
   - System.Runtime
   namespace: System
@@ -139,7 +144,6 @@ items:
     parameters:
     - id: bytesAllocated
       type: System.Int64
-      description: "\n<p>The incremental amount of unmanaged memory that has been allocated. </p>\n"
   exceptions:
   - type: System.ArgumentOutOfRangeException
     commentId: T:System.ArgumentOutOfRangeException
@@ -171,12 +175,12 @@ items:
   type: Method
   source:
     remote:
-      path: src/System.Runtime/ref/System.Runtime.cs
+      path: src/mscorlib/src/System/GC.cs
       branch: master
-      repo: https://github.com/dotnet/corefx.git
+      repo: https://github.com/dotnet/coreclr.git
     id: Collect
-    path: src/System.Runtime/ref/System.Runtime.cs
-    startLine: 902
+    path: src/mscorlib/src/System/GC.cs
+    startLine: 174
   assemblies:
   - System.Runtime
   namespace: System
@@ -185,8 +189,14 @@ items:
   example:
   - "\n<p>The following example demonstrates how to use the <xref href=\"System.GC.Collect\" data-throw-if-not-resolved=\"false\"></xref> method to perform a collection on all generations of memory. The code generates a number of unused objects, and then calls the <xref href=\"System.GC.Collect\" data-throw-if-not-resolved=\"false\"></xref> method to clean them from memory.</p>System.GC.Collect Example#1"
   syntax:
-    content: public static void Collect()
-    content.vb: Public Shared Sub Collect
+    content: >-
+      [SecuritySafeCritical]
+
+      public static void Collect()
+    content.vb: >-
+      <SecuritySafeCritical>
+
+      Public Shared Sub Collect
   modifiers.csharp:
   - public
   - static
@@ -205,12 +215,12 @@ items:
   type: Method
   source:
     remote:
-      path: src/System.Runtime/ref/System.Runtime.cs
+      path: src/mscorlib/src/System/GC.cs
       branch: master
-      repo: https://github.com/dotnet/corefx.git
+      repo: https://github.com/dotnet/coreclr.git
     id: Collect
-    path: src/System.Runtime/ref/System.Runtime.cs
-    startLine: 903
+    path: src/mscorlib/src/System/GC.cs
+    startLine: 168
   assemblies:
   - System.Runtime
   namespace: System
@@ -224,7 +234,6 @@ items:
     parameters:
     - id: generation
       type: System.Int32
-      description: "\n<p>The number of the oldest generation to be garbage collected. </p>\n"
   exceptions:
   - type: System.ArgumentOutOfRangeException
     commentId: T:System.ArgumentOutOfRangeException
@@ -247,12 +256,12 @@ items:
   type: Method
   source:
     remote:
-      path: src/System.Runtime/ref/System.Runtime.cs
+      path: src/mscorlib/src/System/GC.cs
       branch: master
-      repo: https://github.com/dotnet/corefx.git
+      repo: https://github.com/dotnet/coreclr.git
     id: Collect
-    path: src/System.Runtime/ref/System.Runtime.cs
-    startLine: 904
+    path: src/mscorlib/src/System/GC.cs
+    startLine: 180
   assemblies:
   - System.Runtime
   namespace: System
@@ -261,15 +270,19 @@ items:
   example:
   - "\n<p>The following example forces a garbage collection for generation 2 objects with the <xref href=\"System.GCCollectionMode.Optimized\" data-throw-if-not-resolved=\"false\"></xref> setting.</p>System.GC.GCCollectionMode#1"
   syntax:
-    content: public static void Collect(int generation, GCCollectionMode mode)
-    content.vb: Public Shared Sub Collect(generation As Integer, mode As GCCollectionMode)
+    content: >-
+      [SecuritySafeCritical]
+
+      public static void Collect(int generation, GCCollectionMode mode)
+    content.vb: >-
+      <SecuritySafeCritical>
+
+      Public Shared Sub Collect(generation As Integer, mode As GCCollectionMode)
     parameters:
     - id: generation
       type: System.Int32
-      description: "\n<p>The number of the oldest generation to be garbage collected. </p>\n"
     - id: mode
       type: System.GCCollectionMode
-      description: "\n<p>An enumeration value that specifies whether the garbage collection is forced (<xref href=\"System.GCCollectionMode.Default\" data-throw-if-not-resolved=\"false\"></xref> or <xref href=\"System.GCCollectionMode.Forced\" data-throw-if-not-resolved=\"false\"></xref>) or optimized (<xref href=\"System.GCCollectionMode.Optimized\" data-throw-if-not-resolved=\"false\"></xref>). </p>\n"
   exceptions:
   - type: System.ArgumentOutOfRangeException
     commentId: T:System.ArgumentOutOfRangeException
@@ -292,30 +305,33 @@ items:
   type: Method
   source:
     remote:
-      path: src/System.Runtime/ref/System.Runtime.cs
+      path: src/mscorlib/src/System/GC.cs
       branch: master
-      repo: https://github.com/dotnet/corefx.git
+      repo: https://github.com/dotnet/coreclr.git
     id: Collect
-    path: src/System.Runtime/ref/System.Runtime.cs
-    startLine: 905
+    path: src/mscorlib/src/System/GC.cs
+    startLine: 186
   assemblies:
   - System.Runtime
   namespace: System
   summary: "\n<p>Forces a garbage collection from generation 0 through a specified generation, at a time specified by a <xref href=\"System.GCCollectionMode\" data-throw-if-not-resolved=\"false\"></xref> value, with a value specifying whether the collection should be blocking.</p>\n"
   remarks: "\n<p>The following table summarizes the interaction of the <em>mode</em> and <em>blocking</em> parameters:</p>\n<p>If a call to the <xref href=\"System.GC.Collect(System.Int32,System.GCCollectionMode,System.Boolean)\" data-throw-if-not-resolved=\"false\"></xref> method performs a full blocking garbage collection, you can also compact the large object heap by setting the <xref href=\"System.Runtime.GCSettings.LargeObjectHeapCompactionMode\" data-throw-if-not-resolved=\"false\"></xref> property to <xref href=\"System.Runtime.GCLargeObjectHeapCompactionMode.CompactOnce\" data-throw-if-not-resolved=\"false\"></xref> before calling the <xref href=\"System.GC.Collect(System.Int32,System.GCCollectionMode,System.Boolean)\" data-throw-if-not-resolved=\"false\"></xref> method. </p>\n"
   syntax:
-    content: public static void Collect(int generation, GCCollectionMode mode, bool blocking)
-    content.vb: Public Shared Sub Collect(generation As Integer, mode As GCCollectionMode, blocking As Boolean)
+    content: >-
+      [SecuritySafeCritical]
+
+      public static void Collect(int generation, GCCollectionMode mode, bool blocking)
+    content.vb: >-
+      <SecuritySafeCritical>
+
+      Public Shared Sub Collect(generation As Integer, mode As GCCollectionMode, blocking As Boolean)
     parameters:
     - id: generation
       type: System.Int32
-      description: "\n<p>The number of the oldest generation to be garbage collected. </p>\n"
     - id: mode
       type: System.GCCollectionMode
-      description: "\n<p>An enumeration value that specifies whether the garbage collection is forced (<xref href=\"System.GCCollectionMode.Default\" data-throw-if-not-resolved=\"false\"></xref> or <xref href=\"System.GCCollectionMode.Forced\" data-throw-if-not-resolved=\"false\"></xref>) or optimized (<xref href=\"System.GCCollectionMode.Optimized\" data-throw-if-not-resolved=\"false\"></xref>).</p>\n"
     - id: blocking
       type: System.Boolean
-      description: "\n<p>\n<strong>true</strong> to perform a blocking garbage collection; <strong>false</strong> to perform a background garbage collection where possible.</p>\n"
   exceptions:
   - type: System.ArgumentOutOfRangeException
     commentId: T:System.ArgumentOutOfRangeException
@@ -338,27 +354,35 @@ items:
   type: Method
   source:
     remote:
-      path: src/System.Runtime/ref/System.Runtime.cs
+      path: src/mscorlib/src/System/GC.cs
       branch: master
-      repo: https://github.com/dotnet/corefx.git
+      repo: https://github.com/dotnet/coreclr.git
     id: CollectionCount
-    path: src/System.Runtime/ref/System.Runtime.cs
-    startLine: 906
+    path: src/mscorlib/src/System/GC.cs
+    startLine: 229
   assemblies:
   - System.Runtime
   namespace: System
   summary: "\n<p>Returns the number of times garbage collection has occurred for the specified generation of objects.</p>\n"
   remarks: "\n<p>If you implement your own resource management, you might need to force garbage collection periodically by calling the <xref href=\"System.GC.Collect(System.Int32)\" data-throw-if-not-resolved=\"false\"></xref> method. Because this is an expensive operation, you can improve performance by skipping the call when a garbage collection has occurred recently. Save the value returned by <xref href=\"System.GC.CollectionCount(System.Int32)\" data-throw-if-not-resolved=\"false\"></xref> immediately after calling <xref href=\"System.GC.Collect(System.Int32)\" data-throw-if-not-resolved=\"false\"></xref>. The next time you need to call <xref href=\"System.GC.Collect(System.Int32)\" data-throw-if-not-resolved=\"false\"></xref>, compare the current value returned by <xref href=\"System.GC.CollectionCount(System.Int32)\" data-throw-if-not-resolved=\"false\"></xref> to the saved value. If the two values are equal, no collection has occurred in the interim and it is reasonable to call <xref href=\"System.GC.Collect(System.Int32)\" data-throw-if-not-resolved=\"false\"></xref> again.</p>\n"
   syntax:
-    content: public static int CollectionCount(int generation)
-    content.vb: Public Shared Function CollectionCount(generation As Integer) As Integer
+    content: >-
+      [SecuritySafeCritical]
+
+      [ReliabilityContract(Consistency.WillNotCorruptState, Cer.Success)]
+
+      public static int CollectionCount(int generation)
+    content.vb: >-
+      <SecuritySafeCritical>
+
+      <ReliabilityContract(Consistency.WillNotCorruptState, Cer.Success)>
+
+      Public Shared Function CollectionCount(generation As Integer) As Integer
     parameters:
     - id: generation
       type: System.Int32
-      description: "\n<p>The generation of objects for which the garbage collection count is to be determined. </p>\n"
     return:
       type: System.Int32
-      description: "\n<p>The number of times garbage collection has occurred for the specified generation since the process was started.</p>\n"
   exceptions:
   - type: System.ArgumentOutOfRangeException
     commentId: T:System.ArgumentOutOfRangeException
@@ -380,13 +404,8 @@ items:
   fullName: System.GC.GetGeneration(System.Object)
   type: Method
   source:
-    remote:
-      path: src/System.Runtime/ref/System.Runtime.cs
-      branch: master
-      repo: https://github.com/dotnet/corefx.git
-    id: GetGeneration
-    path: src/System.Runtime/ref/System.Runtime.cs
-    startLine: 907
+    path: System.Private.CoreLib
+    isExternal: true
   assemblies:
   - System.Runtime
   namespace: System
@@ -395,15 +414,23 @@ items:
   example:
   - "\n<p>The following example demonstrates how to use the <xref href=\"System.GC.GetGeneration(System.Object)\" data-throw-if-not-resolved=\"false\"></xref> method to determine the age of an object. The example then performs garbage collections to clean up memory and compare the pre and post collection memory totals in the console.</p>System.GC.Collect Int Example#1"
   syntax:
-    content: public static int GetGeneration(object obj)
-    content.vb: Public Shared Function GetGeneration(obj As Object) As Integer
+    content: >-
+      [SecuritySafeCritical]
+
+      [MethodImpl(MethodImplOptions.InternalCall)]
+
+      public static int GetGeneration(object obj)
+    content.vb: >-
+      <SecuritySafeCritical>
+
+      <MethodImpl(MethodImplOptions.InternalCall)>
+
+      Public Shared Function GetGeneration(obj As Object) As Integer
     parameters:
     - id: obj
       type: System.Object
-      description: "\n<p>The object that generation information is retrieved for. </p>\n"
     return:
       type: System.Int32
-      description: "\n<p>The current generation number of <em>obj</em>.</p>\n"
   seealso:
   - type: System.GC.MaxGeneration
     commentId: P:System.GC.MaxGeneration
@@ -425,12 +452,12 @@ items:
   type: Method
   source:
     remote:
-      path: src/System.Runtime/ref/System.Runtime.cs
+      path: src/mscorlib/src/System/GC.cs
       branch: master
-      repo: https://github.com/dotnet/corefx.git
+      repo: https://github.com/dotnet/coreclr.git
     id: GetTotalMemory
-    path: src/System.Runtime/ref/System.Runtime.cs
-    startLine: 908
+    path: src/mscorlib/src/System/GC.cs
+    startLine: 358
   assemblies:
   - System.Runtime
   namespace: System
@@ -439,15 +466,19 @@ items:
   example:
   - "\n<p>The following example demonstrates how to use the <xref href=\"System.GC.GetTotalMemory(System.Boolean)\" data-throw-if-not-resolved=\"false\"></xref> method to get and display the number of bytes currently allocated in managed memory.</p>System.GC.Collect Int Example#1"
   syntax:
-    content: public static long GetTotalMemory(bool forceFullCollection)
-    content.vb: Public Shared Function GetTotalMemory(forceFullCollection As Boolean) As Long
+    content: >-
+      [SecuritySafeCritical]
+
+      public static long GetTotalMemory(bool forceFullCollection)
+    content.vb: >-
+      <SecuritySafeCritical>
+
+      Public Shared Function GetTotalMemory(forceFullCollection As Boolean) As Long
     parameters:
     - id: forceFullCollection
       type: System.Boolean
-      description: "\n<p>\n<strong>true</strong> to indicate that this method can wait for garbage collection to occur before returning; otherwise, <strong>false</strong>.</p>\n"
     return:
       type: System.Int64
-      description: "\n<p>A number that is the best available approximation of the number of bytes currently allocated in managed memory.</p>\n"
   modifiers.csharp:
   - public
   - static
@@ -466,12 +497,12 @@ items:
   type: Method
   source:
     remote:
-      path: src/System.Runtime/ref/System.Runtime.cs
+      path: src/mscorlib/src/System/GC.cs
       branch: master
-      repo: https://github.com/dotnet/corefx.git
+      repo: https://github.com/dotnet/coreclr.git
     id: KeepAlive
-    path: src/System.Runtime/ref/System.Runtime.cs
-    startLine: 909
+    path: src/mscorlib/src/System/GC.cs
+    startLine: 289
   assemblies:
   - System.Runtime
   namespace: System
@@ -480,12 +511,21 @@ items:
   example:
   - "\n<p>The following code example creates an object at the beginning of its <code>Main</code> method and does not refer to the object again until the end, when the <xref href=\"System.GC.KeepAlive(System.Object)\" data-throw-if-not-resolved=\"false\"></xref> method is called. The object persists for the 30-second duration of the <code>Main</code> method, despite calls to the <xref href=\"System.GC.Collect\" data-throw-if-not-resolved=\"false\"></xref> and <xref href=\"System.GC.WaitForPendingFinalizers\" data-throw-if-not-resolved=\"false\"></xref> methods.</p>System.GC.KeepAlive Example2#1"
   syntax:
-    content: public static void KeepAlive(object obj)
-    content.vb: Public Shared Sub KeepAlive(obj As Object)
+    content: >-
+      [MethodImpl(MethodImplOptions.NoInlining)]
+
+      [ReliabilityContract(Consistency.WillNotCorruptState, Cer.Success)]
+
+      public static void KeepAlive(object obj)
+    content.vb: >-
+      <MethodImpl(MethodImplOptions.NoInlining)>
+
+      <ReliabilityContract(Consistency.WillNotCorruptState, Cer.Success)>
+
+      Public Shared Sub KeepAlive(obj As Object)
     parameters:
     - id: obj
       type: System.Object
-      description: "\n<p>The object to reference. </p>\n"
   modifiers.csharp:
   - public
   - static
@@ -504,12 +544,12 @@ items:
   type: Method
   source:
     remote:
-      path: src/System.Runtime/ref/System.Runtime.cs
+      path: src/mscorlib/src/System/GC.cs
       branch: master
-      repo: https://github.com/dotnet/corefx.git
+      repo: https://github.com/dotnet/coreclr.git
     id: RemoveMemoryPressure
-    path: src/System.Runtime/ref/System.Runtime.cs
-    startLine: 910
+    path: src/mscorlib/src/System/GC.cs
+    startLine: 142
   assemblies:
   - System.Runtime
   namespace: System
@@ -527,7 +567,6 @@ items:
     parameters:
     - id: bytesAllocated
       type: System.Int64
-      description: "\n<p>The amount of unmanaged memory that has been released. </p>\n"
   exceptions:
   - type: System.ArgumentOutOfRangeException
     commentId: T:System.ArgumentOutOfRangeException
@@ -559,12 +598,12 @@ items:
   type: Method
   source:
     remote:
-      path: src/System.Runtime/ref/System.Runtime.cs
+      path: src/mscorlib/src/System/GC.cs
       branch: master
-      repo: https://github.com/dotnet/corefx.git
+      repo: https://github.com/dotnet/coreclr.git
     id: ReRegisterForFinalize
-    path: src/System.Runtime/ref/System.Runtime.cs
-    startLine: 912
+    path: src/mscorlib/src/System/GC.cs
+    startLine: 346
   assemblies:
   - System.Runtime
   namespace: System
@@ -573,12 +612,17 @@ items:
   example:
   - "\n<p>The following example demonstrates how to use the ReRegisterForFinalize method to finalize an object a second time after garbage collection.</p>System.GC.ReregisterForFinalize Example#1"
   syntax:
-    content: public static void ReRegisterForFinalize(object obj)
-    content.vb: Public Shared Sub ReRegisterForFinalize(obj As Object)
+    content: >-
+      [SecuritySafeCritical]
+
+      public static void ReRegisterForFinalize(object obj)
+    content.vb: >-
+      <SecuritySafeCritical>
+
+      Public Shared Sub ReRegisterForFinalize(obj As Object)
     parameters:
     - id: obj
       type: System.Object
-      description: "\n<p>The object that a finalizer must be called for. </p>\n"
   exceptions:
   - type: System.ArgumentNullException
     commentId: T:System.ArgumentNullException
@@ -604,12 +648,12 @@ items:
   type: Method
   source:
     remote:
-      path: src/System.Runtime/ref/System.Runtime.cs
+      path: src/mscorlib/src/System/GC.cs
       branch: master
-      repo: https://github.com/dotnet/corefx.git
+      repo: https://github.com/dotnet/coreclr.git
     id: SuppressFinalize
-    path: src/System.Runtime/ref/System.Runtime.cs
-    startLine: 913
+    path: src/mscorlib/src/System/GC.cs
+    startLine: 329
   assemblies:
   - System.Runtime
   namespace: System
@@ -618,12 +662,21 @@ items:
   example:
   - "\n<p>The following example demonstrates how to use the <xref href=\"System.GC.SuppressFinalize(System.Object)\" data-throw-if-not-resolved=\"false\"></xref> method in a resource class to prevent a redundant garbage collection from being called. The example uses the dispose pattern to free both managed resources (that is, objects that implement <xref href=\"System.IDisposable\" data-throw-if-not-resolved=\"false\"></xref>) and unmanaged resources. </p>System.GC.SuppressFinalize#1"
   syntax:
-    content: public static void SuppressFinalize(object obj)
-    content.vb: Public Shared Sub SuppressFinalize(obj As Object)
+    content: >-
+      [SecuritySafeCritical]
+
+      [ReliabilityContract(Consistency.WillNotCorruptState, Cer.Success)]
+
+      public static void SuppressFinalize(object obj)
+    content.vb: >-
+      <SecuritySafeCritical>
+
+      <ReliabilityContract(Consistency.WillNotCorruptState, Cer.Success)>
+
+      Public Shared Sub SuppressFinalize(obj As Object)
     parameters:
     - id: obj
       type: System.Object
-      description: "\n<p>The object whose finalizer must not be executed. </p>\n"
   exceptions:
   - type: System.ArgumentNullException
     commentId: T:System.ArgumentNullException
@@ -651,12 +704,12 @@ items:
   type: Method
   source:
     remote:
-      path: src/System.Runtime/ref/System.Runtime.cs
+      path: src/mscorlib/src/System/GC.cs
       branch: master
-      repo: https://github.com/dotnet/corefx.git
+      repo: https://github.com/dotnet/coreclr.git
     id: WaitForPendingFinalizers
-    path: src/System.Runtime/ref/System.Runtime.cs
-    startLine: 914
+    path: src/mscorlib/src/System/GC.cs
+    startLine: 316
   assemblies:
   - System.Runtime
   namespace: System
@@ -665,8 +718,14 @@ items:
   example:
   - "\n<p>The following example demonstrates how to use the <xref href=\"System.GC.WaitForPendingFinalizers\" data-throw-if-not-resolved=\"false\"></xref> method to suspend the current thread until finalization of all the collected objects is complete.</p>System.GC.WaitForPendingFinalizers Example#1"
   syntax:
-    content: public static void WaitForPendingFinalizers()
-    content.vb: Public Shared Sub WaitForPendingFinalizers
+    content: >-
+      [SecuritySafeCritical]
+
+      public static void WaitForPendingFinalizers()
+    content.vb: >-
+      <SecuritySafeCritical>
+
+      Public Shared Sub WaitForPendingFinalizers
   modifiers.csharp:
   - public
   - static
@@ -683,179 +742,16 @@ references:
   isExternal: false
   name: Object
   fullName: System.Object
-- uid: System.Object.Equals(System.Object)
-  parent: System.Object
-  isExternal: false
-  name: Equals(Object)
-  fullName: System.Object.Equals(System.Object)
-  spec.csharp:
-  - uid: System.Object.Equals(System.Object)
-    name: Equals
-    fullName: System.Object.Equals
-  - name: (
-    fullName: (
-  - uid: System.Object
-    name: Object
-    fullName: System.Object
-  - name: )
-    fullName: )
-  spec.vb:
-  - uid: System.Object.Equals(System.Object)
-    name: Equals
-    fullName: System.Object.Equals
-  - name: (
-    fullName: (
-  - uid: System.Object
-    name: Object
-    fullName: System.Object
-  - name: )
-    fullName: )
-- uid: System.Object.Equals(System.Object,System.Object)
-  parent: System.Object
-  isExternal: false
-  name: Equals(Object, Object)
-  fullName: System.Object.Equals(System.Object, System.Object)
-  spec.csharp:
-  - uid: System.Object.Equals(System.Object,System.Object)
-    name: Equals
-    fullName: System.Object.Equals
-  - name: (
-    fullName: (
-  - uid: System.Object
-    name: Object
-    fullName: System.Object
-  - name: ', '
-    fullName: ', '
-  - uid: System.Object
-    name: Object
-    fullName: System.Object
-  - name: )
-    fullName: )
-  spec.vb:
-  - uid: System.Object.Equals(System.Object,System.Object)
-    name: Equals
-    fullName: System.Object.Equals
-  - name: (
-    fullName: (
-  - uid: System.Object
-    name: Object
-    fullName: System.Object
-  - name: ', '
-    fullName: ', '
-  - uid: System.Object
-    name: Object
-    fullName: System.Object
-  - name: )
-    fullName: )
-- uid: System.Object.GetHashCode
-  parent: System.Object
-  isExternal: false
-  name: GetHashCode()
-  fullName: System.Object.GetHashCode()
-  spec.csharp:
-  - uid: System.Object.GetHashCode
-    name: GetHashCode
-    fullName: System.Object.GetHashCode
-  - name: (
-    fullName: (
-  - name: )
-    fullName: )
-  spec.vb:
-  - uid: System.Object.GetHashCode
-    name: GetHashCode
-    fullName: System.Object.GetHashCode
-  - name: (
-    fullName: (
-  - name: )
-    fullName: )
-- uid: System.Object.GetType
-  parent: System.Object
-  isExternal: false
-  name: GetType()
-  fullName: System.Object.GetType()
-  spec.csharp:
-  - uid: System.Object.GetType
-    name: GetType
-    fullName: System.Object.GetType
-  - name: (
-    fullName: (
-  - name: )
-    fullName: )
-  spec.vb:
-  - uid: System.Object.GetType
-    name: GetType
-    fullName: System.Object.GetType
-  - name: (
-    fullName: (
-  - name: )
-    fullName: )
-- uid: System.Object.MemberwiseClone
-  parent: System.Object
-  isExternal: false
-  name: MemberwiseClone()
-  fullName: System.Object.MemberwiseClone()
-  spec.csharp:
-  - uid: System.Object.MemberwiseClone
-    name: MemberwiseClone
-    fullName: System.Object.MemberwiseClone
-  - name: (
-    fullName: (
-  - name: )
-    fullName: )
-  spec.vb:
-  - uid: System.Object.MemberwiseClone
-    name: MemberwiseClone
-    fullName: System.Object.MemberwiseClone
-  - name: (
-    fullName: (
-  - name: )
-    fullName: )
-- uid: System.Object.ReferenceEquals(System.Object,System.Object)
-  parent: System.Object
-  isExternal: false
-  name: ReferenceEquals(Object, Object)
-  fullName: System.Object.ReferenceEquals(System.Object, System.Object)
-  spec.csharp:
-  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
-    name: ReferenceEquals
-    fullName: System.Object.ReferenceEquals
-  - name: (
-    fullName: (
-  - uid: System.Object
-    name: Object
-    fullName: System.Object
-  - name: ', '
-    fullName: ', '
-  - uid: System.Object
-    name: Object
-    fullName: System.Object
-  - name: )
-    fullName: )
-  spec.vb:
-  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
-    name: ReferenceEquals
-    fullName: System.Object.ReferenceEquals
-  - name: (
-    fullName: (
-  - uid: System.Object
-    name: Object
-    fullName: System.Object
-  - name: ', '
-    fullName: ', '
-  - uid: System.Object
-    name: Object
-    fullName: System.Object
-  - name: )
-    fullName: )
 - uid: System.Object.ToString
   parent: System.Object
-  isExternal: false
+  isExternal: true
   name: ToString()
   fullName: System.Object.ToString()
   spec.csharp:
   - uid: System.Object.ToString
     name: ToString
     fullName: System.Object.ToString
+    isExternal: true
   - name: (
     fullName: (
   - name: )
@@ -864,6 +760,193 @@ references:
   - uid: System.Object.ToString
     name: ToString
     fullName: System.Object.ToString
+    isExternal: true
+  - name: (
+    fullName: (
+  - name: )
+    fullName: )
+- uid: System.Object.Equals(System.Object)
+  parent: System.Object
+  isExternal: true
+  name: Equals(Object)
+  fullName: System.Object.Equals(System.Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    fullName: )
+- uid: System.Object.Equals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  name: Equals(Object, Object)
+  fullName: System.Object.Equals(System.Object, System.Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    fullName: )
+- uid: System.Object.ReferenceEquals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  name: ReferenceEquals(Object, Object)
+  fullName: System.Object.ReferenceEquals(System.Object, System.Object)
+  spec.csharp:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    fullName: System.Object.ReferenceEquals
+    isExternal: true
+  - name: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    fullName: System.Object.ReferenceEquals
+    isExternal: true
+  - name: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    fullName: )
+- uid: System.Object.GetHashCode
+  parent: System.Object
+  isExternal: true
+  name: GetHashCode()
+  fullName: System.Object.GetHashCode()
+  spec.csharp:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    fullName: System.Object.GetHashCode
+    isExternal: true
+  - name: (
+    fullName: (
+  - name: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    fullName: System.Object.GetHashCode
+    isExternal: true
+  - name: (
+    fullName: (
+  - name: )
+    fullName: )
+- uid: System.Object.GetType
+  parent: System.Object
+  isExternal: true
+  name: GetType()
+  fullName: System.Object.GetType()
+  spec.csharp:
+  - uid: System.Object.GetType
+    name: GetType
+    fullName: System.Object.GetType
+    isExternal: true
+  - name: (
+    fullName: (
+  - name: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.GetType
+    name: GetType
+    fullName: System.Object.GetType
+    isExternal: true
+  - name: (
+    fullName: (
+  - name: )
+    fullName: )
+- uid: System.Object.MemberwiseClone
+  parent: System.Object
+  isExternal: true
+  name: MemberwiseClone()
+  fullName: System.Object.MemberwiseClone()
+  spec.csharp:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    fullName: System.Object.MemberwiseClone
+    isExternal: true
+  - name: (
+    fullName: (
+  - name: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    fullName: System.Object.MemberwiseClone
+    isExternal: true
   - name: (
     fullName: (
   - name: )

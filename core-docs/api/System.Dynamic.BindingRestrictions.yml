@@ -28,13 +28,32 @@ items:
   assemblies:
   - System.Dynamic.Runtime
   namespace: System.Dynamic
+  summary: "\n<p>Represents a set of binding restrictions on the <xref href=\"System.Dynamic.DynamicMetaObject\" data-throw-if-not-resolved=\"false\"></xref> under which the dynamic binding is valid.</p>\n"
+  example:
+  - 
   syntax:
-    content: 'public abstract class BindingRestrictions : object'
+    content: >-
+      [DebuggerTypeProxy(typeof (BindingRestrictions.BindingRestrictionsProxy))]
+
+      [DebuggerDisplay("{DebugView}")]
+
+      public abstract class BindingRestrictions
     content.vb: >-
+      <DebuggerTypeProxy(GetType(BindingRestrictions.BindingRestrictionsProxy))>
+
+      <DebuggerDisplay("{DebugView}")>
+
       Public MustInherit Class BindingRestrictions
-          Inherits Object
   inheritance:
   - System.Object
+  inheritedMembers:
+  - System.Object.ToString
+  - System.Object.Equals(System.Object)
+  - System.Object.Equals(System.Object,System.Object)
+  - System.Object.ReferenceEquals(System.Object,System.Object)
+  - System.Object.GetHashCode
+  - System.Object.GetType
+  - System.Object.MemberwiseClone
   modifiers.csharp:
   - public
   - abstract
@@ -64,9 +83,18 @@ items:
   assemblies:
   - System.Dynamic.Runtime
   namespace: System.Dynamic
+  summary: "\n<p>Represents an empty set of binding restrictions. This field is read only.</p>\n"
+  example:
+  - 
   syntax:
-    content: public static readonly BindingRestrictions Empty
-    content.vb: Public Shared ReadOnly Empty As BindingRestrictions
+    content: >-
+      [SuppressMessage("Microsoft.Security", "CA2104:DoNotDeclareReadOnlyMutableReferenceTypes")]
+
+      public static readonly BindingRestrictions Empty
+    content.vb: >-
+      <SuppressMessage("Microsoft.Security", "CA2104:DoNotDeclareReadOnlyMutableReferenceTypes")>
+
+      Public Shared ReadOnly Empty As BindingRestrictions
     return:
       type: System.Dynamic.BindingRestrictions
   modifiers.csharp:
@@ -84,28 +112,33 @@ items:
   langs:
   - csharp
   - vb
-  name: Combine(Collections.Generic.IList<DynamicMetaObject>)
+  name: Combine(IList<DynamicMetaObject>)
   fullName: System.Dynamic.BindingRestrictions.Combine(System.Collections.Generic.IList<System.Dynamic.DynamicMetaObject>)
   type: Method
   source:
     remote:
-      path: src/System.Dynamic.Runtime/ref/System.Dynamic.Runtime.cs
+      path: src/System.Dynamic.Runtime/src/System/Dynamic/BindingRestrictions.cs
       branch: master
       repo: https://github.com/dotnet/corefx.git
     id: Combine
-    path: src/System.Dynamic.Runtime/ref/System.Dynamic.Runtime.cs
-    startLine: 23
+    path: src/System.Dynamic.Runtime/src/System/Dynamic/BindingRestrictions.cs
+    startLine: 118
   assemblies:
   - System.Dynamic.Runtime
   namespace: System.Dynamic
+  summary: "\n<p>Combines binding restrictions from the list of <xref href=\"System.Dynamic.DynamicMetaObject\" data-throw-if-not-resolved=\"false\"></xref> instances into one set of restrictions.</p>\n"
+  example:
+  - 
   syntax:
-    content: public static BindingRestrictions Combine(Collections.Generic.IList<DynamicMetaObject> contributingObjects)
-    content.vb: Public Shared Function Combine(contributingObjects As Collections.Generic.IList(Of DynamicMetaObject)) As BindingRestrictions
+    content: public static BindingRestrictions Combine(IList<DynamicMetaObject> contributingObjects)
+    content.vb: Public Shared Function Combine(contributingObjects As IList(Of DynamicMetaObject)) As BindingRestrictions
     parameters:
     - id: contributingObjects
       type: System.Collections.Generic.IList{System.Dynamic.DynamicMetaObject}
+      description: The list of <xref href="System.Dynamic.DynamicMetaObject" data-throw-if-not-resolved="false"></xref> instances from which to combine restrictions.
     return:
       type: System.Dynamic.BindingRestrictions
+      description: The new set of binding restrictions.
   modifiers.csharp:
   - public
   - static
@@ -113,7 +146,7 @@ items:
   - Public
   - Shared
   fullName.vb: System.Dynamic.BindingRestrictions.Combine(System.Collections.Generic.IList(Of System.Dynamic.DynamicMetaObject))
-  name.vb: Combine(Collections.Generic.IList(Of DynamicMetaObject))
+  name.vb: Combine(IList(Of DynamicMetaObject))
 - uid: System.Dynamic.BindingRestrictions.GetExpressionRestriction(System.Linq.Expressions.Expression)
   commentId: M:System.Dynamic.BindingRestrictions.GetExpressionRestriction(System.Linq.Expressions.Expression)
   id: GetExpressionRestriction(System.Linq.Expressions.Expression)
@@ -135,14 +168,20 @@ items:
   assemblies:
   - System.Dynamic.Runtime
   namespace: System.Dynamic
+  summary: "\n<p>Creates the binding restriction that checks the expression for arbitrary immutable properties.</p>\n"
+  remarks: "\n<p>By convention, the general restrictions created by this method must only test immutable object properties.</p>\n"
+  example:
+  - 
   syntax:
     content: public static BindingRestrictions GetExpressionRestriction(Expression expression)
     content.vb: Public Shared Function GetExpressionRestriction(expression As Expression) As BindingRestrictions
     parameters:
     - id: expression
       type: System.Linq.Expressions.Expression
+      description: "\n<p>The expression representing the restrictions.</p>\n"
     return:
       type: System.Dynamic.BindingRestrictions
+      description: "\n<p>The new binding restrictions.</p>\n"
   modifiers.csharp:
   - public
   - static
@@ -170,16 +209,22 @@ items:
   assemblies:
   - System.Dynamic.Runtime
   namespace: System.Dynamic
+  summary: "\n<p>Creates the binding restriction that checks the expression for object instance identity.</p>\n"
+  example:
+  - 
   syntax:
     content: public static BindingRestrictions GetInstanceRestriction(Expression expression, object instance)
     content.vb: Public Shared Function GetInstanceRestriction(expression As Expression, instance As Object) As BindingRestrictions
     parameters:
     - id: expression
       type: System.Linq.Expressions.Expression
+      description: "\n<p>The expression to test.</p>\n"
     - id: instance
       type: System.Object
+      description: "\n<p>The exact object instance to test.</p>\n"
     return:
       type: System.Dynamic.BindingRestrictions
+      description: "\n<p>The new binding restrictions.</p>\n"
   modifiers.csharp:
   - public
   - static
@@ -207,16 +252,22 @@ items:
   assemblies:
   - System.Dynamic.Runtime
   namespace: System.Dynamic
+  summary: "\n<p>Creates the binding restriction that check the expression for runtime type identity.</p>\n"
+  example:
+  - 
   syntax:
     content: public static BindingRestrictions GetTypeRestriction(Expression expression, Type type)
     content.vb: Public Shared Function GetTypeRestriction(expression As Expression, type As Type) As BindingRestrictions
     parameters:
     - id: expression
       type: System.Linq.Expressions.Expression
+      description: "\n<p>The expression to test.</p>\n"
     - id: type
       type: System.Type
+      description: "\n<p>The exact type to test.</p>\n"
     return:
       type: System.Dynamic.BindingRestrictions
+      description: "\n<p>The new binding restrictions.</p>\n"
   modifiers.csharp:
   - public
   - static
@@ -244,6 +295,9 @@ items:
   assemblies:
   - System.Dynamic.Runtime
   namespace: System.Dynamic
+  summary: "\n<p>Merges the set of binding restrictions with the current binding restrictions.</p>\n"
+  example:
+  - 
   syntax:
     content: public BindingRestrictions Merge(BindingRestrictions restrictions)
     content.vb: Public Function Merge(restrictions As BindingRestrictions) As BindingRestrictions
@@ -279,6 +333,9 @@ items:
   assemblies:
   - System.Dynamic.Runtime
   namespace: System.Dynamic
+  summary: "\n<p>Creates the <xref href=\"System.Linq.Expressions.Expression\" data-throw-if-not-resolved=\"false\"></xref> representing the binding restrictions.</p>\n"
+  example:
+  - 
   syntax:
     content: public Expression ToExpression()
     content.vb: Public Function ToExpression As Expression
@@ -299,6 +356,215 @@ references:
   isExternal: false
   name: Object
   fullName: System.Object
+- uid: System.Object.ToString
+  parent: System.Object
+  isExternal: true
+  name: ToString()
+  fullName: System.Object.ToString()
+  spec.csharp:
+  - uid: System.Object.ToString
+    name: ToString
+    fullName: System.Object.ToString
+    isExternal: true
+  - name: (
+    fullName: (
+  - name: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.ToString
+    name: ToString
+    fullName: System.Object.ToString
+    isExternal: true
+  - name: (
+    fullName: (
+  - name: )
+    fullName: )
+- uid: System.Object.Equals(System.Object)
+  parent: System.Object
+  isExternal: true
+  name: Equals(Object)
+  fullName: System.Object.Equals(System.Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    fullName: )
+- uid: System.Object.Equals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  name: Equals(Object, Object)
+  fullName: System.Object.Equals(System.Object, System.Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    fullName: )
+- uid: System.Object.ReferenceEquals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  name: ReferenceEquals(Object, Object)
+  fullName: System.Object.ReferenceEquals(System.Object, System.Object)
+  spec.csharp:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    fullName: System.Object.ReferenceEquals
+    isExternal: true
+  - name: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    fullName: System.Object.ReferenceEquals
+    isExternal: true
+  - name: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    fullName: )
+- uid: System.Object.GetHashCode
+  parent: System.Object
+  isExternal: true
+  name: GetHashCode()
+  fullName: System.Object.GetHashCode()
+  spec.csharp:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    fullName: System.Object.GetHashCode
+    isExternal: true
+  - name: (
+    fullName: (
+  - name: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    fullName: System.Object.GetHashCode
+    isExternal: true
+  - name: (
+    fullName: (
+  - name: )
+    fullName: )
+- uid: System.Object.GetType
+  parent: System.Object
+  isExternal: true
+  name: GetType()
+  fullName: System.Object.GetType()
+  spec.csharp:
+  - uid: System.Object.GetType
+    name: GetType
+    fullName: System.Object.GetType
+    isExternal: true
+  - name: (
+    fullName: (
+  - name: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.GetType
+    name: GetType
+    fullName: System.Object.GetType
+    isExternal: true
+  - name: (
+    fullName: (
+  - name: )
+    fullName: )
+- uid: System.Object.MemberwiseClone
+  parent: System.Object
+  isExternal: true
+  name: MemberwiseClone()
+  fullName: System.Object.MemberwiseClone()
+  spec.csharp:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    fullName: System.Object.MemberwiseClone
+    isExternal: true
+  - name: (
+    fullName: (
+  - name: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    fullName: System.Object.MemberwiseClone
+    isExternal: true
+  - name: (
+    fullName: (
+  - name: )
+    fullName: )
 - uid: System
   isExternal: false
   name: System
@@ -309,14 +575,15 @@ references:
   name: BindingRestrictions
   fullName: System.Dynamic.BindingRestrictions
 - uid: System.Collections.Generic.IList{System.Dynamic.DynamicMetaObject}
+  parent: System.Collections.Generic
   definition: System.Collections.Generic.IList`1
-  name: Collections.Generic.IList<DynamicMetaObject>
+  name: IList<DynamicMetaObject>
   fullName: System.Collections.Generic.IList<System.Dynamic.DynamicMetaObject>
   fullname.vb: System.Collections.Generic.IList(Of System.Dynamic.DynamicMetaObject)
-  name.vb: Collections.Generic.IList(Of DynamicMetaObject)
+  name.vb: IList(Of DynamicMetaObject)
   spec.csharp:
   - uid: System.Collections.Generic.IList`1
-    name: Collections.Generic.IList
+    name: IList
     fullName: System.Collections.Generic.IList
     isExternal: true
   - name: <
@@ -328,7 +595,7 @@ references:
     fullName: '>'
   spec.vb:
   - uid: System.Collections.Generic.IList`1
-    name: Collections.Generic.IList
+    name: IList
     fullName: System.Collections.Generic.IList
     isExternal: true
   - name: '(Of '
@@ -341,26 +608,28 @@ references:
 - uid: System.Collections.Generic.IList`1
   parent: System.Collections.Generic
   isExternal: false
-  name: Collections.Generic.IList<>
-  fullName: System.Collections.Generic.IList<>
-  fullname.vb: System.Collections.Generic.IList(Of )
-  name.vb: Collections.Generic.IList(Of )
+  name: IList<T>
+  fullName: System.Collections.Generic.IList<T>
+  fullname.vb: System.Collections.Generic.IList(Of T)
+  name.vb: IList(Of T)
   spec.csharp:
   - uid: System.Collections.Generic.IList`1
-    name: Collections.Generic.IList
+    name: IList
     fullName: System.Collections.Generic.IList
   - name: <
     fullName: <
-  - {}
+  - name: T
+    fullName: T
   - name: '>'
     fullName: '>'
   spec.vb:
   - uid: System.Collections.Generic.IList`1
-    name: Collections.Generic.IList
+    name: IList
     fullName: System.Collections.Generic.IList
   - name: '(Of '
     fullName: '(Of '
-  - {}
+  - name: T
+    fullName: T
   - name: )
     fullName: )
 - uid: System.Collections.Generic

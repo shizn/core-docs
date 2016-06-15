@@ -48,12 +48,12 @@ items:
   type: Class
   source:
     remote:
-      path: src/System.IO.UnmanagedMemoryStream/src/System/IO/UnmanagedMemoryAccessor.cs
+      path: src/mscorlib/src/System/IO/UnmanagedMemoryAccessor.cs
       branch: master
-      repo: https://github.com/dotnet/corefx.git
+      repo: https://github.com/dotnet/coreclr.git
     id: UnmanagedMemoryAccessor
-    path: src/System.IO.UnmanagedMemoryStream/src/System/IO/UnmanagedMemoryAccessor.cs
-    startLine: 16
+    path: src/mscorlib/src/System/IO/UnmanagedMemoryAccessor.cs
+    startLine: 28
   assemblies:
   - System.IO.UnmanagedMemoryStream
   namespace: System.IO
@@ -65,9 +65,19 @@ items:
     content: 'public class UnmanagedMemoryAccessor : IDisposable'
     content.vb: >-
       Public Class UnmanagedMemoryAccessor
-          Inherits IDisposable
+          Implements IDisposable
   inheritance:
   - System.Object
+  implements:
+  - System.IDisposable
+  inheritedMembers:
+  - System.Object.ToString
+  - System.Object.Equals(System.Object)
+  - System.Object.Equals(System.Object,System.Object)
+  - System.Object.ReferenceEquals(System.Object,System.Object)
+  - System.Object.GetHashCode
+  - System.Object.GetType
+  - System.Object.MemberwiseClone
   modifiers.csharp:
   - public
   - class
@@ -86,12 +96,12 @@ items:
   type: Constructor
   source:
     remote:
-      path: src/System.IO.UnmanagedMemoryStream/src/System/IO/UnmanagedMemoryAccessor.cs
+      path: src/mscorlib/src/System/IO/UnmanagedMemoryAccessor.cs
       branch: master
-      repo: https://github.com/dotnet/corefx.git
+      repo: https://github.com/dotnet/coreclr.git
     id: .ctor
-    path: src/System.IO.UnmanagedMemoryStream/src/System/IO/UnmanagedMemoryAccessor.cs
-    startLine: 31
+    path: src/mscorlib/src/System/IO/UnmanagedMemoryAccessor.cs
+    startLine: 40
   assemblies:
   - System.IO.UnmanagedMemoryStream
   namespace: System.IO
@@ -112,17 +122,17 @@ items:
   langs:
   - csharp
   - vb
-  name: UnmanagedMemoryAccessor(Runtime.InteropServices.SafeBuffer, Int64, Int64)
+  name: UnmanagedMemoryAccessor(SafeBuffer, Int64, Int64)
   fullName: System.IO.UnmanagedMemoryAccessor.UnmanagedMemoryAccessor(System.Runtime.InteropServices.SafeBuffer, System.Int64, System.Int64)
   type: Constructor
   source:
     remote:
-      path: src/System.IO.UnmanagedMemoryStream/ref/System.IO.UnmanagedMemoryStream.cs
+      path: src/mscorlib/src/System/IO/UnmanagedMemoryAccessor.cs
       branch: master
-      repo: https://github.com/dotnet/corefx.git
+      repo: https://github.com/dotnet/coreclr.git
     id: .ctor
-    path: src/System.IO.UnmanagedMemoryStream/ref/System.IO.UnmanagedMemoryStream.cs
-    startLine: 13
+    path: src/mscorlib/src/System/IO/UnmanagedMemoryAccessor.cs
+    startLine: 48
   assemblies:
   - System.IO.UnmanagedMemoryStream
   namespace: System.IO
@@ -130,18 +140,21 @@ items:
   example:
   - 
   syntax:
-    content: public UnmanagedMemoryAccessor(Runtime.InteropServices.SafeBuffer buffer, long offset, long capacity)
-    content.vb: Public Sub New(buffer As Runtime.InteropServices.SafeBuffer, offset As Long, capacity As Long)
+    content: >-
+      [SecuritySafeCritical]
+
+      public UnmanagedMemoryAccessor(SafeBuffer buffer, long offset, long capacity)
+    content.vb: >-
+      <SecuritySafeCritical>
+
+      Public Sub New(buffer As SafeBuffer, offset As Long, capacity As Long)
     parameters:
     - id: buffer
       type: System.Runtime.InteropServices.SafeBuffer
-      description: "\n<p>The buffer to contain the accessor.</p>\n"
     - id: offset
       type: System.Int64
-      description: "\n<p>The byte at which to start the accessor.</p>\n"
     - id: capacity
       type: System.Int64
-      description: "\n<p>The size, in bytes, of memory to allocate.</p>\n"
   exceptions:
   - type: System.ArgumentException
     commentId: T:System.ArgumentException
@@ -166,17 +179,17 @@ items:
   langs:
   - csharp
   - vb
-  name: UnmanagedMemoryAccessor(Runtime.InteropServices.SafeBuffer, Int64, Int64, FileAccess)
+  name: UnmanagedMemoryAccessor(SafeBuffer, Int64, Int64, FileAccess)
   fullName: System.IO.UnmanagedMemoryAccessor.UnmanagedMemoryAccessor(System.Runtime.InteropServices.SafeBuffer, System.Int64, System.Int64, System.IO.FileAccess)
   type: Constructor
   source:
     remote:
-      path: src/System.IO.UnmanagedMemoryStream/ref/System.IO.UnmanagedMemoryStream.cs
+      path: src/mscorlib/src/System/IO/UnmanagedMemoryAccessor.cs
       branch: master
-      repo: https://github.com/dotnet/corefx.git
+      repo: https://github.com/dotnet/coreclr.git
     id: .ctor
-    path: src/System.IO.UnmanagedMemoryStream/ref/System.IO.UnmanagedMemoryStream.cs
-    startLine: 14
+    path: src/mscorlib/src/System/IO/UnmanagedMemoryAccessor.cs
+    startLine: 53
   assemblies:
   - System.IO.UnmanagedMemoryStream
   namespace: System.IO
@@ -184,21 +197,23 @@ items:
   example:
   - 
   syntax:
-    content: public UnmanagedMemoryAccessor(Runtime.InteropServices.SafeBuffer buffer, long offset, long capacity, FileAccess access)
-    content.vb: Public Sub New(buffer As Runtime.InteropServices.SafeBuffer, offset As Long, capacity As Long, access As FileAccess)
+    content: >-
+      [SecuritySafeCritical]
+
+      public UnmanagedMemoryAccessor(SafeBuffer buffer, long offset, long capacity, FileAccess access)
+    content.vb: >-
+      <SecuritySafeCritical>
+
+      Public Sub New(buffer As SafeBuffer, offset As Long, capacity As Long, access As FileAccess)
     parameters:
     - id: buffer
       type: System.Runtime.InteropServices.SafeBuffer
-      description: "\n<p>The buffer to contain the accessor.</p>\n"
     - id: offset
       type: System.Int64
-      description: "\n<p>The byte at which to start the accessor.</p>\n"
     - id: capacity
       type: System.Int64
-      description: "\n<p>The size, in bytes, of memory to allocate.</p>\n"
     - id: access
       type: System.IO.FileAccess
-      description: "\n<p>The type of access allowed to the memory. The default is <xref href=\"System.IO.MemoryMappedFiles.MemoryMappedFileAccess.ReadWrite\" data-throw-if-not-resolved=\"false\"></xref>.</p>\n"
   exceptions:
   - type: System.ArgumentException
     commentId: T:System.ArgumentException
@@ -228,12 +243,12 @@ items:
   type: Property
   source:
     remote:
-      path: src/System.IO.UnmanagedMemoryStream/src/System/IO/UnmanagedMemoryAccessor.cs
+      path: src/mscorlib/src/System/IO/UnmanagedMemoryAccessor.cs
       branch: master
-      repo: https://github.com/dotnet/corefx.git
+      repo: https://github.com/dotnet/coreclr.git
     id: CanRead
-    path: src/System.IO.UnmanagedMemoryStream/src/System/IO/UnmanagedMemoryAccessor.cs
-    startLine: 141
+    path: src/mscorlib/src/System/IO/UnmanagedMemoryAccessor.cs
+    startLine: 117
   assemblies:
   - System.IO.UnmanagedMemoryStream
   namespace: System.IO
@@ -264,12 +279,12 @@ items:
   type: Property
   source:
     remote:
-      path: src/System.IO.UnmanagedMemoryStream/src/System/IO/UnmanagedMemoryAccessor.cs
+      path: src/mscorlib/src/System/IO/UnmanagedMemoryAccessor.cs
       branch: master
-      repo: https://github.com/dotnet/corefx.git
+      repo: https://github.com/dotnet/coreclr.git
     id: CanWrite
-    path: src/System.IO.UnmanagedMemoryStream/src/System/IO/UnmanagedMemoryAccessor.cs
-    startLine: 152
+    path: src/mscorlib/src/System/IO/UnmanagedMemoryAccessor.cs
+    startLine: 123
   assemblies:
   - System.IO.UnmanagedMemoryStream
   namespace: System.IO
@@ -300,12 +315,12 @@ items:
   type: Property
   source:
     remote:
-      path: src/System.IO.UnmanagedMemoryStream/src/System/IO/UnmanagedMemoryAccessor.cs
+      path: src/mscorlib/src/System/IO/UnmanagedMemoryAccessor.cs
       branch: master
-      repo: https://github.com/dotnet/corefx.git
+      repo: https://github.com/dotnet/coreclr.git
     id: Capacity
-    path: src/System.IO.UnmanagedMemoryStream/src/System/IO/UnmanagedMemoryAccessor.cs
-    startLine: 130
+    path: src/mscorlib/src/System/IO/UnmanagedMemoryAccessor.cs
+    startLine: 111
   assemblies:
   - System.IO.UnmanagedMemoryStream
   namespace: System.IO
@@ -313,11 +328,11 @@ items:
   example:
   - 
   syntax:
-    content: public Int64 Capacity { get; }
-    content.vb: Public ReadOnly Property Capacity As Int64
+    content: public long Capacity { get; }
+    content.vb: Public ReadOnly Property Capacity As Long
     parameters: []
     return:
-      type: Int64
+      type: System.Int64
   modifiers.csharp:
   - public
   - get
@@ -336,12 +351,12 @@ items:
   type: Property
   source:
     remote:
-      path: src/System.IO.UnmanagedMemoryStream/src/System/IO/UnmanagedMemoryAccessor.cs
+      path: src/mscorlib/src/System/IO/UnmanagedMemoryAccessor.cs
       branch: master
-      repo: https://github.com/dotnet/corefx.git
+      repo: https://github.com/dotnet/coreclr.git
     id: IsOpen
-    path: src/System.IO.UnmanagedMemoryStream/src/System/IO/UnmanagedMemoryAccessor.cs
-    startLine: 181
+    path: src/mscorlib/src/System/IO/UnmanagedMemoryAccessor.cs
+    startLine: 138
   assemblies:
   - System.IO.UnmanagedMemoryStream
   namespace: System.IO
@@ -372,12 +387,12 @@ items:
   type: Method
   source:
     remote:
-      path: src/System.IO.UnmanagedMemoryStream/src/System/IO/UnmanagedMemoryAccessor.cs
+      path: src/mscorlib/src/System/IO/UnmanagedMemoryAccessor.cs
       branch: master
-      repo: https://github.com/dotnet/corefx.git
+      repo: https://github.com/dotnet/coreclr.git
     id: Dispose
-    path: src/System.IO.UnmanagedMemoryStream/src/System/IO/UnmanagedMemoryAccessor.cs
-    startLine: 172
+    path: src/mscorlib/src/System/IO/UnmanagedMemoryAccessor.cs
+    startLine: 133
   assemblies:
   - System.IO.UnmanagedMemoryStream
   namespace: System.IO
@@ -387,6 +402,8 @@ items:
   syntax:
     content: public void Dispose()
     content.vb: Public Sub Dispose
+  implements:
+  - System.IDisposable.Dispose
   modifiers.csharp:
   - public
   modifiers.vb:
@@ -403,12 +420,12 @@ items:
   type: Method
   source:
     remote:
-      path: src/System.IO.UnmanagedMemoryStream/src/System/IO/UnmanagedMemoryAccessor.cs
+      path: src/mscorlib/src/System/IO/UnmanagedMemoryAccessor.cs
       branch: master
-      repo: https://github.com/dotnet/corefx.git
+      repo: https://github.com/dotnet/coreclr.git
     id: Dispose
-    path: src/System.IO.UnmanagedMemoryStream/src/System/IO/UnmanagedMemoryAccessor.cs
-    startLine: 164
+    path: src/mscorlib/src/System/IO/UnmanagedMemoryAccessor.cs
+    startLine: 129
   assemblies:
   - System.IO.UnmanagedMemoryStream
   namespace: System.IO
@@ -435,17 +452,17 @@ items:
   langs:
   - csharp
   - vb
-  name: Initialize(Runtime.InteropServices.SafeBuffer, Int64, Int64, FileAccess)
+  name: Initialize(SafeBuffer, Int64, Int64, FileAccess)
   fullName: System.IO.UnmanagedMemoryAccessor.Initialize(System.Runtime.InteropServices.SafeBuffer, System.Int64, System.Int64, System.IO.FileAccess)
   type: Method
   source:
     remote:
-      path: src/System.IO.UnmanagedMemoryStream/ref/System.IO.UnmanagedMemoryStream.cs
+      path: src/mscorlib/src/System/IO/UnmanagedMemoryAccessor.cs
       branch: master
-      repo: https://github.com/dotnet/corefx.git
+      repo: https://github.com/dotnet/coreclr.git
     id: Initialize
-    path: src/System.IO.UnmanagedMemoryStream/ref/System.IO.UnmanagedMemoryStream.cs
-    startLine: 21
+    path: src/mscorlib/src/System/IO/UnmanagedMemoryAccessor.cs
+    startLine: 58
   assemblies:
   - System.IO.UnmanagedMemoryStream
   namespace: System.IO
@@ -454,21 +471,27 @@ items:
   example:
   - 
   syntax:
-    content: protected void Initialize(Runtime.InteropServices.SafeBuffer buffer, long offset, long capacity, FileAccess access)
-    content.vb: Protected Sub Initialize(buffer As Runtime.InteropServices.SafeBuffer, offset As Long, capacity As Long, access As FileAccess)
+    content: >-
+      [SecuritySafeCritical]
+
+      [SecurityPermission(SecurityAction.Demand, Flags = SecurityPermissionFlag.UnmanagedCode)]
+
+      protected void Initialize(SafeBuffer buffer, long offset, long capacity, FileAccess access)
+    content.vb: >-
+      <SecuritySafeCritical>
+
+      <SecurityPermission(SecurityAction.Demand, Flags:=SecurityPermissionFlag.UnmanagedCode)>
+
+      Protected Sub Initialize(buffer As SafeBuffer, offset As Long, capacity As Long, access As FileAccess)
     parameters:
     - id: buffer
       type: System.Runtime.InteropServices.SafeBuffer
-      description: "\n<p>The buffer to contain the accessor.</p>\n"
     - id: offset
       type: System.Int64
-      description: "\n<p>The byte at which to start the accessor.</p>\n"
     - id: capacity
       type: System.Int64
-      description: "\n<p>The size, in bytes, of memory to allocate.</p>\n"
     - id: access
       type: System.IO.FileAccess
-      description: "\n<p>The type of access allowed to the memory. The default is <xref href=\"System.IO.MemoryMappedFiles.MemoryMappedFileAccess.ReadWrite\" data-throw-if-not-resolved=\"false\"></xref>.</p>\n"
   exceptions:
   - type: System.ArgumentException
     commentId: T:System.ArgumentException
@@ -501,12 +524,12 @@ items:
   type: Method
   source:
     remote:
-      path: src/System.IO.UnmanagedMemoryStream/ref/System.IO.UnmanagedMemoryStream.cs
+      path: src/mscorlib/src/System/IO/UnmanagedMemoryAccessor.cs
       branch: master
-      repo: https://github.com/dotnet/corefx.git
+      repo: https://github.com/dotnet/coreclr.git
     id: ReadBoolean
-    path: src/System.IO.UnmanagedMemoryStream/ref/System.IO.UnmanagedMemoryStream.cs
-    startLine: 22
+    path: src/mscorlib/src/System/IO/UnmanagedMemoryAccessor.cs
+    startLine: 142
   assemblies:
   - System.IO.UnmanagedMemoryStream
   namespace: System.IO
@@ -519,10 +542,8 @@ items:
     parameters:
     - id: position
       type: System.Int64
-      description: "\n<p>The number of bytes into the accessor at which to begin reading. </p>\n"
     return:
       type: System.Boolean
-      description: "\n<p>\n<strong>true</strong> or <strong>false</strong>.</p>\n"
   exceptions:
   - type: System.ArgumentException
     commentId: T:System.ArgumentException
@@ -552,12 +573,12 @@ items:
   type: Method
   source:
     remote:
-      path: src/System.IO.UnmanagedMemoryStream/ref/System.IO.UnmanagedMemoryStream.cs
+      path: src/mscorlib/src/System/IO/UnmanagedMemoryAccessor.cs
       branch: master
-      repo: https://github.com/dotnet/corefx.git
+      repo: https://github.com/dotnet/coreclr.git
     id: ReadByte
-    path: src/System.IO.UnmanagedMemoryStream/ref/System.IO.UnmanagedMemoryStream.cs
-    startLine: 23
+    path: src/mscorlib/src/System/IO/UnmanagedMemoryAccessor.cs
+    startLine: 150
   assemblies:
   - System.IO.UnmanagedMemoryStream
   namespace: System.IO
@@ -570,10 +591,8 @@ items:
     parameters:
     - id: position
       type: System.Int64
-      description: "\n<p>The number of bytes into the accessor at which to begin reading.</p>\n"
     return:
       type: System.Byte
-      description: "\n<p>The value that was read.</p>\n"
   exceptions:
   - type: System.ArgumentException
     commentId: T:System.ArgumentException
@@ -603,12 +622,12 @@ items:
   type: Method
   source:
     remote:
-      path: src/System.IO.UnmanagedMemoryStream/ref/System.IO.UnmanagedMemoryStream.cs
+      path: src/mscorlib/src/System/IO/UnmanagedMemoryAccessor.cs
       branch: master
-      repo: https://github.com/dotnet/corefx.git
+      repo: https://github.com/dotnet/coreclr.git
     id: ReadChar
-    path: src/System.IO.UnmanagedMemoryStream/ref/System.IO.UnmanagedMemoryStream.cs
-    startLine: 24
+    path: src/mscorlib/src/System/IO/UnmanagedMemoryAccessor.cs
+    startLine: 157
   assemblies:
   - System.IO.UnmanagedMemoryStream
   namespace: System.IO
@@ -616,15 +635,19 @@ items:
   example:
   - 
   syntax:
-    content: public char ReadChar(long position)
-    content.vb: Public Function ReadChar(position As Long) As Char
+    content: >-
+      [SecuritySafeCritical]
+
+      public char ReadChar(long position)
+    content.vb: >-
+      <SecuritySafeCritical>
+
+      Public Function ReadChar(position As Long) As Char
     parameters:
     - id: position
       type: System.Int64
-      description: "\n<p>The number of bytes into the accessor at which to begin reading.</p>\n"
     return:
       type: System.Char
-      description: "\n<p>The value that was read.</p>\n"
   exceptions:
   - type: System.ArgumentException
     commentId: T:System.ArgumentException
@@ -654,12 +677,12 @@ items:
   type: Method
   source:
     remote:
-      path: src/System.IO.UnmanagedMemoryStream/ref/System.IO.UnmanagedMemoryStream.cs
+      path: src/mscorlib/src/System/IO/UnmanagedMemoryAccessor.cs
       branch: master
-      repo: https://github.com/dotnet/corefx.git
+      repo: https://github.com/dotnet/coreclr.git
     id: ReadDecimal
-    path: src/System.IO.UnmanagedMemoryStream/ref/System.IO.UnmanagedMemoryStream.cs
-    startLine: 25
+    path: src/mscorlib/src/System/IO/UnmanagedMemoryAccessor.cs
+    startLine: 303
   assemblies:
   - System.IO.UnmanagedMemoryStream
   namespace: System.IO
@@ -667,15 +690,19 @@ items:
   example:
   - 
   syntax:
-    content: public decimal ReadDecimal(long position)
-    content.vb: Public Function ReadDecimal(position As Long) As Decimal
+    content: >-
+      [SecuritySafeCritical]
+
+      public decimal ReadDecimal(long position)
+    content.vb: >-
+      <SecuritySafeCritical>
+
+      Public Function ReadDecimal(position As Long) As Decimal
     parameters:
     - id: position
       type: System.Int64
-      description: "\n<p>The number of bytes into the accessor at which to begin reading.</p>\n"
     return:
       type: System.Decimal
-      description: "\n<p>The value that was read.</p>\n"
   exceptions:
   - type: System.ArgumentException
     commentId: T:System.ArgumentException
@@ -705,12 +732,12 @@ items:
   type: Method
   source:
     remote:
-      path: src/System.IO.UnmanagedMemoryStream/ref/System.IO.UnmanagedMemoryStream.cs
+      path: src/mscorlib/src/System/IO/UnmanagedMemoryAccessor.cs
       branch: master
-      repo: https://github.com/dotnet/corefx.git
+      repo: https://github.com/dotnet/coreclr.git
     id: ReadDouble
-    path: src/System.IO.UnmanagedMemoryStream/ref/System.IO.UnmanagedMemoryStream.cs
-    startLine: 26
+    path: src/mscorlib/src/System/IO/UnmanagedMemoryAccessor.cs
+    startLine: 350
   assemblies:
   - System.IO.UnmanagedMemoryStream
   namespace: System.IO
@@ -718,15 +745,19 @@ items:
   example:
   - 
   syntax:
-    content: public double ReadDouble(long position)
-    content.vb: Public Function ReadDouble(position As Long) As Double
+    content: >-
+      [SecuritySafeCritical]
+
+      public double ReadDouble(long position)
+    content.vb: >-
+      <SecuritySafeCritical>
+
+      Public Function ReadDouble(position As Long) As Double
     parameters:
     - id: position
       type: System.Int64
-      description: "\n<p>The number of bytes into the accessor at which to begin reading.</p>\n"
     return:
       type: System.Double
-      description: "\n<p>The value that was read.</p>\n"
   exceptions:
   - type: System.ArgumentException
     commentId: T:System.ArgumentException
@@ -756,12 +787,12 @@ items:
   type: Method
   source:
     remote:
-      path: src/System.IO.UnmanagedMemoryStream/ref/System.IO.UnmanagedMemoryStream.cs
+      path: src/mscorlib/src/System/IO/UnmanagedMemoryAccessor.cs
       branch: master
-      repo: https://github.com/dotnet/corefx.git
+      repo: https://github.com/dotnet/coreclr.git
     id: ReadInt16
-    path: src/System.IO.UnmanagedMemoryStream/ref/System.IO.UnmanagedMemoryStream.cs
-    startLine: 27
+    path: src/mscorlib/src/System/IO/UnmanagedMemoryAccessor.cs
+    startLine: 194
   assemblies:
   - System.IO.UnmanagedMemoryStream
   namespace: System.IO
@@ -769,15 +800,19 @@ items:
   example:
   - 
   syntax:
-    content: public short ReadInt16(long position)
-    content.vb: Public Function ReadInt16(position As Long) As Short
+    content: >-
+      [SecuritySafeCritical]
+
+      public short ReadInt16(long position)
+    content.vb: >-
+      <SecuritySafeCritical>
+
+      Public Function ReadInt16(position As Long) As Short
     parameters:
     - id: position
       type: System.Int64
-      description: "\n<p>The number of bytes into the accessor at which to begin reading.</p>\n"
     return:
       type: System.Int16
-      description: "\n<p>The value that was read.</p>\n"
   exceptions:
   - type: System.ArgumentException
     commentId: T:System.ArgumentException
@@ -807,12 +842,12 @@ items:
   type: Method
   source:
     remote:
-      path: src/System.IO.UnmanagedMemoryStream/ref/System.IO.UnmanagedMemoryStream.cs
+      path: src/mscorlib/src/System/IO/UnmanagedMemoryAccessor.cs
       branch: master
-      repo: https://github.com/dotnet/corefx.git
+      repo: https://github.com/dotnet/coreclr.git
     id: ReadInt32
-    path: src/System.IO.UnmanagedMemoryStream/ref/System.IO.UnmanagedMemoryStream.cs
-    startLine: 28
+    path: src/mscorlib/src/System/IO/UnmanagedMemoryAccessor.cs
+    startLine: 231
   assemblies:
   - System.IO.UnmanagedMemoryStream
   namespace: System.IO
@@ -820,15 +855,19 @@ items:
   example:
   - 
   syntax:
-    content: public int ReadInt32(long position)
-    content.vb: Public Function ReadInt32(position As Long) As Integer
+    content: >-
+      [SecuritySafeCritical]
+
+      public int ReadInt32(long position)
+    content.vb: >-
+      <SecuritySafeCritical>
+
+      Public Function ReadInt32(position As Long) As Integer
     parameters:
     - id: position
       type: System.Int64
-      description: "\n<p>The number of bytes into the accessor at which to begin reading.</p>\n"
     return:
       type: System.Int32
-      description: "\n<p>The value that was read.</p>\n"
   exceptions:
   - type: System.ArgumentException
     commentId: T:System.ArgumentException
@@ -858,12 +897,12 @@ items:
   type: Method
   source:
     remote:
-      path: src/System.IO.UnmanagedMemoryStream/ref/System.IO.UnmanagedMemoryStream.cs
+      path: src/mscorlib/src/System/IO/UnmanagedMemoryAccessor.cs
       branch: master
-      repo: https://github.com/dotnet/corefx.git
+      repo: https://github.com/dotnet/coreclr.git
     id: ReadInt64
-    path: src/System.IO.UnmanagedMemoryStream/ref/System.IO.UnmanagedMemoryStream.cs
-    startLine: 29
+    path: src/mscorlib/src/System/IO/UnmanagedMemoryAccessor.cs
+    startLine: 266
   assemblies:
   - System.IO.UnmanagedMemoryStream
   namespace: System.IO
@@ -871,15 +910,19 @@ items:
   example:
   - 
   syntax:
-    content: public long ReadInt64(long position)
-    content.vb: Public Function ReadInt64(position As Long) As Long
+    content: >-
+      [SecuritySafeCritical]
+
+      public long ReadInt64(long position)
+    content.vb: >-
+      <SecuritySafeCritical>
+
+      Public Function ReadInt64(position As Long) As Long
     parameters:
     - id: position
       type: System.Int64
-      description: "\n<p>The number of bytes into the accessor at which to begin reading.</p>\n"
     return:
       type: System.Int64
-      description: "\n<p>The value that was read.</p>\n"
   exceptions:
   - type: System.ArgumentException
     commentId: T:System.ArgumentException
@@ -909,12 +952,12 @@ items:
   type: Method
   source:
     remote:
-      path: src/System.IO.UnmanagedMemoryStream/ref/System.IO.UnmanagedMemoryStream.cs
+      path: src/mscorlib/src/System/IO/UnmanagedMemoryAccessor.cs
       branch: master
-      repo: https://github.com/dotnet/corefx.git
+      repo: https://github.com/dotnet/coreclr.git
     id: ReadSByte
-    path: src/System.IO.UnmanagedMemoryStream/ref/System.IO.UnmanagedMemoryStream.cs
-    startLine: 30
+    path: src/mscorlib/src/System/IO/UnmanagedMemoryAccessor.cs
+    startLine: 390
   assemblies:
   - System.IO.UnmanagedMemoryStream
   namespace: System.IO
@@ -922,15 +965,23 @@ items:
   example:
   - 
   syntax:
-    content: public sbyte ReadSByte(long position)
-    content.vb: Public Function ReadSByte(position As Long) As SByte
+    content: >-
+      [SecuritySafeCritical]
+
+      [CLSCompliant(false)]
+
+      public sbyte ReadSByte(long position)
+    content.vb: >-
+      <SecuritySafeCritical>
+
+      <CLSCompliant(False)>
+
+      Public Function ReadSByte(position As Long) As SByte
     parameters:
     - id: position
       type: System.Int64
-      description: "\n<p>The number of bytes into the accessor at which to begin reading.</p>\n"
     return:
       type: System.SByte
-      description: "\n<p>The value that was read.</p>\n"
   exceptions:
   - type: System.ArgumentException
     commentId: T:System.ArgumentException
@@ -944,6 +995,12 @@ items:
   - type: System.ObjectDisposedException
     commentId: T:System.ObjectDisposedException
     description: "\n<p>The accessor has been disposed.</p>\n"
+  attributes:
+  - type: System.CLSCompliantAttribute
+    ctor: System.CLSCompliantAttribute.#ctor(System.Boolean)
+    arguments:
+    - type: System.Boolean
+      value: false
   modifiers.csharp:
   - public
   modifiers.vb:
@@ -960,12 +1017,12 @@ items:
   type: Method
   source:
     remote:
-      path: src/System.IO.UnmanagedMemoryStream/ref/System.IO.UnmanagedMemoryStream.cs
+      path: src/mscorlib/src/System/IO/UnmanagedMemoryAccessor.cs
       branch: master
-      repo: https://github.com/dotnet/corefx.git
+      repo: https://github.com/dotnet/coreclr.git
     id: ReadSingle
-    path: src/System.IO.UnmanagedMemoryStream/ref/System.IO.UnmanagedMemoryStream.cs
-    startLine: 32
+    path: src/mscorlib/src/System/IO/UnmanagedMemoryAccessor.cs
+    startLine: 314
   assemblies:
   - System.IO.UnmanagedMemoryStream
   namespace: System.IO
@@ -973,15 +1030,19 @@ items:
   example:
   - 
   syntax:
-    content: public float ReadSingle(long position)
-    content.vb: Public Function ReadSingle(position As Long) As Single
+    content: >-
+      [SecuritySafeCritical]
+
+      public float ReadSingle(long position)
+    content.vb: >-
+      <SecuritySafeCritical>
+
+      Public Function ReadSingle(position As Long) As Single
     parameters:
     - id: position
       type: System.Int64
-      description: "\n<p>The number of bytes into the accessor at which to begin reading.</p>\n"
     return:
       type: System.Single
-      description: "\n<p>The value that was read.</p>\n"
   exceptions:
   - type: System.ArgumentException
     commentId: T:System.ArgumentException
@@ -1011,12 +1072,12 @@ items:
   type: Method
   source:
     remote:
-      path: src/System.IO.UnmanagedMemoryStream/ref/System.IO.UnmanagedMemoryStream.cs
+      path: src/mscorlib/src/System/IO/UnmanagedMemoryAccessor.cs
       branch: master
-      repo: https://github.com/dotnet/corefx.git
+      repo: https://github.com/dotnet/coreclr.git
     id: ReadUInt16
-    path: src/System.IO.UnmanagedMemoryStream/ref/System.IO.UnmanagedMemoryStream.cs
-    startLine: 33
+    path: src/mscorlib/src/System/IO/UnmanagedMemoryAccessor.cs
+    startLine: 415
   assemblies:
   - System.IO.UnmanagedMemoryStream
   namespace: System.IO
@@ -1024,15 +1085,23 @@ items:
   example:
   - 
   syntax:
-    content: public ushort ReadUInt16(long position)
-    content.vb: Public Function ReadUInt16(position As Long) As UShort
+    content: >-
+      [SecuritySafeCritical]
+
+      [CLSCompliant(false)]
+
+      public ushort ReadUInt16(long position)
+    content.vb: >-
+      <SecuritySafeCritical>
+
+      <CLSCompliant(False)>
+
+      Public Function ReadUInt16(position As Long) As UShort
     parameters:
     - id: position
       type: System.Int64
-      description: "\n<p>The number of bytes into the accessor at which to begin reading.</p>\n"
     return:
       type: System.UInt16
-      description: "\n<p>The value that was read.</p>\n"
   exceptions:
   - type: System.ArgumentException
     commentId: T:System.ArgumentException
@@ -1046,6 +1115,12 @@ items:
   - type: System.ObjectDisposedException
     commentId: T:System.ObjectDisposedException
     description: "\n<p>The accessor has been disposed.</p>\n"
+  attributes:
+  - type: System.CLSCompliantAttribute
+    ctor: System.CLSCompliantAttribute.#ctor(System.Boolean)
+    arguments:
+    - type: System.Boolean
+      value: false
   modifiers.csharp:
   - public
   modifiers.vb:
@@ -1062,12 +1137,12 @@ items:
   type: Method
   source:
     remote:
-      path: src/System.IO.UnmanagedMemoryStream/ref/System.IO.UnmanagedMemoryStream.cs
+      path: src/mscorlib/src/System/IO/UnmanagedMemoryAccessor.cs
       branch: master
-      repo: https://github.com/dotnet/corefx.git
+      repo: https://github.com/dotnet/coreclr.git
     id: ReadUInt32
-    path: src/System.IO.UnmanagedMemoryStream/ref/System.IO.UnmanagedMemoryStream.cs
-    startLine: 35
+    path: src/mscorlib/src/System/IO/UnmanagedMemoryAccessor.cs
+    startLine: 452
   assemblies:
   - System.IO.UnmanagedMemoryStream
   namespace: System.IO
@@ -1075,15 +1150,23 @@ items:
   example:
   - 
   syntax:
-    content: public uint ReadUInt32(long position)
-    content.vb: Public Function ReadUInt32(position As Long) As UInteger
+    content: >-
+      [SecuritySafeCritical]
+
+      [CLSCompliant(false)]
+
+      public uint ReadUInt32(long position)
+    content.vb: >-
+      <SecuritySafeCritical>
+
+      <CLSCompliant(False)>
+
+      Public Function ReadUInt32(position As Long) As UInteger
     parameters:
     - id: position
       type: System.Int64
-      description: "\n<p>The number of bytes into the accessor at which to begin reading.</p>\n"
     return:
       type: System.UInt32
-      description: "\n<p>The value that was read.</p>\n"
   exceptions:
   - type: System.ArgumentException
     commentId: T:System.ArgumentException
@@ -1097,6 +1180,12 @@ items:
   - type: System.ObjectDisposedException
     commentId: T:System.ObjectDisposedException
     description: "\n<p>The accessor has been disposed.</p>\n"
+  attributes:
+  - type: System.CLSCompliantAttribute
+    ctor: System.CLSCompliantAttribute.#ctor(System.Boolean)
+    arguments:
+    - type: System.Boolean
+      value: false
   modifiers.csharp:
   - public
   modifiers.vb:
@@ -1113,12 +1202,12 @@ items:
   type: Method
   source:
     remote:
-      path: src/System.IO.UnmanagedMemoryStream/ref/System.IO.UnmanagedMemoryStream.cs
+      path: src/mscorlib/src/System/IO/UnmanagedMemoryAccessor.cs
       branch: master
-      repo: https://github.com/dotnet/corefx.git
+      repo: https://github.com/dotnet/coreclr.git
     id: ReadUInt64
-    path: src/System.IO.UnmanagedMemoryStream/ref/System.IO.UnmanagedMemoryStream.cs
-    startLine: 37
+    path: src/mscorlib/src/System/IO/UnmanagedMemoryAccessor.cs
+    startLine: 489
   assemblies:
   - System.IO.UnmanagedMemoryStream
   namespace: System.IO
@@ -1126,15 +1215,23 @@ items:
   example:
   - 
   syntax:
-    content: public ulong ReadUInt64(long position)
-    content.vb: Public Function ReadUInt64(position As Long) As ULong
+    content: >-
+      [SecuritySafeCritical]
+
+      [CLSCompliant(false)]
+
+      public ulong ReadUInt64(long position)
+    content.vb: >-
+      <SecuritySafeCritical>
+
+      <CLSCompliant(False)>
+
+      Public Function ReadUInt64(position As Long) As ULong
     parameters:
     - id: position
       type: System.Int64
-      description: "\n<p>The number of bytes into the accessor at which to begin reading.</p>\n"
     return:
       type: System.UInt64
-      description: "\n<p>The value that was read.</p>\n"
   exceptions:
   - type: System.ArgumentException
     commentId: T:System.ArgumentException
@@ -1148,6 +1245,12 @@ items:
   - type: System.ObjectDisposedException
     commentId: T:System.ObjectDisposedException
     description: "\n<p>The accessor has been disposed.</p>\n"
+  attributes:
+  - type: System.CLSCompliantAttribute
+    ctor: System.CLSCompliantAttribute.#ctor(System.Boolean)
+    arguments:
+    - type: System.Boolean
+      value: false
   modifiers.csharp:
   - public
   modifiers.vb:
@@ -1164,12 +1267,12 @@ items:
   type: Method
   source:
     remote:
-      path: src/System.IO.UnmanagedMemoryStream/ref/System.IO.UnmanagedMemoryStream.cs
+      path: src/mscorlib/src/System/IO/UnmanagedMemoryAccessor.cs
       branch: master
-      repo: https://github.com/dotnet/corefx.git
+      repo: https://github.com/dotnet/coreclr.git
     id: Write
-    path: src/System.IO.UnmanagedMemoryStream/ref/System.IO.UnmanagedMemoryStream.cs
-    startLine: 39
+    path: src/mscorlib/src/System/IO/UnmanagedMemoryAccessor.cs
+    startLine: 634
   assemblies:
   - System.IO.UnmanagedMemoryStream
   namespace: System.IO
@@ -1182,10 +1285,8 @@ items:
     parameters:
     - id: position
       type: System.Int64
-      description: "\n<p>The number of bytes into the accessor at which to begin writing.</p>\n"
     - id: value
       type: System.Boolean
-      description: "\n<p>The value to write.</p>\n"
   exceptions:
   - type: System.ArgumentException
     commentId: T:System.ArgumentException
@@ -1215,12 +1316,12 @@ items:
   type: Method
   source:
     remote:
-      path: src/System.IO.UnmanagedMemoryStream/ref/System.IO.UnmanagedMemoryStream.cs
+      path: src/mscorlib/src/System/IO/UnmanagedMemoryAccessor.cs
       branch: master
-      repo: https://github.com/dotnet/corefx.git
+      repo: https://github.com/dotnet/coreclr.git
     id: Write
-    path: src/System.IO.UnmanagedMemoryStream/ref/System.IO.UnmanagedMemoryStream.cs
-    startLine: 40
+    path: src/mscorlib/src/System/IO/UnmanagedMemoryAccessor.cs
+    startLine: 642
   assemblies:
   - System.IO.UnmanagedMemoryStream
   namespace: System.IO
@@ -1233,10 +1334,8 @@ items:
     parameters:
     - id: position
       type: System.Int64
-      description: "\n<p>The number of bytes into the accessor at which to begin writing.</p>\n"
     - id: value
       type: System.Byte
-      description: "\n<p>The value to write.</p>\n"
   exceptions:
   - type: System.ArgumentException
     commentId: T:System.ArgumentException
@@ -1266,12 +1365,12 @@ items:
   type: Method
   source:
     remote:
-      path: src/System.IO.UnmanagedMemoryStream/ref/System.IO.UnmanagedMemoryStream.cs
+      path: src/mscorlib/src/System/IO/UnmanagedMemoryAccessor.cs
       branch: master
-      repo: https://github.com/dotnet/corefx.git
+      repo: https://github.com/dotnet/coreclr.git
     id: Write
-    path: src/System.IO.UnmanagedMemoryStream/ref/System.IO.UnmanagedMemoryStream.cs
-    startLine: 41
+    path: src/mscorlib/src/System/IO/UnmanagedMemoryAccessor.cs
+    startLine: 649
   assemblies:
   - System.IO.UnmanagedMemoryStream
   namespace: System.IO
@@ -1279,15 +1378,19 @@ items:
   example:
   - 
   syntax:
-    content: public void Write(long position, char value)
-    content.vb: Public Sub Write(position As Long, value As Char)
+    content: >-
+      [SecuritySafeCritical]
+
+      public void Write(long position, char value)
+    content.vb: >-
+      <SecuritySafeCritical>
+
+      Public Sub Write(position As Long, value As Char)
     parameters:
     - id: position
       type: System.Int64
-      description: "\n<p>The number of bytes into the accessor at which to begin writing.</p>\n"
     - id: value
       type: System.Char
-      description: "\n<p>The value to write.</p>\n"
   exceptions:
   - type: System.ArgumentException
     commentId: T:System.ArgumentException
@@ -1317,12 +1420,12 @@ items:
   type: Method
   source:
     remote:
-      path: src/System.IO.UnmanagedMemoryStream/ref/System.IO.UnmanagedMemoryStream.cs
+      path: src/mscorlib/src/System/IO/UnmanagedMemoryAccessor.cs
       branch: master
-      repo: https://github.com/dotnet/corefx.git
+      repo: https://github.com/dotnet/coreclr.git
     id: Write
-    path: src/System.IO.UnmanagedMemoryStream/ref/System.IO.UnmanagedMemoryStream.cs
-    startLine: 42
+    path: src/mscorlib/src/System/IO/UnmanagedMemoryAccessor.cs
+    startLine: 791
   assemblies:
   - System.IO.UnmanagedMemoryStream
   namespace: System.IO
@@ -1330,15 +1433,19 @@ items:
   example:
   - 
   syntax:
-    content: public void Write(long position, decimal value)
-    content.vb: Public Sub Write(position As Long, value As Decimal)
+    content: >-
+      [SecuritySafeCritical]
+
+      public void Write(long position, decimal value)
+    content.vb: >-
+      <SecuritySafeCritical>
+
+      Public Sub Write(position As Long, value As Decimal)
     parameters:
     - id: position
       type: System.Int64
-      description: "\n<p>The number of bytes into the accessor at which to begin writing.</p>\n"
     - id: value
       type: System.Decimal
-      description: "\n<p>The value to write.</p>\n"
   exceptions:
   - type: System.ArgumentException
     commentId: T:System.ArgumentException
@@ -1368,12 +1475,12 @@ items:
   type: Method
   source:
     remote:
-      path: src/System.IO.UnmanagedMemoryStream/ref/System.IO.UnmanagedMemoryStream.cs
+      path: src/mscorlib/src/System/IO/UnmanagedMemoryAccessor.cs
       branch: master
-      repo: https://github.com/dotnet/corefx.git
+      repo: https://github.com/dotnet/coreclr.git
     id: Write
-    path: src/System.IO.UnmanagedMemoryStream/ref/System.IO.UnmanagedMemoryStream.cs
-    startLine: 43
+    path: src/mscorlib/src/System/IO/UnmanagedMemoryAccessor.cs
+    startLine: 848
   assemblies:
   - System.IO.UnmanagedMemoryStream
   namespace: System.IO
@@ -1381,15 +1488,19 @@ items:
   example:
   - 
   syntax:
-    content: public void Write(long position, double value)
-    content.vb: Public Sub Write(position As Long, value As Double)
+    content: >-
+      [SecuritySafeCritical]
+
+      public void Write(long position, double value)
+    content.vb: >-
+      <SecuritySafeCritical>
+
+      Public Sub Write(position As Long, value As Double)
     parameters:
     - id: position
       type: System.Int64
-      description: "\n<p>The number of bytes into the accessor at which to begin writing.</p>\n"
     - id: value
       type: System.Double
-      description: "\n<p>The value to write.</p>\n"
   exceptions:
   - type: System.ArgumentException
     commentId: T:System.ArgumentException
@@ -1419,12 +1530,12 @@ items:
   type: Method
   source:
     remote:
-      path: src/System.IO.UnmanagedMemoryStream/ref/System.IO.UnmanagedMemoryStream.cs
+      path: src/mscorlib/src/System/IO/UnmanagedMemoryAccessor.cs
       branch: master
-      repo: https://github.com/dotnet/corefx.git
+      repo: https://github.com/dotnet/coreclr.git
     id: Write
-    path: src/System.IO.UnmanagedMemoryStream/ref/System.IO.UnmanagedMemoryStream.cs
-    startLine: 44
+    path: src/mscorlib/src/System/IO/UnmanagedMemoryAccessor.cs
+    startLine: 684
   assemblies:
   - System.IO.UnmanagedMemoryStream
   namespace: System.IO
@@ -1432,15 +1543,19 @@ items:
   example:
   - 
   syntax:
-    content: public void Write(long position, short value)
-    content.vb: Public Sub Write(position As Long, value As Short)
+    content: >-
+      [SecuritySafeCritical]
+
+      public void Write(long position, short value)
+    content.vb: >-
+      <SecuritySafeCritical>
+
+      Public Sub Write(position As Long, value As Short)
     parameters:
     - id: position
       type: System.Int64
-      description: "\n<p>The number of bytes into the accessor at which to begin writing.</p>\n"
     - id: value
       type: System.Int16
-      description: "\n<p>The value to write.</p>\n"
   exceptions:
   - type: System.ArgumentException
     commentId: T:System.ArgumentException
@@ -1470,12 +1585,12 @@ items:
   type: Method
   source:
     remote:
-      path: src/System.IO.UnmanagedMemoryStream/ref/System.IO.UnmanagedMemoryStream.cs
+      path: src/mscorlib/src/System/IO/UnmanagedMemoryAccessor.cs
       branch: master
-      repo: https://github.com/dotnet/corefx.git
+      repo: https://github.com/dotnet/coreclr.git
     id: Write
-    path: src/System.IO.UnmanagedMemoryStream/ref/System.IO.UnmanagedMemoryStream.cs
-    startLine: 45
+    path: src/mscorlib/src/System/IO/UnmanagedMemoryAccessor.cs
+    startLine: 718
   assemblies:
   - System.IO.UnmanagedMemoryStream
   namespace: System.IO
@@ -1483,15 +1598,19 @@ items:
   example:
   - 
   syntax:
-    content: public void Write(long position, int value)
-    content.vb: Public Sub Write(position As Long, value As Integer)
+    content: >-
+      [SecuritySafeCritical]
+
+      public void Write(long position, int value)
+    content.vb: >-
+      <SecuritySafeCritical>
+
+      Public Sub Write(position As Long, value As Integer)
     parameters:
     - id: position
       type: System.Int64
-      description: "\n<p>The number of bytes into the accessor at which to begin writing.</p>\n"
     - id: value
       type: System.Int32
-      description: "\n<p>The value to write.</p>\n"
   exceptions:
   - type: System.ArgumentException
     commentId: T:System.ArgumentException
@@ -1521,12 +1640,12 @@ items:
   type: Method
   source:
     remote:
-      path: src/System.IO.UnmanagedMemoryStream/ref/System.IO.UnmanagedMemoryStream.cs
+      path: src/mscorlib/src/System/IO/UnmanagedMemoryAccessor.cs
       branch: master
-      repo: https://github.com/dotnet/corefx.git
+      repo: https://github.com/dotnet/coreclr.git
     id: Write
-    path: src/System.IO.UnmanagedMemoryStream/ref/System.IO.UnmanagedMemoryStream.cs
-    startLine: 46
+    path: src/mscorlib/src/System/IO/UnmanagedMemoryAccessor.cs
+    startLine: 753
   assemblies:
   - System.IO.UnmanagedMemoryStream
   namespace: System.IO
@@ -1534,15 +1653,19 @@ items:
   example:
   - 
   syntax:
-    content: public void Write(long position, long value)
-    content.vb: Public Sub Write(position As Long, value As Long)
+    content: >-
+      [SecuritySafeCritical]
+
+      public void Write(long position, long value)
+    content.vb: >-
+      <SecuritySafeCritical>
+
+      Public Sub Write(position As Long, value As Long)
     parameters:
     - id: position
       type: System.Int64
-      description: "\n<p>The number of bytes into the accessor at which to begin writing.</p>\n"
     - id: value
       type: System.Int64
-      description: "\n<p>The value to write.</p>\n"
   exceptions:
   - type: System.ArgumentException
     commentId: T:System.ArgumentException
@@ -1572,12 +1695,12 @@ items:
   type: Method
   source:
     remote:
-      path: src/System.IO.UnmanagedMemoryStream/ref/System.IO.UnmanagedMemoryStream.cs
+      path: src/mscorlib/src/System/IO/UnmanagedMemoryAccessor.cs
       branch: master
-      repo: https://github.com/dotnet/corefx.git
+      repo: https://github.com/dotnet/coreclr.git
     id: Write
-    path: src/System.IO.UnmanagedMemoryStream/ref/System.IO.UnmanagedMemoryStream.cs
-    startLine: 47
+    path: src/mscorlib/src/System/IO/UnmanagedMemoryAccessor.cs
+    startLine: 888
   assemblies:
   - System.IO.UnmanagedMemoryStream
   namespace: System.IO
@@ -1585,15 +1708,23 @@ items:
   example:
   - 
   syntax:
-    content: public void Write(long position, sbyte value)
-    content.vb: Public Sub Write(position As Long, value As SByte)
+    content: >-
+      [SecuritySafeCritical]
+
+      [CLSCompliant(false)]
+
+      public void Write(long position, sbyte value)
+    content.vb: >-
+      <SecuritySafeCritical>
+
+      <CLSCompliant(False)>
+
+      Public Sub Write(position As Long, value As SByte)
     parameters:
     - id: position
       type: System.Int64
-      description: "\n<p>The number of bytes into the accessor at which to begin writing.</p>\n"
     - id: value
       type: System.SByte
-      description: "\n<p>The value to write.</p>\n"
   exceptions:
   - type: System.ArgumentException
     commentId: T:System.ArgumentException
@@ -1607,6 +1738,12 @@ items:
   - type: System.ObjectDisposedException
     commentId: T:System.ObjectDisposedException
     description: "\n<p>The accessor has been disposed.</p>\n"
+  attributes:
+  - type: System.CLSCompliantAttribute
+    ctor: System.CLSCompliantAttribute.#ctor(System.Boolean)
+    arguments:
+    - type: System.Boolean
+      value: false
   modifiers.csharp:
   - public
   modifiers.vb:
@@ -1623,12 +1760,12 @@ items:
   type: Method
   source:
     remote:
-      path: src/System.IO.UnmanagedMemoryStream/ref/System.IO.UnmanagedMemoryStream.cs
+      path: src/mscorlib/src/System/IO/UnmanagedMemoryAccessor.cs
       branch: master
-      repo: https://github.com/dotnet/corefx.git
+      repo: https://github.com/dotnet/coreclr.git
     id: Write
-    path: src/System.IO.UnmanagedMemoryStream/ref/System.IO.UnmanagedMemoryStream.cs
-    startLine: 49
+    path: src/mscorlib/src/System/IO/UnmanagedMemoryAccessor.cs
+    startLine: 812
   assemblies:
   - System.IO.UnmanagedMemoryStream
   namespace: System.IO
@@ -1636,15 +1773,19 @@ items:
   example:
   - 
   syntax:
-    content: public void Write(long position, float value)
-    content.vb: Public Sub Write(position As Long, value As Single)
+    content: >-
+      [SecuritySafeCritical]
+
+      public void Write(long position, float value)
+    content.vb: >-
+      <SecuritySafeCritical>
+
+      Public Sub Write(position As Long, value As Single)
     parameters:
     - id: position
       type: System.Int64
-      description: "\n<p>The number of bytes into the accessor at which to begin writing.</p>\n"
     - id: value
       type: System.Single
-      description: "\n<p>The value to write.</p>\n"
   exceptions:
   - type: System.ArgumentException
     commentId: T:System.ArgumentException
@@ -1674,12 +1815,12 @@ items:
   type: Method
   source:
     remote:
-      path: src/System.IO.UnmanagedMemoryStream/ref/System.IO.UnmanagedMemoryStream.cs
+      path: src/mscorlib/src/System/IO/UnmanagedMemoryAccessor.cs
       branch: master
-      repo: https://github.com/dotnet/corefx.git
+      repo: https://github.com/dotnet/coreclr.git
     id: Write
-    path: src/System.IO.UnmanagedMemoryStream/ref/System.IO.UnmanagedMemoryStream.cs
-    startLine: 50
+    path: src/mscorlib/src/System/IO/UnmanagedMemoryAccessor.cs
+    startLine: 910
   assemblies:
   - System.IO.UnmanagedMemoryStream
   namespace: System.IO
@@ -1687,15 +1828,23 @@ items:
   example:
   - 
   syntax:
-    content: public void Write(long position, ushort value)
-    content.vb: Public Sub Write(position As Long, value As UShort)
+    content: >-
+      [SecuritySafeCritical]
+
+      [CLSCompliant(false)]
+
+      public void Write(long position, ushort value)
+    content.vb: >-
+      <SecuritySafeCritical>
+
+      <CLSCompliant(False)>
+
+      Public Sub Write(position As Long, value As UShort)
     parameters:
     - id: position
       type: System.Int64
-      description: "\n<p>The number of bytes into the accessor at which to begin writing.</p>\n"
     - id: value
       type: System.UInt16
-      description: "\n<p>The value to write.</p>\n"
   exceptions:
   - type: System.ArgumentException
     commentId: T:System.ArgumentException
@@ -1709,6 +1858,12 @@ items:
   - type: System.ObjectDisposedException
     commentId: T:System.ObjectDisposedException
     description: "\n<p>The accessor has been disposed.</p>\n"
+  attributes:
+  - type: System.CLSCompliantAttribute
+    ctor: System.CLSCompliantAttribute.#ctor(System.Boolean)
+    arguments:
+    - type: System.Boolean
+      value: false
   modifiers.csharp:
   - public
   modifiers.vb:
@@ -1725,12 +1880,12 @@ items:
   type: Method
   source:
     remote:
-      path: src/System.IO.UnmanagedMemoryStream/ref/System.IO.UnmanagedMemoryStream.cs
+      path: src/mscorlib/src/System/IO/UnmanagedMemoryAccessor.cs
       branch: master
-      repo: https://github.com/dotnet/corefx.git
+      repo: https://github.com/dotnet/coreclr.git
     id: Write
-    path: src/System.IO.UnmanagedMemoryStream/ref/System.IO.UnmanagedMemoryStream.cs
-    startLine: 52
+    path: src/mscorlib/src/System/IO/UnmanagedMemoryAccessor.cs
+    startLine: 944
   assemblies:
   - System.IO.UnmanagedMemoryStream
   namespace: System.IO
@@ -1738,15 +1893,23 @@ items:
   example:
   - 
   syntax:
-    content: public void Write(long position, uint value)
-    content.vb: Public Sub Write(position As Long, value As UInteger)
+    content: >-
+      [SecuritySafeCritical]
+
+      [CLSCompliant(false)]
+
+      public void Write(long position, uint value)
+    content.vb: >-
+      <SecuritySafeCritical>
+
+      <CLSCompliant(False)>
+
+      Public Sub Write(position As Long, value As UInteger)
     parameters:
     - id: position
       type: System.Int64
-      description: "\n<p>The number of bytes into the accessor at which to begin writing.</p>\n"
     - id: value
       type: System.UInt32
-      description: "\n<p>The value to write.</p>\n"
   exceptions:
   - type: System.ArgumentException
     commentId: T:System.ArgumentException
@@ -1760,6 +1923,12 @@ items:
   - type: System.ObjectDisposedException
     commentId: T:System.ObjectDisposedException
     description: "\n<p>The accessor has been disposed.</p>\n"
+  attributes:
+  - type: System.CLSCompliantAttribute
+    ctor: System.CLSCompliantAttribute.#ctor(System.Boolean)
+    arguments:
+    - type: System.Boolean
+      value: false
   modifiers.csharp:
   - public
   modifiers.vb:
@@ -1776,12 +1945,12 @@ items:
   type: Method
   source:
     remote:
-      path: src/System.IO.UnmanagedMemoryStream/ref/System.IO.UnmanagedMemoryStream.cs
+      path: src/mscorlib/src/System/IO/UnmanagedMemoryAccessor.cs
       branch: master
-      repo: https://github.com/dotnet/corefx.git
+      repo: https://github.com/dotnet/coreclr.git
     id: Write
-    path: src/System.IO.UnmanagedMemoryStream/ref/System.IO.UnmanagedMemoryStream.cs
-    startLine: 54
+    path: src/mscorlib/src/System/IO/UnmanagedMemoryAccessor.cs
+    startLine: 981
   assemblies:
   - System.IO.UnmanagedMemoryStream
   namespace: System.IO
@@ -1789,15 +1958,23 @@ items:
   example:
   - 
   syntax:
-    content: public void Write(long position, ulong value)
-    content.vb: Public Sub Write(position As Long, value As ULong)
+    content: >-
+      [SecuritySafeCritical]
+
+      [CLSCompliant(false)]
+
+      public void Write(long position, ulong value)
+    content.vb: >-
+      <SecuritySafeCritical>
+
+      <CLSCompliant(False)>
+
+      Public Sub Write(position As Long, value As ULong)
     parameters:
     - id: position
       type: System.Int64
-      description: "\n<p>The number of bytes into the accessor at which to begin writing.</p>\n"
     - id: value
       type: System.UInt64
-      description: "\n<p>The value to write.</p>\n"
   exceptions:
   - type: System.ArgumentException
     commentId: T:System.ArgumentException
@@ -1811,6 +1988,12 @@ items:
   - type: System.ObjectDisposedException
     commentId: T:System.ObjectDisposedException
     description: "\n<p>The accessor has been disposed.</p>\n"
+  attributes:
+  - type: System.CLSCompliantAttribute
+    ctor: System.CLSCompliantAttribute.#ctor(System.Boolean)
+    arguments:
+    - type: System.Boolean
+      value: false
   modifiers.csharp:
   - public
   modifiers.vb:
@@ -1825,11 +2008,226 @@ references:
   isExternal: false
   name: Object
   fullName: System.Object
+- uid: System.IDisposable
+  parent: System
+  isExternal: false
+  name: IDisposable
+  fullName: System.IDisposable
+- uid: System.Object.ToString
+  parent: System.Object
+  isExternal: true
+  name: ToString()
+  fullName: System.Object.ToString()
+  spec.csharp:
+  - uid: System.Object.ToString
+    name: ToString
+    fullName: System.Object.ToString
+    isExternal: true
+  - name: (
+    fullName: (
+  - name: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.ToString
+    name: ToString
+    fullName: System.Object.ToString
+    isExternal: true
+  - name: (
+    fullName: (
+  - name: )
+    fullName: )
+- uid: System.Object.Equals(System.Object)
+  parent: System.Object
+  isExternal: true
+  name: Equals(Object)
+  fullName: System.Object.Equals(System.Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    fullName: )
+- uid: System.Object.Equals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  name: Equals(Object, Object)
+  fullName: System.Object.Equals(System.Object, System.Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    fullName: )
+- uid: System.Object.ReferenceEquals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  name: ReferenceEquals(Object, Object)
+  fullName: System.Object.ReferenceEquals(System.Object, System.Object)
+  spec.csharp:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    fullName: System.Object.ReferenceEquals
+    isExternal: true
+  - name: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    fullName: System.Object.ReferenceEquals
+    isExternal: true
+  - name: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    fullName: )
+- uid: System.Object.GetHashCode
+  parent: System.Object
+  isExternal: true
+  name: GetHashCode()
+  fullName: System.Object.GetHashCode()
+  spec.csharp:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    fullName: System.Object.GetHashCode
+    isExternal: true
+  - name: (
+    fullName: (
+  - name: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    fullName: System.Object.GetHashCode
+    isExternal: true
+  - name: (
+    fullName: (
+  - name: )
+    fullName: )
+- uid: System.Object.GetType
+  parent: System.Object
+  isExternal: true
+  name: GetType()
+  fullName: System.Object.GetType()
+  spec.csharp:
+  - uid: System.Object.GetType
+    name: GetType
+    fullName: System.Object.GetType
+    isExternal: true
+  - name: (
+    fullName: (
+  - name: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.GetType
+    name: GetType
+    fullName: System.Object.GetType
+    isExternal: true
+  - name: (
+    fullName: (
+  - name: )
+    fullName: )
+- uid: System.Object.MemberwiseClone
+  parent: System.Object
+  isExternal: true
+  name: MemberwiseClone()
+  fullName: System.Object.MemberwiseClone()
+  spec.csharp:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    fullName: System.Object.MemberwiseClone
+    isExternal: true
+  - name: (
+    fullName: (
+  - name: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    fullName: System.Object.MemberwiseClone
+    isExternal: true
+  - name: (
+    fullName: (
+  - name: )
+    fullName: )
 - uid: System
   isExternal: false
   name: System
   fullName: System
 - uid: System.Runtime.InteropServices.SafeBuffer
+  parent: System.Runtime.InteropServices
   isExternal: false
   name: SafeBuffer
   fullName: System.Runtime.InteropServices.SafeBuffer
@@ -1838,6 +2236,10 @@ references:
   isExternal: false
   name: Int64
   fullName: System.Int64
+- uid: System.Runtime.InteropServices
+  isExternal: false
+  name: System.Runtime.InteropServices
+  fullName: System.Runtime.InteropServices
 - uid: System.IO.FileAccess
   parent: System.IO
   isExternal: false
@@ -1848,6 +2250,27 @@ references:
   isExternal: false
   name: Boolean
   fullName: System.Boolean
+- uid: System.IDisposable.Dispose
+  parent: System.IDisposable
+  isExternal: false
+  name: Dispose()
+  fullName: System.IDisposable.Dispose()
+  spec.csharp:
+  - uid: System.IDisposable.Dispose
+    name: Dispose
+    fullName: System.IDisposable.Dispose
+  - name: (
+    fullName: (
+  - name: )
+    fullName: )
+  spec.vb:
+  - uid: System.IDisposable.Dispose
+    name: Dispose
+    fullName: System.IDisposable.Dispose
+  - name: (
+    fullName: (
+  - name: )
+    fullName: )
 - uid: System.Byte
   parent: System
   isExternal: false

@@ -28,9 +28,21 @@ items:
   assemblies:
   - System.Data.Common
   namespace: System.Data
+  summary: "\n<p>Provides a description of the results of the query and its effect on the database.</p>\n"
+  remarks: "\n<p>The <xref href=\"System.Data.CommandBehavior\" data-throw-if-not-resolved=\"false\"></xref> values are used by the <xref href=\"System.Data.IDbCommand.ExecuteReader\" data-throw-if-not-resolved=\"false\"></xref> method of <xref href=\"System.Data.IDbCommand\" data-throw-if-not-resolved=\"false\"></xref> and any classes derived from it.</p>\n<p>A bitwise combination of these values may be used.</p>\n<p>\n<xref href=\"System.Data.CommandBehavior\" data-throw-if-not-resolved=\"false\"></xref> is ignored when used to define a <xref href=\"System.Data.Sql.SqlNotificationRequest\" data-throw-if-not-resolved=\"false\"></xref> or <xref href=\"System.Data.SqlClient.SqlDependency\" data-throw-if-not-resolved=\"false\"></xref> and should therefore not be used. Use the constructor that does not require a <strong>CommandBehavior</strong> parameter in these two cases.</p>\n<p>Use <xref href=\"System.Data.CommandBehavior.SequentialAccess\" data-throw-if-not-resolved=\"false\"></xref> to retrieve large values and binary data. Otherwise, an <xref href=\"System.OutOfMemoryException\" data-throw-if-not-resolved=\"false\"></xref> might occur and the connection will be closed.</p>\n"
   syntax:
-    content: 'public enum CommandBehavior : int'
-    content.vb: Public Enum CommandBehavior As Integer
+    content: >-
+      [Flags]
+
+      public enum CommandBehavior
+    content.vb: >-
+      <Flags>
+
+      Public Enum CommandBehavior
+  attributes:
+  - type: System.FlagsAttribute
+    ctor: System.FlagsAttribute.#ctor
+    arguments: []
   modifiers.csharp:
   - public
   - enum
@@ -58,9 +70,9 @@ items:
   assemblies:
   - System.Data.Common
   namespace: System.Data
+  summary: "\n<p>When the command is executed, the associated <strong>Connection</strong> object is closed when the associated <strong>DataReader</strong> object is closed.</p>\n"
   syntax:
-    content: CloseConnection = null
-    content.vb: CloseConnection = Nothing
+    content: CloseConnection = 32
     return:
       type: System.Data.CommandBehavior
   modifiers.csharp:
@@ -90,9 +102,9 @@ items:
   assemblies:
   - System.Data.Common
   namespace: System.Data
+  summary: "\n<p>The query may return multiple result sets. Execution of the query may affect the database state. <strong>Default</strong> sets no <xref href=\"System.Data.CommandBehavior\" data-throw-if-not-resolved=\"false\"></xref> flags, so calling <strong>ExecuteReader(CommandBehavior.Default)</strong> is functionally equivalent to calling <strong>ExecuteReader()</strong>.</p>\n"
   syntax:
-    content: Default = null
-    content.vb: Default = Nothing
+    content: Default = 0
     return:
       type: System.Data.CommandBehavior
   modifiers.csharp:
@@ -122,9 +134,10 @@ items:
   assemblies:
   - System.Data.Common
   namespace: System.Data
+  summary: "\n<p>The query returns column and primary key information. </p>\n"
+  remarks: "\n<p>When <xref href=\"System.Data.CommandBehavior.KeyInfo\" data-throw-if-not-resolved=\"false\"></xref> is used for command execution, the provider will append extra columns to the result set for existing primary key and timestamp columns. </p>\n<p>When using <xref href=\"System.Data.CommandBehavior.KeyInfo\" data-throw-if-not-resolved=\"false\"></xref>, the .NET Framework Data Provider for SQL Server precedes the statement being executed with SET FMTONLY OFF and SET NO_BROWSETABLE ON. The user should be aware of potential side effects, such as interference with the use of SET FMTONLY ON statements. See SQL Server Books Online for more information.</p>\n"
   syntax:
-    content: KeyInfo = null
-    content.vb: KeyInfo = Nothing
+    content: KeyInfo = 4
     return:
       type: System.Data.CommandBehavior
   modifiers.csharp:
@@ -154,9 +167,9 @@ items:
   assemblies:
   - System.Data.Common
   namespace: System.Data
+  summary: "\n<p>The query returns column information only. When using <xref href=\"System.Data.CommandBehavior.SchemaOnly\" data-throw-if-not-resolved=\"false\"></xref>, the .NET Framework Data Provider for SQL Server precedes the statement being executed with SET FMTONLY ON.</p>\n"
   syntax:
-    content: SchemaOnly = null
-    content.vb: SchemaOnly = Nothing
+    content: SchemaOnly = 2
     return:
       type: System.Data.CommandBehavior
   modifiers.csharp:
@@ -186,9 +199,10 @@ items:
   assemblies:
   - System.Data.Common
   namespace: System.Data
+  summary: "\n<p>Provides a way for the <strong>DataReader</strong> to handle rows that contain columns with large binary values. Rather than loading the entire row, <strong>SequentialAccess</strong> enables the <strong>DataReader</strong> to load data as a stream. You can then use the <strong>GetBytes</strong> or <strong>GetChars</strong> method to specify a byte location to start the read operation, and a limited buffer size for the data being returned.</p>\n"
+  remarks: "\n<p>When you specify <strong>SequentialAccess</strong>, you are required to read from the columns in the order they are returned, although you are not required to read each column. Once you have read past a location in the returned stream of data, data at or before that location can no longer be read from the <strong>DataReader</strong>. When using the <xref href=\"System.Data.OleDb.OleDbDataReader\" data-throw-if-not-resolved=\"false\"></xref>, you can reread the current column value until reading past it. When using the <xref href=\"System.Data.SqlClient.SqlDataReader\" data-throw-if-not-resolved=\"false\"></xref>, you can read a column value only once.</p>\n"
   syntax:
-    content: SequentialAccess = null
-    content.vb: SequentialAccess = Nothing
+    content: SequentialAccess = 16
     return:
       type: System.Data.CommandBehavior
   modifiers.csharp:
@@ -218,9 +232,9 @@ items:
   assemblies:
   - System.Data.Common
   namespace: System.Data
+  summary: "\n<p>The query returns a single result set.</p>\n"
   syntax:
-    content: SingleResult = null
-    content.vb: SingleResult = Nothing
+    content: SingleResult = 1
     return:
       type: System.Data.CommandBehavior
   modifiers.csharp:
@@ -250,9 +264,9 @@ items:
   assemblies:
   - System.Data.Common
   namespace: System.Data
+  summary: "\n<p>The query is expected to return a single row of the first result set. Execution of the query may affect the database state. Some .NET Framework data providers may, but are not required to, use this information to optimize the performance of the command. When you specify <xref href=\"System.Data.CommandBehavior.SingleRow\" data-throw-if-not-resolved=\"false\"></xref> with the <xref href=\"System.Data.OleDb.OleDbCommand.ExecuteReader\" data-throw-if-not-resolved=\"false\"></xref> method of the <xref href=\"System.Data.OleDb.OleDbCommand\" data-throw-if-not-resolved=\"false\"></xref> object, the .NET Framework Data Provider for OLE DB performs binding using the OLE DB <strong>IRow</strong> interface if it is available. Otherwise, it uses the <strong>IRowset</strong> interface. If your SQL statement is expected to return only a single row, specifying <xref href=\"System.Data.CommandBehavior.SingleRow\" data-throw-if-not-resolved=\"false\"></xref> can also improve application performance. It is possible to specify <strong>SingleRow</strong> when executing queries that are expected to return multiple result sets.  In that case, where both a multi-result set SQL query and single row are specified, the result returned will contain only the first row of the first result set. The other result sets of the query will not be returned.</p>\n"
   syntax:
-    content: SingleRow = null
-    content.vb: SingleRow = Nothing
+    content: SingleRow = 8
     return:
       type: System.Data.CommandBehavior
   modifiers.csharp:

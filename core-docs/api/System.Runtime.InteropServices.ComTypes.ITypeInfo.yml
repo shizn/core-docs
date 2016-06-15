@@ -31,20 +31,40 @@ items:
   type: Interface
   source:
     remote:
-      path: src/System.Runtime.InteropServices/ref/System.Runtime.InteropServices.cs
+      path: src/mscorlib/src/System/Runtime/InteropServices/ComTypes/ITypeInfo.cs
       branch: master
-      repo: https://github.com/dotnet/corefx.git
+      repo: https://github.com/dotnet/coreclr.git
     id: ITypeInfo
-    path: src/System.Runtime.InteropServices/ref/System.Runtime.InteropServices.cs
-    startLine: 1252
+    path: src/mscorlib/src/System/Runtime/InteropServices/ComTypes/ITypeInfo.cs
+    startLine: 306
   assemblies:
   - System.Runtime.InteropServices
   namespace: System.Runtime.InteropServices.ComTypes
   summary: "\n<p>Provides the managed definition of the Component Automation ITypeInfo interface.</p>\n"
   remarks: "\n<p>For additional information about <strong>ITypeInfo</strong>, see the MSDN Library.</p>\n<p>The common language runtime throws an exception when a COM method in native code returns an HRESULT. For more information, see How to: Map HRESULTs and Exceptions.</p>\n"
   syntax:
-    content: public interface ITypeInfo
-    content.vb: Public Interface ITypeInfo
+    content: >-
+      [Guid("00020401-0000-0000-C000-000000000046")]
+
+      [InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
+
+      [ComImport]
+
+      public interface ITypeInfo
+    content.vb: >-
+      <Guid("00020401-0000-0000-C000-000000000046")>
+
+      <InterfaceType(ComInterfaceType.InterfaceIsIUnknown)>
+
+      <ComImport>
+
+      Public Interface ITypeInfo
+  attributes:
+  - type: System.Runtime.InteropServices.InterfaceTypeAttribute
+    ctor: System.Runtime.InteropServices.InterfaceTypeAttribute.#ctor(System.Runtime.InteropServices.ComInterfaceType)
+    arguments:
+    - type: System.Runtime.InteropServices.ComInterfaceType
+      value: 1
   modifiers.csharp:
   - public
   - interface
@@ -63,12 +83,12 @@ items:
   type: Method
   source:
     remote:
-      path: src/System.Runtime.InteropServices/ref/System.Runtime.InteropServices.cs
+      path: src/mscorlib/src/System/Runtime/InteropServices/ComTypes/ITypeInfo.cs
       branch: master
-      repo: https://github.com/dotnet/corefx.git
+      repo: https://github.com/dotnet/coreclr.git
     id: AddressOfMember
-    path: src/System.Runtime.InteropServices/ref/System.Runtime.InteropServices.cs
-    startLine: 1256
+    path: src/mscorlib/src/System/Runtime/InteropServices/ComTypes/ITypeInfo.cs
+    startLine: 323
   assemblies:
   - System.Runtime.InteropServices
   namespace: System.Runtime.InteropServices.ComTypes
@@ -80,13 +100,10 @@ items:
     parameters:
     - id: memid
       type: System.Int32
-      description: "\n<p>The member ID of the <strong>static</strong> member's address to retrieve. </p>\n"
     - id: invKind
       type: System.Runtime.InteropServices.ComTypes.INVOKEKIND
-      description: "\n<p>One of the <xref href=\"System.Runtime.InteropServices.ComTypes.INVOKEKIND\" data-throw-if-not-resolved=\"false\"></xref>  values that specifies whether the member is a property, and if so, what kind. </p>\n"
     - id: ppv
       type: System.IntPtr
-      description: "\n<p>When this method returns, contains a reference to the <strong>static</strong> member. This parameter is passed uninitialized.</p>\n"
   fullName.vb: System.Runtime.InteropServices.ComTypes.ITypeInfo.AddressOfMember(System.Int32, System.Runtime.InteropServices.ComTypes.INVOKEKIND, ByRef System.IntPtr)
   name.vb: AddressOfMember(Int32, INVOKEKIND, ByRef IntPtr)
 - uid: System.Runtime.InteropServices.ComTypes.ITypeInfo.CreateInstance(System.Object,System.Guid@,System.Object@)
@@ -101,30 +118,46 @@ items:
   type: Method
   source:
     remote:
-      path: src/System.Runtime.InteropServices/ref/System.Runtime.InteropServices.cs
+      path: src/mscorlib/src/System/Runtime/InteropServices/ComTypes/ITypeInfo.cs
       branch: master
-      repo: https://github.com/dotnet/corefx.git
+      repo: https://github.com/dotnet/coreclr.git
     id: CreateInstance
-    path: src/System.Runtime.InteropServices/ref/System.Runtime.InteropServices.cs
-    startLine: 1257
+    path: src/mscorlib/src/System/Runtime/InteropServices/ComTypes/ITypeInfo.cs
+    startLine: 324
   assemblies:
   - System.Runtime.InteropServices
   namespace: System.Runtime.InteropServices.ComTypes
   summary: "\n<p>Creates a new instance of a type that describes a component class (coclass).</p>\n"
   remarks: "\n<p>For additional information about <strong>ITypeInfo::CreateInstance</strong>, see the MSDN Library.</p>\n"
   syntax:
-    content: void CreateInstance(object pUnkOuter, ref Guid riid, out object ppvObj)
+    content: void CreateInstance([MarshalAs(UnmanagedType.IUnknown)] object pUnkOuter, [In] ref Guid riid, [MarshalAs(UnmanagedType.IUnknown), Out] out object ppvObj)
     content.vb: Sub CreateInstance(pUnkOuter As Object, ByRef riid As Guid, ByRef ppvObj As Object)
     parameters:
     - id: pUnkOuter
       type: System.Object
-      description: "\n<p>The object that acts as the controlling <strong>IUnknown</strong>. </p>\n"
+      attributes:
+      - type: System.Runtime.InteropServices.MarshalAsAttribute
+        ctor: System.Runtime.InteropServices.MarshalAsAttribute.#ctor(System.Runtime.InteropServices.UnmanagedType)
+        arguments:
+        - type: System.Runtime.InteropServices.UnmanagedType
+          value: 25
     - id: riid
       type: System.Guid
-      description: "\n<p>The IID of the interface that the caller uses to communicate with the resulting object. </p>\n"
+      attributes:
+      - type: System.Runtime.InteropServices.InAttribute
+        ctor: System.Runtime.InteropServices.InAttribute.#ctor
+        arguments: []
     - id: ppvObj
       type: System.Object
-      description: "\n<p>When this method returns, contains a reference to the created object. This parameter is passed uninitialized.</p>\n"
+      attributes:
+      - type: System.Runtime.InteropServices.MarshalAsAttribute
+        ctor: System.Runtime.InteropServices.MarshalAsAttribute.#ctor(System.Runtime.InteropServices.UnmanagedType)
+        arguments:
+        - type: System.Runtime.InteropServices.UnmanagedType
+          value: 25
+      - type: System.Runtime.InteropServices.OutAttribute
+        ctor: System.Runtime.InteropServices.OutAttribute.#ctor
+        arguments: []
   fullName.vb: System.Runtime.InteropServices.ComTypes.ITypeInfo.CreateInstance(System.Object, ByRef System.Guid, ByRef System.Object)
   name.vb: CreateInstance(Object, ByRef Guid, ByRef Object)
 - uid: System.Runtime.InteropServices.ComTypes.ITypeInfo.GetContainingTypeLib(System.Runtime.InteropServices.ComTypes.ITypeLib@,System.Int32@)
@@ -139,12 +172,12 @@ items:
   type: Method
   source:
     remote:
-      path: src/System.Runtime.InteropServices/ref/System.Runtime.InteropServices.cs
+      path: src/mscorlib/src/System/Runtime/InteropServices/ComTypes/ITypeInfo.cs
       branch: master
-      repo: https://github.com/dotnet/corefx.git
+      repo: https://github.com/dotnet/coreclr.git
     id: GetContainingTypeLib
-    path: src/System.Runtime.InteropServices/ref/System.Runtime.InteropServices.cs
-    startLine: 1258
+    path: src/mscorlib/src/System/Runtime/InteropServices/ComTypes/ITypeInfo.cs
+    startLine: 326
   assemblies:
   - System.Runtime.InteropServices
   namespace: System.Runtime.InteropServices.ComTypes
@@ -156,10 +189,8 @@ items:
     parameters:
     - id: ppTLB
       type: System.Runtime.InteropServices.ComTypes.ITypeLib
-      description: "\n<p>When this method returns, contains a reference to the containing type library. This parameter is passed uninitialized.</p>\n"
     - id: pIndex
       type: System.Int32
-      description: "\n<p>When this method returns, contains a reference to the index of the type description within the containing type library. This parameter is passed uninitialized.</p>\n"
   fullName.vb: System.Runtime.InteropServices.ComTypes.ITypeInfo.GetContainingTypeLib(ByRef System.Runtime.InteropServices.ComTypes.ITypeLib, ByRef System.Int32)
   name.vb: GetContainingTypeLib(ByRef ITypeLib, ByRef Int32)
 - uid: System.Runtime.InteropServices.ComTypes.ITypeInfo.GetDllEntry(System.Int32,System.Runtime.InteropServices.ComTypes.INVOKEKIND,System.IntPtr,System.IntPtr,System.IntPtr)
@@ -174,12 +205,12 @@ items:
   type: Method
   source:
     remote:
-      path: src/System.Runtime.InteropServices/ref/System.Runtime.InteropServices.cs
+      path: src/mscorlib/src/System/Runtime/InteropServices/ComTypes/ITypeInfo.cs
       branch: master
-      repo: https://github.com/dotnet/corefx.git
+      repo: https://github.com/dotnet/coreclr.git
     id: GetDllEntry
-    path: src/System.Runtime.InteropServices/ref/System.Runtime.InteropServices.cs
-    startLine: 1259
+    path: src/mscorlib/src/System/Runtime/InteropServices/ComTypes/ITypeInfo.cs
+    startLine: 321
   assemblies:
   - System.Runtime.InteropServices
   namespace: System.Runtime.InteropServices.ComTypes
@@ -191,19 +222,14 @@ items:
     parameters:
     - id: memid
       type: System.Int32
-      description: "\n<p>The ID of the member function whose DLL entry description is to be returned. </p>\n"
     - id: invKind
       type: System.Runtime.InteropServices.ComTypes.INVOKEKIND
-      description: "\n<p>One of the <xref href=\"System.Runtime.InteropServices.ComTypes.INVOKEKIND\" data-throw-if-not-resolved=\"false\"></xref> values that specifies the kind of member identified by <em>memid</em>. </p>\n"
     - id: pBstrDllName
       type: System.IntPtr
-      description: "\n<p>If not <strong>null</strong>, the function sets <em>pBstrDllName</em> to a <strong>BSTR</strong> that contains the name of the DLL. </p>\n"
     - id: pBstrName
       type: System.IntPtr
-      description: "\n<p>If not <strong>null</strong>, the function sets <em>lpbstrName</em> to a <strong>BSTR</strong> that contains the name of the entry point. </p>\n"
     - id: pwOrdinal
       type: System.IntPtr
-      description: "\n<p>If not <strong>null</strong>, and the function is defined by an ordinal, then <em>lpwOrdinal</em> is set to point to the ordinal. </p>\n"
 - uid: System.Runtime.InteropServices.ComTypes.ITypeInfo.GetDocumentation(System.Int32,System.String@,System.String@,System.Int32@,System.String@)
   commentId: M:System.Runtime.InteropServices.ComTypes.ITypeInfo.GetDocumentation(System.Int32,System.String@,System.String@,System.Int32@,System.String@)
   id: GetDocumentation(System.Int32,System.String@,System.String@,System.Int32@,System.String@)
@@ -216,12 +242,12 @@ items:
   type: Method
   source:
     remote:
-      path: src/System.Runtime.InteropServices/ref/System.Runtime.InteropServices.cs
+      path: src/mscorlib/src/System/Runtime/InteropServices/ComTypes/ITypeInfo.cs
       branch: master
-      repo: https://github.com/dotnet/corefx.git
+      repo: https://github.com/dotnet/coreclr.git
     id: GetDocumentation
-    path: src/System.Runtime.InteropServices/ref/System.Runtime.InteropServices.cs
-    startLine: 1260
+    path: src/mscorlib/src/System/Runtime/InteropServices/ComTypes/ITypeInfo.cs
+    startLine: 320
   assemblies:
   - System.Runtime.InteropServices
   namespace: System.Runtime.InteropServices.ComTypes
@@ -233,19 +259,14 @@ items:
     parameters:
     - id: index
       type: System.Int32
-      description: "\n<p>The ID of the member whose documentation is to be returned. </p>\n"
     - id: strName
       type: System.String
-      description: "\n<p>When this method returns, contains the name of the item method. This parameter is passed uninitialized.</p>\n"
     - id: strDocString
       type: System.String
-      description: "\n<p>When this method returns, contains the documentation string for the specified item. This parameter is passed uninitialized.</p>\n"
     - id: dwHelpContext
       type: System.Int32
-      description: "\n<p>When this method returns, contains a reference to the Help context associated with the specified item. This parameter is passed uninitialized.</p>\n"
     - id: strHelpFile
       type: System.String
-      description: "\n<p>When this method returns, contains the fully qualified name of the Help file. This parameter is passed uninitialized.</p>\n"
   fullName.vb: System.Runtime.InteropServices.ComTypes.ITypeInfo.GetDocumentation(System.Int32, ByRef System.String, ByRef System.String, ByRef System.Int32, ByRef System.String)
   name.vb: GetDocumentation(Int32, ByRef String, ByRef String, ByRef Int32, ByRef String)
 - uid: System.Runtime.InteropServices.ComTypes.ITypeInfo.GetFuncDesc(System.Int32,System.IntPtr@)
@@ -260,12 +281,12 @@ items:
   type: Method
   source:
     remote:
-      path: src/System.Runtime.InteropServices/ref/System.Runtime.InteropServices.cs
+      path: src/mscorlib/src/System/Runtime/InteropServices/ComTypes/ITypeInfo.cs
       branch: master
-      repo: https://github.com/dotnet/corefx.git
+      repo: https://github.com/dotnet/coreclr.git
     id: GetFuncDesc
-    path: src/System.Runtime.InteropServices/ref/System.Runtime.InteropServices.cs
-    startLine: 1261
+    path: src/mscorlib/src/System/Runtime/InteropServices/ComTypes/ITypeInfo.cs
+    startLine: 313
   assemblies:
   - System.Runtime.InteropServices
   namespace: System.Runtime.InteropServices.ComTypes
@@ -277,10 +298,8 @@ items:
     parameters:
     - id: index
       type: System.Int32
-      description: "\n<p>The index of the function description to return. </p>\n"
     - id: ppFuncDesc
       type: System.IntPtr
-      description: "\n<p>When this method returns, contains a reference to a <strong>FUNCDESC</strong> structure that describes the specified function. This parameter is passed uninitialized.</p>\n"
   fullName.vb: System.Runtime.InteropServices.ComTypes.ITypeInfo.GetFuncDesc(System.Int32, ByRef System.IntPtr)
   name.vb: GetFuncDesc(Int32, ByRef IntPtr)
 - uid: System.Runtime.InteropServices.ComTypes.ITypeInfo.GetIDsOfNames(System.String[],System.Int32,System.Int32[])
@@ -295,30 +314,56 @@ items:
   type: Method
   source:
     remote:
-      path: src/System.Runtime.InteropServices/ref/System.Runtime.InteropServices.cs
+      path: src/mscorlib/src/System/Runtime/InteropServices/ComTypes/ITypeInfo.cs
       branch: master
-      repo: https://github.com/dotnet/corefx.git
+      repo: https://github.com/dotnet/coreclr.git
     id: GetIDsOfNames
-    path: src/System.Runtime.InteropServices/ref/System.Runtime.InteropServices.cs
-    startLine: 1262
+    path: src/mscorlib/src/System/Runtime/InteropServices/ComTypes/ITypeInfo.cs
+    startLine: 318
   assemblies:
   - System.Runtime.InteropServices
   namespace: System.Runtime.InteropServices.ComTypes
   summary: "\n<p>Maps between member names and member IDs, and parameter names and parameter IDs.</p>\n"
   remarks: "\n<p>For additional information about <strong>ITypeInfo::GetIDsOfNames</strong>, see the MSDN Library.</p>\n"
   syntax:
-    content: void GetIDsOfNames(string[] rgszNames, int cNames, int[] pMemId)
+    content: void GetIDsOfNames([MarshalAs(UnmanagedType.LPArray, ArraySubType = UnmanagedType.LPWStr, SizeParamIndex = (short)1), In] string[] rgszNames, int cNames, [MarshalAs(UnmanagedType.LPArray, SizeParamIndex = (short)1), Out] int[] pMemId)
     content.vb: Sub GetIDsOfNames(rgszNames As String(), cNames As Integer, pMemId As Integer())
     parameters:
     - id: rgszNames
       type: System.String[]
-      description: "\n<p>An array of names to map. </p>\n"
+      attributes:
+      - type: System.Runtime.InteropServices.MarshalAsAttribute
+        ctor: System.Runtime.InteropServices.MarshalAsAttribute.#ctor(System.Runtime.InteropServices.UnmanagedType)
+        arguments:
+        - type: System.Runtime.InteropServices.UnmanagedType
+          value: 42
+        namedArguments:
+        - name: ArraySubType
+          type: System.Runtime.InteropServices.UnmanagedType
+          value: 21
+        - name: SizeParamIndex
+          type: System.Int16
+          value: 1
+      - type: System.Runtime.InteropServices.InAttribute
+        ctor: System.Runtime.InteropServices.InAttribute.#ctor
+        arguments: []
     - id: cNames
       type: System.Int32
-      description: "\n<p>The count of names to map. </p>\n"
     - id: pMemId
       type: System.Int32[]
-      description: "\n<p>When this method returns, contains a reference to an array in which name mappings are placed. This parameter is passed uninitialized.</p>\n"
+      attributes:
+      - type: System.Runtime.InteropServices.MarshalAsAttribute
+        ctor: System.Runtime.InteropServices.MarshalAsAttribute.#ctor(System.Runtime.InteropServices.UnmanagedType)
+        arguments:
+        - type: System.Runtime.InteropServices.UnmanagedType
+          value: 42
+        namedArguments:
+        - name: SizeParamIndex
+          type: System.Int16
+          value: 1
+      - type: System.Runtime.InteropServices.OutAttribute
+        ctor: System.Runtime.InteropServices.OutAttribute.#ctor
+        arguments: []
   fullName.vb: System.Runtime.InteropServices.ComTypes.ITypeInfo.GetIDsOfNames(System.String(), System.Int32, System.Int32())
   name.vb: GetIDsOfNames(String(), Int32, Int32())
 - uid: System.Runtime.InteropServices.ComTypes.ITypeInfo.GetImplTypeFlags(System.Int32,System.Runtime.InteropServices.ComTypes.IMPLTYPEFLAGS@)
@@ -333,12 +378,12 @@ items:
   type: Method
   source:
     remote:
-      path: src/System.Runtime.InteropServices/ref/System.Runtime.InteropServices.cs
+      path: src/mscorlib/src/System/Runtime/InteropServices/ComTypes/ITypeInfo.cs
       branch: master
-      repo: https://github.com/dotnet/corefx.git
+      repo: https://github.com/dotnet/coreclr.git
     id: GetImplTypeFlags
-    path: src/System.Runtime.InteropServices/ref/System.Runtime.InteropServices.cs
-    startLine: 1263
+    path: src/mscorlib/src/System/Runtime/InteropServices/ComTypes/ITypeInfo.cs
+    startLine: 317
   assemblies:
   - System.Runtime.InteropServices
   namespace: System.Runtime.InteropServices.ComTypes
@@ -350,10 +395,8 @@ items:
     parameters:
     - id: index
       type: System.Int32
-      description: "\n<p>The index of the implemented interface or base interface. </p>\n"
     - id: pImplTypeFlags
       type: System.Runtime.InteropServices.ComTypes.IMPLTYPEFLAGS
-      description: "\n<p>When this method returns, contains a reference to the <strong>IMPLTYPEFLAGS</strong> enumeration. This parameter is passed uninitialized.</p>\n"
   fullName.vb: System.Runtime.InteropServices.ComTypes.ITypeInfo.GetImplTypeFlags(System.Int32, ByRef System.Runtime.InteropServices.ComTypes.IMPLTYPEFLAGS)
   name.vb: GetImplTypeFlags(Int32, ByRef IMPLTYPEFLAGS)
 - uid: System.Runtime.InteropServices.ComTypes.ITypeInfo.GetMops(System.Int32,System.String@)
@@ -368,12 +411,12 @@ items:
   type: Method
   source:
     remote:
-      path: src/System.Runtime.InteropServices/ref/System.Runtime.InteropServices.cs
+      path: src/mscorlib/src/System/Runtime/InteropServices/ComTypes/ITypeInfo.cs
       branch: master
-      repo: https://github.com/dotnet/corefx.git
+      repo: https://github.com/dotnet/coreclr.git
     id: GetMops
-    path: src/System.Runtime.InteropServices/ref/System.Runtime.InteropServices.cs
-    startLine: 1264
+    path: src/mscorlib/src/System/Runtime/InteropServices/ComTypes/ITypeInfo.cs
+    startLine: 325
   assemblies:
   - System.Runtime.InteropServices
   namespace: System.Runtime.InteropServices.ComTypes
@@ -385,10 +428,8 @@ items:
     parameters:
     - id: memid
       type: System.Int32
-      description: "\n<p>The member ID that indicates which marshaling information is needed. </p>\n"
     - id: pBstrMops
       type: System.String
-      description: "\n<p>When this method returns, contains a reference to the <strong>opcode</strong> string used in marshaling the fields of the structure described by the referenced type description, or returns <strong>null</strong> if there is no information to return. This parameter is passed uninitialized.</p>\n"
   fullName.vb: System.Runtime.InteropServices.ComTypes.ITypeInfo.GetMops(System.Int32, ByRef System.String)
   name.vb: GetMops(Int32, ByRef String)
 - uid: System.Runtime.InteropServices.ComTypes.ITypeInfo.GetNames(System.Int32,System.String[],System.Int32,System.Int32@)
@@ -403,33 +444,42 @@ items:
   type: Method
   source:
     remote:
-      path: src/System.Runtime.InteropServices/ref/System.Runtime.InteropServices.cs
+      path: src/mscorlib/src/System/Runtime/InteropServices/ComTypes/ITypeInfo.cs
       branch: master
-      repo: https://github.com/dotnet/corefx.git
+      repo: https://github.com/dotnet/coreclr.git
     id: GetNames
-    path: src/System.Runtime.InteropServices/ref/System.Runtime.InteropServices.cs
-    startLine: 1265
+    path: src/mscorlib/src/System/Runtime/InteropServices/ComTypes/ITypeInfo.cs
+    startLine: 315
   assemblies:
   - System.Runtime.InteropServices
   namespace: System.Runtime.InteropServices.ComTypes
   summary: "\n<p>Retrieves the variable with the specified member ID (or the name of the property or method and its parameters) that corresponds to the specified function ID.</p>\n"
   remarks: "\n<p>For additional information about <strong>ITypeInfo::GetNames</strong>, see the MSDN Library.</p>\n"
   syntax:
-    content: void GetNames(int memid, string[] rgBstrNames, int cMaxNames, out int pcNames)
+    content: void GetNames(int memid, [MarshalAs(UnmanagedType.LPArray, SizeParamIndex = (short)2), Out] string[] rgBstrNames, int cMaxNames, out int pcNames)
     content.vb: Sub GetNames(memid As Integer, rgBstrNames As String(), cMaxNames As Integer, ByRef pcNames As Integer)
     parameters:
     - id: memid
       type: System.Int32
-      description: "\n<p>The ID of the member whose name (or names) is to be returned. </p>\n"
     - id: rgBstrNames
       type: System.String[]
-      description: "\n<p>When this method returns, contains the name (or names) associated with the member. This parameter is passed uninitialized.</p>\n"
+      attributes:
+      - type: System.Runtime.InteropServices.MarshalAsAttribute
+        ctor: System.Runtime.InteropServices.MarshalAsAttribute.#ctor(System.Runtime.InteropServices.UnmanagedType)
+        arguments:
+        - type: System.Runtime.InteropServices.UnmanagedType
+          value: 42
+        namedArguments:
+        - name: SizeParamIndex
+          type: System.Int16
+          value: 2
+      - type: System.Runtime.InteropServices.OutAttribute
+        ctor: System.Runtime.InteropServices.OutAttribute.#ctor
+        arguments: []
     - id: cMaxNames
       type: System.Int32
-      description: "\n<p>The length of the <em>rgBstrNames</em> array. </p>\n"
     - id: pcNames
       type: System.Int32
-      description: "\n<p>When this method returns, contains the number of names in the <em>rgBstrNames</em> array. This parameter is passed uninitialized.</p>\n"
   fullName.vb: System.Runtime.InteropServices.ComTypes.ITypeInfo.GetNames(System.Int32, System.String(), System.Int32, ByRef System.Int32)
   name.vb: GetNames(Int32, String(), Int32, ByRef Int32)
 - uid: System.Runtime.InteropServices.ComTypes.ITypeInfo.GetRefTypeInfo(System.Int32,System.Runtime.InteropServices.ComTypes.ITypeInfo@)
@@ -444,12 +494,12 @@ items:
   type: Method
   source:
     remote:
-      path: src/System.Runtime.InteropServices/ref/System.Runtime.InteropServices.cs
+      path: src/mscorlib/src/System/Runtime/InteropServices/ComTypes/ITypeInfo.cs
       branch: master
-      repo: https://github.com/dotnet/corefx.git
+      repo: https://github.com/dotnet/coreclr.git
     id: GetRefTypeInfo
-    path: src/System.Runtime.InteropServices/ref/System.Runtime.InteropServices.cs
-    startLine: 1266
+    path: src/mscorlib/src/System/Runtime/InteropServices/ComTypes/ITypeInfo.cs
+    startLine: 322
   assemblies:
   - System.Runtime.InteropServices
   namespace: System.Runtime.InteropServices.ComTypes
@@ -461,10 +511,8 @@ items:
     parameters:
     - id: hRef
       type: System.Int32
-      description: "\n<p>A handle to the referenced type description to return. </p>\n"
     - id: ppTI
       type: System.Runtime.InteropServices.ComTypes.ITypeInfo
-      description: "\n<p>When this method returns, contains the referenced type description. This parameter is passed uninitialized.</p>\n"
   fullName.vb: System.Runtime.InteropServices.ComTypes.ITypeInfo.GetRefTypeInfo(System.Int32, ByRef System.Runtime.InteropServices.ComTypes.ITypeInfo)
   name.vb: GetRefTypeInfo(Int32, ByRef ITypeInfo)
 - uid: System.Runtime.InteropServices.ComTypes.ITypeInfo.GetRefTypeOfImplType(System.Int32,System.Int32@)
@@ -479,12 +527,12 @@ items:
   type: Method
   source:
     remote:
-      path: src/System.Runtime.InteropServices/ref/System.Runtime.InteropServices.cs
+      path: src/mscorlib/src/System/Runtime/InteropServices/ComTypes/ITypeInfo.cs
       branch: master
-      repo: https://github.com/dotnet/corefx.git
+      repo: https://github.com/dotnet/coreclr.git
     id: GetRefTypeOfImplType
-    path: src/System.Runtime.InteropServices/ref/System.Runtime.InteropServices.cs
-    startLine: 1267
+    path: src/mscorlib/src/System/Runtime/InteropServices/ComTypes/ITypeInfo.cs
+    startLine: 316
   assemblies:
   - System.Runtime.InteropServices
   namespace: System.Runtime.InteropServices.ComTypes
@@ -496,10 +544,8 @@ items:
     parameters:
     - id: index
       type: System.Int32
-      description: "\n<p>The index of the implemented type whose handle is returned. </p>\n"
     - id: href
       type: System.Int32
-      description: "\n<p>When this method returns, contains a reference to a handle for the implemented interface. This parameter is passed uninitialized.</p>\n"
   fullName.vb: System.Runtime.InteropServices.ComTypes.ITypeInfo.GetRefTypeOfImplType(System.Int32, ByRef System.Int32)
   name.vb: GetRefTypeOfImplType(Int32, ByRef Int32)
 - uid: System.Runtime.InteropServices.ComTypes.ITypeInfo.GetTypeAttr(System.IntPtr@)
@@ -514,12 +560,12 @@ items:
   type: Method
   source:
     remote:
-      path: src/System.Runtime.InteropServices/ref/System.Runtime.InteropServices.cs
+      path: src/mscorlib/src/System/Runtime/InteropServices/ComTypes/ITypeInfo.cs
       branch: master
-      repo: https://github.com/dotnet/corefx.git
+      repo: https://github.com/dotnet/coreclr.git
     id: GetTypeAttr
-    path: src/System.Runtime.InteropServices/ref/System.Runtime.InteropServices.cs
-    startLine: 1268
+    path: src/mscorlib/src/System/Runtime/InteropServices/ComTypes/ITypeInfo.cs
+    startLine: 311
   assemblies:
   - System.Runtime.InteropServices
   namespace: System.Runtime.InteropServices.ComTypes
@@ -531,7 +577,6 @@ items:
     parameters:
     - id: ppTypeAttr
       type: System.IntPtr
-      description: "\n<p>When this method returns, contains a reference to the structure that contains the attributes of this type description. This parameter is passed uninitialized.</p>\n"
   fullName.vb: System.Runtime.InteropServices.ComTypes.ITypeInfo.GetTypeAttr(ByRef System.IntPtr)
   name.vb: GetTypeAttr(ByRef IntPtr)
 - uid: System.Runtime.InteropServices.ComTypes.ITypeInfo.GetTypeComp(System.Runtime.InteropServices.ComTypes.ITypeComp@)
@@ -546,12 +591,12 @@ items:
   type: Method
   source:
     remote:
-      path: src/System.Runtime.InteropServices/ref/System.Runtime.InteropServices.cs
+      path: src/mscorlib/src/System/Runtime/InteropServices/ComTypes/ITypeInfo.cs
       branch: master
-      repo: https://github.com/dotnet/corefx.git
+      repo: https://github.com/dotnet/coreclr.git
     id: GetTypeComp
-    path: src/System.Runtime.InteropServices/ref/System.Runtime.InteropServices.cs
-    startLine: 1269
+    path: src/mscorlib/src/System/Runtime/InteropServices/ComTypes/ITypeInfo.cs
+    startLine: 312
   assemblies:
   - System.Runtime.InteropServices
   namespace: System.Runtime.InteropServices.ComTypes
@@ -563,7 +608,6 @@ items:
     parameters:
     - id: ppTComp
       type: System.Runtime.InteropServices.ComTypes.ITypeComp
-      description: "\n<p>When this method returns, contains a reference to the <strong>ITypeComp</strong> interface of the containing type library. This parameter is passed uninitialized.</p>\n"
   fullName.vb: System.Runtime.InteropServices.ComTypes.ITypeInfo.GetTypeComp(ByRef System.Runtime.InteropServices.ComTypes.ITypeComp)
   name.vb: GetTypeComp(ByRef ITypeComp)
 - uid: System.Runtime.InteropServices.ComTypes.ITypeInfo.GetVarDesc(System.Int32,System.IntPtr@)
@@ -578,12 +622,12 @@ items:
   type: Method
   source:
     remote:
-      path: src/System.Runtime.InteropServices/ref/System.Runtime.InteropServices.cs
+      path: src/mscorlib/src/System/Runtime/InteropServices/ComTypes/ITypeInfo.cs
       branch: master
-      repo: https://github.com/dotnet/corefx.git
+      repo: https://github.com/dotnet/coreclr.git
     id: GetVarDesc
-    path: src/System.Runtime.InteropServices/ref/System.Runtime.InteropServices.cs
-    startLine: 1270
+    path: src/mscorlib/src/System/Runtime/InteropServices/ComTypes/ITypeInfo.cs
+    startLine: 314
   assemblies:
   - System.Runtime.InteropServices
   namespace: System.Runtime.InteropServices.ComTypes
@@ -595,10 +639,8 @@ items:
     parameters:
     - id: index
       type: System.Int32
-      description: "\n<p>The index of the variable description to return. </p>\n"
     - id: ppVarDesc
       type: System.IntPtr
-      description: "\n<p>When this method returns, contains a reference to the <strong>VARDESC</strong> structure that describes the specified variable. This parameter is passed uninitialized.</p>\n"
   fullName.vb: System.Runtime.InteropServices.ComTypes.ITypeInfo.GetVarDesc(System.Int32, ByRef System.IntPtr)
   name.vb: GetVarDesc(Int32, ByRef IntPtr)
 - uid: System.Runtime.InteropServices.ComTypes.ITypeInfo.Invoke(System.Object,System.Int32,System.Int16,System.Runtime.InteropServices.ComTypes.DISPPARAMS@,System.IntPtr,System.IntPtr,System.Int32@)
@@ -613,42 +655,41 @@ items:
   type: Method
   source:
     remote:
-      path: src/System.Runtime.InteropServices/ref/System.Runtime.InteropServices.cs
+      path: src/mscorlib/src/System/Runtime/InteropServices/ComTypes/ITypeInfo.cs
       branch: master
-      repo: https://github.com/dotnet/corefx.git
+      repo: https://github.com/dotnet/coreclr.git
     id: Invoke
-    path: src/System.Runtime.InteropServices/ref/System.Runtime.InteropServices.cs
-    startLine: 1271
+    path: src/mscorlib/src/System/Runtime/InteropServices/ComTypes/ITypeInfo.cs
+    startLine: 319
   assemblies:
   - System.Runtime.InteropServices
   namespace: System.Runtime.InteropServices.ComTypes
   summary: "\n<p>Invokes a method, or accesses a property of an object, that implements the interface described by the type description.</p>\n"
   remarks: "\n<p>The values of the <em>pDispParams</em> parameter can be accessed through the <xref href=\"System.Runtime.InteropServices.Marshal.PtrToStructure(System.IntPtr,System.Object)\" data-throw-if-not-resolved=\"false\"></xref> method.</p>\n<p>Valid values for the <em>wFlags</em> parameter are: </p>\n<p>Value </p>\n<p>Description </p>\n<table><tbody><tr><td>\n<p>DISPATCH_METHOD </p>\n</td><td>\n<p>The member is accessed as a method. If there is ambiguity, both this flag and the <strong>DISPATCH_PROPERTYGET</strong> flag can be set. </p>\n</td></tr><tr><td>\n<p>DISPATCH_PROPERTYGET </p>\n</td><td>\n<p>The member is retrieved as a property or data member. </p>\n</td></tr><tr><td>\n<p>DISPATCH_PROPERTYPUT </p>\n</td><td>\n<p>The member is changed as a property or data member. </p>\n</td></tr><tr><td>\n<p>DISPATCH_PROPERTYPUTREF </p>\n</td><td>\n<p>The member is changed by using a reference assignment, rather than a value assignment. This value is valid only when the property accepts a reference to an object. </p>\n</td></tr></tbody></table>\n<p>For additional information about <strong>ITypeInfo::Invoke</strong>, see the MSDN Library.</p>\n"
   syntax:
-    content: void Invoke(object pvInstance, int memid, short wFlags, ref DISPPARAMS pDispParams, IntPtr pVarResult, IntPtr pExcepInfo, out int puArgErr)
+    content: void Invoke([MarshalAs(UnmanagedType.IUnknown)] object pvInstance, int memid, short wFlags, ref DISPPARAMS pDispParams, IntPtr pVarResult, IntPtr pExcepInfo, out int puArgErr)
     content.vb: Sub Invoke(pvInstance As Object, memid As Integer, wFlags As Short, ByRef pDispParams As DISPPARAMS, pVarResult As IntPtr, pExcepInfo As IntPtr, ByRef puArgErr As Integer)
     parameters:
     - id: pvInstance
       type: System.Object
-      description: "\n<p>A reference to the interface described by this type description. </p>\n"
+      attributes:
+      - type: System.Runtime.InteropServices.MarshalAsAttribute
+        ctor: System.Runtime.InteropServices.MarshalAsAttribute.#ctor(System.Runtime.InteropServices.UnmanagedType)
+        arguments:
+        - type: System.Runtime.InteropServices.UnmanagedType
+          value: 25
     - id: memid
       type: System.Int32
-      description: "\n<p>A value that identifies the interface member. </p>\n"
     - id: wFlags
       type: System.Int16
-      description: "\n<p>Flags that describe the context of the invoke call. </p>\n"
     - id: pDispParams
       type: System.Runtime.InteropServices.ComTypes.DISPPARAMS
-      description: "\n<p>A reference to a structure that contains an array of arguments, an array of DISPIDs for named arguments, and counts of the number of elements in each array. </p>\n"
     - id: pVarResult
       type: System.IntPtr
-      description: "\n<p>A reference to the location at which the result is to be stored. If <em>wFlags</em> specifies <strong>DISPATCH_PROPERTYPUT</strong> or <strong>DISPATCH_PROPERTYPUTREF</strong>, <em>pVarResult</em> is ignored. Set to <strong>null</strong> if no result is desired. </p>\n"
     - id: pExcepInfo
       type: System.IntPtr
-      description: "\n<p>A pointer to an exception information structure, which is filled in only if <strong>DISP_E_EXCEPTION</strong> is returned. </p>\n"
     - id: puArgErr
       type: System.Int32
-      description: "\n<p>If <strong>Invoke</strong> returns <strong>DISP_E_TYPEMISMATCH</strong>, <em>puArgErr</em> indicates the index within <em>rgvarg</em> of the argument with the incorrect type. If more than one argument returns an error, <em>puArgErr</em> indicates only the first argument with an error. This parameter is passed uninitialized. </p>\n"
   fullName.vb: System.Runtime.InteropServices.ComTypes.ITypeInfo.Invoke(System.Object, System.Int32, System.Int16, ByRef System.Runtime.InteropServices.ComTypes.DISPPARAMS, System.IntPtr, System.IntPtr, ByRef System.Int32)
   name.vb: Invoke(Object, Int32, Int16, ByRef DISPPARAMS, IntPtr, IntPtr, ByRef Int32)
 - uid: System.Runtime.InteropServices.ComTypes.ITypeInfo.ReleaseFuncDesc(System.IntPtr)
@@ -663,24 +704,29 @@ items:
   type: Method
   source:
     remote:
-      path: src/System.Runtime.InteropServices/ref/System.Runtime.InteropServices.cs
+      path: src/mscorlib/src/System/Runtime/InteropServices/ComTypes/ITypeInfo.cs
       branch: master
-      repo: https://github.com/dotnet/corefx.git
+      repo: https://github.com/dotnet/coreclr.git
     id: ReleaseFuncDesc
-    path: src/System.Runtime.InteropServices/ref/System.Runtime.InteropServices.cs
-    startLine: 1272
+    path: src/mscorlib/src/System/Runtime/InteropServices/ComTypes/ITypeInfo.cs
+    startLine: 329
   assemblies:
   - System.Runtime.InteropServices
   namespace: System.Runtime.InteropServices.ComTypes
   summary: "\n<p>Releases a <xref href=\"System.Runtime.InteropServices.FUNCDESC\" data-throw-if-not-resolved=\"false\"></xref> structure previously returned by the <xref href=\"System.Runtime.InteropServices.ComTypes.ITypeInfo.GetFuncDesc(System.Int32,System.IntPtr@)\" data-throw-if-not-resolved=\"false\"></xref> method.</p>\n"
   remarks: "\n<p>For additional information about <strong>ITypeInfo::ReleaseFuncDesc</strong>, see the MSDN Library.</p>\n"
   syntax:
-    content: void ReleaseFuncDesc(IntPtr pFuncDesc)
-    content.vb: Sub ReleaseFuncDesc(pFuncDesc As IntPtr)
+    content: >-
+      [PreserveSig]
+
+      void ReleaseFuncDesc(IntPtr pFuncDesc)
+    content.vb: >-
+      <PreserveSig>
+
+      Sub ReleaseFuncDesc(pFuncDesc As IntPtr)
     parameters:
     - id: pFuncDesc
       type: System.IntPtr
-      description: "\n<p>A reference to the <strong>FUNCDESC</strong> structure to release. </p>\n"
 - uid: System.Runtime.InteropServices.ComTypes.ITypeInfo.ReleaseTypeAttr(System.IntPtr)
   commentId: M:System.Runtime.InteropServices.ComTypes.ITypeInfo.ReleaseTypeAttr(System.IntPtr)
   id: ReleaseTypeAttr(System.IntPtr)
@@ -693,24 +739,29 @@ items:
   type: Method
   source:
     remote:
-      path: src/System.Runtime.InteropServices/ref/System.Runtime.InteropServices.cs
+      path: src/mscorlib/src/System/Runtime/InteropServices/ComTypes/ITypeInfo.cs
       branch: master
-      repo: https://github.com/dotnet/corefx.git
+      repo: https://github.com/dotnet/coreclr.git
     id: ReleaseTypeAttr
-    path: src/System.Runtime.InteropServices/ref/System.Runtime.InteropServices.cs
-    startLine: 1273
+    path: src/mscorlib/src/System/Runtime/InteropServices/ComTypes/ITypeInfo.cs
+    startLine: 327
   assemblies:
   - System.Runtime.InteropServices
   namespace: System.Runtime.InteropServices.ComTypes
   summary: "\n<p>Releases a <xref href=\"System.Runtime.InteropServices.TYPEATTR\" data-throw-if-not-resolved=\"false\"></xref> structure previously returned by the <xref href=\"System.Runtime.InteropServices.ComTypes.ITypeInfo.GetTypeAttr(System.IntPtr@)\" data-throw-if-not-resolved=\"false\"></xref> method.</p>\n"
   remarks: "\n<p>For additional information about <strong>ITypeInfo::ReleaseTypeAttr</strong>, see the MSDN Library.</p>\n"
   syntax:
-    content: void ReleaseTypeAttr(IntPtr pTypeAttr)
-    content.vb: Sub ReleaseTypeAttr(pTypeAttr As IntPtr)
+    content: >-
+      [PreserveSig]
+
+      void ReleaseTypeAttr(IntPtr pTypeAttr)
+    content.vb: >-
+      <PreserveSig>
+
+      Sub ReleaseTypeAttr(pTypeAttr As IntPtr)
     parameters:
     - id: pTypeAttr
       type: System.IntPtr
-      description: "\n<p>A reference to the <strong>TYPEATTR</strong> structure to release. </p>\n"
 - uid: System.Runtime.InteropServices.ComTypes.ITypeInfo.ReleaseVarDesc(System.IntPtr)
   commentId: M:System.Runtime.InteropServices.ComTypes.ITypeInfo.ReleaseVarDesc(System.IntPtr)
   id: ReleaseVarDesc(System.IntPtr)
@@ -723,24 +774,29 @@ items:
   type: Method
   source:
     remote:
-      path: src/System.Runtime.InteropServices/ref/System.Runtime.InteropServices.cs
+      path: src/mscorlib/src/System/Runtime/InteropServices/ComTypes/ITypeInfo.cs
       branch: master
-      repo: https://github.com/dotnet/corefx.git
+      repo: https://github.com/dotnet/coreclr.git
     id: ReleaseVarDesc
-    path: src/System.Runtime.InteropServices/ref/System.Runtime.InteropServices.cs
-    startLine: 1274
+    path: src/mscorlib/src/System/Runtime/InteropServices/ComTypes/ITypeInfo.cs
+    startLine: 331
   assemblies:
   - System.Runtime.InteropServices
   namespace: System.Runtime.InteropServices.ComTypes
   summary: "\n<p>Releases a <strong>VARDESC</strong> structure previously returned by the <xref href=\"System.Runtime.InteropServices.ComTypes.ITypeInfo.GetVarDesc(System.Int32,System.IntPtr@)\" data-throw-if-not-resolved=\"false\"></xref> method.</p>\n"
   remarks: "\n<p>For additional information about <strong>ITypeInfo::ReleaseVarDesc</strong>, see the MSDN Library.</p>\n"
   syntax:
-    content: void ReleaseVarDesc(IntPtr pVarDesc)
-    content.vb: Sub ReleaseVarDesc(pVarDesc As IntPtr)
+    content: >-
+      [PreserveSig]
+
+      void ReleaseVarDesc(IntPtr pVarDesc)
+    content.vb: >-
+      <PreserveSig>
+
+      Sub ReleaseVarDesc(pVarDesc As IntPtr)
     parameters:
     - id: pVarDesc
       type: System.IntPtr
-      description: "\n<p>A reference to the <strong>VARDESC</strong> structure to release. </p>\n"
 references:
 - uid: System.Runtime.InteropServices.ComTypes
   isExternal: false
@@ -786,7 +842,7 @@ references:
   name: String
   fullName: System.String
 - uid: System.String[]
-  isExternal: false
+  isExternal: true
   name: String[]
   fullName: System.String[]
   fullname.vb: System.String()
@@ -795,16 +851,18 @@ references:
   - uid: System.String
     name: String
     fullName: System.String
+    isExternal: true
   - name: '[]'
     fullName: '[]'
   spec.vb:
   - uid: System.String
     name: String
     fullName: System.String
+    isExternal: true
   - name: ()
     fullName: ()
 - uid: System.Int32[]
-  isExternal: false
+  isExternal: true
   name: Int32[]
   fullName: System.Int32[]
   fullname.vb: System.Int32()
@@ -813,12 +871,14 @@ references:
   - uid: System.Int32
     name: Int32
     fullName: System.Int32
+    isExternal: true
   - name: '[]'
     fullName: '[]'
   spec.vb:
   - uid: System.Int32
     name: Int32
     fullName: System.Int32
+    isExternal: true
   - name: ()
     fullName: ()
 - uid: System.Runtime.InteropServices.ComTypes.IMPLTYPEFLAGS

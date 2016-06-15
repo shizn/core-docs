@@ -8,6 +8,7 @@ items:
   - System.Collections.Generic.Comparer`1.Compare(`0,`0)
   - System.Collections.Generic.Comparer`1.Create(System.Comparison{`0})
   - System.Collections.Generic.Comparer`1.Default
+  - System.Collections.Generic.Comparer`1.System#Collections#IComparer#Compare(System.Object,System.Object)
   langs:
   - csharp
   - vb
@@ -16,12 +17,12 @@ items:
   type: Class
   source:
     remote:
-      path: src/System.Collections/ref/System.Collections.cs
+      path: src/mscorlib/src/System/Collections/Generic/Comparer.cs
       branch: master
-      repo: https://github.com/dotnet/corefx.git
+      repo: https://github.com/dotnet/coreclr.git
     id: Comparer
-    path: src/System.Collections/ref/System.Collections.cs
-    startLine: 41
+    path: src/mscorlib/src/System/Collections/Generic/Comparer.cs
+    startLine: 17
   assemblies:
   - System.Collections
   namespace: System.Collections.Generic
@@ -30,14 +31,21 @@ items:
   example:
   - "\n<p>The following example derives a class, <code>BoxLengthFirst</code>, from the <xref href=\"System.Collections.Generic.Comparer`1\" data-throw-if-not-resolved=\"false\"></xref> class. This comparer compares two objects of type <code>Box</code>. It sorts them first by length, then by height, and then by width. The <code>Box</code> class implements the <xref href=\"System.IComparable`1\" data-throw-if-not-resolved=\"false\"></xref> interface to control the default comparison between two <code>Box</code> objects. This default implementation sorts first by height, then by length, and then by width. The example shows the differences between the two comparisons by sorting a list of <code>Box</code> objects first by using the <code>BoxLengthFirst</code> comparer and then by using the default comparer.  </p>System.Collections.Generic.BoxCompare#1"
   syntax:
-    content: 'public abstract class Comparer<T> : IComparer<T>, IComparer'
+    content: >-
+      [Serializable]
+
+      [TypeDependency("System.Collections.Generic.ObjectComparer`1")]
+
+      public abstract class Comparer<T> : IComparer, IComparer<T>
     content.vb: >-
+      <Serializable>
+
+      <TypeDependency("System.Collections.Generic.ObjectComparer`1")>
+
       Public MustInherit Class Comparer(Of T)
-          Inherits IComparer(Of T)
-          Implements IComparer
+          Implements IComparer, IComparer(Of T)
     typeParameters:
     - id: T
-      description: "\n<p>The type of objects to compare.</p>\n"
   seealso:
   - type: System.Collections.Generic.IComparer`1
     commentId: T:System.Collections.Generic.IComparer`1
@@ -50,7 +58,16 @@ items:
   inheritance:
   - System.Object
   implements:
+  - System.Collections.Generic.IComparer{{T}}
   - System.Collections.IComparer
+  inheritedMembers:
+  - System.Object.ToString
+  - System.Object.Equals(System.Object)
+  - System.Object.Equals(System.Object,System.Object)
+  - System.Object.ReferenceEquals(System.Object,System.Object)
+  - System.Object.GetHashCode
+  - System.Object.GetType
+  - System.Object.MemberwiseClone
   modifiers.csharp:
   - public
   - abstract
@@ -103,12 +120,12 @@ items:
   type: Property
   source:
     remote:
-      path: src/System.Collections/ref/System.Collections.cs
+      path: src/mscorlib/src/System/Collections/Generic/Comparer.cs
       branch: master
-      repo: https://github.com/dotnet/corefx.git
+      repo: https://github.com/dotnet/coreclr.git
     id: Default
-    path: src/System.Collections/ref/System.Collections.cs
-    startLine: 44
+    path: src/mscorlib/src/System/Collections/Generic/Comparer.cs
+    startLine: 23
   assemblies:
   - System.Collections
   namespace: System.Collections.Generic
@@ -122,7 +139,6 @@ items:
     parameters: []
     return:
       type: System.Collections.Generic.Comparer`1
-      description: "\n<p>An object that inherits <xref href=\"System.Collections.Generic.Comparer`1\" data-throw-if-not-resolved=\"false\"></xref> and serves as a sort order comparer for type <em>T</em>.</p>\n"
   seealso:
   - type: System.IComparable`1
     commentId: T:System.IComparable`1
@@ -153,12 +169,12 @@ items:
   type: Method
   source:
     remote:
-      path: src/System.Collections/ref/System.Collections.cs
+      path: src/mscorlib/src/System/Collections/Generic/Comparer.cs
       branch: master
-      repo: https://github.com/dotnet/corefx.git
+      repo: https://github.com/dotnet/coreclr.git
     id: Compare
-    path: src/System.Collections/ref/System.Collections.cs
-    startLine: 45
+    path: src/mscorlib/src/System/Collections/Generic/Comparer.cs
+    startLine: 101
   assemblies:
   - System.Collections
   namespace: System.Collections.Generic
@@ -172,13 +188,10 @@ items:
     parameters:
     - id: x
       type: '{T}'
-      description: "\n<p>The first object to compare.</p>\n"
     - id: y
       type: '{T}'
-      description: "\n<p>The second object to compare.</p>\n"
     return:
       type: System.Int32
-      description: "\n<p>A signed integer that indicates the relative values of <em>x</em> and <em>y</em>, as shown in the following table.</p>\n<p>Value </p>\n<p>Meaning </p>\n<table><tbody><tr><td>\n<p>Less than zero </p>\n</td><td>\n<p>\n<em>x</em> is less than <em>y</em>.</p>\n</td></tr><tr><td>\n<p>Zero </p>\n</td><td>\n<p>\n<em>x</em> equals <em>y</em>.</p>\n</td></tr><tr><td>\n<p>Greater than zero </p>\n</td><td>\n<p>\n<em>x</em> is greater than <em>y</em>.</p>\n</td></tr></tbody></table>\n"
   exceptions:
   - type: System.ArgumentException
     commentId: T:System.ArgumentException
@@ -194,6 +207,8 @@ items:
     commentId: T:System.Object
   - type: System.Globalization.CultureInfo
     commentId: T:System.Globalization.CultureInfo
+  implements:
+  - System.Collections.Generic.IComparer{{T}}.Compare({T},{T})
   modifiers.csharp:
   - public
   - abstract
@@ -213,12 +228,12 @@ items:
   type: Method
   source:
     remote:
-      path: src/System.Collections/ref/System.Collections.cs
+      path: src/mscorlib/src/System/Collections/Generic/Comparer.cs
       branch: master
-      repo: https://github.com/dotnet/corefx.git
+      repo: https://github.com/dotnet/coreclr.git
     id: Create
-    path: src/System.Collections/ref/System.Collections.cs
-    startLine: 46
+    path: src/mscorlib/src/System/Collections/Generic/Comparer.cs
+    startLine: 30
   assemblies:
   - System.Collections
   namespace: System.Collections.Generic
@@ -229,10 +244,8 @@ items:
     parameters:
     - id: comparison
       type: System.Comparison{{T}}
-      description: "\n<p>The comparison to use.</p>\n"
     return:
       type: System.Collections.Generic.Comparer`1
-      description: "\n<p>The new comparer.</p>\n"
   modifiers.csharp:
   - public
   - static
@@ -241,6 +254,61 @@ items:
   - Shared
   fullName.vb: System.Collections.Generic.Comparer(Of T).Create(System.Comparison(Of T))
   name.vb: Create(Comparison(Of T))
+- uid: System.Collections.Generic.Comparer`1.System#Collections#IComparer#Compare(System.Object,System.Object)
+  commentId: M:System.Collections.Generic.Comparer`1.System#Collections#IComparer#Compare(System.Object,System.Object)
+  id: System#Collections#IComparer#Compare(System.Object,System.Object)
+  isEii: true
+  parent: System.Collections.Generic.Comparer`1
+  langs:
+  - csharp
+  - vb
+  name: IComparer.Compare(Object, Object)
+  fullName: System.Collections.Generic.Comparer<T>.System.Collections.IComparer.Compare(System.Object, System.Object)
+  type: Method
+  source:
+    remote:
+      path: src/mscorlib/src/System/Collections/Generic/Comparer.cs
+      branch: master
+      repo: https://github.com/dotnet/coreclr.git
+    id: System.Collections.IComparer.Compare
+    path: src/mscorlib/src/System/Collections/Generic/Comparer.cs
+    startLine: 103
+  assemblies:
+  - System.Collections
+  namespace: System.Collections.Generic
+  summary: "\n<p>Compares two objects and returns a value indicating whether one is less than, equal to, or greater than the other.</p>\n"
+  remarks: "\n<p>This method is a wrapper for the <xref href=\"System.Collections.Generic.Comparer`1.Compare(`0,`0)\" data-throw-if-not-resolved=\"false\"></xref> method, so <em>obj</em> must be cast to the type specified by the generic argument <em>T</em> of the current instance. If it cannot be cast to <em>T</em>, an <xref href=\"System.ArgumentException\" data-throw-if-not-resolved=\"false\"></xref> is thrown.</p>\n<p>Comparing <strong>null</strong> with any reference type is allowed and does not generate an exception. When sorting, <strong>null</strong> is considered to be less than any other object.</p>\n"
+  example:
+  - "\n<p>The following example shows how to use the <xref href=\"System.Collections.Generic.Comparer`1.System#Collections#IComparer#Compare(System.Object,System.Object)\" data-throw-if-not-resolved=\"false\"></xref> method to compare two objects. This example is part of a larger example provided for the <xref href=\"System.Collections.Generic.Comparer`1\" data-throw-if-not-resolved=\"false\"></xref> class. </p>System.Collections.Generic.BoxCompare#4"
+  syntax:
+    content: int IComparer.Compare(object x, object y)
+    content.vb: Function System.Collections.IComparer.Compare(x As Object, y As Object) As Integer Implements IComparer.Compare
+    parameters:
+    - id: x
+      type: System.Object
+    - id: y
+      type: System.Object
+    return:
+      type: System.Int32
+  exceptions:
+  - type: System.ArgumentException
+    commentId: T:System.ArgumentException
+    description: "\n<p>\n<em>x</em> or <em>y</em> is of a type that cannot be cast to type <em>T</em>.</p>\n<p>-or-</p>\n<p>\n<em>x</em> and <em>y</em> do not implement either the <xref href=\"System.IComparable`1\" data-throw-if-not-resolved=\"false\"></xref> generic interface or the <xref href=\"System.IComparable\" data-throw-if-not-resolved=\"false\"></xref> interface.</p>\n"
+  seealso:
+  - type: System.StringComparer
+    commentId: T:System.StringComparer
+  - type: System.Collections.IComparer
+    commentId: T:System.Collections.IComparer
+  - type: System.IComparable
+    commentId: T:System.IComparable
+  - type: System.Threading.Thread.CurrentCulture
+    commentId: P:System.Threading.Thread.CurrentCulture
+  - type: System.Globalization.CultureInfo
+    commentId: T:System.Globalization.CultureInfo
+  implements:
+  - System.Collections.IComparer.Compare(System.Object,System.Object)
+  fullName.vb: System.Collections.Generic.Comparer(Of T).System.Collections.IComparer.Compare(System.Object, System.Object)
+  name.vb: System.Collections.IComparer.Compare(Object, Object)
 references:
 - uid: System.Collections.Generic
   isExternal: false
@@ -251,15 +319,278 @@ references:
   isExternal: false
   name: Object
   fullName: System.Object
+- uid: System.Collections.Generic.IComparer{{T}}
+  parent: System.Collections.Generic
+  definition: System.Collections.Generic.IComparer`1
+  name: IComparer<T>
+  fullName: System.Collections.Generic.IComparer<T>
+  fullname.vb: System.Collections.Generic.IComparer(Of T)
+  name.vb: IComparer(Of T)
+  spec.csharp:
+  - uid: System.Collections.Generic.IComparer`1
+    name: IComparer
+    fullName: System.Collections.Generic.IComparer
+  - name: <
+    fullName: <
+  - name: T
+    fullName: T
+  - name: '>'
+    fullName: '>'
+  spec.vb:
+  - uid: System.Collections.Generic.IComparer`1
+    name: IComparer
+    fullName: System.Collections.Generic.IComparer
+  - name: '(Of '
+    fullName: '(Of '
+  - name: T
+    fullName: T
+  - name: )
+    fullName: )
 - uid: System.Collections.IComparer
   parent: System.Collections
   isExternal: false
-  name: Collections.IComparer
+  name: IComparer
   fullName: System.Collections.IComparer
+- uid: System.Object.ToString
+  parent: System.Object
+  isExternal: true
+  name: ToString()
+  fullName: System.Object.ToString()
+  spec.csharp:
+  - uid: System.Object.ToString
+    name: ToString
+    fullName: System.Object.ToString
+    isExternal: true
+  - name: (
+    fullName: (
+  - name: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.ToString
+    name: ToString
+    fullName: System.Object.ToString
+    isExternal: true
+  - name: (
+    fullName: (
+  - name: )
+    fullName: )
+- uid: System.Object.Equals(System.Object)
+  parent: System.Object
+  isExternal: true
+  name: Equals(Object)
+  fullName: System.Object.Equals(System.Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    fullName: )
+- uid: System.Object.Equals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  name: Equals(Object, Object)
+  fullName: System.Object.Equals(System.Object, System.Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    fullName: )
+- uid: System.Object.ReferenceEquals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  name: ReferenceEquals(Object, Object)
+  fullName: System.Object.ReferenceEquals(System.Object, System.Object)
+  spec.csharp:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    fullName: System.Object.ReferenceEquals
+    isExternal: true
+  - name: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    fullName: System.Object.ReferenceEquals
+    isExternal: true
+  - name: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    fullName: )
+- uid: System.Object.GetHashCode
+  parent: System.Object
+  isExternal: true
+  name: GetHashCode()
+  fullName: System.Object.GetHashCode()
+  spec.csharp:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    fullName: System.Object.GetHashCode
+    isExternal: true
+  - name: (
+    fullName: (
+  - name: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    fullName: System.Object.GetHashCode
+    isExternal: true
+  - name: (
+    fullName: (
+  - name: )
+    fullName: )
+- uid: System.Object.GetType
+  parent: System.Object
+  isExternal: true
+  name: GetType()
+  fullName: System.Object.GetType()
+  spec.csharp:
+  - uid: System.Object.GetType
+    name: GetType
+    fullName: System.Object.GetType
+    isExternal: true
+  - name: (
+    fullName: (
+  - name: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.GetType
+    name: GetType
+    fullName: System.Object.GetType
+    isExternal: true
+  - name: (
+    fullName: (
+  - name: )
+    fullName: )
+- uid: System.Object.MemberwiseClone
+  parent: System.Object
+  isExternal: true
+  name: MemberwiseClone()
+  fullName: System.Object.MemberwiseClone()
+  spec.csharp:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    fullName: System.Object.MemberwiseClone
+    isExternal: true
+  - name: (
+    fullName: (
+  - name: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    fullName: System.Object.MemberwiseClone
+    isExternal: true
+  - name: (
+    fullName: (
+  - name: )
+    fullName: )
 - uid: System
   isExternal: false
   name: System
   fullName: System
+- uid: System.Collections.Generic.IComparer`1
+  parent: System.Collections.Generic
+  isExternal: false
+  name: IComparer<T>
+  fullName: System.Collections.Generic.IComparer<T>
+  fullname.vb: System.Collections.Generic.IComparer(Of T)
+  name.vb: IComparer(Of T)
+  spec.csharp:
+  - uid: System.Collections.Generic.IComparer`1
+    name: IComparer
+    fullName: System.Collections.Generic.IComparer
+  - name: <
+    fullName: <
+  - name: T
+    fullName: T
+  - name: '>'
+    fullName: '>'
+  spec.vb:
+  - uid: System.Collections.Generic.IComparer`1
+    name: IComparer
+    fullName: System.Collections.Generic.IComparer
+  - name: '(Of '
+    fullName: '(Of '
+  - name: T
+    fullName: T
+  - name: )
+    fullName: )
 - uid: System.Collections
   isExternal: false
   name: System.Collections
@@ -291,6 +622,42 @@ references:
     fullName: T
   - name: )
     fullName: )
+- uid: System.Collections.Generic.IComparer{{T}}.Compare({T},{T})
+  parent: System.Collections.Generic.IComparer{{T}}
+  definition: System.Collections.Generic.IComparer`1.Compare(`0,`0)
+  name: Compare(T, T)
+  fullName: System.Collections.Generic.IComparer<T>.Compare(T, T)
+  fullname.vb: System.Collections.Generic.IComparer(Of T).Compare(T, T)
+  spec.csharp:
+  - uid: System.Collections.Generic.IComparer`1.Compare(`0,`0)
+    name: Compare
+    fullName: System.Collections.Generic.IComparer<T>.Compare
+    isExternal: true
+  - name: (
+    fullName: (
+  - name: T
+    fullName: T
+  - name: ', '
+    fullName: ', '
+  - name: T
+    fullName: T
+  - name: )
+    fullName: )
+  spec.vb:
+  - uid: System.Collections.Generic.IComparer`1.Compare(`0,`0)
+    name: Compare
+    fullName: System.Collections.Generic.IComparer(Of T).Compare
+    isExternal: true
+  - name: (
+    fullName: (
+  - name: T
+    fullName: T
+  - name: ', '
+    fullName: ', '
+  - name: T
+    fullName: T
+  - name: )
+    fullName: )
 - uid: '{T}'
   isExternal: false
   name: T
@@ -300,6 +667,42 @@ references:
   isExternal: false
   name: Int32
   fullName: System.Int32
+- uid: System.Collections.Generic.IComparer`1.Compare(`0,`0)
+  parent: System.Collections.Generic.IComparer`1
+  isExternal: true
+  name: Compare(T, T)
+  fullName: System.Collections.Generic.IComparer<T>.Compare(T, T)
+  fullname.vb: System.Collections.Generic.IComparer(Of T).Compare(T, T)
+  spec.csharp:
+  - uid: System.Collections.Generic.IComparer`1.Compare(`0,`0)
+    name: Compare
+    fullName: System.Collections.Generic.IComparer<T>.Compare
+    isExternal: true
+  - name: (
+    fullName: (
+  - name: T
+    fullName: T
+  - name: ', '
+    fullName: ', '
+  - name: T
+    fullName: T
+  - name: )
+    fullName: )
+  spec.vb:
+  - uid: System.Collections.Generic.IComparer`1.Compare(`0,`0)
+    name: Compare
+    fullName: System.Collections.Generic.IComparer(Of T).Compare
+    isExternal: true
+  - name: (
+    fullName: (
+  - name: T
+    fullName: T
+  - name: ', '
+    fullName: ', '
+  - name: T
+    fullName: T
+  - name: )
+    fullName: )
 - uid: System.Comparison{{T}}
   parent: System
   definition: System.Comparison`1
@@ -352,6 +755,49 @@ references:
     fullName: '(Of '
   - name: T
     fullName: T
+  - name: )
+    fullName: )
+- uid: System.Collections.IComparer.Compare(System.Object,System.Object)
+  parent: System.Collections.IComparer
+  isExternal: true
+  name: Compare(Object, Object)
+  fullName: System.Collections.IComparer.Compare(System.Object, System.Object)
+  spec.csharp:
+  - uid: System.Collections.IComparer.Compare(System.Object,System.Object)
+    name: Compare
+    fullName: System.Collections.IComparer.Compare
+    isExternal: true
+  - name: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    fullName: )
+  spec.vb:
+  - uid: System.Collections.IComparer.Compare(System.Object,System.Object)
+    name: Compare
+    fullName: System.Collections.IComparer.Compare
+    isExternal: true
+  - name: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
   - name: )
     fullName: )
 - uid: System.ArgumentException

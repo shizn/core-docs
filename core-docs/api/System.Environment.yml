@@ -27,12 +27,12 @@ items:
   type: Class
   source:
     remote:
-      path: src/System.Runtime.Extensions/ref/System.Runtime.Extensions.cs
+      path: src/mscorlib/src/System/Environment.cs
       branch: master
-      repo: https://github.com/dotnet/corefx.git
+      repo: https://github.com/dotnet/coreclr.git
     id: Environment
-    path: src/System.Runtime.Extensions/ref/System.Runtime.Extensions.cs
-    startLine: 431
+    path: src/mscorlib/src/System/Environment.cs
+    startLine: 42
   assemblies:
   - System.Runtime.Extensions
   namespace: System
@@ -41,12 +41,24 @@ items:
   example:
   - "\n<p>The following example demonstrates displays a list of information about the current environment.</p>environment.class#1"
   syntax:
-    content: 'public class Environment : object'
+    content: >-
+      [ComVisible(true)]
+
+      public class Environment
     content.vb: >-
+      <ComVisible(True)>
+
       Public Class Environment
-          Inherits Object
   inheritance:
   - System.Object
+  inheritedMembers:
+  - System.Object.ToString
+  - System.Object.Equals(System.Object)
+  - System.Object.Equals(System.Object,System.Object)
+  - System.Object.ReferenceEquals(System.Object,System.Object)
+  - System.Object.GetHashCode
+  - System.Object.GetType
+  - System.Object.MemberwiseClone
   modifiers.csharp:
   - public
   - class
@@ -65,23 +77,28 @@ items:
   type: Property
   source:
     remote:
-      path: src/System.Runtime.Extensions/ref/System.Runtime.Extensions.cs
+      path: src/mscorlib/src/System/Environment.cs
       branch: master
-      repo: https://github.com/dotnet/corefx.git
+      repo: https://github.com/dotnet/coreclr.git
     id: CurrentManagedThreadId
-    path: src/System.Runtime.Extensions/ref/System.Runtime.Extensions.cs
-    startLine: 433
+    path: src/mscorlib/src/System/Environment.cs
+    startLine: 1757
   assemblies:
   - System.Runtime.Extensions
   namespace: System
   summary: "\n<p>Gets a unique identifier for the current managed thread.</p>\n"
   syntax:
-    content: public static int CurrentManagedThreadId { get; }
+    content: >-
+      public static int CurrentManagedThreadId
+
+      {
+          [ReliabilityContract(Consistency.WillNotCorruptState, Cer.Success)]
+          get;
+      }
     content.vb: Public Shared ReadOnly Property CurrentManagedThreadId As Integer
     parameters: []
     return:
       type: System.Int32
-      description: "\n<p>An integer that represents a unique identifier for this managed thread.</p>\n"
   modifiers.csharp:
   - public
   - static
@@ -101,25 +118,26 @@ items:
   fullName: System.Environment.HasShutdownStarted
   type: Property
   source:
-    remote:
-      path: src/System.Runtime.Extensions/ref/System.Runtime.Extensions.cs
-      branch: master
-      repo: https://github.com/dotnet/corefx.git
-    id: HasShutdownStarted
-    path: src/System.Runtime.Extensions/ref/System.Runtime.Extensions.cs
-    startLine: 434
+    path: System.Private.CoreLib
+    isExternal: true
   assemblies:
   - System.Runtime.Extensions
   namespace: System
   summary: "\n<p>Gets a value that indicates whether the current application domain is being unloaded or the common language runtime (CLR) is shutting down. </p>\n"
   remarks: "\n<p>When the CLR unloads an application domain, it runs the finalizers on all objects that have a finalizer method in that application domain. When the CLR shuts down, it starts the finalizer thread on all objects that have a finalizer method. The <xref href=\"System.Environment.HasShutdownStarted\" data-throw-if-not-resolved=\"false\"></xref> property returns <strong>true</strong> only after the finalizer thread has been started. When the property returns <strong>true</strong>, you can determine whether an application domain is being unloaded or the CLR itself is shutting down by calling the <xref href=\"System.AppDomain.IsFinalizingForUnload\" data-throw-if-not-resolved=\"false\"></xref> method. This method returns <strong>true</strong> if finalizers are called because the application domain is unloading or <strong>false</strong> if the CLR is shutting down. </p>\n<p>The <xref href=\"System.Environment.HasShutdownStarted\" data-throw-if-not-resolved=\"false\"></xref> property returns <strong>false</strong> if the finalizer thread has not been started. </p>\n<p>By using this property, you can determine whether to access static variables in your finalization code. If either an application domain or the CLR is shutting down, you cannot reliably access any object that has a finalization method and that is referenced by a static field. This is because these objects may have already been finalized.</p>\n"
   syntax:
-    content: public static bool HasShutdownStarted { get; }
+    content: >-
+      public static bool HasShutdownStarted
+
+      {
+          [SecuritySafeCritical]
+          [MethodImpl(MethodImplOptions.InternalCall)]
+          get;
+      }
     content.vb: Public Shared ReadOnly Property HasShutdownStarted As Boolean
     parameters: []
     return:
       type: System.Boolean
-      description: "\n<p>\n<strong>true</strong> if the current application domain is being unloaded or the CLR is shutting down; otherwise, <strong>false.</strong></p>\n"
   seealso:
   - type: System.AppDomain.IsFinalizingForUnload
     commentId: M:System.AppDomain.IsFinalizingForUnload
@@ -143,12 +161,12 @@ items:
   type: Property
   source:
     remote:
-      path: src/System.Runtime.Extensions/ref/System.Runtime.Extensions.cs
+      path: src/mscorlib/src/System/Environment.cs
       branch: master
-      repo: https://github.com/dotnet/corefx.git
+      repo: https://github.com/dotnet/coreclr.git
     id: MachineName
-    path: src/System.Runtime.Extensions/ref/System.Runtime.Extensions.cs
-    startLine: 435
+    path: src/mscorlib/src/System/Environment.cs
+    startLine: 520
   assemblies:
   - System.Runtime.Extensions
   namespace: System
@@ -157,12 +175,17 @@ items:
   example:
   - "\n<p>The following example displays the name of the computer that runs the code example. (The machine name is omitted from the example output for security reasons.) </p>environment.machinename#1"
   syntax:
-    content: public static string MachineName { get; }
+    content: >-
+      public static string MachineName
+
+      {
+          [SecuritySafeCritical]
+          get;
+      }
     content.vb: Public Shared ReadOnly Property MachineName As String
     parameters: []
     return:
       type: System.String
-      description: "\n<p>A string containing the name of this computer.</p>\n"
   exceptions:
   - type: System.InvalidOperationException
     commentId: T:System.InvalidOperationException
@@ -190,12 +213,12 @@ items:
   type: Property
   source:
     remote:
-      path: src/System.Runtime.Extensions/ref/System.Runtime.Extensions.cs
+      path: src/mscorlib/src/System/Environment.cs
       branch: master
-      repo: https://github.com/dotnet/corefx.git
+      repo: https://github.com/dotnet/coreclr.git
     id: NewLine
-    path: src/System.Runtime.Extensions/ref/System.Runtime.Extensions.cs
-    startLine: 436
+    path: src/mscorlib/src/System/Environment.cs
+    startLine: 1063
   assemblies:
   - System.Runtime.Extensions
   namespace: System
@@ -209,7 +232,6 @@ items:
     parameters: []
     return:
       type: System.String
-      description: "\n<p>A string containing \"\\r\\n\" for non-Unix platforms, or a string containing \"\\n\" for Unix platforms.</p>\n"
   modifiers.csharp:
   - public
   - static
@@ -230,12 +252,12 @@ items:
   type: Property
   source:
     remote:
-      path: src/System.Runtime.Extensions/ref/System.Runtime.Extensions.cs
+      path: src/mscorlib/src/System/Environment.cs
       branch: master
-      repo: https://github.com/dotnet/corefx.git
+      repo: https://github.com/dotnet/coreclr.git
     id: ProcessorCount
-    path: src/System.Runtime.Extensions/ref/System.Runtime.Extensions.cs
-    startLine: 437
+    path: src/mscorlib/src/System/Environment.cs
+    startLine: 549
   assemblies:
   - System.Runtime.Extensions
   namespace: System
@@ -244,12 +266,17 @@ items:
   example:
   - "\n<p>The following example demonstrates the <xref href=\"System.Environment.ProcessorCount\" data-throw-if-not-resolved=\"false\"></xref> property.</p>environment.processorcount#1"
   syntax:
-    content: public static int ProcessorCount { get; }
+    content: >-
+      public static int ProcessorCount
+
+      {
+          [SecuritySafeCritical]
+          get;
+      }
     content.vb: Public Shared ReadOnly Property ProcessorCount As Integer
     parameters: []
     return:
       type: System.Int32
-      description: "\n<p>The 32-bit signed integer that specifies the number of processors on the current machine. There is no default. If the current machine contains multiple processor groups, this property returns the number of logical processors that are available for use by the common language runtime (CLR).</p>\n"
   modifiers.csharp:
   - public
   - static
@@ -270,12 +297,12 @@ items:
   type: Property
   source:
     remote:
-      path: src/System.Runtime.Extensions/ref/System.Runtime.Extensions.cs
+      path: src/mscorlib/src/System/Environment.cs
       branch: master
-      repo: https://github.com/dotnet/corefx.git
+      repo: https://github.com/dotnet/coreclr.git
     id: StackTrace
-    path: src/System.Runtime.Extensions/ref/System.Runtime.Extensions.cs
-    startLine: 438
+    path: src/mscorlib/src/System/Environment.cs
+    startLine: 1223
   assemblies:
   - System.Runtime.Extensions
   namespace: System
@@ -284,12 +311,17 @@ items:
   example:
   - "\n<p>The following example demonstrates the <xref href=\"System.Environment.StackTrace\" data-throw-if-not-resolved=\"false\"></xref> property.</p>environment.stacktrace#1"
   syntax:
-    content: public static string StackTrace { get; }
+    content: >-
+      public static string StackTrace
+
+      {
+          [SecuritySafeCritical]
+          get;
+      }
     content.vb: Public Shared ReadOnly Property StackTrace As String
     parameters: []
     return:
       type: System.String
-      description: "\n<p>A string containing stack trace information. This value can be <xref href=\"System.String.Empty\" data-throw-if-not-resolved=\"false\"></xref>.</p>\n"
   see:
   - type: System.Security.Permissions.EnvironmentPermission
     commentId: T:System.Security.Permissions.EnvironmentPermission
@@ -312,13 +344,8 @@ items:
   fullName: System.Environment.TickCount
   type: Property
   source:
-    remote:
-      path: src/System.Runtime.Extensions/ref/System.Runtime.Extensions.cs
-      branch: master
-      repo: https://github.com/dotnet/corefx.git
-    id: TickCount
-    path: src/System.Runtime.Extensions/ref/System.Runtime.Extensions.cs
-    startLine: 439
+    path: System.Private.CoreLib
+    isExternal: true
   assemblies:
   - System.Runtime.Extensions
   namespace: System
@@ -327,12 +354,18 @@ items:
   example:
   - "\n<p>The following example demonstrates how to retrieve the positive range of values returned by the <xref href=\"System.Environment.TickCount\" data-throw-if-not-resolved=\"false\"></xref> property. The <xref href=\"System.Environment.TickCount\" data-throw-if-not-resolved=\"false\"></xref> property cycles between <xref href=\"System.Int32.MinValue\" data-throw-if-not-resolved=\"false\"></xref>, which is a negative number, and <xref href=\"System.Int32.MaxValue\" data-throw-if-not-resolved=\"false\"></xref> once every 49.8 days. This code sample removes the sign bit to yield a nonnegative number that cycles between zero and <xref href=\"System.Int32.MaxValue\" data-throw-if-not-resolved=\"false\"></xref> once every 24.9 days.</p>environment.tickcount#1"
   syntax:
-    content: public static int TickCount { get; }
+    content: >-
+      public static int TickCount
+
+      {
+          [SecuritySafeCritical]
+          [MethodImpl(MethodImplOptions.InternalCall)]
+          get;
+      }
     content.vb: Public Shared ReadOnly Property TickCount As Integer
     parameters: []
     return:
       type: System.Int32
-      description: "\n<p>A 32-bit signed integer containing the amount of time in milliseconds that has passed since the last time the computer was started. </p>\n"
   modifiers.csharp:
   - public
   - static
@@ -353,12 +386,12 @@ items:
   type: Method
   source:
     remote:
-      path: src/System.Runtime.Extensions/ref/System.Runtime.Extensions.cs
+      path: src/mscorlib/src/System/Environment.cs
       branch: master
-      repo: https://github.com/dotnet/corefx.git
+      repo: https://github.com/dotnet/coreclr.git
     id: ExpandEnvironmentVariables
-    path: src/System.Runtime.Extensions/ref/System.Runtime.Extensions.cs
-    startLine: 440
+    path: src/mscorlib/src/System/Environment.cs
+    startLine: 401
   assemblies:
   - System.Runtime.Extensions
   namespace: System
@@ -367,15 +400,19 @@ items:
   example:
   - "\n<p>The following example shows how to obtain the system drive and system root variables.</p>Environment.ExpandEnvironmentVariables#1"
   syntax:
-    content: public static string ExpandEnvironmentVariables(string name)
-    content.vb: Public Shared Function ExpandEnvironmentVariables(name As String) As String
+    content: >-
+      [SecuritySafeCritical]
+
+      public static string ExpandEnvironmentVariables(string name)
+    content.vb: >-
+      <SecuritySafeCritical>
+
+      Public Shared Function ExpandEnvironmentVariables(name As String) As String
     parameters:
     - id: name
       type: System.String
-      description: "\n<p>A string containing the names of zero or more environment variables. Each environment variable is quoted with the percent sign character (%).</p>\n"
     return:
       type: System.String
-      description: "\n<p>A string with each environment variable replaced by its value.</p>\n"
   exceptions:
   - type: System.ArgumentNullException
     commentId: T:System.ArgumentNullException
@@ -401,24 +438,33 @@ items:
   type: Method
   source:
     remote:
-      path: src/System.Runtime.Extensions/ref/System.Runtime.Extensions.cs
+      path: src/mscorlib/src/System/Environment.cs
       branch: master
-      repo: https://github.com/dotnet/corefx.git
+      repo: https://github.com/dotnet/coreclr.git
     id: Exit
-    path: src/System.Runtime.Extensions/ref/System.Runtime.Extensions.cs
-    startLine: 441
+    path: src/mscorlib/src/System/Environment.cs
+    startLine: 261
   assemblies:
   - System.Runtime.Extensions
   namespace: System
   summary: "\n<p>Terminates this process and returns an exit code to the operating system.</p>\n"
   remarks: "\n<p>For the <em>exitCode</em> parameter, use a non-zero number to indicate an error. In your application, you can define your own error codes in an enumeration, and return the appropriate error code based on the scenario. For example, return a value of 1 to indicate that the required file is not present, and a value of 2 to indicate that the file is in the wrong format. For a list of exit codes used by the Windows operating system, see <see href=\"http://msdn.microsoft.com/library/ms681381.aspx\">System Error Codes</see> in the Windows documentation.</p>\n<p>Calling the <xref href=\"System.Environment.Exit(System.Int32)\" data-throw-if-not-resolved=\"false\"></xref> method differs from using your programming language's <strong>return</strong> statement in the following ways: </p>\n<ul><li>\n<p>\n<xref href=\"System.Environment.Exit(System.Int32)\" data-throw-if-not-resolved=\"false\"></xref> always terminates an application. Using the <strong>return</strong> statement may terminate an application only if it is used in the application entry point, such as in the <strong>Main</strong> method. </p>\n</li><li>\n<p>\n<xref href=\"System.Environment.Exit(System.Int32)\" data-throw-if-not-resolved=\"false\"></xref> terminates an application immediately, even if other threads are running. If the <strong>return</strong> statement is called in the application entry point, it causes an application to terminate only after all foreground threads have terminated. </p>\n</li><li>\n<p>\n<xref href=\"System.Environment.Exit(System.Int32)\" data-throw-if-not-resolved=\"false\"></xref> requires the caller to have permission to call unmanaged code. The <strong>return</strong> statement does not. </p>\n</li><li>\n<p>If <xref href=\"System.Environment.Exit(System.Int32)\" data-throw-if-not-resolved=\"false\"></xref> is called from a <strong>try</strong> or <strong>catch</strong> block, the code in any <strong>finally</strong> block does not execute. If the <strong>return</strong> statement is used, the code in the <strong>finally</strong> block does execute. </p>\n</li><li>\n<p>If <xref href=\"System.Environment.Exit(System.Int32)\" data-throw-if-not-resolved=\"false\"></xref> is called when code in a constrained execution region (CER) is running, the CER will not complete execution. If the <strong>return</strong> statement is used, the CER completes execution. </p>\n</li></ul>\n"
   syntax:
-    content: public static void Exit(int exitCode)
-    content.vb: Public Shared Sub Exit(exitCode As Integer)
+    content: >-
+      [SecuritySafeCritical]
+
+      [SecurityPermission(SecurityAction.Demand, Flags = SecurityPermissionFlag.UnmanagedCode)]
+
+      public static void Exit(int exitCode)
+    content.vb: >-
+      <SecuritySafeCritical>
+
+      <SecurityPermission(SecurityAction.Demand, Flags:=SecurityPermissionFlag.UnmanagedCode)>
+
+      Public Shared Sub Exit(exitCode As Integer)
     parameters:
     - id: exitCode
       type: System.Int32
-      description: "\n<p>The exit code to return to the operating system. Use 0 (zero) to indicate that the process completed successfully.</p>\n"
   exceptions:
   - type: System.Security.SecurityException
     commentId: T:System.Security.SecurityException
@@ -443,13 +489,8 @@ items:
   fullName: System.Environment.FailFast(System.String)
   type: Method
   source:
-    remote:
-      path: src/System.Runtime.Extensions/ref/System.Runtime.Extensions.cs
-      branch: master
-      repo: https://github.com/dotnet/corefx.git
-    id: FailFast
-    path: src/System.Runtime.Extensions/ref/System.Runtime.Extensions.cs
-    startLine: 442
+    path: System.Private.CoreLib
+    isExternal: true
   assemblies:
   - System.Runtime.Extensions
   namespace: System
@@ -458,15 +499,28 @@ items:
   example:
   - "\n<p>The following example writes a log entry to the Windows Application event log and terminates the current process.</p>environment.FailFast#1"
   syntax:
-    content: public static void FailFast(string message)
-    content.vb: Public Shared Sub FailFast(message As String)
+    content: >-
+      [SecurityCritical]
+
+      [MethodImpl(MethodImplOptions.InternalCall)]
+
+      public static void FailFast(string message)
+    content.vb: >-
+      <SecurityCritical>
+
+      <MethodImpl(MethodImplOptions.InternalCall)>
+
+      Public Shared Sub FailFast(message As String)
     parameters:
     - id: message
       type: System.String
-      description: "\n<p>A message that explains why the process was terminated, or <strong>null</strong> if no explanation is provided.</p>\n"
   see:
   - type: System.Security.SecurityCriticalAttribute
     commentId: T:System.Security.SecurityCriticalAttribute
+  attributes:
+  - type: System.Security.SecurityCriticalAttribute
+    ctor: System.Security.SecurityCriticalAttribute.#ctor
+    arguments: []
   modifiers.csharp:
   - public
   - static
@@ -484,31 +538,38 @@ items:
   fullName: System.Environment.FailFast(System.String, System.Exception)
   type: Method
   source:
-    remote:
-      path: src/System.Runtime.Extensions/ref/System.Runtime.Extensions.cs
-      branch: master
-      repo: https://github.com/dotnet/corefx.git
-    id: FailFast
-    path: src/System.Runtime.Extensions/ref/System.Runtime.Extensions.cs
-    startLine: 444
+    path: System.Private.CoreLib
+    isExternal: true
   assemblies:
   - System.Runtime.Extensions
   namespace: System
   summary: "\n<p>Immediately terminates a process after writing a message to the Windows Application event log, and then includes the message and exception information in error reporting to Microsoft.</p>\n"
   remarks: "\n<p>This method terminates the process without running any active <strong>try</strong>/<strong>finally</strong> blocks or finalizers. </p>\n<p>The <xref href=\"System.Environment.FailFast(System.String,System.Exception)\" data-throw-if-not-resolved=\"false\"></xref> method writes the <em>message</em> string to the Windows Application event log, creates a dump of your application, and then terminates the current process.</p>\n<p>Information is reported to Microsoft by using Windows Error Reporting. For more information, see <see href=\"http://msdn.microsoft.com/library/windows/hardware/dn641144.aspx\">Windows Error Reporting: Getting Started</see>. Error reporting to Microsoft includes <em>message</em> and <em>exception</em> information, which provides details used to classify the error. Although <em>exception</em> is not handled because the process is terminated, the contextual information that raised the exception is still obtained.</p>\n<p>If <em>exception</em> is <strong>null</strong>, or if <em>exception</em> is not thrown, this method operates the same as the <xref href=\"System.Environment.FailFast(System.String)\" data-throw-if-not-resolved=\"false\"></xref> method overload. </p>\n<p>Use the <xref href=\"System.Environment.FailFast(System.String,System.Exception)\" data-throw-if-not-resolved=\"false\"></xref> method instead of the <xref href=\"System.Environment.Exit(System.Int32)\" data-throw-if-not-resolved=\"false\"></xref> method to terminate your application if the state of your application is damaged beyond repair, and executing your application's <strong>try</strong>/<strong>finally</strong> blocks and finalizers will corrupt program resources.</p>\n"
   syntax:
-    content: public static void FailFast(string message, Exception exception)
-    content.vb: Public Shared Sub FailFast(message As String, exception As Exception)
+    content: >-
+      [SecurityCritical]
+
+      [MethodImpl(MethodImplOptions.InternalCall)]
+
+      public static void FailFast(string message, Exception exception)
+    content.vb: >-
+      <SecurityCritical>
+
+      <MethodImpl(MethodImplOptions.InternalCall)>
+
+      Public Shared Sub FailFast(message As String, exception As Exception)
     parameters:
     - id: message
       type: System.String
-      description: "\n<p>A message that explains why the process was terminated, or <strong>null</strong> if no explanation is provided.</p>\n"
     - id: exception
       type: System.Exception
-      description: "\n<p>An exception that represents the error that caused the termination. This is typically the exception in a <strong>catch</strong> block.</p>\n"
   see:
   - type: System.Security.SecurityCriticalAttribute
     commentId: T:System.Security.SecurityCriticalAttribute
+  attributes:
+  - type: System.Security.SecurityCriticalAttribute
+    ctor: System.Security.SecurityCriticalAttribute.#ctor
+    arguments: []
   modifiers.csharp:
   - public
   - static
@@ -527,12 +588,12 @@ items:
   type: Method
   source:
     remote:
-      path: src/System.Runtime.Extensions/ref/System.Runtime.Extensions.cs
+      path: src/mscorlib/src/System/Environment.cs
       branch: master
-      repo: https://github.com/dotnet/corefx.git
+      repo: https://github.com/dotnet/coreclr.git
     id: GetEnvironmentVariable
-    path: src/System.Runtime.Extensions/ref/System.Runtime.Extensions.cs
-    startLine: 446
+    path: src/mscorlib/src/System/Environment.cs
+    startLine: 625
   assemblies:
   - System.Runtime.Extensions
   namespace: System
@@ -542,15 +603,19 @@ items:
   - "\n<p>The following example uses the <xref href=\"System.Environment.GetEnvironmentVariable(System.String)\" data-throw-if-not-resolved=\"false\"></xref> method to retrieve the <code>windir</code> environment variable, which contains the path of the Windows directory.</p>System.Environment#4"
   - "\n<p>The following example attempts to retrieve the value of an environment variable named <code>Test1</code> from the process environment block. If the variable doesn't exist, the example creates its and retrieves its value. The example displays the value of the variable. If the example created the variable, it also calls the <xref href=\"System.Environment.GetEnvironmentVariables(System.EnvironmentVariableTarget)\" data-throw-if-not-resolved=\"false\"></xref> method with each member of the <xref href=\"System.EnvironmentVariableTarget\" data-throw-if-not-resolved=\"false\"></xref> enumeration to establish that the variable can be retrieved only from the current process environment block. Finally, if the example created the variable, it deletes it. </p>System.Environment.GetEnvironmentVariable#2"
   syntax:
-    content: public static string GetEnvironmentVariable(string variable)
-    content.vb: Public Shared Function GetEnvironmentVariable(variable As String) As String
+    content: >-
+      [SecuritySafeCritical]
+
+      public static string GetEnvironmentVariable(string variable)
+    content.vb: >-
+      <SecuritySafeCritical>
+
+      Public Shared Function GetEnvironmentVariable(variable As String) As String
     parameters:
     - id: variable
       type: System.String
-      description: "\n<p>The name of the environment variable.</p>\n"
     return:
       type: System.String
-      description: "\n<p>The value of the environment variable specified by <em>variable</em>, or <strong>null</strong> if the environment variable is not found.</p>\n"
   exceptions:
   - type: System.ArgumentNullException
     commentId: T:System.ArgumentNullException
@@ -586,12 +651,12 @@ items:
   type: Method
   source:
     remote:
-      path: src/System.Runtime.Extensions/ref/System.Runtime.Extensions.cs
+      path: src/mscorlib/src/System/Environment.cs
       branch: master
-      repo: https://github.com/dotnet/corefx.git
+      repo: https://github.com/dotnet/coreclr.git
     id: GetEnvironmentVariables
-    path: src/System.Runtime.Extensions/ref/System.Runtime.Extensions.cs
-    startLine: 447
+    path: src/mscorlib/src/System/Environment.cs
+    startLine: 761
   assemblies:
   - System.Runtime.Extensions
   namespace: System
@@ -600,11 +665,16 @@ items:
   example:
   - "\n<p>The following example demonstrates the <xref href=\"System.Environment.GetEnvironmentVariables\" data-throw-if-not-resolved=\"false\"></xref> method.</p>Environment.GetEnvironmentVariables#1"
   syntax:
-    content: public static Collections.IDictionary GetEnvironmentVariables()
-    content.vb: Public Shared Function GetEnvironmentVariables As Collections.IDictionary
+    content: >-
+      [SecuritySafeCritical]
+
+      public static IDictionary GetEnvironmentVariables()
+    content.vb: >-
+      <SecuritySafeCritical>
+
+      Public Shared Function GetEnvironmentVariables As IDictionary
     return:
       type: System.Collections.IDictionary
-      description: "\n<p>A dictionary that contains all environment variable names and their values; otherwise, an empty dictionary if no environment variables are found.</p>\n"
   exceptions:
   - type: System.Security.SecurityException
     commentId: T:System.Security.SecurityException
@@ -636,12 +706,12 @@ items:
   type: Method
   source:
     remote:
-      path: src/System.Runtime.Extensions/ref/System.Runtime.Extensions.cs
+      path: src/mscorlib/src/System/Environment.cs
       branch: master
-      repo: https://github.com/dotnet/corefx.git
+      repo: https://github.com/dotnet/coreclr.git
     id: SetEnvironmentVariable
-    path: src/System.Runtime.Extensions/ref/System.Runtime.Extensions.cs
-    startLine: 448
+    path: src/mscorlib/src/System/Environment.cs
+    startLine: 890
   assemblies:
   - System.Runtime.Extensions
   namespace: System
@@ -651,15 +721,19 @@ items:
   - "\n<p>The following example tests whether an environment variable named <strong>APPDOMAIN</strong> exists in the current process. If it does not, it creates it and sets its value to \"True\". If the value of the <strong>APPDOMAIN</strong> environment variable is \"True\", it calls the <code>Message.Display</code> method in a new application domain. Otherwise, it executes the <code>Message.Display</code> method in the current application domain. </p>System.Environment.SetEnvironmentVariable#1<p>If you run the example for the first time, the message \"Executing in domain Domain2\" displays to the console. If you set the environment variable from the command line by using the command:</p><p><code>Set AppDomain=False</code></p><p>the example displays the message \"Executing in domain exeName.exe\", where exeName is the name of the executable. </p>"
   - "\n<p>The following example attempts to retrieve the value of an environment variable named <code>Test1</code> from the process environment block. If the variable doesn't exist, the example creates the variable and retrieves its value. The example displays the value of the variable. If the example created the variable, it also calls the <xref href=\"System.Environment.GetEnvironmentVariables(System.EnvironmentVariableTarget)\" data-throw-if-not-resolved=\"false\"></xref> method with each member of the <xref href=\"System.EnvironmentVariableTarget\" data-throw-if-not-resolved=\"false\"></xref> enumeration to establish that the variable can be retrieved only from the current process environment block. Finally, if the example created the variable, it deletes it. </p>System.Environment.GetEnvironmentVariable#2"
   syntax:
-    content: public static void SetEnvironmentVariable(string variable, string value)
-    content.vb: Public Shared Sub SetEnvironmentVariable(variable As String, value As String)
+    content: >-
+      [SecuritySafeCritical]
+
+      public static void SetEnvironmentVariable(string variable, string value)
+    content.vb: >-
+      <SecuritySafeCritical>
+
+      Public Shared Sub SetEnvironmentVariable(variable As String, value As String)
     parameters:
     - id: variable
       type: System.String
-      description: "\n<p>The name of an environment variable.</p>\n"
     - id: value
       type: System.String
-      description: "\n<p>A value to assign to <em>variable</em>.</p>\n"
   exceptions:
   - type: System.ArgumentNullException
     commentId: T:System.ArgumentNullException
@@ -696,12 +770,12 @@ items:
   type: Method
   source:
     remote:
-      path: src/System.Runtime.Extensions/ref/System.Runtime.Extensions.cs
+      path: src/mscorlib/src/System/Environment.cs
       branch: master
-      repo: https://github.com/dotnet/corefx.git
+      repo: https://github.com/dotnet/coreclr.git
     id: GetCommandLineArgs
-    path: src/System.Runtime.Extensions/ref/System.Runtime.Extensions.cs
-    startLine: 449
+    path: src/mscorlib/src/System/Environment.cs
+    startLine: 573
   assemblies:
   - System.Runtime.Extensions
   namespace: System
@@ -710,11 +784,16 @@ items:
   example:
   - "\n<p>The following example displays the application's command line arguments.</p>Environment.GetCommandLineArgs#1"
   syntax:
-    content: public static string[] GetCommandLineArgs()
-    content.vb: Public Shared Function GetCommandLineArgs As String()
+    content: >-
+      [SecuritySafeCritical]
+
+      public static string[] GetCommandLineArgs()
+    content.vb: >-
+      <SecuritySafeCritical>
+
+      Public Shared Function GetCommandLineArgs As String()
     return:
       type: System.String[]
-      description: "\n<p>An array of string where each element contains a command-line argument. The first element is the executable file name, and the following zero or more elements contain the remaining command-line arguments.</p>\n"
   exceptions:
   - type: System.NotSupportedException
     commentId: T:System.NotSupportedException
@@ -741,6 +820,215 @@ references:
   isExternal: false
   name: Object
   fullName: System.Object
+- uid: System.Object.ToString
+  parent: System.Object
+  isExternal: true
+  name: ToString()
+  fullName: System.Object.ToString()
+  spec.csharp:
+  - uid: System.Object.ToString
+    name: ToString
+    fullName: System.Object.ToString
+    isExternal: true
+  - name: (
+    fullName: (
+  - name: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.ToString
+    name: ToString
+    fullName: System.Object.ToString
+    isExternal: true
+  - name: (
+    fullName: (
+  - name: )
+    fullName: )
+- uid: System.Object.Equals(System.Object)
+  parent: System.Object
+  isExternal: true
+  name: Equals(Object)
+  fullName: System.Object.Equals(System.Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    fullName: )
+- uid: System.Object.Equals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  name: Equals(Object, Object)
+  fullName: System.Object.Equals(System.Object, System.Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    fullName: )
+- uid: System.Object.ReferenceEquals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  name: ReferenceEquals(Object, Object)
+  fullName: System.Object.ReferenceEquals(System.Object, System.Object)
+  spec.csharp:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    fullName: System.Object.ReferenceEquals
+    isExternal: true
+  - name: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    fullName: System.Object.ReferenceEquals
+    isExternal: true
+  - name: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    fullName: )
+- uid: System.Object.GetHashCode
+  parent: System.Object
+  isExternal: true
+  name: GetHashCode()
+  fullName: System.Object.GetHashCode()
+  spec.csharp:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    fullName: System.Object.GetHashCode
+    isExternal: true
+  - name: (
+    fullName: (
+  - name: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    fullName: System.Object.GetHashCode
+    isExternal: true
+  - name: (
+    fullName: (
+  - name: )
+    fullName: )
+- uid: System.Object.GetType
+  parent: System.Object
+  isExternal: true
+  name: GetType()
+  fullName: System.Object.GetType()
+  spec.csharp:
+  - uid: System.Object.GetType
+    name: GetType
+    fullName: System.Object.GetType
+    isExternal: true
+  - name: (
+    fullName: (
+  - name: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.GetType
+    name: GetType
+    fullName: System.Object.GetType
+    isExternal: true
+  - name: (
+    fullName: (
+  - name: )
+    fullName: )
+- uid: System.Object.MemberwiseClone
+  parent: System.Object
+  isExternal: true
+  name: MemberwiseClone()
+  fullName: System.Object.MemberwiseClone()
+  spec.csharp:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    fullName: System.Object.MemberwiseClone
+    isExternal: true
+  - name: (
+    fullName: (
+  - name: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    fullName: System.Object.MemberwiseClone
+    isExternal: true
+  - name: (
+    fullName: (
+  - name: )
+    fullName: )
 - uid: System.Int32
   parent: System
   isExternal: false
@@ -771,7 +1059,7 @@ references:
   name: System.Collections
   fullName: System.Collections
 - uid: System.String[]
-  isExternal: false
+  isExternal: true
   name: String[]
   fullName: System.String[]
   fullname.vb: System.String()
@@ -780,12 +1068,14 @@ references:
   - uid: System.String
     name: String
     fullName: System.String
+    isExternal: true
   - name: '[]'
     fullName: '[]'
   spec.vb:
   - uid: System.String
     name: String
     fullName: System.String
+    isExternal: true
   - name: ()
     fullName: ()
 - uid: System.InvalidOperationException

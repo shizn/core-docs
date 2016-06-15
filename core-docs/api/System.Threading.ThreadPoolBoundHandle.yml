@@ -19,12 +19,12 @@ items:
   type: Class
   source:
     remote:
-      path: src/System.Threading.Overlapped/src/System/Threading/ClrThreadPoolBoundHandle.cs
+      path: src/System.Threading.Overlapped/ref/System.Threading.Overlapped.cs
       branch: master
       repo: https://github.com/dotnet/corefx.git
     id: ThreadPoolBoundHandle
-    path: src/System.Threading.Overlapped/src/System/Threading/ClrThreadPoolBoundHandle.cs
-    startLine: 17
+    path: src/System.Threading.Overlapped/ref/System.Threading.Overlapped.cs
+    startLine: 28
   assemblies:
   - System.Threading.Overlapped
   namespace: System.Threading
@@ -32,9 +32,19 @@ items:
     content: 'public sealed class ThreadPoolBoundHandle : IDisposable'
     content.vb: >-
       Public NotInheritable Class ThreadPoolBoundHandle
-          Inherits IDisposable
+          Implements IDisposable
   inheritance:
   - System.Object
+  implements:
+  - System.IDisposable
+  inheritedMembers:
+  - System.Object.ToString
+  - System.Object.Equals(System.Object)
+  - System.Object.Equals(System.Object,System.Object)
+  - System.Object.ReferenceEquals(System.Object,System.Object)
+  - System.Object.GetHashCode
+  - System.Object.GetType
+  - System.Object.MemberwiseClone
   modifiers.csharp:
   - public
   - sealed
@@ -55,12 +65,12 @@ items:
   type: Property
   source:
     remote:
-      path: src/System.Threading.Overlapped/src/System/Threading/ClrThreadPoolBoundHandle.cs
+      path: src/System.Threading.Overlapped/ref/System.Threading.Overlapped.cs
       branch: master
       repo: https://github.com/dotnet/corefx.git
     id: Handle
-    path: src/System.Threading.Overlapped/src/System/Threading/ClrThreadPoolBoundHandle.cs
-    startLine: 33
+    path: src/System.Threading.Overlapped/ref/System.Threading.Overlapped.cs
+    startLine: 31
   assemblies:
   - System.Threading.Overlapped
   namespace: System.Threading
@@ -69,8 +79,7 @@ items:
     content.vb: Public ReadOnly Property Handle As SafeHandle
     parameters: []
     return:
-      type: SafeHandle
-      description: "\n    A <see cref=\"!:SafeHandle\"></see> object that holds the bound operating system handle.\n"
+      type: System.Runtime.InteropServices.SafeHandle
   modifiers.csharp:
   - public
   - get
@@ -99,8 +108,14 @@ items:
   - System.Threading.Overlapped
   namespace: System.Threading
   syntax:
-    content: public NativeOverlapped*AllocateNativeOverlapped(IOCompletionCallback callback, object state, object pinData)
-    content.vb: Public Function AllocateNativeOverlapped(callback As IOCompletionCallback, state As Object, pinData As Object) As NativeOverlapped
+    content: >-
+      [CLSCompliant(false)]
+
+      public NativeOverlapped*AllocateNativeOverlapped(IOCompletionCallback callback, object state, object pinData)
+    content.vb: >-
+      <CLSCompliant(False)>
+
+      Public Function AllocateNativeOverlapped(callback As IOCompletionCallback, state As Object, pinData As Object) As NativeOverlapped
     parameters:
     - id: callback
       type: System.Threading.IOCompletionCallback
@@ -110,6 +125,12 @@ items:
       type: System.Object
     return:
       type: System.Threading.NativeOverlapped*
+  attributes:
+  - type: System.CLSCompliantAttribute
+    ctor: System.CLSCompliantAttribute.#ctor(System.Boolean)
+    arguments:
+    - type: System.Boolean
+      value: false
   modifiers.csharp:
   - public
   modifiers.vb:
@@ -126,25 +147,35 @@ items:
   type: Method
   source:
     remote:
-      path: src/System.Threading.Overlapped/src/System/Threading/ClrThreadPoolBoundHandle.cs
+      path: src/System.Threading.Overlapped/ref/System.Threading.Overlapped.cs
       branch: master
       repo: https://github.com/dotnet/corefx.git
     id: AllocateNativeOverlapped
-    path: src/System.Threading.Overlapped/src/System/Threading/ClrThreadPoolBoundHandle.cs
-    startLine: 191
+    path: src/System.Threading.Overlapped/ref/System.Threading.Overlapped.cs
+    startLine: 34
   assemblies:
   - System.Threading.Overlapped
   namespace: System.Threading
   syntax:
-    content: public NativeOverlapped*AllocateNativeOverlapped(PreAllocatedOverlapped preAllocated)
-    content.vb: Public Function AllocateNativeOverlapped(preAllocated As PreAllocatedOverlapped) As NativeOverlapped
+    content: >-
+      [CLSCompliant(false)]
+
+      public NativeOverlapped*AllocateNativeOverlapped(PreAllocatedOverlapped preAllocated)
+    content.vb: >-
+      <CLSCompliant(False)>
+
+      Public Function AllocateNativeOverlapped(preAllocated As PreAllocatedOverlapped) As NativeOverlapped
     parameters:
     - id: preAllocated
       type: System.Threading.PreAllocatedOverlapped
-      description: "\n    A <xref href=\"System.Threading.PreAllocatedOverlapped\" data-throw-if-not-resolved=\"false\"></xref> object from which to create the NativeOverlapped pointer.\n"
     return:
-      type: NativeOverlapped*
-      description: "\n    An unmanaged pointer to a <see cref=\"!:NativeOverlapped\"></see> structure.\n"
+      type: System.Threading.NativeOverlapped*
+  attributes:
+  - type: System.CLSCompliantAttribute
+    ctor: System.CLSCompliantAttribute.#ctor(System.Boolean)
+    arguments:
+    - type: System.Boolean
+      value: false
   modifiers.csharp:
   - public
   modifiers.vb:
@@ -156,7 +187,7 @@ items:
   langs:
   - csharp
   - vb
-  name: BindHandle(Runtime.InteropServices.SafeHandle)
+  name: BindHandle(SafeHandle)
   fullName: System.Threading.ThreadPoolBoundHandle.BindHandle(System.Runtime.InteropServices.SafeHandle)
   type: Method
   source:
@@ -171,8 +202,8 @@ items:
   - System.Threading.Overlapped
   namespace: System.Threading
   syntax:
-    content: public static ThreadPoolBoundHandle BindHandle(Runtime.InteropServices.SafeHandle handle)
-    content.vb: Public Shared Function BindHandle(handle As Runtime.InteropServices.SafeHandle) As ThreadPoolBoundHandle
+    content: public static ThreadPoolBoundHandle BindHandle(SafeHandle handle)
+    content.vb: Public Shared Function BindHandle(handle As SafeHandle) As ThreadPoolBoundHandle
     parameters:
     - id: handle
       type: System.Runtime.InteropServices.SafeHandle
@@ -196,18 +227,20 @@ items:
   type: Method
   source:
     remote:
-      path: src/System.Threading.Overlapped/src/System/Threading/ClrThreadPoolBoundHandle.cs
+      path: src/System.Threading.Overlapped/ref/System.Threading.Overlapped.cs
       branch: master
       repo: https://github.com/dotnet/corefx.git
     id: Dispose
-    path: src/System.Threading.Overlapped/src/System/Threading/ClrThreadPoolBoundHandle.cs
-    startLine: 302
+    path: src/System.Threading.Overlapped/ref/System.Threading.Overlapped.cs
+    startLine: 37
   assemblies:
   - System.Threading.Overlapped
   namespace: System.Threading
   syntax:
     content: public void Dispose()
     content.vb: Public Sub Dispose
+  implements:
+  - System.IDisposable.Dispose
   modifiers.csharp:
   - public
   modifiers.vb:
@@ -234,11 +267,23 @@ items:
   - System.Threading.Overlapped
   namespace: System.Threading
   syntax:
-    content: public void FreeNativeOverlapped(NativeOverlapped*overlapped)
-    content.vb: Public Sub FreeNativeOverlapped(overlapped As NativeOverlapped *)
+    content: >-
+      [CLSCompliant(false)]
+
+      public void FreeNativeOverlapped(NativeOverlapped*overlapped)
+    content.vb: >-
+      <CLSCompliant(False)>
+
+      Public Sub FreeNativeOverlapped(overlapped As NativeOverlapped *)
     parameters:
     - id: overlapped
       type: System.Threading.NativeOverlapped*
+  attributes:
+  - type: System.CLSCompliantAttribute
+    ctor: System.CLSCompliantAttribute.#ctor(System.Boolean)
+    arguments:
+    - type: System.Boolean
+      value: false
   modifiers.csharp:
   - public
   modifiers.vb:
@@ -265,13 +310,25 @@ items:
   - System.Threading.Overlapped
   namespace: System.Threading
   syntax:
-    content: public static object GetNativeOverlappedState(NativeOverlapped*overlapped)
-    content.vb: Public Shared Function GetNativeOverlappedState(overlapped As NativeOverlapped *) As Object
+    content: >-
+      [CLSCompliant(false)]
+
+      public static object GetNativeOverlappedState(NativeOverlapped*overlapped)
+    content.vb: >-
+      <CLSCompliant(False)>
+
+      Public Shared Function GetNativeOverlappedState(overlapped As NativeOverlapped *) As Object
     parameters:
     - id: overlapped
       type: System.Threading.NativeOverlapped*
     return:
       type: System.Object
+  attributes:
+  - type: System.CLSCompliantAttribute
+    ctor: System.CLSCompliantAttribute.#ctor(System.Boolean)
+    arguments:
+    - type: System.Boolean
+      value: false
   modifiers.csharp:
   - public
   - static
@@ -288,6 +345,220 @@ references:
   isExternal: false
   name: Object
   fullName: System.Object
+- uid: System.IDisposable
+  parent: System
+  isExternal: false
+  name: IDisposable
+  fullName: System.IDisposable
+- uid: System.Object.ToString
+  parent: System.Object
+  isExternal: true
+  name: ToString()
+  fullName: System.Object.ToString()
+  spec.csharp:
+  - uid: System.Object.ToString
+    name: ToString
+    fullName: System.Object.ToString
+    isExternal: true
+  - name: (
+    fullName: (
+  - name: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.ToString
+    name: ToString
+    fullName: System.Object.ToString
+    isExternal: true
+  - name: (
+    fullName: (
+  - name: )
+    fullName: )
+- uid: System.Object.Equals(System.Object)
+  parent: System.Object
+  isExternal: true
+  name: Equals(Object)
+  fullName: System.Object.Equals(System.Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    fullName: )
+- uid: System.Object.Equals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  name: Equals(Object, Object)
+  fullName: System.Object.Equals(System.Object, System.Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    fullName: )
+- uid: System.Object.ReferenceEquals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  name: ReferenceEquals(Object, Object)
+  fullName: System.Object.ReferenceEquals(System.Object, System.Object)
+  spec.csharp:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    fullName: System.Object.ReferenceEquals
+    isExternal: true
+  - name: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    fullName: System.Object.ReferenceEquals
+    isExternal: true
+  - name: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    fullName: )
+- uid: System.Object.GetHashCode
+  parent: System.Object
+  isExternal: true
+  name: GetHashCode()
+  fullName: System.Object.GetHashCode()
+  spec.csharp:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    fullName: System.Object.GetHashCode
+    isExternal: true
+  - name: (
+    fullName: (
+  - name: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    fullName: System.Object.GetHashCode
+    isExternal: true
+  - name: (
+    fullName: (
+  - name: )
+    fullName: )
+- uid: System.Object.GetType
+  parent: System.Object
+  isExternal: true
+  name: GetType()
+  fullName: System.Object.GetType()
+  spec.csharp:
+  - uid: System.Object.GetType
+    name: GetType
+    fullName: System.Object.GetType
+    isExternal: true
+  - name: (
+    fullName: (
+  - name: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.GetType
+    name: GetType
+    fullName: System.Object.GetType
+    isExternal: true
+  - name: (
+    fullName: (
+  - name: )
+    fullName: )
+- uid: System.Object.MemberwiseClone
+  parent: System.Object
+  isExternal: true
+  name: MemberwiseClone()
+  fullName: System.Object.MemberwiseClone()
+  spec.csharp:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    fullName: System.Object.MemberwiseClone
+    isExternal: true
+  - name: (
+    fullName: (
+  - name: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    fullName: System.Object.MemberwiseClone
+    isExternal: true
+  - name: (
+    fullName: (
+  - name: )
+    fullName: )
 - uid: System
   isExternal: false
   name: System
@@ -295,7 +566,7 @@ references:
 - uid: System.Runtime.InteropServices.SafeHandle
   parent: System.Runtime.InteropServices
   isExternal: false
-  name: Runtime.InteropServices.SafeHandle
+  name: SafeHandle
   fullName: System.Runtime.InteropServices.SafeHandle
 - uid: System.Runtime.InteropServices
   isExternal: false
@@ -332,3 +603,24 @@ references:
   isExternal: false
   name: ThreadPoolBoundHandle
   fullName: System.Threading.ThreadPoolBoundHandle
+- uid: System.IDisposable.Dispose
+  parent: System.IDisposable
+  isExternal: false
+  name: Dispose()
+  fullName: System.IDisposable.Dispose()
+  spec.csharp:
+  - uid: System.IDisposable.Dispose
+    name: Dispose
+    fullName: System.IDisposable.Dispose
+  - name: (
+    fullName: (
+  - name: )
+    fullName: )
+  spec.vb:
+  - uid: System.IDisposable.Dispose
+    name: Dispose
+    fullName: System.IDisposable.Dispose
+  - name: (
+    fullName: (
+  - name: )
+    fullName: )

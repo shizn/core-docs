@@ -57,27 +57,44 @@ items:
   type: Class
   source:
     remote:
-      path: src/System.Private.Uri/src/System/UriExt.cs
+      path: src/System.Runtime/ref/System.Runtime.cs
       branch: master
       repo: https://github.com/dotnet/corefx.git
     id: Uri
-    path: src/System.Private.Uri/src/System/UriExt.cs
-    startLine: 11
+    path: src/System.Runtime/ref/System.Runtime.cs
+    startLine: 2131
   assemblies:
   - System.Runtime
   namespace: System
+  summary: "\n<p>Provides an object representation of a uniform resource identifier (URI) and easy access to the parts of the URI.</p>\n"
+  remarks: "\n<p>A URI is a compact representation of a resource available to your application on the intranet or Internet. The <xref href=\"System.Uri\" data-throw-if-not-resolved=\"false\"></xref> class defines the properties and methods for handling URIs, including parsing, comparing, and combining. The <xref href=\"System.Uri\" data-throw-if-not-resolved=\"false\"></xref> class properties are read-only; to create a modifiable object, use the <xref href=\"System.UriBuilder\" data-throw-if-not-resolved=\"false\"></xref> class.</p>\n<p>Relative URIs (for example, \"/new/index.htm\") must be expanded with respect to a base URI so that they are absolute. The <xref href=\"System.Uri.MakeRelative(System.Uri)\" data-throw-if-not-resolved=\"false\"></xref> method is provided to convert absolute URIs to relative URIs when necessary.</p>\n<p>The <xref href=\"System.Uri\" data-throw-if-not-resolved=\"false\"></xref> constructors do not escape URI strings if the string is a well-formed URI including a scheme identifier.</p>\n<p>The <xref href=\"System.Uri\" data-throw-if-not-resolved=\"false\"></xref> properties return a canonical data representation in escaped encoding, with all characters with Unicode values greater than 127 replaced with their hexadecimal equivalents. To put the URI in canonical form, the <xref href=\"System.Uri\" data-throw-if-not-resolved=\"false\"></xref> constructor performs the following steps: </p>\n<ul><li>\n<p>Converts the URI scheme to lowercase.</p>\n</li><li>\n<p>Converts the host name to lowercase.</p>\n</li><li>\n<p>If the host name is an IPv6 address, the canonical IPv6 address is used. ScopeId and other optional IPv6 data are removed.</p>\n</li><li>\n<p>Removes default and empty port numbers.</p>\n</li><li>\n<p>Canonicalizes the path for hierarchical URIs by compacting sequences such as /./, /../, //, including escaped representations. Note that there are some schemes for which escaped representations are not compacted. </p>\n</li><li>\n<p>For hierarchical URIs, if the host is not terminated with a forward slash (/), one is added.</p>\n</li><li>\n<p>By default, any reserved characters in the URI are escaped in accordance with RFC 2396. This behavior changes if International Resource Identifiers or International Domain Name parsing is enabled in which case reserved characters in the URI are escaped in accordance with RFC 3986 and RFC 3987.</p>\n</li></ul>\n<p>As part of canonicalization in the constructor for some schemes, escaped representations are compacted. The schemes for which URI will compact escaped sequences include the following: file, http, https, net.pipe, and net.tcp. For all other schemes, escaped sequences are not compacted. For example: if you percent encode the two dots \"..\" as \"%2E%2E\" then the URI constructor will compact this sequence for some schemes. For example, the following code sample shows a URI constructor for the http scheme. </p>\n<pre><code>Uri uri = new Uri(\"http://myUrl/%2E%2E/%2E%2E\");\nConsole.WriteLine(uri.AbsoluteUri);\nConsole.WriteLine(uri.PathAndQuery);</code></pre>\n<p>When this code is executed, it returns the following output with the escaped sequence compacted.</p>\n<pre><code>http://myUrl/\n/</code></pre>\n<p>The following code example shows a URI constructor for the ftp scheme:</p>\n<pre><code>Uri uri = new Uri(\"ftp://myUrl/%2E%2E/%2E%2E\");\nConsole.WriteLine(uri.AbsoluteUri);\nConsole.WriteLine(uri.PathAndQuery);</code></pre>\n<p>When this code is executed, it returns the following output with the escaped sequence not compacted.</p>\n<pre><code>ftp://myUrl/%2E%2E/%2E%2E\n/%2E%2E/%2E%2E</code></pre>\n<p>You can transform the contents of the <xref href=\"System.Uri\" data-throw-if-not-resolved=\"false\"></xref> class from an escape encoded URI reference to a readable URI reference by using the <xref href=\"System.Uri.ToString\" data-throw-if-not-resolved=\"false\"></xref> method. Note that some reserved characters might still be escaped in the output of the <xref href=\"System.Uri.ToString\" data-throw-if-not-resolved=\"false\"></xref> method. This is to support unambiguous reconstruction of a URI from the value returned by <xref href=\"System.Uri.ToString\" data-throw-if-not-resolved=\"false\"></xref>.</p>\n<p>Some URIs include a fragment identifier or a query or both. A fragment identifier is any text that follows a number sign (#), not including the number sign; the fragment text is stored in the <xref href=\"System.Uri.Fragment\" data-throw-if-not-resolved=\"false\"></xref> property. Query information is any text that follows a question mark (?) in the URI; the query text is stored in the <xref href=\"System.Uri.Query\" data-throw-if-not-resolved=\"false\"></xref> property.</p>\n<p>In the .NET Framework version 1.1, if the string specified to a constructor contains an unknown scheme and \"c:\\\", the Uri class inserts \"//\" after the colon. For example, the URI <code>xyz:c:\\abc</code> is converted to <code>xyz://c:/abc</code>. In the .NET Framework version 2.0, this behavior has been removed, and the example string is converted to <code>xyz:c:/abc</code>.</p>\n<p>The URI class supports the use of IP addresses in both quad-notation for IPv4 protocol and colon-hexadecimal for IPv6 protocol. Remember to enclose the IPv6 address in square brackets, as in http://[::1].</p>\n"
+  example:
+  - <p>The following example creates an instance of the <xref href="System.Uri" data-throw-if-not-resolved="false"></xref> class and uses it to create a <xref href="System.Net.WebRequest" data-throw-if-not-resolved="false"></xref> instance.</p>Classic Uri Example#1
   syntax:
-    content: 'public class Uri : object'
-    content.vb: >-
-      Public Class Uri
-          Inherits Object
+    content: public class Uri
+    content.vb: Public Class Uri
+  seealso:
+  - type: System.Configuration.IdnElement
+    commentId: T:System.Configuration.IdnElement
+  - type: System.Configuration.IriParsingElement
+    commentId: T:System.Configuration.IriParsingElement
+  - type: System.Configuration.UriSection
+    commentId: T:System.Configuration.UriSection
+  - type: System.Uri.DnsSafeHost
+    commentId: P:System.Uri.DnsSafeHost
+  - type: System.Uri.MakeRelative(System.Uri)
+    commentId: M:System.Uri.MakeRelative(System.Uri)
+  - type: System.Uri.IsWellFormedOriginalString
+    commentId: M:System.Uri.IsWellFormedOriginalString
+  - type: System.UriBuilder
+    commentId: T:System.UriBuilder
   inheritance:
   - System.Object
   inheritedMembers:
   - System.Object.Equals(System.Object,System.Object)
+  - System.Object.ReferenceEquals(System.Object,System.Object)
   - System.Object.GetType
   - System.Object.MemberwiseClone
-  - System.Object.ReferenceEquals(System.Object,System.Object)
   modifiers.csharp:
   - public
   - class
@@ -96,21 +113,33 @@ items:
   type: Constructor
   source:
     remote:
-      path: src/System.Private.Uri/src/System/Uri.cs
+      path: src/System.Runtime/ref/System.Runtime.cs
       branch: master
       repo: https://github.com/dotnet/corefx.git
     id: .ctor
-    path: src/System.Private.Uri/src/System/Uri.cs
-    startLine: 321
+    path: src/System.Runtime/ref/System.Runtime.cs
+    startLine: 2133
   assemblies:
   - System.Runtime
   namespace: System
+  summary: "\n<p>Initializes a new instance of the <xref href=\"System.Uri\" data-throw-if-not-resolved=\"false\"></xref> class with the specified URI.</p>\n"
+  remarks: "\n<p>This constructor creates a <xref href=\"System.Uri\" data-throw-if-not-resolved=\"false\"></xref> instance from a URI string. It parses the URI, puts it in canonical format, and makes any required escape encodings.</p>\n<p>This constructor does not ensure that the <xref href=\"System.Uri\" data-throw-if-not-resolved=\"false\"></xref> refers to an accessible resource.</p>\n<p>This constructor assumes that the <em>string</em> parameter references an absolute URI and is equivalent to calling the <xref href=\"System.Uri.#ctor(System.String,System.UriKind)\" data-throw-if-not-resolved=\"false\"></xref> constructor with <xref href=\"System.UriKind\" data-throw-if-not-resolved=\"false\"></xref> set to <xref href=\"System.UriKind.Absolute\" data-throw-if-not-resolved=\"false\"></xref>. If the <em>string</em> parameter passed to the constructor is a relative URI, this constructor will throw a <xref href=\"System.UriFormatException\" data-throw-if-not-resolved=\"false\"></xref>.</p>\n"
+  example:
+  - "\n<p>The following example creates a <xref href=\"System.Uri\" data-throw-if-not-resolved=\"false\"></xref> instance with the URI \"http://www.contoso.com/\".</p>Classic Uri.Uri Example#1"
   syntax:
     content: public Uri(string uriString)
     content.vb: Public Sub New(uriString As String)
     parameters:
     - id: uriString
       type: System.String
+      description: "\n<p>A URI. </p>\n"
+  exceptions:
+  - type: System.ArgumentNullException
+    commentId: T:System.ArgumentNullException
+    description: "\n<p>\n<em>uriString</em> is <strong>null</strong>. </p>\n"
+  - type: System.UriFormatException
+    commentId: T:System.UriFormatException
+    description: "\n<p>In the <see href=\"http://go.microsoft.com/fwlink/?LinkID=247912\">.NET for Windows Store apps</see> or the Portable Class Library, catch the base class exception, <xref href=\"System.FormatException\" data-throw-if-not-resolved=\"false\"></xref>, instead.</p>\n<p>\n<em>uriString</em> is empty.</p>\n<p>-or- </p>\n<p>The scheme specified in <em>uriString</em> is not correctly formed. See <xref href=\"System.Uri.CheckSchemeName(System.String)\" data-throw-if-not-resolved=\"false\"></xref>.</p>\n<p>-or- </p>\n<p>\n<em>uriString</em> contains too many slashes.</p>\n<p>-or- </p>\n<p>The password specified in <em>uriString</em> is not valid.</p>\n<p>-or- </p>\n<p>The host name specified in <em>uriString</em> is not valid.</p>\n<p>-or- </p>\n<p>The file name specified in <em>uriString</em> is not valid. </p>\n<p>-or- </p>\n<p>The user name specified in <em>uriString</em> is not valid.</p>\n<p>-or- </p>\n<p>The host or authority name specified in <em>uriString</em> cannot be terminated by backslashes.</p>\n<p>-or- </p>\n<p>The port number specified in <em>uriString</em> is not valid or cannot be parsed.</p>\n<p>-or- </p>\n<p>The length of <em>uriString</em> exceeds 65519 characters.</p>\n<p>-or- </p>\n<p>The length of the scheme specified in <em>uriString</em> exceeds 1023 characters.</p>\n<p>-or- </p>\n<p>There is an invalid character sequence in <em>uriString</em>.</p>\n<p>-or- </p>\n<p>The MS-DOS path specified in <em>uriString</em> must start with c:\\\\.</p>\n"
   modifiers.csharp:
   - public
   modifiers.vb:
@@ -127,23 +156,37 @@ items:
   type: Constructor
   source:
     remote:
-      path: src/System.Private.Uri/src/System/Uri.cs
+      path: src/System.Runtime/ref/System.Runtime.cs
       branch: master
       repo: https://github.com/dotnet/corefx.git
     id: .ctor
-    path: src/System.Private.Uri/src/System/Uri.cs
-    startLine: 332
+    path: src/System.Runtime/ref/System.Runtime.cs
+    startLine: 2134
   assemblies:
   - System.Runtime
   namespace: System
+  summary: "\n<p>Initializes a new instance of the <xref href=\"System.Uri\" data-throw-if-not-resolved=\"false\"></xref> class with the specified URI. This constructor allows you to specify if the URI string is a relative URI, absolute URI, or is indeterminate.</p>\n"
+  remarks: "\n<p>Relative and absolute URIs have different restrictions on their format. For example, a relative URI does not require a scheme or an authority. The value you specify in <em>uriKind</em> must match the type of URI passed in <em>uriString</em>. However, if <xref href=\"System.UriKind.RelativeOrAbsolute\" data-throw-if-not-resolved=\"false\"></xref> is specified, the URI string can be relative or absolute.</p>\n"
   syntax:
     content: public Uri(string uriString, UriKind uriKind)
     content.vb: Public Sub New(uriString As String, uriKind As UriKind)
     parameters:
     - id: uriString
       type: System.String
+      description: "\n<p>A string that identifies the resource to be represented by the <xref href=\"System.Uri\" data-throw-if-not-resolved=\"false\"></xref> instance.</p>\n"
     - id: uriKind
       type: System.UriKind
+      description: "\n<p>Specifies whether the URI string is a relative URI, absolute URI, or is indeterminate.</p>\n"
+  exceptions:
+  - type: System.ArgumentException
+    commentId: T:System.ArgumentException
+    description: "\n<p>\n<em>uriKind</em> is invalid. </p>\n"
+  - type: System.ArgumentNullException
+    commentId: T:System.ArgumentNullException
+    description: "\n<p>\n<em>uriString</em> is <strong>null</strong>. </p>\n"
+  - type: System.UriFormatException
+    commentId: T:System.UriFormatException
+    description: "\n<p>In the <see href=\"http://go.microsoft.com/fwlink/?LinkID=247912\">.NET for Windows Store apps</see> or the Portable Class Library, catch the base class exception, <xref href=\"System.FormatException\" data-throw-if-not-resolved=\"false\"></xref>, instead.</p>\n<p>\n<em>uriString</em> contains a relative URI and <em>uriKind</em> is <xref href=\"System.UriKind.Absolute\" data-throw-if-not-resolved=\"false\"></xref>.</p>\n<p>or</p>\n<p>\n<em>uriString</em> contains an absolute URI and <em>uriKind</em> is <xref href=\"System.UriKind.Relative\" data-throw-if-not-resolved=\"false\"></xref>.</p>\n<p>or</p>\n<p>\n<em>uriString</em> is empty.</p>\n<p>-or- </p>\n<p>The scheme specified in <em>uriString</em> is not correctly formed. See <xref href=\"System.Uri.CheckSchemeName(System.String)\" data-throw-if-not-resolved=\"false\"></xref>.</p>\n<p>-or- </p>\n<p>\n<em>uriString</em> contains too many slashes.</p>\n<p>-or- </p>\n<p>The password specified in <em>uriString</em> is not valid.</p>\n<p>-or- </p>\n<p>The host name specified in <em>uriString</em> is not valid.</p>\n<p>-or- </p>\n<p>The file name specified in <em>uriString</em> is not valid. </p>\n<p>-or- </p>\n<p>The user name specified in <em>uriString</em> is not valid.</p>\n<p>-or- </p>\n<p>The host or authority name specified in <em>uriString</em> cannot be terminated by backslashes.</p>\n<p>-or- </p>\n<p>The port number specified in <em>uriString</em> is not valid or cannot be parsed.</p>\n<p>-or- </p>\n<p>The length of <em>uriString</em> exceeds 65519 characters.</p>\n<p>-or- </p>\n<p>The length of the scheme specified in <em>uriString</em> exceeds 1023 characters.</p>\n<p>-or- </p>\n<p>There is an invalid character sequence in <em>uriString</em>.</p>\n<p>-or- </p>\n<p>The MS-DOS path specified in <em>uriString</em> must start with c:\\\\.</p>\n"
   modifiers.csharp:
   - public
   modifiers.vb:
@@ -160,23 +203,39 @@ items:
   type: Constructor
   source:
     remote:
-      path: src/System.Private.Uri/src/System/Uri.cs
+      path: src/System.Runtime/ref/System.Runtime.cs
       branch: master
       repo: https://github.com/dotnet/corefx.git
     id: .ctor
-    path: src/System.Private.Uri/src/System/Uri.cs
-    startLine: 347
+    path: src/System.Runtime/ref/System.Runtime.cs
+    startLine: 2135
   assemblies:
   - System.Runtime
   namespace: System
+  summary: "\n<p>Initializes a new instance of the <xref href=\"System.Uri\" data-throw-if-not-resolved=\"false\"></xref> class based on the specified base URI and relative URI string.</p>\n"
+  remarks: "\n<p>This constructor creates a <xref href=\"System.Uri\" data-throw-if-not-resolved=\"false\"></xref> instance by combining the <em>baseUri</em> and the <em>relativeUri</em>. If <em>relativeUri</em> is an absolute URI (containing a scheme, host name, and optionally a port number), the <xref href=\"System.Uri\" data-throw-if-not-resolved=\"false\"></xref> instance is created using only <em>relativeUri</em>.</p>\n<p>This constructor does not ensure that the <xref href=\"System.Uri\" data-throw-if-not-resolved=\"false\"></xref> refers to an accessible resource.</p>\n"
+  example:
+  - "\n<p>The following example creates a new instance of the <xref href=\"System.Uri\" data-throw-if-not-resolved=\"false\"></xref> class by combining the relative URIs http://www.contoso.com and catalog/showew.htm to form the absolute URI http://www.contoso.com/catalog/shownew.htm.</p>Classic Uri.Uri3 Example#1"
   syntax:
     content: public Uri(Uri baseUri, string relativeUri)
     content.vb: Public Sub New(baseUri As Uri, relativeUri As String)
     parameters:
     - id: baseUri
       type: System.Uri
+      description: "\n<p>The base URI. </p>\n"
     - id: relativeUri
       type: System.String
+      description: "\n<p>The relative URI to add to the base URI. </p>\n"
+  exceptions:
+  - type: System.ArgumentNullException
+    commentId: T:System.ArgumentNullException
+    description: "\n<p>\n<em>baseUri</em> is <strong>null</strong>. </p>\n"
+  - type: System.ArgumentOutOfRangeException
+    commentId: T:System.ArgumentOutOfRangeException
+    description: "\n<p>\n<em>baseUri</em> is not an absolute <xref href=\"System.Uri\" data-throw-if-not-resolved=\"false\"></xref> instance. </p>\n"
+  - type: System.UriFormatException
+    commentId: T:System.UriFormatException
+    description: "\n<p>In the <see href=\"http://go.microsoft.com/fwlink/?LinkID=247912\">.NET for Windows Store apps</see> or the Portable Class Library, catch the base class exception, <xref href=\"System.FormatException\" data-throw-if-not-resolved=\"false\"></xref>, instead.</p>\n<p>The URI formed by combining <em>baseUri</em> and <em>relativeUri</em> is empty or contains only spaces.</p>\n<p>-or- </p>\n<p>The scheme specified in the URI formed by combining <em>baseUri</em> and <em>relativeUri</em> is not valid.</p>\n<p>-or- </p>\n<p>The URI formed by combining <em>baseUri</em> and <em>relativeUri</em> contains too many slashes.</p>\n<p>-or- </p>\n<p>The password specified in the URI formed by combining <em>baseUri</em> and <em>relativeUri</em> is not valid.</p>\n<p>-or- </p>\n<p>The host name specified in the URI formed by combining <em>baseUri</em> and <em>relativeUri</em> is not valid.</p>\n<p>-or- </p>\n<p>The file name specified in the URI formed by combining <em>baseUri</em> and <em>relativeUri</em> is not valid. </p>\n<p>-or- </p>\n<p>The user name specified in the URI formed by combining <em>baseUri</em> and <em>relativeUri</em> is not valid.</p>\n<p>-or- </p>\n<p>The host or authority name specified in the URI formed by combining <em>baseUri</em> and <em>relativeUri</em> cannot be terminated by backslashes.</p>\n<p>-or- </p>\n<p>The port number specified in the URI formed by combining <em>baseUri</em> and <em>relativeUri</em> is not valid or cannot be parsed.</p>\n<p>-or- </p>\n<p>The length of the URI formed by combining <em>baseUri</em> and <em>relativeUri</em> exceeds 65519 characters.</p>\n<p>-or- </p>\n<p>The length of the scheme specified in the URI formed by combining <em>baseUri</em> and <em>relativeUri</em> exceeds 1023 characters.</p>\n<p>-or- </p>\n<p>There is an invalid character sequence in the URI formed by combining <em>baseUri</em> and <em>relativeUri</em>.</p>\n<p>-or- </p>\n<p>The MS-DOS path specified in <em>uriString</em> must start with c:\\\\.</p>\n"
   modifiers.csharp:
   - public
   modifiers.vb:
@@ -193,23 +252,42 @@ items:
   type: Constructor
   source:
     remote:
-      path: src/System.Private.Uri/src/System/Uri.cs
+      path: src/System.Runtime/ref/System.Runtime.cs
       branch: master
       repo: https://github.com/dotnet/corefx.git
     id: .ctor
-    path: src/System.Private.Uri/src/System/Uri.cs
-    startLine: 400
+    path: src/System.Runtime/ref/System.Runtime.cs
+    startLine: 2136
   assemblies:
   - System.Runtime
   namespace: System
+  summary: "\n<p>Initializes a new instance of the <xref href=\"System.Uri\" data-throw-if-not-resolved=\"false\"></xref> class based on the combination of a specified base <xref href=\"System.Uri\" data-throw-if-not-resolved=\"false\"></xref> instance and a relative <xref href=\"System.Uri\" data-throw-if-not-resolved=\"false\"></xref> instance.</p>\n"
+  remarks: "\n<p>This constructor creates a new <xref href=\"System.Uri\" data-throw-if-not-resolved=\"false\"></xref> instance by combining an absolute <xref href=\"System.Uri\" data-throw-if-not-resolved=\"false\"></xref> instance, <em>baseUri</em>, with a relative <xref href=\"System.Uri\" data-throw-if-not-resolved=\"false\"></xref> instance, <em>relativeUri</em>. If <em>relativeUri</em> is an absolute <xref href=\"System.Uri\" data-throw-if-not-resolved=\"false\"></xref> instance (containing a scheme, host name, and optionally a port number), the <xref href=\"System.Uri\" data-throw-if-not-resolved=\"false\"></xref> instance is created using only <em>relativeUri</em>.</p>\n<p>This constructor does not ensure that the <xref href=\"System.Uri\" data-throw-if-not-resolved=\"false\"></xref> refers to an accessible resource.</p>\n"
+  example:
+  - "\n<p>This example creates an absolute <xref href=\"System.Uri\" data-throw-if-not-resolved=\"false\"></xref> instance, <code>absoluteUri</code>, and a relative <xref href=\"System.Uri\" data-throw-if-not-resolved=\"false\"></xref> instance, <code>relativeUri</code>. A new <xref href=\"System.Uri\" data-throw-if-not-resolved=\"false\"></xref> instance, <code>combinedUri</code>, is then created from these two instances.</p>NCLUriEnhancements#2"
   syntax:
     content: public Uri(Uri baseUri, Uri relativeUri)
     content.vb: Public Sub New(baseUri As Uri, relativeUri As Uri)
     parameters:
     - id: baseUri
       type: System.Uri
+      description: "\n<p>An absolute <xref href=\"System.Uri\" data-throw-if-not-resolved=\"false\"></xref> that is the base for the new <xref href=\"System.Uri\" data-throw-if-not-resolved=\"false\"></xref> instance. </p>\n"
     - id: relativeUri
       type: System.Uri
+      description: "\n<p>A relative <xref href=\"System.Uri\" data-throw-if-not-resolved=\"false\"></xref> instance that is combined with <em>baseUri</em>. </p>\n"
+  exceptions:
+  - type: System.ArgumentException
+    commentId: T:System.ArgumentException
+    description: "\n<p>\n<em>baseUri</em> is not an absolute <xref href=\"System.Uri\" data-throw-if-not-resolved=\"false\"></xref> instance. </p>\n"
+  - type: System.ArgumentNullException
+    commentId: T:System.ArgumentNullException
+    description: "\n<p>\n<em>baseUri</em> is <strong>null</strong>. </p>\n"
+  - type: System.ArgumentOutOfRangeException
+    commentId: T:System.ArgumentOutOfRangeException
+    description: "\n<p>\n<em>baseUri</em> is not an absolute <xref href=\"System.Uri\" data-throw-if-not-resolved=\"false\"></xref> instance. </p>\n"
+  - type: System.UriFormatException
+    commentId: T:System.UriFormatException
+    description: "\n<p>In the <see href=\"http://go.microsoft.com/fwlink/?LinkID=247912\">.NET for Windows Store apps</see> or the Portable Class Library, catch the base class exception, <xref href=\"System.FormatException\" data-throw-if-not-resolved=\"false\"></xref>, instead.</p>\n<p>The URI formed by combining <em>baseUri</em> and <em>relativeUri</em> is empty or contains only spaces.</p>\n<p>-or- </p>\n<p>The scheme specified in the URI formed by combining <em>baseUri</em> and <em>relativeUri</em> is not valid.</p>\n<p>-or- </p>\n<p>The URI formed by combining <em>baseUri</em> and <em>relativeUri</em> contains too many slashes.</p>\n<p>-or- </p>\n<p>The password specified in the URI formed by combining <em>baseUri</em> and <em>relativeUri</em> is not valid.</p>\n<p>-or- </p>\n<p>The host name specified in the URI formed by combining <em>baseUri</em> and <em>relativeUri</em> is not valid.</p>\n<p>-or- </p>\n<p>The file name specified in the URI formed by combining <em>baseUri</em> and <em>relativeUri</em> is not valid. </p>\n<p>-or- </p>\n<p>The user name specified in the URI formed by combining <em>baseUri</em> and <em>relativeUri</em> is not valid.</p>\n<p>-or- </p>\n<p>The host or authority name specified in the URI formed by combining <em>baseUri</em> and <em>relativeUri</em> cannot be terminated by backslashes.</p>\n<p>-or- </p>\n<p>The port number specified in the URI formed by combining <em>baseUri</em> and <em>relativeUri</em> is not valid or cannot be parsed.</p>\n<p>-or- </p>\n<p>The length of the URI formed by combining <em>baseUri</em> and <em>relativeUri</em> exceeds 65519 characters.</p>\n<p>-or- </p>\n<p>The length of the scheme specified in the URI formed by combining <em>baseUri</em> and <em>relativeUri</em> exceeds 1023 characters.</p>\n<p>-or- </p>\n<p>There is an invalid character sequence in the URI formed by combining <em>baseUri</em> and <em>relativeUri</em>.</p>\n<p>-or- </p>\n<p>The MS-DOS path specified in <em>uriString</em> must start with c:\\\\.</p>\n"
   modifiers.csharp:
   - public
   modifiers.vb:
@@ -226,21 +304,30 @@ items:
   type: Property
   source:
     remote:
-      path: src/System.Private.Uri/src/System/Uri.cs
+      path: src/System.Runtime/ref/System.Runtime.cs
       branch: master
       repo: https://github.com/dotnet/corefx.git
     id: AbsolutePath
-    path: src/System.Private.Uri/src/System/Uri.cs
-    startLine: 550
+    path: src/System.Runtime/ref/System.Runtime.cs
+    startLine: 2137
   assemblies:
   - System.Runtime
   namespace: System
+  summary: "\n<p>Gets the absolute path of the URI.</p>\n"
+  remarks: "\n<p>The <xref href=\"System.Uri.AbsolutePath\" data-throw-if-not-resolved=\"false\"></xref> property contains the path information that the server uses to resolve requests for information. Typically this is the path to the desired information on the server's file system, although it also can indicate the application or script the server must run to provide the information.</p>\n<p>The path information does not include the scheme, host name, or query portion of the URI.</p>\n"
+  example:
+  - "\n<p>The following example writes the path /catalog/shownew.htm to the console.</p>Classic Uri.AbsolutePath Example#1"
   syntax:
     content: public string AbsolutePath { get; }
     content.vb: Public ReadOnly Property AbsolutePath As String
     parameters: []
     return:
       type: System.String
+      description: "\n<p>A <xref href=\"System.String\" data-throw-if-not-resolved=\"false\"></xref> containing the absolute path to the resource.</p>\n"
+  exceptions:
+  - type: System.InvalidOperationException
+    commentId: T:System.InvalidOperationException
+    description: "\n<p>This instance represents a relative URI, and this property is valid only for absolute URIs. </p>\n"
   modifiers.csharp:
   - public
   - get
@@ -259,21 +346,30 @@ items:
   type: Property
   source:
     remote:
-      path: src/System.Private.Uri/src/System/Uri.cs
+      path: src/System.Runtime/ref/System.Runtime.cs
       branch: master
       repo: https://github.com/dotnet/corefx.git
     id: AbsoluteUri
-    path: src/System.Private.Uri/src/System/Uri.cs
-    startLine: 591
+    path: src/System.Runtime/ref/System.Runtime.cs
+    startLine: 2138
   assemblies:
   - System.Runtime
   namespace: System
+  summary: "\n<p>Gets the absolute URI.</p>\n"
+  remarks: "\n<p>The <xref href=\"System.Uri.AbsoluteUri\" data-throw-if-not-resolved=\"false\"></xref> property includes the entire URI stored in the <xref href=\"System.Uri\" data-throw-if-not-resolved=\"false\"></xref> instance, including all fragments and query strings.</p>\n"
+  example:
+  - "\n<p>The following example writes the complete contents of the <xref href=\"System.Uri\" data-throw-if-not-resolved=\"false\"></xref> instance to the console. In the example shown, http://www.contoso.com/catalog/shownew.htm?date=today is written to the console.</p>Classic Uri.AbsoluteUri Example#1"
   syntax:
     content: public string AbsoluteUri { get; }
     content.vb: Public ReadOnly Property AbsoluteUri As String
     parameters: []
     return:
       type: System.String
+      description: "\n<p>A <xref href=\"System.String\" data-throw-if-not-resolved=\"false\"></xref> containing the entire URI.</p>\n"
+  exceptions:
+  - type: System.InvalidOperationException
+    commentId: T:System.InvalidOperationException
+    description: "\n<p>This instance represents a relative URI, and this property is valid only for absolute URIs. </p>\n"
   modifiers.csharp:
   - public
   - get
@@ -292,21 +388,30 @@ items:
   type: Property
   source:
     remote:
-      path: src/System.Private.Uri/src/System/Uri.cs
+      path: src/System.Runtime/ref/System.Runtime.cs
       branch: master
       repo: https://github.com/dotnet/corefx.git
     id: Authority
-    path: src/System.Private.Uri/src/System/Uri.cs
-    startLine: 639
+    path: src/System.Runtime/ref/System.Runtime.cs
+    startLine: 2139
   assemblies:
   - System.Runtime
   namespace: System
+  summary: "\n<p>Gets the Domain Name System (DNS) host name or IP address and the port number for a server.</p>\n"
+  remarks: "\n<p>The <xref href=\"System.Uri.Authority\" data-throw-if-not-resolved=\"false\"></xref> property is typically a server DNS host name or IP address. This property might include the service port number if it differs from the default port for the URI. If the <xref href=\"System.Uri.Authority\" data-throw-if-not-resolved=\"false\"></xref> component contains reserved characters, these are escaped in the string value returned by this property.</p>\n"
+  example:
+  - "\n<p>The following example writes the host name (www.contoso.com) and port number (8080) of the server to the console.</p>Classic Uri.Authority Example#1"
   syntax:
     content: public string Authority { get; }
     content.vb: Public ReadOnly Property Authority As String
     parameters: []
     return:
       type: System.String
+      description: "\n<p>A <xref href=\"System.String\" data-throw-if-not-resolved=\"false\"></xref> containing the authority component of the URI represented by this instance.</p>\n"
+  exceptions:
+  - type: System.InvalidOperationException
+    commentId: T:System.InvalidOperationException
+    description: "\n<p>This instance represents a relative URI, and this property is valid only for absolute URIs. </p>\n"
   modifiers.csharp:
   - public
   - get
@@ -325,21 +430,30 @@ items:
   type: Property
   source:
     remote:
-      path: src/System.Private.Uri/src/System/Uri.cs
+      path: src/System.Runtime/ref/System.Runtime.cs
       branch: master
       repo: https://github.com/dotnet/corefx.git
     id: DnsSafeHost
-    path: src/System.Private.Uri/src/System/Uri.cs
-    startLine: 1071
+    path: src/System.Runtime/ref/System.Runtime.cs
+    startLine: 2140
   assemblies:
   - System.Runtime
   namespace: System
+  summary: "\n<p>Gets an unescaped host name that is safe to use for DNS resolution.</p>\n"
+  remarks: "\n<p>For IPv6 addresses, the brackets ([]) are removed and the <xref href=\"System.Net.IPAddress.ScopeId\" data-throw-if-not-resolved=\"false\"></xref> property is set, if one was specified when this instance was constructed.</p>\n<p>The <xref href=\"System.Uri.DnsSafeHost\" data-throw-if-not-resolved=\"false\"></xref> property is dependent on configuration settings, as discussed later in this topic. Configuration settings cannot be changed by Windows Store applications, which can lead to inconsistent results when using <xref href=\"System.Uri.DnsSafeHost\" data-throw-if-not-resolved=\"false\"></xref>. The <xref href=\"System.Uri.IdnHost\" data-throw-if-not-resolved=\"false\"></xref>property is provided as the preferred alternative to using <xref href=\"System.Uri.DnsSafeHost\" data-throw-if-not-resolved=\"false\"></xref>, because <xref href=\"System.Uri.IdnHost\" data-throw-if-not-resolved=\"false\"></xref> is guaranteed to always be DNS safe, no matter what the current app.config settings might be.</p>\n<p>The <xref href=\"System.Uri.DnsSafeHost\" data-throw-if-not-resolved=\"false\"></xref> property has been extended in .NET Framework v3.5, 3.0 SP1, and 2.0 SP1 to provide International Resource Identifier (IRI) support based on RFC 3987. Current users will not see any change from the .NET Framework 2.0 behavior unless they specifically enable IRI. This ensures application compatibility with prior versions of the .NET Framework.</p>\n<p>To enable support for IRI, the following two changes are required:</p>\n<ol><li>\n<p>Add the following line to the machine.config file under the .NET Framework 2.0 directory</p>\n<p><section name=\"uri\" type=\"System.Configuration.UriSection, System, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089\" /></p>\n</li><li>\n<p>Specify whether you want Internationalized Domain Name (IDN) parsing applied to the domain name and whether IRI parsing rules should be applied. This can be done in the machine.config or in the app.config file. For example, add the following:</p>\n<pre><code><configuration>\n<uri>\n<idn enabled=\"All\" />\n<iriParsing enabled=\"true\" />\n</uri>\n</configuration></code></pre>\n</li></ol>\n<p>Enabling IDN will convert all Unicode labels in a domain name to their Punycode equivalents. Punycode names contain only ASCII characters and always start with the xn-- prefix. The reason for this is to support existing DNS servers on the Internet, since most DNS servers only support ASCII characters (see RFC 3940).</p>\n<p>Enabling IDN only affects the value of the <xref href=\"System.Uri.DnsSafeHost\" data-throw-if-not-resolved=\"false\"></xref> property. </p>\n<p>There are three possible values for IDN depending on the DNS servers that are used:</p>\n<ul><li>\n<p>idn enabled = All</p>\n<p>This value will convert any Unicode domain names to their Punycode equivalents (IDN names).</p>\n</li><li>\n<p>idn enabled = AllExceptIntranet</p>\n<p>This value will convert all external Unicode domain names to use the Punycode equivalents (IDN names). In this case to handle international names on the local Intranet, the DNS servers that are used for the Intranet should support Unicode names.</p>\n</li><li>\n<p>idn enabled = None</p>\n<p>This value will not convert any Unicode domain names to use Punycode. This is the default value which is consistent with the .NET Framework 2.0 behaviour.</p>\n</li></ul>\n<p>Enabling IRI parsing (iriParsing enabled = <strong>true</strong>) will do normalization and character checking according to the latest IRI rules in RFC 3987. The default value is <strong>false</strong> and will do normalization and character checking according to RFC 2396 and RFC 2732 (for IPv6 literals).</p>\n<p>For more information on IRI support, see the Remarks section for the <xref href=\"System.Uri\" data-throw-if-not-resolved=\"false\"></xref> class.</p>\n"
+  example:
+  - "\n<p>The following example creates a <xref href=\"System.Uri\" data-throw-if-not-resolved=\"false\"></xref> instance from a string. It illustrates the difference between the value returned from <xref href=\"System.Uri.Host\" data-throw-if-not-resolved=\"false\"></xref>, which returns the host name or address specified in the URI, and the value returned from <xref href=\"System.Uri.DnsSafeHost\" data-throw-if-not-resolved=\"false\"></xref>, which returns an address that is safe to use in DNS resolution.</p>NCLUriEnhancements#4"
   syntax:
     content: public string DnsSafeHost { get; }
     content.vb: Public ReadOnly Property DnsSafeHost As String
     parameters: []
     return:
       type: System.String
+      description: "\n<p>A <xref href=\"System.String\" data-throw-if-not-resolved=\"false\"></xref> that contains the unescaped host part of the URI that is suitable for DNS resolution; or the original unescaped host string, if it is already suitable for resolution.</p>\n"
+  exceptions:
+  - type: System.InvalidOperationException
+    commentId: T:System.InvalidOperationException
+    description: "\n<p>This instance represents a relative URI, and this property is valid only for absolute URIs. </p>\n"
   modifiers.csharp:
   - public
   - get
@@ -358,21 +472,30 @@ items:
   type: Property
   source:
     remote:
-      path: src/System.Private.Uri/src/System/Uri.cs
+      path: src/System.Runtime/ref/System.Runtime.cs
       branch: master
       repo: https://github.com/dotnet/corefx.git
     id: Fragment
-    path: src/System.Private.Uri/src/System/Uri.cs
-    startLine: 1002
+    path: src/System.Runtime/ref/System.Runtime.cs
+    startLine: 2141
   assemblies:
   - System.Runtime
   namespace: System
+  summary: "\n<p>Gets the escaped URI fragment.</p>\n"
+  remarks: "\n<p>The <xref href=\"System.Uri.Fragment\" data-throw-if-not-resolved=\"false\"></xref> property gets any text following a fragment marker (#) in the URI, including the fragment marker itself. Given the URI http://www.contoso.com/index.htm#main, the <xref href=\"System.Uri.Fragment\" data-throw-if-not-resolved=\"false\"></xref> property would return #main.</p>\n<p>The <xref href=\"System.Uri.Fragment\" data-throw-if-not-resolved=\"false\"></xref> property is not considered in any <xref href=\"System.Uri.Equals(System.Object)\" data-throw-if-not-resolved=\"false\"></xref> comparison.</p>\n"
+  example:
+  - "\n<p>The following example creates a <xref href=\"System.Uri\" data-throw-if-not-resolved=\"false\"></xref> instance and writes the fragment information to the console.</p>NCLUriExamples#4"
   syntax:
     content: public string Fragment { get; }
     content.vb: Public ReadOnly Property Fragment As String
     parameters: []
     return:
       type: System.String
+      description: "\n<p>A <xref href=\"System.String\" data-throw-if-not-resolved=\"false\"></xref> that contains any URI fragment information.</p>\n"
+  exceptions:
+  - type: System.InvalidOperationException
+    commentId: T:System.InvalidOperationException
+    description: "\n<p>This instance represents a relative URI, and this property is valid only for absolute URIs. </p>\n"
   modifiers.csharp:
   - public
   - get
@@ -391,21 +514,30 @@ items:
   type: Property
   source:
     remote:
-      path: src/System.Private.Uri/src/System/Uri.cs
+      path: src/System.Runtime/ref/System.Runtime.cs
       branch: master
       repo: https://github.com/dotnet/corefx.git
     id: Host
-    path: src/System.Private.Uri/src/System/Uri.cs
-    startLine: 814
+    path: src/System.Runtime/ref/System.Runtime.cs
+    startLine: 2142
   assemblies:
   - System.Runtime
   namespace: System
+  summary: "\n<p>Gets the host component of this instance.</p>\n"
+  remarks: "\n<p>Unlike the <xref href=\"System.Uri.Authority\" data-throw-if-not-resolved=\"false\"></xref> property, this property value does not include the port number.</p>\n"
+  example:
+  - "\n<p>The following example writes the host name (www.contoso.com) of the server to the console.</p>Classic Uri.Host Example#1"
   syntax:
     content: public string Host { get; }
     content.vb: Public ReadOnly Property Host As String
     parameters: []
     return:
       type: System.String
+      description: "\n<p>A <xref href=\"System.String\" data-throw-if-not-resolved=\"false\"></xref> that contains the host name. This is usually the DNS host name or IP address of the server.</p>\n"
+  exceptions:
+  - type: System.InvalidOperationException
+    commentId: T:System.InvalidOperationException
+    description: "\n<p>This instance represents a relative URI, and this property is valid only for absolute URIs. </p>\n"
   modifiers.csharp:
   - public
   - get
@@ -424,21 +556,29 @@ items:
   type: Property
   source:
     remote:
-      path: src/System.Private.Uri/src/System/Uri.cs
+      path: src/System.Runtime/ref/System.Runtime.cs
       branch: master
       repo: https://github.com/dotnet/corefx.git
     id: HostNameType
-    path: src/System.Private.Uri/src/System/Uri.cs
-    startLine: 654
+    path: src/System.Runtime/ref/System.Runtime.cs
+    startLine: 2143
   assemblies:
   - System.Runtime
   namespace: System
+  summary: "\n<p>Gets the type of the host name specified in the URI.</p>\n"
+  example:
+  - "\n<p>The following example creates a <xref href=\"System.Uri\" data-throw-if-not-resolved=\"false\"></xref> instance and writes the <xref href=\"System.Uri.HostNameType\" data-throw-if-not-resolved=\"false\"></xref> to the console.</p>NCLUriExamples#9"
   syntax:
     content: public UriHostNameType HostNameType { get; }
     content.vb: Public ReadOnly Property HostNameType As UriHostNameType
     parameters: []
     return:
       type: System.UriHostNameType
+      description: "\n<p>A member of the <xref href=\"System.UriHostNameType\" data-throw-if-not-resolved=\"false\"></xref> enumeration.</p>\n"
+  exceptions:
+  - type: System.InvalidOperationException
+    commentId: T:System.InvalidOperationException
+    description: "\n<p>This instance represents a relative URI, and this property is valid only for absolute URIs. </p>\n"
   modifiers.csharp:
   - public
   - get
@@ -457,21 +597,24 @@ items:
   type: Property
   source:
     remote:
-      path: src/System.Private.Uri/src/System/Uri.cs
+      path: src/System.Runtime/ref/System.Runtime.cs
       branch: master
       repo: https://github.com/dotnet/corefx.git
     id: IdnHost
-    path: src/System.Private.Uri/src/System/Uri.cs
-    startLine: 1133
+    path: src/System.Runtime/ref/System.Runtime.cs
+    startLine: 2144
   assemblies:
   - System.Runtime
   namespace: System
+  summary: "\n<p>The RFC 3490 compliant International Domain Name of the host, using Punycode as appropriate.</p>\n"
+  remarks: "\n<p>This property is provided for the use of lower-level networking protocols that require the domain name in Punycode form. If your code does not require that specific format, use <xref href=\"System.Uri.Host\" data-throw-if-not-resolved=\"false\"></xref> for the hostname.</p>\n<p>The deprecated <xref href=\"System.Uri.DnsSafeHost\" data-throw-if-not-resolved=\"false\"></xref> property is dependent on app.config settings, which cannot be changed by Windows Store applications. This property is provided as the preferred alternative to using <xref href=\"System.Uri.DnsSafeHost\" data-throw-if-not-resolved=\"false\"></xref>, because <xref href=\"System.Uri.IdnHost\" data-throw-if-not-resolved=\"false\"></xref> is guaranteed to always be DNS safe, no matter what the current app.config settings might be.</p>\n"
   syntax:
     content: public string IdnHost { get; }
     content.vb: Public ReadOnly Property IdnHost As String
     parameters: []
     return:
       type: System.String
+      description: "\n<p>Returns the hostname, formatted with Punycode according to the IDN standard.<xref href=\"System.String\" data-throw-if-not-resolved=\"false\"></xref>.</p>\n"
   modifiers.csharp:
   - public
   - get
@@ -490,21 +633,24 @@ items:
   type: Property
   source:
     remote:
-      path: src/System.Private.Uri/src/System/Uri.cs
+      path: src/System.Runtime/ref/System.Runtime.cs
       branch: master
       repo: https://github.com/dotnet/corefx.git
     id: IsAbsoluteUri
-    path: src/System.Private.Uri/src/System/Uri.cs
-    startLine: 1152
+    path: src/System.Runtime/ref/System.Runtime.cs
+    startLine: 2145
   assemblies:
   - System.Runtime
   namespace: System
+  summary: "\n<p>Gets whether the <xref href=\"System.Uri\" data-throw-if-not-resolved=\"false\"></xref> instance is absolute.</p>\n"
+  remarks: "\n<p>This property is <strong>true</strong> if the string or <xref href=\"System.Uri\" data-throw-if-not-resolved=\"false\"></xref> instance that was passed into the constructor can be parsed as an absolute <xref href=\"System.Uri\" data-throw-if-not-resolved=\"false\"></xref> instance, which contains a scheme, an authority, and a path. Otherwise, the <xref href=\"System.Uri\" data-throw-if-not-resolved=\"false\"></xref> instance is treated as relative and might omit the scheme or other URI components.</p>\n"
   syntax:
     content: public bool IsAbsoluteUri { get; }
     content.vb: Public ReadOnly Property IsAbsoluteUri As Boolean
     parameters: []
     return:
       type: System.Boolean
+      description: "\n<p>A <xref href=\"System.Boolean\" data-throw-if-not-resolved=\"false\"></xref> value that is <strong>true</strong> if the <xref href=\"System.Uri\" data-throw-if-not-resolved=\"false\"></xref> instance is absolute; otherwise, <strong>false</strong>.</p>\n"
   modifiers.csharp:
   - public
   - get
@@ -523,21 +669,29 @@ items:
   type: Property
   source:
     remote:
-      path: src/System.Private.Uri/src/System/Uri.cs
+      path: src/System.Runtime/ref/System.Runtime.cs
       branch: master
       repo: https://github.com/dotnet/corefx.git
     id: IsDefaultPort
-    path: src/System.Private.Uri/src/System/Uri.cs
-    startLine: 686
+    path: src/System.Runtime/ref/System.Runtime.cs
+    startLine: 2146
   assemblies:
   - System.Runtime
   namespace: System
+  summary: "\n<p>Gets whether the port value of the URI is the default for this scheme.</p>\n"
+  example:
+  - "\n<p>The following example creates a <xref href=\"System.Uri\" data-throw-if-not-resolved=\"false\"></xref> instance and checks whether it uses the default port.</p>NCLUriExamples#4"
   syntax:
     content: public bool IsDefaultPort { get; }
     content.vb: Public ReadOnly Property IsDefaultPort As Boolean
     parameters: []
     return:
       type: System.Boolean
+      description: "\n<p>A <xref href=\"System.Boolean\" data-throw-if-not-resolved=\"false\"></xref> value that is <strong>true</strong> if the value in the <xref href=\"System.Uri.Port\" data-throw-if-not-resolved=\"false\"></xref> property is the default port for this scheme; otherwise, <strong>false</strong>.</p>\n"
+  exceptions:
+  - type: System.InvalidOperationException
+    commentId: T:System.InvalidOperationException
+    description: "\n<p>This instance represents a relative URI, and this property is valid only for absolute URIs. </p>\n"
   modifiers.csharp:
   - public
   - get
@@ -556,21 +710,30 @@ items:
   type: Property
   source:
     remote:
-      path: src/System.Private.Uri/src/System/Uri.cs
+      path: src/System.Runtime/ref/System.Runtime.cs
       branch: master
       repo: https://github.com/dotnet/corefx.git
     id: IsFile
-    path: src/System.Private.Uri/src/System/Uri.cs
-    startLine: 706
+    path: src/System.Runtime/ref/System.Runtime.cs
+    startLine: 2147
   assemblies:
   - System.Runtime
   namespace: System
+  summary: "\n<p>Gets a value indicating whether the specified <xref href=\"System.Uri\" data-throw-if-not-resolved=\"false\"></xref> is a file URI.</p>\n"
+  remarks: "\n<p>The <xref href=\"System.Uri.IsFile\" data-throw-if-not-resolved=\"false\"></xref> property is <strong>true</strong> when the <xref href=\"System.Uri.Scheme\" data-throw-if-not-resolved=\"false\"></xref> property equals <xref href=\"System.Uri.UriSchemeFile\" data-throw-if-not-resolved=\"false\"></xref>.</p>\n"
+  example:
+  - "\n<p>The following example creates a <xref href=\"System.Uri\" data-throw-if-not-resolved=\"false\"></xref> instance and determines whether it is a file URI.</p>NCLUriExamples#6"
   syntax:
     content: public bool IsFile { get; }
     content.vb: Public ReadOnly Property IsFile As Boolean
     parameters: []
     return:
       type: System.Boolean
+      description: "\n<p>A <xref href=\"System.Boolean\" data-throw-if-not-resolved=\"false\"></xref> value that is <strong>true</strong> if the <xref href=\"System.Uri\" data-throw-if-not-resolved=\"false\"></xref> is a file URI; otherwise, <strong>false</strong>.</p>\n"
+  exceptions:
+  - type: System.InvalidOperationException
+    commentId: T:System.InvalidOperationException
+    description: "\n<p>This instance represents a relative URI, and this property is valid only for absolute URIs. </p>\n"
   modifiers.csharp:
   - public
   - get
@@ -589,21 +752,30 @@ items:
   type: Property
   source:
     remote:
-      path: src/System.Private.Uri/src/System/Uri.cs
+      path: src/System.Runtime/ref/System.Runtime.cs
       branch: master
       repo: https://github.com/dotnet/corefx.git
     id: IsLoopback
-    path: src/System.Private.Uri/src/System/Uri.cs
-    startLine: 719
+    path: src/System.Runtime/ref/System.Runtime.cs
+    startLine: 2148
   assemblies:
   - System.Runtime
   namespace: System
+  summary: "\n<p>Gets whether the specified <xref href=\"System.Uri\" data-throw-if-not-resolved=\"false\"></xref> references the local host.</p>\n"
+  remarks: "\n<p>\n<xref href=\"System.Uri.IsLoopback\" data-throw-if-not-resolved=\"false\"></xref> returns <strong>true</strong> if the URI specified when this instance was created was 127.0.0.1, loopback, or localhost, or if the URI did not specify host information (for example, file:///c:Dir/file.txt). All other URIs return <strong>false</strong>.</p>\n"
+  example:
+  - "\n<p>The following example creates a <xref href=\"System.Uri\" data-throw-if-not-resolved=\"false\"></xref> instance and determines whether it references a local host.</p>NCLUriExamples#6"
   syntax:
     content: public bool IsLoopback { get; }
     content.vb: Public ReadOnly Property IsLoopback As Boolean
     parameters: []
     return:
       type: System.Boolean
+      description: "\n<p>A <xref href=\"System.Boolean\" data-throw-if-not-resolved=\"false\"></xref> value that is <strong>true</strong> if this <xref href=\"System.Uri\" data-throw-if-not-resolved=\"false\"></xref> references the local host; otherwise, <strong>false</strong>.</p>\n"
+  exceptions:
+  - type: System.InvalidOperationException
+    commentId: T:System.InvalidOperationException
+    description: "\n<p>This instance represents a relative URI, and this property is valid only for absolute URIs. </p>\n"
   modifiers.csharp:
   - public
   - get
@@ -622,21 +794,30 @@ items:
   type: Property
   source:
     remote:
-      path: src/System.Private.Uri/src/System/Uri.cs
+      path: src/System.Runtime/ref/System.Runtime.cs
       branch: master
       repo: https://github.com/dotnet/corefx.git
     id: IsUnc
-    path: src/System.Private.Uri/src/System/Uri.cs
-    startLine: 800
+    path: src/System.Runtime/ref/System.Runtime.cs
+    startLine: 2149
   assemblies:
   - System.Runtime
   namespace: System
+  summary: "\n<p>Gets whether the specified <xref href=\"System.Uri\" data-throw-if-not-resolved=\"false\"></xref> is a universal naming convention (UNC) path.</p>\n"
+  remarks: "\n<p>The <xref href=\"System.Uri.IsUnc\" data-throw-if-not-resolved=\"false\"></xref> property is <strong>true</strong> if the specified <xref href=\"System.Uri\" data-throw-if-not-resolved=\"false\"></xref> instance is a UNC path (such as \\\\server\\folder or file://server/folder). This property always returns <strong>true</strong> if the URI has the file:// scheme and specifies a host component.</p>\n"
+  example:
+  - "\n<p>The following example creates a <xref href=\"System.Uri\" data-throw-if-not-resolved=\"false\"></xref> instance and determines whether it is a UNC path.</p>NCLUriExamples#6"
   syntax:
     content: public bool IsUnc { get; }
     content.vb: Public ReadOnly Property IsUnc As Boolean
     parameters: []
     return:
       type: System.Boolean
+      description: "\n<p>A <xref href=\"System.Boolean\" data-throw-if-not-resolved=\"false\"></xref> value that is <strong>true</strong> if the <xref href=\"System.Uri\" data-throw-if-not-resolved=\"false\"></xref> is a UNC path; otherwise, <strong>false</strong>.</p>\n"
+  exceptions:
+  - type: System.InvalidOperationException
+    commentId: T:System.InvalidOperationException
+    description: "\n<p>This instance represents a relative URI, and this property is valid only for absolute URIs. </p>\n"
   modifiers.csharp:
   - public
   - get
@@ -655,21 +836,30 @@ items:
   type: Property
   source:
     remote:
-      path: src/System.Private.Uri/src/System/Uri.cs
+      path: src/System.Runtime/ref/System.Runtime.cs
       branch: master
       repo: https://github.com/dotnet/corefx.git
     id: LocalPath
-    path: src/System.Private.Uri/src/System/Uri.cs
-    startLine: 624
+    path: src/System.Runtime/ref/System.Runtime.cs
+    startLine: 2150
   assemblies:
   - System.Runtime
   namespace: System
+  summary: "\n<p>Gets a local operating-system representation of a file name.</p>\n"
+  remarks: "\n<p>The value returned by this property is unescaped. If the path is recognized as a Windows file path, all forward slashes (/) are replaced by backward slashes (\\). </p>\n<p>For the URI <code>file://computer/file.ext</code>, the absolute path is <code>/file.ext</code> and the local path is<code> \\\\computer\\file.ext</code>.</p>\n"
+  example:
+  - "\n<p>The following example creates a <xref href=\"System.Uri\" data-throw-if-not-resolved=\"false\"></xref> instance and writes the local path to the console.</p>NCLUriExamples#6"
   syntax:
     content: public string LocalPath { get; }
     content.vb: Public ReadOnly Property LocalPath As String
     parameters: []
     return:
       type: System.String
+      description: "\n<p>A <xref href=\"System.String\" data-throw-if-not-resolved=\"false\"></xref> that contains the local operating-system representation of a file name.</p>\n"
+  exceptions:
+  - type: System.InvalidOperationException
+    commentId: T:System.InvalidOperationException
+    description: "\n<p>This instance represents a relative URI, and this property is valid only for absolute URIs. </p>\n"
   modifiers.csharp:
   - public
   - get
@@ -688,21 +878,30 @@ items:
   type: Property
   source:
     remote:
-      path: src/System.Private.Uri/src/System/Uri.cs
+      path: src/System.Runtime/ref/System.Runtime.cs
       branch: master
       repo: https://github.com/dotnet/corefx.git
     id: OriginalString
-    path: src/System.Private.Uri/src/System/Uri.cs
-    startLine: 1058
+    path: src/System.Runtime/ref/System.Runtime.cs
+    startLine: 2151
   assemblies:
   - System.Runtime
   namespace: System
+  summary: "\n<p>Gets the original URI string that was passed to the <xref href=\"System.Uri\" data-throw-if-not-resolved=\"false\"></xref> constructor.</p>\n"
+  remarks: "\n<p>If the URI specified to the constructor contained leading or trailing spaces, these spaces are preserved.</p>\n<p>The value returned by this property differs from <xref href=\"System.Uri.ToString\" data-throw-if-not-resolved=\"false\"></xref> and <xref href=\"System.Uri.AbsoluteUri\" data-throw-if-not-resolved=\"false\"></xref>. <xref href=\"System.Uri.ToString\" data-throw-if-not-resolved=\"false\"></xref> returns the canonically unescaped form of the URI. <xref href=\"System.Uri.AbsoluteUri\" data-throw-if-not-resolved=\"false\"></xref> returns the canonically escaped form of the URI.</p>\n<p>When International Resource Identifier (IRI) and Internationalized Domain Name (IDN) support are enabled, <xref href=\"System.Uri.OriginalString\" data-throw-if-not-resolved=\"false\"></xref> returns the original non normalized string with Punycode host name if one was used to initialize the <xref href=\"System.Uri\" data-throw-if-not-resolved=\"false\"></xref> instance. Punycode names contain only ASCII characters and always start with the xn-- prefix. </p>\n<p>For more information on IRI support, see the Remarks section for the <xref href=\"System.Uri\" data-throw-if-not-resolved=\"false\"></xref> class.</p>\n<p>When a <xref href=\"System.Uri\" data-throw-if-not-resolved=\"false\"></xref> object is serialized, the <xref href=\"System.Uri.OriginalString\" data-throw-if-not-resolved=\"false\"></xref> is not preserved. The serialization process uses the fully escaped and canonicalized <xref href=\"System.Uri.AbsoluteUri\" data-throw-if-not-resolved=\"false\"></xref> property when serializing. For a <xref href=\"System.Uri\" data-throw-if-not-resolved=\"false\"></xref> that contains an IPv6 address, the IPv6 address and the scope ID are included in the serialized <xref href=\"System.Uri\" data-throw-if-not-resolved=\"false\"></xref> object.</p>\n"
+  example:
+  - "\n<p>The following example creates a new <xref href=\"System.Uri\" data-throw-if-not-resolved=\"false\"></xref> instance from a string. It illustrates the difference between the value returned from <xref href=\"System.Uri.OriginalString\" data-throw-if-not-resolved=\"false\"></xref>, which returns the string that was passed to the constructor, and from a call to <xref href=\"System.Uri.ToString\" data-throw-if-not-resolved=\"false\"></xref>, which returns the canonical form of the string.</p>NCLUriEnhancements#3"
   syntax:
     content: public string OriginalString { get; }
     content.vb: Public ReadOnly Property OriginalString As String
     parameters: []
     return:
       type: System.String
+      description: "\n<p>A <xref href=\"System.String\" data-throw-if-not-resolved=\"false\"></xref> containing the exact URI specified when this instance was constructed; otherwise, <xref href=\"System.String.Empty\" data-throw-if-not-resolved=\"false\"></xref>.</p>\n"
+  exceptions:
+  - type: System.InvalidOperationException
+    commentId: T:System.InvalidOperationException
+    description: "\n<p>This instance represents a relative URI, and this property is valid only for absolute URIs. </p>\n"
   modifiers.csharp:
   - public
   - get
@@ -721,21 +920,30 @@ items:
   type: Property
   source:
     remote:
-      path: src/System.Private.Uri/src/System/Uri.cs
+      path: src/System.Runtime/ref/System.Runtime.cs
       branch: master
       repo: https://github.com/dotnet/corefx.git
     id: PathAndQuery
-    path: src/System.Private.Uri/src/System/Uri.cs
-    startLine: 737
+    path: src/System.Runtime/ref/System.Runtime.cs
+    startLine: 2152
   assemblies:
   - System.Runtime
   namespace: System
+  summary: "\n<p>Gets the <xref href=\"System.Uri.AbsolutePath\" data-throw-if-not-resolved=\"false\"></xref> and <xref href=\"System.Uri.Query\" data-throw-if-not-resolved=\"false\"></xref> properties separated by a question mark (?).</p>\n"
+  remarks: "\n<p>The <xref href=\"System.Uri.PathAndQuery\" data-throw-if-not-resolved=\"false\"></xref> property contains the absolute path on the server and the query information sent with the request. It is identical to concatenating the <xref href=\"System.Uri.AbsolutePath\" data-throw-if-not-resolved=\"false\"></xref> and <xref href=\"System.Uri.Query\" data-throw-if-not-resolved=\"false\"></xref> properties.</p>\n<p>The <xref href=\"System.Uri.PathAndQuery\" data-throw-if-not-resolved=\"false\"></xref> property is escaped according to RFC 2396 by default. If International Resource Identifiers (IRIs) or Internationalized Domain Name (IDN) parsing is enabled, the <xref href=\"System.Uri.PathAndQuery\" data-throw-if-not-resolved=\"false\"></xref> property is escaped according to RFC 3986 and RFC 3987.</p>\n<p>For more information on IRI support, see the Remarks section for the <xref href=\"System.Uri\" data-throw-if-not-resolved=\"false\"></xref> class.</p>\n"
+  example:
+  - "\n<p>The following example writes the URI path (/catalog/shownew.htm) and query (date= today) information to the console.</p>Classic Uri.PathAndQuery Example#1"
   syntax:
     content: public string PathAndQuery { get; }
     content.vb: Public ReadOnly Property PathAndQuery As String
     parameters: []
     return:
       type: System.String
+      description: "\n<p>A <xref href=\"System.String\" data-throw-if-not-resolved=\"false\"></xref> that contains the <xref href=\"System.Uri.AbsolutePath\" data-throw-if-not-resolved=\"false\"></xref> and <xref href=\"System.Uri.Query\" data-throw-if-not-resolved=\"false\"></xref> properties separated by a question mark (?).</p>\n"
+  exceptions:
+  - type: System.InvalidOperationException
+    commentId: T:System.InvalidOperationException
+    description: "\n<p>This instance represents a relative URI, and this property is valid only for absolute URIs. </p>\n"
   modifiers.csharp:
   - public
   - get
@@ -754,21 +962,30 @@ items:
   type: Property
   source:
     remote:
-      path: src/System.Private.Uri/src/System/Uri.cs
+      path: src/System.Runtime/ref/System.Runtime.cs
       branch: master
       repo: https://github.com/dotnet/corefx.git
     id: Port
-    path: src/System.Private.Uri/src/System/Uri.cs
-    startLine: 949
+    path: src/System.Runtime/ref/System.Runtime.cs
+    startLine: 2153
   assemblies:
   - System.Runtime
   namespace: System
+  summary: "\n<p>Gets the port number of this URI.</p>\n"
+  remarks: "\n<p>The port number defines the protocol port used for contacting the server referenced in the URI. If a port is not specified as part of the URI, the <xref href=\"System.Uri.Port\" data-throw-if-not-resolved=\"false\"></xref> property returns the default value for the protocol. If there is no default port number, this property returns -1.</p>\n"
+  example:
+  - "\n<p>The following example writes the URI port number to the console. In this case, the value is the default port number for HTTP, port 80.</p>Classic Uri.Port Example#1"
   syntax:
     content: public int Port { get; }
     content.vb: Public ReadOnly Property Port As Integer
     parameters: []
     return:
       type: System.Int32
+      description: "\n<p>An <xref href=\"System.Int32\" data-throw-if-not-resolved=\"false\"></xref> value that contains the port number for this URI.</p>\n"
+  exceptions:
+  - type: System.InvalidOperationException
+    commentId: T:System.InvalidOperationException
+    description: "\n<p>This instance represents a relative URI, and this property is valid only for absolute URIs. </p>\n"
   modifiers.csharp:
   - public
   - get
@@ -787,21 +1004,30 @@ items:
   type: Property
   source:
     remote:
-      path: src/System.Private.Uri/src/System/Uri.cs
+      path: src/System.Runtime/ref/System.Runtime.cs
       branch: master
       repo: https://github.com/dotnet/corefx.git
     id: Query
-    path: src/System.Private.Uri/src/System/Uri.cs
-    startLine: 976
+    path: src/System.Runtime/ref/System.Runtime.cs
+    startLine: 2154
   assemblies:
   - System.Runtime
   namespace: System
+  summary: "\n<p>Gets any query information included in the specified URI.</p>\n"
+  remarks: "\n<p>The <xref href=\"System.Uri.Query\" data-throw-if-not-resolved=\"false\"></xref> property contains any query information included in the URI. Query information is separated from the path information by a question mark (?) and continues to the end of the URI. The query information returned includes the leading question mark.</p>\n<p>The query information is escaped according to RFC 2396 by default. If International Resource Identifiers (IRIs) or Internationalized Domain Name (IDN) parsing is enabled, the query information is escaped according to RFC 3986 and RFC 3987.</p>\n<p>For more information on IRI support, see the Remarks section for the <xref href=\"System.Uri\" data-throw-if-not-resolved=\"false\"></xref> class.</p>\n"
+  example:
+  - "\n<p>The following example writes the query ?date= today to the console.</p>Classic Uri.PathAndQuery Example#2"
   syntax:
     content: public string Query { get; }
     content.vb: Public ReadOnly Property Query As String
     parameters: []
     return:
       type: System.String
+      description: "\n<p>A <xref href=\"System.String\" data-throw-if-not-resolved=\"false\"></xref> that contains any query information included in the specified URI.</p>\n"
+  exceptions:
+  - type: System.InvalidOperationException
+    commentId: T:System.InvalidOperationException
+    description: "\n<p>This instance represents a relative URI, and this property is valid only for absolute URIs. </p>\n"
   modifiers.csharp:
   - public
   - get
@@ -820,21 +1046,30 @@ items:
   type: Property
   source:
     remote:
-      path: src/System.Private.Uri/src/System/Uri.cs
+      path: src/System.Runtime/ref/System.Runtime.cs
       branch: master
       repo: https://github.com/dotnet/corefx.git
     id: Scheme
-    path: src/System.Private.Uri/src/System/Uri.cs
-    startLine: 1029
+    path: src/System.Runtime/ref/System.Runtime.cs
+    startLine: 2155
   assemblies:
   - System.Runtime
   namespace: System
+  summary: "\n<p>Gets the scheme name for this URI.</p>\n"
+  remarks: "\n<p>The <xref href=\"System.Uri.Scheme\" data-throw-if-not-resolved=\"false\"></xref> property returns the scheme used to initialize the <xref href=\"System.Uri\" data-throw-if-not-resolved=\"false\"></xref> instance. This property does not indicate that the scheme used to initialize the <xref href=\"System.Uri\" data-throw-if-not-resolved=\"false\"></xref> instance was recognized. </p>\n<p>The following table shows examples of some possible values returned by the <xref href=\"System.Uri.Scheme\" data-throw-if-not-resolved=\"false\"></xref> property.</p>\n<p>Scheme </p>\n<p>Description </p>\n<table><tbody><tr><td>\n<p>file </p>\n</td><td>\n<p>The resource is a file on the local computer. </p>\n</td></tr><tr><td>\n<p>ftp </p>\n</td><td>\n<p>The resource is accessed through FTP. </p>\n</td></tr><tr><td>\n<p>gopher </p>\n</td><td>\n<p>The resource is accessed through the Gopher protocol. </p>\n</td></tr><tr><td>\n<p>http </p>\n</td><td>\n<p>The resource is accessed through HTTP. </p>\n</td></tr><tr><td>\n<p>https </p>\n</td><td>\n<p>The resource is accessed through SSL-encrypted HTTP. </p>\n</td></tr><tr><td>\n<p>ldap</p>\n</td><td>\n<p>The resource is accessed through the LDAP protocol.</p>\n</td></tr><tr><td>\n<p>mailto </p>\n</td><td>\n<p>The resource is an e-mail address and accessed through the SMTP protocol. </p>\n</td></tr><tr><td>\n<p>net.pipe</p>\n</td><td>\n<p>The resource is accessed through a named pipe.</p>\n</td></tr><tr><td>\n<p>net.tcp</p>\n</td><td>\n<p>The resource is accessed from TCP endpoint.</p>\n</td></tr><tr><td>\n<p>news</p>\n</td><td>\n<p>The resource is accessed through the NNTP protocol.</p>\n</td></tr><tr><td>\n<p>nntp </p>\n</td><td>\n<p>The resource is accessed through the NNTP protocol. </p>\n</td></tr><tr><td>\n<p>telnet</p>\n</td><td>\n<p>The resource is accessed through the TELNET protocol.</p>\n</td></tr><tr><td>\n<p>uuid</p>\n</td><td>\n<p>The resource is accessed through a unique UUID endpoint name for communicating with a service.</p>\n</td></tr></tbody></table>\n"
+  example:
+  - "\n<p>The following example writes the scheme name (http) to the console for the http://www.contoso.com/ URI.</p>Classic Uri.Scheme Example#1"
   syntax:
     content: public string Scheme { get; }
     content.vb: Public ReadOnly Property Scheme As String
     parameters: []
     return:
       type: System.String
+      description: "\n<p>A <xref href=\"System.String\" data-throw-if-not-resolved=\"false\"></xref> that contains the scheme for this URI, converted to lowercase.</p>\n"
+  exceptions:
+  - type: System.InvalidOperationException
+    commentId: T:System.InvalidOperationException
+    description: "\n<p>This instance represents a relative URI, and this property is valid only for absolute URIs. </p>\n"
   modifiers.csharp:
   - public
   - get
@@ -853,21 +1088,30 @@ items:
   type: Property
   source:
     remote:
-      path: src/System.Private.Uri/src/System/Uri.cs
+      path: src/System.Runtime/ref/System.Runtime.cs
       branch: master
       repo: https://github.com/dotnet/corefx.git
     id: Segments
-    path: src/System.Private.Uri/src/System/Uri.cs
-    startLine: 761
+    path: src/System.Runtime/ref/System.Runtime.cs
+    startLine: 2156
   assemblies:
   - System.Runtime
   namespace: System
+  summary: "\n<p>Gets an array containing the path segments that make up the specified URI.</p>\n"
+  remarks: "\n<p>The <xref href=\"System.Uri.Segments\" data-throw-if-not-resolved=\"false\"></xref> property returns an array of strings containing the \"segments\" (substrings) that form the URI's absolute path. The first segment is obtained by parsing the absolute path from its first character until you reach a slash (/) or the end of the path. Each additional segment begins at the first character after the preceding segment, and terminates with the next slash or the end of the path. (A URI's absolute path contains everything after the host and port and before the query and fragment.) </p>\n<p>The following example shows the absolute path and segments for two URIs. The second example illustrates that the fragment and query are not part of the absolute path and therefore are not segments.</p>Absolute URI <p>http://www.contoso.com/Chapters/Chapter1/Sections/Section1.htm</p>Absolute path <p>/Chapters/Chapter1/Sections/Section1.htm</p>Segments<p>/Chapters/Chapter1/Sections/Section1.htm</p>Absolute URI <p>http://www.contoso.com/Chapters/Chapter1/Sections/Section1.htm#page1?answer=NO</p>Absolute path <p>/Chapters/Chapter1/Sections/Section1.htm</p>Segments<p>/Chapters/Chapter1/Sections/Section1.htm</p><p>Note that because the absolute path starts with a '/', the first segment contains it and nothing else.</p>"
+  example:
+  - "\n<p>The following example creates a <xref href=\"System.Uri\" data-throw-if-not-resolved=\"false\"></xref> instance with 3 segments and displays the segments on the screen.</p>NCLUriExamples#5"
   syntax:
     content: public string[] Segments { get; }
     content.vb: Public ReadOnly Property Segments As String()
     parameters: []
     return:
       type: System.String[]
+      description: "\n<p>A <xref href=\"System.String\" data-throw-if-not-resolved=\"false\"></xref> array that contains the path segments that make up the specified URI.</p>\n"
+  exceptions:
+  - type: System.InvalidOperationException
+    commentId: T:System.InvalidOperationException
+    description: "\n<p>This instance represents a relative URI, and this property is valid only for absolute URIs. </p>\n"
   modifiers.csharp:
   - public
   - get
@@ -886,21 +1130,26 @@ items:
   type: Property
   source:
     remote:
-      path: src/System.Private.Uri/src/System/Uri.cs
+      path: src/System.Runtime/ref/System.Runtime.cs
       branch: master
       repo: https://github.com/dotnet/corefx.git
     id: UserEscaped
-    path: src/System.Private.Uri/src/System/Uri.cs
-    startLine: 1162
+    path: src/System.Runtime/ref/System.Runtime.cs
+    startLine: 2157
   assemblies:
   - System.Runtime
   namespace: System
+  summary: "\n<p>Indicates that the URI string was completely escaped before the <xref href=\"System.Uri\" data-throw-if-not-resolved=\"false\"></xref> instance was created.</p>\n"
+  remarks: "\n<p>The <xref href=\"System.Uri.UserEscaped\" data-throw-if-not-resolved=\"false\"></xref> property is set to <strong>true</strong> to indicate that the string used to create the <xref href=\"System.Uri\" data-throw-if-not-resolved=\"false\"></xref> instance was completely escaped before it was passed to the constructor; that is, the <em>dontEscape</em> parameter of the constructor call was set to <strong>true</strong>.</p>\n"
+  example:
+  - "\n<p>The following example creates a <xref href=\"System.Uri\" data-throw-if-not-resolved=\"false\"></xref> instance and determines whether it was fully escaped when it was created.</p>NCLUriExamples#18"
   syntax:
     content: public bool UserEscaped { get; }
     content.vb: Public ReadOnly Property UserEscaped As Boolean
     parameters: []
     return:
       type: System.Boolean
+      description: "\n<p>A <xref href=\"System.Boolean\" data-throw-if-not-resolved=\"false\"></xref> value that is <strong>true</strong> if the <em>dontEscape</em> parameter was set to <strong>true</strong> when the <xref href=\"System.Uri\" data-throw-if-not-resolved=\"false\"></xref> instance was created; otherwise, <strong>false</strong>.</p>\n"
   modifiers.csharp:
   - public
   - get
@@ -919,21 +1168,30 @@ items:
   type: Property
   source:
     remote:
-      path: src/System.Private.Uri/src/System/Uri.cs
+      path: src/System.Runtime/ref/System.Runtime.cs
       branch: master
       repo: https://github.com/dotnet/corefx.git
     id: UserInfo
-    path: src/System.Private.Uri/src/System/Uri.cs
-    startLine: 1173
+    path: src/System.Runtime/ref/System.Runtime.cs
+    startLine: 2158
   assemblies:
   - System.Runtime
   namespace: System
+  summary: "\n<p>Gets the user name, password, or other user-specific information associated with the specified URI.</p>\n"
+  remarks: "\n<p>The value returned by this property is usually in the format \"userName:password\".</p>\n"
+  example:
+  - "\n<p>The following example creates a <xref href=\"System.Uri\" data-throw-if-not-resolved=\"false\"></xref> instance and writes the user information to the console.</p>NCLUriExamples#18"
   syntax:
     content: public string UserInfo { get; }
     content.vb: Public ReadOnly Property UserInfo As String
     parameters: []
     return:
       type: System.String
+      description: "\n<p>A <xref href=\"System.String\" data-throw-if-not-resolved=\"false\"></xref> that contains the user information associated with the URI. The returned value does not include the '@' character reserved for delimiting the user information part of the URI.</p>\n"
+  exceptions:
+  - type: System.InvalidOperationException
+    commentId: T:System.InvalidOperationException
+    description: "\n<p>This instance represents a relative URI, and this property is valid only for absolute URIs. </p>\n"
   modifiers.csharp:
   - public
   - get
@@ -952,23 +1210,29 @@ items:
   type: Method
   source:
     remote:
-      path: src/System.Private.Uri/src/System/Uri.cs
+      path: src/System.Runtime/ref/System.Runtime.cs
       branch: master
       repo: https://github.com/dotnet/corefx.git
     id: CheckHostName
-    path: src/System.Private.Uri/src/System/Uri.cs
-    startLine: 1198
+    path: src/System.Runtime/ref/System.Runtime.cs
+    startLine: 2159
   assemblies:
   - System.Runtime
   namespace: System
+  summary: "\n<p>Determines whether the specified host name is a valid DNS name.</p>\n"
+  remarks: "\n<p>The <xref href=\"System.Uri.CheckHostName(System.String)\" data-throw-if-not-resolved=\"false\"></xref> method checks that the host name provided meets the requirements for a valid Internet host name. It does not, however, perform a host-name lookup to verify the existence of the host.</p>\n"
+  example:
+  - "\n<p>The following example checks whether the host name is valid.</p>Classic Uri.CheckHostName Example#1"
   syntax:
     content: public static UriHostNameType CheckHostName(string name)
     content.vb: Public Shared Function CheckHostName(name As String) As UriHostNameType
     parameters:
     - id: name
       type: System.String
+      description: "\n<p>The host name to validate. This can be an IPv4 or IPv6 address or an Internet host name. </p>\n"
     return:
       type: System.UriHostNameType
+      description: "\n<p>A <xref href=\"System.UriHostNameType\" data-throw-if-not-resolved=\"false\"></xref> that indicates the type of the host name. If the type of the host name cannot be determined or if the host name is <strong>null</strong> or a zero-length string, this method returns <xref href=\"System.UriHostNameType.Unknown\" data-throw-if-not-resolved=\"false\"></xref>.</p>\n"
   modifiers.csharp:
   - public
   - static
@@ -987,23 +1251,29 @@ items:
   type: Method
   source:
     remote:
-      path: src/System.Private.Uri/src/System/Uri.cs
+      path: src/System.Runtime/ref/System.Runtime.cs
       branch: master
       repo: https://github.com/dotnet/corefx.git
     id: CheckSchemeName
-    path: src/System.Private.Uri/src/System/Uri.cs
-    startLine: 1318
+    path: src/System.Runtime/ref/System.Runtime.cs
+    startLine: 2160
   assemblies:
   - System.Runtime
   namespace: System
+  summary: "\n<p>Determines whether the specified scheme name is valid.</p>\n"
+  remarks: "\n<p>This method checks the scheme name for validity according to RFC 2396 by default. If International Resource Identifiers (IRIs) or Internationalized Domain Name (IDN) parsing is enabled, this method checks the scheme name for validity according to RFC 3986. The scheme name must begin with a letter and must contain only letters, digits, and the characters \".\", \"+\", or \"-\".</p>\n<p>For more information on IRI support, see the Remarks section for the <xref href=\"System.Uri\" data-throw-if-not-resolved=\"false\"></xref> class.</p>\n"
+  example:
+  - "\n<p>The following example creates a <xref href=\"System.Uri\" data-throw-if-not-resolved=\"false\"></xref> instance and checks whether the scheme name is valid.</p>NCLUriExamples#9"
   syntax:
     content: public static bool CheckSchemeName(string schemeName)
     content.vb: Public Shared Function CheckSchemeName(schemeName As String) As Boolean
     parameters:
     - id: schemeName
       type: System.String
+      description: "\n<p>The scheme name to validate. </p>\n"
     return:
       type: System.Boolean
+      description: "\n<p>A <xref href=\"System.Boolean\" data-throw-if-not-resolved=\"false\"></xref> value that is <strong>true</strong> if the scheme name is valid; otherwise, <strong>false</strong>.</p>\n"
   modifiers.csharp:
   - public
   - static
@@ -1031,22 +1301,36 @@ items:
   assemblies:
   - System.Runtime
   namespace: System
+  summary: "\n<p>Compares the specified parts of two URIs using the specified comparison rules.</p>\n"
+  remarks: "\n<p>If both <em>uri1</em> and <em>uri2</em> are <strong>null</strong>, this method returns 0. When comparing URI values, a relative URI is always less than an absolute URI, and a non-null URI is always greater than a null URI. For cases where both <em>uri1</em> and <em>uri2</em> are not <strong>null</strong> and are both relative URIs or both absolute URIs, the <xref href=\"System.String.Compare(System.String,System.String,System.StringComparison)\" data-throw-if-not-resolved=\"false\"></xref> method performs the comparison.</p>\n"
+  example:
+  - 
   syntax:
     content: public static int Compare(Uri uri1, Uri uri2, UriComponents partsToCompare, UriFormat compareFormat, StringComparison comparisonType)
     content.vb: Public Shared Function Compare(uri1 As Uri, uri2 As Uri, partsToCompare As UriComponents, compareFormat As UriFormat, comparisonType As StringComparison) As Integer
     parameters:
     - id: uri1
       type: System.Uri
+      description: "\n<p>The first <xref href=\"System.Uri\" data-throw-if-not-resolved=\"false\"></xref>.</p>\n"
     - id: uri2
       type: System.Uri
+      description: "\n<p>The second <xref href=\"System.Uri\" data-throw-if-not-resolved=\"false\"></xref>.</p>\n"
     - id: partsToCompare
       type: System.UriComponents
+      description: "\n<p>A bitwise combination of the <xref href=\"System.UriComponents\" data-throw-if-not-resolved=\"false\"></xref> values that specifies the parts of <em>uri1</em> and <em>uri2</em> to compare.</p>\n"
     - id: compareFormat
       type: System.UriFormat
+      description: "\n<p>One of the <xref href=\"System.UriFormat\" data-throw-if-not-resolved=\"false\"></xref> values that specifies the character escaping used when the URI components are compared.</p>\n"
     - id: comparisonType
       type: System.StringComparison
+      description: "\n<p>One of the <xref href=\"System.StringComparison\" data-throw-if-not-resolved=\"false\"></xref> values.</p>\n"
     return:
       type: System.Int32
+      description: "\n<p>An <xref href=\"System.Int32\" data-throw-if-not-resolved=\"false\"></xref> value that indicates the lexical relationship between the compared <xref href=\"System.Uri\" data-throw-if-not-resolved=\"false\"></xref> components.</p>\n<p>Value</p>\n<p>Meaning</p>\n<table><tbody><tr><td>\n<p>Less than zero</p>\n</td><td>\n<p>\n<em>uri1</em> is less than <em>uri2</em>.</p>\n</td></tr><tr><td>\n<p>Zero</p>\n</td><td>\n<p>\n<em>uri1</em> equals <em>uri2</em>.</p>\n</td></tr><tr><td>\n<p>Greater than zero</p>\n</td><td>\n<p>\n<em>uri1</em> is greater than <em>uri2</em>.</p>\n</td></tr></tbody></table>\n"
+  exceptions:
+  - type: System.ArgumentException
+    commentId: T:System.ArgumentException
+    description: "\n<p>\n<em>comparisonType</em> is not a valid <xref href=\"System.StringComparison\" data-throw-if-not-resolved=\"false\"></xref> value.</p>\n"
   modifiers.csharp:
   - public
   - static
@@ -1065,24 +1349,33 @@ items:
   type: Method
   source:
     remote:
-      path: src/System.Private.Uri/src/System/Uri.cs
+      path: src/System.Runtime/ref/System.Runtime.cs
       branch: master
       repo: https://github.com/dotnet/corefx.git
     id: Equals
-    path: src/System.Private.Uri/src/System/Uri.cs
-    startLine: 1447
+    path: src/System.Runtime/ref/System.Runtime.cs
+    startLine: 2162
   assemblies:
   - System.Runtime
   namespace: System
+  summary: "\n<p>Compares two <xref href=\"System.Uri\" data-throw-if-not-resolved=\"false\"></xref> instances for equality.</p>\n"
+  remarks: "\n<p>The <xref href=\"System.Uri.Equals(System.Object)\" data-throw-if-not-resolved=\"false\"></xref> method compares the two instances without regard to user information (<xref href=\"System.Uri.UserInfo\" data-throw-if-not-resolved=\"false\"></xref>) and fragment (<xref href=\"System.Uri.Fragment\" data-throw-if-not-resolved=\"false\"></xref>) parts that they might contain. For example, given the URIs http://www.contoso.com/index.htm#search and http://user:password@www.contoso.com/index.htm, the <xref href=\"System.Uri.Equals(System.Object)\" data-throw-if-not-resolved=\"false\"></xref> method would return <strong>true</strong>.</p>\n<p>If one <xref href=\"System.Uri\" data-throw-if-not-resolved=\"false\"></xref> instance is formed with a Unicode host name and <em>comparand</em> parameter contains a <xref href=\"System.Uri\" data-throw-if-not-resolved=\"false\"></xref> instance or identifier that is formed with a host name that has the equivalent Punycode host name, then <xref href=\"System.Uri.Equals(System.Object)\" data-throw-if-not-resolved=\"false\"></xref> returns <strong>true</strong> only if International Resource Identifier (IRI) and Internationalized Domain Name (IDN) support are enabled. Punycode names contain only ASCII characters and always start with the xn-- prefix. </p>\n<p>For more information on IRI support, see the Remarks section for the <xref href=\"System.Uri\" data-throw-if-not-resolved=\"false\"></xref> class.</p>\n<p>In the .NET Framework versions 1.0 and 1.1, the <xref href=\"System.Uri.Query\" data-throw-if-not-resolved=\"false\"></xref> is also ignored.</p>\n<p>The <xref href=\"System.Uri.Equals(System.Object)\" data-throw-if-not-resolved=\"false\"></xref> method can be overridden in a derived class; use caution as a malicious entity could modify the method. You should not use this method to perform security checks unless you know that this instance came from a trusted source.</p>\n"
+  example:
+  - "\n<p>This example creates two <xref href=\"System.Uri\" data-throw-if-not-resolved=\"false\"></xref> instances from strings and compares them to determine whether they represent the same value. <code>address1</code> and <code>address2</code> are the same because the <xref href=\"System.Uri.Fragment\" data-throw-if-not-resolved=\"false\"></xref> portion is ignored for this comparison. The outcome is written to the console.</p>NCLUriExamples#8"
   syntax:
     content: public override bool Equals(object comparand)
     content.vb: Public Overrides Function Equals(comparand As Object) As Boolean
     parameters:
     - id: comparand
       type: System.Object
+      description: "\n<p>The <xref href=\"System.Uri\" data-throw-if-not-resolved=\"false\"></xref> instance or a URI identifier to compare with the current instance. </p>\n"
     return:
       type: System.Boolean
+      description: "\n<p>A <xref href=\"System.Boolean\" data-throw-if-not-resolved=\"false\"></xref> value that is <strong>true</strong> if the two instances represent the same URI; otherwise, <strong>false</strong>.</p>\n"
   overridden: System.Object.Equals(System.Object)
+  see:
+  - type: System.Security.Permissions.SecurityPermission
+    commentId: T:System.Security.Permissions.SecurityPermission
   modifiers.csharp:
   - public
   - override
@@ -1101,23 +1394,36 @@ items:
   type: Method
   source:
     remote:
-      path: src/System.Private.Uri/src/System/UriExt.cs
+      path: src/System.Runtime/ref/System.Runtime.cs
       branch: master
       repo: https://github.com/dotnet/corefx.git
     id: EscapeDataString
-    path: src/System.Private.Uri/src/System/UriExt.cs
-    startLine: 549
+    path: src/System.Runtime/ref/System.Runtime.cs
+    startLine: 2163
   assemblies:
   - System.Runtime
   namespace: System
+  summary: "\n<p>Converts a string to its escaped representation.</p>\n"
+  remarks: "\n<p>By default, the <xref href=\"System.Uri.EscapeDataString(System.String)\" data-throw-if-not-resolved=\"false\"></xref> method converts all characters except for RFC 2396 unreserved characters to their hexadecimal representation. If International Resource Identifiers (IRIs) or Internationalized Domain Name (IDN) parsing is enabled, the <xref href=\"System.Uri.EscapeDataString(System.String)\" data-throw-if-not-resolved=\"false\"></xref> method converts all characters, except for RFC 3986 unreserved characters, to their hexadecimal representation. All Unicode characters are converted to UTF-8 format before being escaped. </p>\n<p>This method assumes that <em>stringToEscape</em> has no escape sequences in it.</p>\n<p>By default, the string is escaped according to RFC 2396. If International Resource Identifiers (IRIs) or Internationalized Domain Name (IDN) parsing is enabled, the string is escaped according to RFC 3986 and RFC 3987. See these RFCs for a definition of reserved and unreserved characters.</p>\n<p>For more information on IRI support, see the Remarks section for the <xref href=\"System.Uri\" data-throw-if-not-resolved=\"false\"></xref> class.</p>\n"
+  example:
+  - 
   syntax:
     content: public static string EscapeDataString(string stringToEscape)
     content.vb: Public Shared Function EscapeDataString(stringToEscape As String) As String
     parameters:
     - id: stringToEscape
       type: System.String
+      description: "\n<p>The string to escape.</p>\n"
     return:
       type: System.String
+      description: "\n<p>A <xref href=\"System.String\" data-throw-if-not-resolved=\"false\"></xref> that contains the escaped representation of <em>stringToEscape</em>.</p>\n"
+  exceptions:
+  - type: System.ArgumentNullException
+    commentId: T:System.ArgumentNullException
+    description: "\n<p>\n<em>stringToEscape</em> is <strong>null</strong>. </p>\n"
+  - type: System.UriFormatException
+    commentId: T:System.UriFormatException
+    description: "\n<p>In the <see href=\"http://go.microsoft.com/fwlink/?LinkID=247912\">.NET for Windows Store apps</see> or the Portable Class Library, catch the base class exception, <xref href=\"System.FormatException\" data-throw-if-not-resolved=\"false\"></xref>, instead.</p>\n<p>The length of <em>stringToEscape</em> exceeds 32766 characters.</p>\n"
   modifiers.csharp:
   - public
   - static
@@ -1136,23 +1442,36 @@ items:
   type: Method
   source:
     remote:
-      path: src/System.Private.Uri/src/System/UriExt.cs
+      path: src/System.Runtime/ref/System.Runtime.cs
       branch: master
       repo: https://github.com/dotnet/corefx.git
     id: EscapeUriString
-    path: src/System.Private.Uri/src/System/UriExt.cs
-    startLine: 529
+    path: src/System.Runtime/ref/System.Runtime.cs
+    startLine: 2164
   assemblies:
   - System.Runtime
   namespace: System
+  summary: "\n<p>Converts a URI string to its escaped representation.</p>\n"
+  remarks: "\n<p>Use the <xref href=\"System.Uri.EscapeUriString(System.String)\" data-throw-if-not-resolved=\"false\"></xref> method to prepare an unescaped URI string to be a parameter to the <xref href=\"System.Uri.#ctor(System.String,System.UriKind)\" data-throw-if-not-resolved=\"false\"></xref> constructor.</p>\n<p>By default, the <xref href=\"System.Uri.EscapeUriString(System.String)\" data-throw-if-not-resolved=\"false\"></xref> method converts all characters, except RFC 2396 unreserved characters, to their hexadecimal representation. If International Resource Identifiers (IRIs) or Internationalized Domain Name (IDN) parsing is enabled, the <xref href=\"System.Uri.EscapeUriString(System.String)\" data-throw-if-not-resolved=\"false\"></xref> method converts all characters, except for RFC 3986 unreserved characters, to their hexadecimal representation. All Unicode characters are converted to UTF-8 format before being escaped. </p>\n<p>This method assumes that <em>stringToEscape</em> has no escape sequences in it.</p>\n<p>By default, the string is escaped according to RFC 2396. If International Resource Identifiers (IRIs) or Internationalized Domain Name (IDN) parsing is enabled, the string is escaped according to RFC 3986 and RFC 3987. See these RFCs for a definition of reserved and unreserved characters.</p>\n<p>For more information on IRI support, see the Remarks section for the <xref href=\"System.Uri\" data-throw-if-not-resolved=\"false\"></xref> class.</p>\n"
+  example:
+  - 
   syntax:
     content: public static string EscapeUriString(string stringToEscape)
     content.vb: Public Shared Function EscapeUriString(stringToEscape As String) As String
     parameters:
     - id: stringToEscape
       type: System.String
+      description: "\n<p>The string to escape.</p>\n"
     return:
       type: System.String
+      description: "\n<p>A <xref href=\"System.String\" data-throw-if-not-resolved=\"false\"></xref> that contains the escaped representation of <em>stringToEscape</em>.</p>\n"
+  exceptions:
+  - type: System.ArgumentNullException
+    commentId: T:System.ArgumentNullException
+    description: "\n<p>\n<em>stringToEscape</em> is <strong>null</strong>. </p>\n"
+  - type: System.UriFormatException
+    commentId: T:System.UriFormatException
+    description: "\n<p>In the <see href=\"http://go.microsoft.com/fwlink/?LinkID=247912\">.NET for Windows Store apps</see> or the Portable Class Library, catch the base class exception, <xref href=\"System.FormatException\" data-throw-if-not-resolved=\"false\"></xref>, instead.</p>\n<p>The length of <em>stringToEscape</em> exceeds 32766 characters.</p>\n"
   modifiers.csharp:
   - public
   - static
@@ -1171,25 +1490,37 @@ items:
   type: Method
   source:
     remote:
-      path: src/System.Private.Uri/src/System/UriExt.cs
+      path: src/System.Runtime/ref/System.Runtime.cs
       branch: master
       repo: https://github.com/dotnet/corefx.git
     id: GetComponents
-    path: src/System.Private.Uri/src/System/UriExt.cs
-    startLine: 300
+    path: src/System.Runtime/ref/System.Runtime.cs
+    startLine: 2165
   assemblies:
   - System.Runtime
   namespace: System
+  summary: "\n<p>Gets the specified components of the current instance using the specified escaping for special characters.</p>\n"
+  remarks: "\n<p>When <xref href=\"System.UriComponents.Query\" data-throw-if-not-resolved=\"false\"></xref> or <xref href=\"System.UriComponents.Fragment\" data-throw-if-not-resolved=\"false\"></xref> is specified alone, the return value includes the delimiter. The <xref href=\"System.UriComponents.Scheme\" data-throw-if-not-resolved=\"false\"></xref>, <xref href=\"System.UriComponents.UserInfo\" data-throw-if-not-resolved=\"false\"></xref>, <xref href=\"System.UriComponents.Host\" data-throw-if-not-resolved=\"false\"></xref>, <xref href=\"System.UriComponents.Port\" data-throw-if-not-resolved=\"false\"></xref>, and <xref href=\"System.UriComponents.Path\" data-throw-if-not-resolved=\"false\"></xref> components do not include the delimiter. For all other <xref href=\"System.UriComponents\" data-throw-if-not-resolved=\"false\"></xref> values, and combinations of values, the delimiters are included in the returned value.</p>\n<p>The components are returned in the order that they appear in the URI. For example, if <xref href=\"System.UriComponents.Scheme\" data-throw-if-not-resolved=\"false\"></xref> is specified, it appears first.</p>\n<p>When International Resource Identifier (IRI) and Internationalized Domain Name (IDN) support are enabled, the number of characters returned in the <xref href=\"System.String\" data-throw-if-not-resolved=\"false\"></xref> increases. Punycode names used to support IRI contain only ASCII characters and always start with the xn-- prefix. When IRI and IDN are enabled, Unicode surrogate characters are handled correctly by the <xref href=\"System.Uri.GetComponents(System.UriComponents,System.UriFormat)\" data-throw-if-not-resolved=\"false\"></xref> method.</p>\n<p>For more information on IRI support, see the Remarks section for the <xref href=\"System.Uri\" data-throw-if-not-resolved=\"false\"></xref> class.</p>\n<p>If the <xref href=\"System.Uri.GetComponents(System.UriComponents,System.UriFormat)\" data-throw-if-not-resolved=\"false\"></xref> method is called with <em>format</em> set to <xref href=\"System.UriFormat.Unescaped\" data-throw-if-not-resolved=\"false\"></xref> , you cannot use the return value as an argument to a <see cref=\"Overload:System.Uri.#ctor\"></see> constructor to create an equivalent <xref href=\"System.Uri\" data-throw-if-not-resolved=\"false\"></xref>.</p>\n"
   syntax:
     content: public string GetComponents(UriComponents components, UriFormat format)
     content.vb: Public Function GetComponents(components As UriComponents, format As UriFormat) As String
     parameters:
     - id: components
       type: System.UriComponents
+      description: "\n<p>A bitwise combination of the <xref href=\"System.UriComponents\" data-throw-if-not-resolved=\"false\"></xref> values that specifies which parts of the current instance to return to the caller.</p>\n"
     - id: format
       type: System.UriFormat
+      description: "\n<p>One of the <xref href=\"System.UriFormat\" data-throw-if-not-resolved=\"false\"></xref> values that controls how special characters are escaped. </p>\n"
     return:
       type: System.String
+      description: "\n<p>A <xref href=\"System.String\" data-throw-if-not-resolved=\"false\"></xref> that contains the components.</p>\n"
+  exceptions:
+  - type: System.ArgumentOutOfRangeException
+    commentId: T:System.ArgumentOutOfRangeException
+    description: "\n<p>\n<em>uriComponents</em> is not a combination of valid <xref href=\"System.UriComponents\" data-throw-if-not-resolved=\"false\"></xref> values.</p>\n"
+  - type: System.InvalidOperationException
+    commentId: T:System.InvalidOperationException
+    description: "\n<p>The current <xref href=\"System.Uri\" data-throw-if-not-resolved=\"false\"></xref> is not an absolute URI. Relative URIs cannot be used with this method.</p>\n"
   modifiers.csharp:
   - public
   modifiers.vb:
@@ -1206,20 +1537,24 @@ items:
   type: Method
   source:
     remote:
-      path: src/System.Private.Uri/src/System/Uri.cs
+      path: src/System.Runtime/ref/System.Runtime.cs
       branch: master
       repo: https://github.com/dotnet/corefx.git
     id: GetHashCode
-    path: src/System.Private.Uri/src/System/Uri.cs
-    startLine: 1345
+    path: src/System.Runtime/ref/System.Runtime.cs
+    startLine: 2166
   assemblies:
   - System.Runtime
   namespace: System
+  summary: "\n<p>Gets the hash code for the URI.</p>\n"
+  example:
+  - "\n<p>The following example creates a <xref href=\"System.Uri\" data-throw-if-not-resolved=\"false\"></xref> instance and writes the hash code to the console.</p>NCLUriExamples#4"
   syntax:
     content: public override int GetHashCode()
     content.vb: Public Overrides Function GetHashCode As Integer
     return:
       type: System.Int32
+      description: "\n<p>An <xref href=\"System.Int32\" data-throw-if-not-resolved=\"false\"></xref> containing the hash value generated for this URI.</p>\n"
   overridden: System.Object.GetHashCode
   modifiers.csharp:
   - public
@@ -1239,23 +1574,33 @@ items:
   type: Method
   source:
     remote:
-      path: src/System.Private.Uri/src/System/UriExt.cs
+      path: src/System.Runtime/ref/System.Runtime.cs
       branch: master
       repo: https://github.com/dotnet/corefx.git
     id: IsBaseOf
-    path: src/System.Private.Uri/src/System/UriExt.cs
-    startLine: 830
+    path: src/System.Runtime/ref/System.Runtime.cs
+    startLine: 2167
   assemblies:
   - System.Runtime
   namespace: System
+  summary: "\n<p>Determines whether the current <xref href=\"System.Uri\" data-throw-if-not-resolved=\"false\"></xref> instance is a base of the specified <xref href=\"System.Uri\" data-throw-if-not-resolved=\"false\"></xref> instance.</p>\n"
+  remarks: "\n<p>\n<xref href=\"System.Uri.IsBaseOf(System.Uri)\" data-throw-if-not-resolved=\"false\"></xref> is used to compare the current <xref href=\"System.Uri\" data-throw-if-not-resolved=\"false\"></xref> instance to a specified <xref href=\"System.Uri\" data-throw-if-not-resolved=\"false\"></xref> to determine whether this URI is a base for the specified <xref href=\"System.Uri\" data-throw-if-not-resolved=\"false\"></xref>. When comparing two <xref href=\"System.Uri\" data-throw-if-not-resolved=\"false\"></xref> objects to determine a base relationship, the user information (<xref href=\"System.Uri.UserInfo\" data-throw-if-not-resolved=\"false\"></xref>) is not evaluated. When comparing two URIs (uri1 and uri2), uri1 is the base of uri2 if, when you ignore everything in uri2 after the last slash (/), the two URIs are identical. Using http://host/path/path/file?query as the base URI, the following table shows whether it is a base for other URIs.</p>\n<p>URI </p>\n<p>http://host/path/path/file?query is base of </p>\n<table><tbody><tr><td>\n<p>http://host/path/path/file/ </p>\n</td><td>\n<p>yes </p>\n</td></tr><tr><td>\n<p>http://host/path/path/#fragment </p>\n</td><td>\n<p>yes </p>\n</td></tr><tr><td>\n<p>http://host/path/path/MoreDir/\" </p>\n</td><td>\n<p>yes </p>\n</td></tr><tr><td>\n<p>http://host/path/path/OtherFile?Query </p>\n</td><td>\n<p>yes </p>\n</td></tr><tr><td>\n<p>http://host/path/path/ </p>\n</td><td>\n<p>yes </p>\n</td></tr><tr><td>\n<p>http://host/path/path/file </p>\n</td><td>\n<p>yes </p>\n</td></tr><tr><td>\n<p>http://host/path/path </p>\n</td><td>\n<p>no </p>\n</td></tr><tr><td>\n<p>http://host/path/path?query </p>\n</td><td>\n<p>no </p>\n</td></tr><tr><td>\n<p>http://host/path/path#Fragment </p>\n</td><td>\n<p>no </p>\n</td></tr><tr><td>\n<p>http://host/path/path2/ </p>\n</td><td>\n<p>no </p>\n</td></tr><tr><td>\n<p>http://host/path/path2/MoreDir </p>\n</td><td>\n<p>no </p>\n</td></tr><tr><td>\n<p>http://host/path/File </p>\n</td><td>\n<p>no </p>\n</td></tr></tbody></table>\n"
+  example:
+  - "\n<p>This example creates a <xref href=\"System.Uri\" data-throw-if-not-resolved=\"false\"></xref> instance that represents a base <xref href=\"System.Uri\" data-throw-if-not-resolved=\"false\"></xref> instance. It then creates a second <xref href=\"System.Uri\" data-throw-if-not-resolved=\"false\"></xref> instance from a string. It calls <xref href=\"System.Uri.IsBaseOf(System.Uri)\" data-throw-if-not-resolved=\"false\"></xref> to determine whether the base instance is the base of the second instance. The outcome is written to the console.</p>NCLUriEnhancements#6"
   syntax:
     content: public bool IsBaseOf(Uri uri)
     content.vb: Public Function IsBaseOf(uri As Uri) As Boolean
     parameters:
     - id: uri
       type: System.Uri
+      description: "\n<p>The specified <xref href=\"System.Uri\" data-throw-if-not-resolved=\"false\"></xref> instance to test. </p>\n"
     return:
       type: System.Boolean
+      description: "\n<p>\n<strong>true</strong> if the current <xref href=\"System.Uri\" data-throw-if-not-resolved=\"false\"></xref> instance is a base of <em>uri</em>; otherwise, <strong>false</strong>.</p>\n"
+  exceptions:
+  - type: System.ArgumentNullException
+    commentId: T:System.ArgumentNullException
+    description: "\n<p>\n<em>uri</em> is <strong>null</strong>. </p>\n"
   modifiers.csharp:
   - public
   modifiers.vb:
@@ -1272,20 +1617,25 @@ items:
   type: Method
   source:
     remote:
-      path: src/System.Private.Uri/src/System/UriExt.cs
+      path: src/System.Runtime/ref/System.Runtime.cs
       branch: master
       repo: https://github.com/dotnet/corefx.git
     id: IsWellFormedOriginalString
-    path: src/System.Private.Uri/src/System/UriExt.cs
-    startLine: 351
+    path: src/System.Runtime/ref/System.Runtime.cs
+    startLine: 2168
   assemblies:
   - System.Runtime
   namespace: System
+  summary: "\n<p>Indicates whether the string used to construct this <xref href=\"System.Uri\" data-throw-if-not-resolved=\"false\"></xref> was well-formed and is not required to be further escaped.</p>\n"
+  remarks: "\n<p>The string is considered to be well-formed in accordance with RFC 2396 and RFC 2732 by default. If International Resource Identifiers (IRIs) or Internationalized Domain Name (IDN) parsing is enabled, the string is considered to be well-formed in accordance with RFC 3986 and RFC 3987 </p>\n<p>The string is considered poorly formed, causing the method to return false, if any of the following conditions occur.</p>\n<p>Error</p>\n<p>Example</p>\n<table><tbody><tr><td>\n<p>The string is not correctly escaped.</p>\n</td><td>\n<p>\n<see href=\"http://www.contoso.com/path???/file\">http://www.contoso.com/path???/file</see> name</p>\n</td></tr><tr><td>\n<p>The string is an absolute <xref href=\"System.Uri\" data-throw-if-not-resolved=\"false\"></xref> that represents an implicit file <xref href=\"System.Uri\" data-throw-if-not-resolved=\"false\"></xref>.</p>\n</td><td>\n<p>c:\\\\directory\\filename</p>\n</td></tr><tr><td>\n<p>The string is an absolute URI that is missing a slash before the path.</p>\n</td><td>\n<p>file://c:/directory/filename</p>\n</td></tr><tr><td>\n<p>The string contains unescaped backslashes even if they are treated as forward slashes.</p>\n</td><td>\n<p>http:\\\\host/path/file</p>\n</td></tr><tr><td>\n<p>The string represents a hierarchical absolute <xref href=\"System.Uri\" data-throw-if-not-resolved=\"false\"></xref> and does not contain \"://\".</p>\n</td><td>\n<p>www.contoso.com/path/file</p>\n</td></tr><tr><td>\n<p>The parser for the <xref href=\"System.Uri.Scheme\" data-throw-if-not-resolved=\"false\"></xref> indicates that the original string was not well-formed.</p>\n</td><td>\n<p>The example depends on the scheme of the URI.</p>\n</td></tr></tbody></table>\n<p>By default, the string used to construct this <xref href=\"System.Uri\" data-throw-if-not-resolved=\"false\"></xref> are considered well-formed in accordance with RFC 2396 and RFC 2732.</p>\n<p>When International Resource Identifier (IRI) and Internationalized Domain Name (IDN) support are enabled, the string used to construct this <xref href=\"System.Uri\" data-throw-if-not-resolved=\"false\"></xref> are considered well-formed in accordance with RFC 3986 and RFC 3987. Punycode names used to support IRI contain only ASCII characters and always start with the xn-- prefix. </p>\n<p>For more information on IRI support, see the Remarks section for the <xref href=\"System.Uri\" data-throw-if-not-resolved=\"false\"></xref> class.</p>\n"
+  example:
+  - 
   syntax:
     content: public bool IsWellFormedOriginalString()
     content.vb: Public Function IsWellFormedOriginalString As Boolean
     return:
       type: System.Boolean
+      description: "\n<p>A <xref href=\"System.Boolean\" data-throw-if-not-resolved=\"false\"></xref> value that is <strong>true</strong> if the string was well-formed; else <strong>false</strong>.</p>\n"
   modifiers.csharp:
   - public
   modifiers.vb:
@@ -1302,25 +1652,32 @@ items:
   type: Method
   source:
     remote:
-      path: src/System.Private.Uri/src/System/UriExt.cs
+      path: src/System.Runtime/ref/System.Runtime.cs
       branch: master
       repo: https://github.com/dotnet/corefx.git
     id: IsWellFormedUriString
-    path: src/System.Private.Uri/src/System/UriExt.cs
-    startLine: 359
+    path: src/System.Runtime/ref/System.Runtime.cs
+    startLine: 2169
   assemblies:
   - System.Runtime
   namespace: System
+  summary: "\n<p>Indicates whether the string is well-formed by attempting to construct a URI with the string and ensures that the string does not require further escaping.</p>\n"
+  remarks: "\n<p>In versions of .NET before version 4.5, by default the string is considered well-formed in accordance with RFC 2396 and RFC 2732. If International Resource Identifiers (IRIs) or Internationalized Domain Name (IDN) parsing are enabled, the string is considered well-formed in accordance with RFC 3986 and RFC 3987.</p>\n<p>Beginning in .NET 4.5, strings are always considered well-formed in accordance with RFC 3986 and RFC 3987, whether or not IRI or IDN are enabled. Note, however, that this is only true for apps that target .NET 4.5 or later. Apps that target .NET 4.0 invoke compatibility code, and experience the old (pre-4.5) behavior.</p>\n<p>The string is considered poorly formed, causing the method to return false, if any of the following conditions occur</p>\n<p>Error</p>\n<p>Example</p>\n<table><tbody><tr><td>\n<p>The string is not correctly escaped.</p>\n</td><td>\n<p>\n<see href=\"http://www.contoso.com/path???/file\">http://www.contoso.com/path???/file</see> name</p>\n</td></tr><tr><td>\n<p>The string is an absolute <xref href=\"System.Uri\" data-throw-if-not-resolved=\"false\"></xref> that represents an implicit file <xref href=\"System.Uri\" data-throw-if-not-resolved=\"false\"></xref>.</p>\n</td><td>\n<p>c:\\\\directory\\filename</p>\n</td></tr><tr><td>\n<p>The string is an absolute URI that is missing a slash before the path.</p>\n</td><td>\n<p>file://c:/directory/filename</p>\n</td></tr><tr><td>\n<p>The string contains unescaped backslashes even if they will be treated as forward slashes</p>\n</td><td>\n<p>http:\\\\host/path/file</p>\n</td></tr><tr><td>\n<p>The string represents a hierarchical absolute <xref href=\"System.Uri\" data-throw-if-not-resolved=\"false\"></xref> and does not contain \"://\"</p>\n</td><td>\n<p>www.contoso.com/path/file</p>\n</td></tr><tr><td>\n<p>The parser for the <xref href=\"System.Uri.Scheme\" data-throw-if-not-resolved=\"false\"></xref> indicates that the original string was not well-formed.</p>\n</td><td>\n<p>The example depends on the scheme of the URI.</p>\n</td></tr><tr><td>\n<p>Beginning with .NET 4.5, relative URIs with a colon (':') in their first segment are not considered well-formed.</p>\n</td><td>\n<p>2013.05.29_14:33:41</p>\n</td></tr></tbody></table>\n<p>For more information on IRI support, see the Remarks section for the <xref href=\"System.Uri\" data-throw-if-not-resolved=\"false\"></xref> class.</p>\n"
+  example:
+  - 
   syntax:
     content: public static bool IsWellFormedUriString(string uriString, UriKind uriKind)
     content.vb: Public Shared Function IsWellFormedUriString(uriString As String, uriKind As UriKind) As Boolean
     parameters:
     - id: uriString
       type: System.String
+      description: "\n<p>The string used to attempt to construct a <xref href=\"System.Uri\" data-throw-if-not-resolved=\"false\"></xref>.</p>\n"
     - id: uriKind
       type: System.UriKind
+      description: "\n<p>The type of the <xref href=\"System.Uri\" data-throw-if-not-resolved=\"false\"></xref> in <em>uriString</em>.</p>\n"
     return:
       type: System.Boolean
+      description: "\n<p>A <xref href=\"System.Boolean\" data-throw-if-not-resolved=\"false\"></xref> value that is <strong>true </strong>if the string was well-formed; else <strong>false</strong>.</p>\n"
   modifiers.csharp:
   - public
   - static
@@ -1339,23 +1696,36 @@ items:
   type: Method
   source:
     remote:
-      path: src/System.Private.Uri/src/System/Uri.cs
+      path: src/System.Runtime/ref/System.Runtime.cs
       branch: master
       repo: https://github.com/dotnet/corefx.git
     id: MakeRelativeUri
-    path: src/System.Private.Uri/src/System/Uri.cs
-    startLine: 1659
+    path: src/System.Runtime/ref/System.Runtime.cs
+    startLine: 2170
   assemblies:
   - System.Runtime
   namespace: System
+  summary: "\n<p>Determines the difference between two <xref href=\"System.Uri\" data-throw-if-not-resolved=\"false\"></xref> instances.</p>\n"
+  remarks: "\n<p>The following table shows the URI instance, <em>toUri</em>, and the results of calling <xref href=\"System.Uri.MakeRelativeUri(System.Uri)\" data-throw-if-not-resolved=\"false\"></xref>.</p>\n<p>Current URI instance</p>\n<p>\n<em>toUri</em>\n</p>\n<p>Return value</p>\n<p>User information, if present in the URI, is ignored.</p>\n"
+  example:
+  - "\n<p>The following example creates 2 <xref href=\"System.Uri\" data-throw-if-not-resolved=\"false\"></xref> instances. The difference in the path information is written to the console.</p>NCLUriExamples#3"
   syntax:
     content: public Uri MakeRelativeUri(Uri uri)
     content.vb: Public Function MakeRelativeUri(uri As Uri) As Uri
     parameters:
     - id: uri
       type: System.Uri
+      description: "\n<p>The URI to compare to the current URI.</p>\n"
     return:
       type: System.Uri
+      description: "\n<p>If the hostname and scheme of this URI instance and <em>uri</em> are the same, then this method returns a relative <xref href=\"System.Uri\" data-throw-if-not-resolved=\"false\"></xref> that, when appended to the current URI instance, yields <em>uri</em>.</p>\n<p>If the hostname or scheme is different, then this method returns a <xref href=\"System.Uri\" data-throw-if-not-resolved=\"false\"></xref>  that represents the <em>uri</em> parameter.</p>\n"
+  exceptions:
+  - type: System.ArgumentNullException
+    commentId: T:System.ArgumentNullException
+    description: "\n<p>\n<em>uri</em> is <strong>null</strong>. </p>\n"
+  - type: System.InvalidOperationException
+    commentId: T:System.InvalidOperationException
+    description: "\n<p>This instance represents a relative URI, and this property is valid only for absolute URIs. </p>\n"
   modifiers.csharp:
   - public
   modifiers.vb:
@@ -1372,25 +1742,32 @@ items:
   type: Operator
   source:
     remote:
-      path: src/System.Private.Uri/src/System/Uri.cs
+      path: src/System.Runtime/ref/System.Runtime.cs
       branch: master
       repo: https://github.com/dotnet/corefx.git
     id: op_Equality
-    path: src/System.Private.Uri/src/System/Uri.cs
-    startLine: 1402
+    path: src/System.Runtime/ref/System.Runtime.cs
+    startLine: 2171
   assemblies:
   - System.Runtime
   namespace: System
+  summary: "\n<p>Determines whether two <xref href=\"System.Uri\" data-throw-if-not-resolved=\"false\"></xref> instances have the same value.</p>\n"
+  remarks: "\n<p>This overload uses the <xref href=\"System.Uri.Equals(System.Object)\" data-throw-if-not-resolved=\"false\"></xref> method to determine whether the two <xref href=\"System.Uri\" data-throw-if-not-resolved=\"false\"></xref> instances are equivalent. <xref href=\"System.Uri.UserInfo\" data-throw-if-not-resolved=\"false\"></xref> and <xref href=\"System.Uri.Fragment\" data-throw-if-not-resolved=\"false\"></xref> content is ignored when making this comparison.</p>\n"
+  example:
+  - "\n<p>This example creates three <xref href=\"System.Uri\" data-throw-if-not-resolved=\"false\"></xref> instances from strings and compares them to determine whether they represent the same value. <code>Address1</code> and <code>Address2</code> are the same because the <xref href=\"System.Uri.Fragment\" data-throw-if-not-resolved=\"false\"></xref> portion is ignored for this comparison. The outcome is written to the console.</p>NCLUriEnhancements#5"
   syntax:
     content: public static bool operator ==(Uri uri1, Uri uri2)
     content.vb: Public Shared Operator =(uri1 As Uri, uri2 As Uri) As Boolean
     parameters:
     - id: uri1
       type: System.Uri
+      description: "\n<p>A <xref href=\"System.Uri\" data-throw-if-not-resolved=\"false\"></xref> instance to compare with <em>uri2</em>. </p>\n"
     - id: uri2
       type: System.Uri
+      description: "\n<p>A <xref href=\"System.Uri\" data-throw-if-not-resolved=\"false\"></xref> instance to compare with <em>uri1</em>. </p>\n"
     return:
       type: System.Boolean
+      description: "\n<p>A <xref href=\"System.Boolean\" data-throw-if-not-resolved=\"false\"></xref> value that is <strong>true</strong> if the <xref href=\"System.Uri\" data-throw-if-not-resolved=\"false\"></xref> instances are equivalent; otherwise, <strong>false</strong>.</p>\n"
   modifiers.csharp:
   - public
   - static
@@ -1409,25 +1786,32 @@ items:
   type: Operator
   source:
     remote:
-      path: src/System.Private.Uri/src/System/Uri.cs
+      path: src/System.Runtime/ref/System.Runtime.cs
       branch: master
       repo: https://github.com/dotnet/corefx.git
     id: op_Inequality
-    path: src/System.Private.Uri/src/System/Uri.cs
-    startLine: 1418
+    path: src/System.Runtime/ref/System.Runtime.cs
+    startLine: 2172
   assemblies:
   - System.Runtime
   namespace: System
+  summary: "\n<p>Determines whether two <xref href=\"System.Uri\" data-throw-if-not-resolved=\"false\"></xref> instances do not have the same value.</p>\n"
+  remarks: "\n<p>This overload uses the <xref href=\"System.Uri.Equals(System.Object)\" data-throw-if-not-resolved=\"false\"></xref> method to determine whether the two <xref href=\"System.Uri\" data-throw-if-not-resolved=\"false\"></xref> instances are not equivalent. <xref href=\"System.Uri.UserInfo\" data-throw-if-not-resolved=\"false\"></xref> and <xref href=\"System.Uri.Fragment\" data-throw-if-not-resolved=\"false\"></xref> content is ignored when making this comparison.</p>\n"
+  example:
+  - "\n<p>This example creates three <xref href=\"System.Uri\" data-throw-if-not-resolved=\"false\"></xref> instances from strings and compares them to determine whether they represent the same value. <code>Address2</code> and <code>Address3</code> are not the same because <code>Address3</code> contains a <xref href=\"System.Uri.Query\" data-throw-if-not-resolved=\"false\"></xref> that is not found in <code>Address2</code>. The outcome is written to the console.</p>NCLUriEnhancements#5"
   syntax:
     content: public static bool operator !=(Uri uri1, Uri uri2)
     content.vb: Public Shared Operator <>(uri1 As Uri, uri2 As Uri) As Boolean
     parameters:
     - id: uri1
       type: System.Uri
+      description: "\n<p>A <xref href=\"System.Uri\" data-throw-if-not-resolved=\"false\"></xref> instance to compare with <em>uri2</em>. </p>\n"
     - id: uri2
       type: System.Uri
+      description: "\n<p>A <xref href=\"System.Uri\" data-throw-if-not-resolved=\"false\"></xref> instance to compare with <em>uri1</em>. </p>\n"
     return:
       type: System.Boolean
+      description: "\n<p>A <xref href=\"System.Boolean\" data-throw-if-not-resolved=\"false\"></xref> value that is <strong>true</strong> if the two <xref href=\"System.Uri\" data-throw-if-not-resolved=\"false\"></xref> instances are not equal; otherwise, <strong>false</strong>. If either parameter is <strong>null</strong>, this method returns <strong>true</strong>.</p>\n"
   modifiers.csharp:
   - public
   - static
@@ -1446,21 +1830,29 @@ items:
   type: Method
   source:
     remote:
-      path: src/System.Private.Uri/src/System/Uri.cs
+      path: src/System.Runtime/ref/System.Runtime.cs
       branch: master
       repo: https://github.com/dotnet/corefx.git
     id: ToString
-    path: src/System.Private.Uri/src/System/Uri.cs
-    startLine: 1381
+    path: src/System.Runtime/ref/System.Runtime.cs
+    startLine: 2173
   assemblies:
   - System.Runtime
   namespace: System
+  summary: "\n<p>Gets a canonical string representation for the specified <xref href=\"System.Uri\" data-throw-if-not-resolved=\"false\"></xref> instance.</p>\n"
+  remarks: "\n<p>The string returned by this method does not contain port information when the port is the default port for the scheme.</p>\n<p>The string returned by the <xref href=\"System.Uri.ToString\" data-throw-if-not-resolved=\"false\"></xref> method may contain control characters, which can corrupt the state of a console application. You can use the <xref href=\"System.Uri.GetComponents(System.UriComponents,System.UriFormat)\" data-throw-if-not-resolved=\"false\"></xref> method with the <xref href=\"System.UriFormat.SafeUnescaped\" data-throw-if-not-resolved=\"false\"></xref> format to remove control characters from the returned string.</p>\n"
+  example:
+  - "\n<p>The following example creates a new <xref href=\"System.Uri\" data-throw-if-not-resolved=\"false\"></xref> instance from a string. It illustrates the difference between the value returned from <xref href=\"System.Uri.OriginalString\" data-throw-if-not-resolved=\"false\"></xref>, which returns the string that was passed to the constructor, and from a call to <xref href=\"System.Uri.ToString\" data-throw-if-not-resolved=\"false\"></xref>, which returns the canonical form of the string.</p>NCLUriExamples#7"
   syntax:
     content: public override string ToString()
     content.vb: Public Overrides Function ToString As String
     return:
       type: System.String
+      description: "\n<p>A <xref href=\"System.String\" data-throw-if-not-resolved=\"false\"></xref> instance that contains the unescaped canonical representation of the <xref href=\"System.Uri\" data-throw-if-not-resolved=\"false\"></xref> instance. All characters are unescaped except #, ?, and %.</p>\n"
   overridden: System.Object.ToString
+  see:
+  - type: System.Security.Permissions.SecurityPermission
+    commentId: T:System.Security.Permissions.SecurityPermission
   modifiers.csharp:
   - public
   - override
@@ -1479,27 +1871,35 @@ items:
   type: Method
   source:
     remote:
-      path: src/System.Private.Uri/src/System/UriExt.cs
+      path: src/System.Runtime/ref/System.Runtime.cs
       branch: master
       repo: https://github.com/dotnet/corefx.git
     id: TryCreate
-    path: src/System.Private.Uri/src/System/UriExt.cs
-    startLine: 239
+    path: src/System.Runtime/ref/System.Runtime.cs
+    startLine: 2174
   assemblies:
   - System.Runtime
   namespace: System
+  summary: "\n<p>Creates a new <xref href=\"System.Uri\" data-throw-if-not-resolved=\"false\"></xref> using the specified <xref href=\"System.String\" data-throw-if-not-resolved=\"false\"></xref> instance and a <xref href=\"System.UriKind\" data-throw-if-not-resolved=\"false\"></xref>.</p>\n"
+  remarks: "\n<p>If this method returns <strong>true</strong>, the new <xref href=\"System.Uri\" data-throw-if-not-resolved=\"false\"></xref> is in <em>result</em>.</p>\n"
+  example:
+  - 
   syntax:
     content: public static bool TryCreate(string uriString, UriKind uriKind, out Uri result)
     content.vb: Public Shared Function TryCreate(uriString As String, uriKind As UriKind, ByRef result As Uri) As Boolean
     parameters:
     - id: uriString
       type: System.String
+      description: "\n<p>The <xref href=\"System.String\" data-throw-if-not-resolved=\"false\"></xref> representing the <xref href=\"System.Uri\" data-throw-if-not-resolved=\"false\"></xref>.</p>\n"
     - id: uriKind
       type: System.UriKind
+      description: "\n<p>The type of the Uri.</p>\n"
     - id: result
       type: System.Uri
+      description: "\n<p>When this method returns, contains the constructed <xref href=\"System.Uri\" data-throw-if-not-resolved=\"false\"></xref>.</p>\n"
     return:
       type: System.Boolean
+      description: "\n<p>A <xref href=\"System.Boolean\" data-throw-if-not-resolved=\"false\"></xref> value that is <strong>true</strong> if the <xref href=\"System.Uri\" data-throw-if-not-resolved=\"false\"></xref> was successfully created; otherwise, <strong>false</strong>.</p>\n"
   modifiers.csharp:
   - public
   - static
@@ -1520,27 +1920,35 @@ items:
   type: Method
   source:
     remote:
-      path: src/System.Private.Uri/src/System/UriExt.cs
+      path: src/System.Runtime/ref/System.Runtime.cs
       branch: master
       repo: https://github.com/dotnet/corefx.git
     id: TryCreate
-    path: src/System.Private.Uri/src/System/UriExt.cs
-    startLine: 251
+    path: src/System.Runtime/ref/System.Runtime.cs
+    startLine: 2175
   assemblies:
   - System.Runtime
   namespace: System
+  summary: "\n<p>Creates a new <xref href=\"System.Uri\" data-throw-if-not-resolved=\"false\"></xref> using the specified base and relative <xref href=\"System.String\" data-throw-if-not-resolved=\"false\"></xref> instances.</p>\n"
+  remarks: "\n<p>If this method returns <strong>true</strong>, the new <xref href=\"System.Uri\" data-throw-if-not-resolved=\"false\"></xref> is in <em>result</em>.</p>\n"
+  example:
+  - 
   syntax:
     content: public static bool TryCreate(Uri baseUri, string relativeUri, out Uri result)
     content.vb: Public Shared Function TryCreate(baseUri As Uri, relativeUri As String, ByRef result As Uri) As Boolean
     parameters:
     - id: baseUri
       type: System.Uri
+      description: "\n<p>The base <xref href=\"System.Uri\" data-throw-if-not-resolved=\"false\"></xref>.</p>\n"
     - id: relativeUri
       type: System.String
+      description: "\n<p>The relative <xref href=\"System.Uri\" data-throw-if-not-resolved=\"false\"></xref>, represented as a <xref href=\"System.String\" data-throw-if-not-resolved=\"false\"></xref>, to add to the base <xref href=\"System.Uri\" data-throw-if-not-resolved=\"false\"></xref>.</p>\n"
     - id: result
       type: System.Uri
+      description: "\n<p>When this method returns, contains a <xref href=\"System.Uri\" data-throw-if-not-resolved=\"false\"></xref> constructed from <em>baseUri</em> and <em>relativeUri</em>. This parameter is passed uninitialized.</p>\n"
     return:
       type: System.Boolean
+      description: "\n<p>A <xref href=\"System.Boolean\" data-throw-if-not-resolved=\"false\"></xref> value that is <strong>true</strong> if the <xref href=\"System.Uri\" data-throw-if-not-resolved=\"false\"></xref> was successfully created; otherwise, <strong>false</strong>.</p>\n"
   modifiers.csharp:
   - public
   - static
@@ -1561,27 +1969,39 @@ items:
   type: Method
   source:
     remote:
-      path: src/System.Private.Uri/src/System/UriExt.cs
+      path: src/System.Runtime/ref/System.Runtime.cs
       branch: master
       repo: https://github.com/dotnet/corefx.git
     id: TryCreate
-    path: src/System.Private.Uri/src/System/UriExt.cs
-    startLine: 266
+    path: src/System.Runtime/ref/System.Runtime.cs
+    startLine: 2176
   assemblies:
   - System.Runtime
   namespace: System
+  summary: "\n<p>Creates a new <xref href=\"System.Uri\" data-throw-if-not-resolved=\"false\"></xref> using the specified base and relative <xref href=\"System.Uri\" data-throw-if-not-resolved=\"false\"></xref> instances.</p>\n"
+  remarks: "\n<p>If this method returns <strong>true</strong>, the new <xref href=\"System.Uri\" data-throw-if-not-resolved=\"false\"></xref> is in <em>result</em>.</p>\n<p>This method constructs the URI, puts it in canonical form, and validates it. If an unhandled exception occurs, this method catches it. If you want to create a <xref href=\"System.Uri\" data-throw-if-not-resolved=\"false\"></xref> and get exceptions use one of the <see cref=\"Overload:System.Uri.#ctor\"></see> constructors. </p>\n"
+  example:
+  - 
   syntax:
     content: public static bool TryCreate(Uri baseUri, Uri relativeUri, out Uri result)
     content.vb: Public Shared Function TryCreate(baseUri As Uri, relativeUri As Uri, ByRef result As Uri) As Boolean
     parameters:
     - id: baseUri
       type: System.Uri
+      description: "\n<p>The base <xref href=\"System.Uri\" data-throw-if-not-resolved=\"false\"></xref>. </p>\n"
     - id: relativeUri
       type: System.Uri
+      description: "\n<p>The relative <xref href=\"System.Uri\" data-throw-if-not-resolved=\"false\"></xref> to add to the base <xref href=\"System.Uri\" data-throw-if-not-resolved=\"false\"></xref>. </p>\n"
     - id: result
       type: System.Uri
+      description: "\n<p>When this method returns, contains a <xref href=\"System.Uri\" data-throw-if-not-resolved=\"false\"></xref> constructed from <em>baseUri</em> and <em>relativeUri</em>. This parameter is passed uninitialized.</p>\n"
     return:
       type: System.Boolean
+      description: "\n<p>A <xref href=\"System.Boolean\" data-throw-if-not-resolved=\"false\"></xref> value that is <strong>true</strong> if the <xref href=\"System.Uri\" data-throw-if-not-resolved=\"false\"></xref> was successfully created; otherwise, <strong>false</strong>.</p>\n"
+  exceptions:
+  - type: System.ArgumentNullException
+    commentId: T:System.ArgumentNullException
+    description: "\n<p>\n<em>baseUri</em> is <strong>null</strong>. </p>\n"
   modifiers.csharp:
   - public
   - static
@@ -1602,23 +2022,38 @@ items:
   type: Method
   source:
     remote:
-      path: src/System.Private.Uri/src/System/UriExt.cs
+      path: src/System.Runtime/ref/System.Runtime.cs
       branch: master
       repo: https://github.com/dotnet/corefx.git
     id: UnescapeDataString
-    path: src/System.Private.Uri/src/System/UriExt.cs
-    startLine: 494
+    path: src/System.Runtime/ref/System.Runtime.cs
+    startLine: 2177
   assemblies:
   - System.Runtime
   namespace: System
+  summary: "\n<p>Converts a string to its unescaped representation.</p>\n"
+  remarks: "\n<p>You should use this method with care. Unescaping a string that has been previously unescaped can lead to ambiguities and errors.</p>\n<p>Many Web browsers escape spaces inside of URIs into plus (\"+\") characters; however, the UnescapeDataString method does not convert plus characters into spaces because this behavior is not standard across all URI schemes. </p>\n"
+  example:
+  - "\n<p>The following code example unescapes a URI, and then converts any plus characters (\"+\") into spaces.</p>NCLUriExamples#19"
   syntax:
     content: public static string UnescapeDataString(string stringToUnescape)
     content.vb: Public Shared Function UnescapeDataString(stringToUnescape As String) As String
     parameters:
     - id: stringToUnescape
       type: System.String
+      description: "\n<p>The string to unescape.</p>\n"
     return:
       type: System.String
+      description: "\n<p>A <xref href=\"System.String\" data-throw-if-not-resolved=\"false\"></xref> that contains the unescaped representation of <em>stringToUnescape</em>. </p>\n"
+  exceptions:
+  - type: System.ArgumentNullException
+    commentId: T:System.ArgumentNullException
+    description: "\n<p>\n<em>stringToUnescape</em> is <strong>null</strong>. </p>\n"
+  seealso:
+  - type: System.Uri.EscapeDataString(System.String)
+    commentId: M:System.Uri.EscapeDataString(System.String)
+  - type: System.Uri.EscapeUriString(System.String)
+    commentId: M:System.Uri.EscapeUriString(System.String)
   modifiers.csharp:
   - public
   - static
@@ -1637,118 +2072,134 @@ references:
   fullName: System.Object
 - uid: System.Object.Equals(System.Object,System.Object)
   parent: System.Object
-  isExternal: false
+  isExternal: true
   name: Equals(Object, Object)
   fullName: System.Object.Equals(System.Object, System.Object)
   spec.csharp:
   - uid: System.Object.Equals(System.Object,System.Object)
     name: Equals
     fullName: System.Object.Equals
+    isExternal: true
   - name: (
     fullName: (
   - uid: System.Object
     name: Object
     fullName: System.Object
+    isExternal: true
   - name: ', '
     fullName: ', '
   - uid: System.Object
     name: Object
     fullName: System.Object
+    isExternal: true
   - name: )
     fullName: )
   spec.vb:
   - uid: System.Object.Equals(System.Object,System.Object)
     name: Equals
     fullName: System.Object.Equals
+    isExternal: true
   - name: (
     fullName: (
   - uid: System.Object
     name: Object
     fullName: System.Object
+    isExternal: true
   - name: ', '
     fullName: ', '
   - uid: System.Object
     name: Object
     fullName: System.Object
-  - name: )
-    fullName: )
-- uid: System.Object.GetType
-  parent: System.Object
-  isExternal: false
-  name: GetType()
-  fullName: System.Object.GetType()
-  spec.csharp:
-  - uid: System.Object.GetType
-    name: GetType
-    fullName: System.Object.GetType
-  - name: (
-    fullName: (
-  - name: )
-    fullName: )
-  spec.vb:
-  - uid: System.Object.GetType
-    name: GetType
-    fullName: System.Object.GetType
-  - name: (
-    fullName: (
-  - name: )
-    fullName: )
-- uid: System.Object.MemberwiseClone
-  parent: System.Object
-  isExternal: false
-  name: MemberwiseClone()
-  fullName: System.Object.MemberwiseClone()
-  spec.csharp:
-  - uid: System.Object.MemberwiseClone
-    name: MemberwiseClone
-    fullName: System.Object.MemberwiseClone
-  - name: (
-    fullName: (
-  - name: )
-    fullName: )
-  spec.vb:
-  - uid: System.Object.MemberwiseClone
-    name: MemberwiseClone
-    fullName: System.Object.MemberwiseClone
-  - name: (
-    fullName: (
+    isExternal: true
   - name: )
     fullName: )
 - uid: System.Object.ReferenceEquals(System.Object,System.Object)
   parent: System.Object
-  isExternal: false
+  isExternal: true
   name: ReferenceEquals(Object, Object)
   fullName: System.Object.ReferenceEquals(System.Object, System.Object)
   spec.csharp:
   - uid: System.Object.ReferenceEquals(System.Object,System.Object)
     name: ReferenceEquals
     fullName: System.Object.ReferenceEquals
+    isExternal: true
   - name: (
     fullName: (
   - uid: System.Object
     name: Object
     fullName: System.Object
+    isExternal: true
   - name: ', '
     fullName: ', '
   - uid: System.Object
     name: Object
     fullName: System.Object
+    isExternal: true
   - name: )
     fullName: )
   spec.vb:
   - uid: System.Object.ReferenceEquals(System.Object,System.Object)
     name: ReferenceEquals
     fullName: System.Object.ReferenceEquals
+    isExternal: true
   - name: (
     fullName: (
   - uid: System.Object
     name: Object
     fullName: System.Object
+    isExternal: true
   - name: ', '
     fullName: ', '
   - uid: System.Object
     name: Object
     fullName: System.Object
+    isExternal: true
+  - name: )
+    fullName: )
+- uid: System.Object.GetType
+  parent: System.Object
+  isExternal: true
+  name: GetType()
+  fullName: System.Object.GetType()
+  spec.csharp:
+  - uid: System.Object.GetType
+    name: GetType
+    fullName: System.Object.GetType
+    isExternal: true
+  - name: (
+    fullName: (
+  - name: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.GetType
+    name: GetType
+    fullName: System.Object.GetType
+    isExternal: true
+  - name: (
+    fullName: (
+  - name: )
+    fullName: )
+- uid: System.Object.MemberwiseClone
+  parent: System.Object
+  isExternal: true
+  name: MemberwiseClone()
+  fullName: System.Object.MemberwiseClone()
+  spec.csharp:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    fullName: System.Object.MemberwiseClone
+    isExternal: true
+  - name: (
+    fullName: (
+  - name: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    fullName: System.Object.MemberwiseClone
+    isExternal: true
+  - name: (
+    fullName: (
   - name: )
     fullName: )
 - uid: System.String
@@ -1782,7 +2233,7 @@ references:
   name: Int32
   fullName: System.Int32
 - uid: System.String[]
-  isExternal: false
+  isExternal: true
   name: String[]
   fullName: System.String[]
   fullname.vb: System.String()
@@ -1791,12 +2242,14 @@ references:
   - uid: System.String
     name: String
     fullName: System.String
+    isExternal: true
   - name: '[]'
     fullName: '[]'
   spec.vb:
   - uid: System.String
     name: String
     fullName: System.String
+    isExternal: true
   - name: ()
     fullName: ()
 - uid: System.UriComponents
@@ -1816,40 +2269,45 @@ references:
   fullName: System.StringComparison
 - uid: System.Object.Equals(System.Object)
   parent: System.Object
-  isExternal: false
+  isExternal: true
   name: Equals(Object)
   fullName: System.Object.Equals(System.Object)
   spec.csharp:
   - uid: System.Object.Equals(System.Object)
     name: Equals
     fullName: System.Object.Equals
+    isExternal: true
   - name: (
     fullName: (
   - uid: System.Object
     name: Object
     fullName: System.Object
+    isExternal: true
   - name: )
     fullName: )
   spec.vb:
   - uid: System.Object.Equals(System.Object)
     name: Equals
     fullName: System.Object.Equals
+    isExternal: true
   - name: (
     fullName: (
   - uid: System.Object
     name: Object
     fullName: System.Object
+    isExternal: true
   - name: )
     fullName: )
 - uid: System.Object.GetHashCode
   parent: System.Object
-  isExternal: false
+  isExternal: true
   name: GetHashCode()
   fullName: System.Object.GetHashCode()
   spec.csharp:
   - uid: System.Object.GetHashCode
     name: GetHashCode
     fullName: System.Object.GetHashCode
+    isExternal: true
   - name: (
     fullName: (
   - name: )
@@ -1858,19 +2316,21 @@ references:
   - uid: System.Object.GetHashCode
     name: GetHashCode
     fullName: System.Object.GetHashCode
+    isExternal: true
   - name: (
     fullName: (
   - name: )
     fullName: )
 - uid: System.Object.ToString
   parent: System.Object
-  isExternal: false
+  isExternal: true
   name: ToString()
   fullName: System.Object.ToString()
   spec.csharp:
   - uid: System.Object.ToString
     name: ToString
     fullName: System.Object.ToString
+    isExternal: true
   - name: (
     fullName: (
   - name: )
@@ -1879,7 +2339,30 @@ references:
   - uid: System.Object.ToString
     name: ToString
     fullName: System.Object.ToString
+    isExternal: true
   - name: (
     fullName: (
   - name: )
     fullName: )
+- uid: System.ArgumentNullException
+  isExternal: false
+  name: ArgumentNullException
+  fullName: System.ArgumentNullException
+- uid: System.UriFormatException
+  isExternal: false
+  name: UriFormatException
+  fullName: System.UriFormatException
+- uid: System.ArgumentException
+  parent: System
+  isExternal: false
+  name: ArgumentException
+  fullName: System.ArgumentException
+- uid: System.ArgumentOutOfRangeException
+  isExternal: false
+  name: ArgumentOutOfRangeException
+  fullName: System.ArgumentOutOfRangeException
+- uid: System.InvalidOperationException
+  parent: System
+  isExternal: false
+  name: InvalidOperationException
+  fullName: System.InvalidOperationException

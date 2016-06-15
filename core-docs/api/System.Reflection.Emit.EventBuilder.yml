@@ -18,12 +18,12 @@ items:
   type: Class
   source:
     remote:
-      path: src/System.Reflection.Emit/ref/System.Reflection.Emit.cs
+      path: src/mscorlib/src/System/Reflection/Emit/EventBuilder.cs
       branch: master
-      repo: https://github.com/dotnet/corefx.git
+      repo: https://github.com/dotnet/coreclr.git
     id: EventBuilder
-    path: src/System.Reflection.Emit/ref/System.Reflection.Emit.cs
-    startLine: 68
+    path: src/mscorlib/src/System/Reflection/Emit/EventBuilder.cs
+    startLine: 26
   assemblies:
   - System.Reflection.Emit
   namespace: System.Reflection.Emit
@@ -32,12 +32,37 @@ items:
   example:
   - 
   syntax:
-    content: 'public sealed class EventBuilder : object'
+    content: >-
+      [HostProtection(MayLeakOnAbort = true)]
+
+      [ClassInterface(ClassInterfaceType.None)]
+
+      [ComDefaultInterface(typeof (_EventBuilder))]
+
+      [ComVisible(true)]
+
+      public sealed class EventBuilder : _EventBuilder
     content.vb: >-
+      <HostProtection(MayLeakOnAbort:=True)>
+
+      <ClassInterface(ClassInterfaceType.None)>
+
+      <ComDefaultInterface(GetType(_EventBuilder))>
+
+      <ComVisible(True)>
+
       Public NotInheritable Class EventBuilder
-          Inherits Object
+          Implements _EventBuilder
   inheritance:
   - System.Object
+  inheritedMembers:
+  - System.Object.ToString
+  - System.Object.Equals(System.Object)
+  - System.Object.Equals(System.Object,System.Object)
+  - System.Object.ReferenceEquals(System.Object,System.Object)
+  - System.Object.GetHashCode
+  - System.Object.GetType
+  - System.Object.MemberwiseClone
   modifiers.csharp:
   - public
   - sealed
@@ -58,23 +83,28 @@ items:
   type: Method
   source:
     remote:
-      path: src/System.Reflection.Emit/ref/System.Reflection.Emit.cs
+      path: src/mscorlib/src/System/Reflection/Emit/EventBuilder.cs
       branch: master
-      repo: https://github.com/dotnet/corefx.git
+      repo: https://github.com/dotnet/coreclr.git
     id: AddOtherMethod
-    path: src/System.Reflection.Emit/ref/System.Reflection.Emit.cs
-    startLine: 71
+    path: src/mscorlib/src/System/Reflection/Emit/EventBuilder.cs
+    startLine: 95
   assemblies:
   - System.Reflection.Emit
   namespace: System.Reflection.Emit
   summary: "\n<p>Adds one of the \"other\" methods associated with this event. \"Other\" methods are methods other than the \"on\" and \"raise\" methods associated with an event. This function can be called many times to add as many \"other\" methods.</p>\n"
   syntax:
-    content: public void AddOtherMethod(MethodBuilder mdBuilder)
-    content.vb: Public Sub AddOtherMethod(mdBuilder As MethodBuilder)
+    content: >-
+      [SecuritySafeCritical]
+
+      public void AddOtherMethod(MethodBuilder mdBuilder)
+    content.vb: >-
+      <SecuritySafeCritical>
+
+      Public Sub AddOtherMethod(mdBuilder As MethodBuilder)
     parameters:
     - id: mdBuilder
       type: System.Reflection.Emit.MethodBuilder
-      description: "\n<p>A <strong>MethodBuilder</strong> object that represents the other method. </p>\n"
   exceptions:
   - type: System.ArgumentNullException
     commentId: T:System.ArgumentNullException
@@ -98,23 +128,28 @@ items:
   type: Method
   source:
     remote:
-      path: src/System.Reflection.Emit/ref/System.Reflection.Emit.cs
+      path: src/mscorlib/src/System/Reflection/Emit/EventBuilder.cs
       branch: master
-      repo: https://github.com/dotnet/corefx.git
+      repo: https://github.com/dotnet/coreclr.git
     id: SetAddOnMethod
-    path: src/System.Reflection.Emit/ref/System.Reflection.Emit.cs
-    startLine: 72
+    path: src/mscorlib/src/System/Reflection/Emit/EventBuilder.cs
+    startLine: 77
   assemblies:
   - System.Reflection.Emit
   namespace: System.Reflection.Emit
   summary: "\n<p>Sets the method used to subscribe to this event.</p>\n"
   syntax:
-    content: public void SetAddOnMethod(MethodBuilder mdBuilder)
-    content.vb: Public Sub SetAddOnMethod(mdBuilder As MethodBuilder)
+    content: >-
+      [SecuritySafeCritical]
+
+      public void SetAddOnMethod(MethodBuilder mdBuilder)
+    content.vb: >-
+      <SecuritySafeCritical>
+
+      Public Sub SetAddOnMethod(mdBuilder As MethodBuilder)
     parameters:
     - id: mdBuilder
       type: System.Reflection.Emit.MethodBuilder
-      description: "\n<p>A <strong>MethodBuilder</strong> object that represents the method used to subscribe to this event. </p>\n"
   exceptions:
   - type: System.ArgumentNullException
     commentId: T:System.ArgumentNullException
@@ -138,27 +173,35 @@ items:
   type: Method
   source:
     remote:
-      path: src/System.Reflection.Emit/ref/System.Reflection.Emit.cs
+      path: src/mscorlib/src/System/Reflection/Emit/EventBuilder.cs
       branch: master
-      repo: https://github.com/dotnet/corefx.git
+      repo: https://github.com/dotnet/coreclr.git
     id: SetCustomAttribute
-    path: src/System.Reflection.Emit/ref/System.Reflection.Emit.cs
-    startLine: 73
+    path: src/mscorlib/src/System/Reflection/Emit/EventBuilder.cs
+    startLine: 104
   assemblies:
   - System.Reflection.Emit
   namespace: System.Reflection.Emit
   summary: "\n<p>Set a custom attribute using a specified custom attribute blob.</p>\n"
   remarks: "\n<p>See the metadata specification in the ECMA Partition II documentation for details on how to format <em>binaryAttribute</em>. The documentation is available online; see <see href=\"http://go.microsoft.com/fwlink/?LinkID=99212\">ECMA C# and Common Language Infrastructure Standards</see> on MSDN and <see href=\"http://go.microsoft.com/fwlink/?LinkID=65552\">Standard ECMA-335 - Common Language Infrastructure (CLI)</see> on the Ecma International Web site.</p>\n"
   syntax:
-    content: public void SetCustomAttribute(ConstructorInfo con, byte[] binaryAttribute)
-    content.vb: Public Sub SetCustomAttribute(con As ConstructorInfo, binaryAttribute As Byte())
+    content: >-
+      [SecurityCritical]
+
+      [ComVisible(true)]
+
+      public void SetCustomAttribute(ConstructorInfo con, byte[] binaryAttribute)
+    content.vb: >-
+      <SecurityCritical>
+
+      <ComVisible(True)>
+
+      Public Sub SetCustomAttribute(con As ConstructorInfo, binaryAttribute As Byte())
     parameters:
     - id: con
       type: System.Reflection.ConstructorInfo
-      description: "\n<p>The constructor for the custom attribute. </p>\n"
     - id: binaryAttribute
       type: System.Byte[]
-      description: "\n<p>A byte blob representing the attributes. </p>\n"
   exceptions:
   - type: System.ArgumentNullException
     commentId: T:System.ArgumentNullException
@@ -184,23 +227,28 @@ items:
   type: Method
   source:
     remote:
-      path: src/System.Reflection.Emit/ref/System.Reflection.Emit.cs
+      path: src/mscorlib/src/System/Reflection/Emit/EventBuilder.cs
       branch: master
-      repo: https://github.com/dotnet/corefx.git
+      repo: https://github.com/dotnet/coreclr.git
     id: SetCustomAttribute
-    path: src/System.Reflection.Emit/ref/System.Reflection.Emit.cs
-    startLine: 74
+    path: src/mscorlib/src/System/Reflection/Emit/EventBuilder.cs
+    startLine: 127
   assemblies:
   - System.Reflection.Emit
   namespace: System.Reflection.Emit
   summary: "\n<p>Sets a custom attribute using a custom attribute builder.</p>\n"
   syntax:
-    content: public void SetCustomAttribute(CustomAttributeBuilder customBuilder)
-    content.vb: Public Sub SetCustomAttribute(customBuilder As CustomAttributeBuilder)
+    content: >-
+      [SecuritySafeCritical]
+
+      public void SetCustomAttribute(CustomAttributeBuilder customBuilder)
+    content.vb: >-
+      <SecuritySafeCritical>
+
+      Public Sub SetCustomAttribute(customBuilder As CustomAttributeBuilder)
     parameters:
     - id: customBuilder
       type: System.Reflection.Emit.CustomAttributeBuilder
-      description: "\n<p>An instance of a helper class to describe the custom attribute. </p>\n"
   exceptions:
   - type: System.ArgumentNullException
     commentId: T:System.ArgumentNullException
@@ -224,23 +272,28 @@ items:
   type: Method
   source:
     remote:
-      path: src/System.Reflection.Emit/ref/System.Reflection.Emit.cs
+      path: src/mscorlib/src/System/Reflection/Emit/EventBuilder.cs
       branch: master
-      repo: https://github.com/dotnet/corefx.git
+      repo: https://github.com/dotnet/coreclr.git
     id: SetRaiseMethod
-    path: src/System.Reflection.Emit/ref/System.Reflection.Emit.cs
-    startLine: 75
+    path: src/mscorlib/src/System/Reflection/Emit/EventBuilder.cs
+    startLine: 89
   assemblies:
   - System.Reflection.Emit
   namespace: System.Reflection.Emit
   summary: "\n<p>Sets the method used to raise this event.</p>\n"
   syntax:
-    content: public void SetRaiseMethod(MethodBuilder mdBuilder)
-    content.vb: Public Sub SetRaiseMethod(mdBuilder As MethodBuilder)
+    content: >-
+      [SecuritySafeCritical]
+
+      public void SetRaiseMethod(MethodBuilder mdBuilder)
+    content.vb: >-
+      <SecuritySafeCritical>
+
+      Public Sub SetRaiseMethod(mdBuilder As MethodBuilder)
     parameters:
     - id: mdBuilder
       type: System.Reflection.Emit.MethodBuilder
-      description: "\n<p>A <strong>MethodBuilder</strong> object that represents the method used to raise this event. </p>\n"
   exceptions:
   - type: System.ArgumentNullException
     commentId: T:System.ArgumentNullException
@@ -264,23 +317,28 @@ items:
   type: Method
   source:
     remote:
-      path: src/System.Reflection.Emit/ref/System.Reflection.Emit.cs
+      path: src/mscorlib/src/System/Reflection/Emit/EventBuilder.cs
       branch: master
-      repo: https://github.com/dotnet/corefx.git
+      repo: https://github.com/dotnet/coreclr.git
     id: SetRemoveOnMethod
-    path: src/System.Reflection.Emit/ref/System.Reflection.Emit.cs
-    startLine: 76
+    path: src/mscorlib/src/System/Reflection/Emit/EventBuilder.cs
+    startLine: 83
   assemblies:
   - System.Reflection.Emit
   namespace: System.Reflection.Emit
   summary: "\n<p>Sets the method used to unsubscribe to this event.</p>\n"
   syntax:
-    content: public void SetRemoveOnMethod(MethodBuilder mdBuilder)
-    content.vb: Public Sub SetRemoveOnMethod(mdBuilder As MethodBuilder)
+    content: >-
+      [SecuritySafeCritical]
+
+      public void SetRemoveOnMethod(MethodBuilder mdBuilder)
+    content.vb: >-
+      <SecuritySafeCritical>
+
+      Public Sub SetRemoveOnMethod(mdBuilder As MethodBuilder)
     parameters:
     - id: mdBuilder
       type: System.Reflection.Emit.MethodBuilder
-      description: "\n<p>A <strong>MethodBuilder</strong> object that represents the method used to unsubscribe to this event. </p>\n"
   exceptions:
   - type: System.ArgumentNullException
     commentId: T:System.ArgumentNullException
@@ -302,6 +360,215 @@ references:
   isExternal: false
   name: Object
   fullName: System.Object
+- uid: System.Object.ToString
+  parent: System.Object
+  isExternal: true
+  name: ToString()
+  fullName: System.Object.ToString()
+  spec.csharp:
+  - uid: System.Object.ToString
+    name: ToString
+    fullName: System.Object.ToString
+    isExternal: true
+  - name: (
+    fullName: (
+  - name: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.ToString
+    name: ToString
+    fullName: System.Object.ToString
+    isExternal: true
+  - name: (
+    fullName: (
+  - name: )
+    fullName: )
+- uid: System.Object.Equals(System.Object)
+  parent: System.Object
+  isExternal: true
+  name: Equals(Object)
+  fullName: System.Object.Equals(System.Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    fullName: )
+- uid: System.Object.Equals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  name: Equals(Object, Object)
+  fullName: System.Object.Equals(System.Object, System.Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    fullName: )
+- uid: System.Object.ReferenceEquals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  name: ReferenceEquals(Object, Object)
+  fullName: System.Object.ReferenceEquals(System.Object, System.Object)
+  spec.csharp:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    fullName: System.Object.ReferenceEquals
+    isExternal: true
+  - name: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    fullName: System.Object.ReferenceEquals
+    isExternal: true
+  - name: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    fullName: )
+- uid: System.Object.GetHashCode
+  parent: System.Object
+  isExternal: true
+  name: GetHashCode()
+  fullName: System.Object.GetHashCode()
+  spec.csharp:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    fullName: System.Object.GetHashCode
+    isExternal: true
+  - name: (
+    fullName: (
+  - name: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    fullName: System.Object.GetHashCode
+    isExternal: true
+  - name: (
+    fullName: (
+  - name: )
+    fullName: )
+- uid: System.Object.GetType
+  parent: System.Object
+  isExternal: true
+  name: GetType()
+  fullName: System.Object.GetType()
+  spec.csharp:
+  - uid: System.Object.GetType
+    name: GetType
+    fullName: System.Object.GetType
+    isExternal: true
+  - name: (
+    fullName: (
+  - name: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.GetType
+    name: GetType
+    fullName: System.Object.GetType
+    isExternal: true
+  - name: (
+    fullName: (
+  - name: )
+    fullName: )
+- uid: System.Object.MemberwiseClone
+  parent: System.Object
+  isExternal: true
+  name: MemberwiseClone()
+  fullName: System.Object.MemberwiseClone()
+  spec.csharp:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    fullName: System.Object.MemberwiseClone
+    isExternal: true
+  - name: (
+    fullName: (
+  - name: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    fullName: System.Object.MemberwiseClone
+    isExternal: true
+  - name: (
+    fullName: (
+  - name: )
+    fullName: )
 - uid: System
   isExternal: false
   name: System
@@ -314,10 +581,10 @@ references:
 - uid: System.Reflection.ConstructorInfo
   parent: System.Reflection
   isExternal: false
-  name: Reflection.ConstructorInfo
+  name: ConstructorInfo
   fullName: System.Reflection.ConstructorInfo
 - uid: System.Byte[]
-  isExternal: false
+  isExternal: true
   name: Byte[]
   fullName: System.Byte[]
   fullname.vb: System.Byte()
@@ -326,12 +593,14 @@ references:
   - uid: System.Byte
     name: Byte
     fullName: System.Byte
+    isExternal: true
   - name: '[]'
     fullName: '[]'
   spec.vb:
   - uid: System.Byte
     name: Byte
     fullName: System.Byte
+    isExternal: true
   - name: ()
     fullName: ()
 - uid: System.Reflection

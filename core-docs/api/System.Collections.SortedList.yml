@@ -36,6 +36,7 @@ items:
   - System.Collections.SortedList.SetByIndex(System.Int32,System.Object)
   - System.Collections.SortedList.Synchronized(System.Collections.SortedList)
   - System.Collections.SortedList.SyncRoot
+  - System.Collections.SortedList.System#Collections#IEnumerable#GetEnumerator
   - System.Collections.SortedList.TrimToSize
   - System.Collections.SortedList.Values
   langs:
@@ -46,11 +47,11 @@ items:
   type: Class
   source:
     remote:
-      path: src/System.Collections.NonGeneric/src/System/Collections/SortedList.cs
+      path: src/mscorlib/src/System/Collections/SortedList.cs
       branch: master
-      repo: https://github.com/dotnet/corefx.git
+      repo: https://github.com/dotnet/coreclr.git
     id: SortedList
-    path: src/System.Collections.NonGeneric/src/System/Collections/SortedList.cs
+    path: src/mscorlib/src/System/Collections/SortedList.cs
     startLine: 60
   assemblies:
   - System.Collections.NonGeneric
@@ -60,10 +61,31 @@ items:
   example:
   - "\n<p>The following code example shows how to create and initialize a <xref href=\"System.Collections.SortedList\" data-throw-if-not-resolved=\"false\"></xref> object and how to print out its keys and values.</p>Classic SortedList Example#1"
   syntax:
-    content: 'public class SortedList : IDictionary'
+    content: >-
+      [DebuggerTypeProxy(typeof (SortedList.SortedListDebugView))]
+
+      [DebuggerDisplay("Count = {Count}")]
+
+      [ComVisible(true)]
+
+      [Obsolete("Non-generic collections have been deprecated. Please use collections in System.Collections.Generic.")]
+
+      [Serializable]
+
+      public class SortedList : IDictionary, ICollection, IEnumerable, ICloneable
     content.vb: >-
+      <DebuggerTypeProxy(GetType(SortedList.SortedListDebugView))>
+
+      <DebuggerDisplay("Count = {Count}")>
+
+      <ComVisible(True)>
+
+      <Obsolete("Non-generic collections have been deprecated. Please use collections in System.Collections.Generic.")>
+
+      <Serializable>
+
       Public Class SortedList
-          Inherits IDictionary
+          Implements IDictionary, ICollection, IEnumerable, ICloneable
   seealso:
   - type: System.IComparable
     commentId: T:System.IComparable
@@ -79,7 +101,16 @@ items:
   - System.Object
   implements:
   - System.Collections.IDictionary
+  - System.Collections.ICollection
   - System.Collections.IEnumerable
+  inheritedMembers:
+  - System.Object.ToString
+  - System.Object.Equals(System.Object)
+  - System.Object.Equals(System.Object,System.Object)
+  - System.Object.ReferenceEquals(System.Object,System.Object)
+  - System.Object.GetHashCode
+  - System.Object.GetType
+  - System.Object.MemberwiseClone
   modifiers.csharp:
   - public
   - class
@@ -98,12 +129,12 @@ items:
   type: Constructor
   source:
     remote:
-      path: src/System.Collections.NonGeneric/src/System/Collections/SortedList.cs
+      path: src/mscorlib/src/System/Collections/SortedList.cs
       branch: master
-      repo: https://github.com/dotnet/corefx.git
+      repo: https://github.com/dotnet/coreclr.git
     id: .ctor
-    path: src/System.Collections.NonGeneric/src/System/Collections/SortedList.cs
-    startLine: 84
+    path: src/mscorlib/src/System/Collections/SortedList.cs
+    startLine: 89
   assemblies:
   - System.Collections.NonGeneric
   namespace: System.Collections
@@ -135,12 +166,12 @@ items:
   type: Constructor
   source:
     remote:
-      path: src/System.Collections.NonGeneric/ref/System.Collections.NonGeneric.cs
+      path: src/mscorlib/src/System/Collections/SortedList.cs
       branch: master
-      repo: https://github.com/dotnet/corefx.git
+      repo: https://github.com/dotnet/coreclr.git
     id: .ctor
-    path: src/System.Collections.NonGeneric/ref/System.Collections.NonGeneric.cs
-    startLine: 212
+    path: src/mscorlib/src/System/Collections/SortedList.cs
+    startLine: 126
   assemblies:
   - System.Collections.NonGeneric
   namespace: System.Collections
@@ -154,7 +185,6 @@ items:
     parameters:
     - id: comparer
       type: System.Collections.IComparer
-      description: "\n<p>The <xref href=\"System.Collections.IComparer\" data-throw-if-not-resolved=\"false\"></xref> implementation to use when comparing keys.</p>\n<p>-or- </p>\n<p>\n<strong>null</strong> to use the <xref href=\"System.IComparable\" data-throw-if-not-resolved=\"false\"></xref> implementation of each key. </p>\n"
   seealso:
   - type: System.Collections.IComparer
     commentId: T:System.Collections.IComparer
@@ -178,12 +208,12 @@ items:
   type: Constructor
   source:
     remote:
-      path: src/System.Collections.NonGeneric/ref/System.Collections.NonGeneric.cs
+      path: src/mscorlib/src/System/Collections/SortedList.cs
       branch: master
-      repo: https://github.com/dotnet/corefx.git
+      repo: https://github.com/dotnet/coreclr.git
     id: .ctor
-    path: src/System.Collections.NonGeneric/ref/System.Collections.NonGeneric.cs
-    startLine: 213
+    path: src/mscorlib/src/System/Collections/SortedList.cs
+    startLine: 140
   assemblies:
   - System.Collections.NonGeneric
   namespace: System.Collections
@@ -197,10 +227,8 @@ items:
     parameters:
     - id: comparer
       type: System.Collections.IComparer
-      description: "\n<p>The <xref href=\"System.Collections.IComparer\" data-throw-if-not-resolved=\"false\"></xref> implementation to use when comparing keys.</p>\n<p>-or- </p>\n<p>\n<strong>null</strong> to use the <xref href=\"System.IComparable\" data-throw-if-not-resolved=\"false\"></xref> implementation of each key. </p>\n"
     - id: capacity
       type: System.Int32
-      description: "\n<p>The initial number of elements that the <xref href=\"System.Collections.SortedList\" data-throw-if-not-resolved=\"false\"></xref> object can contain. </p>\n"
   exceptions:
   - type: System.ArgumentOutOfRangeException
     commentId: T:System.ArgumentOutOfRangeException
@@ -231,12 +259,12 @@ items:
   type: Constructor
   source:
     remote:
-      path: src/System.Collections.NonGeneric/ref/System.Collections.NonGeneric.cs
+      path: src/mscorlib/src/System/Collections/SortedList.cs
       branch: master
-      repo: https://github.com/dotnet/corefx.git
+      repo: https://github.com/dotnet/coreclr.git
     id: .ctor
-    path: src/System.Collections.NonGeneric/ref/System.Collections.NonGeneric.cs
-    startLine: 214
+    path: src/mscorlib/src/System/Collections/SortedList.cs
+    startLine: 151
   assemblies:
   - System.Collections.NonGeneric
   namespace: System.Collections
@@ -250,7 +278,6 @@ items:
     parameters:
     - id: d
       type: System.Collections.IDictionary
-      description: "\n<p>The <xref href=\"System.Collections.IDictionary\" data-throw-if-not-resolved=\"false\"></xref> implementation to copy to a new <xref href=\"System.Collections.SortedList\" data-throw-if-not-resolved=\"false\"></xref> object.</p>\n"
   exceptions:
   - type: System.ArgumentNullException
     commentId: T:System.ArgumentNullException
@@ -283,12 +310,12 @@ items:
   type: Constructor
   source:
     remote:
-      path: src/System.Collections.NonGeneric/ref/System.Collections.NonGeneric.cs
+      path: src/mscorlib/src/System/Collections/SortedList.cs
       branch: master
-      repo: https://github.com/dotnet/corefx.git
+      repo: https://github.com/dotnet/coreclr.git
     id: .ctor
-    path: src/System.Collections.NonGeneric/ref/System.Collections.NonGeneric.cs
-    startLine: 215
+    path: src/mscorlib/src/System/Collections/SortedList.cs
+    startLine: 163
   assemblies:
   - System.Collections.NonGeneric
   namespace: System.Collections
@@ -302,10 +329,8 @@ items:
     parameters:
     - id: d
       type: System.Collections.IDictionary
-      description: "\n<p>The <xref href=\"System.Collections.IDictionary\" data-throw-if-not-resolved=\"false\"></xref> implementation to copy to a new <xref href=\"System.Collections.SortedList\" data-throw-if-not-resolved=\"false\"></xref> object.</p>\n"
     - id: comparer
       type: System.Collections.IComparer
-      description: "\n<p>The <xref href=\"System.Collections.IComparer\" data-throw-if-not-resolved=\"false\"></xref> implementation to use when comparing keys.</p>\n<p>-or- </p>\n<p>\n<strong>null</strong> to use the <xref href=\"System.IComparable\" data-throw-if-not-resolved=\"false\"></xref> implementation of each key. </p>\n"
   exceptions:
   - type: System.ArgumentNullException
     commentId: T:System.ArgumentNullException
@@ -340,12 +365,12 @@ items:
   type: Constructor
   source:
     remote:
-      path: src/System.Collections.NonGeneric/src/System/Collections/SortedList.cs
+      path: src/mscorlib/src/System/Collections/SortedList.cs
       branch: master
-      repo: https://github.com/dotnet/corefx.git
+      repo: https://github.com/dotnet/coreclr.git
     id: .ctor
-    path: src/System.Collections.NonGeneric/src/System/Collections/SortedList.cs
-    startLine: 104
+    path: src/mscorlib/src/System/Collections/SortedList.cs
+    startLine: 107
   assemblies:
   - System.Collections.NonGeneric
   namespace: System.Collections
@@ -387,12 +412,12 @@ items:
   type: Property
   source:
     remote:
-      path: src/System.Collections.NonGeneric/src/System/Collections/SortedList.cs
+      path: src/mscorlib/src/System/Collections/SortedList.cs
       branch: master
-      repo: https://github.com/dotnet/corefx.git
+      repo: https://github.com/dotnet/coreclr.git
     id: Capacity
-    path: src/System.Collections.NonGeneric/src/System/Collections/SortedList.cs
-    startLine: 202
+    path: src/mscorlib/src/System/Collections/SortedList.cs
+    startLine: 192
   assemblies:
   - System.Collections.NonGeneric
   namespace: System.Collections
@@ -434,12 +459,12 @@ items:
   type: Property
   source:
     remote:
-      path: src/System.Collections.NonGeneric/src/System/Collections/SortedList.cs
+      path: src/mscorlib/src/System/Collections/SortedList.cs
       branch: master
-      repo: https://github.com/dotnet/corefx.git
+      repo: https://github.com/dotnet/coreclr.git
     id: Count
-    path: src/System.Collections.NonGeneric/src/System/Collections/SortedList.cs
-    startLine: 243
+    path: src/mscorlib/src/System/Collections/SortedList.cs
+    startLine: 225
   assemblies:
   - System.Collections.NonGeneric
   namespace: System.Collections
@@ -454,6 +479,8 @@ items:
   seealso:
   - type: System.Collections.SortedList.Capacity
     commentId: P:System.Collections.SortedList.Capacity
+  implements:
+  - System.Collections.ICollection.Count
   modifiers.csharp:
   - public
   - virtual
@@ -474,12 +501,12 @@ items:
   type: Property
   source:
     remote:
-      path: src/System.Collections.NonGeneric/src/System/Collections/SortedList.cs
+      path: src/mscorlib/src/System/Collections/SortedList.cs
       branch: master
-      repo: https://github.com/dotnet/corefx.git
+      repo: https://github.com/dotnet/coreclr.git
     id: IsFixedSize
-    path: src/System.Collections.NonGeneric/src/System/Collections/SortedList.cs
-    startLine: 281
+    path: src/mscorlib/src/System/Collections/SortedList.cs
+    startLine: 256
   assemblies:
   - System.Collections.NonGeneric
   namespace: System.Collections
@@ -491,6 +518,8 @@ items:
     parameters: []
     return:
       type: System.Boolean
+  implements:
+  - System.Collections.IDictionary.IsFixedSize
   modifiers.csharp:
   - public
   - virtual
@@ -511,12 +540,12 @@ items:
   type: Property
   source:
     remote:
-      path: src/System.Collections.NonGeneric/src/System/Collections/SortedList.cs
+      path: src/mscorlib/src/System/Collections/SortedList.cs
       branch: master
-      repo: https://github.com/dotnet/corefx.git
+      repo: https://github.com/dotnet/coreclr.git
     id: IsReadOnly
-    path: src/System.Collections.NonGeneric/src/System/Collections/SortedList.cs
-    startLine: 276
+    path: src/mscorlib/src/System/Collections/SortedList.cs
+    startLine: 252
   assemblies:
   - System.Collections.NonGeneric
   namespace: System.Collections
@@ -528,6 +557,8 @@ items:
     parameters: []
     return:
       type: System.Boolean
+  implements:
+  - System.Collections.IDictionary.IsReadOnly
   modifiers.csharp:
   - public
   - virtual
@@ -548,12 +579,12 @@ items:
   type: Property
   source:
     remote:
-      path: src/System.Collections.NonGeneric/src/System/Collections/SortedList.cs
+      path: src/mscorlib/src/System/Collections/SortedList.cs
       branch: master
-      repo: https://github.com/dotnet/corefx.git
+      repo: https://github.com/dotnet/coreclr.git
     id: IsSynchronized
-    path: src/System.Collections.NonGeneric/src/System/Collections/SortedList.cs
-    startLine: 287
+    path: src/mscorlib/src/System/Collections/SortedList.cs
+    startLine: 261
   assemblies:
   - System.Collections.NonGeneric
   namespace: System.Collections
@@ -572,6 +603,8 @@ items:
     commentId: P:System.Collections.SortedList.SyncRoot
   - type: System.Collections.SortedList.Synchronized(System.Collections.SortedList)
     commentId: M:System.Collections.SortedList.Synchronized(System.Collections.SortedList)
+  implements:
+  - System.Collections.ICollection.IsSynchronized
   modifiers.csharp:
   - public
   - virtual
@@ -592,12 +625,12 @@ items:
   type: Property
   source:
     remote:
-      path: src/System.Collections.NonGeneric/ref/System.Collections.NonGeneric.cs
+      path: src/mscorlib/src/System/Collections/SortedList.cs
       branch: master
-      repo: https://github.com/dotnet/corefx.git
+      repo: https://github.com/dotnet/coreclr.git
     id: this[]
-    path: src/System.Collections.NonGeneric/ref/System.Collections.NonGeneric.cs
-    startLine: 222
+    path: src/mscorlib/src/System/Collections/SortedList.cs
+    startLine: 437
   assemblies:
   - System.Collections.NonGeneric
   namespace: System.Collections
@@ -609,10 +642,8 @@ items:
     parameters:
     - id: key
       type: System.Object
-      description: "\n<p>The key associated with the value to get or set. </p>\n"
     return:
       type: System.Object
-      description: "\n<p>The value associated with the <em>key</em> parameter in the <xref href=\"System.Collections.SortedList\" data-throw-if-not-resolved=\"false\"></xref> object, if <em>key</em> is found; otherwise, <strong>null</strong>.</p>\n"
   exceptions:
   - type: System.ArgumentNullException
     commentId: T:System.ArgumentNullException
@@ -633,6 +664,8 @@ items:
     commentId: M:System.Collections.SortedList.Contains(System.Object)
   - type: System.Collections.SortedList.ContainsKey(System.Object)
     commentId: M:System.Collections.SortedList.ContainsKey(System.Object)
+  implements:
+  - System.Collections.IDictionary.Item(System.Object)
   modifiers.csharp:
   - public
   - virtual
@@ -655,12 +688,12 @@ items:
   type: Property
   source:
     remote:
-      path: src/System.Collections.NonGeneric/src/System/Collections/SortedList.cs
+      path: src/mscorlib/src/System/Collections/SortedList.cs
       branch: master
-      repo: https://github.com/dotnet/corefx.git
+      repo: https://github.com/dotnet/coreclr.git
     id: Keys
-    path: src/System.Collections.NonGeneric/src/System/Collections/SortedList.cs
-    startLine: 255
+    path: src/mscorlib/src/System/Collections/SortedList.cs
+    startLine: 235
   assemblies:
   - System.Collections.NonGeneric
   namespace: System.Collections
@@ -671,7 +704,7 @@ items:
     content.vb: Public Overridable ReadOnly Property Keys As ICollection
     parameters: []
     return:
-      type: ICollection
+      type: System.Collections.ICollection
   seealso:
   - type: System.Collections.ICollection
     commentId: T:System.Collections.ICollection
@@ -679,6 +712,8 @@ items:
     commentId: P:System.Collections.SortedList.Values
   - type: System.Collections.SortedList.GetKeyList
     commentId: M:System.Collections.SortedList.GetKeyList
+  implements:
+  - System.Collections.IDictionary.Keys
   modifiers.csharp:
   - public
   - virtual
@@ -699,12 +734,12 @@ items:
   type: Property
   source:
     remote:
-      path: src/System.Collections.NonGeneric/src/System/Collections/SortedList.cs
+      path: src/mscorlib/src/System/Collections/SortedList.cs
       branch: master
-      repo: https://github.com/dotnet/corefx.git
+      repo: https://github.com/dotnet/coreclr.git
     id: SyncRoot
-    path: src/System.Collections.NonGeneric/src/System/Collections/SortedList.cs
-    startLine: 293
+    path: src/mscorlib/src/System/Collections/SortedList.cs
+    startLine: 266
   assemblies:
   - System.Collections.NonGeneric
   namespace: System.Collections
@@ -713,16 +748,18 @@ items:
   example:
   - "\n<p>The following code example shows how to lock the collection using the <xref href=\"System.Collections.SortedList.SyncRoot\" data-throw-if-not-resolved=\"false\"></xref> property during the entire enumeration. </p>Classic SortedList.IsSynchronized Example#2<p>Retrieving the value of this property is an O(1) operation.</p>"
   syntax:
-    content: public virtual Object SyncRoot { get; }
+    content: public virtual object SyncRoot { get; }
     content.vb: Public Overridable ReadOnly Property SyncRoot As Object
     parameters: []
     return:
-      type: Object
+      type: System.Object
   seealso:
   - type: System.Collections.SortedList.IsSynchronized
     commentId: P:System.Collections.SortedList.IsSynchronized
   - type: System.Collections.SortedList.Synchronized(System.Collections.SortedList)
     commentId: M:System.Collections.SortedList.Synchronized(System.Collections.SortedList)
+  implements:
+  - System.Collections.ICollection.SyncRoot
   modifiers.csharp:
   - public
   - virtual
@@ -743,12 +780,12 @@ items:
   type: Property
   source:
     remote:
-      path: src/System.Collections.NonGeneric/src/System/Collections/SortedList.cs
+      path: src/mscorlib/src/System/Collections/SortedList.cs
       branch: master
-      repo: https://github.com/dotnet/corefx.git
+      repo: https://github.com/dotnet/coreclr.git
     id: Values
-    path: src/System.Collections.NonGeneric/src/System/Collections/SortedList.cs
-    startLine: 267
+    path: src/mscorlib/src/System/Collections/SortedList.cs
+    startLine: 245
   assemblies:
   - System.Collections.NonGeneric
   namespace: System.Collections
@@ -759,7 +796,7 @@ items:
     content.vb: Public Overridable ReadOnly Property Values As ICollection
     parameters: []
     return:
-      type: ICollection
+      type: System.Collections.ICollection
   seealso:
   - type: System.Collections.ICollection
     commentId: T:System.Collections.ICollection
@@ -767,6 +804,8 @@ items:
     commentId: P:System.Collections.SortedList.Keys
   - type: System.Collections.SortedList.GetValueList
     commentId: M:System.Collections.SortedList.GetValueList
+  implements:
+  - System.Collections.IDictionary.Values
   modifiers.csharp:
   - public
   - virtual
@@ -787,12 +826,12 @@ items:
   type: Method
   source:
     remote:
-      path: src/System.Collections.NonGeneric/ref/System.Collections.NonGeneric.cs
+      path: src/mscorlib/src/System/Collections/SortedList.cs
       branch: master
-      repo: https://github.com/dotnet/corefx.git
+      repo: https://github.com/dotnet/coreclr.git
     id: Add
-    path: src/System.Collections.NonGeneric/ref/System.Collections.NonGeneric.cs
-    startLine: 226
+    path: src/mscorlib/src/System/Collections/SortedList.cs
+    startLine: 177
   assemblies:
   - System.Collections.NonGeneric
   namespace: System.Collections
@@ -806,10 +845,8 @@ items:
     parameters:
     - id: key
       type: System.Object
-      description: "\n<p>The key of the element to add. </p>\n"
     - id: value
       type: System.Object
-      description: "\n<p>The value of the element to add. The value can be <strong>null</strong>. </p>\n"
   exceptions:
   - type: System.ArgumentNullException
     commentId: T:System.ArgumentNullException
@@ -835,6 +872,8 @@ items:
     commentId: T:System.IComparable
   - type: System.Collections.SortedList.Capacity
     commentId: P:System.Collections.SortedList.Capacity
+  implements:
+  - System.Collections.IDictionary.Add(System.Object,System.Object)
   modifiers.csharp:
   - public
   - virtual
@@ -853,12 +892,12 @@ items:
   type: Method
   source:
     remote:
-      path: src/System.Collections.NonGeneric/src/System/Collections/SortedList.cs
+      path: src/mscorlib/src/System/Collections/SortedList.cs
       branch: master
-      repo: https://github.com/dotnet/corefx.git
+      repo: https://github.com/dotnet/coreclr.git
     id: Clear
-    path: src/System.Collections.NonGeneric/src/System/Collections/SortedList.cs
-    startLine: 306
+    path: src/mscorlib/src/System/Collections/SortedList.cs
+    startLine: 276
   assemblies:
   - System.Collections.NonGeneric
   namespace: System.Collections
@@ -880,6 +919,8 @@ items:
     commentId: P:System.Collections.SortedList.Capacity
   - type: System.Collections.SortedList.Count
     commentId: P:System.Collections.SortedList.Count
+  implements:
+  - System.Collections.IDictionary.Clear
   modifiers.csharp:
   - public
   - virtual
@@ -898,22 +939,22 @@ items:
   type: Method
   source:
     remote:
-      path: src/System.Collections.NonGeneric/src/System/Collections/SortedList.cs
+      path: src/mscorlib/src/System/Collections/SortedList.cs
       branch: master
-      repo: https://github.com/dotnet/corefx.git
+      repo: https://github.com/dotnet/coreclr.git
     id: Clone
-    path: src/System.Collections.NonGeneric/src/System/Collections/SortedList.cs
-    startLine: 318
+    path: src/mscorlib/src/System/Collections/SortedList.cs
+    startLine: 288
   assemblies:
   - System.Collections.NonGeneric
   namespace: System.Collections
   summary: "\n<p>Creates a shallow copy of a <xref href=\"System.Collections.SortedList\" data-throw-if-not-resolved=\"false\"></xref> object.</p>\n"
   remarks: "\n<p>A shallow copy of a collection copies only the elements of the collection, whether they are reference types or value types, but does not copy the objects that the references refer to. The references in the new collection point to the same objects that the references in the original collection point to.</p>\n<p>In contrast, a deep copy of a collection copies the elements and everything directly or indirectly referenced by the elements.</p>\n<p>This method is an O(<em>n</em>) operation, where <em>n</em> is <xref href=\"System.Collections.SortedList.Count\" data-throw-if-not-resolved=\"false\"></xref>.</p>\n"
   syntax:
-    content: public virtual Object Clone()
+    content: public virtual object Clone()
     content.vb: Public Overridable Function Clone As Object
     return:
-      type: Object
+      type: System.Object
   seealso:
   - type: System.Collections.SortedList.CopyTo(System.Array,System.Int32)
     commentId: M:System.Collections.SortedList.CopyTo(System.Array,System.Int32)
@@ -935,12 +976,12 @@ items:
   type: Method
   source:
     remote:
-      path: src/System.Collections.NonGeneric/ref/System.Collections.NonGeneric.cs
+      path: src/mscorlib/src/System/Collections/SortedList.cs
       branch: master
-      repo: https://github.com/dotnet/corefx.git
+      repo: https://github.com/dotnet/coreclr.git
     id: Contains
-    path: src/System.Collections.NonGeneric/ref/System.Collections.NonGeneric.cs
-    startLine: 229
+    path: src/mscorlib/src/System/Collections/SortedList.cs
+    startLine: 303
   assemblies:
   - System.Collections.NonGeneric
   namespace: System.Collections
@@ -954,10 +995,8 @@ items:
     parameters:
     - id: key
       type: System.Object
-      description: "\n<p>The key to locate in the <xref href=\"System.Collections.SortedList\" data-throw-if-not-resolved=\"false\"></xref> object. </p>\n"
     return:
       type: System.Boolean
-      description: "\n<p>\n<strong>true</strong> if the <xref href=\"System.Collections.SortedList\" data-throw-if-not-resolved=\"false\"></xref> object contains an element with the specified <em>key</em>; otherwise, <strong>false</strong>.</p>\n"
   exceptions:
   - type: System.ArgumentNullException
     commentId: T:System.ArgumentNullException
@@ -970,6 +1009,8 @@ items:
     commentId: M:System.Collections.SortedList.ContainsKey(System.Object)
   - type: System.Collections.SortedList.IndexOfKey(System.Object)
     commentId: M:System.Collections.SortedList.IndexOfKey(System.Object)
+  implements:
+  - System.Collections.IDictionary.Contains(System.Object)
   modifiers.csharp:
   - public
   - virtual
@@ -988,12 +1029,12 @@ items:
   type: Method
   source:
     remote:
-      path: src/System.Collections.NonGeneric/ref/System.Collections.NonGeneric.cs
+      path: src/mscorlib/src/System/Collections/SortedList.cs
       branch: master
-      repo: https://github.com/dotnet/corefx.git
+      repo: https://github.com/dotnet/coreclr.git
     id: ContainsKey
-    path: src/System.Collections.NonGeneric/ref/System.Collections.NonGeneric.cs
-    startLine: 230
+    path: src/mscorlib/src/System/Collections/SortedList.cs
+    startLine: 309
   assemblies:
   - System.Collections.NonGeneric
   namespace: System.Collections
@@ -1007,10 +1048,8 @@ items:
     parameters:
     - id: key
       type: System.Object
-      description: "\n<p>The key to locate in the <xref href=\"System.Collections.SortedList\" data-throw-if-not-resolved=\"false\"></xref> object.</p>\n"
     return:
       type: System.Boolean
-      description: "\n<p>\n<strong>true</strong> if the <xref href=\"System.Collections.SortedList\" data-throw-if-not-resolved=\"false\"></xref> object contains an element with the specified <em>key</em>; otherwise, <strong>false</strong>.</p>\n"
   exceptions:
   - type: System.ArgumentNullException
     commentId: T:System.ArgumentNullException
@@ -1043,12 +1082,12 @@ items:
   type: Method
   source:
     remote:
-      path: src/System.Collections.NonGeneric/ref/System.Collections.NonGeneric.cs
+      path: src/mscorlib/src/System/Collections/SortedList.cs
       branch: master
-      repo: https://github.com/dotnet/corefx.git
+      repo: https://github.com/dotnet/coreclr.git
     id: ContainsValue
-    path: src/System.Collections.NonGeneric/ref/System.Collections.NonGeneric.cs
-    startLine: 231
+    path: src/mscorlib/src/System/Collections/SortedList.cs
+    startLine: 320
   assemblies:
   - System.Collections.NonGeneric
   namespace: System.Collections
@@ -1062,10 +1101,8 @@ items:
     parameters:
     - id: value
       type: System.Object
-      description: "\n<p>The value to locate in the <xref href=\"System.Collections.SortedList\" data-throw-if-not-resolved=\"false\"></xref> object. The value can be <strong>null</strong>. </p>\n"
     return:
       type: System.Boolean
-      description: "\n<p>\n<strong>true</strong> if the <xref href=\"System.Collections.SortedList\" data-throw-if-not-resolved=\"false\"></xref> object contains an element with the specified <em>value</em>; otherwise, <strong>false</strong>.</p>\n"
   seealso:
   - type: System.Collections.SortedList.ContainsKey(System.Object)
     commentId: M:System.Collections.SortedList.ContainsKey(System.Object)
@@ -1089,12 +1126,12 @@ items:
   type: Method
   source:
     remote:
-      path: src/System.Collections.NonGeneric/ref/System.Collections.NonGeneric.cs
+      path: src/mscorlib/src/System/Collections/SortedList.cs
       branch: master
-      repo: https://github.com/dotnet/corefx.git
+      repo: https://github.com/dotnet/coreclr.git
     id: CopyTo
-    path: src/System.Collections.NonGeneric/ref/System.Collections.NonGeneric.cs
-    startLine: 232
+    path: src/mscorlib/src/System/Collections/SortedList.cs
+    startLine: 325
   assemblies:
   - System.Collections.NonGeneric
   namespace: System.Collections
@@ -1108,10 +1145,8 @@ items:
     parameters:
     - id: array
       type: System.Array
-      description: "\n<p>The one-dimensional <xref href=\"System.Array\" data-throw-if-not-resolved=\"false\"></xref> object that is the destination of the <xref href=\"System.Collections.DictionaryEntry\" data-throw-if-not-resolved=\"false\"></xref> objects copied from <xref href=\"System.Collections.SortedList\" data-throw-if-not-resolved=\"false\"></xref>. The <xref href=\"System.Array\" data-throw-if-not-resolved=\"false\"></xref> must have zero-based indexing. </p>\n"
     - id: arrayIndex
       type: System.Int32
-      description: "\n<p>The zero-based index in <em>array</em> at which copying begins. </p>\n"
   exceptions:
   - type: System.ArgumentNullException
     commentId: T:System.ArgumentNullException
@@ -1132,6 +1167,8 @@ items:
     commentId: T:System.Collections.DictionaryEntry
   - type: System.Collections.SortedList.GetEnumerator
     commentId: M:System.Collections.SortedList.GetEnumerator
+  implements:
+  - System.Collections.ICollection.CopyTo(System.Array,System.Int32)
   modifiers.csharp:
   - public
   - virtual
@@ -1150,12 +1187,12 @@ items:
   type: Method
   source:
     remote:
-      path: src/System.Collections.NonGeneric/src/System/Collections/SortedList.cs
+      path: src/mscorlib/src/System/Collections/SortedList.cs
       branch: master
-      repo: https://github.com/dotnet/corefx.git
+      repo: https://github.com/dotnet/coreclr.git
     id: GetByIndex
-    path: src/System.Collections.NonGeneric/src/System/Collections/SortedList.cs
-    startLine: 406
+    path: src/mscorlib/src/System/Collections/SortedList.cs
+    startLine: 368
   assemblies:
   - System.Collections.NonGeneric
   namespace: System.Collections
@@ -1164,13 +1201,13 @@ items:
   example:
   - "\n<p>The following code example shows how to get one or all the keys or values in a <xref href=\"System.Collections.SortedList\" data-throw-if-not-resolved=\"false\"></xref> object.</p>Classic SortedList.GetByIndex Example#1"
   syntax:
-    content: public virtual Object GetByIndex(int index)
+    content: public virtual object GetByIndex(int index)
     content.vb: Public Overridable Function GetByIndex(index As Integer) As Object
     parameters:
     - id: index
       type: System.Int32
     return:
-      type: Object
+      type: System.Object
   exceptions:
   - type: System.ArgumentOutOfRangeException
     commentId: T:System.ArgumentOutOfRangeException
@@ -1198,12 +1235,12 @@ items:
   type: Method
   source:
     remote:
-      path: src/System.Collections.NonGeneric/src/System/Collections/SortedList.cs
+      path: src/mscorlib/src/System/Collections/SortedList.cs
       branch: master
-      repo: https://github.com/dotnet/corefx.git
+      repo: https://github.com/dotnet/coreclr.git
     id: GetEnumerator
-    path: src/System.Collections.NonGeneric/src/System/Collections/SortedList.cs
-    startLine: 429
+    path: src/mscorlib/src/System/Collections/SortedList.cs
+    startLine: 389
   assemblies:
   - System.Collections.NonGeneric
   namespace: System.Collections
@@ -1213,12 +1250,14 @@ items:
     content: public virtual IDictionaryEnumerator GetEnumerator()
     content.vb: Public Overridable Function GetEnumerator As IDictionaryEnumerator
     return:
-      type: IDictionaryEnumerator
+      type: System.Collections.IDictionaryEnumerator
   seealso:
   - type: System.Collections.IDictionaryEnumerator
     commentId: T:System.Collections.IDictionaryEnumerator
   - type: System.Collections.IEnumerator
     commentId: T:System.Collections.IEnumerator
+  implements:
+  - System.Collections.IDictionary.GetEnumerator
   modifiers.csharp:
   - public
   - virtual
@@ -1237,12 +1276,12 @@ items:
   type: Method
   source:
     remote:
-      path: src/System.Collections.NonGeneric/src/System/Collections/SortedList.cs
+      path: src/mscorlib/src/System/Collections/SortedList.cs
       branch: master
-      repo: https://github.com/dotnet/corefx.git
+      repo: https://github.com/dotnet/coreclr.git
     id: GetKey
-    path: src/System.Collections.NonGeneric/src/System/Collections/SortedList.cs
-    startLine: 436
+    path: src/mscorlib/src/System/Collections/SortedList.cs
+    startLine: 395
   assemblies:
   - System.Collections.NonGeneric
   namespace: System.Collections
@@ -1251,13 +1290,13 @@ items:
   example:
   - "\n<p>The following code example shows how to get one or all the keys or values in a <xref href=\"System.Collections.SortedList\" data-throw-if-not-resolved=\"false\"></xref> object.</p>Classic SortedList.GetByIndex Example#1"
   syntax:
-    content: public virtual Object GetKey(int index)
+    content: public virtual object GetKey(int index)
     content.vb: Public Overridable Function GetKey(index As Integer) As Object
     parameters:
     - id: index
       type: System.Int32
     return:
-      type: Object
+      type: System.Object
   exceptions:
   - type: System.ArgumentOutOfRangeException
     commentId: T:System.ArgumentOutOfRangeException
@@ -1280,12 +1319,12 @@ items:
   type: Method
   source:
     remote:
-      path: src/System.Collections.NonGeneric/src/System/Collections/SortedList.cs
+      path: src/mscorlib/src/System/Collections/SortedList.cs
       branch: master
-      repo: https://github.com/dotnet/corefx.git
+      repo: https://github.com/dotnet/coreclr.git
     id: GetKeyList
-    path: src/System.Collections.NonGeneric/src/System/Collections/SortedList.cs
-    startLine: 455
+    path: src/mscorlib/src/System/Collections/SortedList.cs
+    startLine: 413
   assemblies:
   - System.Collections.NonGeneric
   namespace: System.Collections
@@ -1297,7 +1336,7 @@ items:
     content: public virtual IList GetKeyList()
     content.vb: Public Overridable Function GetKeyList As IList
     return:
-      type: IList
+      type: System.Collections.IList
   seealso:
   - type: System.Collections.IList
     commentId: T:System.Collections.IList
@@ -1323,12 +1362,12 @@ items:
   type: Method
   source:
     remote:
-      path: src/System.Collections.NonGeneric/src/System/Collections/SortedList.cs
+      path: src/mscorlib/src/System/Collections/SortedList.cs
       branch: master
-      repo: https://github.com/dotnet/corefx.git
+      repo: https://github.com/dotnet/coreclr.git
     id: GetValueList
-    path: src/System.Collections.NonGeneric/src/System/Collections/SortedList.cs
-    startLine: 472
+    path: src/mscorlib/src/System/Collections/SortedList.cs
+    startLine: 429
   assemblies:
   - System.Collections.NonGeneric
   namespace: System.Collections
@@ -1340,7 +1379,7 @@ items:
     content: public virtual IList GetValueList()
     content.vb: Public Overridable Function GetValueList As IList
     return:
-      type: IList
+      type: System.Collections.IList
   seealso:
   - type: System.Collections.IList
     commentId: T:System.Collections.IList
@@ -1366,12 +1405,12 @@ items:
   type: Method
   source:
     remote:
-      path: src/System.Collections.NonGeneric/ref/System.Collections.NonGeneric.cs
+      path: src/mscorlib/src/System/Collections/SortedList.cs
       branch: master
-      repo: https://github.com/dotnet/corefx.git
+      repo: https://github.com/dotnet/coreclr.git
     id: IndexOfKey
-    path: src/System.Collections.NonGeneric/ref/System.Collections.NonGeneric.cs
-    startLine: 238
+    path: src/mscorlib/src/System/Collections/SortedList.cs
+    startLine: 463
   assemblies:
   - System.Collections.NonGeneric
   namespace: System.Collections
@@ -1385,10 +1424,8 @@ items:
     parameters:
     - id: key
       type: System.Object
-      description: "\n<p>The key to locate in the <xref href=\"System.Collections.SortedList\" data-throw-if-not-resolved=\"false\"></xref> object. </p>\n"
     return:
       type: System.Int32
-      description: "\n<p>The zero-based index of the <em>key</em> parameter, if <em>key</em> is found in the <xref href=\"System.Collections.SortedList\" data-throw-if-not-resolved=\"false\"></xref> object; otherwise, -1.</p>\n"
   exceptions:
   - type: System.ArgumentNullException
     commentId: T:System.ArgumentNullException
@@ -1419,12 +1456,12 @@ items:
   type: Method
   source:
     remote:
-      path: src/System.Collections.NonGeneric/ref/System.Collections.NonGeneric.cs
+      path: src/mscorlib/src/System/Collections/SortedList.cs
       branch: master
-      repo: https://github.com/dotnet/corefx.git
+      repo: https://github.com/dotnet/coreclr.git
     id: IndexOfValue
-    path: src/System.Collections.NonGeneric/ref/System.Collections.NonGeneric.cs
-    startLine: 239
+    path: src/mscorlib/src/System/Collections/SortedList.cs
+    startLine: 477
   assemblies:
   - System.Collections.NonGeneric
   namespace: System.Collections
@@ -1438,10 +1475,8 @@ items:
     parameters:
     - id: value
       type: System.Object
-      description: "\n<p>The value to locate in the <xref href=\"System.Collections.SortedList\" data-throw-if-not-resolved=\"false\"></xref> object. The value can be <strong>null</strong>. </p>\n"
     return:
       type: System.Int32
-      description: "\n<p>The zero-based index of the first occurrence of the <em>value</em> parameter, if <em>value</em> is found in the <xref href=\"System.Collections.SortedList\" data-throw-if-not-resolved=\"false\"></xref> object; otherwise, -1.</p>\n"
   seealso:
   - type: System.Collections.SortedList.ContainsValue(System.Object)
     commentId: M:System.Collections.SortedList.ContainsValue(System.Object)
@@ -1465,12 +1500,12 @@ items:
   type: Method
   source:
     remote:
-      path: src/System.Collections.NonGeneric/ref/System.Collections.NonGeneric.cs
+      path: src/mscorlib/src/System/Collections/SortedList.cs
       branch: master
-      repo: https://github.com/dotnet/corefx.git
+      repo: https://github.com/dotnet/coreclr.git
     id: Remove
-    path: src/System.Collections.NonGeneric/ref/System.Collections.NonGeneric.cs
-    startLine: 240
+    path: src/mscorlib/src/System/Collections/SortedList.cs
+    startLine: 514
   assemblies:
   - System.Collections.NonGeneric
   namespace: System.Collections
@@ -1484,7 +1519,6 @@ items:
     parameters:
     - id: key
       type: System.Object
-      description: "\n<p>The key of the element to remove. </p>\n"
   exceptions:
   - type: System.ArgumentNullException
     commentId: T:System.ArgumentNullException
@@ -1495,6 +1529,8 @@ items:
   seealso:
   - type: System.Collections.SortedList.RemoveAt(System.Int32)
     commentId: M:System.Collections.SortedList.RemoveAt(System.Int32)
+  implements:
+  - System.Collections.IDictionary.Remove(System.Object)
   modifiers.csharp:
   - public
   - virtual
@@ -1513,12 +1549,12 @@ items:
   type: Method
   source:
     remote:
-      path: src/System.Collections.NonGeneric/src/System/Collections/SortedList.cs
+      path: src/mscorlib/src/System/Collections/SortedList.cs
       branch: master
-      repo: https://github.com/dotnet/corefx.git
+      repo: https://github.com/dotnet/coreclr.git
     id: RemoveAt
-    path: src/System.Collections.NonGeneric/src/System/Collections/SortedList.cs
-    startLine: 549
+    path: src/mscorlib/src/System/Collections/SortedList.cs
+    startLine: 497
   assemblies:
   - System.Collections.NonGeneric
   namespace: System.Collections
@@ -1560,12 +1596,12 @@ items:
   type: Method
   source:
     remote:
-      path: src/System.Collections.NonGeneric/ref/System.Collections.NonGeneric.cs
+      path: src/mscorlib/src/System/Collections/SortedList.cs
       branch: master
-      repo: https://github.com/dotnet/corefx.git
+      repo: https://github.com/dotnet/coreclr.git
     id: SetByIndex
-    path: src/System.Collections.NonGeneric/ref/System.Collections.NonGeneric.cs
-    startLine: 242
+    path: src/mscorlib/src/System/Collections/SortedList.cs
+    startLine: 523
   assemblies:
   - System.Collections.NonGeneric
   namespace: System.Collections
@@ -1579,10 +1615,8 @@ items:
     parameters:
     - id: index
       type: System.Int32
-      description: "\n<p>The zero-based index at which to save <em>value</em>. </p>\n"
     - id: value
       type: System.Object
-      description: "\n<p>The <xref href=\"System.Object\" data-throw-if-not-resolved=\"false\"></xref> to save into the <xref href=\"System.Collections.SortedList\" data-throw-if-not-resolved=\"false\"></xref> object. The value can be <strong>null</strong>. </p>\n"
   exceptions:
   - type: System.ArgumentOutOfRangeException
     commentId: T:System.ArgumentOutOfRangeException
@@ -1610,12 +1644,12 @@ items:
   type: Method
   source:
     remote:
-      path: src/System.Collections.NonGeneric/src/System/Collections/SortedList.cs
+      path: src/mscorlib/src/System/Collections/SortedList.cs
       branch: master
-      repo: https://github.com/dotnet/corefx.git
+      repo: https://github.com/dotnet/coreclr.git
     id: Synchronized
-    path: src/System.Collections.NonGeneric/src/System/Collections/SortedList.cs
-    startLine: 588
+    path: src/mscorlib/src/System/Collections/SortedList.cs
+    startLine: 532
   assemblies:
   - System.Collections.NonGeneric
   namespace: System.Collections
@@ -1624,8 +1658,14 @@ items:
   example:
   - "\n<p>The following code example shows how to lock the collection using the <xref href=\"System.Collections.SortedList.SyncRoot\" data-throw-if-not-resolved=\"false\"></xref> property during the entire enumeration. </p>Classic SortedList.IsSynchronized Example#2<p>This method is an O(1) operation.</p><p>The following code example shows how to synchronize a <xref href=\"System.Collections.SortedList\" data-throw-if-not-resolved=\"false\"></xref> object, determine whether a <xref href=\"System.Collections.SortedList\" data-throw-if-not-resolved=\"false\"></xref> is synchronized, and use a synchronized <xref href=\"System.Collections.SortedList\" data-throw-if-not-resolved=\"false\"></xref>.</p>Classic SortedList.IsSynchronized Example#1"
   syntax:
-    content: public static SortedList Synchronized(SortedList list)
-    content.vb: Public Shared Function Synchronized(list As SortedList) As SortedList
+    content: >-
+      [HostProtection(Synchronization = true)]
+
+      public static SortedList Synchronized(SortedList list)
+    content.vb: >-
+      <HostProtection(Synchronization:=True)>
+
+      Public Shared Function Synchronized(list As SortedList) As SortedList
     parameters:
     - id: list
       type: System.Collections.SortedList
@@ -1646,6 +1686,43 @@ items:
   modifiers.vb:
   - Public
   - Shared
+- uid: System.Collections.SortedList.System#Collections#IEnumerable#GetEnumerator
+  commentId: M:System.Collections.SortedList.System#Collections#IEnumerable#GetEnumerator
+  id: System#Collections#IEnumerable#GetEnumerator
+  isEii: true
+  parent: System.Collections.SortedList
+  langs:
+  - csharp
+  - vb
+  name: IEnumerable.GetEnumerator()
+  fullName: System.Collections.SortedList.System.Collections.IEnumerable.GetEnumerator()
+  type: Method
+  source:
+    remote:
+      path: src/mscorlib/src/System/Collections/SortedList.cs
+      branch: master
+      repo: https://github.com/dotnet/coreclr.git
+    id: System.Collections.IEnumerable.GetEnumerator
+    path: src/mscorlib/src/System/Collections/SortedList.cs
+    startLine: 380
+  assemblies:
+  - System.Collections.NonGeneric
+  namespace: System.Collections
+  summary: "\n<p>Returns an <xref href=\"System.Collections.IEnumerator\" data-throw-if-not-resolved=\"false\"></xref> that iterates through the <xref href=\"System.Collections.SortedList\" data-throw-if-not-resolved=\"false\"></xref>.</p>\n"
+  remarks: "\n<p>[Visual Basic, C#]</p>\n<p>The <strong>foreach</strong> statement of the C# language (<strong>for each</strong> in Visual Basic) hides the complexity of the enumerators.  Therefore, using <strong>foreach</strong> is recommended, instead of directly manipulating the enumerator.</p>\n<p>Enumerators can be used to read the data in the collection, but they cannot be used to modify the underlying collection.</p>\n<p>Initially, the enumerator is positioned before the first element in the collection. <xref href=\"System.Collections.IEnumerator.Reset\" data-throw-if-not-resolved=\"false\"></xref> also brings the enumerator back to this position. At this position, calling <xref href=\"System.Collections.IEnumerator.Current\" data-throw-if-not-resolved=\"false\"></xref> throws an exception. Therefore, you must call <xref href=\"System.Collections.IEnumerator.MoveNext\" data-throw-if-not-resolved=\"false\"></xref> to advance the enumerator to the first element of the collection before reading the value of <xref href=\"System.Collections.IEnumerator.Current\" data-throw-if-not-resolved=\"false\"></xref>.</p>\n<p>\n<xref href=\"System.Collections.IEnumerator.Current\" data-throw-if-not-resolved=\"false\"></xref> returns the same object until either <xref href=\"System.Collections.IEnumerator.MoveNext\" data-throw-if-not-resolved=\"false\"></xref> or <xref href=\"System.Collections.IEnumerator.Reset\" data-throw-if-not-resolved=\"false\"></xref> is called. <xref href=\"System.Collections.IEnumerator.MoveNext\" data-throw-if-not-resolved=\"false\"></xref> sets <xref href=\"System.Collections.IEnumerator.Current\" data-throw-if-not-resolved=\"false\"></xref> to the next element.</p>\n<p>If <xref href=\"System.Collections.IEnumerator.MoveNext\" data-throw-if-not-resolved=\"false\"></xref> passes the end of the collection, the enumerator is positioned after the last element in the collection and <xref href=\"System.Collections.IEnumerator.MoveNext\" data-throw-if-not-resolved=\"false\"></xref> returns <strong>false</strong>. When the enumerator is at this position, subsequent calls to <xref href=\"System.Collections.IEnumerator.MoveNext\" data-throw-if-not-resolved=\"false\"></xref> also return <strong>false</strong>. If the last call to <xref href=\"System.Collections.IEnumerator.MoveNext\" data-throw-if-not-resolved=\"false\"></xref> returned <strong>false</strong>, calling <xref href=\"System.Collections.IEnumerator.Current\" data-throw-if-not-resolved=\"false\"></xref> throws an exception. To set <xref href=\"System.Collections.IEnumerator.Current\" data-throw-if-not-resolved=\"false\"></xref> to the first element of the collection again, you can call <xref href=\"System.Collections.IEnumerator.Reset\" data-throw-if-not-resolved=\"false\"></xref> followed by <xref href=\"System.Collections.IEnumerator.MoveNext\" data-throw-if-not-resolved=\"false\"></xref>.</p>\n<p>An enumerator remains valid as long as the collection remains unchanged. If changes are made to the collection, such as adding, modifying, or deleting elements, the enumerator is irrecoverably invalidated and the next call to <xref href=\"System.Collections.IEnumerator.MoveNext\" data-throw-if-not-resolved=\"false\"></xref> or <xref href=\"System.Collections.IEnumerator.Reset\" data-throw-if-not-resolved=\"false\"></xref> throws an <xref href=\"System.InvalidOperationException\" data-throw-if-not-resolved=\"false\"></xref>. If the collection is modified between <xref href=\"System.Collections.IEnumerator.MoveNext\" data-throw-if-not-resolved=\"false\"></xref> and <xref href=\"System.Collections.IEnumerator.Current\" data-throw-if-not-resolved=\"false\"></xref>, <xref href=\"System.Collections.IEnumerator.Current\" data-throw-if-not-resolved=\"false\"></xref> returns the element that it is set to, even if the enumerator is already invalidated.</p>\n<p>The enumerator does not have exclusive access to the collection; therefore, enumerating through a collection is intrinsically not a thread-safe procedure. Even when a collection is synchronized, other threads can still modify the collection, which causes the enumerator to throw an exception. To guarantee thread safety during enumeration, you can either lock the collection during the entire enumeration or catch the exceptions resulting from changes made by other threads.</p>\n<p>This method is an O(1) operation.</p>\n"
+  syntax:
+    content: IEnumerator IEnumerable.GetEnumerator()
+    content.vb: Function System.Collections.IEnumerable.GetEnumerator As IEnumerator Implements IEnumerable.GetEnumerator
+    return:
+      type: System.Collections.IEnumerator
+  seealso:
+  - type: System.Collections.IDictionaryEnumerator
+    commentId: T:System.Collections.IDictionaryEnumerator
+  - type: System.Collections.IEnumerator
+    commentId: T:System.Collections.IEnumerator
+  implements:
+  - System.Collections.IEnumerable.GetEnumerator
+  name.vb: System.Collections.IEnumerable.GetEnumerator()
 - uid: System.Collections.SortedList.TrimToSize
   commentId: M:System.Collections.SortedList.TrimToSize
   id: TrimToSize
@@ -1658,12 +1735,12 @@ items:
   type: Method
   source:
     remote:
-      path: src/System.Collections.NonGeneric/src/System/Collections/SortedList.cs
+      path: src/mscorlib/src/System/Collections/SortedList.cs
       branch: master
-      repo: https://github.com/dotnet/corefx.git
+      repo: https://github.com/dotnet/coreclr.git
     id: TrimToSize
-    path: src/System.Collections.NonGeneric/src/System/Collections/SortedList.cs
-    startLine: 605
+    path: src/mscorlib/src/System/Collections/SortedList.cs
+    startLine: 549
   assemblies:
   - System.Collections.NonGeneric
   namespace: System.Collections
@@ -1706,11 +1783,225 @@ references:
   isExternal: false
   name: IDictionary
   fullName: System.Collections.IDictionary
+- uid: System.Collections.ICollection
+  parent: System.Collections
+  isExternal: false
+  name: ICollection
+  fullName: System.Collections.ICollection
 - uid: System.Collections.IEnumerable
   parent: System.Collections
   isExternal: false
-  name: Collections.IEnumerable
+  name: IEnumerable
   fullName: System.Collections.IEnumerable
+- uid: System.Object.ToString
+  parent: System.Object
+  isExternal: true
+  name: ToString()
+  fullName: System.Object.ToString()
+  spec.csharp:
+  - uid: System.Object.ToString
+    name: ToString
+    fullName: System.Object.ToString
+    isExternal: true
+  - name: (
+    fullName: (
+  - name: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.ToString
+    name: ToString
+    fullName: System.Object.ToString
+    isExternal: true
+  - name: (
+    fullName: (
+  - name: )
+    fullName: )
+- uid: System.Object.Equals(System.Object)
+  parent: System.Object
+  isExternal: true
+  name: Equals(Object)
+  fullName: System.Object.Equals(System.Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    fullName: )
+- uid: System.Object.Equals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  name: Equals(Object, Object)
+  fullName: System.Object.Equals(System.Object, System.Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    fullName: )
+- uid: System.Object.ReferenceEquals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  name: ReferenceEquals(Object, Object)
+  fullName: System.Object.ReferenceEquals(System.Object, System.Object)
+  spec.csharp:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    fullName: System.Object.ReferenceEquals
+    isExternal: true
+  - name: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    fullName: System.Object.ReferenceEquals
+    isExternal: true
+  - name: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    fullName: )
+- uid: System.Object.GetHashCode
+  parent: System.Object
+  isExternal: true
+  name: GetHashCode()
+  fullName: System.Object.GetHashCode()
+  spec.csharp:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    fullName: System.Object.GetHashCode
+    isExternal: true
+  - name: (
+    fullName: (
+  - name: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    fullName: System.Object.GetHashCode
+    isExternal: true
+  - name: (
+    fullName: (
+  - name: )
+    fullName: )
+- uid: System.Object.GetType
+  parent: System.Object
+  isExternal: true
+  name: GetType()
+  fullName: System.Object.GetType()
+  spec.csharp:
+  - uid: System.Object.GetType
+    name: GetType
+    fullName: System.Object.GetType
+    isExternal: true
+  - name: (
+    fullName: (
+  - name: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.GetType
+    name: GetType
+    fullName: System.Object.GetType
+    isExternal: true
+  - name: (
+    fullName: (
+  - name: )
+    fullName: )
+- uid: System.Object.MemberwiseClone
+  parent: System.Object
+  isExternal: true
+  name: MemberwiseClone()
+  fullName: System.Object.MemberwiseClone()
+  spec.csharp:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    fullName: System.Object.MemberwiseClone
+    isExternal: true
+  - name: (
+    fullName: (
+  - name: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    fullName: System.Object.MemberwiseClone
+    isExternal: true
+  - name: (
+    fullName: (
+  - name: )
+    fullName: )
 - uid: System
   isExternal: false
   name: System
@@ -1718,43 +2009,322 @@ references:
 - uid: System.Collections.IComparer
   parent: System.Collections
   isExternal: false
-  name: Collections.IComparer
+  name: IComparer
   fullName: System.Collections.IComparer
 - uid: System.Int32
   parent: System
   isExternal: false
   name: Int32
   fullName: System.Int32
+- uid: System.Collections.ICollection.Count
+  parent: System.Collections.ICollection
+  isExternal: false
+  name: Count
+  fullName: System.Collections.ICollection.Count
+- uid: System.Collections.IDictionary.IsFixedSize
+  parent: System.Collections.IDictionary
+  isExternal: true
+  name: IsFixedSize
+  fullName: System.Collections.IDictionary.IsFixedSize
 - uid: System.Boolean
   parent: System
   isExternal: false
   name: Boolean
   fullName: System.Boolean
-- uid: System.Collections.ICollection
-  parent: System.Collections
+- uid: System.Collections.IDictionary.IsReadOnly
+  parent: System.Collections.IDictionary
+  isExternal: true
+  name: IsReadOnly
+  fullName: System.Collections.IDictionary.IsReadOnly
+- uid: System.Collections.ICollection.IsSynchronized
+  parent: System.Collections.ICollection
   isExternal: false
-  name: Collections.ICollection
-  fullName: System.Collections.ICollection
+  name: IsSynchronized
+  fullName: System.Collections.ICollection.IsSynchronized
+- uid: System.Collections.IDictionary.Item(System.Object)
+  parent: System.Collections.IDictionary
+  isExternal: true
+  name: Item[Object]
+  fullName: System.Collections.IDictionary.Item[System.Object]
+  fullname.vb: System.Collections.IDictionary.Item(System.Object)
+  name.vb: Item(Object)
+  spec.csharp:
+  - uid: System.Collections.IDictionary.Item(System.Object)
+    name: Item
+    fullName: System.Collections.IDictionary.Item
+    isExternal: true
+  - name: '['
+    fullName: '['
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ']'
+    fullName: ']'
+  spec.vb:
+  - uid: System.Collections.IDictionary.Item(System.Object)
+    name: Item
+    fullName: System.Collections.IDictionary.Item
+    isExternal: true
+  - name: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    fullName: )
+- uid: System.Collections.IDictionary.Keys
+  parent: System.Collections.IDictionary
+  isExternal: true
+  name: Keys
+  fullName: System.Collections.IDictionary.Keys
+- uid: System.Collections.ICollection.SyncRoot
+  parent: System.Collections.ICollection
+  isExternal: false
+  name: SyncRoot
+  fullName: System.Collections.ICollection.SyncRoot
+- uid: System.Collections.IDictionary.Values
+  parent: System.Collections.IDictionary
+  isExternal: true
+  name: Values
+  fullName: System.Collections.IDictionary.Values
+- uid: System.Collections.IDictionary.Add(System.Object,System.Object)
+  parent: System.Collections.IDictionary
+  isExternal: true
+  name: Add(Object, Object)
+  fullName: System.Collections.IDictionary.Add(System.Object, System.Object)
+  spec.csharp:
+  - uid: System.Collections.IDictionary.Add(System.Object,System.Object)
+    name: Add
+    fullName: System.Collections.IDictionary.Add
+    isExternal: true
+  - name: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    fullName: )
+  spec.vb:
+  - uid: System.Collections.IDictionary.Add(System.Object,System.Object)
+    name: Add
+    fullName: System.Collections.IDictionary.Add
+    isExternal: true
+  - name: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    fullName: )
+- uid: System.Collections.IDictionary.Clear
+  parent: System.Collections.IDictionary
+  isExternal: true
+  name: Clear()
+  fullName: System.Collections.IDictionary.Clear()
+  spec.csharp:
+  - uid: System.Collections.IDictionary.Clear
+    name: Clear
+    fullName: System.Collections.IDictionary.Clear
+    isExternal: true
+  - name: (
+    fullName: (
+  - name: )
+    fullName: )
+  spec.vb:
+  - uid: System.Collections.IDictionary.Clear
+    name: Clear
+    fullName: System.Collections.IDictionary.Clear
+    isExternal: true
+  - name: (
+    fullName: (
+  - name: )
+    fullName: )
+- uid: System.Collections.IDictionary.Contains(System.Object)
+  parent: System.Collections.IDictionary
+  isExternal: true
+  name: Contains(Object)
+  fullName: System.Collections.IDictionary.Contains(System.Object)
+  spec.csharp:
+  - uid: System.Collections.IDictionary.Contains(System.Object)
+    name: Contains
+    fullName: System.Collections.IDictionary.Contains
+    isExternal: true
+  - name: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    fullName: )
+  spec.vb:
+  - uid: System.Collections.IDictionary.Contains(System.Object)
+    name: Contains
+    fullName: System.Collections.IDictionary.Contains
+    isExternal: true
+  - name: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    fullName: )
+- uid: System.Collections.ICollection.CopyTo(System.Array,System.Int32)
+  parent: System.Collections.ICollection
+  isExternal: true
+  name: CopyTo(Array, Int32)
+  fullName: System.Collections.ICollection.CopyTo(System.Array, System.Int32)
+  spec.csharp:
+  - uid: System.Collections.ICollection.CopyTo(System.Array,System.Int32)
+    name: CopyTo
+    fullName: System.Collections.ICollection.CopyTo
+  - name: (
+    fullName: (
+  - uid: System.Array
+    name: Array
+    fullName: System.Array
+  - name: ', '
+    fullName: ', '
+  - uid: System.Int32
+    name: Int32
+    fullName: System.Int32
+    isExternal: true
+  - name: )
+    fullName: )
+  spec.vb:
+  - uid: System.Collections.ICollection.CopyTo(System.Array,System.Int32)
+    name: CopyTo
+    fullName: System.Collections.ICollection.CopyTo
+  - name: (
+    fullName: (
+  - uid: System.Array
+    name: Array
+    fullName: System.Array
+  - name: ', '
+    fullName: ', '
+  - uid: System.Int32
+    name: Int32
+    fullName: System.Int32
+    isExternal: true
+  - name: )
+    fullName: )
 - uid: System.Array
   parent: System
   isExternal: false
   name: Array
   fullName: System.Array
+- uid: System.Collections.IDictionary.GetEnumerator
+  parent: System.Collections.IDictionary
+  isExternal: true
+  name: GetEnumerator()
+  fullName: System.Collections.IDictionary.GetEnumerator()
+  spec.csharp:
+  - uid: System.Collections.IDictionary.GetEnumerator
+    name: GetEnumerator
+    fullName: System.Collections.IDictionary.GetEnumerator
+    isExternal: true
+  - name: (
+    fullName: (
+  - name: )
+    fullName: )
+  spec.vb:
+  - uid: System.Collections.IDictionary.GetEnumerator
+    name: GetEnumerator
+    fullName: System.Collections.IDictionary.GetEnumerator
+    isExternal: true
+  - name: (
+    fullName: (
+  - name: )
+    fullName: )
 - uid: System.Collections.IDictionaryEnumerator
   parent: System.Collections
   isExternal: false
-  name: Collections.IDictionaryEnumerator
+  name: IDictionaryEnumerator
   fullName: System.Collections.IDictionaryEnumerator
 - uid: System.Collections.IList
   parent: System.Collections
   isExternal: false
   name: IList
   fullName: System.Collections.IList
+- uid: System.Collections.IDictionary.Remove(System.Object)
+  parent: System.Collections.IDictionary
+  isExternal: true
+  name: Remove(Object)
+  fullName: System.Collections.IDictionary.Remove(System.Object)
+  spec.csharp:
+  - uid: System.Collections.IDictionary.Remove(System.Object)
+    name: Remove
+    fullName: System.Collections.IDictionary.Remove
+    isExternal: true
+  - name: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    fullName: )
+  spec.vb:
+  - uid: System.Collections.IDictionary.Remove(System.Object)
+    name: Remove
+    fullName: System.Collections.IDictionary.Remove
+    isExternal: true
+  - name: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    fullName: )
 - uid: System.Collections.SortedList
   parent: System.Collections
   isExternal: false
   name: SortedList
   fullName: System.Collections.SortedList
+- uid: System.Collections.IEnumerable.GetEnumerator
+  parent: System.Collections.IEnumerable
+  isExternal: false
+  name: GetEnumerator()
+  fullName: System.Collections.IEnumerable.GetEnumerator()
+  spec.csharp:
+  - uid: System.Collections.IEnumerable.GetEnumerator
+    name: GetEnumerator
+    fullName: System.Collections.IEnumerable.GetEnumerator
+  - name: (
+    fullName: (
+  - name: )
+    fullName: )
+  spec.vb:
+  - uid: System.Collections.IEnumerable.GetEnumerator
+    name: GetEnumerator
+    fullName: System.Collections.IEnumerable.GetEnumerator
+  - name: (
+    fullName: (
+  - name: )
+    fullName: )
+- uid: System.Collections.IEnumerator
+  parent: System.Collections
+  isExternal: false
+  name: IEnumerator
+  fullName: System.Collections.IEnumerator
 - uid: System.ArgumentOutOfRangeException
   isExternal: false
   name: ArgumentOutOfRangeException

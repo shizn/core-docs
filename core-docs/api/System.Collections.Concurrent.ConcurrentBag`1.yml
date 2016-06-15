@@ -12,6 +12,10 @@ items:
   - System.Collections.Concurrent.ConcurrentBag`1.GetEnumerator
   - System.Collections.Concurrent.ConcurrentBag`1.IsEmpty
   - System.Collections.Concurrent.ConcurrentBag`1.System#Collections#Concurrent#IProducerConsumerCollection{T}#TryAdd(`0)
+  - System.Collections.Concurrent.ConcurrentBag`1.System#Collections#ICollection#CopyTo(System.Array,System.Int32)
+  - System.Collections.Concurrent.ConcurrentBag`1.System#Collections#ICollection#IsSynchronized
+  - System.Collections.Concurrent.ConcurrentBag`1.System#Collections#ICollection#SyncRoot
+  - System.Collections.Concurrent.ConcurrentBag`1.System#Collections#IEnumerable#GetEnumerator
   - System.Collections.Concurrent.ConcurrentBag`1.ToArray
   - System.Collections.Concurrent.ConcurrentBag`1.TryPeek(`0@)
   - System.Collections.Concurrent.ConcurrentBag`1.TryTake(`0@)
@@ -32,12 +36,24 @@ items:
   assemblies:
   - System.Collections.Concurrent
   namespace: System.Collections.Concurrent
+  summary: "\n<p>Represents a thread-safe, unordered collection of objects.</p>\n"
+  remarks: "\n<p>Bags are useful for storing objects when ordering doesn't matter, and unlike sets, bags support duplicates. <xref href=\"System.Collections.Concurrent.ConcurrentBag`1\" data-throw-if-not-resolved=\"false\"></xref> is a thread-safe bag implementation, optimized for scenarios where the same thread will be both producing and consuming data stored in the bag. </p>\n<p>\n<xref href=\"System.Collections.Concurrent.ConcurrentBag`1\" data-throw-if-not-resolved=\"false\"></xref> accepts <strong>null</strong> as a valid value for reference types. </p>\n<p>For more information, see the entry <see href=\"http://blogs.msdn.com/b/pfxteam/archive/2010/01/26/9953725.aspx\">FAQ: Are all of the new concurrent collections lock-free?</see> in the Parallel Programming with .NET blog.</p>\n"
+  example:
+  - "\n<p>The following example shows how to add and remove items from a <xref href=\"System.Collections.Concurrent.ConcurrentBag`1\" data-throw-if-not-resolved=\"false\"></xref>:</p>System.Collections.Concurrent.ConcurrentBag#1"
   syntax:
-    content: 'public class ConcurrentBag<T> : object, IProducerConsumerCollection<T>, IEnumerable<T>, ICollection, IReadOnlyCollection<T>'
+    content: >-
+      [DebuggerTypeProxy(typeof (IProducerConsumerCollectionDebugView<>))]
+
+      [DebuggerDisplay("Count = {Count}")]
+
+      public class ConcurrentBag<T> : IProducerConsumerCollection<T>, ICollection, IReadOnlyCollection<T>, IEnumerable<T>, IEnumerable
     content.vb: >-
+      <DebuggerTypeProxy(GetType(IProducerConsumerCollectionDebugView(Of )))>
+
+      <DebuggerDisplay("Count = {Count}")>
+
       Public Class ConcurrentBag(Of T)
-          Inherits Object
-          Implements IProducerConsumerCollection(Of T), IEnumerable(Of T), ICollection, IReadOnlyCollection(Of T)
+          Implements IProducerConsumerCollection(Of T), ICollection, IReadOnlyCollection(Of T), IEnumerable(Of T), IEnumerable
     typeParameters:
     - id: T
       description: Specifies the type of elements in the bag.
@@ -45,10 +61,18 @@ items:
   - System.Object
   implements:
   - System.Collections.Concurrent.IProducerConsumerCollection{{T}}
-  - System.Collections.Generic.IEnumerable{{T}}
   - System.Collections.Generic.IReadOnlyCollection{{T}}
+  - System.Collections.Generic.IEnumerable{{T}}
   - System.Collections.ICollection
   - System.Collections.IEnumerable
+  inheritedMembers:
+  - System.Object.ToString
+  - System.Object.Equals(System.Object)
+  - System.Object.Equals(System.Object,System.Object)
+  - System.Object.ReferenceEquals(System.Object,System.Object)
+  - System.Object.GetHashCode
+  - System.Object.GetType
+  - System.Object.MemberwiseClone
   modifiers.csharp:
   - public
   - class
@@ -78,6 +102,9 @@ items:
   assemblies:
   - System.Collections.Concurrent
   namespace: System.Collections.Concurrent
+  summary: "\n<p>Initializes a new instance of the <xref href=\"System.Collections.Concurrent.ConcurrentBag`1\" data-throw-if-not-resolved=\"false\"></xref> class.</p>\n"
+  example:
+  - 
   syntax:
     content: public ConcurrentBag()
     content.vb: Public Sub New
@@ -93,32 +120,40 @@ items:
   langs:
   - csharp
   - vb
-  name: ConcurrentBag(Generic.IEnumerable<T>)
+  name: ConcurrentBag(IEnumerable<T>)
   fullName: System.Collections.Concurrent.ConcurrentBag<T>.ConcurrentBag(System.Collections.Generic.IEnumerable<T>)
   type: Constructor
   source:
     remote:
-      path: src/System.Collections.Concurrent/ref/System.Collections.Concurrent.cs
+      path: src/System.Collections.Concurrent/src/System/Collections/Concurrent/ConcurrentBag.cs
       branch: master
       repo: https://github.com/dotnet/corefx.git
     id: .ctor
-    path: src/System.Collections.Concurrent/ref/System.Collections.Concurrent.cs
-    startLine: 60
+    path: src/System.Collections.Concurrent/src/System/Collections/Concurrent/ConcurrentBag.cs
+    startLine: 68
   assemblies:
   - System.Collections.Concurrent
   namespace: System.Collections.Concurrent
+  summary: "\n<p>Initializes a new instance of the <xref href=\"System.Collections.Concurrent.ConcurrentBag`1\" data-throw-if-not-resolved=\"false\"></xref> class that contains elements copied from the specified collection.</p>\n"
+  example:
+  - 
   syntax:
-    content: public ConcurrentBag(Generic.IEnumerable<T> collection)
-    content.vb: Public Sub New(collection As Generic.IEnumerable(Of T))
+    content: public ConcurrentBag(IEnumerable<T> collection)
+    content.vb: Public Sub New(collection As IEnumerable(Of T))
     parameters:
     - id: collection
       type: System.Collections.Generic.IEnumerable{{T}}
+      description: The collection whose elements are copied to the new <xref href="System.Collections.Concurrent.ConcurrentBag`1" data-throw-if-not-resolved="false"></xref>.
+  exceptions:
+  - type: System.ArgumentNullException
+    commentId: T:System.ArgumentNullException
+    description: "\n<p>\n<em>collection</em> is a null reference (Nothing in Visual Basic).</p>\n"
   modifiers.csharp:
   - public
   modifiers.vb:
   - Public
   fullName.vb: System.Collections.Concurrent.ConcurrentBag(Of T).ConcurrentBag(System.Collections.Generic.IEnumerable(Of T))
-  name.vb: ConcurrentBag(Generic.IEnumerable(Of T))
+  name.vb: ConcurrentBag(IEnumerable(Of T))
 - uid: System.Collections.Concurrent.ConcurrentBag`1.Count
   commentId: P:System.Collections.Concurrent.ConcurrentBag`1.Count
   id: Count
@@ -140,6 +175,10 @@ items:
   assemblies:
   - System.Collections.Concurrent
   namespace: System.Collections.Concurrent
+  summary: "\n<p>Gets the number of elements contained in the <xref href=\"System.Collections.Concurrent.ConcurrentBag`1\" data-throw-if-not-resolved=\"false\"></xref>.</p>\n"
+  remarks: "\n<p>The count returned represents a moment-in-time snapshot of the contents of the bag. It is possible that other threads might add or remove items immediately after you access the <strong>Count</strong> property.</p>\n"
+  example:
+  - 
   syntax:
     content: public int Count { get; }
     content.vb: Public ReadOnly Property Count As Integer
@@ -147,6 +186,9 @@ items:
     return:
       type: System.Int32
       description: The number of elements contained in the <xref href="System.Collections.Concurrent.ConcurrentBag`1" data-throw-if-not-resolved="false"></xref>.
+  implements:
+  - System.Collections.Generic.IReadOnlyCollection{{T}}.Count
+  - System.Collections.ICollection.Count
   modifiers.csharp:
   - public
   - get
@@ -175,6 +217,9 @@ items:
   assemblies:
   - System.Collections.Concurrent
   namespace: System.Collections.Concurrent
+  summary: "\n<p>Gets a value that indicates whether the <xref href=\"System.Collections.Concurrent.ConcurrentBag`1\" data-throw-if-not-resolved=\"false\"></xref> is empty.</p>\n"
+  example:
+  - 
   syntax:
     content: public bool IsEmpty { get; }
     content.vb: Public ReadOnly Property IsEmpty As Boolean
@@ -189,6 +234,94 @@ items:
   - Public
   - ReadOnly
   fullName.vb: System.Collections.Concurrent.ConcurrentBag(Of T).IsEmpty
+- uid: System.Collections.Concurrent.ConcurrentBag`1.System#Collections#ICollection#IsSynchronized
+  commentId: P:System.Collections.Concurrent.ConcurrentBag`1.System#Collections#ICollection#IsSynchronized
+  id: System#Collections#ICollection#IsSynchronized
+  isEii: true
+  parent: System.Collections.Concurrent.ConcurrentBag`1
+  langs:
+  - csharp
+  - vb
+  name: ICollection.IsSynchronized
+  fullName: System.Collections.Concurrent.ConcurrentBag<T>.System.Collections.ICollection.IsSynchronized
+  type: Property
+  source:
+    remote:
+      path: src/System.Collections.Concurrent/src/System/Collections/Concurrent/ConcurrentBag.cs
+      branch: master
+      repo: https://github.com/dotnet/corefx.git
+    id: System.Collections.ICollection.IsSynchronized
+    path: src/System.Collections.Concurrent/src/System/Collections/Concurrent/ConcurrentBag.cs
+    startLine: 647
+  assemblies:
+  - System.Collections.Concurrent
+  namespace: System.Collections.Concurrent
+  summary: "\n<p>Gets a value indicating whether access to the <xref href=\"System.Collections.ICollection\" data-throw-if-not-resolved=\"false\"></xref> is synchronized with the SyncRoot.</p>\n"
+  example:
+  - 
+  syntax:
+    content: bool ICollection.IsSynchronized { get; }
+    content.vb: ReadOnly WriteOnly Property System.Collections.ICollection.IsSynchronized As Boolean Implements ICollection.IsSynchronized
+    parameters: []
+    return:
+      type: System.Boolean
+      description: >-
+        true if access to the <xref href="System.Collections.ICollection" data-throw-if-not-resolved="false"></xref> is synchronized
+
+        with the SyncRoot; otherwise, false. For <xref href="System.Collections.Concurrent.ConcurrentBag`1" data-throw-if-not-resolved="false"></xref>, this property always
+
+        returns false.
+  implements:
+  - System.Collections.ICollection.IsSynchronized
+  modifiers.csharp:
+  - get
+  modifiers.vb:
+  - ReadOnly
+  fullName.vb: System.Collections.Concurrent.ConcurrentBag(Of T).System.Collections.ICollection.IsSynchronized
+  name.vb: System.Collections.ICollection.IsSynchronized
+- uid: System.Collections.Concurrent.ConcurrentBag`1.System#Collections#ICollection#SyncRoot
+  commentId: P:System.Collections.Concurrent.ConcurrentBag`1.System#Collections#ICollection#SyncRoot
+  id: System#Collections#ICollection#SyncRoot
+  isEii: true
+  parent: System.Collections.Concurrent.ConcurrentBag`1
+  langs:
+  - csharp
+  - vb
+  name: ICollection.SyncRoot
+  fullName: System.Collections.Concurrent.ConcurrentBag<T>.System.Collections.ICollection.SyncRoot
+  type: Property
+  source:
+    remote:
+      path: src/System.Collections.Concurrent/src/System/Collections/Concurrent/ConcurrentBag.cs
+      branch: master
+      repo: https://github.com/dotnet/corefx.git
+    id: System.Collections.ICollection.SyncRoot
+    path: src/System.Collections.Concurrent/src/System/Collections/Concurrent/ConcurrentBag.cs
+    startLine: 657
+  assemblies:
+  - System.Collections.Concurrent
+  namespace: System.Collections.Concurrent
+  summary: "\n<p>Gets an object that can be used to synchronize access to the <xref href=\"System.Collections.ICollection\" data-throw-if-not-resolved=\"false\"></xref>. This property is not supported.</p>\n"
+  example:
+  - 
+  syntax:
+    content: object ICollection.SyncRoot { get; }
+    content.vb: ReadOnly WriteOnly Property System.Collections.ICollection.SyncRoot As Object Implements ICollection.SyncRoot
+    parameters: []
+    return:
+      type: System.Object
+  exceptions:
+  - type: System.NotSupportedException
+    commentId: T:System.NotSupportedException
+    description: "\n<p>The SyncRoot property is not supported.</p>\n"
+  implements:
+  - System.Collections.ICollection.SyncRoot
+  modifiers.csharp:
+  - get
+  modifiers.vb:
+  - ReadOnly
+  fullName.vb: System.Collections.Concurrent.ConcurrentBag(Of T).System.Collections.ICollection.SyncRoot
+  name.vb: System.Collections.ICollection.SyncRoot
 - uid: System.Collections.Concurrent.ConcurrentBag`1.Add(`0)
   commentId: M:System.Collections.Concurrent.ConcurrentBag`1.Add(`0)
   id: Add(`0)
@@ -210,6 +343,9 @@ items:
   assemblies:
   - System.Collections.Concurrent
   namespace: System.Collections.Concurrent
+  summary: "\n<p>Adds an object to the <xref href=\"System.Collections.Concurrent.ConcurrentBag`1\" data-throw-if-not-resolved=\"false\"></xref>.</p>\n"
+  example:
+  - 
   syntax:
     content: public void Add(T item)
     content.vb: Public Sub Add(item As T)
@@ -248,6 +384,9 @@ items:
   assemblies:
   - System.Collections.Concurrent
   namespace: System.Collections.Concurrent
+  summary: "\n<p>Copies the <xref href=\"System.Collections.Concurrent.ConcurrentBag`1\" data-throw-if-not-resolved=\"false\"></xref> elements to an existing one-dimensional <xref href=\"System.Array\" data-throw-if-not-resolved=\"false\"></xref>, starting at the specified array index.</p>\n"
+  example:
+  - 
   syntax:
     content: public void CopyTo(T[] array, int index)
     content.vb: Public Sub CopyTo(array As T(), index As Integer)
@@ -266,6 +405,16 @@ items:
         The zero-based index in <em>array</em> at which copying
 
         begins.
+  exceptions:
+  - type: System.ArgumentNullException
+    commentId: T:System.ArgumentNullException
+    description: "\n<p>\n<em>array</em> is a null reference (Nothing in Visual Basic).</p>\n"
+  - type: System.ArgumentOutOfRangeException
+    commentId: T:System.ArgumentOutOfRangeException
+    description: "\n<p>\n<em>index</em> is less than zero.</p>\n"
+  - type: System.ArgumentException
+    commentId: T:System.ArgumentException
+    description: "\n<p>\n<em>index</em> is equal to or greater than the length of the <em>array</em> -or- the number of elements in the source <xref href=\"System.Collections.Concurrent.ConcurrentBag`1\" data-throw-if-not-resolved=\"false\"></xref> is greater than the available space from <em>index</em> to the end of the destination <em>array</em>.</p>\n"
   implements:
   - System.Collections.Concurrent.IProducerConsumerCollection{{T}}.CopyTo({T}[],System.Int32)
   modifiers.csharp:
@@ -295,12 +444,18 @@ items:
   assemblies:
   - System.Collections.Concurrent
   namespace: System.Collections.Concurrent
+  summary: "\n<p>Returns an enumerator that iterates through the <xref href=\"System.Collections.Concurrent.ConcurrentBag`1\" data-throw-if-not-resolved=\"false\"></xref>.</p>\n"
+  remarks: "\n<p>The enumeration represents a moment-in-time snapshot of the contents of the bag. It does not reflect any updates to the collection after <xref href=\"System.Collections.Concurrent.ConcurrentBag`1.GetEnumerator\" data-throw-if-not-resolved=\"false\"></xref> was called. The enumerator is safe to use concurrently with reads from and writes to the bag.</p>\n"
+  example:
+  - 
   syntax:
     content: public IEnumerator<T> GetEnumerator()
     content.vb: Public Function GetEnumerator As IEnumerator(Of T)
     return:
-      type: IEnumerator{{T}}
+      type: System.Collections.Generic.IEnumerator{{T}}
       description: An enumerator for the contents of the <xref href="System.Collections.Concurrent.ConcurrentBag`1" data-throw-if-not-resolved="false"></xref>.
+  implements:
+  - System.Collections.Generic.IEnumerable{{T}}.GetEnumerator
   modifiers.csharp:
   - public
   modifiers.vb:
@@ -328,6 +483,9 @@ items:
   assemblies:
   - System.Collections.Concurrent
   namespace: System.Collections.Concurrent
+  summary: "\n<p>Attempts to add an object to the <xref href=\"System.Collections.Concurrent.ConcurrentBag`1\" data-throw-if-not-resolved=\"false\"></xref>.</p>\n"
+  example:
+  - 
   syntax:
     content: bool IProducerConsumerCollection<T>.TryAdd(T item)
     content.vb: Function System.Collections.Concurrent.IProducerConsumerCollection<T>.TryAdd(item As T) As Boolean Implements IProducerConsumerCollection(Of T).TryAdd
@@ -342,6 +500,99 @@ items:
   - System.Collections.Concurrent.IProducerConsumerCollection{{T}}.TryAdd({T})
   fullName.vb: System.Collections.Concurrent.ConcurrentBag(Of T).System.Collections.Concurrent.IProducerConsumerCollection<T>.TryAdd(T)
   name.vb: System.Collections.Concurrent.IProducerConsumerCollection<T>.TryAdd(T)
+- uid: System.Collections.Concurrent.ConcurrentBag`1.System#Collections#ICollection#CopyTo(System.Array,System.Int32)
+  commentId: M:System.Collections.Concurrent.ConcurrentBag`1.System#Collections#ICollection#CopyTo(System.Array,System.Int32)
+  id: System#Collections#ICollection#CopyTo(System.Array,System.Int32)
+  isEii: true
+  parent: System.Collections.Concurrent.ConcurrentBag`1
+  langs:
+  - csharp
+  - vb
+  name: ICollection.CopyTo(Array, Int32)
+  fullName: System.Collections.Concurrent.ConcurrentBag<T>.System.Collections.ICollection.CopyTo(System.Array, System.Int32)
+  type: Method
+  source:
+    remote:
+      path: src/System.Collections.Concurrent/src/System/Collections/Concurrent/ConcurrentBag.cs
+      branch: master
+      repo: https://github.com/dotnet/corefx.git
+    id: System.Collections.ICollection.CopyTo
+    path: src/System.Collections.Concurrent/src/System/Collections/Concurrent/ConcurrentBag.cs
+    startLine: 487
+  assemblies:
+  - System.Collections.Concurrent
+  namespace: System.Collections.Concurrent
+  summary: "\n<p>Copies the elements of the <xref href=\"System.Collections.ICollection\" data-throw-if-not-resolved=\"false\"></xref> to an <xref href=\"System.Array\" data-throw-if-not-resolved=\"false\"></xref>, starting at a particular <xref href=\"System.Array\" data-throw-if-not-resolved=\"false\"></xref> index.</p>\n"
+  example:
+  - 
+  syntax:
+    content: void ICollection.CopyTo(Array array, int index)
+    content.vb: Sub System.Collections.ICollection.CopyTo(array As Array, index As Integer) Implements ICollection.CopyTo
+    parameters:
+    - id: array
+      type: System.Array
+      description: >-
+        The one-dimensional <xref href="System.Array" data-throw-if-not-resolved="false"></xref> that is the
+
+        destination of the elements copied from the
+
+        <xref href="System.Collections.Concurrent.ConcurrentBag`1" data-throw-if-not-resolved="false"></xref>. The <xref href="System.Array" data-throw-if-not-resolved="false"></xref> must have zero-based indexing.
+    - id: index
+      type: System.Int32
+      description: >-
+        The zero-based index in <em>array</em> at which copying
+
+        begins.
+  exceptions:
+  - type: System.ArgumentNullException
+    commentId: T:System.ArgumentNullException
+    description: "\n<p>\n<em>array</em> is a null reference (Nothing in Visual Basic).</p>\n"
+  - type: System.ArgumentOutOfRangeException
+    commentId: T:System.ArgumentOutOfRangeException
+    description: "\n<p>\n<em>index</em> is less than zero.</p>\n"
+  - type: System.ArgumentException
+    commentId: T:System.ArgumentException
+    description: "\n<p>\n<em>array</em> is multidimensional. -or- <em>array</em> does not have zero-based indexing. -or- <em>index</em> is equal to or greater than the length of the <em>array</em> -or- The number of elements in the source <xref href=\"System.Collections.ICollection\" data-throw-if-not-resolved=\"false\"></xref> is greater than the available space from <em>index</em> to the end of the destination <em>array</em>. -or- The type of the source <xref href=\"System.Collections.ICollection\" data-throw-if-not-resolved=\"false\"></xref> cannot be cast automatically to the type of the destination <em>array</em>.</p>\n<p></p>\n"
+  implements:
+  - System.Collections.ICollection.CopyTo(System.Array,System.Int32)
+  fullName.vb: System.Collections.Concurrent.ConcurrentBag(Of T).System.Collections.ICollection.CopyTo(System.Array, System.Int32)
+  name.vb: System.Collections.ICollection.CopyTo(Array, Int32)
+- uid: System.Collections.Concurrent.ConcurrentBag`1.System#Collections#IEnumerable#GetEnumerator
+  commentId: M:System.Collections.Concurrent.ConcurrentBag`1.System#Collections#IEnumerable#GetEnumerator
+  id: System#Collections#IEnumerable#GetEnumerator
+  isEii: true
+  parent: System.Collections.Concurrent.ConcurrentBag`1
+  langs:
+  - csharp
+  - vb
+  name: IEnumerable.GetEnumerator()
+  fullName: System.Collections.Concurrent.ConcurrentBag<T>.System.Collections.IEnumerable.GetEnumerator()
+  type: Method
+  source:
+    remote:
+      path: src/System.Collections.Concurrent/src/System/Collections/Concurrent/ConcurrentBag.cs
+      branch: master
+      repo: https://github.com/dotnet/corefx.git
+    id: System.Collections.IEnumerable.GetEnumerator
+    path: src/System.Collections.Concurrent/src/System/Collections/Concurrent/ConcurrentBag.cs
+    startLine: 571
+  assemblies:
+  - System.Collections.Concurrent
+  namespace: System.Collections.Concurrent
+  summary: "\n<p>Returns an enumerator that iterates through the <xref href=\"System.Collections.Concurrent.ConcurrentBag`1\" data-throw-if-not-resolved=\"false\"></xref>.</p>\n"
+  remarks: "\n<p>The items enumerated represent a moment-in-time snapshot of the contents of the bag. It does not reflect any update to the collection after <xref href=\"System.Collections.Concurrent.ConcurrentBag`1.GetEnumerator\" data-throw-if-not-resolved=\"false\"></xref> was called.</p>\n"
+  example:
+  - 
+  syntax:
+    content: IEnumerator IEnumerable.GetEnumerator()
+    content.vb: Function System.Collections.IEnumerable.GetEnumerator As IEnumerator Implements IEnumerable.GetEnumerator
+    return:
+      type: System.Collections.IEnumerator
+      description: An enumerator for the contents of the <xref href="System.Collections.Concurrent.ConcurrentBag`1" data-throw-if-not-resolved="false"></xref>.
+  implements:
+  - System.Collections.IEnumerable.GetEnumerator
+  fullName.vb: System.Collections.Concurrent.ConcurrentBag(Of T).System.Collections.IEnumerable.GetEnumerator()
+  name.vb: System.Collections.IEnumerable.GetEnumerator()
 - uid: System.Collections.Concurrent.ConcurrentBag`1.ToArray
   commentId: M:System.Collections.Concurrent.ConcurrentBag`1.ToArray
   id: ToArray
@@ -363,6 +614,9 @@ items:
   assemblies:
   - System.Collections.Concurrent
   namespace: System.Collections.Concurrent
+  summary: "\n<p>Copies the <xref href=\"System.Collections.Concurrent.ConcurrentBag`1\" data-throw-if-not-resolved=\"false\"></xref> elements to a new array.</p>\n"
+  example:
+  - 
   syntax:
     content: public T[] ToArray()
     content.vb: Public Function ToArray As T()
@@ -397,6 +651,9 @@ items:
   assemblies:
   - System.Collections.Concurrent
   namespace: System.Collections.Concurrent
+  summary: "\n<p>Attempts to return an object from the <xref href=\"System.Collections.Concurrent.ConcurrentBag`1\" data-throw-if-not-resolved=\"false\"></xref> without removing it.</p>\n"
+  example:
+  - 
   syntax:
     content: public bool TryPeek(out T result)
     content.vb: Public Function TryPeek(ByRef result As T) As Boolean
@@ -439,6 +696,9 @@ items:
   assemblies:
   - System.Collections.Concurrent
   namespace: System.Collections.Concurrent
+  summary: "\n<p>Attempts to remove and return an object from the <xref href=\"System.Collections.Concurrent.ConcurrentBag`1\" data-throw-if-not-resolved=\"false\"></xref>.</p>\n"
+  example:
+  - 
   syntax:
     content: public bool TryTake(out T result)
     content.vb: Public Function TryTake(ByRef result As T) As Boolean
@@ -499,33 +759,6 @@ references:
     fullName: T
   - name: )
     fullName: )
-- uid: System.Collections.Generic.IEnumerable{{T}}
-  parent: System.Collections.Generic
-  definition: System.Collections.Generic.IEnumerable`1
-  name: Collections.Generic.IEnumerable<T>
-  fullName: System.Collections.Generic.IEnumerable<T>
-  fullname.vb: System.Collections.Generic.IEnumerable(Of T)
-  name.vb: Collections.Generic.IEnumerable(Of T)
-  spec.csharp:
-  - uid: System.Collections.Generic.IEnumerable`1
-    name: Collections.Generic.IEnumerable
-    fullName: System.Collections.Generic.IEnumerable
-  - name: <
-    fullName: <
-  - name: T
-    fullName: T
-  - name: '>'
-    fullName: '>'
-  spec.vb:
-  - uid: System.Collections.Generic.IEnumerable`1
-    name: Collections.Generic.IEnumerable
-    fullName: System.Collections.Generic.IEnumerable
-  - name: '(Of '
-    fullName: '(Of '
-  - name: T
-    fullName: T
-  - name: )
-    fullName: )
 - uid: System.Collections.Generic.IReadOnlyCollection{{T}}
   parent: System.Collections.Generic
   definition: System.Collections.Generic.IReadOnlyCollection`1
@@ -553,16 +786,252 @@ references:
     fullName: T
   - name: )
     fullName: )
+- uid: System.Collections.Generic.IEnumerable{{T}}
+  parent: System.Collections.Generic
+  definition: System.Collections.Generic.IEnumerable`1
+  name: IEnumerable<T>
+  fullName: System.Collections.Generic.IEnumerable<T>
+  fullname.vb: System.Collections.Generic.IEnumerable(Of T)
+  name.vb: IEnumerable(Of T)
+  spec.csharp:
+  - uid: System.Collections.Generic.IEnumerable`1
+    name: IEnumerable
+    fullName: System.Collections.Generic.IEnumerable
+  - name: <
+    fullName: <
+  - name: T
+    fullName: T
+  - name: '>'
+    fullName: '>'
+  spec.vb:
+  - uid: System.Collections.Generic.IEnumerable`1
+    name: IEnumerable
+    fullName: System.Collections.Generic.IEnumerable
+  - name: '(Of '
+    fullName: '(Of '
+  - name: T
+    fullName: T
+  - name: )
+    fullName: )
 - uid: System.Collections.ICollection
   parent: System.Collections
   isExternal: false
-  name: Collections.ICollection
+  name: ICollection
   fullName: System.Collections.ICollection
 - uid: System.Collections.IEnumerable
   parent: System.Collections
   isExternal: false
-  name: Collections.IEnumerable
+  name: IEnumerable
   fullName: System.Collections.IEnumerable
+- uid: System.Object.ToString
+  parent: System.Object
+  isExternal: true
+  name: ToString()
+  fullName: System.Object.ToString()
+  spec.csharp:
+  - uid: System.Object.ToString
+    name: ToString
+    fullName: System.Object.ToString
+    isExternal: true
+  - name: (
+    fullName: (
+  - name: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.ToString
+    name: ToString
+    fullName: System.Object.ToString
+    isExternal: true
+  - name: (
+    fullName: (
+  - name: )
+    fullName: )
+- uid: System.Object.Equals(System.Object)
+  parent: System.Object
+  isExternal: true
+  name: Equals(Object)
+  fullName: System.Object.Equals(System.Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    fullName: )
+- uid: System.Object.Equals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  name: Equals(Object, Object)
+  fullName: System.Object.Equals(System.Object, System.Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    fullName: )
+- uid: System.Object.ReferenceEquals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  name: ReferenceEquals(Object, Object)
+  fullName: System.Object.ReferenceEquals(System.Object, System.Object)
+  spec.csharp:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    fullName: System.Object.ReferenceEquals
+    isExternal: true
+  - name: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    fullName: System.Object.ReferenceEquals
+    isExternal: true
+  - name: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    fullName: )
+- uid: System.Object.GetHashCode
+  parent: System.Object
+  isExternal: true
+  name: GetHashCode()
+  fullName: System.Object.GetHashCode()
+  spec.csharp:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    fullName: System.Object.GetHashCode
+    isExternal: true
+  - name: (
+    fullName: (
+  - name: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    fullName: System.Object.GetHashCode
+    isExternal: true
+  - name: (
+    fullName: (
+  - name: )
+    fullName: )
+- uid: System.Object.GetType
+  parent: System.Object
+  isExternal: true
+  name: GetType()
+  fullName: System.Object.GetType()
+  spec.csharp:
+  - uid: System.Object.GetType
+    name: GetType
+    fullName: System.Object.GetType
+    isExternal: true
+  - name: (
+    fullName: (
+  - name: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.GetType
+    name: GetType
+    fullName: System.Object.GetType
+    isExternal: true
+  - name: (
+    fullName: (
+  - name: )
+    fullName: )
+- uid: System.Object.MemberwiseClone
+  parent: System.Object
+  isExternal: true
+  name: MemberwiseClone()
+  fullName: System.Object.MemberwiseClone()
+  spec.csharp:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    fullName: System.Object.MemberwiseClone
+    isExternal: true
+  - name: (
+    fullName: (
+  - name: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    fullName: System.Object.MemberwiseClone
+    isExternal: true
+  - name: (
+    fullName: (
+  - name: )
+    fullName: )
 - uid: System
   isExternal: false
   name: System
@@ -594,74 +1063,105 @@ references:
     fullName: T
   - name: )
     fullName: )
-- uid: System.Collections.Generic.IEnumerable`1
+- uid: System.Collections.Generic.IReadOnlyCollection`1
   parent: System.Collections.Generic
   isExternal: false
-  name: Collections.Generic.IEnumerable<>
-  fullName: System.Collections.Generic.IEnumerable<>
-  fullname.vb: System.Collections.Generic.IEnumerable(Of )
-  name.vb: Collections.Generic.IEnumerable(Of )
+  name: IReadOnlyCollection<T>
+  fullName: System.Collections.Generic.IReadOnlyCollection<T>
+  fullname.vb: System.Collections.Generic.IReadOnlyCollection(Of T)
+  name.vb: IReadOnlyCollection(Of T)
   spec.csharp:
-  - uid: System.Collections.Generic.IEnumerable`1
-    name: Collections.Generic.IEnumerable
-    fullName: System.Collections.Generic.IEnumerable
+  - uid: System.Collections.Generic.IReadOnlyCollection`1
+    name: IReadOnlyCollection
+    fullName: System.Collections.Generic.IReadOnlyCollection
   - name: <
     fullName: <
-  - {}
+  - name: T
+    fullName: T
   - name: '>'
     fullName: '>'
   spec.vb:
-  - uid: System.Collections.Generic.IEnumerable`1
-    name: Collections.Generic.IEnumerable
-    fullName: System.Collections.Generic.IEnumerable
+  - uid: System.Collections.Generic.IReadOnlyCollection`1
+    name: IReadOnlyCollection
+    fullName: System.Collections.Generic.IReadOnlyCollection
   - name: '(Of '
     fullName: '(Of '
-  - {}
+  - name: T
+    fullName: T
   - name: )
     fullName: )
 - uid: System.Collections.Generic
   isExternal: false
   name: System.Collections.Generic
   fullName: System.Collections.Generic
-- uid: System.Collections.Generic.IReadOnlyCollection`1
+- uid: System.Collections.Generic.IEnumerable`1
   parent: System.Collections.Generic
   isExternal: false
-  name: Generic.IReadOnlyCollection<>
-  fullName: System.Collections.Generic.IReadOnlyCollection<>
-  fullname.vb: System.Collections.Generic.IReadOnlyCollection(Of )
-  name.vb: Generic.IReadOnlyCollection(Of )
+  name: IEnumerable<T>
+  fullName: System.Collections.Generic.IEnumerable<T>
+  fullname.vb: System.Collections.Generic.IEnumerable(Of T)
+  name.vb: IEnumerable(Of T)
   spec.csharp:
-  - uid: System.Collections.Generic.IReadOnlyCollection`1
-    name: Generic.IReadOnlyCollection
-    fullName: System.Collections.Generic.IReadOnlyCollection
+  - uid: System.Collections.Generic.IEnumerable`1
+    name: IEnumerable
+    fullName: System.Collections.Generic.IEnumerable
   - name: <
     fullName: <
-  - {}
+  - name: T
+    fullName: T
   - name: '>'
     fullName: '>'
   spec.vb:
-  - uid: System.Collections.Generic.IReadOnlyCollection`1
-    name: Generic.IReadOnlyCollection
-    fullName: System.Collections.Generic.IReadOnlyCollection
+  - uid: System.Collections.Generic.IEnumerable`1
+    name: IEnumerable
+    fullName: System.Collections.Generic.IEnumerable
   - name: '(Of '
     fullName: '(Of '
-  - {}
+  - name: T
+    fullName: T
   - name: )
     fullName: )
 - uid: System.Collections
   isExternal: false
   name: System.Collections
   fullName: System.Collections
+- uid: System.Collections.Generic.IReadOnlyCollection{{T}}.Count
+  parent: System.Collections.Generic.IReadOnlyCollection{{T}}
+  definition: System.Collections.Generic.IReadOnlyCollection`1.Count
+  name: Count
+  fullName: System.Collections.Generic.IReadOnlyCollection<T>.Count
+  fullname.vb: System.Collections.Generic.IReadOnlyCollection(Of T).Count
+- uid: System.Collections.ICollection.Count
+  parent: System.Collections.ICollection
+  isExternal: false
+  name: Count
+  fullName: System.Collections.ICollection.Count
 - uid: System.Int32
   parent: System
   isExternal: false
   name: Int32
   fullName: System.Int32
+- uid: System.Collections.Generic.IReadOnlyCollection`1.Count
+  parent: System.Collections.Generic.IReadOnlyCollection`1
+  isExternal: false
+  name: Count
+  fullName: System.Collections.Generic.IReadOnlyCollection<T>.Count
+  fullname.vb: System.Collections.Generic.IReadOnlyCollection(Of T).Count
 - uid: System.Boolean
   parent: System
   isExternal: false
   name: Boolean
   fullName: System.Boolean
+- uid: System.Collections.ICollection.IsSynchronized
+  parent: System.Collections.ICollection
+  isExternal: false
+  name: IsSynchronized
+  fullName: System.Collections.ICollection.IsSynchronized
+- uid: System.Collections.ICollection.SyncRoot
+  parent: System.Collections.ICollection
+  isExternal: false
+  name: SyncRoot
+  fullName: System.Collections.ICollection.SyncRoot
 - uid: '{T}'
   isExternal: false
   name: T
@@ -768,6 +1268,28 @@ references:
     isExternal: true
   - name: )
     fullName: )
+- uid: System.Collections.Generic.IEnumerable{{T}}.GetEnumerator
+  parent: System.Collections.Generic.IEnumerable{{T}}
+  definition: System.Collections.Generic.IEnumerable`1.GetEnumerator
+  name: GetEnumerator()
+  fullName: System.Collections.Generic.IEnumerable<T>.GetEnumerator()
+  fullname.vb: System.Collections.Generic.IEnumerable(Of T).GetEnumerator()
+  spec.csharp:
+  - uid: System.Collections.Generic.IEnumerable`1.GetEnumerator
+    name: GetEnumerator
+    fullName: System.Collections.Generic.IEnumerable<T>.GetEnumerator
+  - name: (
+    fullName: (
+  - name: )
+    fullName: )
+  spec.vb:
+  - uid: System.Collections.Generic.IEnumerable`1.GetEnumerator
+    name: GetEnumerator
+    fullName: System.Collections.Generic.IEnumerable(Of T).GetEnumerator
+  - name: (
+    fullName: (
+  - name: )
+    fullName: )
 - uid: System.Collections.Generic.IEnumerator{{T}}
   parent: System.Collections.Generic
   definition: System.Collections.Generic.IEnumerator`1
@@ -795,29 +1317,53 @@ references:
     fullName: T
   - name: )
     fullName: )
+- uid: System.Collections.Generic.IEnumerable`1.GetEnumerator
+  parent: System.Collections.Generic.IEnumerable`1
+  isExternal: false
+  name: GetEnumerator()
+  fullName: System.Collections.Generic.IEnumerable<T>.GetEnumerator()
+  fullname.vb: System.Collections.Generic.IEnumerable(Of T).GetEnumerator()
+  spec.csharp:
+  - uid: System.Collections.Generic.IEnumerable`1.GetEnumerator
+    name: GetEnumerator
+    fullName: System.Collections.Generic.IEnumerable<T>.GetEnumerator
+  - name: (
+    fullName: (
+  - name: )
+    fullName: )
+  spec.vb:
+  - uid: System.Collections.Generic.IEnumerable`1.GetEnumerator
+    name: GetEnumerator
+    fullName: System.Collections.Generic.IEnumerable(Of T).GetEnumerator
+  - name: (
+    fullName: (
+  - name: )
+    fullName: )
 - uid: System.Collections.Generic.IEnumerator`1
   parent: System.Collections.Generic
   isExternal: false
-  name: Collections.Generic.IEnumerator<>
-  fullName: System.Collections.Generic.IEnumerator<>
-  fullname.vb: System.Collections.Generic.IEnumerator(Of )
-  name.vb: Collections.Generic.IEnumerator(Of )
+  name: IEnumerator<T>
+  fullName: System.Collections.Generic.IEnumerator<T>
+  fullname.vb: System.Collections.Generic.IEnumerator(Of T)
+  name.vb: IEnumerator(Of T)
   spec.csharp:
   - uid: System.Collections.Generic.IEnumerator`1
-    name: Collections.Generic.IEnumerator
+    name: IEnumerator
     fullName: System.Collections.Generic.IEnumerator
   - name: <
     fullName: <
-  - {}
+  - name: T
+    fullName: T
   - name: '>'
     fullName: '>'
   spec.vb:
   - uid: System.Collections.Generic.IEnumerator`1
-    name: Collections.Generic.IEnumerator
+    name: IEnumerator
     fullName: System.Collections.Generic.IEnumerator
   - name: '(Of '
     fullName: '(Of '
-  - {}
+  - name: T
+    fullName: T
   - name: )
     fullName: )
 - uid: System.Collections.Concurrent.IProducerConsumerCollection{{T}}.TryAdd({T})
@@ -872,6 +1418,76 @@ references:
     fullName: T
   - name: )
     fullName: )
+- uid: System.Collections.ICollection.CopyTo(System.Array,System.Int32)
+  parent: System.Collections.ICollection
+  isExternal: true
+  name: CopyTo(Array, Int32)
+  fullName: System.Collections.ICollection.CopyTo(System.Array, System.Int32)
+  spec.csharp:
+  - uid: System.Collections.ICollection.CopyTo(System.Array,System.Int32)
+    name: CopyTo
+    fullName: System.Collections.ICollection.CopyTo
+  - name: (
+    fullName: (
+  - uid: System.Array
+    name: Array
+    fullName: System.Array
+  - name: ', '
+    fullName: ', '
+  - uid: System.Int32
+    name: Int32
+    fullName: System.Int32
+    isExternal: true
+  - name: )
+    fullName: )
+  spec.vb:
+  - uid: System.Collections.ICollection.CopyTo(System.Array,System.Int32)
+    name: CopyTo
+    fullName: System.Collections.ICollection.CopyTo
+  - name: (
+    fullName: (
+  - uid: System.Array
+    name: Array
+    fullName: System.Array
+  - name: ', '
+    fullName: ', '
+  - uid: System.Int32
+    name: Int32
+    fullName: System.Int32
+    isExternal: true
+  - name: )
+    fullName: )
+- uid: System.Array
+  parent: System
+  isExternal: false
+  name: Array
+  fullName: System.Array
+- uid: System.Collections.IEnumerable.GetEnumerator
+  parent: System.Collections.IEnumerable
+  isExternal: false
+  name: GetEnumerator()
+  fullName: System.Collections.IEnumerable.GetEnumerator()
+  spec.csharp:
+  - uid: System.Collections.IEnumerable.GetEnumerator
+    name: GetEnumerator
+    fullName: System.Collections.IEnumerable.GetEnumerator
+  - name: (
+    fullName: (
+  - name: )
+    fullName: )
+  spec.vb:
+  - uid: System.Collections.IEnumerable.GetEnumerator
+    name: GetEnumerator
+    fullName: System.Collections.IEnumerable.GetEnumerator
+  - name: (
+    fullName: (
+  - name: )
+    fullName: )
+- uid: System.Collections.IEnumerator
+  parent: System.Collections
+  isExternal: false
+  name: IEnumerator
+  fullName: System.Collections.IEnumerator
 - uid: System.Collections.Concurrent.IProducerConsumerCollection{{T}}.ToArray
   parent: System.Collections.Concurrent.IProducerConsumerCollection{{T}}
   definition: System.Collections.Concurrent.IProducerConsumerCollection`1.ToArray
@@ -968,3 +1584,21 @@ references:
     fullName: T
   - name: )
     fullName: )
+- uid: System.ArgumentNullException
+  isExternal: false
+  name: ArgumentNullException
+  fullName: System.ArgumentNullException
+- uid: System.NotSupportedException
+  parent: System
+  isExternal: false
+  name: NotSupportedException
+  fullName: System.NotSupportedException
+- uid: System.ArgumentOutOfRangeException
+  isExternal: false
+  name: ArgumentOutOfRangeException
+  fullName: System.ArgumentOutOfRangeException
+- uid: System.ArgumentException
+  parent: System
+  isExternal: false
+  name: ArgumentException
+  fullName: System.ArgumentException

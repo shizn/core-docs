@@ -21,12 +21,12 @@ items:
   type: Class
   source:
     remote:
-      path: src/System.Runtime/ref/System.Runtime.cs
+      path: src/mscorlib/src/System/Lazy.cs
       branch: master
-      repo: https://github.com/dotnet/corefx.git
+      repo: https://github.com/dotnet/coreclr.git
     id: Lazy
-    path: src/System.Runtime/ref/System.Runtime.cs
-    startLine: 1201
+    path: src/mscorlib/src/System/Lazy.cs
+    startLine: 48
   assemblies:
   - System.Runtime
   namespace: System
@@ -35,11 +35,29 @@ items:
   example:
   - "\n<p>The following example demonstrates the use of the <xref href=\"System.Lazy`1\" data-throw-if-not-resolved=\"false\"></xref> class to provide lazy initialization with access from multiple threads. </p>\n<p>The example uses the <xref href=\"System.Lazy`1.#ctor(System.Func{`0})\" data-throw-if-not-resolved=\"false\"></xref> constructor. It also demonstrates the use of the <xref href=\"System.Lazy`1.#ctor(System.Func{`0},System.Boolean)\" data-throw-if-not-resolved=\"false\"></xref> constructor (specifying <strong>true</strong> for <em>isThreadSafe</em>) and the <xref href=\"System.Lazy`1.#ctor(System.Func{`0},System.Threading.LazyThreadSafetyMode)\" data-throw-if-not-resolved=\"false\"></xref> constructor (specifying <xref href=\"System.Threading.LazyThreadSafetyMode.ExecutionAndPublication\" data-throw-if-not-resolved=\"false\"></xref> for <em>mode</em>). To switch to a different constructor, just change which constructors are commented out. </p>\n<p>For an example that demonstrates exception caching using the same constructors, see the <xref href=\"System.Lazy`1.#ctor(System.Func{`0})\" data-throw-if-not-resolved=\"false\"></xref> constructor. </p>\n<p>The example defines a <code>LargeObject</code> class that will be initialized lazily by one of several threads. The four key sections of code illustrate the creation of the initializer, the factory method, the actual initialization, and the constructor of the <code>LargeObject</code> class, which displays a message when the object is created. At the beginning of the <code>Main</code> method, the example creates the thread-safe lazy initializer for <code>LargeObject</code>: </p>System.Lazy`1#NewLazy<p>The factory method shows the creation of the object, with a placeholder for further initialization: </p>System.Lazy`1#FactoryFunc<p>Note that the first two code sections could be combined by using a lambda function, as shown here: </p>System.Lazy`1#InitWithLambda<p>The example pauses, to indicate that an indeterminate period may elapse before lazy initialization occurs. When you press the Enter key, the example creates and starts three threads. The <code>ThreadProc</code> method that's used by all three threads calls the <xref href=\"System.Lazy`1.Value\" data-throw-if-not-resolved=\"false\"></xref> property. The first time this happens, the <code>LargeObject</code> instance is created: </p>System.Lazy`1#ValueProp<p>The constructor of the <code>LargeObject</code> class, which includes the last key section of code, displays a message and records the identity of the initializing thread. The output from the program appears at the end of the full code listing. </p>System.Lazy`1#LargeCtor<p>For simplicity, this example uses a global instance of <xref href=\"System.Lazy`1\" data-throw-if-not-resolved=\"false\"></xref>, and all the methods are <strong>static</strong> (<strong>Shared</strong> in Visual Basic). These are not requirements for the use of lazy initialization. </p>System.Lazy`1#All"
   syntax:
-    content: public class Lazy<T>
-    content.vb: Public Class Lazy(Of T)
+    content: >-
+      [Serializable]
+
+      [ComVisible(false)]
+
+      [DebuggerTypeProxy(typeof (System_LazyDebugView<>))]
+
+      [DebuggerDisplay("ThreadSafetyMode={Mode}, IsValueCreated={IsValueCreated}, IsValueFaulted={IsValueFaulted}, Value={ValueForDebugDisplay}")]
+
+      public class Lazy<T>
+    content.vb: >-
+      <Serializable>
+
+      <ComVisible(False)>
+
+      <DebuggerTypeProxy(GetType(System_LazyDebugView(Of )))>
+
+      <DebuggerDisplay("ThreadSafetyMode={Mode}, IsValueCreated={IsValueCreated}, IsValueFaulted={IsValueFaulted}, Value={ValueForDebugDisplay}")>
+
+      Public Class Lazy(Of T)
     typeParameters:
     - id: T
-      description: "\n<p>The type of object that is being lazily initialized.</p>\n"
+      description: Specifies the type of element being lazily initialized.
   seealso:
   - type: System.Threading.LazyThreadSafetyMode
     commentId: T:System.Threading.LazyThreadSafetyMode
@@ -48,10 +66,10 @@ items:
   inheritedMembers:
   - System.Object.Equals(System.Object)
   - System.Object.Equals(System.Object,System.Object)
+  - System.Object.ReferenceEquals(System.Object,System.Object)
   - System.Object.GetHashCode
   - System.Object.GetType
   - System.Object.MemberwiseClone
-  - System.Object.ReferenceEquals(System.Object,System.Object)
   modifiers.csharp:
   - public
   - class
@@ -72,12 +90,12 @@ items:
   type: Constructor
   source:
     remote:
-      path: src/System.Runtime/ref/System.Runtime.cs
+      path: src/mscorlib/src/System/Lazy.cs
       branch: master
-      repo: https://github.com/dotnet/corefx.git
+      repo: https://github.com/dotnet/coreclr.git
     id: .ctor
-    path: src/System.Runtime/ref/System.Runtime.cs
-    startLine: 1203
+    path: src/mscorlib/src/System/Lazy.cs
+    startLine: 120
   assemblies:
   - System.Runtime
   namespace: System
@@ -105,12 +123,12 @@ items:
   type: Constructor
   source:
     remote:
-      path: src/System.Runtime/ref/System.Runtime.cs
+      path: src/mscorlib/src/System/Lazy.cs
       branch: master
-      repo: https://github.com/dotnet/corefx.git
+      repo: https://github.com/dotnet/coreclr.git
     id: .ctor
-    path: src/System.Runtime/ref/System.Runtime.cs
-    startLine: 1204
+    path: src/mscorlib/src/System/Lazy.cs
+    startLine: 149
   assemblies:
   - System.Runtime
   namespace: System
@@ -124,7 +142,8 @@ items:
     parameters:
     - id: isThreadSafe
       type: System.Boolean
-      description: "\n<p>\n<strong>true</strong> to make this instance usable concurrently by multiple threads; <strong>false</strong> to make the instance usable by only one thread at a time. </p>\n"
+      description: >
+        true if this instance should be usable by multiple threads concurrently; false if the instance will only be used by one thread at a time.
   modifiers.csharp:
   - public
   modifiers.vb:
@@ -142,12 +161,12 @@ items:
   type: Constructor
   source:
     remote:
-      path: src/System.Runtime/ref/System.Runtime.cs
+      path: src/mscorlib/src/System/Lazy.cs
       branch: master
-      repo: https://github.com/dotnet/corefx.git
+      repo: https://github.com/dotnet/coreclr.git
     id: .ctor
-    path: src/System.Runtime/ref/System.Runtime.cs
-    startLine: 1205
+    path: src/mscorlib/src/System/Lazy.cs
+    startLine: 138
   assemblies:
   - System.Runtime
   namespace: System
@@ -161,7 +180,7 @@ items:
     parameters:
     - id: valueFactory
       type: System.Func{{T}}
-      description: "\n<p>The delegate that is invoked to produce the lazily initialized value when it is needed.</p>\n"
+      description: "\nThe <xref href=\"System.Func{T}\" data-throw-if-not-resolved=\"false\"></xref> invoked to produce the lazily-initialized value when it is\nneeded.\n"
   exceptions:
   - type: System.ArgumentNullException
     commentId: T:System.ArgumentNullException
@@ -184,12 +203,12 @@ items:
   type: Constructor
   source:
     remote:
-      path: src/System.Runtime/ref/System.Runtime.cs
+      path: src/mscorlib/src/System/Lazy.cs
       branch: master
-      repo: https://github.com/dotnet/corefx.git
+      repo: https://github.com/dotnet/coreclr.git
     id: .ctor
-    path: src/System.Runtime/ref/System.Runtime.cs
-    startLine: 1206
+    path: src/mscorlib/src/System/Lazy.cs
+    startLine: 177
   assemblies:
   - System.Runtime
   namespace: System
@@ -203,10 +222,11 @@ items:
     parameters:
     - id: valueFactory
       type: System.Func{{T}}
-      description: "\n<p>The delegate that is invoked to produce the lazily initialized value when it is needed.</p>\n"
+      description: "\nThe <xref href=\"System.Func{T}\" data-throw-if-not-resolved=\"false\"></xref> invoked to produce the lazily-initialized value when it is needed.\n"
     - id: isThreadSafe
       type: System.Boolean
-      description: "\n<p>\n<strong>true</strong> to make this instance usable concurrently by multiple threads; <strong>false</strong> to make this instance usable by only one thread at a time.</p>\n"
+      description: >
+        true if this instance should be usable by multiple threads concurrently; false if the instance will only be used by one thread at a time.
   exceptions:
   - type: System.ArgumentNullException
     commentId: T:System.ArgumentNullException
@@ -229,12 +249,12 @@ items:
   type: Constructor
   source:
     remote:
-      path: src/System.Runtime/ref/System.Runtime.cs
+      path: src/mscorlib/src/System/Lazy.cs
       branch: master
-      repo: https://github.com/dotnet/corefx.git
+      repo: https://github.com/dotnet/coreclr.git
     id: .ctor
-    path: src/System.Runtime/ref/System.Runtime.cs
-    startLine: 1207
+    path: src/mscorlib/src/System/Lazy.cs
+    startLine: 193
   assemblies:
   - System.Runtime
   namespace: System
@@ -248,10 +268,10 @@ items:
     parameters:
     - id: valueFactory
       type: System.Func{{T}}
-      description: "\n<p>The delegate that is invoked to produce the lazily initialized value when it is needed.</p>\n"
+      description: "\nThe <xref href=\"System.Func{T}\" data-throw-if-not-resolved=\"false\"></xref> invoked to produce the lazily-initialized value when it is needed.\n"
     - id: mode
       type: System.Threading.LazyThreadSafetyMode
-      description: "\n<p>One of the enumeration values that specifies the thread safety mode. </p>\n"
+      description: The lazy thread-safety mode.
   exceptions:
   - type: System.ArgumentOutOfRangeException
     commentId: T:System.ArgumentOutOfRangeException
@@ -277,12 +297,12 @@ items:
   type: Constructor
   source:
     remote:
-      path: src/System.Runtime/ref/System.Runtime.cs
+      path: src/mscorlib/src/System/Lazy.cs
       branch: master
-      repo: https://github.com/dotnet/corefx.git
+      repo: https://github.com/dotnet/coreclr.git
     id: .ctor
-    path: src/System.Runtime/ref/System.Runtime.cs
-    startLine: 1208
+    path: src/mscorlib/src/System/Lazy.cs
+    startLine: 160
   assemblies:
   - System.Runtime
   namespace: System
@@ -296,7 +316,7 @@ items:
     parameters:
     - id: mode
       type: System.Threading.LazyThreadSafetyMode
-      description: "\n<p>One of the enumeration values that specifies the thread safety mode. </p>\n"
+      description: The lazy thread-safety mode mode
   exceptions:
   - type: System.ArgumentOutOfRangeException
     commentId: T:System.ArgumentOutOfRangeException
@@ -321,12 +341,12 @@ items:
   type: Property
   source:
     remote:
-      path: src/System.Runtime/ref/System.Runtime.cs
+      path: src/mscorlib/src/System/Lazy.cs
       branch: master
-      repo: https://github.com/dotnet/corefx.git
+      repo: https://github.com/dotnet/coreclr.git
     id: IsValueCreated
-    path: src/System.Runtime/ref/System.Runtime.cs
-    startLine: 1209
+    path: src/mscorlib/src/System/Lazy.cs
+    startLine: 280
   assemblies:
   - System.Runtime
   namespace: System
@@ -340,7 +360,10 @@ items:
     parameters: []
     return:
       type: System.Boolean
-      description: "\n<p>\n<strong>true</strong> if a value has been created for this <xref href=\"System.Lazy`1\" data-throw-if-not-resolved=\"false\"></xref> instance; otherwise, <strong>false</strong>.</p>\n"
+      description: >-
+        true if the <xref href="System.Lazy{T}" data-throw-if-not-resolved="false"></xref> instance has been initialized;
+
+        otherwise, false.
   seealso:
   - type: System.Threading.LazyThreadSafetyMode
     commentId: T:System.Threading.LazyThreadSafetyMode
@@ -363,12 +386,12 @@ items:
   type: Property
   source:
     remote:
-      path: src/System.Runtime/ref/System.Runtime.cs
+      path: src/mscorlib/src/System/Lazy.cs
       branch: master
-      repo: https://github.com/dotnet/corefx.git
+      repo: https://github.com/dotnet/coreclr.git
     id: Value
-    path: src/System.Runtime/ref/System.Runtime.cs
-    startLine: 1210
+    path: src/mscorlib/src/System/Lazy.cs
+    startLine: 309
   assemblies:
   - System.Runtime
   namespace: System
@@ -377,12 +400,17 @@ items:
   example:
   - 
   syntax:
-    content: public T Value { get; }
-    content.vb: Public ReadOnly Property Value As T
+    content: >-
+      [DebuggerBrowsable(DebuggerBrowsableState.Never)]
+
+      public T Value { get; }
+    content.vb: >-
+      <DebuggerBrowsable(DebuggerBrowsableState.Never)>
+
+      Public ReadOnly Property Value As T
     parameters: []
     return:
       type: '{T}'
-      description: "\n<p>The lazily initialized value of the current <xref href=\"System.Lazy`1\" data-throw-if-not-resolved=\"false\"></xref> instance.</p>\n"
   exceptions:
   - type: System.MemberAccessException
     commentId: T:System.MemberAccessException
@@ -412,12 +440,12 @@ items:
   type: Method
   source:
     remote:
-      path: src/System.Runtime/ref/System.Runtime.cs
+      path: src/mscorlib/src/System/Lazy.cs
       branch: master
-      repo: https://github.com/dotnet/corefx.git
+      repo: https://github.com/dotnet/coreclr.git
     id: ToString
-    path: src/System.Runtime/ref/System.Runtime.cs
-    startLine: 1211
+    path: src/mscorlib/src/System/Lazy.cs
+    startLine: 232
   assemblies:
   - System.Runtime
   namespace: System
@@ -430,7 +458,7 @@ items:
     content.vb: Public Overrides Function ToString As String
     return:
       type: System.String
-      description: "\n<p>The result of calling the <xref href=\"System.Object.ToString\" data-throw-if-not-resolved=\"false\"></xref> method on the <xref href=\"System.Lazy`1.Value\" data-throw-if-not-resolved=\"false\"></xref> property for this instance, if the value has been created (that is, if the <xref href=\"System.Lazy`1.IsValueCreated\" data-throw-if-not-resolved=\"false\"></xref> property returns <strong>true</strong>). Otherwise, a string indicating that the value has not been created. </p>\n"
+      description: The result of calling <xref href="System.Object.ToString" data-throw-if-not-resolved="false"></xref> on the <xref href="System.Lazy`1.Value" data-throw-if-not-resolved="false"></xref>.
   overridden: System.Object.ToString
   exceptions:
   - type: System.NullReferenceException
@@ -455,166 +483,188 @@ references:
   fullName: System.Object
 - uid: System.Object.Equals(System.Object)
   parent: System.Object
-  isExternal: false
+  isExternal: true
   name: Equals(Object)
   fullName: System.Object.Equals(System.Object)
   spec.csharp:
   - uid: System.Object.Equals(System.Object)
     name: Equals
     fullName: System.Object.Equals
+    isExternal: true
   - name: (
     fullName: (
   - uid: System.Object
     name: Object
     fullName: System.Object
+    isExternal: true
   - name: )
     fullName: )
   spec.vb:
   - uid: System.Object.Equals(System.Object)
     name: Equals
     fullName: System.Object.Equals
+    isExternal: true
   - name: (
     fullName: (
   - uid: System.Object
     name: Object
     fullName: System.Object
+    isExternal: true
   - name: )
     fullName: )
 - uid: System.Object.Equals(System.Object,System.Object)
   parent: System.Object
-  isExternal: false
+  isExternal: true
   name: Equals(Object, Object)
   fullName: System.Object.Equals(System.Object, System.Object)
   spec.csharp:
   - uid: System.Object.Equals(System.Object,System.Object)
     name: Equals
     fullName: System.Object.Equals
+    isExternal: true
   - name: (
     fullName: (
   - uid: System.Object
     name: Object
     fullName: System.Object
+    isExternal: true
   - name: ', '
     fullName: ', '
   - uid: System.Object
     name: Object
     fullName: System.Object
+    isExternal: true
   - name: )
     fullName: )
   spec.vb:
   - uid: System.Object.Equals(System.Object,System.Object)
     name: Equals
     fullName: System.Object.Equals
+    isExternal: true
   - name: (
     fullName: (
   - uid: System.Object
     name: Object
     fullName: System.Object
+    isExternal: true
   - name: ', '
     fullName: ', '
   - uid: System.Object
     name: Object
     fullName: System.Object
-  - name: )
-    fullName: )
-- uid: System.Object.GetHashCode
-  parent: System.Object
-  isExternal: false
-  name: GetHashCode()
-  fullName: System.Object.GetHashCode()
-  spec.csharp:
-  - uid: System.Object.GetHashCode
-    name: GetHashCode
-    fullName: System.Object.GetHashCode
-  - name: (
-    fullName: (
-  - name: )
-    fullName: )
-  spec.vb:
-  - uid: System.Object.GetHashCode
-    name: GetHashCode
-    fullName: System.Object.GetHashCode
-  - name: (
-    fullName: (
-  - name: )
-    fullName: )
-- uid: System.Object.GetType
-  parent: System.Object
-  isExternal: false
-  name: GetType()
-  fullName: System.Object.GetType()
-  spec.csharp:
-  - uid: System.Object.GetType
-    name: GetType
-    fullName: System.Object.GetType
-  - name: (
-    fullName: (
-  - name: )
-    fullName: )
-  spec.vb:
-  - uid: System.Object.GetType
-    name: GetType
-    fullName: System.Object.GetType
-  - name: (
-    fullName: (
-  - name: )
-    fullName: )
-- uid: System.Object.MemberwiseClone
-  parent: System.Object
-  isExternal: false
-  name: MemberwiseClone()
-  fullName: System.Object.MemberwiseClone()
-  spec.csharp:
-  - uid: System.Object.MemberwiseClone
-    name: MemberwiseClone
-    fullName: System.Object.MemberwiseClone
-  - name: (
-    fullName: (
-  - name: )
-    fullName: )
-  spec.vb:
-  - uid: System.Object.MemberwiseClone
-    name: MemberwiseClone
-    fullName: System.Object.MemberwiseClone
-  - name: (
-    fullName: (
+    isExternal: true
   - name: )
     fullName: )
 - uid: System.Object.ReferenceEquals(System.Object,System.Object)
   parent: System.Object
-  isExternal: false
+  isExternal: true
   name: ReferenceEquals(Object, Object)
   fullName: System.Object.ReferenceEquals(System.Object, System.Object)
   spec.csharp:
   - uid: System.Object.ReferenceEquals(System.Object,System.Object)
     name: ReferenceEquals
     fullName: System.Object.ReferenceEquals
+    isExternal: true
   - name: (
     fullName: (
   - uid: System.Object
     name: Object
     fullName: System.Object
+    isExternal: true
   - name: ', '
     fullName: ', '
   - uid: System.Object
     name: Object
     fullName: System.Object
+    isExternal: true
   - name: )
     fullName: )
   spec.vb:
   - uid: System.Object.ReferenceEquals(System.Object,System.Object)
     name: ReferenceEquals
     fullName: System.Object.ReferenceEquals
+    isExternal: true
   - name: (
     fullName: (
   - uid: System.Object
     name: Object
     fullName: System.Object
+    isExternal: true
   - name: ', '
     fullName: ', '
   - uid: System.Object
     name: Object
     fullName: System.Object
+    isExternal: true
+  - name: )
+    fullName: )
+- uid: System.Object.GetHashCode
+  parent: System.Object
+  isExternal: true
+  name: GetHashCode()
+  fullName: System.Object.GetHashCode()
+  spec.csharp:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    fullName: System.Object.GetHashCode
+    isExternal: true
+  - name: (
+    fullName: (
+  - name: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    fullName: System.Object.GetHashCode
+    isExternal: true
+  - name: (
+    fullName: (
+  - name: )
+    fullName: )
+- uid: System.Object.GetType
+  parent: System.Object
+  isExternal: true
+  name: GetType()
+  fullName: System.Object.GetType()
+  spec.csharp:
+  - uid: System.Object.GetType
+    name: GetType
+    fullName: System.Object.GetType
+    isExternal: true
+  - name: (
+    fullName: (
+  - name: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.GetType
+    name: GetType
+    fullName: System.Object.GetType
+    isExternal: true
+  - name: (
+    fullName: (
+  - name: )
+    fullName: )
+- uid: System.Object.MemberwiseClone
+  parent: System.Object
+  isExternal: true
+  name: MemberwiseClone()
+  fullName: System.Object.MemberwiseClone()
+  spec.csharp:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    fullName: System.Object.MemberwiseClone
+    isExternal: true
+  - name: (
+    fullName: (
+  - name: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    fullName: System.Object.MemberwiseClone
+    isExternal: true
+  - name: (
+    fullName: (
   - name: )
     fullName: )
 - uid: System.Boolean
@@ -652,17 +702,18 @@ references:
 - uid: System.Func`1
   parent: System
   isExternal: false
-  name: Func<>
-  fullName: System.Func<>
-  fullname.vb: System.Func(Of )
-  name.vb: Func(Of )
+  name: Func<TResult>
+  fullName: System.Func<TResult>
+  fullname.vb: System.Func(Of TResult)
+  name.vb: Func(Of TResult)
   spec.csharp:
   - uid: System.Func`1
     name: Func
     fullName: System.Func
   - name: <
     fullName: <
-  - {}
+  - name: TResult
+    fullName: TResult
   - name: '>'
     fullName: '>'
   spec.vb:
@@ -671,7 +722,8 @@ references:
     fullName: System.Func
   - name: '(Of '
     fullName: '(Of '
-  - {}
+  - name: TResult
+    fullName: TResult
   - name: )
     fullName: )
 - uid: System.Threading.LazyThreadSafetyMode
@@ -689,13 +741,14 @@ references:
   fullName: T
 - uid: System.Object.ToString
   parent: System.Object
-  isExternal: false
+  isExternal: true
   name: ToString()
   fullName: System.Object.ToString()
   spec.csharp:
   - uid: System.Object.ToString
     name: ToString
     fullName: System.Object.ToString
+    isExternal: true
   - name: (
     fullName: (
   - name: )
@@ -704,6 +757,7 @@ references:
   - uid: System.Object.ToString
     name: ToString
     fullName: System.Object.ToString
+    isExternal: true
   - name: (
     fullName: (
   - name: )

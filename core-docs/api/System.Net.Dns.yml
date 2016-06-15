@@ -16,22 +16,32 @@ items:
   type: Class
   source:
     remote:
-      path: src/System.Net.NameResolution/src/System/Net/DNS.cs
+      path: src/System.Net.NameResolution/ref/System.Net.NameResolution.cs
       branch: master
       repo: https://github.com/dotnet/corefx.git
     id: Dns
-    path: src/System.Net.NameResolution/src/System/Net/DNS.cs
-    startLine: 17
+    path: src/System.Net.NameResolution/ref/System.Net.NameResolution.cs
+    startLine: 10
   assemblies:
   - System.Net.NameResolution
   namespace: System.Net
+  summary: "\n<p>Provides simple domain name resolution functionality.</p>\n"
+  remarks: "\n<p>The <xref href=\"System.Net.Dns\" data-throw-if-not-resolved=\"false\"></xref> class is a static class that retrieves information about a specific host from the Internet Domain Name System (DNS).</p>\n<p>The host information from the DNS query is returned in an instance of the <xref href=\"System.Net.IPHostEntry\" data-throw-if-not-resolved=\"false\"></xref> class. If the specified host has more than one entry in the DNS database, <xref href=\"System.Net.IPHostEntry\" data-throw-if-not-resolved=\"false\"></xref> contains multiple IP addresses and aliases.</p>\n"
+  example:
+  - "\n<p>The following example queries the DNS database for information on the host www.contoso.com. </p>Classic Dns Example#1"
   syntax:
-    content: 'public class Dns : object'
-    content.vb: >-
-      Public Class Dns
-          Inherits Object
+    content: public class Dns
+    content.vb: Public Class Dns
   inheritance:
   - System.Object
+  inheritedMembers:
+  - System.Object.ToString
+  - System.Object.Equals(System.Object)
+  - System.Object.Equals(System.Object,System.Object)
+  - System.Object.ReferenceEquals(System.Object,System.Object)
+  - System.Object.GetHashCode
+  - System.Object.GetType
+  - System.Object.MemberwiseClone
   modifiers.csharp:
   - public
   - class
@@ -50,23 +60,40 @@ items:
   type: Method
   source:
     remote:
-      path: src/System.Net.NameResolution/src/System/Net/DNS.cs
+      path: src/System.Net.NameResolution/ref/System.Net.NameResolution.cs
       branch: master
       repo: https://github.com/dotnet/corefx.git
     id: GetHostAddressesAsync
-    path: src/System.Net.NameResolution/src/System/Net/DNS.cs
-    startLine: 404
+    path: src/System.Net.NameResolution/ref/System.Net.NameResolution.cs
+    startLine: 12
   assemblies:
   - System.Net.NameResolution
   namespace: System.Net
+  summary: "\n<p>Returns the Internet Protocol (IP) addresses for the specified host as an asynchronous operation.</p>\n"
+  remarks: "\n<p>This operation will not block. The returned <xref href=\"System.Threading.Tasks.Task`1\" data-throw-if-not-resolved=\"false\"></xref>  object will complete after the <em>hostNameOrAddress</em> has been resolved.</p>\n<p>This method queries a DNS server for the IP addresses associated with a host name. If <em>hostNameOrAddress</em> is an IP address, this address is returned without querying the DNS server.</p>\n"
   syntax:
     content: public static Task<IPAddress[]> GetHostAddressesAsync(string hostNameOrAddress)
     content.vb: Public Shared Function GetHostAddressesAsync(hostNameOrAddress As String) As Task(Of IPAddress())
     parameters:
     - id: hostNameOrAddress
       type: System.String
+      description: "\n<p>The host name or IP address to resolve.</p>\n"
     return:
-      type: Task{IPAddress[]}
+      type: System.Threading.Tasks.Task{System.Net.IPAddress[]}
+      description: "\n<p>Returns <xref href=\"System.Threading.Tasks.Task`1\" data-throw-if-not-resolved=\"false\"></xref>.</p>\n<p>The task object representing the asynchronous operation. The <xref href=\"System.Threading.Tasks.Task`1.Result\" data-throw-if-not-resolved=\"false\"></xref> property on the task object returns an array of type <xref href=\"System.Net.IPAddress\" data-throw-if-not-resolved=\"false\"></xref> that holds the IP addresses for the host that is specified by the <em>hostNameOrAddress</em> parameter.</p>\n"
+  exceptions:
+  - type: System.ArgumentNullException
+    commentId: T:System.ArgumentNullException
+    description: "\n<p>\n<em>hostNameOrAddress</em> is <strong>null</strong>. </p>\n"
+  - type: System.ArgumentOutOfRangeException
+    commentId: T:System.ArgumentOutOfRangeException
+    description: "\n<p>The length of <em>hostNameOrAddress</em> is greater than 255 characters. </p>\n"
+  - type: System.Net.Sockets.SocketException
+    commentId: T:System.Net.Sockets.SocketException
+    description: "\n<p>An error is encountered when resolving <em>hostNameOrAddress</em>. </p>\n"
+  - type: System.ArgumentException
+    commentId: T:System.ArgumentException
+    description: "\n<p>\n<em>hostNameOrAddress</em> is an invalid IP address.</p>\n"
   modifiers.csharp:
   - public
   - static
@@ -94,14 +121,28 @@ items:
   assemblies:
   - System.Net.NameResolution
   namespace: System.Net
+  summary: "\n<p>Resolves an IP address to an <xref href=\"System.Net.IPHostEntry\" data-throw-if-not-resolved=\"false\"></xref> instance as an asynchronous operation.</p>\n"
+  remarks: "\n<p>This operation will not block. The returned <xref href=\"System.Threading.Tasks.Task`1\" data-throw-if-not-resolved=\"false\"></xref>  object will complete after the <em>address</em> has been resolved.</p>\n<p>This method queries a DNS server for the IP addresses and aliases associated with an IP address.</p>\n<p>IPv6 addresses are filtered from the results of this method if the local computer does not have IPv6 installed. As a result, it is possible to get back an empty <xref href=\"System.Net.IPHostEntry\" data-throw-if-not-resolved=\"false\"></xref> instance if only IPv6 results where available for the <em>address</em> parameter.</p>\n<p>The <xref href=\"System.Net.IPHostEntry.Aliases\" data-throw-if-not-resolved=\"false\"></xref> property of the <xref href=\"System.Net.IPHostEntry\" data-throw-if-not-resolved=\"false\"></xref> instance returned is not populated by this method and will always be empty.</p>\n<p>This member emits trace information when you enable network tracing in your application. For more information, see Network Tracing in the .NET Framework.</p>\n"
   syntax:
-    content: public static Threading.Tasks.Task<IPHostEntry> GetHostEntryAsync(IPAddress address)
-    content.vb: Public Shared Function GetHostEntryAsync(address As IPAddress) As Threading.Tasks.Task(Of IPHostEntry)
+    content: public static Task<IPHostEntry> GetHostEntryAsync(IPAddress address)
+    content.vb: Public Shared Function GetHostEntryAsync(address As IPAddress) As Task(Of IPHostEntry)
     parameters:
     - id: address
       type: System.Net.IPAddress
+      description: "\n<p>An IP address.</p>\n"
     return:
       type: System.Threading.Tasks.Task{System.Net.IPHostEntry}
+      description: "\n<p>Returns <xref href=\"System.Threading.Tasks.Task`1\" data-throw-if-not-resolved=\"false\"></xref>.</p>\n<p>The task object representing the asynchronous operation. The <xref href=\"System.Threading.Tasks.Task`1.Result\" data-throw-if-not-resolved=\"false\"></xref> property on the task object returns an <xref href=\"System.Net.IPHostEntry\" data-throw-if-not-resolved=\"false\"></xref> instance that contains address information about the host specified in <em>address</em>.</p>\n"
+  exceptions:
+  - type: System.ArgumentNullException
+    commentId: T:System.ArgumentNullException
+    description: "\n<p>\n<em>address</em> is <strong>null</strong>. </p>\n"
+  - type: System.Net.Sockets.SocketException
+    commentId: T:System.Net.Sockets.SocketException
+    description: "\n<p>An error is encountered when resolving <em>address</em>. </p>\n"
+  - type: System.ArgumentException
+    commentId: T:System.ArgumentException
+    description: "\n<p>\n<em>address</em> is an invalid IP address.</p>\n"
   modifiers.csharp:
   - public
   - static
@@ -120,23 +161,40 @@ items:
   type: Method
   source:
     remote:
-      path: src/System.Net.NameResolution/src/System/Net/DNS.cs
+      path: src/System.Net.NameResolution/ref/System.Net.NameResolution.cs
       branch: master
       repo: https://github.com/dotnet/corefx.git
     id: GetHostEntryAsync
-    path: src/System.Net.NameResolution/src/System/Net/DNS.cs
-    startLine: 422
+    path: src/System.Net.NameResolution/ref/System.Net.NameResolution.cs
+    startLine: 14
   assemblies:
   - System.Net.NameResolution
   namespace: System.Net
+  summary: "\n<p>Resolves a host name or IP address to an <xref href=\"System.Net.IPHostEntry\" data-throw-if-not-resolved=\"false\"></xref> instance as an asynchronous operation.</p>\n"
+  remarks: "\n<p>This operation will not block. The returned <xref href=\"System.Threading.Tasks.Task`1\" data-throw-if-not-resolved=\"false\"></xref>  object will complete after the <em>hostNameOrAddress</em> has been resolved.</p>\n<p>This method queries a DNS server for the IP address that is associated with a host name or IP address.</p>\n<p>When an empty string is passed as the host name, this method returns the IPv4 addresses of the local host.</p>\n<p>If the host name could not be found, the <xref href=\"System.Net.Sockets.SocketException\" data-throw-if-not-resolved=\"false\"></xref> exception is returned with a value of 11001 (Windows Sockets error WSAHOST_NOT_FOUND). This exception can be returned if the DNS server does not respond. This exception can also be returned if the name is not an official host name or alias, or it cannot be found in the database(s) being queried. </p>\n<p>The <xref href=\"System.ArgumentException\" data-throw-if-not-resolved=\"false\"></xref> exception is also returned if the <em>hostNameOrAddress</em> parameter contains <xref href=\"System.Net.IPAddress.Any\" data-throw-if-not-resolved=\"false\"></xref> or <xref href=\"System.Net.IPAddress.IPv6Any\" data-throw-if-not-resolved=\"false\"></xref>.</p>\n<p>This method assumes that if an IP literal string is passed in the <em>hostNameOrAddress</em> parameter that the application wants an <xref href=\"System.Net.IPHostEntry\" data-throw-if-not-resolved=\"false\"></xref> instance returned with all of the properties set. These properties include the <xref href=\"System.Net.IPHostEntry.AddressList\" data-throw-if-not-resolved=\"false\"></xref>, <xref href=\"System.Net.IPHostEntry.Aliases\" data-throw-if-not-resolved=\"false\"></xref>, and <xref href=\"System.Net.IPHostEntry.HostName\" data-throw-if-not-resolved=\"false\"></xref>. As a result, the implementation of this method exhibits the following behavior when an IP string literal is passed:</p>\n<ol><li>\n<p>The method tries to parse the address. If the <em>hostNameOrAddress</em> parameter contains a legal IP string literal, then the first phase succeeds.</p>\n</li><li>\n<p>A reverse lookup using the IP address of the IP string literal is attempted to obtain the host name. This result is set as the <xref href=\"System.Net.IPHostEntry.HostName\" data-throw-if-not-resolved=\"false\"></xref> property. </p>\n</li><li>\n<p>The host name from this reverse lookup is used again to obtain all the possible IP addresses associated with the name and set as the <xref href=\"System.Net.IPHostEntry.AddressList\" data-throw-if-not-resolved=\"false\"></xref> property.</p>\n</li></ol>\n<p>For an IPv4 string literal, all three steps above may succeed. But it is possible for a stale DNS record for an IPv4 address that actually belongs to a different host to be returned. This may cause step #3 to fail and throw an exception (there is a DNS PTR record for the IPv4 address, but no DNS A record for the IPv4 address).</p>\n<p>For IPv6, step #2 above may fail, since most IPv6 deployments do not register the reverse (PTR) record for an IPv6 address. So this method may return the string IPv6 literal as the fully-qualified domain (FQDN) host name in the <xref href=\"System.Net.IPHostEntry.HostName\" data-throw-if-not-resolved=\"false\"></xref> property.</p>\n<p>The <xref href=\"System.Net.Dns.GetHostAddresses(System.String)\" data-throw-if-not-resolved=\"false\"></xref> method has different behavior with respect to IP literals. If step #1 above succeeds (it successfully parses as an IP address), that address is immediately returned as the result. There is no attempt at a reverse lookup.</p>\n<p>IPv6 addresses are filtered from the results of this method if the local computer does not have IPv6 installed. As a result, it is possible to get back an empty <xref href=\"System.Net.IPHostEntry\" data-throw-if-not-resolved=\"false\"></xref> instance if only IPv6 results where available for the <em>hostNameOrAddress</em>.parameter.</p>\n<p>The <xref href=\"System.Net.IPHostEntry.Aliases\" data-throw-if-not-resolved=\"false\"></xref> property of the <xref href=\"System.Net.IPHostEntry\" data-throw-if-not-resolved=\"false\"></xref> instance returned is not populated by this method and will always be empty.</p>\n<p>This member emits trace information when you enable network tracing in your application. For more information, see Network Tracing in the .NET Framework.</p>\n"
   syntax:
     content: public static Task<IPHostEntry> GetHostEntryAsync(string hostNameOrAddress)
     content.vb: Public Shared Function GetHostEntryAsync(hostNameOrAddress As String) As Task(Of IPHostEntry)
     parameters:
     - id: hostNameOrAddress
       type: System.String
+      description: "\n<p>The host name or IP address to resolve.</p>\n"
     return:
-      type: Task{System.Net.IPHostEntry}
+      type: System.Threading.Tasks.Task{System.Net.IPHostEntry}
+      description: "\n<p>Returns <xref href=\"System.Threading.Tasks.Task`1\" data-throw-if-not-resolved=\"false\"></xref>.</p>\n<p>The task object representing the asynchronous operation. The <xref href=\"System.Threading.Tasks.Task`1.Result\" data-throw-if-not-resolved=\"false\"></xref> property on the task object returns an <xref href=\"System.Net.IPHostEntry\" data-throw-if-not-resolved=\"false\"></xref> instance that contains address information about the host specified in <em>hostNameOrAddress</em>.</p>\n"
+  exceptions:
+  - type: System.ArgumentNullException
+    commentId: T:System.ArgumentNullException
+    description: "\n<p>The <em>hostNameOrAddress</em> parameter is <strong>null</strong>. </p>\n"
+  - type: System.ArgumentOutOfRangeException
+    commentId: T:System.ArgumentOutOfRangeException
+    description: "\n<p>The length of <em>hostNameOrAddress</em> parameter is greater than 255 characters. </p>\n"
+  - type: System.Net.Sockets.SocketException
+    commentId: T:System.Net.Sockets.SocketException
+    description: "\n<p>An error was encountered when resolving the <em>hostNameOrAddress</em> parameter. </p>\n"
+  - type: System.ArgumentException
+    commentId: T:System.ArgumentException
+    description: "\n<p>The <em>hostNameOrAddress</em> parameter is an invalid IP address. </p>\n"
   modifiers.csharp:
   - public
   - static
@@ -155,20 +213,31 @@ items:
   type: Method
   source:
     remote:
-      path: src/System.Net.NameResolution/src/System/Net/DNS.cs
+      path: src/System.Net.NameResolution/ref/System.Net.NameResolution.cs
       branch: master
       repo: https://github.com/dotnet/corefx.git
     id: GetHostName
-    path: src/System.Net.NameResolution/src/System/Net/DNS.cs
-    startLine: 168
+    path: src/System.Net.NameResolution/ref/System.Net.NameResolution.cs
+    startLine: 15
   assemblies:
   - System.Net.NameResolution
   namespace: System.Net
+  summary: "\n<p>Gets the host name of the local computer.</p>\n"
+  example:
+  - "\n<p>The following example uses the <xref href=\"System.Net.Dns.GetHostName\" data-throw-if-not-resolved=\"false\"></xref> method to obtain the host name of the local computer.</p>Dns_GetHostName#1"
   syntax:
     content: public static string GetHostName()
     content.vb: Public Shared Function GetHostName As String
     return:
       type: System.String
+      description: "\n<p>A string that contains the DNS host name of the local computer.</p>\n"
+  exceptions:
+  - type: System.Net.Sockets.SocketException
+    commentId: T:System.Net.Sockets.SocketException
+    description: "\n<p>An error is encountered when resolving the local host name. </p>\n"
+  see:
+  - type: System.Net.DnsPermission
+    commentId: T:System.Net.DnsPermission
   modifiers.csharp:
   - public
   - static
@@ -185,6 +254,215 @@ references:
   isExternal: false
   name: Object
   fullName: System.Object
+- uid: System.Object.ToString
+  parent: System.Object
+  isExternal: true
+  name: ToString()
+  fullName: System.Object.ToString()
+  spec.csharp:
+  - uid: System.Object.ToString
+    name: ToString
+    fullName: System.Object.ToString
+    isExternal: true
+  - name: (
+    fullName: (
+  - name: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.ToString
+    name: ToString
+    fullName: System.Object.ToString
+    isExternal: true
+  - name: (
+    fullName: (
+  - name: )
+    fullName: )
+- uid: System.Object.Equals(System.Object)
+  parent: System.Object
+  isExternal: true
+  name: Equals(Object)
+  fullName: System.Object.Equals(System.Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    fullName: )
+- uid: System.Object.Equals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  name: Equals(Object, Object)
+  fullName: System.Object.Equals(System.Object, System.Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    fullName: )
+- uid: System.Object.ReferenceEquals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  name: ReferenceEquals(Object, Object)
+  fullName: System.Object.ReferenceEquals(System.Object, System.Object)
+  spec.csharp:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    fullName: System.Object.ReferenceEquals
+    isExternal: true
+  - name: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    fullName: System.Object.ReferenceEquals
+    isExternal: true
+  - name: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    fullName: )
+- uid: System.Object.GetHashCode
+  parent: System.Object
+  isExternal: true
+  name: GetHashCode()
+  fullName: System.Object.GetHashCode()
+  spec.csharp:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    fullName: System.Object.GetHashCode
+    isExternal: true
+  - name: (
+    fullName: (
+  - name: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    fullName: System.Object.GetHashCode
+    isExternal: true
+  - name: (
+    fullName: (
+  - name: )
+    fullName: )
+- uid: System.Object.GetType
+  parent: System.Object
+  isExternal: true
+  name: GetType()
+  fullName: System.Object.GetType()
+  spec.csharp:
+  - uid: System.Object.GetType
+    name: GetType
+    fullName: System.Object.GetType
+    isExternal: true
+  - name: (
+    fullName: (
+  - name: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.GetType
+    name: GetType
+    fullName: System.Object.GetType
+    isExternal: true
+  - name: (
+    fullName: (
+  - name: )
+    fullName: )
+- uid: System.Object.MemberwiseClone
+  parent: System.Object
+  isExternal: true
+  name: MemberwiseClone()
+  fullName: System.Object.MemberwiseClone()
+  spec.csharp:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    fullName: System.Object.MemberwiseClone
+    isExternal: true
+  - name: (
+    fullName: (
+  - name: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    fullName: System.Object.MemberwiseClone
+    isExternal: true
+  - name: (
+    fullName: (
+  - name: )
+    fullName: )
 - uid: System
   isExternal: false
   name: System
@@ -195,14 +473,15 @@ references:
   name: String
   fullName: System.String
 - uid: System.Threading.Tasks.Task{System.Net.IPAddress[]}
+  parent: System.Threading.Tasks
   definition: System.Threading.Tasks.Task`1
-  name: Threading.Tasks.Task<IPAddress[]>
+  name: Task<IPAddress[]>
   fullName: System.Threading.Tasks.Task<System.Net.IPAddress[]>
   fullname.vb: System.Threading.Tasks.Task(Of System.Net.IPAddress())
-  name.vb: Threading.Tasks.Task(Of IPAddress())
+  name.vb: Task(Of IPAddress())
   spec.csharp:
   - uid: System.Threading.Tasks.Task`1
-    name: Threading.Tasks.Task
+    name: Task
     fullName: System.Threading.Tasks.Task
     isExternal: true
   - name: <
@@ -217,7 +496,7 @@ references:
     fullName: '>'
   spec.vb:
   - uid: System.Threading.Tasks.Task`1
-    name: Threading.Tasks.Task
+    name: Task
     fullName: System.Threading.Tasks.Task
     isExternal: true
   - name: '(Of '
@@ -233,26 +512,28 @@ references:
 - uid: System.Threading.Tasks.Task`1
   parent: System.Threading.Tasks
   isExternal: false
-  name: Threading.Tasks.Task<>
-  fullName: System.Threading.Tasks.Task<>
-  fullname.vb: System.Threading.Tasks.Task(Of )
-  name.vb: Threading.Tasks.Task(Of )
+  name: Task<TResult>
+  fullName: System.Threading.Tasks.Task<TResult>
+  fullname.vb: System.Threading.Tasks.Task(Of TResult)
+  name.vb: Task(Of TResult)
   spec.csharp:
   - uid: System.Threading.Tasks.Task`1
-    name: Threading.Tasks.Task
+    name: Task
     fullName: System.Threading.Tasks.Task
   - name: <
     fullName: <
-  - {}
+  - name: TResult
+    fullName: TResult
   - name: '>'
     fullName: '>'
   spec.vb:
   - uid: System.Threading.Tasks.Task`1
-    name: Threading.Tasks.Task
+    name: Task
     fullName: System.Threading.Tasks.Task
   - name: '(Of '
     fullName: '(Of '
-  - {}
+  - name: TResult
+    fullName: TResult
   - name: )
     fullName: )
 - uid: System.Threading.Tasks
@@ -265,14 +546,15 @@ references:
   name: IPAddress
   fullName: System.Net.IPAddress
 - uid: System.Threading.Tasks.Task{System.Net.IPHostEntry}
+  parent: System.Threading.Tasks
   definition: System.Threading.Tasks.Task`1
-  name: Threading.Tasks.Task<IPHostEntry>
+  name: Task<IPHostEntry>
   fullName: System.Threading.Tasks.Task<System.Net.IPHostEntry>
   fullname.vb: System.Threading.Tasks.Task(Of System.Net.IPHostEntry)
-  name.vb: Threading.Tasks.Task(Of IPHostEntry)
+  name.vb: Task(Of IPHostEntry)
   spec.csharp:
   - uid: System.Threading.Tasks.Task`1
-    name: Threading.Tasks.Task
+    name: Task
     fullName: System.Threading.Tasks.Task
     isExternal: true
   - name: <
@@ -284,7 +566,7 @@ references:
     fullName: '>'
   spec.vb:
   - uid: System.Threading.Tasks.Task`1
-    name: Threading.Tasks.Task
+    name: Task
     fullName: System.Threading.Tasks.Task
     isExternal: true
   - name: '(Of '
@@ -294,3 +576,20 @@ references:
     fullName: System.Net.IPHostEntry
   - name: )
     fullName: )
+- uid: System.ArgumentNullException
+  isExternal: false
+  name: ArgumentNullException
+  fullName: System.ArgumentNullException
+- uid: System.ArgumentOutOfRangeException
+  isExternal: false
+  name: ArgumentOutOfRangeException
+  fullName: System.ArgumentOutOfRangeException
+- uid: System.Net.Sockets.SocketException
+  isExternal: false
+  name: SocketException
+  fullName: System.Net.Sockets.SocketException
+- uid: System.ArgumentException
+  parent: System
+  isExternal: false
+  name: ArgumentException
+  fullName: System.ArgumentException

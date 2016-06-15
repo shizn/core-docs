@@ -28,16 +28,25 @@ items:
   assemblies:
   - System.Data.SqlClient
   namespace: System.Data.SqlTypes
+  summary: "\n<p>Represents XML data stored in or retrieved from a server.</p>\n"
+  remarks: "\n<p>This class contains an instance of an <xref href=\"System.Xml.XmlReader\" data-throw-if-not-resolved=\"false\"></xref>-derived type, and adds SQL-specific features such as database-style null semantics by implementing the <xref href=\"System.Data.SqlTypes.INullable\" data-throw-if-not-resolved=\"false\"></xref> interface. When you use SqlXml, the XML value that you assign to the SqlXml instance must be consumable by an <xref href=\"System.Xml.XmlReader\" data-throw-if-not-resolved=\"false\"></xref>. For unicode data, the Byte Order Mark (<strong>BOM</strong>) must be present in the stream of data.</p>\n"
   syntax:
-    content: 'public sealed class SqlXml : object, INullable'
+    content: 'public sealed class SqlXml : INullable'
     content.vb: >-
       Public NotInheritable Class SqlXml
-          Inherits Object
           Implements INullable
   inheritance:
   - System.Object
   implements:
   - System.Data.SqlTypes.INullable
+  inheritedMembers:
+  - System.Object.ToString
+  - System.Object.Equals(System.Object)
+  - System.Object.Equals(System.Object,System.Object)
+  - System.Object.ReferenceEquals(System.Object,System.Object)
+  - System.Object.GetHashCode
+  - System.Object.GetType
+  - System.Object.MemberwiseClone
   modifiers.csharp:
   - public
   - sealed
@@ -67,6 +76,7 @@ items:
   assemblies:
   - System.Data.SqlClient
   namespace: System.Data.SqlTypes
+  summary: "\n<p>Creates a new <xref href=\"System.Data.SqlTypes.SqlXml\" data-throw-if-not-resolved=\"false\"></xref> instance.</p>\n"
   syntax:
     content: public SqlXml()
     content.vb: Public Sub New
@@ -81,23 +91,24 @@ items:
   langs:
   - csharp
   - vb
-  name: SqlXml(IO.Stream)
+  name: SqlXml(Stream)
   fullName: System.Data.SqlTypes.SqlXml.SqlXml(System.IO.Stream)
   type: Constructor
   source:
     remote:
-      path: src/System.Data.SqlClient/ref/System.Data.SqlClient.cs
+      path: src/System.Data.SqlClient/src/System/Data/SqlTypes/SqlXml.cs
       branch: master
       repo: https://github.com/dotnet/corefx.git
     id: .ctor
-    path: src/System.Data.SqlClient/ref/System.Data.SqlClient.cs
-    startLine: 1467
+    path: src/System.Data.SqlClient/src/System/Data/SqlTypes/SqlXml.cs
+    startLine: 54
   assemblies:
   - System.Data.SqlClient
   namespace: System.Data.SqlTypes
+  summary: "\n<p>Creates a new <xref href=\"System.Data.SqlTypes.SqlXml\" data-throw-if-not-resolved=\"false\"></xref> instance, supplying the XML value from the supplied <xref href=\"System.IO.Stream\" data-throw-if-not-resolved=\"false\"></xref>-derived instance.</p>\n"
   syntax:
-    content: public SqlXml(IO.Stream value)
-    content.vb: Public Sub New(value As IO.Stream)
+    content: public SqlXml(Stream value)
+    content.vb: Public Sub New(value As Stream)
     parameters:
     - id: value
       type: System.IO.Stream
@@ -126,12 +137,15 @@ items:
   assemblies:
   - System.Data.SqlClient
   namespace: System.Data.SqlTypes
+  summary: "\n<p>Creates a new <xref href=\"System.Data.SqlTypes.SqlXml\" data-throw-if-not-resolved=\"false\"></xref> instance and associates it with the content of the supplied <xref href=\"System.Xml.XmlReader\" data-throw-if-not-resolved=\"false\"></xref>.</p>\n"
+  remarks: "\n<p>If this value is null (<strong>Nothing</strong> in Visual Basic), the instance is set so that <xref href=\"System.Data.SqlTypes.INullable.IsNull\" data-throw-if-not-resolved=\"false\"></xref> returns <strong>true</strong>.</p>\n"
   syntax:
     content: public SqlXml(Xml.XmlReader value)
     content.vb: Public Sub New(value As Xml.XmlReader)
     parameters:
     - id: value
       type: System.Xml.XmlReader
+      description: "\n<p>An <xref href=\"System.Xml.XmlReader\" data-throw-if-not-resolved=\"false\"></xref>-derived class instance to be used as the value of the new <xref href=\"System.Data.SqlTypes.SqlXml\" data-throw-if-not-resolved=\"false\"></xref> instance.</p>\n"
   modifiers.csharp:
   - public
   modifiers.vb:
@@ -157,6 +171,7 @@ items:
   assemblies:
   - System.Data.SqlClient
   namespace: System.Data.SqlTypes
+  summary: "\n<p>Indicates whether this instance represents a null <xref href=\"System.Data.SqlTypes.SqlXml\" data-throw-if-not-resolved=\"false\"></xref> value.</p>\n"
   syntax:
     content: public bool IsNull { get; }
     content.vb: Public ReadOnly Property IsNull As Boolean
@@ -189,6 +204,7 @@ items:
   assemblies:
   - System.Data.SqlClient
   namespace: System.Data.SqlTypes
+  summary: "\n<p>Represents a null instance of the <xref href=\"System.Data.SqlTypes.SqlXml\" data-throw-if-not-resolved=\"false\"></xref> type.</p>\n"
   syntax:
     content: public static SqlXml Null { get; }
     content.vb: Public Shared ReadOnly Property Null As SqlXml
@@ -224,6 +240,8 @@ items:
   assemblies:
   - System.Data.SqlClient
   namespace: System.Data.SqlTypes
+  summary: "\n<p>Gets the string representation of the XML content of this <xref href=\"System.Data.SqlTypes.SqlXml\" data-throw-if-not-resolved=\"false\"></xref> instance.</p>\n"
+  remarks: "\n<p>To retrieve the content represented as an <xref href=\"System.Xml.XmlReader\" data-throw-if-not-resolved=\"false\"></xref>, call the <xref href=\"System.Data.SqlTypes.SqlXml.CreateReader\" data-throw-if-not-resolved=\"false\"></xref> method.</p>\n"
   syntax:
     content: public string Value { get; }
     content.vb: Public ReadOnly Property Value As String
@@ -257,11 +275,17 @@ items:
   assemblies:
   - System.Data.SqlClient
   namespace: System.Data.SqlTypes
+  summary: "\n<p>Gets the value of the XML content of this <xref href=\"System.Data.SqlTypes.SqlXml\" data-throw-if-not-resolved=\"false\"></xref> as a <xref href=\"System.Xml.XmlReader\" data-throw-if-not-resolved=\"false\"></xref>.</p>\n"
+  remarks: "\n<p>If the <xref href=\"System.Data.SqlTypes.SqlXml\" data-throw-if-not-resolved=\"false\"></xref> instance was initialized to null (<strong>Nothing</strong> in Visual Basic), this method returns null.</p>\n"
   syntax:
     content: public XmlReader CreateReader()
     content.vb: Public Function CreateReader As XmlReader
     return:
       type: XmlReader
+  exceptions:
+  - type: System.Data.SqlTypes.SqlNullValueException
+    commentId: T:System.Data.SqlTypes.SqlNullValueException
+    description: "\n<p>Attempt was made to access this property on a null instance of <xref href=\"System.Data.SqlTypes.SqlXml\" data-throw-if-not-resolved=\"false\"></xref>.</p>\n"
   modifiers.csharp:
   - public
   modifiers.vb:
@@ -281,6 +305,215 @@ references:
   isExternal: false
   name: INullable
   fullName: System.Data.SqlTypes.INullable
+- uid: System.Object.ToString
+  parent: System.Object
+  isExternal: true
+  name: ToString()
+  fullName: System.Object.ToString()
+  spec.csharp:
+  - uid: System.Object.ToString
+    name: ToString
+    fullName: System.Object.ToString
+    isExternal: true
+  - name: (
+    fullName: (
+  - name: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.ToString
+    name: ToString
+    fullName: System.Object.ToString
+    isExternal: true
+  - name: (
+    fullName: (
+  - name: )
+    fullName: )
+- uid: System.Object.Equals(System.Object)
+  parent: System.Object
+  isExternal: true
+  name: Equals(Object)
+  fullName: System.Object.Equals(System.Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    fullName: )
+- uid: System.Object.Equals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  name: Equals(Object, Object)
+  fullName: System.Object.Equals(System.Object, System.Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    fullName: )
+- uid: System.Object.ReferenceEquals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  name: ReferenceEquals(Object, Object)
+  fullName: System.Object.ReferenceEquals(System.Object, System.Object)
+  spec.csharp:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    fullName: System.Object.ReferenceEquals
+    isExternal: true
+  - name: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    fullName: System.Object.ReferenceEquals
+    isExternal: true
+  - name: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    fullName: )
+- uid: System.Object.GetHashCode
+  parent: System.Object
+  isExternal: true
+  name: GetHashCode()
+  fullName: System.Object.GetHashCode()
+  spec.csharp:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    fullName: System.Object.GetHashCode
+    isExternal: true
+  - name: (
+    fullName: (
+  - name: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    fullName: System.Object.GetHashCode
+    isExternal: true
+  - name: (
+    fullName: (
+  - name: )
+    fullName: )
+- uid: System.Object.GetType
+  parent: System.Object
+  isExternal: true
+  name: GetType()
+  fullName: System.Object.GetType()
+  spec.csharp:
+  - uid: System.Object.GetType
+    name: GetType
+    fullName: System.Object.GetType
+    isExternal: true
+  - name: (
+    fullName: (
+  - name: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.GetType
+    name: GetType
+    fullName: System.Object.GetType
+    isExternal: true
+  - name: (
+    fullName: (
+  - name: )
+    fullName: )
+- uid: System.Object.MemberwiseClone
+  parent: System.Object
+  isExternal: true
+  name: MemberwiseClone()
+  fullName: System.Object.MemberwiseClone()
+  spec.csharp:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    fullName: System.Object.MemberwiseClone
+    isExternal: true
+  - name: (
+    fullName: (
+  - name: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    fullName: System.Object.MemberwiseClone
+    isExternal: true
+  - name: (
+    fullName: (
+  - name: )
+    fullName: )
 - uid: System
   isExternal: false
   name: System
@@ -288,7 +521,7 @@ references:
 - uid: System.IO.Stream
   parent: System.IO
   isExternal: false
-  name: IO.Stream
+  name: Stream
   fullName: System.IO.Stream
 - uid: System.IO
   isExternal: false
@@ -323,3 +556,7 @@ references:
   isExternal: false
   name: String
   fullName: System.String
+- uid: System.Data.SqlTypes.SqlNullValueException
+  isExternal: false
+  name: SqlNullValueException
+  fullName: System.Data.SqlTypes.SqlNullValueException

@@ -19,6 +19,8 @@ items:
   - System.ComponentModel.AttributeCollection.Item(System.Type)
   - System.ComponentModel.AttributeCollection.Matches(System.Attribute)
   - System.ComponentModel.AttributeCollection.Matches(System.Attribute[])
+  - System.ComponentModel.AttributeCollection.System#Collections#ICollection#IsSynchronized
+  - System.ComponentModel.AttributeCollection.System#Collections#ICollection#SyncRoot
   langs:
   - csharp
   - vb
@@ -36,15 +38,35 @@ items:
   assemblies:
   - System.ComponentModel.TypeConverter
   namespace: System.ComponentModel
+  summary: "\n<p>Represents a collection of attributes.</p>\n"
+  remarks: "\n<p>The <xref href=\"System.ComponentModel.AttributeCollection\" data-throw-if-not-resolved=\"false\"></xref> class is read-only; it does not implement methods to add or remove attributes. You must inherit from this class to implement these methods.</p>\n<p>Use the <xref href=\"System.ComponentModel.AttributeCollection.Count\" data-throw-if-not-resolved=\"false\"></xref> property to find the number of attributes that exist in the collection.</p>\n<p>You can also use the methods of this class to query the collection about its contents. Call the <xref href=\"System.ComponentModel.AttributeCollection.Contains(System.Attribute)\" data-throw-if-not-resolved=\"false\"></xref> method to verify that a specified attribute or attribute array exists in the collection. Call the <xref href=\"System.ComponentModel.AttributeCollection.Matches(System.Attribute)\" data-throw-if-not-resolved=\"false\"></xref> method to verify that a specified attribute or array of attributes exists in the collection, and that the values of the specified attributes are the same as the values in the collection.</p>\n<p>While most attributes have default values, default values are not required. If an attribute has no default value, <strong>null</strong> is returned from the indexed property that takes a type. When defining your own attributes, you can declare a default value by either providing a constructor that takes no arguments, or defining a public static field of your attribute type named \"Default\".</p>\n"
+  example:
+  - "\n<p>The first code example checks to see whether the <xref href=\"System.ComponentModel.BrowsableAttribute\" data-throw-if-not-resolved=\"false\"></xref> has been set in this collection. The second code example gets the actual value of the <xref href=\"System.ComponentModel.DescriptionAttribute\" data-throw-if-not-resolved=\"false\"></xref> for a button. Both examples require that <code>button1</code> and <code>textBox1</code> have been created on a form. When using attributes, verify that an attribute has been set, or access its value.</p>Classic AttributeCollection Example#1Classic AttributeCollection Example#2"
   syntax:
-    content: 'public class AttributeCollection : ICollection'
+    content: 'public class AttributeCollection : ICollection, IEnumerable'
     content.vb: >-
       Public Class AttributeCollection
-          Inherits ICollection
+          Implements ICollection, IEnumerable
+  seealso:
+  - type: System.Attribute
+    commentId: T:System.Attribute
+  - type: System.ComponentModel.BrowsableAttribute
+    commentId: T:System.ComponentModel.BrowsableAttribute
+  - type: System.ComponentModel.DescriptionAttribute
+    commentId: T:System.ComponentModel.DescriptionAttribute
   inheritance:
   - System.Object
   implements:
+  - System.Collections.ICollection
   - System.Collections.IEnumerable
+  inheritedMembers:
+  - System.Object.ToString
+  - System.Object.Equals(System.Object)
+  - System.Object.Equals(System.Object,System.Object)
+  - System.Object.ReferenceEquals(System.Object,System.Object)
+  - System.Object.GetHashCode
+  - System.Object.GetType
+  - System.Object.MemberwiseClone
   modifiers.csharp:
   - public
   - class
@@ -72,6 +94,7 @@ items:
   assemblies:
   - System.ComponentModel.TypeConverter
   namespace: System.ComponentModel
+  summary: "\n<p>Specifies an empty collection that you can use, rather than creating a new one. This field is read-only.</p>\n"
   syntax:
     content: public static readonly AttributeCollection Empty
     content.vb: Public Shared ReadOnly Empty As AttributeCollection
@@ -106,9 +129,15 @@ items:
   assemblies:
   - System.ComponentModel.TypeConverter
   namespace: System.ComponentModel
+  summary: "\n<p>Initializes a new instance of the <xref href=\"System.ComponentModel.AttributeCollection\" data-throw-if-not-resolved=\"false\"></xref> class. </p>\n"
+  example:
+  - 
   syntax:
     content: protected AttributeCollection()
     content.vb: Protected Sub New
+  seealso:
+  - type: System.Attribute
+    commentId: T:System.Attribute
   modifiers.csharp:
   - protected
   modifiers.vb:
@@ -125,21 +154,31 @@ items:
   type: Constructor
   source:
     remote:
-      path: src/System.ComponentModel.TypeConverter/ref/System.ComponentModel.TypeConverter.cs
+      path: src/System.ComponentModel.TypeConverter/src/System/ComponentModel/AttributeCollection.cs
       branch: master
       repo: https://github.com/dotnet/corefx.git
     id: .ctor
-    path: src/System.ComponentModel.TypeConverter/ref/System.ComponentModel.TypeConverter.cs
-    startLine: 21
+    path: src/System.ComponentModel.TypeConverter/src/System/ComponentModel/AttributeCollection.cs
+    startLine: 41
   assemblies:
   - System.ComponentModel.TypeConverter
   namespace: System.ComponentModel
+  summary: "\n<p>Initializes a new instance of the <xref href=\"System.ComponentModel.AttributeCollection\" data-throw-if-not-resolved=\"false\"></xref> class.</p>\n"
+  example:
+  - "\n<p>The following code example creates a new <xref href=\"System.ComponentModel.AttributeCollection\" data-throw-if-not-resolved=\"false\"></xref> using the attributes on <code>button1</code>. It assumes that <code>button1</code> has been created on a form.</p>Classic AttributeCollection.AttributeCollection Example#1"
   syntax:
     content: public AttributeCollection(params Attribute[] attributes)
     content.vb: Public Sub New(ParamArray attributes As Attribute())
     parameters:
     - id: attributes
       type: System.Attribute[]
+  exceptions:
+  - type: System.ArgumentNullException
+    commentId: T:System.ArgumentNullException
+    description: "\n<p>\n<em>attributes</em> is <strong>null</strong>.</p>\n"
+  seealso:
+  - type: System.Attribute
+    commentId: T:System.Attribute
   modifiers.csharp:
   - public
   modifiers.vb:
@@ -167,12 +206,24 @@ items:
   assemblies:
   - System.ComponentModel.TypeConverter
   namespace: System.ComponentModel
+  summary: "\n<p>Gets the attribute collection.</p>\n"
+  example:
+  - 
   syntax:
-    content: protected virtual Attribute[] Attributes { get; }
-    content.vb: Protected Overridable ReadOnly Property Attributes As Attribute()
+    content: >-
+      [SuppressMessage("Microsoft.Performance", "CA1819:PropertiesShouldNotReturnArrays", Justification = "Matches constructor input type")]
+
+      protected virtual Attribute[] Attributes { get; }
+    content.vb: >-
+      <SuppressMessage("Microsoft.Performance", "CA1819:PropertiesShouldNotReturnArrays", Justification:="Matches constructor input type")>
+
+      Protected Overridable ReadOnly Property Attributes As Attribute()
     parameters: []
     return:
-      type: Attribute[]
+      type: System.Attribute[]
+  seealso:
+  - type: System.Attribute
+    commentId: T:System.Attribute
   modifiers.csharp:
   - protected
   - virtual
@@ -193,15 +244,19 @@ items:
   type: Method
   source:
     remote:
-      path: src/System.ComponentModel.TypeConverter/ref/System.ComponentModel.TypeConverter.cs
+      path: src/System.ComponentModel.TypeConverter/src/System/ComponentModel/AttributeCollection.cs
       branch: master
       repo: https://github.com/dotnet/corefx.git
     id: Contains
-    path: src/System.ComponentModel.TypeConverter/ref/System.ComponentModel.TypeConverter.cs
-    startLine: 23
+    path: src/System.ComponentModel.TypeConverter/src/System/ComponentModel/AttributeCollection.cs
+    startLine: 242
   assemblies:
   - System.ComponentModel.TypeConverter
   namespace: System.ComponentModel
+  summary: "\n<p>Determines whether this collection of attributes has the specified attribute.</p>\n"
+  remarks: "\n<p>This collection has the specified attribute if the specified type of attribute exists in the collection, and if the value of the specified attribute is the same as the value of the instance of the attribute in the collection.</p>\n<p>The difference between the <xref href=\"System.ComponentModel.AttributeCollection.Matches(System.Attribute)\" data-throw-if-not-resolved=\"false\"></xref> and <xref href=\"System.ComponentModel.AttributeCollection.Contains(System.Attribute)\" data-throw-if-not-resolved=\"false\"></xref> methods is that <xref href=\"System.ComponentModel.AttributeCollection.Matches(System.Attribute)\" data-throw-if-not-resolved=\"false\"></xref> calls the <xref href=\"System.Attribute.Match(System.Object)\" data-throw-if-not-resolved=\"false\"></xref> method on an attribute, and <xref href=\"System.ComponentModel.AttributeCollection.Contains(System.Attribute)\" data-throw-if-not-resolved=\"false\"></xref> calls the <xref href=\"System.Object.Equals(System.Object)\" data-throw-if-not-resolved=\"false\"></xref> method.</p>\n<p>For most attributes, these methods do the same thing. For attributes that may have multiple flags, however, <xref href=\"System.Attribute.Match(System.Object)\" data-throw-if-not-resolved=\"false\"></xref> is typically implemented so that it returns <strong>true</strong> if any of the flags are satisfied. For example, consider a data binding attribute with the Boolean flags \"SupportsSql\", \"SupportsOleDb\", and \"SupportsXml\". This attribute may be present on a property that supports all three data-binding approaches. It will often be the case that a programmer needs to know only if a particular approach is available, not all three. Therefore, a programmer could use <xref href=\"System.Attribute.Match(System.Object)\" data-throw-if-not-resolved=\"false\"></xref> with an instance of the attribute containing only the flags the programmer needs.</p>\n"
+  example:
+  - "\n<p>The following code example checks to see whether the collection has a <xref href=\"System.ComponentModel.BrowsableAttribute\" data-throw-if-not-resolved=\"false\"></xref> set to <strong>true</strong>. It assumes that <code>button1</code> and <code>textBox1</code> have been created on a form.</p>Classic AttributeCollection.Contains Example#1"
   syntax:
     content: public bool Contains(Attribute attribute)
     content.vb: Public Function Contains(attribute As Attribute) As Boolean
@@ -210,6 +265,9 @@ items:
       type: System.Attribute
     return:
       type: System.Boolean
+  seealso:
+  - type: System.Attribute
+    commentId: T:System.Attribute
   modifiers.csharp:
   - public
   modifiers.vb:
@@ -226,15 +284,19 @@ items:
   type: Method
   source:
     remote:
-      path: src/System.ComponentModel.TypeConverter/ref/System.ComponentModel.TypeConverter.cs
+      path: src/System.ComponentModel.TypeConverter/src/System/ComponentModel/AttributeCollection.cs
       branch: master
       repo: https://github.com/dotnet/corefx.git
     id: Contains
-    path: src/System.ComponentModel.TypeConverter/ref/System.ComponentModel.TypeConverter.cs
-    startLine: 24
+    path: src/System.ComponentModel.TypeConverter/src/System/ComponentModel/AttributeCollection.cs
+    startLine: 253
   assemblies:
   - System.ComponentModel.TypeConverter
   namespace: System.ComponentModel
+  summary: "\n<p>Determines whether this attribute collection contains all the specified attributes in the attribute array.</p>\n"
+  remarks: "\n<p>This collection has the specified array of attributes if all the specified attribute types exist in the collection and if each attribute in the specified array is the same as an attribute in the collection.</p>\n"
+  example:
+  - "\n<p>The following code example compares the attributes in <code>button1</code> and <code>textBox1</code> to see whether the attributes for the button are contained in the attributes for the text box. It assumes that both <code>button1</code> and <code>textBox1</code> have been created on a form.</p>Classic AttributeCollection.Contains1 Example#1"
   syntax:
     content: public bool Contains(Attribute[] attributes)
     content.vb: Public Function Contains(attributes As Attribute()) As Boolean
@@ -243,6 +305,9 @@ items:
       type: System.Attribute[]
     return:
       type: System.Boolean
+  seealso:
+  - type: System.Attribute
+    commentId: T:System.Attribute
   modifiers.csharp:
   - public
   modifiers.vb:
@@ -261,15 +326,16 @@ items:
   type: Method
   source:
     remote:
-      path: src/System.ComponentModel.TypeConverter/ref/System.ComponentModel.TypeConverter.cs
+      path: src/System.ComponentModel.TypeConverter/src/System/ComponentModel/AttributeCollection.cs
       branch: master
       repo: https://github.com/dotnet/corefx.git
     id: CopyTo
-    path: src/System.ComponentModel.TypeConverter/ref/System.ComponentModel.TypeConverter.cs
-    startLine: 25
+    path: src/System.ComponentModel.TypeConverter/src/System/ComponentModel/AttributeCollection.cs
+    startLine: 383
   assemblies:
   - System.ComponentModel.TypeConverter
   namespace: System.ComponentModel
+  summary: "\n<p>Copies the collection to an array, starting at the specified index.</p>\n"
   syntax:
     content: public void CopyTo(Array array, int index)
     content.vb: Public Sub CopyTo(array As Array, index As Integer)
@@ -278,6 +344,11 @@ items:
       type: System.Array
     - id: index
       type: System.Int32
+  seealso:
+  - type: System.Attribute
+    commentId: T:System.Attribute
+  implements:
+  - System.Collections.ICollection.CopyTo(System.Array,System.Int32)
   modifiers.csharp:
   - public
   modifiers.vb:
@@ -303,12 +374,21 @@ items:
   assemblies:
   - System.ComponentModel.TypeConverter
   namespace: System.ComponentModel
+  summary: "\n<p>Gets the number of attributes.</p>\n"
+  remarks: "\n<p>You can use the <xref href=\"System.ComponentModel.AttributeCollection.Count\" data-throw-if-not-resolved=\"false\"></xref> property to set the limits of a loop that iterates through a collection of objects. If the collection is zero-based, be sure to use <code>Count - 1</code> as the upper boundary of the loop.</p>\n"
+  example:
+  - "\n<p>The following code example uses the <xref href=\"System.ComponentModel.AttributeCollection.Count\" data-throw-if-not-resolved=\"false\"></xref> property to print the number of properties on <code>button1</code> in a text box. It assumes that <code>button1</code> and <code>textBox1</code> have been created on a form.</p>Classic AttributeCollection.Count Example#1"
   syntax:
     content: public int Count { get; }
     content.vb: Public ReadOnly Property Count As Integer
     parameters: []
     return:
       type: System.Int32
+  seealso:
+  - type: System.Attribute
+    commentId: T:System.Attribute
+  implements:
+  - System.Collections.ICollection.Count
   modifiers.csharp:
   - public
   - get
@@ -327,15 +407,17 @@ items:
   type: Method
   source:
     remote:
-      path: src/System.ComponentModel.TypeConverter/ref/System.ComponentModel.TypeConverter.cs
+      path: src/System.ComponentModel.TypeConverter/src/System/ComponentModel/AttributeCollection.cs
       branch: master
       repo: https://github.com/dotnet/corefx.git
     id: FromExisting
-    path: src/System.ComponentModel.TypeConverter/ref/System.ComponentModel.TypeConverter.cs
-    startLine: 27
+    path: src/System.ComponentModel.TypeConverter/src/System/ComponentModel/AttributeCollection.cs
+    startLine: 61
   assemblies:
   - System.ComponentModel.TypeConverter
   namespace: System.ComponentModel
+  summary: "\n<p>Creates a new <xref href=\"System.ComponentModel.AttributeCollection\" data-throw-if-not-resolved=\"false\"></xref> from an existing <xref href=\"System.ComponentModel.AttributeCollection\" data-throw-if-not-resolved=\"false\"></xref>.</p>\n"
+  remarks: "\n<p>If the <em>newAttributes</em> parameter is provided, its <xref href=\"System.Attribute\" data-throw-if-not-resolved=\"false\"></xref> entries are merged with those of the <em>existing</em> parameter.</p>\n"
   syntax:
     content: public static AttributeCollection FromExisting(AttributeCollection existing, params Attribute[] newAttributes)
     content.vb: Public Shared Function FromExisting(existing As AttributeCollection, ParamArray newAttributes As Attribute()) As AttributeCollection
@@ -346,6 +428,10 @@ items:
       type: System.Attribute[]
     return:
       type: System.ComponentModel.AttributeCollection
+  exceptions:
+  - type: System.ArgumentNullException
+    commentId: T:System.ArgumentNullException
+    description: "\n<p>\n<em>existing</em> is <strong>null</strong>.</p>\n"
   modifiers.csharp:
   - public
   - static
@@ -366,15 +452,16 @@ items:
   type: Method
   source:
     remote:
-      path: src/System.ComponentModel.TypeConverter/ref/System.ComponentModel.TypeConverter.cs
+      path: src/System.ComponentModel.TypeConverter/src/System/ComponentModel/AttributeCollection.cs
       branch: master
       repo: https://github.com/dotnet/corefx.git
     id: GetDefaultAttribute
-    path: src/System.ComponentModel.TypeConverter/ref/System.ComponentModel.TypeConverter.cs
-    startLine: 28
+    path: src/System.ComponentModel.TypeConverter/src/System/ComponentModel/AttributeCollection.cs
+    startLine: 275
   assemblies:
   - System.ComponentModel.TypeConverter
   namespace: System.ComponentModel
+  summary: "\n<p>Returns the default <xref href=\"System.Attribute\" data-throw-if-not-resolved=\"false\"></xref> of a given <xref href=\"System.Type\" data-throw-if-not-resolved=\"false\"></xref>.</p>\n"
   syntax:
     content: protected Attribute GetDefaultAttribute(Type attributeType)
     content.vb: Protected Function GetDefaultAttribute(attributeType As Type) As Attribute
@@ -408,15 +495,61 @@ items:
   assemblies:
   - System.ComponentModel.TypeConverter
   namespace: System.ComponentModel
+  summary: "\n<p>Gets an enumerator for this collection.</p>\n"
+  example:
+  - "\n<p>The following code example gets an enumerator for the attributes on <code>button1</code>. It uses the enumerator to print the names of the attributes in the collection. It assumes that <code>button1</code> and <code>textBox1</code> have been created on a form.</p>Classic AttributeCollection.GetEnumerator Example#1"
   syntax:
     content: public IEnumerator GetEnumerator()
     content.vb: Public Function GetEnumerator As IEnumerator
     return:
-      type: IEnumerator
+      type: System.Collections.IEnumerator
+  seealso:
+  - type: System.Attribute
+    commentId: T:System.Attribute
+  - type: System.Collections.IEnumerator
+    commentId: T:System.Collections.IEnumerator
+  implements:
+  - System.Collections.IEnumerable.GetEnumerator
   modifiers.csharp:
   - public
   modifiers.vb:
   - Public
+- uid: System.ComponentModel.AttributeCollection.System#Collections#ICollection#IsSynchronized
+  commentId: P:System.ComponentModel.AttributeCollection.System#Collections#ICollection#IsSynchronized
+  id: System#Collections#ICollection#IsSynchronized
+  isEii: true
+  parent: System.ComponentModel.AttributeCollection
+  langs:
+  - csharp
+  - vb
+  name: ICollection.IsSynchronized
+  fullName: System.ComponentModel.AttributeCollection.System.Collections.ICollection.IsSynchronized
+  type: Property
+  source:
+    remote:
+      path: src/System.ComponentModel.TypeConverter/src/System/ComponentModel/AttributeCollection.cs
+      branch: master
+      repo: https://github.com/dotnet/corefx.git
+    id: System.Collections.ICollection.IsSynchronized
+    path: src/System.ComponentModel.TypeConverter/src/System/ComponentModel/AttributeCollection.cs
+    startLine: 363
+  assemblies:
+  - System.ComponentModel.TypeConverter
+  namespace: System.ComponentModel
+  summary: "\n<p>Gets a value indicating whether access to the collection is synchronized (thread-safe).</p>\n"
+  syntax:
+    content: bool ICollection.IsSynchronized { get; }
+    content.vb: ReadOnly WriteOnly Property System.Collections.ICollection.IsSynchronized As Boolean Implements ICollection.IsSynchronized
+    parameters: []
+    return:
+      type: System.Boolean
+  implements:
+  - System.Collections.ICollection.IsSynchronized
+  modifiers.csharp:
+  - get
+  modifiers.vb:
+  - ReadOnly
+  name.vb: System.Collections.ICollection.IsSynchronized
 - uid: System.ComponentModel.AttributeCollection.Matches(System.Attribute)
   commentId: M:System.ComponentModel.AttributeCollection.Matches(System.Attribute)
   id: Matches(System.Attribute)
@@ -429,15 +562,19 @@ items:
   type: Method
   source:
     remote:
-      path: src/System.ComponentModel.TypeConverter/ref/System.ComponentModel.TypeConverter.cs
+      path: src/System.ComponentModel.TypeConverter/src/System/ComponentModel/AttributeCollection.cs
       branch: master
       repo: https://github.com/dotnet/corefx.git
     id: Matches
-    path: src/System.ComponentModel.TypeConverter/ref/System.ComponentModel.TypeConverter.cs
-    startLine: 31
+    path: src/System.ComponentModel.TypeConverter/src/System/ComponentModel/AttributeCollection.cs
+    startLine: 333
   assemblies:
   - System.ComponentModel.TypeConverter
   namespace: System.ComponentModel
+  summary: "\n<p>Determines whether a specified attribute is the same as an attribute in the collection.</p>\n"
+  remarks: "\n<p>An attribute can provide support for matching.</p>\n<p>The difference between the <xref href=\"System.ComponentModel.AttributeCollection.Matches(System.Attribute)\" data-throw-if-not-resolved=\"false\"></xref> and <xref href=\"System.ComponentModel.AttributeCollection.Contains(System.Attribute)\" data-throw-if-not-resolved=\"false\"></xref> methods is that <xref href=\"System.ComponentModel.AttributeCollection.Matches(System.Attribute)\" data-throw-if-not-resolved=\"false\"></xref> calls the <xref href=\"System.Attribute.Match(System.Object)\" data-throw-if-not-resolved=\"false\"></xref> method on an attribute, and <xref href=\"System.ComponentModel.AttributeCollection.Contains(System.Attribute)\" data-throw-if-not-resolved=\"false\"></xref> calls the <xref href=\"System.Object.Equals(System.Object)\" data-throw-if-not-resolved=\"false\"></xref> method.</p>\n<p>For most attributes, these methods do the same thing. For attributes that may have multiple flags, however, <xref href=\"System.Attribute.Match(System.Object)\" data-throw-if-not-resolved=\"false\"></xref> is typically implemented so that it returns <strong>true</strong> if any of the flags are satisfied. For example, consider a data binding attribute with the Boolean flags \"SupportsSql\", \"SupportsOleDb\", and \"SupportsXml\". This attribute may be present on a property that supports all three data binding approaches. It will often be the case that a programmer needs to know only if a particular approach is available, not all three. Therefore, a programmer could use <xref href=\"System.Attribute.Match(System.Object)\" data-throw-if-not-resolved=\"false\"></xref> with an instance of the attribute containing only the flags the programmer needs.</p>\n"
+  example:
+  - "\n<p>The following code example verifies that the <xref href=\"System.ComponentModel.BrowsableAttribute\" data-throw-if-not-resolved=\"false\"></xref> is a member of the collection and that it has been set to <strong>true</strong>. It assumes that <code>button1</code> and <code>textBox1</code> have been created on a form.</p>Classic AttributeCollection.Matches Example#1"
   syntax:
     content: public bool Matches(Attribute attribute)
     content.vb: Public Function Matches(attribute As Attribute) As Boolean
@@ -446,6 +583,11 @@ items:
       type: System.Attribute
     return:
       type: System.Boolean
+  seealso:
+  - type: System.Attribute
+    commentId: T:System.Attribute
+  - type: System.ComponentModel.BrowsableAttribute
+    commentId: T:System.ComponentModel.BrowsableAttribute
   modifiers.csharp:
   - public
   modifiers.vb:
@@ -462,15 +604,19 @@ items:
   type: Method
   source:
     remote:
-      path: src/System.ComponentModel.TypeConverter/ref/System.ComponentModel.TypeConverter.cs
+      path: src/System.ComponentModel.TypeConverter/src/System/ComponentModel/AttributeCollection.cs
       branch: master
       repo: https://github.com/dotnet/corefx.git
     id: Matches
-    path: src/System.ComponentModel.TypeConverter/ref/System.ComponentModel.TypeConverter.cs
-    startLine: 32
+    path: src/System.ComponentModel.TypeConverter/src/System/ComponentModel/AttributeCollection.cs
+    startLine: 349
   assemblies:
   - System.ComponentModel.TypeConverter
   namespace: System.ComponentModel
+  summary: "\n<p>Determines whether the attributes in the specified array are the same as the attributes in the collection.</p>\n"
+  remarks: "\n<p>An attribute can provide support for matching.</p>\n"
+  example:
+  - "\n<p>The following code example compares the attributes in a button and a text box to see whether they match. It assumes that <code>button1</code> and <code>textBox1</code> have been created on a form.</p>Classic AttributeCollection.Matches1 Example#1"
   syntax:
     content: public bool Matches(Attribute[] attributes)
     content.vb: Public Function Matches(attributes As Attribute()) As Boolean
@@ -479,12 +625,51 @@ items:
       type: System.Attribute[]
     return:
       type: System.Boolean
+  seealso:
+  - type: System.Attribute
+    commentId: T:System.Attribute
   modifiers.csharp:
   - public
   modifiers.vb:
   - Public
   fullName.vb: System.ComponentModel.AttributeCollection.Matches(System.Attribute())
   name.vb: Matches(Attribute())
+- uid: System.ComponentModel.AttributeCollection.System#Collections#ICollection#SyncRoot
+  commentId: P:System.ComponentModel.AttributeCollection.System#Collections#ICollection#SyncRoot
+  id: System#Collections#ICollection#SyncRoot
+  isEii: true
+  parent: System.ComponentModel.AttributeCollection
+  langs:
+  - csharp
+  - vb
+  name: ICollection.SyncRoot
+  fullName: System.ComponentModel.AttributeCollection.System.Collections.ICollection.SyncRoot
+  type: Property
+  source:
+    remote:
+      path: src/System.ComponentModel.TypeConverter/src/System/ComponentModel/AttributeCollection.cs
+      branch: master
+      repo: https://github.com/dotnet/corefx.git
+    id: System.Collections.ICollection.SyncRoot
+    path: src/System.ComponentModel.TypeConverter/src/System/ComponentModel/AttributeCollection.cs
+    startLine: 372
+  assemblies:
+  - System.ComponentModel.TypeConverter
+  namespace: System.ComponentModel
+  summary: "\n<p>Gets an object that can be used to synchronize access to the collection.</p>\n"
+  syntax:
+    content: object ICollection.SyncRoot { get; }
+    content.vb: ReadOnly WriteOnly Property System.Collections.ICollection.SyncRoot As Object Implements ICollection.SyncRoot
+    parameters: []
+    return:
+      type: System.Object
+  implements:
+  - System.Collections.ICollection.SyncRoot
+  modifiers.csharp:
+  - get
+  modifiers.vb:
+  - ReadOnly
+  name.vb: System.Collections.ICollection.SyncRoot
 - uid: System.ComponentModel.AttributeCollection.Item(System.Int32)
   commentId: P:System.ComponentModel.AttributeCollection.Item(System.Int32)
   id: Item(System.Int32)
@@ -506,6 +691,10 @@ items:
   assemblies:
   - System.ComponentModel.TypeConverter
   namespace: System.ComponentModel
+  summary: "\n<p>Gets the attribute with the specified index number.</p>\n"
+  remarks: "\n<p>The index number is zero-based. Therefore, you must subtract 1 from the numerical position of a particular <xref href=\"System.Attribute\" data-throw-if-not-resolved=\"false\"></xref> to access that <xref href=\"System.Attribute\" data-throw-if-not-resolved=\"false\"></xref>. For example, to get the third <xref href=\"System.Attribute\" data-throw-if-not-resolved=\"false\"></xref>, you need to specify <code>myColl[2]</code>.</p>\n"
+  example:
+  - "\n<p>The following code example uses the <xref href=\"System.ComponentModel.AttributeCollection.Item(System.Int32)\" data-throw-if-not-resolved=\"false\"></xref> property to print the name of the <xref href=\"System.Attribute\" data-throw-if-not-resolved=\"false\"></xref> specified by the index number in a text box. Because the index number is zero-based, this code example prints the name of the second <xref href=\"System.Attribute\" data-throw-if-not-resolved=\"false\"></xref> in a text box. It assumes <code>button1</code> and <code>textBox1</code> have been created on a form.</p>Classic AttributeCollection.this Example#1"
   syntax:
     content: public virtual Attribute this[int index] { get; }
     content.vb: Public Overridable ReadOnly Property Item(index As Integer) As Attribute
@@ -513,7 +702,10 @@ items:
     - id: index
       type: System.Int32
     return:
-      type: Attribute
+      type: System.Attribute
+  seealso:
+  - type: System.Attribute
+    commentId: T:System.Attribute
   modifiers.csharp:
   - public
   - virtual
@@ -536,15 +728,19 @@ items:
   type: Property
   source:
     remote:
-      path: src/System.ComponentModel.TypeConverter/ref/System.ComponentModel.TypeConverter.cs
+      path: src/System.ComponentModel.TypeConverter/src/System/ComponentModel/AttributeCollection.cs
       branch: master
       repo: https://github.com/dotnet/corefx.git
     id: this[]
-    path: src/System.ComponentModel.TypeConverter/ref/System.ComponentModel.TypeConverter.cs
-    startLine: 35
+    path: src/System.ComponentModel.TypeConverter/src/System/ComponentModel/AttributeCollection.cs
+    startLine: 160
   assemblies:
   - System.ComponentModel.TypeConverter
   namespace: System.ComponentModel
+  summary: "\n<p>Gets the attribute with the specified type.</p>\n"
+  remarks: "\n<p>If the attribute does not exist in the collection, this property returns the default value for the attribute type.</p>\n"
+  example:
+  - "\n<p>The following code example gets the <xref href=\"System.ComponentModel.DesignerAttribute\" data-throw-if-not-resolved=\"false\"></xref> from the collection and prints its value. It assumes that <code>button1</code> and <code>textBox1</code> have been created on a form.</p>\n<p>For this code example to run, you must provide the fully qualified assembly name. For information about how to obtain the fully qualified assembly name, see Assembly Names.</p>Classic AttributeCollection.this1 Example#1"
   syntax:
     content: public virtual Attribute this[Type attributeType] { get; }
     content.vb: Public Overridable ReadOnly Property Item(attributeType As Type) As Attribute
@@ -553,6 +749,9 @@ items:
       type: System.Type
     return:
       type: System.Attribute
+  seealso:
+  - type: System.Attribute
+    commentId: T:System.Attribute
   modifiers.csharp:
   - public
   - virtual
@@ -573,11 +772,225 @@ references:
   isExternal: false
   name: Object
   fullName: System.Object
+- uid: System.Collections.ICollection
+  parent: System.Collections
+  isExternal: false
+  name: ICollection
+  fullName: System.Collections.ICollection
 - uid: System.Collections.IEnumerable
   parent: System.Collections
   isExternal: false
-  name: Collections.IEnumerable
+  name: IEnumerable
   fullName: System.Collections.IEnumerable
+- uid: System.Object.ToString
+  parent: System.Object
+  isExternal: true
+  name: ToString()
+  fullName: System.Object.ToString()
+  spec.csharp:
+  - uid: System.Object.ToString
+    name: ToString
+    fullName: System.Object.ToString
+    isExternal: true
+  - name: (
+    fullName: (
+  - name: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.ToString
+    name: ToString
+    fullName: System.Object.ToString
+    isExternal: true
+  - name: (
+    fullName: (
+  - name: )
+    fullName: )
+- uid: System.Object.Equals(System.Object)
+  parent: System.Object
+  isExternal: true
+  name: Equals(Object)
+  fullName: System.Object.Equals(System.Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    fullName: )
+- uid: System.Object.Equals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  name: Equals(Object, Object)
+  fullName: System.Object.Equals(System.Object, System.Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    fullName: )
+- uid: System.Object.ReferenceEquals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  name: ReferenceEquals(Object, Object)
+  fullName: System.Object.ReferenceEquals(System.Object, System.Object)
+  spec.csharp:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    fullName: System.Object.ReferenceEquals
+    isExternal: true
+  - name: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    fullName: System.Object.ReferenceEquals
+    isExternal: true
+  - name: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    fullName: )
+- uid: System.Object.GetHashCode
+  parent: System.Object
+  isExternal: true
+  name: GetHashCode()
+  fullName: System.Object.GetHashCode()
+  spec.csharp:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    fullName: System.Object.GetHashCode
+    isExternal: true
+  - name: (
+    fullName: (
+  - name: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    fullName: System.Object.GetHashCode
+    isExternal: true
+  - name: (
+    fullName: (
+  - name: )
+    fullName: )
+- uid: System.Object.GetType
+  parent: System.Object
+  isExternal: true
+  name: GetType()
+  fullName: System.Object.GetType()
+  spec.csharp:
+  - uid: System.Object.GetType
+    name: GetType
+    fullName: System.Object.GetType
+    isExternal: true
+  - name: (
+    fullName: (
+  - name: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.GetType
+    name: GetType
+    fullName: System.Object.GetType
+    isExternal: true
+  - name: (
+    fullName: (
+  - name: )
+    fullName: )
+- uid: System.Object.MemberwiseClone
+  parent: System.Object
+  isExternal: true
+  name: MemberwiseClone()
+  fullName: System.Object.MemberwiseClone()
+  spec.csharp:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    fullName: System.Object.MemberwiseClone
+    isExternal: true
+  - name: (
+    fullName: (
+  - name: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    fullName: System.Object.MemberwiseClone
+    isExternal: true
+  - name: (
+    fullName: (
+  - name: )
+    fullName: )
 - uid: System
   isExternal: false
   name: System
@@ -621,6 +1034,45 @@ references:
   isExternal: false
   name: Boolean
   fullName: System.Boolean
+- uid: System.Collections.ICollection.CopyTo(System.Array,System.Int32)
+  parent: System.Collections.ICollection
+  isExternal: true
+  name: CopyTo(Array, Int32)
+  fullName: System.Collections.ICollection.CopyTo(System.Array, System.Int32)
+  spec.csharp:
+  - uid: System.Collections.ICollection.CopyTo(System.Array,System.Int32)
+    name: CopyTo
+    fullName: System.Collections.ICollection.CopyTo
+  - name: (
+    fullName: (
+  - uid: System.Array
+    name: Array
+    fullName: System.Array
+  - name: ', '
+    fullName: ', '
+  - uid: System.Int32
+    name: Int32
+    fullName: System.Int32
+    isExternal: true
+  - name: )
+    fullName: )
+  spec.vb:
+  - uid: System.Collections.ICollection.CopyTo(System.Array,System.Int32)
+    name: CopyTo
+    fullName: System.Collections.ICollection.CopyTo
+  - name: (
+    fullName: (
+  - uid: System.Array
+    name: Array
+    fullName: System.Array
+  - name: ', '
+    fullName: ', '
+  - uid: System.Int32
+    name: Int32
+    fullName: System.Int32
+    isExternal: true
+  - name: )
+    fullName: )
 - uid: System.Array
   parent: System
   isExternal: false
@@ -631,13 +1083,53 @@ references:
   isExternal: false
   name: Int32
   fullName: System.Int32
+- uid: System.Collections.ICollection.Count
+  parent: System.Collections.ICollection
+  isExternal: false
+  name: Count
+  fullName: System.Collections.ICollection.Count
 - uid: System.Type
   parent: System
   isExternal: false
   name: Type
   fullName: System.Type
+- uid: System.Collections.IEnumerable.GetEnumerator
+  parent: System.Collections.IEnumerable
+  isExternal: false
+  name: GetEnumerator()
+  fullName: System.Collections.IEnumerable.GetEnumerator()
+  spec.csharp:
+  - uid: System.Collections.IEnumerable.GetEnumerator
+    name: GetEnumerator
+    fullName: System.Collections.IEnumerable.GetEnumerator
+  - name: (
+    fullName: (
+  - name: )
+    fullName: )
+  spec.vb:
+  - uid: System.Collections.IEnumerable.GetEnumerator
+    name: GetEnumerator
+    fullName: System.Collections.IEnumerable.GetEnumerator
+  - name: (
+    fullName: (
+  - name: )
+    fullName: )
 - uid: System.Collections.IEnumerator
   parent: System.Collections
   isExternal: false
-  name: Collections.IEnumerator
+  name: IEnumerator
   fullName: System.Collections.IEnumerator
+- uid: System.Collections.ICollection.IsSynchronized
+  parent: System.Collections.ICollection
+  isExternal: false
+  name: IsSynchronized
+  fullName: System.Collections.ICollection.IsSynchronized
+- uid: System.Collections.ICollection.SyncRoot
+  parent: System.Collections.ICollection
+  isExternal: false
+  name: SyncRoot
+  fullName: System.Collections.ICollection.SyncRoot
+- uid: System.ArgumentNullException
+  isExternal: false
+  name: ArgumentNullException
+  fullName: System.ArgumentNullException

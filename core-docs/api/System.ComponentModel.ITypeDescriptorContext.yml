@@ -26,11 +26,22 @@ items:
   assemblies:
   - System.ComponentModel.TypeConverter
   namespace: System.ComponentModel
+  summary: "\n<p>Provides contextual information about a component, such as its container and property descriptor.</p>\n"
+  remarks: "\n<p>The <xref href=\"System.ComponentModel.ITypeDescriptorContext\" data-throw-if-not-resolved=\"false\"></xref> interface provides contextual information about a component. <xref href=\"System.ComponentModel.ITypeDescriptorContext\" data-throw-if-not-resolved=\"false\"></xref> is typically used at design time to provide information about a design-time container. This interface is commonly used in type conversion. For details, see <xref href=\"System.ComponentModel.TypeConverter\" data-throw-if-not-resolved=\"false\"></xref>.</p>\n<p>Do not rely on the presence of this interface when you design a type converter. If a particular interface, property, or service is necessary but not available, the type converter should return <strong>null</strong> rather than throw an exception. This interface's properties can return <strong>null</strong> at any time, and you should plan for this.</p>\n"
+  example:
+  - "\n<p>The following code example demonstrates how to use the <xref href=\"System.ComponentModel.ITypeDescriptorContext\" data-throw-if-not-resolved=\"false\"></xref> interface to support type conversion.</p>InstanceDescriptorSample#1"
   syntax:
     content: 'public interface ITypeDescriptorContext : IServiceProvider'
     content.vb: >-
       Public Interface ITypeDescriptorContext
           Inherits IServiceProvider
+  seealso:
+  - type: System.ComponentModel.TypeDescriptor
+    commentId: T:System.ComponentModel.TypeDescriptor
+  - type: System.ComponentModel.TypeConverter
+    commentId: T:System.ComponentModel.TypeConverter
+  inheritedMembers:
+  - System.IServiceProvider.GetService(System.Type)
   modifiers.csharp:
   - public
   - interface
@@ -58,12 +69,17 @@ items:
   assemblies:
   - System.ComponentModel.TypeConverter
   namespace: System.ComponentModel
+  summary: "\n<p>Gets the container representing this <xref href=\"System.ComponentModel.TypeDescriptor\" data-throw-if-not-resolved=\"false\"></xref> request.</p>\n"
+  remarks: "\n<p>The <xref href=\"System.ComponentModel.ITypeDescriptorContext.Container\" data-throw-if-not-resolved=\"false\"></xref> property gets the logical container of the component associated with the type descriptor.</p>\n"
   syntax:
     content: IContainer Container { get; }
     content.vb: ReadOnly Property Container As IContainer
     parameters: []
     return:
       type: IContainer
+  seealso:
+  - type: System.ComponentModel.IContainer
+    commentId: T:System.ComponentModel.IContainer
   modifiers.csharp:
   - get
   modifiers.vb:
@@ -89,12 +105,17 @@ items:
   assemblies:
   - System.ComponentModel.TypeConverter
   namespace: System.ComponentModel
+  summary: "\n<p>Gets the object that is connected with this type descriptor request.</p>\n"
+  remarks: "\n<p>The <xref href=\"System.ComponentModel.ITypeDescriptorContext.Instance\" data-throw-if-not-resolved=\"false\"></xref> property gets the object that is invoking the <xref href=\"System.ComponentModel.ITypeDescriptorContext\" data-throw-if-not-resolved=\"false\"></xref> interface. For example, if a type converter is given a <xref href=\"System.Drawing.Color\" data-throw-if-not-resolved=\"false\"></xref> to convert, <xref href=\"System.ComponentModel.ITypeDescriptorContext.Instance\" data-throw-if-not-resolved=\"false\"></xref> returns the actual instance of the control that is using the <xref href=\"System.Drawing.Color\" data-throw-if-not-resolved=\"false\"></xref>. You can subsequently query the control for further information about its services and its <xref href=\"System.ComponentModel.ITypeDescriptorContext.Container\" data-throw-if-not-resolved=\"false\"></xref>.</p>\n"
   syntax:
     content: object Instance { get; }
     content.vb: ReadOnly Property Instance As Object
     parameters: []
     return:
       type: System.Object
+  seealso:
+  - type: System.ComponentModel.Component
+    commentId: T:System.ComponentModel.Component
   modifiers.csharp:
   - get
   modifiers.vb:
@@ -120,12 +141,16 @@ items:
   assemblies:
   - System.ComponentModel.TypeConverter
   namespace: System.ComponentModel
+  summary: "\n<p>Gets the <xref href=\"System.ComponentModel.PropertyDescriptor\" data-throw-if-not-resolved=\"false\"></xref> that is associated with the given context item.</p>\n"
   syntax:
     content: PropertyDescriptor PropertyDescriptor { get; }
     content.vb: ReadOnly Property PropertyDescriptor As PropertyDescriptor
     parameters: []
     return:
       type: System.ComponentModel.PropertyDescriptor
+  seealso:
+  - type: System.ComponentModel.PropertyDescriptor
+    commentId: T:System.ComponentModel.PropertyDescriptor
   modifiers.csharp:
   - get
   modifiers.vb:
@@ -151,9 +176,16 @@ items:
   assemblies:
   - System.ComponentModel.TypeConverter
   namespace: System.ComponentModel
+  summary: "\n<p>Raises the <xref href=\"System.ComponentModel.Design.IComponentChangeService.ComponentChanged\" data-throw-if-not-resolved=\"false\"></xref> event.</p>\n"
+  remarks: "\n<p>Use the <xref href=\"System.ComponentModel.ITypeDescriptorContext.OnComponentChanged\" data-throw-if-not-resolved=\"false\"></xref> method to send notification that an instance of an object has changed.</p>\n<p>Raising an event invokes the event handler through a delegate. For more information, see NIB: Raising an Event.</p>\n<p>The <xref href=\"System.ComponentModel.ITypeDescriptorContext.OnComponentChanged\" data-throw-if-not-resolved=\"false\"></xref> method also allows derived classes to handle the event without attaching a delegate. This is the preferred technique for handling the event in a derived class.</p>\n"
   syntax:
     content: void OnComponentChanged()
     content.vb: Sub OnComponentChanged
+  seealso:
+  - type: System.ComponentModel.Design.IComponentChangeService.ComponentChanged
+    commentId: E:System.ComponentModel.Design.IComponentChangeService.ComponentChanged
+  - type: System.ComponentModel.ITypeDescriptorContext.OnComponentChanging
+    commentId: M:System.ComponentModel.ITypeDescriptorContext.OnComponentChanging
 - uid: System.ComponentModel.ITypeDescriptorContext.OnComponentChanging
   commentId: M:System.ComponentModel.ITypeDescriptorContext.OnComponentChanging
   id: OnComponentChanging
@@ -175,16 +207,63 @@ items:
   assemblies:
   - System.ComponentModel.TypeConverter
   namespace: System.ComponentModel
+  summary: "\n<p>Raises the <xref href=\"System.ComponentModel.Design.IComponentChangeService.ComponentChanging\" data-throw-if-not-resolved=\"false\"></xref> event.</p>\n"
+  remarks: "\n<p>Use the <xref href=\"System.ComponentModel.ITypeDescriptorContext.OnComponentChanging\" data-throw-if-not-resolved=\"false\"></xref> method to send notification that an instance of an object is about to be changed. This method also returns a value indicating whether this object can be changed. When <strong>false</strong> is returned, do not change the object.</p>\n<p>Raising an event invokes the event handler through a delegate. For more information, see NIB: Raising an Event.</p>\n<p>The <xref href=\"System.ComponentModel.ITypeDescriptorContext.OnComponentChanging\" data-throw-if-not-resolved=\"false\"></xref> method also allows derived classes to handle the event without attaching a delegate. This is the preferred technique for handling the event in a derived class.</p>\n"
   syntax:
     content: bool OnComponentChanging()
     content.vb: Function OnComponentChanging As Boolean
     return:
       type: System.Boolean
+  seealso:
+  - type: System.ComponentModel.Design.IComponentChangeService.ComponentChanging
+    commentId: E:System.ComponentModel.Design.IComponentChangeService.ComponentChanging
+  - type: System.ComponentModel.ITypeDescriptorContext.OnComponentChanged
+    commentId: M:System.ComponentModel.ITypeDescriptorContext.OnComponentChanged
 references:
 - uid: System.ComponentModel
   isExternal: false
   name: System.ComponentModel
   fullName: System.ComponentModel
+- uid: System.IServiceProvider.GetService(System.Type)
+  parent: System.IServiceProvider
+  isExternal: true
+  name: GetService(Type)
+  fullName: System.IServiceProvider.GetService(System.Type)
+  spec.csharp:
+  - uid: System.IServiceProvider.GetService(System.Type)
+    name: GetService
+    fullName: System.IServiceProvider.GetService
+    isExternal: true
+  - name: (
+    fullName: (
+  - uid: System.Type
+    name: Type
+    fullName: System.Type
+    isExternal: true
+  - name: )
+    fullName: )
+  spec.vb:
+  - uid: System.IServiceProvider.GetService(System.Type)
+    name: GetService
+    fullName: System.IServiceProvider.GetService
+    isExternal: true
+  - name: (
+    fullName: (
+  - uid: System.Type
+    name: Type
+    fullName: System.Type
+    isExternal: true
+  - name: )
+    fullName: )
+- uid: System.IServiceProvider
+  parent: System
+  isExternal: false
+  name: IServiceProvider
+  fullName: System.IServiceProvider
+- uid: System
+  isExternal: false
+  name: System
+  fullName: System
 - uid: System.ComponentModel.IContainer
   parent: System.ComponentModel
   isExternal: false
@@ -195,10 +274,6 @@ references:
   isExternal: false
   name: Object
   fullName: System.Object
-- uid: System
-  isExternal: false
-  name: System
-  fullName: System
 - uid: System.ComponentModel.PropertyDescriptor
   parent: System.ComponentModel
   isExternal: false

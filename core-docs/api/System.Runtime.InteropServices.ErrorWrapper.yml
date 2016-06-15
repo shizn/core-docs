@@ -16,12 +16,12 @@ items:
   type: Class
   source:
     remote:
-      path: src/System.Runtime.InteropServices/ref/System.Runtime.InteropServices.cs
+      path: src/mscorlib/src/System/Runtime/InteropServices/ErrorWrapper.cs
       branch: master
-      repo: https://github.com/dotnet/corefx.git
+      repo: https://github.com/dotnet/coreclr.git
     id: ErrorWrapper
-    path: src/System.Runtime.InteropServices/ref/System.Runtime.InteropServices.cs
-    startLine: 248
+    path: src/mscorlib/src/System/Runtime/InteropServices/ErrorWrapper.cs
+    startLine: 18
   assemblies:
   - System.Runtime.InteropServices
   namespace: System.Runtime.InteropServices
@@ -30,12 +30,34 @@ items:
   example:
   - "\n<p>The following code example first demonstrates a lone <xref href=\"System.Int32\" data-throw-if-not-resolved=\"false\"></xref> object marshaled back from COM as an <xref href=\"System.Int32\" data-throw-if-not-resolved=\"false\"></xref> object. It then demonstrates an <xref href=\"System.Int32\" data-throw-if-not-resolved=\"false\"></xref> array marshaled back from COM as a <xref href=\"System.UInt32\" data-throw-if-not-resolved=\"false\"></xref> array.</p>\n<pre><code>// Scenario 1:\n// Pass a single value.\nInt32 x = 3;\nObject o = new ErrorWrapper(x);\n// Pass 'o' to COM.\n// On the return trip, 'o' has been unwrapped and is still an Int32 object.\nInt32 y = (Int32)o;\nScenario 2:\n// Pass an array of values.\nInt32[] arr = new Int32[3];\nObject o = new ErrorWrapper(arr);\n// Pass 'o' to COM.\n// On the return trip, 'o' has been unwrapped and is now a UInt32[] array.\nUInt32[ ] arr2 = (UInt32[])o;</code></pre>\n"
   syntax:
-    content: 'public sealed class ErrorWrapper : object'
+    content: >-
+      [Serializable]
+
+      [ComVisible(true)]
+
+      public sealed class ErrorWrapper
     content.vb: >-
+      <Serializable>
+
+      <ComVisible(True)>
+
       Public NotInheritable Class ErrorWrapper
-          Inherits Object
   inheritance:
   - System.Object
+  inheritedMembers:
+  - System.Object.ToString
+  - System.Object.Equals(System.Object)
+  - System.Object.Equals(System.Object,System.Object)
+  - System.Object.ReferenceEquals(System.Object,System.Object)
+  - System.Object.GetHashCode
+  - System.Object.GetType
+  - System.Object.MemberwiseClone
+  attributes:
+  - type: System.ObsoleteAttribute
+    ctor: System.ObsoleteAttribute.#ctor(System.String)
+    arguments:
+    - type: System.String
+      value: ErrorWrapper and support for marshalling to the VARIANT type may be unavailable in future releases.
   modifiers.csharp:
   - public
   - sealed
@@ -56,23 +78,32 @@ items:
   type: Constructor
   source:
     remote:
-      path: src/System.Runtime.InteropServices/ref/System.Runtime.InteropServices.cs
+      path: src/mscorlib/src/System/Runtime/InteropServices/ErrorWrapper.cs
       branch: master
-      repo: https://github.com/dotnet/corefx.git
+      repo: https://github.com/dotnet/coreclr.git
     id: .ctor
-    path: src/System.Runtime.InteropServices/ref/System.Runtime.InteropServices.cs
-    startLine: 252
+    path: src/mscorlib/src/System/Runtime/InteropServices/ErrorWrapper.cs
+    startLine: 34
   assemblies:
   - System.Runtime.InteropServices
   namespace: System.Runtime.InteropServices
   summary: "\n<p>Initializes a new instance of the <xref href=\"System.Runtime.InteropServices.ErrorWrapper\" data-throw-if-not-resolved=\"false\"></xref> class with the HRESULT that corresponds to the exception supplied.</p>\n"
   syntax:
-    content: public ErrorWrapper(Exception e)
-    content.vb: Public Sub New(e As Exception)
+    content: >-
+      [SecuritySafeCritical]
+
+      [SecurityPermission(SecurityAction.Demand, Flags = SecurityPermissionFlag.UnmanagedCode)]
+
+      public ErrorWrapper(Exception e)
+    content.vb: >-
+      <SecuritySafeCritical>
+
+      <SecurityPermission(SecurityAction.Demand, Flags:=SecurityPermissionFlag.UnmanagedCode)>
+
+      Public Sub New(e As Exception)
     parameters:
     - id: e
       type: System.Exception
-      description: "\n<p>The exception to be converted to an error code. </p>\n"
   see:
   - type: System.Security.Permissions.SecurityPermission
     commentId: T:System.Security.Permissions.SecurityPermission
@@ -92,12 +123,12 @@ items:
   type: Constructor
   source:
     remote:
-      path: src/System.Runtime.InteropServices/ref/System.Runtime.InteropServices.cs
+      path: src/mscorlib/src/System/Runtime/InteropServices/ErrorWrapper.cs
       branch: master
-      repo: https://github.com/dotnet/corefx.git
+      repo: https://github.com/dotnet/coreclr.git
     id: .ctor
-    path: src/System.Runtime.InteropServices/ref/System.Runtime.InteropServices.cs
-    startLine: 253
+    path: src/mscorlib/src/System/Runtime/InteropServices/ErrorWrapper.cs
+    startLine: 22
   assemblies:
   - System.Runtime.InteropServices
   namespace: System.Runtime.InteropServices
@@ -108,7 +139,6 @@ items:
     parameters:
     - id: errorCode
       type: System.Int32
-      description: "\n<p>The HRESULT of the error. </p>\n"
   modifiers.csharp:
   - public
   modifiers.vb:
@@ -125,12 +155,12 @@ items:
   type: Constructor
   source:
     remote:
-      path: src/System.Runtime.InteropServices/ref/System.Runtime.InteropServices.cs
+      path: src/mscorlib/src/System/Runtime/InteropServices/ErrorWrapper.cs
       branch: master
-      repo: https://github.com/dotnet/corefx.git
+      repo: https://github.com/dotnet/coreclr.git
     id: .ctor
-    path: src/System.Runtime.InteropServices/ref/System.Runtime.InteropServices.cs
-    startLine: 254
+    path: src/mscorlib/src/System/Runtime/InteropServices/ErrorWrapper.cs
+    startLine: 27
   assemblies:
   - System.Runtime.InteropServices
   namespace: System.Runtime.InteropServices
@@ -141,7 +171,6 @@ items:
     parameters:
     - id: errorCode
       type: System.Object
-      description: "\n<p>The object containing the HRESULT of the error. </p>\n"
   exceptions:
   - type: System.ArgumentException
     commentId: T:System.ArgumentException
@@ -162,12 +191,12 @@ items:
   type: Property
   source:
     remote:
-      path: src/System.Runtime.InteropServices/ref/System.Runtime.InteropServices.cs
+      path: src/mscorlib/src/System/Runtime/InteropServices/ErrorWrapper.cs
       branch: master
-      repo: https://github.com/dotnet/corefx.git
+      repo: https://github.com/dotnet/coreclr.git
     id: ErrorCode
-    path: src/System.Runtime.InteropServices/ref/System.Runtime.InteropServices.cs
-    startLine: 255
+    path: src/mscorlib/src/System/Runtime/InteropServices/ErrorWrapper.cs
+    startLine: 43
   assemblies:
   - System.Runtime.InteropServices
   namespace: System.Runtime.InteropServices
@@ -178,7 +207,6 @@ items:
     parameters: []
     return:
       type: System.Int32
-      description: "\n<p>The HRESULT of the error.</p>\n"
   modifiers.csharp:
   - public
   - get
@@ -195,6 +223,215 @@ references:
   isExternal: false
   name: Object
   fullName: System.Object
+- uid: System.Object.ToString
+  parent: System.Object
+  isExternal: true
+  name: ToString()
+  fullName: System.Object.ToString()
+  spec.csharp:
+  - uid: System.Object.ToString
+    name: ToString
+    fullName: System.Object.ToString
+    isExternal: true
+  - name: (
+    fullName: (
+  - name: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.ToString
+    name: ToString
+    fullName: System.Object.ToString
+    isExternal: true
+  - name: (
+    fullName: (
+  - name: )
+    fullName: )
+- uid: System.Object.Equals(System.Object)
+  parent: System.Object
+  isExternal: true
+  name: Equals(Object)
+  fullName: System.Object.Equals(System.Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    fullName: )
+- uid: System.Object.Equals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  name: Equals(Object, Object)
+  fullName: System.Object.Equals(System.Object, System.Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    fullName: )
+- uid: System.Object.ReferenceEquals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  name: ReferenceEquals(Object, Object)
+  fullName: System.Object.ReferenceEquals(System.Object, System.Object)
+  spec.csharp:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    fullName: System.Object.ReferenceEquals
+    isExternal: true
+  - name: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    fullName: System.Object.ReferenceEquals
+    isExternal: true
+  - name: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    fullName: )
+- uid: System.Object.GetHashCode
+  parent: System.Object
+  isExternal: true
+  name: GetHashCode()
+  fullName: System.Object.GetHashCode()
+  spec.csharp:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    fullName: System.Object.GetHashCode
+    isExternal: true
+  - name: (
+    fullName: (
+  - name: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    fullName: System.Object.GetHashCode
+    isExternal: true
+  - name: (
+    fullName: (
+  - name: )
+    fullName: )
+- uid: System.Object.GetType
+  parent: System.Object
+  isExternal: true
+  name: GetType()
+  fullName: System.Object.GetType()
+  spec.csharp:
+  - uid: System.Object.GetType
+    name: GetType
+    fullName: System.Object.GetType
+    isExternal: true
+  - name: (
+    fullName: (
+  - name: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.GetType
+    name: GetType
+    fullName: System.Object.GetType
+    isExternal: true
+  - name: (
+    fullName: (
+  - name: )
+    fullName: )
+- uid: System.Object.MemberwiseClone
+  parent: System.Object
+  isExternal: true
+  name: MemberwiseClone()
+  fullName: System.Object.MemberwiseClone()
+  spec.csharp:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    fullName: System.Object.MemberwiseClone
+    isExternal: true
+  - name: (
+    fullName: (
+  - name: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    fullName: System.Object.MemberwiseClone
+    isExternal: true
+  - name: (
+    fullName: (
+  - name: )
+    fullName: )
 - uid: System
   isExternal: false
   name: System

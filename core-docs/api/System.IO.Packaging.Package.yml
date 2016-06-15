@@ -35,6 +35,7 @@ items:
   - System.IO.Packaging.Package.PackageProperties
   - System.IO.Packaging.Package.PartExists(System.Uri)
   - System.IO.Packaging.Package.RelationshipExists(System.String)
+  - System.IO.Packaging.Package.System#IDisposable#Dispose
   langs:
   - csharp
   - vb
@@ -43,22 +44,41 @@ items:
   type: Class
   source:
     remote:
-      path: src/System.IO.Packaging/src/System/IO/Packaging/Package.cs
+      path: src/System.IO.Packaging/ref/System.IO.Packaging.cs
       branch: master
       repo: https://github.com/dotnet/corefx.git
     id: Package
-    path: src/System.IO.Packaging/src/System/IO/Packaging/Package.cs
-    startLine: 17
+    path: src/System.IO.Packaging/ref/System.IO.Packaging.cs
+    startLine: 37
   assemblies:
   - System.IO.Packaging
   namespace: System.IO.Packaging
+  summary: "\n<p>Represents a container that can store multiple data objects.</p>\n"
+  remarks: "\n<p>\n<xref href=\"System.IO.Packaging.Package\" data-throw-if-not-resolved=\"false\"></xref> is an abstract class that can be used to organize objects into a single entity of a defined physical format for portability and efficient access.</p>\n<p>A ZIP file is the primary physical format for the <xref href=\"System.IO.Packaging.Package\" data-throw-if-not-resolved=\"false\"></xref>.  Other <xref href=\"System.IO.Packaging.Package\" data-throw-if-not-resolved=\"false\"></xref> implementations might use other physical formats such as an XML document, a database, or Web service.</p>\n<p>Like a file system, items contained in a <xref href=\"System.IO.Packaging.Package\" data-throw-if-not-resolved=\"false\"></xref> are referenced in a hierarchical organization of folders and files.</p>\n<p>Although <xref href=\"System.IO.Packaging.Package\" data-throw-if-not-resolved=\"false\"></xref> itself is an abstract class, the <xref href=\"System.IO.Packaging.ZipPackage\" data-throw-if-not-resolved=\"false\"></xref> derived class is used as default by the <see cref=\"Overload:System.IO.Packaging.Package.Open\"></see> method.</p>\n<p>A <xref href=\"System.IO.Packaging.PackagePart\" data-throw-if-not-resolved=\"false\"></xref> (\"part\") is the abstract class that represents an object that is stored in a <xref href=\"System.IO.Packaging.Package\" data-throw-if-not-resolved=\"false\"></xref>.</p>\n<p>A <xref href=\"System.IO.Packaging.PackageRelationship\" data-throw-if-not-resolved=\"false\"></xref> (\"relationship\") defines an association between a source <xref href=\"System.IO.Packaging.Package\" data-throw-if-not-resolved=\"false\"></xref> or <xref href=\"System.IO.Packaging.PackagePart\" data-throw-if-not-resolved=\"false\"></xref> and a target object.  A <xref href=\"System.IO.Packaging.PackageRelationship\" data-throw-if-not-resolved=\"false\"></xref> can be one of two types, each of which can be one of two forms:</p>\n<ul><li>\n<p>A package-level relationship (created by the <see cref=\"Overload:System.IO.Packaging.Package.CreateRelationship\"></see> method) relates a <xref href=\"System.IO.Packaging.Package\" data-throw-if-not-resolved=\"false\"></xref> to either:</p>\n<ul><li>\n<p>A target part in the package.</p>\n</li><li>\n<p>A target resource outside the package.</p>\n</li></ul>\n</li><li>\n<p>A part-level relationship (created by the <see cref=\"Overload:System.IO.Packaging.PackagePart.CreateRelationship\"></see> method) relates a source <xref href=\"System.IO.Packaging.PackagePart\" data-throw-if-not-resolved=\"false\"></xref> to either:</p>\n<ul><li>\n<p>Another target part in the package.</p>\n</li><li>\n<p>A target resource outside the package.</p>\n</li></ul>\n</li></ul>\n<p>The relationship's source <xref href=\"System.IO.Packaging.Package\" data-throw-if-not-resolved=\"false\"></xref> or source <xref href=\"System.IO.Packaging.PackagePart\" data-throw-if-not-resolved=\"false\"></xref> is considered the \"owner\" of the relationship.  When the source object is deleted, all the relationships owned by the source object are also deleted.  The process of creating or deleting a relationship does not physically change either the source or target objects in any way.</p>\n<p>A <xref href=\"System.IO.Packaging.PackageDigitalSignature\" data-throw-if-not-resolved=\"false\"></xref> (\"digital signature\") is a composition of parts and relationships representing a digital signature included with a <xref href=\"System.IO.Packaging.Package\" data-throw-if-not-resolved=\"false\"></xref>.  The digital signature identifies the originator and validates that the signed parts and relationships contained in the <xref href=\"System.IO.Packaging.Package\" data-throw-if-not-resolved=\"false\"></xref> have not been modified.</p>\n<p>Packages also support Digital Rights Management (DRM) which allows content elements in a <xref href=\"System.IO.Packaging.Package\" data-throw-if-not-resolved=\"false\"></xref> to be encrypted with specific access rights granted to authorized users.</p>\n<p>Based on the <xref href=\"System.IO.Packaging.Package\" data-throw-if-not-resolved=\"false\"></xref> architecture, an <xref href=\"System.Windows.Xps.Packaging.XpsDocument\" data-throw-if-not-resolved=\"false\"></xref> is a package type designed for storing documents based on the open <see href=\"http://go.microsoft.com/fwlink/?LinkID=65761\">XML Paper Specification (XPS)</see>.</p>\n<p>Microsoft .NET Framework uses packages to store content, resources, and relationships for pages and documents using a standard ZIP file by default. As with any ZIP file, your application can use the <xref href=\"System.IO.Packaging\" data-throw-if-not-resolved=\"false\"></xref> classes to store and optionally protect any type or number of data files in a single efficient-to-access container.</p>\n<p>For more information, see the Open Packaging Conventions (OPC) specification available for download at <see href=\"http://go.microsoft.com/fwlink/?LinkID=71255\">http://go.microsoft.com/fwlink/?LinkID=71255</see>.</p>\n"
+  example:
+  - "\n<p>The following example shows the basic steps for creating a <xref href=\"System.IO.Packaging.Package\" data-throw-if-not-resolved=\"false\"></xref>.  In this example, a package is created to contain a document together with a graphic image that is displayed as part of the document.  (This is similar to the case in which an HTML file has an <IMG> tag that references an external image file.)  Two <xref href=\"System.IO.Packaging.PackageRelationship\" data-throw-if-not-resolved=\"false\"></xref> elements are also included in the package.  The first, a \"package-level\" relationship, defines the document part as the package's root element.  A second, \"part-level\" relationship defines the association between the document part (the \"source\" of the part-level relationship) and its use of the image part (the \"target\" of the part-level relationship).  For the complete sample, see <see href=\"http://go.microsoft.com/fwlink/?LinkID=160055\">Writing a Package Sample</see>.</p>PackageWrite#PackageWriteCreatePackage"
   syntax:
     content: 'public abstract class Package : IDisposable'
     content.vb: >-
       Public MustInherit Class Package
-          Inherits IDisposable
+          Implements IDisposable
+  seealso:
+  - type: System.IO.Packaging.PackagePart
+    commentId: T:System.IO.Packaging.PackagePart
+  - type: System.Windows.Xps.Packaging.XpsDocument
+    commentId: T:System.Windows.Xps.Packaging.XpsDocument
   inheritance:
   - System.Object
+  implements:
+  - System.IDisposable
+  inheritedMembers:
+  - System.Object.ToString
+  - System.Object.Equals(System.Object)
+  - System.Object.Equals(System.Object,System.Object)
+  - System.Object.ReferenceEquals(System.Object,System.Object)
+  - System.Object.GetHashCode
+  - System.Object.GetType
+  - System.Object.MemberwiseClone
   modifiers.csharp:
   - public
   - abstract
@@ -88,12 +108,24 @@ items:
   assemblies:
   - System.IO.Packaging
   namespace: System.IO.Packaging
+  summary: "\n<p>Initializes a new instance of the <xref href=\"System.IO.Packaging.Package\" data-throw-if-not-resolved=\"false\"></xref> class that uses a given <xref href=\"System.IO.FileAccess\" data-throw-if-not-resolved=\"false\"></xref>.</p>\n"
+  remarks: "\n<p>\n<xref href=\"System.IO.Packaging.Package.#ctor(System.IO.FileAccess)\" data-throw-if-not-resolved=\"false\"></xref> is a protected constructor of the <xref href=\"System.IO.Packaging.Package\" data-throw-if-not-resolved=\"false\"></xref> abstract base class. When called in a derived class, the <xref href=\"System.IO.Packaging.Package.#ctor(System.IO.FileAccess)\" data-throw-if-not-resolved=\"false\"></xref> constructor initializes a new instance of the derived class.</p>\n"
+  example:
+  - 
   syntax:
     content: protected Package(FileAccess openFileAccess)
     content.vb: Protected Sub New(openFileAccess As FileAccess)
     parameters:
     - id: openFileAccess
       type: System.IO.FileAccess
+      description: "\n<p>The file IO permissions for the package.</p>\n"
+  exceptions:
+  - type: System.ArgumentOutOfRangeException
+    commentId: T:System.ArgumentOutOfRangeException
+    description: "\n<p>The value for <em>openFileAccess</em> is not valid.</p>\n"
+  seealso:
+  - type: System.IO.Packaging.Package.FileOpenAccess
+    commentId: P:System.IO.Packaging.Package.FileOpenAccess
   modifiers.csharp:
   - protected
   modifiers.vb:
@@ -110,22 +142,30 @@ items:
   type: Property
   source:
     remote:
-      path: src/System.IO.Packaging/src/System/IO/Packaging/Package.cs
+      path: src/System.IO.Packaging/ref/System.IO.Packaging.cs
       branch: master
       repo: https://github.com/dotnet/corefx.git
     id: FileOpenAccess
-    path: src/System.IO.Packaging/src/System/IO/Packaging/Package.cs
-    startLine: 50
+    path: src/System.IO.Packaging/ref/System.IO.Packaging.cs
+    startLine: 40
   assemblies:
   - System.IO.Packaging
   namespace: System.IO.Packaging
+  summary: "\n<p>Gets the file access setting for the package.</p>\n"
+  remarks: "\n<p>The <xref href=\"System.IO.Packaging.Package.FileOpenAccess\" data-throw-if-not-resolved=\"false\"></xref> property has no default value.  The file access setting is specified in the <see cref=\"Overload:System.IO.Packaging.Package.#ctor\"></see> constructor call when you create a new package, or in the <see cref=\"Overload:System.IO.Packaging.Package.Open\"></see> call when you open an existing package.</p>\n"
+  example:
+  - 
   syntax:
     content: public FileAccess FileOpenAccess { get; }
     content.vb: Public ReadOnly Property FileOpenAccess As FileAccess
     parameters: []
     return:
-      type: FileAccess
-      description: FileAccess
+      type: System.IO.FileAccess
+      description: "\n<p>One of the <xref href=\"System.IO.FileAccess\" data-throw-if-not-resolved=\"false\"></xref> values: <xref href=\"System.IO.FileAccess.Read\" data-throw-if-not-resolved=\"false\"></xref>, <xref href=\"System.IO.FileAccess.Write\" data-throw-if-not-resolved=\"false\"></xref>, or <xref href=\"System.IO.FileAccess.ReadWrite\" data-throw-if-not-resolved=\"false\"></xref>.</p>\n"
+  exceptions:
+  - type: System.ObjectDisposedException
+    commentId: T:System.ObjectDisposedException
+    description: "\n<p>The package is not open (<xref href=\"System.IO.Packaging.Package.Dispose(System.Boolean)\" data-throw-if-not-resolved=\"false\"></xref> or <xref href=\"System.IO.Packaging.Package.Close\" data-throw-if-not-resolved=\"false\"></xref> has been called).</p>\n"
   modifiers.csharp:
   - public
   - get
@@ -144,21 +184,30 @@ items:
   type: Property
   source:
     remote:
-      path: src/System.IO.Packaging/src/System/IO/Packaging/Package.cs
+      path: src/System.IO.Packaging/ref/System.IO.Packaging.cs
       branch: master
       repo: https://github.com/dotnet/corefx.git
     id: PackageProperties
-    path: src/System.IO.Packaging/src/System/IO/Packaging/Package.cs
-    startLine: 65
+    path: src/System.IO.Packaging/ref/System.IO.Packaging.cs
+    startLine: 41
   assemblies:
   - System.IO.Packaging
   namespace: System.IO.Packaging
+  summary: "\n<p>Gets the core properties of the package.</p>\n"
+  remarks: "\n<p>For additional information about core package properties, see section 3.1 in the Open Packaging Conventions (OPC) specification available for download at <see href=\"http://go.microsoft.com/fwlink/?LinkID=71255\">http://go.microsoft.com/fwlink/?LinkID=71255</see>.</p>\n"
+  example:
+  - 
   syntax:
     content: public PackageProperties PackageProperties { get; }
     content.vb: Public ReadOnly Property PackageProperties As PackageProperties
     parameters: []
     return:
       type: System.IO.Packaging.PackageProperties
+      description: "\n<p>The core properties of the package.</p>\n"
+  exceptions:
+  - type: System.ObjectDisposedException
+    commentId: T:System.ObjectDisposedException
+    description: "\n<p>The package is not open (<xref href=\"System.IO.Packaging.Package.Dispose(System.Boolean)\" data-throw-if-not-resolved=\"false\"></xref> or <xref href=\"System.IO.Packaging.Package.Close\" data-throw-if-not-resolved=\"false\"></xref> has been called).</p>\n"
   modifiers.csharp:
   - public
   - get
@@ -177,18 +226,27 @@ items:
   type: Method
   source:
     remote:
-      path: src/System.IO.Packaging/src/System/IO/Packaging/Package.cs
+      path: src/System.IO.Packaging/ref/System.IO.Packaging.cs
       branch: master
       repo: https://github.com/dotnet/corefx.git
     id: Close
-    path: src/System.IO.Packaging/src/System/IO/Packaging/Package.cs
-    startLine: 484
+    path: src/System.IO.Packaging/ref/System.IO.Packaging.cs
+    startLine: 42
   assemblies:
   - System.IO.Packaging
   namespace: System.IO.Packaging
+  summary: "\n<p>Saves and closes the package plus all underlying part streams.</p>\n"
+  remarks: "\n<p>For the <xref href=\"System.IO.Packaging.Package\" data-throw-if-not-resolved=\"false\"></xref> class <xref href=\"System.IO.Packaging.Package.Close\" data-throw-if-not-resolved=\"false\"></xref> and <xref href=\"System.IO.Packaging.Package.Dispose(System.Boolean)\" data-throw-if-not-resolved=\"false\"></xref> perform the same operation—there is no reason to call <xref href=\"System.IO.Packaging.Package.Dispose(System.Boolean)\" data-throw-if-not-resolved=\"false\"></xref> if you call <xref href=\"System.IO.Packaging.Package.Close\" data-throw-if-not-resolved=\"false\"></xref>, or vice-versa.</p>\n<p>\n<xref href=\"System.IO.Packaging.Package.Close\" data-throw-if-not-resolved=\"false\"></xref> and <xref href=\"System.IO.Packaging.Package.Dispose(System.Boolean)\" data-throw-if-not-resolved=\"false\"></xref> internally call <xref href=\"System.IO.Packaging.Package.Flush\" data-throw-if-not-resolved=\"false\"></xref>.</p>\n<p>The <strong>using</strong> statement (different from the <strong>using</strong> namespace directive) is the recommended way to <xref href=\"System.IO.Packaging.Package.Close\" data-throw-if-not-resolved=\"false\"></xref> and <xref href=\"System.IO.Packaging.Package.Dispose(System.Boolean)\" data-throw-if-not-resolved=\"false\"></xref> a package.  <see href=\"http://go.microsoft.com/fwlink/?LinkID=160055\">Writing a Package Sample</see>  and <see href=\"http://go.microsoft.com/fwlink/?LinkID=160034\">Reading a Package Sample</see> show how to close and dispose a package by using the <strong>using</strong> statement.</p>\n"
+  example:
+  - 
   syntax:
     content: public void Close()
     content.vb: Public Sub Close
+  seealso:
+  - type: System.IO.Packaging.PackagePart
+    commentId: T:System.IO.Packaging.PackagePart
+  - type: System.IO.Packaging.PackageRelationship
+    commentId: T:System.IO.Packaging.PackageRelationship
   modifiers.csharp:
   - public
   modifiers.vb:
@@ -214,16 +272,50 @@ items:
   assemblies:
   - System.IO.Packaging
   namespace: System.IO.Packaging
+  summary: "\n<p>Creates a new uncompressed part with a given URI and content type.</p>\n"
+  remarks: "\n<p>\n<xref href=\"System.IO.Packaging.Package.CreatePart(System.Uri,System.String)\" data-throw-if-not-resolved=\"false\"></xref> initializes an empty <xref href=\"System.IO.Stream\" data-throw-if-not-resolved=\"false\"></xref> for the new part.  The <see cref=\"Overload:System.IO.Packaging.PackagePart.GetStream\"></see> method can be used to obtain a reference to the stream instance associated with the part.</p>\n<p>The part <xref href=\"System.IO.Packaging.PackagePart.CompressionOption\" data-throw-if-not-resolved=\"false\"></xref> is <xref href=\"System.IO.Packaging.CompressionOption.NotCompressed\" data-throw-if-not-resolved=\"false\"></xref>.</p>\n<p>For additional information about package parts, see section 1.1 in the Open Packaging Conventions (OPC) specification available for download at <see href=\"http://go.microsoft.com/fwlink/?LinkID=71255\">http://go.microsoft.com/fwlink/?LinkID=71255</see>.</p>\n"
+  example:
+  - "\n<p>The following example shows how to create a new <xref href=\"System.IO.Packaging.PackagePart\" data-throw-if-not-resolved=\"false\"></xref> and then store data into the part.  For the complete sample, see <see href=\"http://go.microsoft.com/fwlink/?LinkID=160055\">Writing a Package Sample</see>.</p>PackageWrite#PackageWriteCreatePart"
   syntax:
     content: public PackagePart CreatePart(Uri partUri, string contentType)
     content.vb: Public Function CreatePart(partUri As Uri, contentType As String) As PackagePart
     parameters:
     - id: partUri
       type: System.Uri
+      description: "\n<p>The uniform resource identifier (URI) of the new part.</p>\n"
     - id: contentType
       type: System.String
+      description: "\n<p>The content type of the data stream.</p>\n"
     return:
       type: System.IO.Packaging.PackagePart
+      description: "\n<p>The new created part.</p>\n"
+  exceptions:
+  - type: System.ArgumentNullException
+    commentId: T:System.ArgumentNullException
+    description: "\n<p>\n<em>partUri</em> or <em>contentType</em> is <strong>null</strong>.</p>\n"
+  - type: System.ArgumentException
+    commentId: T:System.ArgumentException
+    description: "\n<p>\n<em>partUri</em> is not a valid <xref href=\"System.IO.Packaging.PackagePart\" data-throw-if-not-resolved=\"false\"></xref> URI.</p>\n"
+  - type: System.InvalidOperationException
+    commentId: T:System.InvalidOperationException
+    description: "\n<p>A part with the specified <em>partUri</em> is already present in the package.</p>\n"
+  - type: System.ObjectDisposedException
+    commentId: T:System.ObjectDisposedException
+    description: "\n<p>The package is not open (<xref href=\"System.IO.Packaging.Package.Dispose(System.Boolean)\" data-throw-if-not-resolved=\"false\"></xref> or <xref href=\"System.IO.Packaging.Package.Close\" data-throw-if-not-resolved=\"false\"></xref> has been called).</p>\n"
+  - type: System.IO.IOException
+    commentId: T:System.IO.IOException
+    description: "\n<p>The package is read-only (a new part cannot be added).</p>\n"
+  seealso:
+  - type: System.IO.Packaging.Package.DeletePart(System.Uri)
+    commentId: M:System.IO.Packaging.Package.DeletePart(System.Uri)
+  - type: System.IO.Packaging.PackUriHelper.CreatePartUri(System.Uri)
+    commentId: M:System.IO.Packaging.PackUriHelper.CreatePartUri(System.Uri)
+  - type: System.IO.Packaging.PackUriHelper.GetPartUri(System.Uri)
+    commentId: M:System.IO.Packaging.PackUriHelper.GetPartUri(System.Uri)
+  - type: System.IO.Packaging.PackUriHelper.ResolvePartUri(System.Uri,System.Uri)
+    commentId: M:System.IO.Packaging.PackUriHelper.ResolvePartUri(System.Uri,System.Uri)
+  - type: System.IO.Packaging.ZipPackagePart
+    commentId: T:System.IO.Packaging.ZipPackagePart
   modifiers.csharp:
   - public
   modifiers.vb:
@@ -249,18 +341,56 @@ items:
   assemblies:
   - System.IO.Packaging
   namespace: System.IO.Packaging
+  summary: "\n<p>Creates a new part with a given URI, content type, and compression option.</p>\n"
+  remarks: "\n<p>For the default <xref href=\"System.IO.Packaging.ZipPackage\" data-throw-if-not-resolved=\"false\"></xref> derived class, the <xref href=\"System.IO.Packaging.Package.CreatePart(System.Uri,System.String,System.IO.Packaging.CompressionOption)\" data-throw-if-not-resolved=\"false\"></xref> method only supports two <em>compressionOption</em> values, <xref href=\"System.IO.Packaging.CompressionOption.NotCompressed\" data-throw-if-not-resolved=\"false\"></xref> or <xref href=\"System.IO.Packaging.CompressionOption.Normal\" data-throw-if-not-resolved=\"false\"></xref> compression.  Other <xref href=\"System.IO.Packaging.CompressionOption\" data-throw-if-not-resolved=\"false\"></xref> values of <xref href=\"System.IO.Packaging.CompressionOption.Maximum\" data-throw-if-not-resolved=\"false\"></xref>, <xref href=\"System.IO.Packaging.CompressionOption.Fast\" data-throw-if-not-resolved=\"false\"></xref>, or <xref href=\"System.IO.Packaging.CompressionOption.SuperFast\" data-throw-if-not-resolved=\"false\"></xref> use <xref href=\"System.IO.Packaging.CompressionOption.Normal\" data-throw-if-not-resolved=\"false\"></xref> compression.</p>\n<p>\n<xref href=\"System.IO.Packaging.Package.CreatePart(System.Uri,System.String,System.IO.Packaging.CompressionOption)\" data-throw-if-not-resolved=\"false\"></xref> creates an empty <xref href=\"System.IO.Stream\" data-throw-if-not-resolved=\"false\"></xref> for the new part.  The <see cref=\"Overload:System.IO.Packaging.PackagePart.GetStream\"></see> method can be used to obtain a reference to the stream instance associated with the part.</p>\n<p>For additional information, see the Open Packaging Conventions (OPC) specification available for download at <see href=\"http://go.microsoft.com/fwlink/?LinkID=71255\">http://go.microsoft.com/fwlink/?LinkID=71255</see>.</p>\n"
+  example:
+  - "\n<p>The following example shows how to create a new <xref href=\"System.IO.Packaging.PackagePart\" data-throw-if-not-resolved=\"false\"></xref> and then store data into the part.  For the complete sample, see <see href=\"http://go.microsoft.com/fwlink/?LinkID=160055\">Writing a Package Sample</see>.</p>PackageWrite#PackageWriteCreatePart"
   syntax:
     content: public PackagePart CreatePart(Uri partUri, string contentType, CompressionOption compressionOption)
     content.vb: Public Function CreatePart(partUri As Uri, contentType As String, compressionOption As CompressionOption) As PackagePart
     parameters:
     - id: partUri
       type: System.Uri
+      description: "\n<p>The URI of the new part.</p>\n"
     - id: contentType
       type: System.String
+      description: "\n<p>The content type of the data stream.</p>\n"
     - id: compressionOption
       type: System.IO.Packaging.CompressionOption
+      description: "\n<p>The compression option for the data stream, <xref href=\"System.IO.Packaging.CompressionOption.NotCompressed\" data-throw-if-not-resolved=\"false\"></xref> or <xref href=\"System.IO.Packaging.CompressionOption.Normal\" data-throw-if-not-resolved=\"false\"></xref> compression.</p>\n"
     return:
       type: System.IO.Packaging.PackagePart
+      description: "\n<p>The new created part.</p>\n"
+  exceptions:
+  - type: System.ArgumentNullException
+    commentId: T:System.ArgumentNullException
+    description: "\n<p>\n<em>partUri</em> or <em>contentType</em> is <strong>null</strong>.</p>\n"
+  - type: System.ArgumentException
+    commentId: T:System.ArgumentException
+    description: "\n<p>\n<em>partUri</em> is not a valid <xref href=\"System.IO.Packaging.PackagePart\" data-throw-if-not-resolved=\"false\"></xref> uniform resource identifier (URI).</p>\n"
+  - type: System.InvalidOperationException
+    commentId: T:System.InvalidOperationException
+    description: "\n<p>A part with the specified <em>partUri</em> is already present in the package.</p>\n"
+  - type: System.ArgumentOutOfRangeException
+    commentId: T:System.ArgumentOutOfRangeException
+    description: "\n<p>The <em>compressionOption</em> value is not valid.</p>\n"
+  - type: System.ObjectDisposedException
+    commentId: T:System.ObjectDisposedException
+    description: "\n<p>The package is not open (<xref href=\"System.IO.Packaging.Package.Dispose(System.Boolean)\" data-throw-if-not-resolved=\"false\"></xref> or <xref href=\"System.IO.Packaging.Package.Close\" data-throw-if-not-resolved=\"false\"></xref> has been called).</p>\n"
+  - type: System.IO.IOException
+    commentId: T:System.IO.IOException
+    description: "\n<p>The package is read-only (a new part cannot be added).</p>\n"
+  seealso:
+  - type: System.IO.Packaging.Package.DeletePart(System.Uri)
+    commentId: M:System.IO.Packaging.Package.DeletePart(System.Uri)
+  - type: System.IO.Packaging.PackUriHelper.CreatePartUri(System.Uri)
+    commentId: M:System.IO.Packaging.PackUriHelper.CreatePartUri(System.Uri)
+  - type: System.IO.Packaging.PackUriHelper.GetPartUri(System.Uri)
+    commentId: M:System.IO.Packaging.PackUriHelper.GetPartUri(System.Uri)
+  - type: System.IO.Packaging.PackUriHelper.ResolvePartUri(System.Uri,System.Uri)
+    commentId: M:System.IO.Packaging.PackUriHelper.ResolvePartUri(System.Uri,System.Uri)
+  - type: System.IO.Packaging.ZipPackagePart
+    commentId: T:System.IO.Packaging.ZipPackagePart
   modifiers.csharp:
   - public
   modifiers.vb:
@@ -286,18 +416,29 @@ items:
   assemblies:
   - System.IO.Packaging
   namespace: System.IO.Packaging
+  summary: "\n<p>When overridden in a derived class, creates a new part in the package.</p>\n"
+  remarks: "\n<p>The derived <xref href=\"System.IO.Packaging.Package.CreatePartCore(System.Uri,System.String,System.IO.Packaging.CompressionOption)\" data-throw-if-not-resolved=\"false\"></xref> method is called by the <see cref=\"Overload:System.IO.Packaging.Package.CreatePart\"></see> method to create a part based on the physical format implemented in the derived class.</p>\n<p>By default, a <xref href=\"System.IO.Packaging.ZipPackage\" data-throw-if-not-resolved=\"false\"></xref> derived class implementation of the abstract <xref href=\"System.IO.Packaging.Package\" data-throw-if-not-resolved=\"false\"></xref> class is provided and used.  In the default operation, <see cref=\"Overload:System.IO.Packaging.Package.CreatePart\"></see> internally calls <xref href=\"System.IO.Packaging.Package.CreatePartCore(System.Uri,System.String,System.IO.Packaging.CompressionOption)\" data-throw-if-not-resolved=\"false\"></xref> of the <xref href=\"System.IO.Packaging.ZipPackage\" data-throw-if-not-resolved=\"false\"></xref> class to create a new part in a ZIP file.</p>\n<p>For the default <xref href=\"System.IO.Packaging.ZipPackage\" data-throw-if-not-resolved=\"false\"></xref> derived class, the <xref href=\"System.IO.Packaging.Package.CreatePartCore(System.Uri,System.String,System.IO.Packaging.CompressionOption)\" data-throw-if-not-resolved=\"false\"></xref> method only supports two <em>compressionOption</em> values, <xref href=\"System.IO.Packaging.CompressionOption.NotCompressed\" data-throw-if-not-resolved=\"false\"></xref> or <xref href=\"System.IO.Packaging.CompressionOption.Normal\" data-throw-if-not-resolved=\"false\"></xref> compression.  Other <xref href=\"System.IO.Packaging.CompressionOption\" data-throw-if-not-resolved=\"false\"></xref> values of <xref href=\"System.IO.Packaging.CompressionOption.Maximum\" data-throw-if-not-resolved=\"false\"></xref>, <xref href=\"System.IO.Packaging.CompressionOption.Fast\" data-throw-if-not-resolved=\"false\"></xref>, or <xref href=\"System.IO.Packaging.CompressionOption.SuperFast\" data-throw-if-not-resolved=\"false\"></xref> use <xref href=\"System.IO.Packaging.CompressionOption.Normal\" data-throw-if-not-resolved=\"false\"></xref> compression.</p>\n<p>For more information about the package model and package parts, see Chapter 1 of the Open Packaging Conventions (OPC) specification available for download at <see href=\"http://go.microsoft.com/fwlink/?LinkID=71255\">http://go.microsoft.com/fwlink/?LinkID=71255</see>.</p>\n"
+  example:
+  - 
   syntax:
     content: protected abstract PackagePart CreatePartCore(Uri partUri, string contentType, CompressionOption compressionOption)
     content.vb: Protected MustOverride Function CreatePartCore(partUri As Uri, contentType As String, compressionOption As CompressionOption) As PackagePart
     parameters:
     - id: partUri
       type: System.Uri
+      description: "\n<p>The uniform resource identifier (URI) for the part being created.</p>\n"
     - id: contentType
       type: System.String
+      description: "\n<p>The content type of the data stream.</p>\n"
     - id: compressionOption
       type: System.IO.Packaging.CompressionOption
+      description: "\n<p>The compression option for the data stream.</p>\n"
     return:
       type: System.IO.Packaging.PackagePart
+      description: "\n<p>The created part.</p>\n"
+  seealso:
+  - type: System.IO.Packaging.Package.DeletePartCore(System.Uri)
+    commentId: M:System.IO.Packaging.Package.DeletePartCore(System.Uri)
   modifiers.csharp:
   - protected
   - abstract
@@ -325,18 +466,53 @@ items:
   assemblies:
   - System.IO.Packaging
   namespace: System.IO.Packaging
+  summary: "\n<p>Creates a package-level relationship to a part with a given URI, target mode, and relationship type. </p>\n"
+  remarks: "\n<p>A package-level relationship defines an association between the package and an associated target part or resource.  A package-level relationship can be one of two forms.</p>\n<ul><li>\n<p>Between a <xref href=\"System.IO.Packaging.Package\" data-throw-if-not-resolved=\"false\"></xref> to a target part in the package.</p>\n</li><li>\n<p>Between a <xref href=\"System.IO.Packaging.Package\" data-throw-if-not-resolved=\"false\"></xref> to a target resource outside the package.</p>\n</li></ul>\n<p>In a package-relationship the package is considered the \"owner\" of the relationship.  When the package is deleted, all the relationships owned by the package are also deleted.</p>\n<p>\n<xref href=\"System.IO.Packaging.Package.CreateRelationship(System.Uri,System.IO.Packaging.TargetMode,System.String)\" data-throw-if-not-resolved=\"false\"></xref> does not physically change the target part or resource in any way.</p>\n<p>The target of a relationship cannot be another relationship.</p>\n<p>If <em>targetMode</em> is specified as <xref href=\"System.IO.Packaging.TargetMode.Internal\" data-throw-if-not-resolved=\"false\"></xref>, <em>targetUri</em> must be a relative URI that is formed according to the <see href=\"http://tools.ietf.org/html/rfc3986\">RFC 3986</see> Uniform Resource Identifier (URI) Generic Syntax specification.  The internal relative URI can be either an absolute path that starts with a forward slash (\"/\") character such as \"/page1.xaml\" or \"/images/picture4.jpg\", or a relative path such as \"../imagespicture1.jpg\" that resolves against the package root (\"/\") as the base URI.</p>\n<p>If <em>targetMode</em> is specified as <xref href=\"System.IO.Packaging.TargetMode.External\" data-throw-if-not-resolved=\"false\"></xref>, <em>targetUri</em> can be either an absolute or relative URI formed according to the <see href=\"http://tools.ietf.org/html/rfc3986\">RFC 3986</see> Uniform Resource Identifier (URI) Generic Syntax specification.  \"http://www.microsoft.com/page2.xml\" is an example of an absolute URI that references an external target resource \"page2.xml\".  \"images/picture1.jpg\" is an example of a relative URI that also references an external target resource \"1.jpg\" but which resolves against the URI of the package itself.</p>\n<p>\n<em>relationshipType</em> must be a URI that is formed according to the <see href=\"http://tools.ietf.org/html/rfc3986\">RFC 3986</see> Uniform Resource Identifier (URI) Generic Syntax specification.  The following table shows the package-level <em>relationshipType</em> URIs defined by the Open Packaging Conventions (OPC) specification.</p>\n<p>Package-level Relationship</p>\n<p>Relationship Type URI</p>\n<table><tbody><tr><td>\n<p>Core Properties</p>\n</td><td>\n<p>http://schemas.openxmlformats.org/package/2006/relationships/meta data/core-properties</p>\n</td></tr><tr><td>\n<p>Digital Signature</p>\n</td><td>\n<p>http://schemas.openxmlformats.org/package/2006/relationships/digit al-signature/signature</p>\n</td></tr><tr><td>\n<p>Digital Signature Certificate</p>\n</td><td>\n<p>http://schemas.openxmlformats.org/package/2006/relationships/digit al-signature/certificate</p>\n</td></tr><tr><td>\n<p>Digital Signature Origin</p>\n</td><td>\n<p>http://schemas.openxmlformats.org/package/2006/relationships/digit al-signature/origin</p>\n</td></tr><tr><td>\n<p>Thumbnail</p>\n</td><td>\n<p>http://schemas.openxmlformats.org/package/2006/relationships/meta data/thumbnail</p>\n</td></tr></tbody></table>\n<p>For more information about packaging and package relationships, see section 1.3 of the Open Packaging Conventions (OPC) specification available for download at <see href=\"http://go.microsoft.com/fwlink/?LinkID=71255\">http://go.microsoft.com/fwlink/?LinkID=71255</see>.</p>\n"
+  example:
+  - "\n<p>The following example illustrates how to use <xref href=\"System.IO.Packaging.Package.CreateRelationship(System.Uri,System.IO.Packaging.TargetMode,System.String)\" data-throw-if-not-resolved=\"false\"></xref> to create a <xref href=\"System.IO.Packaging.PackageRelationship\" data-throw-if-not-resolved=\"false\"></xref> between a <xref href=\"System.IO.Packaging.Package\" data-throw-if-not-resolved=\"false\"></xref> and a root document part.  For the complete sample, see <see href=\"http://go.microsoft.com/fwlink/?LinkID=160055\">Writing a Package Sample</see>.</p>packagewrite#PackageWriteCreatePackageRelationship"
   syntax:
     content: public PackageRelationship CreateRelationship(Uri targetUri, TargetMode targetMode, string relationshipType)
     content.vb: Public Function CreateRelationship(targetUri As Uri, targetMode As TargetMode, relationshipType As String) As PackageRelationship
     parameters:
     - id: targetUri
       type: System.Uri
+      description: "\n<p>The uniform resource identifier (URI) of the target part.</p>\n"
     - id: targetMode
       type: System.IO.Packaging.TargetMode
+      description: "\n<p>Indicates if the target part is <xref href=\"System.IO.Packaging.TargetMode.Internal\" data-throw-if-not-resolved=\"false\"></xref> or <xref href=\"System.IO.Packaging.TargetMode.External\" data-throw-if-not-resolved=\"false\"></xref> to the package.</p>\n"
     - id: relationshipType
       type: System.String
+      description: "\n<p>A URI that uniquely defines the role of the relationship.</p>\n"
     return:
       type: System.IO.Packaging.PackageRelationship
+      description: "\n<p>The package-level relationship to the specified part.</p>\n"
+  exceptions:
+  - type: System.ArgumentNullException
+    commentId: T:System.ArgumentNullException
+    description: "\n<p>\n<em>targetUri</em> or <em>relationshipType</em> is <strong>null</strong>.</p>\n"
+  - type: System.ArgumentException
+    commentId: T:System.ArgumentException
+    description: "\n<p>The <em>targetUri</em> part is a <xref href=\"System.IO.Packaging.PackageRelationship\" data-throw-if-not-resolved=\"false\"></xref>, or <em>targetMode</em> is <xref href=\"System.IO.Packaging.TargetMode.Internal\" data-throw-if-not-resolved=\"false\"></xref> and <em>targetUri</em> is an absolute URI.</p>\n"
+  - type: System.ArgumentOutOfRangeException
+    commentId: T:System.ArgumentOutOfRangeException
+    description: "\n<p>The value for <em>targetMode</em> is not valid.</p>\n"
+  - type: System.ObjectDisposedException
+    commentId: T:System.ObjectDisposedException
+    description: "\n<p>The package is not open (<xref href=\"System.IO.Packaging.Package.Dispose(System.Boolean)\" data-throw-if-not-resolved=\"false\"></xref> or <xref href=\"System.IO.Packaging.Package.Close\" data-throw-if-not-resolved=\"false\"></xref> has been called).</p>\n"
+  - type: System.IO.IOException
+    commentId: T:System.IO.IOException
+    description: "\n<p>The package is read-only.</p>\n"
+  seealso:
+  - type: System.IO.Packaging.Package.DeleteRelationship(System.String)
+    commentId: M:System.IO.Packaging.Package.DeleteRelationship(System.String)
+  - type: System.IO.Packaging.Package.GetRelationship(System.String)
+    commentId: M:System.IO.Packaging.Package.GetRelationship(System.String)
+  - type: System.IO.Packaging.Package.GetRelationships
+    commentId: M:System.IO.Packaging.Package.GetRelationships
+  - type: System.IO.Packaging.Package.GetRelationshipsByType(System.String)
+    commentId: M:System.IO.Packaging.Package.GetRelationshipsByType(System.String)
+  - type: System.IO.Packaging.Package.RelationshipExists(System.String)
+    commentId: M:System.IO.Packaging.Package.RelationshipExists(System.String)
   modifiers.csharp:
   - public
   modifiers.vb:
@@ -362,20 +538,61 @@ items:
   assemblies:
   - System.IO.Packaging
   namespace: System.IO.Packaging
+  summary: "\n<p>Creates a package-level relationship to a part with a given URI, target mode, relationship type, and identifier (ID).</p>\n"
+  remarks: "\n<p>A package-level relationship defines an association between the package and an associated target part or resource.  A package-level relationship can be one of two forms.</p>\n<ul><li>\n<p>Between a <xref href=\"System.IO.Packaging.Package\" data-throw-if-not-resolved=\"false\"></xref> to a target part in the package.</p>\n</li><li>\n<p>Between a <xref href=\"System.IO.Packaging.Package\" data-throw-if-not-resolved=\"false\"></xref> to a target resource outside the package.</p>\n</li></ul>\n<p>In a package-relationship the package is considered the \"owner\" of the relationship.  When the package is deleted, all the relationships owned by the package are also deleted.</p>\n<p>\n<xref href=\"System.IO.Packaging.Package.CreateRelationship(System.Uri,System.IO.Packaging.TargetMode,System.String,System.String)\" data-throw-if-not-resolved=\"false\"></xref> does not physically change the target part or resource in any way.</p>\n<p>The target of a relationship cannot be another relationship.</p>\n<p>\n<em>id</em> must be a valid XML identifier.  The <em>id</em> type is xsd:ID and must follow the naming conventions prescribed in the XML Schema Part 2: Datatypes specification (see <see href=\"http://www.w3.org/TR/xmlschema-2/\">http://www.w3.org/TR/xmlschema-2/#ID</see>).</p>\n<p>If <em>id</em> is specified as <strong>null</strong> a unique ID will be automatically generated.  An <em>id</em> specified by an empty string is not valid.</p>\n<p>If <em>targetMode</em> is specified as <xref href=\"System.IO.Packaging.TargetMode.Internal\" data-throw-if-not-resolved=\"false\"></xref>, <em>targetUri</em> must be a relative URI that is formed according to the <see href=\"http://tools.ietf.org/html/rfc3986\">RFC 3986</see> Uniform Resource Identifier (URI) Generic Syntax specification.  The internal relative URI can be either an absolute path that starts with a forward slash (\"/\") character such as \"/page1.xaml\" or \"/images/picture4.jpg\", or a relative path such as \"../imagespicture1.jpg\" that resolves against the package root (\"/\") as the base URI.</p>\n<p>If <em>targetMode</em> is specified as <xref href=\"System.IO.Packaging.TargetMode.External\" data-throw-if-not-resolved=\"false\"></xref>, <em>targetUri</em> can be either an absolute or relative URI formed according to the <see href=\"http://tools.ietf.org/html/rfc3986\">RFC 3986</see> Uniform Resource Identifier (URI) Generic Syntax specification.  \"http://www.microsoft.com/page2.xml\" is an example of an absolute URI that references an external target resource \"page2.xml\".  \"images/picture1.jpg\" is an example of a relative URI that also references an external target resource \"1.jpg\" but which resolves against the URI of the package itself.</p>\n<p>\n<em>relationshipType</em> must be a URI that is formed according to the <see href=\"http://tools.ietf.org/html/rfc3986\">RFC 3986</see> Uniform Resource Identifier (URI) Generic Syntax specification.  The following table shows the package-level <em>relationshipType</em> URIs defined by the Open Packaging Conventions (OPC) specification.</p>\n<p>Package-level Relationship</p>\n<p>Relationship Type URI</p>\n<table><tbody><tr><td>\n<p>Core Properties</p>\n</td><td>\n<p>http://schemas.openxmlformats.org/package/2006/relationships/meta data/core-properties</p>\n</td></tr><tr><td>\n<p>Digital Signature</p>\n</td><td>\n<p>http://schemas.openxmlformats.org/package/2006/relationships/digit al-signature/signature</p>\n</td></tr><tr><td>\n<p>Digital Signature Certificate</p>\n</td><td>\n<p>http://schemas.openxmlformats.org/package/2006/relationships/digit al-signature/certificate</p>\n</td></tr><tr><td>\n<p>Digital Signature Origin</p>\n</td><td>\n<p>http://schemas.openxmlformats.org/package/2006/relationships/digit al-signature/origin</p>\n</td></tr><tr><td>\n<p>Thumbnail</p>\n</td><td>\n<p>http://schemas.openxmlformats.org/package/2006/relationships/meta data/thumbnail</p>\n</td></tr></tbody></table>\n<p>For additional information about packaging and package relationships, see section 1.3 of the Open Packaging Conventions (OPC) specification available for download at <see href=\"http://go.microsoft.com/fwlink/?LinkID=71255\">http://go.microsoft.com/fwlink/?LinkID=71255</see>.</p>\n"
+  example:
+  - "\n<p>The following example illustrates how to use <xref href=\"System.IO.Packaging.Package.CreateRelationship(System.Uri,System.IO.Packaging.TargetMode,System.String)\" data-throw-if-not-resolved=\"false\"></xref> to create a <xref href=\"System.IO.Packaging.PackageRelationship\" data-throw-if-not-resolved=\"false\"></xref> between a <xref href=\"System.IO.Packaging.Package\" data-throw-if-not-resolved=\"false\"></xref> and a root document part.  For the complete sample, see <see href=\"http://go.microsoft.com/fwlink/?LinkID=160055\">Writing a Package Sample</see>.</p>packagewrite#PackageWriteCreatePackageRelationship"
   syntax:
     content: public PackageRelationship CreateRelationship(Uri targetUri, TargetMode targetMode, string relationshipType, string id)
     content.vb: Public Function CreateRelationship(targetUri As Uri, targetMode As TargetMode, relationshipType As String, id As String) As PackageRelationship
     parameters:
     - id: targetUri
       type: System.Uri
+      description: "\n<p>The uniform resource identifier (URI) of the target part.</p>\n"
     - id: targetMode
       type: System.IO.Packaging.TargetMode
+      description: "\n<p>Indicates if the target part is <xref href=\"System.IO.Packaging.TargetMode.Internal\" data-throw-if-not-resolved=\"false\"></xref> or <xref href=\"System.IO.Packaging.TargetMode.External\" data-throw-if-not-resolved=\"false\"></xref> to the package.</p>\n"
     - id: relationshipType
       type: System.String
+      description: "\n<p>A URI that uniquely defines the role of the relationship.</p>\n"
     - id: id
       type: System.String
+      description: "\n<p>A unique XML identifier.</p>\n"
     return:
       type: System.IO.Packaging.PackageRelationship
+      description: "\n<p>The package-level relationship to the specified part.</p>\n"
+  exceptions:
+  - type: System.ArgumentNullException
+    commentId: T:System.ArgumentNullException
+    description: "\n<p>\n<em>targetUri</em> or <em>relationshipType</em> is <strong>null</strong>.</p>\n"
+  - type: System.ArgumentException
+    commentId: T:System.ArgumentException
+    description: "\n<p>The <em>targetUri</em> part is a <xref href=\"System.IO.Packaging.PackageRelationship\" data-throw-if-not-resolved=\"false\"></xref>, or <em>targetMode</em> is <xref href=\"System.IO.Packaging.TargetMode.Internal\" data-throw-if-not-resolved=\"false\"></xref> and <em>targetUri</em> is an absolute URI.</p>\n"
+  - type: System.ArgumentOutOfRangeException
+    commentId: T:System.ArgumentOutOfRangeException
+    description: "\n<p>The value for <em>targetMode</em> is not valid.</p>\n"
+  - type: System.ObjectDisposedException
+    commentId: T:System.ObjectDisposedException
+    description: "\n<p>The package is not open (<xref href=\"System.IO.Packaging.Package.Dispose(System.Boolean)\" data-throw-if-not-resolved=\"false\"></xref> or <xref href=\"System.IO.Packaging.Package.Close\" data-throw-if-not-resolved=\"false\"></xref> has been called).</p>\n"
+  - type: System.IO.IOException
+    commentId: T:System.IO.IOException
+    description: "\n<p>The package is read-only.</p>\n"
+  - type: System.Xml.XmlException
+    commentId: T:System.Xml.XmlException
+    description: "\n<p>\n<em>id</em> is not a valid XML identifier; or a part with the specified <em>id</em> already occurs in the package.</p>\n"
+  seealso:
+  - type: System.IO.Packaging.Package.CreateRelationship(System.Uri,System.IO.Packaging.TargetMode,System.String)
+    commentId: M:System.IO.Packaging.Package.CreateRelationship(System.Uri,System.IO.Packaging.TargetMode,System.String)
+  - type: System.IO.Packaging.Package.DeleteRelationship(System.String)
+    commentId: M:System.IO.Packaging.Package.DeleteRelationship(System.String)
+  - type: System.IO.Packaging.Package.GetRelationship(System.String)
+    commentId: M:System.IO.Packaging.Package.GetRelationship(System.String)
+  - type: System.IO.Packaging.Package.GetRelationships
+    commentId: M:System.IO.Packaging.Package.GetRelationships
+  - type: System.IO.Packaging.Package.GetRelationshipsByType(System.String)
+    commentId: M:System.IO.Packaging.Package.GetRelationshipsByType(System.String)
+  - type: System.IO.Packaging.Package.RelationshipExists(System.String)
+    commentId: M:System.IO.Packaging.Package.RelationshipExists(System.String)
   modifiers.csharp:
   - public
   modifiers.vb:
@@ -401,12 +618,37 @@ items:
   assemblies:
   - System.IO.Packaging
   namespace: System.IO.Packaging
+  summary: "\n<p>Deletes a part with a given URI from the package.</p>\n"
+  remarks: "\n<p>\n<em>partUri</em> must be a relative URI that consists of an absolute path which starts with a forward slash (\"/\") character.  The absolute path is relative to the package root and is formed according to the <see href=\"http://tools.ietf.org/html/rfc3986\">RFC 3986</see> Uniform Resource Identifier (URI) Generic Syntax specification.  \"/page1.xaml\" and \"/images/picture4.jpg\" are examples of valid part URIs.</p>\n<p>No exception is raised if a part with the specified <em>partUri</em> is not in the package.  (You can use the <xref href=\"System.IO.Packaging.Package.PartExists(System.Uri)\" data-throw-if-not-resolved=\"false\"></xref> method to determine whether a part with a specified <em>partUri</em> is in the package.)</p>\n<p>For additional information, see the Open Packaging Conventions (OPC) specification available for download at <see href=\"http://go.microsoft.com/fwlink/?LinkID=71255\">http://go.microsoft.com/fwlink/?LinkID=71255</see>.</p>\n"
+  example:
+  - 
   syntax:
     content: public void DeletePart(Uri partUri)
     content.vb: Public Sub DeletePart(partUri As Uri)
     parameters:
     - id: partUri
       type: System.Uri
+      description: "\n<p>The URI of the part to delete.</p>\n"
+  exceptions:
+  - type: System.ArgumentNullException
+    commentId: T:System.ArgumentNullException
+    description: "\n<p>\n<em>partUri</em> is <strong>null</strong>.</p>\n"
+  - type: System.ArgumentException
+    commentId: T:System.ArgumentException
+    description: "\n<p>\n<em>partUri</em> is not a valid <xref href=\"System.IO.Packaging.PackagePart\" data-throw-if-not-resolved=\"false\"></xref> URI.</p>\n"
+  - type: System.ObjectDisposedException
+    commentId: T:System.ObjectDisposedException
+    description: "\n<p>The package is not open (<xref href=\"System.IO.Packaging.Package.Dispose(System.Boolean)\" data-throw-if-not-resolved=\"false\"></xref> or <xref href=\"System.IO.Packaging.Package.Close\" data-throw-if-not-resolved=\"false\"></xref> has been called).</p>\n"
+  - type: System.IO.IOException
+    commentId: T:System.IO.IOException
+    description: "\n<p>The package is read-only.</p>\n"
+  seealso:
+  - type: System.IO.Packaging.PackUriHelper.CreatePartUri(System.Uri)
+    commentId: M:System.IO.Packaging.PackUriHelper.CreatePartUri(System.Uri)
+  - type: System.IO.Packaging.PackUriHelper.GetPartUri(System.Uri)
+    commentId: M:System.IO.Packaging.PackUriHelper.GetPartUri(System.Uri)
+  - type: System.IO.Packaging.PackUriHelper.ResolvePartUri(System.Uri,System.Uri)
+    commentId: M:System.IO.Packaging.PackUriHelper.ResolvePartUri(System.Uri,System.Uri)
   modifiers.csharp:
   - public
   modifiers.vb:
@@ -432,12 +674,20 @@ items:
   assemblies:
   - System.IO.Packaging
   namespace: System.IO.Packaging
+  summary: "\n<p>When overridden in a derived class, deletes a part with a given URI. </p>\n"
+  remarks: "\n<p>By default, a <xref href=\"System.IO.Packaging.ZipPackage\" data-throw-if-not-resolved=\"false\"></xref> derived class implementation of the abstract <xref href=\"System.IO.Packaging.Package\" data-throw-if-not-resolved=\"false\"></xref> class is provided and used.  In the default operation, <xref href=\"System.IO.Packaging.Package.DeletePart(System.Uri)\" data-throw-if-not-resolved=\"false\"></xref> internally calls <xref href=\"System.IO.Packaging.Package.DeletePartCore(System.Uri)\" data-throw-if-not-resolved=\"false\"></xref> of the <xref href=\"System.IO.Packaging.ZipPackage\" data-throw-if-not-resolved=\"false\"></xref> class to perform the actual delete operation based on the physical format implemented in the derived class.</p>\n<p>For more information about the package model and package parts, see Chapter 1 of the Open Packaging Conventions (OPC) specification available for download at <see href=\"http://go.microsoft.com/fwlink/?LinkID=71255\">http://go.microsoft.com/fwlink/?LinkID=71255</see>.</p>\n"
+  example:
+  - 
   syntax:
     content: protected abstract void DeletePartCore(Uri partUri)
     content.vb: Protected MustOverride Sub DeletePartCore(partUri As Uri)
     parameters:
     - id: partUri
       type: System.Uri
+      description: "\n<p>The <xref href=\"System.IO.Packaging.PackagePart.Uri\" data-throw-if-not-resolved=\"false\"></xref> of the <xref href=\"System.IO.Packaging.PackagePart\" data-throw-if-not-resolved=\"false\"></xref> to delete.</p>\n"
+  seealso:
+  - type: System.IO.Packaging.Package.CreatePartCore(System.Uri,System.String,System.IO.Packaging.CompressionOption)
+    commentId: M:System.IO.Packaging.Package.CreatePartCore(System.Uri,System.String,System.IO.Packaging.CompressionOption)
   modifiers.csharp:
   - protected
   - abstract
@@ -465,12 +715,30 @@ items:
   assemblies:
   - System.IO.Packaging
   namespace: System.IO.Packaging
+  summary: "\n<p>Deletes a package-level relationship.</p>\n"
+  remarks: "\n<p>A package-level relationship defines an association between the package and an associated target part or resource.  A package-level relationship can be one of two forms.</p>\n<ul><li>\n<p>Between a <xref href=\"System.IO.Packaging.Package\" data-throw-if-not-resolved=\"false\"></xref> to a target part in the package.</p>\n</li><li>\n<p>Between a <xref href=\"System.IO.Packaging.Package\" data-throw-if-not-resolved=\"false\"></xref> to a target resource outside the package.</p>\n</li></ul>\n<p>In a package-relationship the package is considered the \"owner\" of the relationship.  When the package is deleted, all the relationships owned by the package are also deleted.</p>\n<p>No exception is raised if a relationship with the specified <em>id</em> is not in the package.</p>\n<p>\n<xref href=\"System.IO.Packaging.Package.DeleteRelationship(System.String)\" data-throw-if-not-resolved=\"false\"></xref> does not physically change the target part in any way.</p>\n<p>For more information about package relationships, see section 1.3 of the Open Packaging Conventions (OPC) specification available for download at <see href=\"http://go.microsoft.com/fwlink/?LinkID=71255\">http://go.microsoft.com/fwlink/?LinkID=71255</see>.</p>\n"
+  example:
+  - 
   syntax:
     content: public void DeleteRelationship(string id)
     content.vb: Public Sub DeleteRelationship(id As String)
     parameters:
     - id: id
       type: System.String
+      description: "\n<p>The <xref href=\"System.IO.Packaging.PackageRelationship.Id\" data-throw-if-not-resolved=\"false\"></xref> of the <xref href=\"System.IO.Packaging.PackageRelationship\" data-throw-if-not-resolved=\"false\"></xref> to delete.</p>\n"
+  exceptions:
+  - type: System.ArgumentNullException
+    commentId: T:System.ArgumentNullException
+    description: "\n<p>\n<em>id</em> is <strong>null</strong>.</p>\n"
+  - type: System.ObjectDisposedException
+    commentId: T:System.ObjectDisposedException
+    description: "\n<p>The package is not open (<xref href=\"System.IO.Packaging.Package.Dispose(System.Boolean)\" data-throw-if-not-resolved=\"false\"></xref> or <xref href=\"System.IO.Packaging.Package.Close\" data-throw-if-not-resolved=\"false\"></xref> has been called).</p>\n"
+  - type: System.IO.IOException
+    commentId: T:System.IO.IOException
+    description: "\n<p>The package is read-only.</p>\n"
+  - type: System.Xml.XmlException
+    commentId: T:System.Xml.XmlException
+    description: "\n<p>\n<em>id</em> is not a valid XML identifier.</p>\n"
   modifiers.csharp:
   - public
   modifiers.vb:
@@ -487,21 +755,33 @@ items:
   type: Method
   source:
     remote:
-      path: src/System.IO.Packaging/src/System/IO/Packaging/Package.cs
+      path: src/System.IO.Packaging/ref/System.IO.Packaging.cs
       branch: master
       repo: https://github.com/dotnet/corefx.git
     id: Dispose
-    path: src/System.IO.Packaging/src/System/IO/Packaging/Package.cs
-    startLine: 730
+    path: src/System.IO.Packaging/ref/System.IO.Packaging.cs
+    startLine: 51
   assemblies:
   - System.IO.Packaging
   namespace: System.IO.Packaging
+  summary: "\n<p>Flushes and saves the content of all parts and relationships, closes the package, and releases all resources.</p>\n"
+  remarks: "\n<p>To make sure that all changes are correctly saved, <xref href=\"System.IO.Packaging.Package.Dispose(System.Boolean)\" data-throw-if-not-resolved=\"false\"></xref> also finalizes, flushes, and closes all parts and relationships that are contained in the package.</p>\n<p>For the <xref href=\"System.IO.Packaging.Package\" data-throw-if-not-resolved=\"false\"></xref> class, <xref href=\"System.IO.Packaging.Package.Dispose(System.Boolean)\" data-throw-if-not-resolved=\"false\"></xref> and <xref href=\"System.IO.Packaging.Package.Close\" data-throw-if-not-resolved=\"false\"></xref> perform the same operation - there is no reason to call <xref href=\"System.IO.Packaging.Package.Dispose(System.Boolean)\" data-throw-if-not-resolved=\"false\"></xref> if you call <xref href=\"System.IO.Packaging.Package.Close\" data-throw-if-not-resolved=\"false\"></xref>, or vice-versa.</p>\n<p>\n<xref href=\"System.IO.Packaging.Package.Close\" data-throw-if-not-resolved=\"false\"></xref> and <xref href=\"System.IO.Packaging.Package.Dispose(System.Boolean)\" data-throw-if-not-resolved=\"false\"></xref> internally call <xref href=\"System.IO.Packaging.Package.Flush\" data-throw-if-not-resolved=\"false\"></xref>.</p>\n<p>Derived classes that allocate and manage non-memory resources should override this method to release resources when <xref href=\"System.IO.Packaging.Package.Dispose(System.Boolean)\" data-throw-if-not-resolved=\"false\"></xref> is called. Derived-class overrides should also call <xref href=\"System.IO.Packaging.Package.Flush\" data-throw-if-not-resolved=\"false\"></xref> and the base-class <xref href=\"System.IO.Packaging.Package.Dispose(System.Boolean)\" data-throw-if-not-resolved=\"false\"></xref> method to make sure that base-class cleanup is always performed.</p>\n<p>The <strong>using</strong> statement (different from the <strong>using</strong> namespace directive) is the recommended way to <xref href=\"System.IO.Packaging.Package.Close\" data-throw-if-not-resolved=\"false\"></xref> and <xref href=\"System.IO.Packaging.Package.Dispose(System.Boolean)\" data-throw-if-not-resolved=\"false\"></xref> a package. <see href=\"http://go.microsoft.com/fwlink/?LinkID=160055\">Writing a Package Sample</see> shows how to close and dispose a package by using the <strong>using</strong> statement.</p>\n"
+  example:
+  - 
   syntax:
     content: protected virtual void Dispose(bool disposing)
     content.vb: Protected Overridable Sub Dispose(disposing As Boolean)
     parameters:
     - id: disposing
       type: System.Boolean
+      description: "\n<p>\n<strong>true</strong> to release both managed and unmanaged resources; <strong>false</strong> to release only unmanaged resources.</p>\n"
+  seealso:
+  - type: System.IO.Packaging.Package.Flush
+    commentId: M:System.IO.Packaging.Package.Flush
+  - type: System.IO.Packaging.PackagePart
+    commentId: T:System.IO.Packaging.PackagePart
+  - type: System.IO.Packaging.PackageRelationship
+    commentId: T:System.IO.Packaging.PackageRelationship
   modifiers.csharp:
   - protected
   - virtual
@@ -520,18 +800,29 @@ items:
   type: Method
   source:
     remote:
-      path: src/System.IO.Packaging/src/System/IO/Packaging/Package.cs
+      path: src/System.IO.Packaging/ref/System.IO.Packaging.cs
       branch: master
       repo: https://github.com/dotnet/corefx.git
     id: Flush
-    path: src/System.IO.Packaging/src/System/IO/Packaging/Package.cs
-    startLine: 495
+    path: src/System.IO.Packaging/ref/System.IO.Packaging.cs
+    startLine: 52
   assemblies:
   - System.IO.Packaging
   namespace: System.IO.Packaging
+  summary: "\n<p>Saves the contents of all parts and relationships that are contained in the package.</p>\n"
+  remarks: "\n<p>\n<xref href=\"System.IO.Packaging.Package.Flush\" data-throw-if-not-resolved=\"false\"></xref> internally calls the derived class's <xref href=\"System.IO.Packaging.Package.FlushCore\" data-throw-if-not-resolved=\"false\"></xref> implemetation to perform the actual format-specific flush operation.  The derived class's <xref href=\"System.IO.Packaging.Package.FlushCore\" data-throw-if-not-resolved=\"false\"></xref> method is responsible for actually saving the part and relationship content to the specific physical derived class implementation.</p>\n<p>By default, a <xref href=\"System.IO.Packaging.ZipPackage\" data-throw-if-not-resolved=\"false\"></xref> derived implementation of the abstract <xref href=\"System.IO.Packaging.Package\" data-throw-if-not-resolved=\"false\"></xref> base class is provided and used. In the default operation, <xref href=\"System.IO.Packaging.Package.Flush\" data-throw-if-not-resolved=\"false\"></xref> internally calls <xref href=\"System.IO.Packaging.Package.FlushCore\" data-throw-if-not-resolved=\"false\"></xref> to save the parts and relationships in a ZIP file package.</p>\n<p>\n<xref href=\"System.IO.Packaging.Package.Flush\" data-throw-if-not-resolved=\"false\"></xref> is called automatically by the <xref href=\"System.IO.Packaging.Package.Close\" data-throw-if-not-resolved=\"false\"></xref> and <xref href=\"System.IO.Packaging.Package.Dispose(System.Boolean)\" data-throw-if-not-resolved=\"false\"></xref> methods.  When <xref href=\"System.IO.Packaging.Package.Close\" data-throw-if-not-resolved=\"false\"></xref> or <xref href=\"System.IO.Packaging.Package.Dispose(System.Boolean)\" data-throw-if-not-resolved=\"false\"></xref> is called you do not have to call <xref href=\"System.IO.Packaging.Package.Flush\" data-throw-if-not-resolved=\"false\"></xref> separately.</p>\n"
+  example:
+  - 
   syntax:
     content: public void Flush()
     content.vb: Public Sub Flush
+  exceptions:
+  - type: System.ObjectDisposedException
+    commentId: T:System.ObjectDisposedException
+    description: "\n<p>The package is not open (<xref href=\"System.IO.Packaging.Package.Dispose(System.Boolean)\" data-throw-if-not-resolved=\"false\"></xref> or <xref href=\"System.IO.Packaging.Package.Close\" data-throw-if-not-resolved=\"false\"></xref> has been called).</p>\n"
+  - type: System.IO.IOException
+    commentId: T:System.IO.IOException
+    description: "\n<p>The package is read-only and cannot be modified.</p>\n"
   modifiers.csharp:
   - public
   modifiers.vb:
@@ -548,15 +839,19 @@ items:
   type: Method
   source:
     remote:
-      path: src/System.IO.Packaging/src/System/IO/Packaging/Package.cs
+      path: src/System.IO.Packaging/ref/System.IO.Packaging.cs
       branch: master
       repo: https://github.com/dotnet/corefx.git
     id: FlushCore
-    path: src/System.IO.Packaging/src/System/IO/Packaging/Package.cs
-    startLine: 758
+    path: src/System.IO.Packaging/ref/System.IO.Packaging.cs
+    startLine: 53
   assemblies:
   - System.IO.Packaging
   namespace: System.IO.Packaging
+  summary: "\n<p>When overridden in a derived class, saves the content of all parts and relationships to the derived class store.</p>\n"
+  remarks: "\n<p>\n<xref href=\"System.IO.Packaging.Package.FlushCore\" data-throw-if-not-resolved=\"false\"></xref> is called by the <xref href=\"System.IO.Packaging.Package.Flush\" data-throw-if-not-resolved=\"false\"></xref> method to perform the actual flush operation based on the physical format implemented in the derived class.</p>\n"
+  example:
+  - 
   syntax:
     content: protected abstract void FlushCore()
     content.vb: Protected MustOverride Sub FlushCore
@@ -587,14 +882,47 @@ items:
   assemblies:
   - System.IO.Packaging
   namespace: System.IO.Packaging
+  summary: "\n<p>Returns the part with a given URI.</p>\n"
+  remarks: "\n<p>An <xref href=\"System.InvalidOperationException\" data-throw-if-not-resolved=\"false\"></xref> is thrown if a part with the specified <em>partUri</em> does not exist.</p>\n<p>The <xref href=\"System.IO.Packaging.Package.PartExists(System.Uri)\" data-throw-if-not-resolved=\"false\"></xref> method can be used to determine whether <em>partUri</em> references an existing part.</p>\n<p>By default, a <xref href=\"System.IO.Packaging.ZipPackage\" data-throw-if-not-resolved=\"false\"></xref> derived implementation of the abstract <xref href=\"System.IO.Packaging.Package\" data-throw-if-not-resolved=\"false\"></xref> base class is provided and used.  In the default operation, <xref href=\"System.IO.Packaging.Package.GetPart(System.Uri)\" data-throw-if-not-resolved=\"false\"></xref> internally calls <xref href=\"System.IO.Packaging.Package.GetPartCore(System.Uri)\" data-throw-if-not-resolved=\"false\"></xref> of the <xref href=\"System.IO.Packaging.ZipPackage\" data-throw-if-not-resolved=\"false\"></xref> class to return a requested part from a ZIP file.</p>\n<p>For additional information, see the Open Packaging Conventions (OPC) specification available for download at <see href=\"http://go.microsoft.com/fwlink/?LinkID=71255\">http://go.microsoft.com/fwlink/?LinkID=71255</see>.</p>\n"
+  example:
+  - "\n<p>The following example shows how to locate, retrieve, and read parts that are contained in a package.  For the complete sample, see <see href=\"http://go.microsoft.com/fwlink/?LinkID=160034\">Reading a Package Sample</see>.</p>PackageRead#PackageReadUsing"
   syntax:
     content: public PackagePart GetPart(Uri partUri)
     content.vb: Public Function GetPart(partUri As Uri) As PackagePart
     parameters:
     - id: partUri
       type: System.Uri
+      description: "\n<p>The uniform resource identifier (URI) of the part to return.</p>\n"
     return:
       type: System.IO.Packaging.PackagePart
+      description: "\n<p>The part with the specified <em>partUri</em>.</p>\n"
+  exceptions:
+  - type: System.ArgumentNullException
+    commentId: T:System.ArgumentNullException
+    description: "\n<p>\n<em>partUri</em> is <strong>null</strong>.</p>\n"
+  - type: System.ArgumentException
+    commentId: T:System.ArgumentException
+    description: "\n<p>\n<em>partUri</em> is not a valid <xref href=\"System.IO.Packaging.PackagePart\" data-throw-if-not-resolved=\"false\"></xref> uniform resource identifier (URI).</p>\n"
+  - type: System.InvalidOperationException
+    commentId: T:System.InvalidOperationException
+    description: "\n<p>A part with the specified <em>partUri</em> is not in the package.</p>\n"
+  - type: System.ObjectDisposedException
+    commentId: T:System.ObjectDisposedException
+    description: "\n<p>The package is not open (<xref href=\"System.IO.Packaging.Package.Dispose(System.Boolean)\" data-throw-if-not-resolved=\"false\"></xref> or <xref href=\"System.IO.Packaging.Package.Close\" data-throw-if-not-resolved=\"false\"></xref> has been called).</p>\n"
+  - type: System.IO.IOException
+    commentId: T:System.IO.IOException
+    description: "\n<p>The package is write-only.</p>\n"
+  seealso:
+  - type: System.IO.Packaging.Package.GetParts
+    commentId: M:System.IO.Packaging.Package.GetParts
+  - type: System.IO.Packaging.Package.PartExists(System.Uri)
+    commentId: M:System.IO.Packaging.Package.PartExists(System.Uri)
+  - type: System.IO.Packaging.PackUriHelper.CreatePartUri(System.Uri)
+    commentId: M:System.IO.Packaging.PackUriHelper.CreatePartUri(System.Uri)
+  - type: System.IO.Packaging.PackUriHelper.GetPartUri(System.Uri)
+    commentId: M:System.IO.Packaging.PackUriHelper.GetPartUri(System.Uri)
+  - type: System.IO.Packaging.PackUriHelper.ResolvePartUri(System.Uri,System.Uri)
+    commentId: M:System.IO.Packaging.PackUriHelper.ResolvePartUri(System.Uri,System.Uri)
   modifiers.csharp:
   - public
   modifiers.vb:
@@ -620,14 +948,23 @@ items:
   assemblies:
   - System.IO.Packaging
   namespace: System.IO.Packaging
+  summary: "\n<p>When overridden in a derived class, returns the part addressed by a given URI.</p>\n"
+  remarks: "\n<p>By default, a <xref href=\"System.IO.Packaging.ZipPackage\" data-throw-if-not-resolved=\"false\"></xref> derived implementation of the abstract <xref href=\"System.IO.Packaging.Package\" data-throw-if-not-resolved=\"false\"></xref> class is provided and used.  In the default operation, <xref href=\"System.IO.Packaging.Package.GetPart(System.Uri)\" data-throw-if-not-resolved=\"false\"></xref> internally calls <xref href=\"System.IO.Packaging.Package.GetPartCore(System.Uri)\" data-throw-if-not-resolved=\"false\"></xref> of the <xref href=\"System.IO.Packaging.ZipPackage\" data-throw-if-not-resolved=\"false\"></xref> class to retrieve a part from a ZIP file.</p>\n<p>For more information about the package model and package parts, see Chapter 1 of the Open Packaging Conventions (OPC) specification available for download at <see href=\"http://go.microsoft.com/fwlink/?LinkID=71255\">http://go.microsoft.com/fwlink/?LinkID=71255</see>.</p>\n"
+  example:
+  - 
   syntax:
     content: protected abstract PackagePart GetPartCore(Uri partUri)
     content.vb: Protected MustOverride Function GetPartCore(partUri As Uri) As PackagePart
     parameters:
     - id: partUri
       type: System.Uri
+      description: "\n<p>The uniform resource identifier (URI) of the part to retrieve.</p>\n"
     return:
       type: System.IO.Packaging.PackagePart
+      description: "\n<p>The requested part; or <strong>null</strong>, if a part with the specified <em>partUri</em> is not in the package.</p>\n"
+  seealso:
+  - type: System.IO.Packaging.Package.GetPartsCore
+    commentId: M:System.IO.Packaging.Package.GetPartsCore
   modifiers.csharp:
   - protected
   - abstract
@@ -646,20 +983,35 @@ items:
   type: Method
   source:
     remote:
-      path: src/System.IO.Packaging/src/System/IO/Packaging/Package.cs
+      path: src/System.IO.Packaging/ref/System.IO.Packaging.cs
       branch: master
       repo: https://github.com/dotnet/corefx.git
     id: GetParts
-    path: src/System.IO.Packaging/src/System/IO/Packaging/Package.cs
-    startLine: 377
+    path: src/System.IO.Packaging/ref/System.IO.Packaging.cs
+    startLine: 56
   assemblies:
   - System.IO.Packaging
   namespace: System.IO.Packaging
+  summary: "\n<p>Returns a collection of all the parts in the package.</p>\n"
+  remarks: "\n<p>\n<xref href=\"System.IO.Packaging.Package.GetParts\" data-throw-if-not-resolved=\"false\"></xref> returns a collection of all parts that are contained in the package including <xref href=\"System.IO.Packaging.PackageRelationship\" data-throw-if-not-resolved=\"false\"></xref> parts.</p>\n<p>\n<xref href=\"System.IO.Packaging.Package.GetParts\" data-throw-if-not-resolved=\"false\"></xref> will never return <strong>null</strong>; however, the returned collection will contain zero elements if the package contains no parts.</p>\n<p>By default, a <xref href=\"System.IO.Packaging.ZipPackage\" data-throw-if-not-resolved=\"false\"></xref> derived implementation of the abstract <xref href=\"System.IO.Packaging.Package\" data-throw-if-not-resolved=\"false\"></xref> base class is provided and used.  In the default operation, <xref href=\"System.IO.Packaging.Package.GetParts\" data-throw-if-not-resolved=\"false\"></xref> calls the <xref href=\"System.IO.Packaging.Package.GetPartsCore\" data-throw-if-not-resolved=\"false\"></xref> method of the <xref href=\"System.IO.Packaging.ZipPackage\" data-throw-if-not-resolved=\"false\"></xref> class to return the parts from a ZIP file.</p>\n<p>For more information about packages and package parts, see section 1.1 of the Open Packaging Conventions (OPC) specification available for download at <see href=\"http://go.microsoft.com/fwlink/?LinkID=71255\">http://go.microsoft.com/fwlink/?LinkID=71255</see>.</p>\n"
+  example:
+  - "\n<p>The following example shows how to use the <xref href=\"System.IO.Packaging.Package.GetParts\" data-throw-if-not-resolved=\"false\"></xref> method to obtain a collection of the parts that are contained in a <xref href=\"System.IO.Packaging.Package\" data-throw-if-not-resolved=\"false\"></xref>.  For the complete program source code, see <see href=\"http://go.microsoft.com/fwlink/?LinkID=159966\">Creating a Package with a Digital Signature Sample</see>.</p>PackageDigitalSignature#PackageDigSigGetParts"
   syntax:
     content: public PackagePartCollection GetParts()
     content.vb: Public Function GetParts As PackagePartCollection
     return:
       type: System.IO.Packaging.PackagePartCollection
+      description: "\n<p>A collection of all the <xref href=\"System.IO.Packaging.PackagePart\" data-throw-if-not-resolved=\"false\"></xref> elements that are contained in the package.</p>\n"
+  exceptions:
+  - type: System.ObjectDisposedException
+    commentId: T:System.ObjectDisposedException
+    description: "\n<p>The package is not open (<xref href=\"System.IO.Packaging.Package.Dispose(System.Boolean)\" data-throw-if-not-resolved=\"false\"></xref> or <xref href=\"System.IO.Packaging.Package.Close\" data-throw-if-not-resolved=\"false\"></xref> has been called).</p>\n"
+  - type: System.IO.IOException
+    commentId: T:System.IO.IOException
+    description: "\n<p>The package is write-only.</p>\n"
+  seealso:
+  - type: System.IO.Packaging.Package.GetPart(System.Uri)
+    commentId: M:System.IO.Packaging.Package.GetPart(System.Uri)
   modifiers.csharp:
   - public
   modifiers.vb:
@@ -676,20 +1028,28 @@ items:
   type: Method
   source:
     remote:
-      path: src/System.IO.Packaging/src/System/IO/Packaging/Package.cs
+      path: src/System.IO.Packaging/ref/System.IO.Packaging.cs
       branch: master
       repo: https://github.com/dotnet/corefx.git
     id: GetPartsCore
-    path: src/System.IO.Packaging/src/System/IO/Packaging/Package.cs
-    startLine: 721
+    path: src/System.IO.Packaging/ref/System.IO.Packaging.cs
+    startLine: 57
   assemblies:
   - System.IO.Packaging
   namespace: System.IO.Packaging
+  summary: "\n<p>When overridden in a derived class, returns an array of all the parts in the package. </p>\n"
+  remarks: "\n<p>The derived class <xref href=\"System.IO.Packaging.Package.GetPartsCore\" data-throw-if-not-resolved=\"false\"></xref> implementation is called by the <xref href=\"System.IO.Packaging.Package.GetParts\" data-throw-if-not-resolved=\"false\"></xref> method to access and return the array of parts based on the physical format implemented in the derived class.</p>\n<p>By default, a <xref href=\"System.IO.Packaging.ZipPackage\" data-throw-if-not-resolved=\"false\"></xref> derived implementation of the abstract <xref href=\"System.IO.Packaging.Package\" data-throw-if-not-resolved=\"false\"></xref> class is provided and used.  In the default operation, <xref href=\"System.IO.Packaging.Package.GetParts\" data-throw-if-not-resolved=\"false\"></xref> internally calls <xref href=\"System.IO.Packaging.Package.GetPartCore(System.Uri)\" data-throw-if-not-resolved=\"false\"></xref> of the <xref href=\"System.IO.Packaging.ZipPackage\" data-throw-if-not-resolved=\"false\"></xref> class to retrieve the parts from a ZIP file.</p>\n<p>For more information about the package model and package parts, see Chapter 1 of the Open Packaging Conventions (OPC) specification available for download at <see href=\"http://go.microsoft.com/fwlink/?LinkID=71255\">http://go.microsoft.com/fwlink/?LinkID=71255</see>.</p>\n"
+  example:
+  - 
   syntax:
     content: protected abstract PackagePart[] GetPartsCore()
     content.vb: Protected MustOverride Function GetPartsCore As PackagePart()
     return:
       type: System.IO.Packaging.PackagePart[]
+      description: "\n<p>An array of all the parts that are contained in the package.</p>\n"
+  seealso:
+  - type: System.IO.Packaging.Package.GetPartCore(System.Uri)
+    commentId: M:System.IO.Packaging.Package.GetPartCore(System.Uri)
   modifiers.csharp:
   - protected
   - abstract
@@ -708,25 +1068,54 @@ items:
   type: Method
   source:
     remote:
-      path: src/System.IO.Packaging/src/System/IO/Packaging/Package.cs
+      path: src/System.IO.Packaging/ref/System.IO.Packaging.cs
       branch: master
       repo: https://github.com/dotnet/corefx.git
     id: GetRelationship
-    path: src/System.IO.Packaging/src/System/IO/Packaging/Package.cs
-    startLine: 648
+    path: src/System.IO.Packaging/ref/System.IO.Packaging.cs
+    startLine: 58
   assemblies:
   - System.IO.Packaging
   namespace: System.IO.Packaging
+  summary: "\n<p>Returns the package-level relationship with a given identifier.</p>\n"
+  remarks: "\n<p>\n<em>id</em> must be a valid XML identifier.  The <em>id</em> type is xsd:ID and must follow the naming conventions prescribed in the XML Schema Part 2: Datatypes specification (see <see href=\"http://www.w3.org/TR/xmlschema-2/#ID\">http://www.w3.org/TR/xmlschema-2/#ID</see>).</p>\n<p>For additional information about packaging and package relationships, see section 1.3 of the Open Packaging Conventions (OPC) specification available for download at <see href=\"http://go.microsoft.com/fwlink/?LinkID=71255\">http://go.microsoft.com/fwlink/?LinkID=71255</see>.</p>\n"
+  example:
+  - 
   syntax:
     content: public PackageRelationship GetRelationship(string id)
     content.vb: Public Function GetRelationship(id As String) As PackageRelationship
     parameters:
     - id: id
       type: System.String
-      description: The relationship ID.
+      description: "\n<p>The <xref href=\"System.IO.Packaging.PackageRelationship.Id\" data-throw-if-not-resolved=\"false\"></xref> of the relationship to return.</p>\n"
     return:
       type: System.IO.Packaging.PackageRelationship
-      description: The relationship with ID 'id' or throw an exception if not found.
+      description: "\n<p>The package-level relationship with the specified <em>id</em>.</p>\n"
+  exceptions:
+  - type: System.ArgumentNullException
+    commentId: T:System.ArgumentNullException
+    description: "\n<p>\n<em>id</em> is <strong>null</strong>.</p>\n"
+  - type: System.Xml.XmlException
+    commentId: T:System.Xml.XmlException
+    description: "\n<p>\n<em>id</em> is not a valid XML identifier.</p>\n"
+  - type: System.InvalidOperationException
+    commentId: T:System.InvalidOperationException
+    description: "\n<p>A relationship with the specified <em>id</em> is not in the package.</p>\n"
+  - type: System.ObjectDisposedException
+    commentId: T:System.ObjectDisposedException
+    description: "\n<p>The package is not open (<xref href=\"System.IO.Packaging.Package.Dispose(System.Boolean)\" data-throw-if-not-resolved=\"false\"></xref> or <xref href=\"System.IO.Packaging.Package.Close\" data-throw-if-not-resolved=\"false\"></xref> has been called).</p>\n"
+  - type: System.IO.IOException
+    commentId: T:System.IO.IOException
+    description: "\n<p>The package is write-only.</p>\n"
+  seealso:
+  - type: System.IO.Packaging.Package.GetRelationships
+    commentId: M:System.IO.Packaging.Package.GetRelationships
+  - type: System.IO.Packaging.Package.GetRelationshipsByType(System.String)
+    commentId: M:System.IO.Packaging.Package.GetRelationshipsByType(System.String)
+  - type: System.IO.Packaging.Package.CreateRelationship(System.Uri,System.IO.Packaging.TargetMode,System.String)
+    commentId: M:System.IO.Packaging.Package.CreateRelationship(System.Uri,System.IO.Packaging.TargetMode,System.String)
+  - type: System.IO.Packaging.Package.DeleteRelationship(System.String)
+    commentId: M:System.IO.Packaging.Package.DeleteRelationship(System.String)
   modifiers.csharp:
   - public
   modifiers.vb:
@@ -743,20 +1132,41 @@ items:
   type: Method
   source:
     remote:
-      path: src/System.IO.Packaging/src/System/IO/Packaging/Package.cs
+      path: src/System.IO.Packaging/ref/System.IO.Packaging.cs
       branch: master
       repo: https://github.com/dotnet/corefx.git
     id: GetRelationships
-    path: src/System.IO.Packaging/src/System/IO/Packaging/Package.cs
-    startLine: 605
+    path: src/System.IO.Packaging/ref/System.IO.Packaging.cs
+    startLine: 59
   assemblies:
   - System.IO.Packaging
   namespace: System.IO.Packaging
+  summary: "\n<p>Returns a collection of all the package-level relationships.</p>\n"
+  remarks: "\n<p>\n<xref href=\"System.IO.Packaging.Package.GetRelationships\" data-throw-if-not-resolved=\"false\"></xref> will never return <strong>null</strong>; however the returned collection may contain zero elements if the package contains no package-level relationships.</p>\n<p>A package-level relationship defines an association between the package and an associated target part or resource.  A package-level relationship can be one of two forms.</p>\n<ul><li>\n<p>Between a <xref href=\"System.IO.Packaging.Package\" data-throw-if-not-resolved=\"false\"></xref> to a target part in the package.</p>\n</li><li>\n<p>Between a <xref href=\"System.IO.Packaging.Package\" data-throw-if-not-resolved=\"false\"></xref> to a target resource outside the package.</p>\n</li></ul>\n<p>In a package-relationship the package is considered the \"owner\" of the relationship.  When the package is deleted, all the relationships owned by the package are also deleted.  The process of creating or deleting the relationship does not physically alter the target part or resource in any way.</p>\n<p>For additional information about packaging and package relationships, see section 1.3 of the Open Packaging Conventions (OPC) specification available for download at <see href=\"http://go.microsoft.com/fwlink/?LinkID=71255\">http://go.microsoft.com/fwlink/?LinkID=71255</see>.</p>\n"
+  example:
+  - 
   syntax:
     content: public PackageRelationshipCollection GetRelationships()
     content.vb: Public Function GetRelationships As PackageRelationshipCollection
     return:
       type: System.IO.Packaging.PackageRelationshipCollection
+      description: "\n<p>A collection of all the package-level relationships that are contained in the package.</p>\n"
+  exceptions:
+  - type: System.ObjectDisposedException
+    commentId: T:System.ObjectDisposedException
+    description: "\n<p>The package is not open (<xref href=\"System.IO.Packaging.Package.Dispose(System.Boolean)\" data-throw-if-not-resolved=\"false\"></xref> or <xref href=\"System.IO.Packaging.Package.Close\" data-throw-if-not-resolved=\"false\"></xref> has been called).</p>\n"
+  - type: System.IO.IOException
+    commentId: T:System.IO.IOException
+    description: "\n<p>The package is write-only.</p>\n"
+  seealso:
+  - type: System.IO.Packaging.Package.GetRelationship(System.String)
+    commentId: M:System.IO.Packaging.Package.GetRelationship(System.String)
+  - type: System.IO.Packaging.Package.GetRelationshipsByType(System.String)
+    commentId: M:System.IO.Packaging.Package.GetRelationshipsByType(System.String)
+  - type: System.IO.Packaging.Package.CreateRelationship(System.Uri,System.IO.Packaging.TargetMode,System.String)
+    commentId: M:System.IO.Packaging.Package.CreateRelationship(System.Uri,System.IO.Packaging.TargetMode,System.String)
+  - type: System.IO.Packaging.Package.DeleteRelationship(System.String)
+    commentId: M:System.IO.Packaging.Package.DeleteRelationship(System.String)
   modifiers.csharp:
   - public
   modifiers.vb:
@@ -773,23 +1183,51 @@ items:
   type: Method
   source:
     remote:
-      path: src/System.IO.Packaging/src/System/IO/Packaging/Package.cs
+      path: src/System.IO.Packaging/ref/System.IO.Packaging.cs
       branch: master
       repo: https://github.com/dotnet/corefx.git
     id: GetRelationshipsByType
-    path: src/System.IO.Packaging/src/System/IO/Packaging/Package.cs
-    startLine: 623
+    path: src/System.IO.Packaging/ref/System.IO.Packaging.cs
+    startLine: 60
   assemblies:
   - System.IO.Packaging
   namespace: System.IO.Packaging
+  summary: "\n<p>Returns a collection of all the package-level relationships that match a given <xref href=\"System.IO.Packaging.PackageRelationship.RelationshipType\" data-throw-if-not-resolved=\"false\"></xref>. </p>\n"
+  remarks: "\n<p>\n<xref href=\"System.IO.Packaging.Package.GetRelationships\" data-throw-if-not-resolved=\"false\"></xref> will never return <strong>null</strong>; however the returned collection may contain zero elements if there are no package-level relationships that match the specified <em>relationshipType</em>.</p>\n<p>The following table shows the package-level <em>relationshipType</em> URIs defined by the Open Packaging Conventions (OPC) specification.</p>\n<p>Package-level Relationship</p>\n<p>Relationship Type URI</p>\n<table><tbody><tr><td>\n<p>Core Properties</p>\n</td><td>\n<p>http://schemas.openxmlformats.org/package/2006/relationships/meta data/core-properties</p>\n</td></tr><tr><td>\n<p>Digital Signature</p>\n</td><td>\n<p>http://schemas.openxmlformats.org/package/2006/relationships/digit al-signature/signature</p>\n</td></tr><tr><td>\n<p>Digital Signature Certificate</p>\n</td><td>\n<p>http://schemas.openxmlformats.org/package/2006/relationships/digit al-signature/certificate</p>\n</td></tr><tr><td>\n<p>Digital Signature Origin</p>\n</td><td>\n<p>http://schemas.openxmlformats.org/package/2006/relationships/digit al-signature/origin</p>\n</td></tr><tr><td>\n<p>Thumbnail</p>\n</td><td>\n<p>http://schemas.openxmlformats.org/package/2006/relationships/meta data/thumbnail</p>\n</td></tr></tbody></table>\n<p>For additional information, see the Open Packaging Conventions (OPC) specification available for download at <see href=\"http://go.microsoft.com/fwlink/?LinkID=71255\">http://go.microsoft.com/fwlink/?LinkID=71255</see>.</p>\n"
+  example:
+  - "\n<p>The following example shows how to retrieve the relationships that have been defined for the package.  For the complete sample, see <see href=\"http://go.microsoft.com/fwlink/?LinkID=160034\">Reading a Package Sample</see>.</p>PackageRead#PackageReadUsing"
   syntax:
     content: public PackageRelationshipCollection GetRelationshipsByType(string relationshipType)
     content.vb: Public Function GetRelationshipsByType(relationshipType As String) As PackageRelationshipCollection
     parameters:
     - id: relationshipType
       type: System.String
+      description: "\n<p>The <xref href=\"System.IO.Packaging.PackageRelationship.RelationshipType\" data-throw-if-not-resolved=\"false\"></xref>  to match and return in the collection.</p>\n"
     return:
       type: System.IO.Packaging.PackageRelationshipCollection
+      description: "\n<p>A collection of package-level relationships that match the specified <em>relationshipType</em>.</p>\n"
+  exceptions:
+  - type: System.ArgumentNullException
+    commentId: T:System.ArgumentNullException
+    description: "\n<p>\n<em>relationshipType</em> is <strong>null</strong>.</p>\n"
+  - type: System.ArgumentException
+    commentId: T:System.ArgumentException
+    description: "\n<p>\n<em>relationshipType</em> is an empty string.</p>\n"
+  - type: System.ObjectDisposedException
+    commentId: T:System.ObjectDisposedException
+    description: "\n<p>The package is not open (<xref href=\"System.IO.Packaging.Package.Dispose(System.Boolean)\" data-throw-if-not-resolved=\"false\"></xref> or <xref href=\"System.IO.Packaging.Package.Close\" data-throw-if-not-resolved=\"false\"></xref> has been called).</p>\n"
+  - type: System.IO.IOException
+    commentId: T:System.IO.IOException
+    description: "\n<p>The package is write-only.</p>\n"
+  seealso:
+  - type: System.IO.Packaging.Package.GetRelationship(System.String)
+    commentId: M:System.IO.Packaging.Package.GetRelationship(System.String)
+  - type: System.IO.Packaging.Package.GetRelationships
+    commentId: M:System.IO.Packaging.Package.GetRelationships
+  - type: System.IO.Packaging.Package.CreateRelationship(System.Uri,System.IO.Packaging.TargetMode,System.String)
+    commentId: M:System.IO.Packaging.Package.CreateRelationship(System.Uri,System.IO.Packaging.TargetMode,System.String)
+  - type: System.IO.Packaging.Package.DeleteRelationship(System.String)
+    commentId: M:System.IO.Packaging.Package.DeleteRelationship(System.String)
   modifiers.csharp:
   - public
   modifiers.vb:
@@ -815,14 +1253,27 @@ items:
   assemblies:
   - System.IO.Packaging
   namespace: System.IO.Packaging
+  summary: "\n<p>Opens a package on a given IO stream.</p>\n"
+  remarks: "\n<p>\n<xref href=\"System.IO.Packaging.ZipPackage\" data-throw-if-not-resolved=\"false\"></xref> is the default package type that is used by the <xref href=\"System.IO.Packaging.Package.Open(System.IO.Stream)\" data-throw-if-not-resolved=\"false\"></xref> method.</p>\n<p>For additional information, see the Open Packaging Conventions (OPC) specification available for download at <see href=\"http://go.microsoft.com/fwlink/?LinkID=71255\">http://go.microsoft.com/fwlink/?LinkID=71255</see>.</p>\n"
+  example:
+  - 
   syntax:
     content: public static Package Open(Stream stream)
     content.vb: Public Shared Function Open(stream As Stream) As Package
     parameters:
     - id: stream
       type: System.IO.Stream
+      description: "\n<p>The IO stream on which to open the package.</p>\n"
     return:
       type: System.IO.Packaging.Package
+      description: "\n<p>The opened package.</p>\n"
+  exceptions:
+  - type: System.ArgumentNullException
+    commentId: T:System.ArgumentNullException
+    description: "\n<p>\n<em>stream</em> is <strong>null</strong>.</p>\n"
+  - type: System.IO.IOException
+    commentId: T:System.IO.IOException
+    description: "\n<p>The package to open requires read or read/write permission and the specified <em>stream</em> is write-only; or, the package to open requires write or read/write permission and the specified <em>stream</em> is read-only.</p>\n"
   modifiers.csharp:
   - public
   - static
@@ -850,16 +1301,33 @@ items:
   assemblies:
   - System.IO.Packaging
   namespace: System.IO.Packaging
+  summary: "\n<p>Opens a package with a given IO stream and file mode.</p>\n"
+  remarks: "\n<p>\n<xref href=\"System.IO.Packaging.ZipPackage\" data-throw-if-not-resolved=\"false\"></xref> is the default package type that is used by the <xref href=\"System.IO.Packaging.Package.Open(System.IO.Stream,System.IO.FileMode)\" data-throw-if-not-resolved=\"false\"></xref> method.</p>\n<p>For additional information, see the Open Packaging Conventions (OPC) specification available for download at <see href=\"http://go.microsoft.com/fwlink/?LinkID=71255\">http://go.microsoft.com/fwlink/?LinkID=71255</see>.</p>\n"
+  example:
+  - 
   syntax:
     content: public static Package Open(Stream stream, FileMode packageMode)
     content.vb: Public Shared Function Open(stream As Stream, packageMode As FileMode) As Package
     parameters:
     - id: stream
       type: System.IO.Stream
+      description: "\n<p>The IO stream on which to open the package.</p>\n"
     - id: packageMode
       type: System.IO.FileMode
+      description: "\n<p>The file mode in which to open the package.</p>\n"
     return:
       type: System.IO.Packaging.Package
+      description: "\n<p>The opened package.</p>\n"
+  exceptions:
+  - type: System.ArgumentNullException
+    commentId: T:System.ArgumentNullException
+    description: "\n<p>\n<em>stream</em> is <strong>null</strong>.</p>\n"
+  - type: System.ArgumentOutOfRangeException
+    commentId: T:System.ArgumentOutOfRangeException
+    description: "\n<p>\n<em>packageMode</em> value is not valid.</p>\n"
+  - type: System.IO.IOException
+    commentId: T:System.IO.IOException
+    description: "\n<p>The package to open requires read or read/write permission and the specified <em>stream</em> is write-only; or, the package to open requires write or read/write permission and the specified <em>stream</em> is read-only.</p>\n"
   modifiers.csharp:
   - public
   - static
@@ -887,18 +1355,36 @@ items:
   assemblies:
   - System.IO.Packaging
   namespace: System.IO.Packaging
+  summary: "\n<p>Opens a package with a given IO stream, file mode, and file access setting.</p>\n"
+  remarks: "\n<p>\n<xref href=\"System.IO.Packaging.ZipPackage\" data-throw-if-not-resolved=\"false\"></xref> is the default package type that is used by the <xref href=\"System.IO.Packaging.Package.Open(System.IO.Stream,System.IO.FileMode,System.IO.FileAccess)\" data-throw-if-not-resolved=\"false\"></xref> method.</p>\n<p>For additional information, see the Open Packaging Conventions (OPC) specification available for download at <see href=\"http://go.microsoft.com/fwlink/?LinkID=71255\">http://go.microsoft.com/fwlink/?LinkID=71255</see>.</p>\n"
+  example:
+  - 
   syntax:
     content: public static Package Open(Stream stream, FileMode packageMode, FileAccess packageAccess)
     content.vb: Public Shared Function Open(stream As Stream, packageMode As FileMode, packageAccess As FileAccess) As Package
     parameters:
     - id: stream
       type: System.IO.Stream
+      description: "\n<p>The IO stream on which to open the package.</p>\n"
     - id: packageMode
       type: System.IO.FileMode
+      description: "\n<p>The file mode in which to open the package.</p>\n"
     - id: packageAccess
       type: System.IO.FileAccess
+      description: "\n<p>The file access in which to open the package.</p>\n"
     return:
       type: System.IO.Packaging.Package
+      description: "\n<p>The opened package.</p>\n"
+  exceptions:
+  - type: System.ArgumentNullException
+    commentId: T:System.ArgumentNullException
+    description: "\n<p>\n<em>stream</em> is <strong>null</strong>.</p>\n"
+  - type: System.ArgumentOutOfRangeException
+    commentId: T:System.ArgumentOutOfRangeException
+    description: "\n<p>The value for <em>packageMode</em> or <em>packageAccess</em> is not valid.</p>\n"
+  - type: System.IO.IOException
+    commentId: T:System.IO.IOException
+    description: "\n<p>The package to open requires read or read/write permission and the specified <em>stream</em> is write-only; or the package to open requires write or read/write permission and the specified <em>stream</em> is read-only.</p>\n"
   modifiers.csharp:
   - public
   - static
@@ -917,25 +1403,33 @@ items:
   type: Method
   source:
     remote:
-      path: src/System.IO.Packaging/src/System/IO/Packaging/Package.cs
+      path: src/System.IO.Packaging/ref/System.IO.Packaging.cs
       branch: master
       repo: https://github.com/dotnet/corefx.git
     id: Open
-    path: src/System.IO.Packaging/src/System/IO/Packaging/Package.cs
-    startLine: 93
+    path: src/System.IO.Packaging/ref/System.IO.Packaging.cs
+    startLine: 64
   assemblies:
   - System.IO.Packaging
   namespace: System.IO.Packaging
+  summary: "\n<p>Opens a package at a given path and file name.</p>\n"
+  remarks: "\n<p>\n<xref href=\"System.IO.Packaging.ZipPackage\" data-throw-if-not-resolved=\"false\"></xref> is the default package type that is used by the <xref href=\"System.IO.Packaging.Package.Open(System.String)\" data-throw-if-not-resolved=\"false\"></xref> method.</p>\n<p>This <xref href=\"System.IO.Packaging.Package.Open(System.IO.Stream)\" data-throw-if-not-resolved=\"false\"></xref> method opens the package with default attributes <xref href=\"System.IO.FileMode.OpenOrCreate\" data-throw-if-not-resolved=\"false\"></xref>, <xref href=\"System.IO.FileAccess.ReadWrite\" data-throw-if-not-resolved=\"false\"></xref>, and <xref href=\"System.IO.FileShare.None\" data-throw-if-not-resolved=\"false\"></xref> (to specify different attributes use one of the other Open method overloads).</p>\n<p>For additional information, see the Open Packaging Conventions (OPC) specification available for download at <see href=\"http://go.microsoft.com/fwlink/?LinkID=71255\">http://go.microsoft.com/fwlink/?LinkID=71255</see>.</p>\n"
+  example:
+  - "\n<p>The following example shows how to create a new <xref href=\"System.IO.Packaging.Package\" data-throw-if-not-resolved=\"false\"></xref> that incorporates <xref href=\"System.IO.Packaging.PackageRelationship\" data-throw-if-not-resolved=\"false\"></xref> and <xref href=\"System.IO.Packaging.PackagePart\" data-throw-if-not-resolved=\"false\"></xref> elements together with stored data.  For the complete sample, see <see href=\"http://go.microsoft.com/fwlink/?LinkID=160055\">Writing a Package Sample</see>.</p>PackageWrite#PackageWriteCreatePackage"
   syntax:
     content: public static Package Open(string path)
     content.vb: Public Shared Function Open(path As String) As Package
     parameters:
     - id: path
       type: System.String
-      description: Path to the package
+      description: "\n<p>The path and file name of the package.</p>\n"
     return:
       type: System.IO.Packaging.Package
-      description: Package
+      description: "\n<p>The opened package.</p>\n"
+  exceptions:
+  - type: System.ArgumentNullException
+    commentId: T:System.ArgumentNullException
+    description: "\n<p>\n<em>path</em> is <strong>null</strong>.</p>\n"
   modifiers.csharp:
   - public
   - static
@@ -963,16 +1457,30 @@ items:
   assemblies:
   - System.IO.Packaging
   namespace: System.IO.Packaging
+  summary: "\n<p>Opens a package at a given path using a given file mode. </p>\n"
+  remarks: "\n<p>\n<xref href=\"System.IO.Packaging.ZipPackage\" data-throw-if-not-resolved=\"false\"></xref> is the default package type that is used by the <xref href=\"System.IO.Packaging.Package.Open(System.String,System.IO.FileMode)\" data-throw-if-not-resolved=\"false\"></xref> method.</p>\n<p>This <xref href=\"System.IO.Packaging.Package.Open(System.String,System.IO.FileMode)\" data-throw-if-not-resolved=\"false\"></xref> method opens the package with default attributes <xref href=\"System.IO.FileAccess.ReadWrite\" data-throw-if-not-resolved=\"false\"></xref> and <xref href=\"System.IO.FileShare.None\" data-throw-if-not-resolved=\"false\"></xref> (to specify different attributes use one of the other Open method overloads).</p>\n<p>For additional information, see the Open Packaging Conventions (OPC) specification available for download at <see href=\"http://go.microsoft.com/fwlink/?LinkID=71255\">http://go.microsoft.com/fwlink/?LinkID=71255</see>.</p>\n"
+  example:
+  - "\n<p>The following example shows how to create a new <xref href=\"System.IO.Packaging.Package\" data-throw-if-not-resolved=\"false\"></xref> that incorporates <xref href=\"System.IO.Packaging.PackageRelationship\" data-throw-if-not-resolved=\"false\"></xref> and <xref href=\"System.IO.Packaging.PackagePart\" data-throw-if-not-resolved=\"false\"></xref> elements together with stored data.  For the complete sample, see <see href=\"http://go.microsoft.com/fwlink/?LinkID=160055\">Writing a Package Sample</see>.</p>PackageWrite#PackageWriteCreatePackage"
   syntax:
     content: public static Package Open(string path, FileMode packageMode)
     content.vb: Public Shared Function Open(path As String, packageMode As FileMode) As Package
     parameters:
     - id: path
       type: System.String
+      description: "\n<p>The path and file name of the package.</p>\n"
     - id: packageMode
       type: System.IO.FileMode
+      description: "\n<p>The file mode in which to open the package.</p>\n"
     return:
       type: System.IO.Packaging.Package
+      description: "\n<p>The opened package.</p>\n"
+  exceptions:
+  - type: System.ArgumentNullException
+    commentId: T:System.ArgumentNullException
+    description: "\n<p>\n<em>path</em> is <strong>null</strong>.</p>\n"
+  - type: System.ArgumentOutOfRangeException
+    commentId: T:System.ArgumentOutOfRangeException
+    description: "\n<p>Value for <em>packageMode</em> is not valid.</p>\n"
   modifiers.csharp:
   - public
   - static
@@ -1000,18 +1508,33 @@ items:
   assemblies:
   - System.IO.Packaging
   namespace: System.IO.Packaging
+  summary: "\n<p>Opens a package at a given path using a given file mode and file access setting.</p>\n"
+  remarks: "\n<p>\n<xref href=\"System.IO.Packaging.ZipPackage\" data-throw-if-not-resolved=\"false\"></xref> is the default package type that is used by the <xref href=\"System.IO.Packaging.Package.Open(System.String,System.IO.FileMode,System.IO.FileAccess)\" data-throw-if-not-resolved=\"false\"></xref> method.</p>\n<p>This <xref href=\"System.IO.Packaging.Package.Open(System.String,System.IO.FileMode,System.IO.FileAccess)\" data-throw-if-not-resolved=\"false\"></xref> method opens the package with a default <xref href=\"System.IO.FileShare.None\" data-throw-if-not-resolved=\"false\"></xref> attribute (to specify a different attribute use the <xref href=\"System.IO.Packaging.Package.Open(System.String,System.IO.FileMode,System.IO.FileAccess,System.IO.FileShare)\" data-throw-if-not-resolved=\"false\"></xref> method overload).</p>\n<p>For additional information, see the Open Packaging Conventions (OPC) specification available for download at <see href=\"http://go.microsoft.com/fwlink/?LinkID=71255\">http://go.microsoft.com/fwlink/?LinkID=71255</see>.</p>\n"
+  example:
+  - "\n<p>The following example shows how to open and read a <xref href=\"System.IO.Packaging.Package\" data-throw-if-not-resolved=\"false\"></xref> that contains <xref href=\"System.IO.Packaging.PackageRelationship\" data-throw-if-not-resolved=\"false\"></xref> and <xref href=\"System.IO.Packaging.PackagePart\" data-throw-if-not-resolved=\"false\"></xref> elements together with stored data.  For the complete sample, see <see href=\"http://go.microsoft.com/fwlink/?LinkID=160034\">Reading a Package Sample</see>.</p>PackageRead#PackageReadUsing"
   syntax:
     content: public static Package Open(string path, FileMode packageMode, FileAccess packageAccess)
     content.vb: Public Shared Function Open(path As String, packageMode As FileMode, packageAccess As FileAccess) As Package
     parameters:
     - id: path
       type: System.String
+      description: "\n<p>The path and file name of the package.</p>\n"
     - id: packageMode
       type: System.IO.FileMode
+      description: "\n<p>The file mode in which to open the package.</p>\n"
     - id: packageAccess
       type: System.IO.FileAccess
+      description: "\n<p>The file access in which to open the package.</p>\n"
     return:
       type: System.IO.Packaging.Package
+      description: "\n<p>The opened package.</p>\n"
+  exceptions:
+  - type: System.ArgumentNullException
+    commentId: T:System.ArgumentNullException
+    description: "\n<p>\n<em>path</em> is <strong>null</strong>.</p>\n"
+  - type: System.ArgumentOutOfRangeException
+    commentId: T:System.ArgumentOutOfRangeException
+    description: "\n<p>Value for <em>packageMode</em> or <em>packageAccess</em> is not valid.</p>\n"
   modifiers.csharp:
   - public
   - static
@@ -1039,20 +1562,36 @@ items:
   assemblies:
   - System.IO.Packaging
   namespace: System.IO.Packaging
+  summary: "\n<p>Opens a package at a given path using a given file mode, file access, and file share setting.</p>\n"
+  remarks: "\n<p>\n<xref href=\"System.IO.Packaging.ZipPackage\" data-throw-if-not-resolved=\"false\"></xref> is the default package type that is used by the <xref href=\"System.IO.Packaging.Package.Open(System.String,System.IO.FileMode,System.IO.FileAccess,System.IO.FileShare)\" data-throw-if-not-resolved=\"false\"></xref> method.</p>\n<p>For additional information, see the Open Packaging Conventions (OPC) specification available for download at <see href=\"http://go.microsoft.com/fwlink/?LinkID=71255\">http://go.microsoft.com/fwlink/?LinkID=71255</see>.</p>\n"
+  example:
+  - "\n<p>The following example shows how to create a new <xref href=\"System.IO.Packaging.Package\" data-throw-if-not-resolved=\"false\"></xref> that incorporates <xref href=\"System.IO.Packaging.PackageRelationship\" data-throw-if-not-resolved=\"false\"></xref> and <xref href=\"System.IO.Packaging.PackagePart\" data-throw-if-not-resolved=\"false\"></xref> elements together with stored data.  For the complete sample, see <see href=\"http://go.microsoft.com/fwlink/?LinkID=160055\">Writing a Package Sample</see>.</p>PackageWrite#PackageWriteCreatePackage"
   syntax:
     content: public static Package Open(string path, FileMode packageMode, FileAccess packageAccess, FileShare packageShare)
     content.vb: Public Shared Function Open(path As String, packageMode As FileMode, packageAccess As FileAccess, packageShare As FileShare) As Package
     parameters:
     - id: path
       type: System.String
+      description: "\n<p>The path and file name of the package.</p>\n"
     - id: packageMode
       type: System.IO.FileMode
+      description: "\n<p>The file mode in which to open the package.</p>\n"
     - id: packageAccess
       type: System.IO.FileAccess
+      description: "\n<p>The file access in which to open the package.</p>\n"
     - id: packageShare
       type: System.IO.FileShare
+      description: "\n<p>The file sharing mode in which to open the package.</p>\n"
     return:
       type: System.IO.Packaging.Package
+      description: "\n<p>The opened package.</p>\n"
+  exceptions:
+  - type: System.ArgumentNullException
+    commentId: T:System.ArgumentNullException
+    description: "\n<p>\n<em>path</em> is <strong>null</strong>.</p>\n"
+  - type: System.ArgumentOutOfRangeException
+    commentId: T:System.ArgumentOutOfRangeException
+    description: "\n<p>The value for <em>packageMode</em>, <em>packageAccess</em>, or <em>packageShare</em> is not valid.</p>\n"
   modifiers.csharp:
   - public
   - static
@@ -1080,14 +1619,42 @@ items:
   assemblies:
   - System.IO.Packaging
   namespace: System.IO.Packaging
+  summary: "\n<p>Indicates whether a part with a given URI is in the package.</p>\n"
+  remarks: "\n<p>The <em>partUri</em> should begin with a forward-slash character \"/\" and be absolute from the root of the package.</p>\n<p>For additional information, see the Open Packaging Conventions (OPC) specification available for download at <see href=\"http://go.microsoft.com/fwlink/?LinkID=71255\">http://go.microsoft.com/fwlink/?LinkID=71255</see>.</p>\n"
+  example:
+  - 
   syntax:
     content: public virtual bool PartExists(Uri partUri)
     content.vb: Public Overridable Function PartExists(partUri As Uri) As Boolean
     parameters:
     - id: partUri
       type: System.Uri
+      description: "\n<p>The <xref href=\"System.Uri\" data-throw-if-not-resolved=\"false\"></xref> of the part to check for.</p>\n"
     return:
       type: System.Boolean
+      description: "\n<p>\n<strong>true</strong> if a part with the specified <em>partUri</em> is in the package; otherwise, <strong>false</strong>.</p>\n"
+  exceptions:
+  - type: System.ArgumentNullException
+    commentId: T:System.ArgumentNullException
+    description: "\n<p>\n<em>partUri</em> is <strong>null</strong>.</p>\n"
+  - type: System.ArgumentException
+    commentId: T:System.ArgumentException
+    description: "\n<p>\n<em>partUri</em> is not a valid <xref href=\"System.IO.Packaging.PackagePart\" data-throw-if-not-resolved=\"false\"></xref> uniform resource identifier (URI).</p>\n"
+  - type: System.ObjectDisposedException
+    commentId: T:System.ObjectDisposedException
+    description: "\n<p>The package is not open (<xref href=\"System.IO.Packaging.Package.Dispose(System.Boolean)\" data-throw-if-not-resolved=\"false\"></xref> or <xref href=\"System.IO.Packaging.Package.Close\" data-throw-if-not-resolved=\"false\"></xref> has been called).</p>\n"
+  - type: System.IO.IOException
+    commentId: T:System.IO.IOException
+    description: "\n<p>The package is write-only (information cannot be read).</p>\n"
+  seealso:
+  - type: System.IO.Packaging.PackUriHelper.CreatePartUri(System.Uri)
+    commentId: M:System.IO.Packaging.PackUriHelper.CreatePartUri(System.Uri)
+  - type: System.IO.Packaging.PackUriHelper.GetPartUri(System.Uri)
+    commentId: M:System.IO.Packaging.PackUriHelper.GetPartUri(System.Uri)
+  - type: System.IO.Packaging.PackUriHelper.ResolvePartUri(System.Uri,System.Uri)
+    commentId: M:System.IO.Packaging.PackUriHelper.ResolvePartUri(System.Uri,System.Uri)
+  - type: System.IO.Packaging.PackagePart
+    commentId: T:System.IO.Packaging.PackagePart
   modifiers.csharp:
   - public
   - virtual
@@ -1106,29 +1673,80 @@ items:
   type: Method
   source:
     remote:
-      path: src/System.IO.Packaging/src/System/IO/Packaging/Package.cs
+      path: src/System.IO.Packaging/ref/System.IO.Packaging.cs
       branch: master
       repo: https://github.com/dotnet/corefx.git
     id: RelationshipExists
-    path: src/System.IO.Packaging/src/System/IO/Packaging/Package.cs
-    startLine: 669
+    path: src/System.IO.Packaging/ref/System.IO.Packaging.cs
+    startLine: 69
   assemblies:
   - System.IO.Packaging
   namespace: System.IO.Packaging
+  summary: "\n<p>Indicates whether a package-level relationship with a given ID is contained in the package.</p>\n"
+  remarks: "\n<p>For additional information, see the Open Packaging Conventions (OPC) specification available for download at <see href=\"http://go.microsoft.com/fwlink/?LinkID=71255\">http://go.microsoft.com/fwlink/?LinkID=71255</see>.</p>\n"
+  example:
+  - 
   syntax:
     content: public bool RelationshipExists(string id)
     content.vb: Public Function RelationshipExists(id As String) As Boolean
     parameters:
     - id: id
       type: System.String
-      description: The relationship ID.
+      description: "\n<p>The <xref href=\"System.IO.Packaging.PackageRelationship.Id\" data-throw-if-not-resolved=\"false\"></xref> of the relationship to check for.</p>\n"
     return:
       type: System.Boolean
-      description: true iff a relationship with ID 'id' is defined on this source.
+      description: "\n<p>\n<strong>true</strong> if a package-level relationship with the specified <em>id</em> is in the package; otherwise, <strong>false</strong>.</p>\n"
+  exceptions:
+  - type: System.ArgumentNullException
+    commentId: T:System.ArgumentNullException
+    description: "\n<p>\n<em>id</em> is <strong>null</strong>.</p>\n"
+  - type: System.Xml.XmlException
+    commentId: T:System.Xml.XmlException
+    description: "\n<p>\n<em>id</em> is not a valid XML identifier.</p>\n"
+  - type: System.ObjectDisposedException
+    commentId: T:System.ObjectDisposedException
+    description: "\n<p>The package is not open (<xref href=\"System.IO.Packaging.Package.Dispose(System.Boolean)\" data-throw-if-not-resolved=\"false\"></xref> or <xref href=\"System.IO.Packaging.Package.Close\" data-throw-if-not-resolved=\"false\"></xref> has been called).</p>\n"
+  - type: System.IO.IOException
+    commentId: T:System.IO.IOException
+    description: "\n<p>The package is write-only.</p>\n"
+  seealso:
+  - type: System.IO.Packaging.PackageRelationship
+    commentId: T:System.IO.Packaging.PackageRelationship
   modifiers.csharp:
   - public
   modifiers.vb:
   - Public
+- uid: System.IO.Packaging.Package.System#IDisposable#Dispose
+  commentId: M:System.IO.Packaging.Package.System#IDisposable#Dispose
+  id: System#IDisposable#Dispose
+  isEii: true
+  parent: System.IO.Packaging.Package
+  langs:
+  - csharp
+  - vb
+  name: IDisposable.Dispose()
+  fullName: System.IO.Packaging.Package.System.IDisposable.Dispose()
+  type: Method
+  source:
+    remote:
+      path: src/System.IO.Packaging/ref/System.IO.Packaging.cs
+      branch: master
+      repo: https://github.com/dotnet/corefx.git
+    id: System.IDisposable.Dispose
+    path: src/System.IO.Packaging/ref/System.IO.Packaging.cs
+    startLine: 70
+  assemblies:
+  - System.IO.Packaging
+  namespace: System.IO.Packaging
+  summary: "\n<p>This member supports the Windows Presentation Foundation (WPF) infrastructure and is not intended for application use.  Use the type-safe <xref href=\"System.IO.Packaging.Package.Dispose(System.Boolean)\" data-throw-if-not-resolved=\"false\"></xref> method instead. </p>\n"
+  example:
+  - 
+  syntax:
+    content: void IDisposable.Dispose()
+    content.vb: Sub System.IDisposable.Dispose Implements IDisposable.Dispose
+  implements:
+  - System.IDisposable.Dispose
+  name.vb: System.IDisposable.Dispose()
 references:
 - uid: System.IO.Packaging
   isExternal: false
@@ -1139,6 +1757,220 @@ references:
   isExternal: false
   name: Object
   fullName: System.Object
+- uid: System.IDisposable
+  parent: System
+  isExternal: false
+  name: IDisposable
+  fullName: System.IDisposable
+- uid: System.Object.ToString
+  parent: System.Object
+  isExternal: true
+  name: ToString()
+  fullName: System.Object.ToString()
+  spec.csharp:
+  - uid: System.Object.ToString
+    name: ToString
+    fullName: System.Object.ToString
+    isExternal: true
+  - name: (
+    fullName: (
+  - name: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.ToString
+    name: ToString
+    fullName: System.Object.ToString
+    isExternal: true
+  - name: (
+    fullName: (
+  - name: )
+    fullName: )
+- uid: System.Object.Equals(System.Object)
+  parent: System.Object
+  isExternal: true
+  name: Equals(Object)
+  fullName: System.Object.Equals(System.Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    fullName: )
+- uid: System.Object.Equals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  name: Equals(Object, Object)
+  fullName: System.Object.Equals(System.Object, System.Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    fullName: )
+- uid: System.Object.ReferenceEquals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  name: ReferenceEquals(Object, Object)
+  fullName: System.Object.ReferenceEquals(System.Object, System.Object)
+  spec.csharp:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    fullName: System.Object.ReferenceEquals
+    isExternal: true
+  - name: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    fullName: System.Object.ReferenceEquals
+    isExternal: true
+  - name: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    fullName: )
+- uid: System.Object.GetHashCode
+  parent: System.Object
+  isExternal: true
+  name: GetHashCode()
+  fullName: System.Object.GetHashCode()
+  spec.csharp:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    fullName: System.Object.GetHashCode
+    isExternal: true
+  - name: (
+    fullName: (
+  - name: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    fullName: System.Object.GetHashCode
+    isExternal: true
+  - name: (
+    fullName: (
+  - name: )
+    fullName: )
+- uid: System.Object.GetType
+  parent: System.Object
+  isExternal: true
+  name: GetType()
+  fullName: System.Object.GetType()
+  spec.csharp:
+  - uid: System.Object.GetType
+    name: GetType
+    fullName: System.Object.GetType
+    isExternal: true
+  - name: (
+    fullName: (
+  - name: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.GetType
+    name: GetType
+    fullName: System.Object.GetType
+    isExternal: true
+  - name: (
+    fullName: (
+  - name: )
+    fullName: )
+- uid: System.Object.MemberwiseClone
+  parent: System.Object
+  isExternal: true
+  name: MemberwiseClone()
+  fullName: System.Object.MemberwiseClone()
+  spec.csharp:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    fullName: System.Object.MemberwiseClone
+    isExternal: true
+  - name: (
+    fullName: (
+  - name: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    fullName: System.Object.MemberwiseClone
+    isExternal: true
+  - name: (
+    fullName: (
+  - name: )
+    fullName: )
 - uid: System
   isExternal: false
   name: System
@@ -1223,7 +2055,7 @@ references:
 - uid: System.IO.Stream
   parent: System.IO
   isExternal: false
-  name: IO.Stream
+  name: Stream
   fullName: System.IO.Stream
 - uid: System.IO.Packaging.Package
   parent: System.IO.Packaging
@@ -1240,3 +2072,55 @@ references:
   isExternal: false
   name: FileShare
   fullName: System.IO.FileShare
+- uid: System.IDisposable.Dispose
+  parent: System.IDisposable
+  isExternal: false
+  name: Dispose()
+  fullName: System.IDisposable.Dispose()
+  spec.csharp:
+  - uid: System.IDisposable.Dispose
+    name: Dispose
+    fullName: System.IDisposable.Dispose
+  - name: (
+    fullName: (
+  - name: )
+    fullName: )
+  spec.vb:
+  - uid: System.IDisposable.Dispose
+    name: Dispose
+    fullName: System.IDisposable.Dispose
+  - name: (
+    fullName: (
+  - name: )
+    fullName: )
+- uid: System.ArgumentOutOfRangeException
+  isExternal: false
+  name: ArgumentOutOfRangeException
+  fullName: System.ArgumentOutOfRangeException
+- uid: System.ObjectDisposedException
+  isExternal: false
+  name: ObjectDisposedException
+  fullName: System.ObjectDisposedException
+- uid: System.ArgumentNullException
+  isExternal: false
+  name: ArgumentNullException
+  fullName: System.ArgumentNullException
+- uid: System.ArgumentException
+  parent: System
+  isExternal: false
+  name: ArgumentException
+  fullName: System.ArgumentException
+- uid: System.InvalidOperationException
+  parent: System
+  isExternal: false
+  name: InvalidOperationException
+  fullName: System.InvalidOperationException
+- uid: System.IO.IOException
+  parent: System.IO
+  isExternal: false
+  name: IOException
+  fullName: System.IO.IOException
+- uid: System.Xml.XmlException
+  isExternal: false
+  name: XmlException
+  fullName: System.Xml.XmlException

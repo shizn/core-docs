@@ -28,9 +28,13 @@ items:
   assemblies:
   - System.Data.Common
   namespace: System.Data
+  summary: "\n<p>Specifies the transaction locking behavior for the connection.</p>\n"
+  remarks: "\n<p>The <xref href=\"System.Data.IsolationLevel\" data-throw-if-not-resolved=\"false\"></xref> values are used by a .NET Framework data provider when performing a transaction.</p>\n<p>The <xref href=\"System.Data.IsolationLevel\" data-throw-if-not-resolved=\"false\"></xref> remains in effect until explicitly changed, but it can be changed at any time. The new value is used at execution time, not parse time. If changed during a transaction, the expected behavior of the server is to apply the new locking level to all statements remaining.</p>\n"
+  example:
+  - "\n<p>This application demonstrates how to use <xref href=\"System.Data.IsolationLevel\" data-throw-if-not-resolved=\"false\"></xref> in <xref href=\"System.Data.Common.DbTransaction\" data-throw-if-not-resolved=\"false\"></xref>. The sample will demonstrate which of the following behaviors are allowed in the different isolation levels:</p>\n<ul><li>\n<p>Dirty reads.</p>\n</li><li>\n<p>Non-repeatable reads.</p>\n</li><li>\n<p>Phantoms.</p>\n</li></ul>\n<p>This application will execute in the following isolation levels:</p>\n<ul><li>\n<p>ReadUncommitted</p>\n</li><li>\n<p>ReadCommitted</p>\n</li><li>\n<p>RepeatableRead</p>\n</li><li>\n<p>Serializable</p>\n</li><li>\n<p>Snapshot</p>\n</li></ul>\n<p>The PhantomReadThreads class demonstrates if the specific transaction allows the Phantom Read behavior. If the transaction allows the behavior, the threads will operate in the following order:</p>\n<ul><li>\n<p>In first thread, select the products(All).</p>\n</li><li>\n<p>In the second thread, insert a new product.</p>\n</li><li>\n<p>Commit the transaction in second thread.</p>\n</li><li>\n<p>Select the products again.</p>\n</li><li>\n<p>Commit the transaction in first thread.</p>\n</li></ul>\n<p>If the transaction allows the behavior, the two Select operations will get the different results.</p>\n<p>The NonrepeatableReadThreads class demonstrates if the specific transaction allows the Nonrepeatable Read behavior. If the transaction allows the behavior, the threads will operate in the following order:</p>\n<ul><li>\n<p>In first thread, select the product(ProductId=1).</p>\n</li><li>\n<p>In the second thread, update the Quantity value(ProductId=1).</p>\n</li><li>\n<p>Commit the transaction in second thread.</p>\n</li><li>\n<p>Select the product again.</p>\n</li><li>\n<p>Commit the transaction in first thread.</p>\n</li></ul>\n<p>If the transaction allows the behavior, the two Select operations will get the different results.</p>\n<p>The ExchangeValuesThreads class demonstrates the difference between the Serializable and Snapshot transaction. For the the Serializable transaction, threads will operate in the following order:</p>\n<ul><li>\n<p>In first thread, get the Price of product(ProductId=2) and store in the variable.</p>\n</li><li>\n<p>In first thread, update the Price of product(ProductId=1) with the price of product(ProductId=2).</p>\n</li><li>\n<p>Commit the transaction in first thread.</p>\n</li><li>\n<p>In second thread, get the Price of product(ProductId=1) and store in the variable.</p>\n</li><li>\n<p>In second thread, update the Price of product(ProductId=2) with the price of product(ProductId=1).</p>\n</li><li>\n<p>Commit the transaction in second thread.</p>\n</li></ul>\n<p>Now the values of the Price(ProductId=1 and ProductId=2) are as same as the original Price of Product(ProductId=2).</p>\n<p>For the Snapshot transaction, threads will operate in the following order:</p>\n<ul><li>\n<p>In first thread, get the Price of product(ProductId=2) and store in the variable;</p>\n</li><li>\n<p>In first thread, update the Price of product(ProductId=1) with the price of product(ProductId=2).</p>\n</li><li>\n<p>In second thread, get the Price of product(ProductId=1) from the snapshot and store in the variable.</p>\n</li><li>\n<p>In second thread, update the Price of product(ProductId=2) with the price of product(ProductId=1).</p>\n</li><li>\n<p>Commit the transaction in second thread.</p>\n</li><li>\n<p>Commit the transaction in first thread.</p>\n</li></ul>\n<p>Now exchange the Price of products(ProductId=1 and ProductId=2).</p>\n<p>The DirtyReadThreads class demonstrates if the specific transaction allows the Dirty Read behavior. If the transaction allows the behavior, the threads will operate in the following order:</p>\n<ul><li>\n<p>In first thread, begin a transaction and add the Quantity value(ProductId=1).</p>\n</li><li>\n<p>In the second thread, read the Quantity value and add the value again.</p>\n</li><li>\n<p>Commit the transaction in second thread.</p>\n</li><li>\n<p>Roll back the transaction in first thread.</p>\n</li></ul>\n<p>If the transaction allows the behavior, the Quantity value will be added twice.</p>\n<p>C# and Visual Basic projects with this code sample can be found on <see href=\"http://code.msdn.microsoft.com/site/search?query=How%20to%20use%20IsolationLevel%20Enumeration%20in%20DbTransaction&f%5B0%5D.Value=How%20to%20use%20IsolationLevel%20Enumeration%20in%20DbTransaction&f%5B0%5D.Type=SearchText&ac=4\">Developer Code Samples</see>.</p>system_data_IsolationLevel#1"
   syntax:
-    content: 'public enum IsolationLevel : int'
-    content.vb: Public Enum IsolationLevel As Integer
+    content: public enum IsolationLevel
+    content.vb: Public Enum IsolationLevel
   modifiers.csharp:
   - public
   - enum
@@ -58,9 +62,9 @@ items:
   assemblies:
   - System.Data.Common
   namespace: System.Data
+  summary: "\n<p>The pending changes from more highly isolated transactions cannot be overwritten.</p>\n"
   syntax:
-    content: Chaos = null
-    content.vb: Chaos = Nothing
+    content: Chaos = 16
     return:
       type: System.Data.IsolationLevel
   modifiers.csharp:
@@ -90,9 +94,9 @@ items:
   assemblies:
   - System.Data.Common
   namespace: System.Data
+  summary: "\n<p>Shared locks are held while the data is being read to avoid dirty reads, but the data can be changed before the end of the transaction, resulting in non-repeatable reads or phantom data.</p>\n"
   syntax:
-    content: ReadCommitted = null
-    content.vb: ReadCommitted = Nothing
+    content: ReadCommitted = 4096
     return:
       type: System.Data.IsolationLevel
   modifiers.csharp:
@@ -122,9 +126,9 @@ items:
   assemblies:
   - System.Data.Common
   namespace: System.Data
+  summary: "\n<p>A dirty read is possible, meaning that no shared locks are issued and no exclusive locks are honored.</p>\n"
   syntax:
-    content: ReadUncommitted = null
-    content.vb: ReadUncommitted = Nothing
+    content: ReadUncommitted = 256
     return:
       type: System.Data.IsolationLevel
   modifiers.csharp:
@@ -154,9 +158,9 @@ items:
   assemblies:
   - System.Data.Common
   namespace: System.Data
+  summary: "\n<p>Locks are placed on all data that is used in a query, preventing other users from updating the data. Prevents non-repeatable reads but phantom rows are still possible.</p>\n"
   syntax:
-    content: RepeatableRead = null
-    content.vb: RepeatableRead = Nothing
+    content: RepeatableRead = 65536
     return:
       type: System.Data.IsolationLevel
   modifiers.csharp:
@@ -186,9 +190,9 @@ items:
   assemblies:
   - System.Data.Common
   namespace: System.Data
+  summary: "\n<p>A range lock is placed on the <xref href=\"System.Data.DataSet\" data-throw-if-not-resolved=\"false\"></xref>, preventing other users from updating or inserting rows into the dataset until the transaction is complete.</p>\n"
   syntax:
-    content: Serializable = null
-    content.vb: Serializable = Nothing
+    content: Serializable = 1048576
     return:
       type: System.Data.IsolationLevel
   modifiers.csharp:
@@ -218,9 +222,9 @@ items:
   assemblies:
   - System.Data.Common
   namespace: System.Data
+  summary: "\n<p>Reduces blocking by storing a version of data that one application can read while another is modifying the same data. Indicates that from one transaction you cannot see changes made in other transactions, even if you requery.</p>\n"
   syntax:
-    content: Snapshot = null
-    content.vb: Snapshot = Nothing
+    content: Snapshot = 16777216
     return:
       type: System.Data.IsolationLevel
   modifiers.csharp:
@@ -250,9 +254,10 @@ items:
   assemblies:
   - System.Data.Common
   namespace: System.Data
+  summary: "\n<p>A different isolation level than the one specified is being used, but the level cannot be determined.</p>\n"
+  remarks: "\n<p>When using <xref href=\"System.Data.Odbc.OdbcTransaction\" data-throw-if-not-resolved=\"false\"></xref>, if you do not set <xref href=\"System.Data.IsolationLevel\" data-throw-if-not-resolved=\"false\"></xref> or you set <xref href=\"System.Data.IsolationLevel\" data-throw-if-not-resolved=\"false\"></xref> to <strong>Unspecified</strong>, the transaction executes according to the isolation level that is determined by the driver that is being used.</p>\n"
   syntax:
-    content: Unspecified = null
-    content.vb: Unspecified = Nothing
+    content: Unspecified = -1
     return:
       type: System.Data.IsolationLevel
   modifiers.csharp:

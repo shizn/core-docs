@@ -26,12 +26,12 @@ items:
   type: Struct
   source:
     remote:
-      path: src/System.Runtime.InteropServices/ref/System.Runtime.InteropServices.cs
+      path: src/mscorlib/src/System/Runtime/InteropServices/GcHandle.cs
       branch: master
-      repo: https://github.com/dotnet/corefx.git
+      repo: https://github.com/dotnet/coreclr.git
     id: GCHandle
-    path: src/System.Runtime.InteropServices/ref/System.Runtime.InteropServices.cs
-    startLine: 257
+    path: src/mscorlib/src/System/Runtime/InteropServices/GcHandle.cs
+    startLine: 41
   assemblies:
   - System.Runtime.InteropServices
   namespace: System.Runtime.InteropServices
@@ -40,11 +40,32 @@ items:
   example:
   - "\n<p>The following example shows an <code>App</code> class that creates a handle to a managed object using the <strong>GCHandle.Alloc</strong> method, which prevents the managed object from being collected. A call to the <strong>EnumWindows</strong> method passes a delegate and a managed object (both declared as managed types, but not shown), and casts the handle to an <xref href=\"System.IntPtr\" data-throw-if-not-resolved=\"false\"></xref>. The unmanaged function passes the type back to the caller as a parameter of the callback function.</p>System.Runtime.InteropServices.GCHandle#1"
   syntax:
-    content: public struct GCHandle
-    content.vb: Public Structure GCHandle
+    content: >-
+      [StructLayout(LayoutKind.Sequential)]
+
+      [ComVisible(true)]
+
+      public struct GCHandle
+    content.vb: >-
+      <StructLayout(LayoutKind.Sequential)>
+
+      <ComVisible(True)>
+
+      Public Structure GCHandle
   seealso:
   - type: System.Runtime.InteropServices.GCHandleType
     commentId: T:System.Runtime.InteropServices.GCHandleType
+  inheritedMembers:
+  - System.ValueType.ToString
+  - System.Object.Equals(System.Object,System.Object)
+  - System.Object.ReferenceEquals(System.Object,System.Object)
+  - System.Object.GetType
+  attributes:
+  - type: System.Runtime.InteropServices.StructLayoutAttribute
+    ctor: System.Runtime.InteropServices.StructLayoutAttribute.#ctor(System.Runtime.InteropServices.LayoutKind)
+    arguments:
+    - type: System.Runtime.InteropServices.LayoutKind
+      value: 0
   modifiers.csharp:
   - public
   - struct
@@ -63,12 +84,12 @@ items:
   type: Property
   source:
     remote:
-      path: src/System.Runtime.InteropServices/ref/System.Runtime.InteropServices.cs
+      path: src/mscorlib/src/System/Runtime/InteropServices/GcHandle.cs
       branch: master
-      repo: https://github.com/dotnet/corefx.git
+      repo: https://github.com/dotnet/coreclr.git
     id: IsAllocated
-    path: src/System.Runtime.InteropServices/ref/System.Runtime.InteropServices.cs
-    startLine: 260
+    path: src/mscorlib/src/System/Runtime/InteropServices/GcHandle.cs
+    startLine: 178
   assemblies:
   - System.Runtime.InteropServices
   namespace: System.Runtime.InteropServices
@@ -80,7 +101,6 @@ items:
     parameters: []
     return:
       type: System.Boolean
-      description: "\n<p>\n<strong>true</strong> if the handle is allocated; otherwise, <strong>false</strong>.</p>\n"
   seealso:
   - type: System.Runtime.InteropServices.GCHandleType
     commentId: T:System.Runtime.InteropServices.GCHandleType
@@ -102,12 +122,12 @@ items:
   type: Property
   source:
     remote:
-      path: src/System.Runtime.InteropServices/ref/System.Runtime.InteropServices.cs
+      path: src/mscorlib/src/System/Runtime/InteropServices/GcHandle.cs
       branch: master
-      repo: https://github.com/dotnet/corefx.git
+      repo: https://github.com/dotnet/coreclr.git
     id: Target
-    path: src/System.Runtime.InteropServices/ref/System.Runtime.InteropServices.cs
-    startLine: 261
+    path: src/mscorlib/src/System/Runtime/InteropServices/GcHandle.cs
+    startLine: 134
   assemblies:
   - System.Runtime.InteropServices
   namespace: System.Runtime.InteropServices
@@ -115,12 +135,19 @@ items:
   example:
   - "\n<p>The following example shows an <code>App</code> class that creates a handle to a managed object using the <strong>GCHandle.Alloc</strong> method, which prevents the managed object from being collected. A call to the <strong>EnumWindows</strong> method passes a delegate and a managed object (both declared as managed types, but not shown), and casts the handle to an <xref href=\"System.IntPtr\" data-throw-if-not-resolved=\"false\"></xref>. The unmanaged function passes the type back to the caller as a parameter of the callback function.</p>System.Runtime.InteropServices.GCHandle#1"
   syntax:
-    content: public object Target { get; set; }
+    content: >-
+      public object Target
+
+      {
+          [SecurityCritical]
+          get;
+          [SecurityCritical]
+          set;
+      }
     content.vb: Public Property Target As Object
     parameters: []
     return:
       type: System.Object
-      description: "\n<p>The object this handle represents.</p>\n"
   exceptions:
   - type: System.InvalidOperationException
     commentId: T:System.InvalidOperationException
@@ -149,23 +176,28 @@ items:
   type: Method
   source:
     remote:
-      path: src/System.Runtime.InteropServices/ref/System.Runtime.InteropServices.cs
+      path: src/mscorlib/src/System/Runtime/InteropServices/GcHandle.cs
       branch: master
-      repo: https://github.com/dotnet/corefx.git
+      repo: https://github.com/dotnet/coreclr.git
     id: AddrOfPinnedObject
-    path: src/System.Runtime.InteropServices/ref/System.Runtime.InteropServices.cs
-    startLine: 262
+    path: src/mscorlib/src/System/Runtime/InteropServices/GcHandle.cs
+    startLine: 159
   assemblies:
   - System.Runtime.InteropServices
   namespace: System.Runtime.InteropServices
   summary: "\n<p>Retrieves the address of an object in a <xref href=\"System.Runtime.InteropServices.GCHandleType.Pinned\" data-throw-if-not-resolved=\"false\"></xref> handle.</p>\n"
   remarks: "\n<p>This method is used to get a stable pointer to the object. Pinning an object prevents the garbage collector from moving it around in memory, thereby reducing the efficiency of the garbage collector.</p>\n"
   syntax:
-    content: public IntPtr AddrOfPinnedObject()
-    content.vb: Public Function AddrOfPinnedObject As IntPtr
+    content: >-
+      [SecurityCritical]
+
+      public IntPtr AddrOfPinnedObject()
+    content.vb: >-
+      <SecurityCritical>
+
+      Public Function AddrOfPinnedObject As IntPtr
     return:
       type: System.IntPtr
-      description: "\n<p>The address of the pinned object as an <xref href=\"System.IntPtr\" data-throw-if-not-resolved=\"false\"></xref>. </p>\n"
   exceptions:
   - type: System.InvalidOperationException
     commentId: T:System.InvalidOperationException
@@ -176,6 +208,10 @@ items:
   see:
   - type: System.Security.SecurityCriticalAttribute
     commentId: T:System.Security.SecurityCriticalAttribute
+  attributes:
+  - type: System.Security.SecurityCriticalAttribute
+    ctor: System.Security.SecurityCriticalAttribute.#ctor
+    arguments: []
   modifiers.csharp:
   - public
   modifiers.vb:
@@ -192,12 +228,12 @@ items:
   type: Method
   source:
     remote:
-      path: src/System.Runtime.InteropServices/ref/System.Runtime.InteropServices.cs
+      path: src/mscorlib/src/System/Runtime/InteropServices/GcHandle.cs
       branch: master
-      repo: https://github.com/dotnet/corefx.git
+      repo: https://github.com/dotnet/coreclr.git
     id: Alloc
-    path: src/System.Runtime.InteropServices/ref/System.Runtime.InteropServices.cs
-    startLine: 264
+    path: src/mscorlib/src/System/Runtime/InteropServices/GcHandle.cs
+    startLine: 88
   assemblies:
   - System.Runtime.InteropServices
   namespace: System.Runtime.InteropServices
@@ -206,15 +242,19 @@ items:
   example:
   - "\n<p>The following example shows an <code>App</code> class that creates a handle to a managed object using the <strong>GCHandle.Alloc</strong> method, which prevents the managed object from being collected. A call to the <strong>EnumWindows</strong> method passes a delegate and a managed object (both declared as managed types, but not shown), and casts the handle to an <xref href=\"System.IntPtr\" data-throw-if-not-resolved=\"false\"></xref>. The unmanaged function passes the type back to the caller as a parameter of the callback function.</p>System.Runtime.InteropServices.GCHandle#1"
   syntax:
-    content: public static GCHandle Alloc(object value)
-    content.vb: Public Shared Function Alloc(value As Object) As GCHandle
+    content: >-
+      [SecurityCritical]
+
+      public static GCHandle Alloc(object value)
+    content.vb: >-
+      <SecurityCritical>
+
+      Public Shared Function Alloc(value As Object) As GCHandle
     parameters:
     - id: value
       type: System.Object
-      description: "\n<p>The object that uses the <xref href=\"System.Runtime.InteropServices.GCHandle\" data-throw-if-not-resolved=\"false\"></xref>. </p>\n"
     return:
       type: System.Runtime.InteropServices.GCHandle
-      description: "\n<p>A new <xref href=\"System.Runtime.InteropServices.GCHandle\" data-throw-if-not-resolved=\"false\"></xref> that protects the object from garbage collection. This <xref href=\"System.Runtime.InteropServices.GCHandle\" data-throw-if-not-resolved=\"false\"></xref> must be released with <xref href=\"System.Runtime.InteropServices.GCHandle.Free\" data-throw-if-not-resolved=\"false\"></xref> when it is no longer needed.</p>\n"
   exceptions:
   - type: System.ArgumentException
     commentId: T:System.ArgumentException
@@ -225,6 +265,10 @@ items:
   see:
   - type: System.Security.SecurityCriticalAttribute
     commentId: T:System.Security.SecurityCriticalAttribute
+  attributes:
+  - type: System.Security.SecurityCriticalAttribute
+    ctor: System.Security.SecurityCriticalAttribute.#ctor
+    arguments: []
   modifiers.csharp:
   - public
   - static
@@ -243,29 +287,32 @@ items:
   type: Method
   source:
     remote:
-      path: src/System.Runtime.InteropServices/ref/System.Runtime.InteropServices.cs
+      path: src/mscorlib/src/System/Runtime/InteropServices/GcHandle.cs
       branch: master
-      repo: https://github.com/dotnet/corefx.git
+      repo: https://github.com/dotnet/coreclr.git
     id: Alloc
-    path: src/System.Runtime.InteropServices/ref/System.Runtime.InteropServices.cs
-    startLine: 266
+    path: src/mscorlib/src/System/Runtime/InteropServices/GcHandle.cs
+    startLine: 94
   assemblies:
   - System.Runtime.InteropServices
   namespace: System.Runtime.InteropServices
   summary: "\n<p>Allocates a handle of the specified type for the specified object.</p>\n"
   syntax:
-    content: public static GCHandle Alloc(object value, GCHandleType type)
-    content.vb: Public Shared Function Alloc(value As Object, type As GCHandleType) As GCHandle
+    content: >-
+      [SecurityCritical]
+
+      public static GCHandle Alloc(object value, GCHandleType type)
+    content.vb: >-
+      <SecurityCritical>
+
+      Public Shared Function Alloc(value As Object, type As GCHandleType) As GCHandle
     parameters:
     - id: value
       type: System.Object
-      description: "\n<p>The object that uses the <xref href=\"System.Runtime.InteropServices.GCHandle\" data-throw-if-not-resolved=\"false\"></xref>. </p>\n"
     - id: type
       type: System.Runtime.InteropServices.GCHandleType
-      description: "\n<p>One of the <xref href=\"System.Runtime.InteropServices.GCHandleType\" data-throw-if-not-resolved=\"false\"></xref> values, indicating the type of <xref href=\"System.Runtime.InteropServices.GCHandle\" data-throw-if-not-resolved=\"false\"></xref> to create. </p>\n"
     return:
       type: System.Runtime.InteropServices.GCHandle
-      description: "\n<p>A new <xref href=\"System.Runtime.InteropServices.GCHandle\" data-throw-if-not-resolved=\"false\"></xref> of the specified type. This <xref href=\"System.Runtime.InteropServices.GCHandle\" data-throw-if-not-resolved=\"false\"></xref> must be released with <xref href=\"System.Runtime.InteropServices.GCHandle.Free\" data-throw-if-not-resolved=\"false\"></xref> when it is no longer needed.</p>\n"
   exceptions:
   - type: System.ArgumentException
     commentId: T:System.ArgumentException
@@ -276,6 +323,10 @@ items:
   see:
   - type: System.Security.SecurityCriticalAttribute
     commentId: T:System.Security.SecurityCriticalAttribute
+  attributes:
+  - type: System.Security.SecurityCriticalAttribute
+    ctor: System.Security.SecurityCriticalAttribute.#ctor
+    arguments: []
   modifiers.csharp:
   - public
   - static
@@ -294,12 +345,12 @@ items:
   type: Method
   source:
     remote:
-      path: src/System.Runtime.InteropServices/ref/System.Runtime.InteropServices.cs
+      path: src/mscorlib/src/System/Runtime/InteropServices/GcHandle.cs
       branch: master
-      repo: https://github.com/dotnet/corefx.git
+      repo: https://github.com/dotnet/coreclr.git
     id: Equals
-    path: src/System.Runtime.InteropServices/ref/System.Runtime.InteropServices.cs
-    startLine: 268
+    path: src/mscorlib/src/System/Runtime/InteropServices/GcHandle.cs
+    startLine: 244
   assemblies:
   - System.Runtime.InteropServices
   namespace: System.Runtime.InteropServices
@@ -313,10 +364,9 @@ items:
     parameters:
     - id: o
       type: System.Object
-      description: "\n<p>The <xref href=\"System.Runtime.InteropServices.GCHandle\" data-throw-if-not-resolved=\"false\"></xref> object to compare with the current <xref href=\"System.Runtime.InteropServices.GCHandle\" data-throw-if-not-resolved=\"false\"></xref> object.</p>\n"
     return:
       type: System.Boolean
-      description: "\n<p>\n<strong>true</strong> if the specified <xref href=\"System.Runtime.InteropServices.GCHandle\" data-throw-if-not-resolved=\"false\"></xref> object is equal to the current <xref href=\"System.Runtime.InteropServices.GCHandle\" data-throw-if-not-resolved=\"false\"></xref> object; otherwise, <strong>false</strong>.</p>\n"
+  overridden: System.ValueType.Equals(System.Object)
   modifiers.csharp:
   - public
   - override
@@ -335,12 +385,12 @@ items:
   type: Method
   source:
     remote:
-      path: src/System.Runtime.InteropServices/ref/System.Runtime.InteropServices.cs
+      path: src/mscorlib/src/System/Runtime/InteropServices/GcHandle.cs
       branch: master
-      repo: https://github.com/dotnet/corefx.git
+      repo: https://github.com/dotnet/coreclr.git
     id: Free
-    path: src/System.Runtime.InteropServices/ref/System.Runtime.InteropServices.cs
-    startLine: 269
+    path: src/mscorlib/src/System/Runtime/InteropServices/GcHandle.cs
+    startLine: 102
   assemblies:
   - System.Runtime.InteropServices
   namespace: System.Runtime.InteropServices
@@ -349,8 +399,14 @@ items:
   example:
   - "\n<p>The following example shows an <code>App</code> class that creates a handle to a managed object using the <strong>GCHandle.Alloc</strong> method, which prevents the managed object from being collected. A call to the <strong>EnumWindows</strong> method passes a delegate and a managed object (both declared as managed types, but not shown), and casts the handle to an <xref href=\"System.IntPtr\" data-throw-if-not-resolved=\"false\"></xref>. The unmanaged function passes the type back to the caller as a parameter of the callback function.</p>System.Runtime.InteropServices.GCHandle#1"
   syntax:
-    content: public void Free()
-    content.vb: Public Sub Free
+    content: >-
+      [SecurityCritical]
+
+      public void Free()
+    content.vb: >-
+      <SecurityCritical>
+
+      Public Sub Free
   exceptions:
   - type: System.InvalidOperationException
     commentId: T:System.InvalidOperationException
@@ -358,6 +414,10 @@ items:
   see:
   - type: System.Security.SecurityCriticalAttribute
     commentId: T:System.Security.SecurityCriticalAttribute
+  attributes:
+  - type: System.Security.SecurityCriticalAttribute
+    ctor: System.Security.SecurityCriticalAttribute.#ctor
+    arguments: []
   modifiers.csharp:
   - public
   modifiers.vb:
@@ -374,12 +434,12 @@ items:
   type: Method
   source:
     remote:
-      path: src/System.Runtime.InteropServices/ref/System.Runtime.InteropServices.cs
+      path: src/mscorlib/src/System/Runtime/InteropServices/GcHandle.cs
       branch: master
-      repo: https://github.com/dotnet/corefx.git
+      repo: https://github.com/dotnet/coreclr.git
     id: FromIntPtr
-    path: src/System.Runtime.InteropServices/ref/System.Runtime.InteropServices.cs
-    startLine: 271
+    path: src/mscorlib/src/System/Runtime/InteropServices/GcHandle.cs
+    startLine: 194
   assemblies:
   - System.Runtime.InteropServices
   namespace: System.Runtime.InteropServices
@@ -387,15 +447,19 @@ items:
   example:
   - "\n<p>The following code example shows an <code>App</code> class that creates a handle to a managed object using the <strong>GCHandle.Alloc</strong> method, which prevents the managed object from being collected. A call to the <strong>EnumWindows</strong> method passes a delegate and a managed object (both declared as managed types, but not shown), and casts the handle to an <xref href=\"System.IntPtr\" data-throw-if-not-resolved=\"false\"></xref> object. The unmanaged function passes the type back to the caller as a parameter of the callback function.</p>System.Runtime.InteropServices.GCHandle#1"
   syntax:
-    content: public static GCHandle FromIntPtr(IntPtr value)
-    content.vb: Public Shared Function FromIntPtr(value As IntPtr) As GCHandle
+    content: >-
+      [SecurityCritical]
+
+      public static GCHandle FromIntPtr(IntPtr value)
+    content.vb: >-
+      <SecurityCritical>
+
+      Public Shared Function FromIntPtr(value As IntPtr) As GCHandle
     parameters:
     - id: value
       type: System.IntPtr
-      description: "\n<p>An <xref href=\"System.IntPtr\" data-throw-if-not-resolved=\"false\"></xref> handle to a managed object to create a <xref href=\"System.Runtime.InteropServices.GCHandle\" data-throw-if-not-resolved=\"false\"></xref> object from.</p>\n"
     return:
       type: System.Runtime.InteropServices.GCHandle
-      description: "\n<p>A new <xref href=\"System.Runtime.InteropServices.GCHandle\" data-throw-if-not-resolved=\"false\"></xref> object that corresponds to the value parameter.  </p>\n"
   exceptions:
   - type: System.InvalidOperationException
     commentId: T:System.InvalidOperationException
@@ -403,6 +467,10 @@ items:
   see:
   - type: System.Security.SecurityCriticalAttribute
     commentId: T:System.Security.SecurityCriticalAttribute
+  attributes:
+  - type: System.Security.SecurityCriticalAttribute
+    ctor: System.Security.SecurityCriticalAttribute.#ctor
+    arguments: []
   modifiers.csharp:
   - public
   - static
@@ -421,12 +489,12 @@ items:
   type: Method
   source:
     remote:
-      path: src/System.Runtime.InteropServices/ref/System.Runtime.InteropServices.cs
+      path: src/mscorlib/src/System/Runtime/InteropServices/GcHandle.cs
       branch: master
-      repo: https://github.com/dotnet/corefx.git
+      repo: https://github.com/dotnet/coreclr.git
     id: GetHashCode
-    path: src/System.Runtime.InteropServices/ref/System.Runtime.InteropServices.cs
-    startLine: 273
+    path: src/mscorlib/src/System/Runtime/InteropServices/GcHandle.cs
+    startLine: 239
   assemblies:
   - System.Runtime.InteropServices
   namespace: System.Runtime.InteropServices
@@ -439,7 +507,7 @@ items:
     content.vb: Public Overrides Function GetHashCode As Integer
     return:
       type: System.Int32
-      description: "\n<p>An identifier for the current <xref href=\"System.Runtime.InteropServices.GCHandle\" data-throw-if-not-resolved=\"false\"></xref> object.</p>\n"
+  overridden: System.ValueType.GetHashCode
   modifiers.csharp:
   - public
   - override
@@ -458,12 +526,12 @@ items:
   type: Operator
   source:
     remote:
-      path: src/System.Runtime.InteropServices/ref/System.Runtime.InteropServices.cs
+      path: src/mscorlib/src/System/Runtime/InteropServices/GcHandle.cs
       branch: master
-      repo: https://github.com/dotnet/corefx.git
+      repo: https://github.com/dotnet/coreclr.git
     id: op_Equality
-    path: src/System.Runtime.InteropServices/ref/System.Runtime.InteropServices.cs
-    startLine: 274
+    path: src/mscorlib/src/System/Runtime/InteropServices/GcHandle.cs
+    startLine: 257
   assemblies:
   - System.Runtime.InteropServices
   namespace: System.Runtime.InteropServices
@@ -476,13 +544,10 @@ items:
     parameters:
     - id: a
       type: System.Runtime.InteropServices.GCHandle
-      description: "\n<p>A <xref href=\"System.Runtime.InteropServices.GCHandle\" data-throw-if-not-resolved=\"false\"></xref> object to compare with the <em>b</em> parameter. </p>\n"
     - id: b
       type: System.Runtime.InteropServices.GCHandle
-      description: "\n<p>A <xref href=\"System.Runtime.InteropServices.GCHandle\" data-throw-if-not-resolved=\"false\"></xref> object to compare with the <em>a</em> parameter.  </p>\n"
     return:
       type: System.Boolean
-      description: "\n<p>\n<strong>true</strong> if the <em>a</em> and <em>b</em> parameters are equal; otherwise, <strong>false</strong>.</p>\n"
   modifiers.csharp:
   - public
   - static
@@ -501,33 +566,41 @@ items:
   type: Operator
   source:
     remote:
-      path: src/System.Runtime.InteropServices/ref/System.Runtime.InteropServices.cs
+      path: src/mscorlib/src/System/Runtime/InteropServices/GcHandle.cs
       branch: master
-      repo: https://github.com/dotnet/corefx.git
+      repo: https://github.com/dotnet/coreclr.git
     id: op_Explicit
-    path: src/System.Runtime.InteropServices/ref/System.Runtime.InteropServices.cs
-    startLine: 275
+    path: src/mscorlib/src/System/Runtime/InteropServices/GcHandle.cs
+    startLine: 188
   assemblies:
   - System.Runtime.InteropServices
   namespace: System.Runtime.InteropServices
   summary: "\n<p>A <xref href=\"System.Runtime.InteropServices.GCHandle\" data-throw-if-not-resolved=\"false\"></xref> is stored using an internal integer representation.</p>\n"
   remarks: "\n<p>This method allows you to retrieve a <xref href=\"System.Runtime.InteropServices.GCHandle\" data-throw-if-not-resolved=\"false\"></xref> from an integer value.</p>\n"
   syntax:
-    content: public static explicit operator GCHandle(IntPtr value)
-    content.vb: Public Shared Narrowing Operator CType(value As IntPtr) As GCHandle
+    content: >-
+      [SecurityCritical]
+
+      public static explicit operator GCHandle(IntPtr value)
+    content.vb: >-
+      <SecurityCritical>
+
+      Public Shared Narrowing Operator CType(value As IntPtr) As GCHandle
     parameters:
     - id: value
       type: System.IntPtr
-      description: "\n<p>An <xref href=\"System.IntPtr\" data-throw-if-not-resolved=\"false\"></xref> that indicates the handle for which the conversion is required. </p>\n"
     return:
       type: System.Runtime.InteropServices.GCHandle
-      description: "\n<p>The stored <xref href=\"System.Runtime.InteropServices.GCHandle\" data-throw-if-not-resolved=\"false\"></xref> object using an internal integer representation.</p>\n"
   seealso:
   - type: System.Runtime.InteropServices.GCHandleType
     commentId: T:System.Runtime.InteropServices.GCHandleType
   see:
   - type: System.Security.SecurityCriticalAttribute
     commentId: T:System.Security.SecurityCriticalAttribute
+  attributes:
+  - type: System.Security.SecurityCriticalAttribute
+    ctor: System.Security.SecurityCriticalAttribute.#ctor
+    arguments: []
   modifiers.csharp:
   - public
   - static
@@ -548,12 +621,12 @@ items:
   type: Operator
   source:
     remote:
-      path: src/System.Runtime.InteropServices/ref/System.Runtime.InteropServices.cs
+      path: src/mscorlib/src/System/Runtime/InteropServices/GcHandle.cs
       branch: master
-      repo: https://github.com/dotnet/corefx.git
+      repo: https://github.com/dotnet/coreclr.git
     id: op_Explicit
-    path: src/System.Runtime.InteropServices/ref/System.Runtime.InteropServices.cs
-    startLine: 277
+    path: src/mscorlib/src/System/Runtime/InteropServices/GcHandle.cs
+    startLine: 221
   assemblies:
   - System.Runtime.InteropServices
   namespace: System.Runtime.InteropServices
@@ -565,10 +638,8 @@ items:
     parameters:
     - id: value
       type: System.Runtime.InteropServices.GCHandle
-      description: "\n<p>The <xref href=\"System.Runtime.InteropServices.GCHandle\" data-throw-if-not-resolved=\"false\"></xref> for which the integer is required. </p>\n"
     return:
       type: System.IntPtr
-      description: "\n<p>The integer value.</p>\n"
   seealso:
   - type: System.Runtime.InteropServices.GCHandleType
     commentId: T:System.Runtime.InteropServices.GCHandleType
@@ -595,12 +666,12 @@ items:
   type: Operator
   source:
     remote:
-      path: src/System.Runtime.InteropServices/ref/System.Runtime.InteropServices.cs
+      path: src/mscorlib/src/System/Runtime/InteropServices/GcHandle.cs
       branch: master
-      repo: https://github.com/dotnet/corefx.git
+      repo: https://github.com/dotnet/coreclr.git
     id: op_Inequality
-    path: src/System.Runtime.InteropServices/ref/System.Runtime.InteropServices.cs
-    startLine: 278
+    path: src/mscorlib/src/System/Runtime/InteropServices/GcHandle.cs
+    startLine: 262
   assemblies:
   - System.Runtime.InteropServices
   namespace: System.Runtime.InteropServices
@@ -613,13 +684,10 @@ items:
     parameters:
     - id: a
       type: System.Runtime.InteropServices.GCHandle
-      description: "\n<p>A <xref href=\"System.Runtime.InteropServices.GCHandle\" data-throw-if-not-resolved=\"false\"></xref> object to compare with the <em>b</em> parameter. </p>\n"
     - id: b
       type: System.Runtime.InteropServices.GCHandle
-      description: "\n<p>A <xref href=\"System.Runtime.InteropServices.GCHandle\" data-throw-if-not-resolved=\"false\"></xref> object to compare with the <em>a</em> parameter.  </p>\n"
     return:
       type: System.Boolean
-      description: "\n<p>\n<strong>true</strong> if the <em>a</em> and <em>b</em> parameters are not equal; otherwise, <strong>false</strong>.</p>\n"
   modifiers.csharp:
   - public
   - static
@@ -638,12 +706,12 @@ items:
   type: Method
   source:
     remote:
-      path: src/System.Runtime.InteropServices/ref/System.Runtime.InteropServices.cs
+      path: src/mscorlib/src/System/Runtime/InteropServices/GcHandle.cs
       branch: master
-      repo: https://github.com/dotnet/corefx.git
+      repo: https://github.com/dotnet/coreclr.git
     id: ToIntPtr
-    path: src/System.Runtime.InteropServices/ref/System.Runtime.InteropServices.cs
-    startLine: 279
+    path: src/mscorlib/src/System/Runtime/InteropServices/GcHandle.cs
+    startLine: 226
   assemblies:
   - System.Runtime.InteropServices
   namespace: System.Runtime.InteropServices
@@ -656,10 +724,8 @@ items:
     parameters:
     - id: value
       type: System.Runtime.InteropServices.GCHandle
-      description: "\n<p>A <xref href=\"System.Runtime.InteropServices.GCHandle\" data-throw-if-not-resolved=\"false\"></xref> object to retrieve an internal integer representation from.</p>\n"
     return:
       type: System.IntPtr
-      description: "\n<p>An <xref href=\"System.IntPtr\" data-throw-if-not-resolved=\"false\"></xref> object that represents a <xref href=\"System.Runtime.InteropServices.GCHandle\" data-throw-if-not-resolved=\"false\"></xref> object. </p>\n"
   modifiers.csharp:
   - public
   - static
@@ -671,20 +737,155 @@ references:
   isExternal: false
   name: System.Runtime.InteropServices
   fullName: System.Runtime.InteropServices
-- uid: System.Boolean
+- uid: System.ValueType.ToString
+  parent: System.ValueType
+  isExternal: false
+  name: ToString()
+  fullName: System.ValueType.ToString()
+  spec.csharp:
+  - uid: System.ValueType.ToString
+    name: ToString
+    fullName: System.ValueType.ToString
+  - name: (
+    fullName: (
+  - name: )
+    fullName: )
+  spec.vb:
+  - uid: System.ValueType.ToString
+    name: ToString
+    fullName: System.ValueType.ToString
+  - name: (
+    fullName: (
+  - name: )
+    fullName: )
+- uid: System.Object.Equals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  name: Equals(Object, Object)
+  fullName: System.Object.Equals(System.Object, System.Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    fullName: )
+- uid: System.Object.ReferenceEquals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  name: ReferenceEquals(Object, Object)
+  fullName: System.Object.ReferenceEquals(System.Object, System.Object)
+  spec.csharp:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    fullName: System.Object.ReferenceEquals
+    isExternal: true
+  - name: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    fullName: System.Object.ReferenceEquals
+    isExternal: true
+  - name: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    fullName: )
+- uid: System.Object.GetType
+  parent: System.Object
+  isExternal: true
+  name: GetType()
+  fullName: System.Object.GetType()
+  spec.csharp:
+  - uid: System.Object.GetType
+    name: GetType
+    fullName: System.Object.GetType
+    isExternal: true
+  - name: (
+    fullName: (
+  - name: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.GetType
+    name: GetType
+    fullName: System.Object.GetType
+    isExternal: true
+  - name: (
+    fullName: (
+  - name: )
+    fullName: )
+- uid: System.ValueType
   parent: System
   isExternal: false
-  name: Boolean
-  fullName: System.Boolean
-- uid: System
-  isExternal: false
-  name: System
-  fullName: System
+  name: ValueType
+  fullName: System.ValueType
 - uid: System.Object
   parent: System
   isExternal: false
   name: Object
   fullName: System.Object
+- uid: System
+  isExternal: false
+  name: System
+  fullName: System
+- uid: System.Boolean
+  parent: System
+  isExternal: false
+  name: Boolean
+  fullName: System.Boolean
 - uid: System.IntPtr
   parent: System
   isExternal: false
@@ -700,6 +901,56 @@ references:
   isExternal: false
   name: GCHandleType
   fullName: System.Runtime.InteropServices.GCHandleType
+- uid: System.ValueType.Equals(System.Object)
+  parent: System.ValueType
+  isExternal: true
+  name: Equals(Object)
+  fullName: System.ValueType.Equals(System.Object)
+  spec.csharp:
+  - uid: System.ValueType.Equals(System.Object)
+    name: Equals
+    fullName: System.ValueType.Equals
+  - name: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    fullName: )
+  spec.vb:
+  - uid: System.ValueType.Equals(System.Object)
+    name: Equals
+    fullName: System.ValueType.Equals
+  - name: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    fullName: )
+- uid: System.ValueType.GetHashCode
+  parent: System.ValueType
+  isExternal: false
+  name: GetHashCode()
+  fullName: System.ValueType.GetHashCode()
+  spec.csharp:
+  - uid: System.ValueType.GetHashCode
+    name: GetHashCode
+    fullName: System.ValueType.GetHashCode
+  - name: (
+    fullName: (
+  - name: )
+    fullName: )
+  spec.vb:
+  - uid: System.ValueType.GetHashCode
+    name: GetHashCode
+    fullName: System.ValueType.GetHashCode
+  - name: (
+    fullName: (
+  - name: )
+    fullName: )
 - uid: System.Int32
   parent: System
   isExternal: false

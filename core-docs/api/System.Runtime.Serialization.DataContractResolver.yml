@@ -15,22 +15,32 @@ items:
   type: Class
   source:
     remote:
-      path: src/System.Private.DataContractSerialization/src/System/Runtime/Serialization/DataContractResolver.cs
+      path: src/System.Runtime.Serialization.Xml/ref/System.Runtime.Serialization.Xml.cs
       branch: master
       repo: https://github.com/dotnet/corefx.git
     id: DataContractResolver
-    path: src/System.Private.DataContractSerialization/src/System/Runtime/Serialization/DataContractResolver.cs
-    startLine: 9
+    path: src/System.Runtime.Serialization.Xml/ref/System.Runtime.Serialization.Xml.cs
+    startLine: 10
   assemblies:
   - System.Runtime.Serialization.Xml
   namespace: System.Runtime.Serialization
+  summary: "\n<p>Provides a mechanism for dynamically mapping types to and from <strong>xsi:type</strong> representations during serialization and deserialization.</p>\n"
+  remarks: "\n<p>Developers should be careful about what data is being sent over the wire. You can use transport or message security to secure that data. For more information, see see Security in WCF.</p>\n<p>Only use <xref href=\"System.Runtime.Serialization.DataContractResolver\" data-throw-if-not-resolved=\"false\"></xref> if you are completely sure of what information is being serialized. Malicious types can cause unexpected behavior.</p>\n"
+  example:
+  - "\n<p>The following example shows how to derive a class from <xref href=\"System.Runtime.Serialization.DataContractResolver\" data-throw-if-not-resolved=\"false\"></xref>. For a working sample, see DataContractResolver.</p>DataContractResolver#2"
   syntax:
-    content: 'public abstract class DataContractResolver : object'
-    content.vb: >-
-      Public MustInherit Class DataContractResolver
-          Inherits Object
+    content: public abstract class DataContractResolver
+    content.vb: Public MustInherit Class DataContractResolver
   inheritance:
   - System.Object
+  inheritedMembers:
+  - System.Object.ToString
+  - System.Object.Equals(System.Object)
+  - System.Object.Equals(System.Object,System.Object)
+  - System.Object.ReferenceEquals(System.Object,System.Object)
+  - System.Object.GetHashCode
+  - System.Object.GetType
+  - System.Object.MemberwiseClone
   modifiers.csharp:
   - public
   - abstract
@@ -60,6 +70,7 @@ items:
   assemblies:
   - System.Runtime.Serialization.Xml
   namespace: System.Runtime.Serialization
+  summary: "\n<p>Initializes a new instance of the <xref href=\"System.Runtime.Serialization.DataContractResolver\" data-throw-if-not-resolved=\"false\"></xref> class. </p>\n"
   syntax:
     content: protected DataContractResolver()
     content.vb: Protected Sub New
@@ -88,20 +99,29 @@ items:
   assemblies:
   - System.Runtime.Serialization.Xml
   namespace: System.Runtime.Serialization
+  summary: "\n<p>Override this method to map the specified <strong>xsi:type</strong> name and namespace to a data contract type during deserialization.</p>\n"
+  remarks: "\n<p>If you want to use the known type resolution logic inside your implementation, a reference to it is passed in as the <em>knownTypeResolver</em> parameter.</p>\n"
+  example:
+  - "\n<p>The following example shows an implementation of the <xref href=\"System.Runtime.Serialization.DataContractResolver.ResolveName(System.String,System.String,System.Type,System.Runtime.Serialization.DataContractResolver)\" data-throw-if-not-resolved=\"false\"></xref> method.</p>DataContractResolver#0"
   syntax:
     content: public abstract Type ResolveName(string typeName, string typeNamespace, Type declaredType, DataContractResolver knownTypeResolver)
     content.vb: Public MustOverride Function ResolveName(typeName As String, typeNamespace As String, declaredType As Type, knownTypeResolver As DataContractResolver) As Type
     parameters:
     - id: typeName
       type: System.String
+      description: "\n<p>The <strong>xsi:type</strong> name to map.</p>\n"
     - id: typeNamespace
       type: System.String
+      description: "\n<p>The <strong>xsi:type</strong> namespace to map.</p>\n"
     - id: declaredType
       type: System.Type
+      description: "\n<p>The type declared in the data contract.</p>\n"
     - id: knownTypeResolver
       type: System.Runtime.Serialization.DataContractResolver
+      description: "\n<p>The known type resolver.</p>\n"
     return:
       type: System.Type
+      description: "\n<p>The type the <strong>xsi:type</strong> name and namespace is mapped to. </p>\n"
   modifiers.csharp:
   - public
   - abstract
@@ -129,22 +149,32 @@ items:
   assemblies:
   - System.Runtime.Serialization.Xml
   namespace: System.Runtime.Serialization
+  summary: "\n<p>Override this method to map a data contract type to an <strong>xsi:type</strong> name and namespace during serialization.</p>\n"
+  remarks: "\n<p>If you want to use the known type resolution logic inside your implementation, a reference to it is passed in as the <em>knownTypeResolver</em> parameter.</p>\n"
+  example:
+  - "\n<p>The following example shows an implementation of the <xref href=\"System.Runtime.Serialization.DataContractResolver.TryResolveType(System.Type,System.Type,System.Runtime.Serialization.DataContractResolver,System.Xml.XmlDictionaryString@,System.Xml.XmlDictionaryString@)\" data-throw-if-not-resolved=\"false\"></xref> method.</p>DataContractResolver#1"
   syntax:
     content: public abstract bool TryResolveType(Type type, Type declaredType, DataContractResolver knownTypeResolver, out XmlDictionaryString typeName, out XmlDictionaryString typeNamespace)
     content.vb: Public MustOverride Function TryResolveType(type As Type, declaredType As Type, knownTypeResolver As DataContractResolver, ByRef typeName As XmlDictionaryString, ByRef typeNamespace As XmlDictionaryString) As Boolean
     parameters:
     - id: type
       type: System.Type
+      description: "\n<p>The type to map.</p>\n"
     - id: declaredType
       type: System.Type
+      description: "\n<p>The type declared in the data contract.</p>\n"
     - id: knownTypeResolver
       type: System.Runtime.Serialization.DataContractResolver
+      description: "\n<p>The known type resolver.</p>\n"
     - id: typeName
       type: System.Xml.XmlDictionaryString
+      description: "\n<p>The xsi:type name.</p>\n"
     - id: typeNamespace
       type: System.Xml.XmlDictionaryString
+      description: "\n<p>The xsi:type namespace.</p>\n"
     return:
       type: System.Boolean
+      description: "\n<p>\n<strong>true</strong> if mapping succeeded; otherwise, <strong>false</strong>.</p>\n"
   modifiers.csharp:
   - public
   - abstract
@@ -163,6 +193,215 @@ references:
   isExternal: false
   name: Object
   fullName: System.Object
+- uid: System.Object.ToString
+  parent: System.Object
+  isExternal: true
+  name: ToString()
+  fullName: System.Object.ToString()
+  spec.csharp:
+  - uid: System.Object.ToString
+    name: ToString
+    fullName: System.Object.ToString
+    isExternal: true
+  - name: (
+    fullName: (
+  - name: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.ToString
+    name: ToString
+    fullName: System.Object.ToString
+    isExternal: true
+  - name: (
+    fullName: (
+  - name: )
+    fullName: )
+- uid: System.Object.Equals(System.Object)
+  parent: System.Object
+  isExternal: true
+  name: Equals(Object)
+  fullName: System.Object.Equals(System.Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    fullName: )
+- uid: System.Object.Equals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  name: Equals(Object, Object)
+  fullName: System.Object.Equals(System.Object, System.Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    fullName: )
+- uid: System.Object.ReferenceEquals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  name: ReferenceEquals(Object, Object)
+  fullName: System.Object.ReferenceEquals(System.Object, System.Object)
+  spec.csharp:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    fullName: System.Object.ReferenceEquals
+    isExternal: true
+  - name: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    fullName: System.Object.ReferenceEquals
+    isExternal: true
+  - name: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    fullName: )
+- uid: System.Object.GetHashCode
+  parent: System.Object
+  isExternal: true
+  name: GetHashCode()
+  fullName: System.Object.GetHashCode()
+  spec.csharp:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    fullName: System.Object.GetHashCode
+    isExternal: true
+  - name: (
+    fullName: (
+  - name: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    fullName: System.Object.GetHashCode
+    isExternal: true
+  - name: (
+    fullName: (
+  - name: )
+    fullName: )
+- uid: System.Object.GetType
+  parent: System.Object
+  isExternal: true
+  name: GetType()
+  fullName: System.Object.GetType()
+  spec.csharp:
+  - uid: System.Object.GetType
+    name: GetType
+    fullName: System.Object.GetType
+    isExternal: true
+  - name: (
+    fullName: (
+  - name: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.GetType
+    name: GetType
+    fullName: System.Object.GetType
+    isExternal: true
+  - name: (
+    fullName: (
+  - name: )
+    fullName: )
+- uid: System.Object.MemberwiseClone
+  parent: System.Object
+  isExternal: true
+  name: MemberwiseClone()
+  fullName: System.Object.MemberwiseClone()
+  spec.csharp:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    fullName: System.Object.MemberwiseClone
+    isExternal: true
+  - name: (
+    fullName: (
+  - name: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    fullName: System.Object.MemberwiseClone
+    isExternal: true
+  - name: (
+    fullName: (
+  - name: )
+    fullName: )
 - uid: System
   isExternal: false
   name: System

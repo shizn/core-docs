@@ -39,13 +39,23 @@ items:
   assemblies:
   - System.Xml.XDocument
   namespace: System.Xml.Linq
+  summary: "\n<p>Contains the LINQ to XML extension methods.</p>\n"
+  remarks: "\n<p>Most of the LINQ to XML extension methods are axis methods that are used in LINQ queries. The methods in this class operate on collections and return collections. These methods enumerate the source collection, call the appropriate axis method on each item in the collection, and concatenate the results.</p>\n<p>The two <see cref=\"Overload:System.Xml.Linq.Extensions.Remove\"></see> extension methods are not axis methods, however. These methods remove attributes or nodes from the XML tree.</p>\n<p>Note that there is another category of axis methods, implemented in the <xref href=\"System.Xml.Linq.XElement\" data-throw-if-not-resolved=\"false\"></xref>, <xref href=\"System.Xml.Linq.XDocument\" data-throw-if-not-resolved=\"false\"></xref>, and <xref href=\"System.Xml.Linq.XNode\" data-throw-if-not-resolved=\"false\"></xref> classes. These other axis methods operate on a single object, and return a collection of <xref href=\"System.Xml.Linq.XElement\" data-throw-if-not-resolved=\"false\"></xref>, <xref href=\"System.Xml.Linq.XAttribute\" data-throw-if-not-resolved=\"false\"></xref>, or <xref href=\"System.Xml.Linq.XNode\" data-throw-if-not-resolved=\"false\"></xref> objects. </p>\n<p>All of the axis extension methods use deferred execution. </p>\n"
+  example:
+  - 
   syntax:
-    content: 'public class Extensions : object'
-    content.vb: >-
-      Public Class Extensions
-          Inherits Object
+    content: public class Extensions
+    content.vb: Public Class Extensions
   inheritance:
   - System.Object
+  inheritedMembers:
+  - System.Object.ToString
+  - System.Object.Equals(System.Object)
+  - System.Object.Equals(System.Object,System.Object)
+  - System.Object.ReferenceEquals(System.Object,System.Object)
+  - System.Object.GetHashCode
+  - System.Object.GetType
+  - System.Object.MemberwiseClone
   modifiers.csharp:
   - public
   - class
@@ -60,7 +70,7 @@ items:
   langs:
   - csharp
   - vb
-  name: Ancestors<T>(Collections.Generic.IEnumerable<T>)
+  name: Ancestors<T>(IEnumerable<T>)
   fullName: System.Xml.Linq.Extensions.Ancestors<T>(System.Collections.Generic.IEnumerable<T>)
   type: Method
   source:
@@ -74,19 +84,33 @@ items:
   assemblies:
   - System.Xml.XDocument
   namespace: System.Xml.Linq
+  summary: "\n<p>Returns a collection of elements that contains the ancestors of every node in the source collection.</p>\n"
+  remarks: "\n<p>If multiple nodes in the source collection have the same ancestor, the ancestor will be included multiple times in the result collection. To avoid this, use the <see cref=\"Overload:System.Linq.Enumerable.Distinct\"></see> method.</p>\n<p>This method uses deferred execution.</p>\n"
+  example:
+  - "\n<p>The following example retrieves a collection of the great grandchildren elements. It then uses this axis method to retrieve all ancestors of all elements in the collection.</p>\n<pre><code class=\"c#\">XElement xmlTree = new XElement(\"Root\",\nnew XElement(\"Child1\",\nnew XElement(\"GrandChild1\",\n    new XElement(\"GreatGrandChild1\", \"content\")\n)\n),\nnew XElement(\"Child2\",\nnew XElement(\"GrandChild2\",\n    new XElement(\"GreatGrandChild2\", \"content\")\n)\n)\n);\nIEnumerable<XElement> greatGrandChildren =\nfrom el in xmlTree.Descendants()\nwhere el.Name.LocalName.StartsWith(\"Great\")\nselect el;\n\nConsole.WriteLine(\"Great Grand Children Elements\");\nConsole.WriteLine(\"----\");\nforeach (XElement de in greatGrandChildren)\nConsole.WriteLine(de.Name);\n\nIEnumerable<XElement> allAncestors =\nfrom el in greatGrandChildren.Ancestors().Distinct()\nselect el;\n\nConsole.WriteLine(\"\");\nConsole.WriteLine(\"Ancestors\");\nConsole.WriteLine(\"----\");\nforeach (XElement de in allAncestors)\nConsole.WriteLine(de.Name);</code></pre>\n<pre><code class=\"vb\">Dim xmlTree As XElement = _\n<Root>\n<Child1>\n    <GrandChild1>\n        <GreatGrandChild1>content</GreatGrandChild1>\n    </GrandChild1>\n</Child1>\n<Child2>\n    <GrandChild2>\n        <GreatGrandChild2>content</GreatGrandChild2>\n    </GrandChild2>\n</Child2>\n</Root>\n\nDim greatGrandChildren = From el In xmlTree.Descendants _\n                 Where el.Name.LocalName.StartsWith(\"Great\") _\n                 Select el\n\nConsole.WriteLine(\"Great Grand Children Elements\")\nConsole.WriteLine(\"----\")\n\nFor Each de As XElement In greatGrandChildren\nConsole.WriteLine(de.Name)\nNext\n\nDim allAncestors = From el In greatGrandChildren.Ancestors.Distinct _\n           Select el\n\nConsole.WriteLine(\"\")\nConsole.WriteLine(\"Ancestors\")\nConsole.WriteLine(\"----\")\n\nFor Each de As XElement In allAncestors\nConsole.WriteLine(de.Name)\nNext</code></pre>\n<p>This example produces the following output:</p>\n<pre><code>Great Grand Children Elements\n----\nGreatGrandChild1\nGreatGrandChild2\n\nAncestors\n----\nGrandChild1\nChild1\nRoot\nGrandChild2\nChild2</code></pre>\n<p>The following is the same example, but in this case the XML is in a namespace. For more information, see Working with XML Namespaces.</p>\n<pre><code class=\"c#\">XNamespace aw = \"http://www.adventure-works.com\";\nXElement xmlTree = new XElement(aw + \"Root\",\nnew XElement(aw + \"Child1\",\nnew XElement(aw + \"GrandChild1\",\n    new XElement(aw + \"GreatGrandChild1\", \"content\")\n)\n),\nnew XElement(aw + \"Child2\",\nnew XElement(aw + \"GrandChild2\",\n    new XElement(aw + \"GreatGrandChild2\", \"content\")\n)\n)\n);\nIEnumerable<XElement> greatGrandChildren =\nfrom el in xmlTree.Descendants()\nwhere el.Name.LocalName.StartsWith(\"Great\")\nselect el;\n\nConsole.WriteLine(\"Great Grand Children Elements\");\nConsole.WriteLine(\"----\");\nforeach (XElement de in greatGrandChildren)\nConsole.WriteLine(de.Name);\n\nIEnumerable<XElement> allAncestors =\nfrom el in greatGrandChildren.Ancestors().Distinct()\nselect el;\n\nConsole.WriteLine(\"\");\nConsole.WriteLine(\"Ancestors\");\nConsole.WriteLine(\"----\");\nforeach (XElement de in allAncestors)\nConsole.WriteLine(de.Name);</code></pre>\n<pre><code class=\"vb\">Imports <xmlns=\"http://www.adventure-works.com\">\n\nModule Module1\nSub Main()\nDim xmlTree As XElement = _\n    <Root>\n        <Child1>\n            <GrandChild1>\n                <GreatGrandChild1>content</GreatGrandChild1>\n            </GrandChild1>\n        </Child1>\n        <Child2>\n            <GrandChild2>\n                <GreatGrandChild2>content</GreatGrandChild2>\n            </GrandChild2>\n        </Child2>\n    </Root>\n\nDim greatGrandChildren = From el In xmlTree.Descendants _\n                         Where el.Name.LocalName.StartsWith(\"Great\") _\n                         Select el\n\nConsole.WriteLine(\"Great Grand Children Elements\")\nConsole.WriteLine(\"----\")\n\nFor Each de As XElement In greatGrandChildren\n    Console.WriteLine(de.Name)\nNext\n\nDim allAncestors = From el In greatGrandChildren.Ancestors.Distinct _\n                   Select el\n\nConsole.WriteLine(\"\")\nConsole.WriteLine(\"Ancestors\")\nConsole.WriteLine(\"----\")\n\nFor Each de As XElement In allAncestors\n    Console.WriteLine(de.Name)\nNext\nEnd Sub\nEnd Module</code></pre>\n<p>This example produces the following output:</p>\n<pre><code>Great Grand Children Elements\n----\n{http://www.adventure-works.com}GreatGrandChild1\n{http://www.adventure-works.com}GreatGrandChild2\n\nAncestors\n----\n{http://www.adventure-works.com}GrandChild1\n{http://www.adventure-works.com}Child1\n{http://www.adventure-works.com}Root\n{http://www.adventure-works.com}GrandChild2\n{http://www.adventure-works.com}Child2</code></pre>\n"
   syntax:
-    content: 'public static Collections.Generic.IEnumerable<XElement> Ancestors<T>(this Collections.Generic.IEnumerable<T> source)where T : XNode'
+    content: 'public static IEnumerable<XElement> Ancestors<T>(this IEnumerable<T> source)where T : XNode'
     content.vb: >-
       <ExtensionAttribute>
 
-      Public Shared Function Ancestors(Of T As XNode)(source As Collections.Generic.IEnumerable(Of T)) As Collections.Generic.IEnumerable(Of XElement)
+      Public Shared Function Ancestors(Of T As XNode)(source As IEnumerable(Of T)) As IEnumerable(Of XElement)
     parameters:
     - id: source
       type: System.Collections.Generic.IEnumerable{{T}}
+      description: "\n<p>An <xref href=\"System.Collections.Generic.IEnumerable`1\" data-throw-if-not-resolved=\"false\"></xref> of <xref href=\"System.Xml.Linq.XNode\" data-throw-if-not-resolved=\"false\"></xref> that contains the source collection.</p>\n"
     typeParameters:
     - id: T
+      description: "\n<p>The type of the objects in <em>source</em>, constrained to <xref href=\"System.Xml.Linq.XNode\" data-throw-if-not-resolved=\"false\"></xref>.</p>\n"
     return:
       type: System.Collections.Generic.IEnumerable{System.Xml.Linq.XElement}
+      description: "\n<p>An <xref href=\"System.Collections.Generic.IEnumerable`1\" data-throw-if-not-resolved=\"false\"></xref> of <xref href=\"System.Xml.Linq.XElement\" data-throw-if-not-resolved=\"false\"></xref> that contains the ancestors of every node in the source collection.</p>\n"
+  seealso:
+  - type: System.Xml.Linq.XNode.Ancestors
+    commentId: M:System.Xml.Linq.XNode.Ancestors
+  - type: System.Xml.Linq.XElement.AncestorsAndSelf
+    commentId: M:System.Xml.Linq.XElement.AncestorsAndSelf
+  - type: System.Xml.Linq.Extensions.Nodes``1(System.Collections.Generic.IEnumerable{``0})
+    commentId: M:System.Xml.Linq.Extensions.Nodes``1(System.Collections.Generic.IEnumerable{``0})
   modifiers.csharp:
   - public
   - static
@@ -94,7 +118,7 @@ items:
   - Public
   - Shared
   fullName.vb: System.Xml.Linq.Extensions.Ancestors(Of T)(System.Collections.Generic.IEnumerable(Of T))
-  name.vb: Ancestors(Of T)(Collections.Generic.IEnumerable(Of T))
+  name.vb: Ancestors(Of T)(IEnumerable(Of T))
 - uid: System.Xml.Linq.Extensions.Ancestors``1(System.Collections.Generic.IEnumerable{``0},System.Xml.Linq.XName)
   commentId: M:System.Xml.Linq.Extensions.Ancestors``1(System.Collections.Generic.IEnumerable{``0},System.Xml.Linq.XName)
   id: Ancestors``1(System.Collections.Generic.IEnumerable{``0},System.Xml.Linq.XName)
@@ -103,7 +127,7 @@ items:
   langs:
   - csharp
   - vb
-  name: Ancestors<T>(Collections.Generic.IEnumerable<T>, XName)
+  name: Ancestors<T>(IEnumerable<T>, XName)
   fullName: System.Xml.Linq.Extensions.Ancestors<T>(System.Collections.Generic.IEnumerable<T>, System.Xml.Linq.XName)
   type: Method
   source:
@@ -117,21 +141,36 @@ items:
   assemblies:
   - System.Xml.XDocument
   namespace: System.Xml.Linq
+  summary: "\n<p>Returns a filtered collection of elements that contains the ancestors of every node in the source collection. Only elements that have a matching <xref href=\"System.Xml.Linq.XName\" data-throw-if-not-resolved=\"false\"></xref> are included in the collection.</p>\n"
+  remarks: "\n<p>If multiple nodes in the source collection have the same ancestor with a matching <xref href=\"System.Xml.Linq.XName\" data-throw-if-not-resolved=\"false\"></xref>, the ancestor will be included multiple times in the result collection.</p>\n<p>This method uses deferred execution.</p>\n"
+  example:
+  - "\n<p>The following example retrieves a collection of the great grandchildren elements. It then uses this axis method to retrieve all ancestors of all elements in the collection that match a specified <xref href=\"System.Xml.Linq.XName\" data-throw-if-not-resolved=\"false\"></xref>.</p>\n<pre><code class=\"c#\">XElement xmlTree = new XElement(\"Root\",\nnew XElement(\"Child1\",\nnew XElement(\"GrandChild1\",\n    new XElement(\"GreatGrandChild1\", \"content\")\n)\n),\nnew XElement(\"Child2\",\nnew XElement(\"GrandChild2\",\n    new XElement(\"GreatGrandChild2\", \"content\")\n)\n)\n);\nIEnumerable<XElement> greatGrandChildren =\nfrom el in xmlTree.Descendants()\nwhere el.Name.LocalName.StartsWith(\"Great\")\nselect el;\n\nConsole.WriteLine(\"Great Grand Children Elements\");\nConsole.WriteLine(\"----\");\nforeach (XElement de in greatGrandChildren)\nConsole.WriteLine(de.Name);\n\nIEnumerable<XElement> allAncestors =\nfrom el in greatGrandChildren.Ancestors(\"Child1\")\nselect el;\n\nConsole.WriteLine(\"\");\nConsole.WriteLine(\"Ancestors\");\nConsole.WriteLine(\"----\");\nforeach (XElement de in allAncestors)\nConsole.WriteLine(de.Name);</code></pre>\n<pre><code class=\"vb\">Dim xmlTree As XElement = _\n<Root>\n<Child1>\n    <GrandChild1>\n        <GreatGrandChild1>content</GreatGrandChild1>\n    </GrandChild1>\n</Child1>\n<Child2>\n    <GrandChild2>\n        <GreatGrandChild2>content</GreatGrandChild2>\n    </GrandChild2>\n</Child2>\n</Root>\n\nDim greatGrandChildren = From el In xmlTree.Descendants _\n                 Where el.Name.LocalName.StartsWith(\"Great\") _\n                 Select el\n\nConsole.WriteLine(\"Great Grand Children Elements\")\nConsole.WriteLine(\"----\")\n\nFor Each de As XElement In greatGrandChildren\nConsole.WriteLine(de.Name)\nNext\n\nDim allAncestors = From el In greatGrandChildren.Ancestors(\"Child1\") _\n           Select el\n\nConsole.WriteLine(\"\")\nConsole.WriteLine(\"Ancestors\")\nConsole.WriteLine(\"----\")\n\nFor Each de As XElement In allAncestors\nConsole.WriteLine(de.Name)\nNext</code></pre>\n<p>This example produces the following output:</p>\n<pre><code>Great Grand Children Elements\n----\nGreatGrandChild1\nGreatGrandChild2\n\nAncestors\n----\nChild1</code></pre>\n<p>The following is the same example, but in this case the XML is in a namespace. For more information, see Working with XML Namespaces.</p>\n<pre><code class=\"c#\">XNamespace aw = \"http://www.adventure-works.com\";\nXElement xmlTree = new XElement(aw + \"Root\",\nnew XElement(aw + \"Child1\",\nnew XElement(aw + \"GrandChild1\",\n    new XElement(aw + \"GreatGrandChild1\", \"content\")\n)\n),\nnew XElement(aw + \"Child2\",\nnew XElement(aw + \"GrandChild2\",\n    new XElement(aw + \"GreatGrandChild2\", \"content\")\n)\n)\n);\nIEnumerable<XElement> greatGrandChildren =\nfrom el in xmlTree.Descendants()\nwhere el.Name.LocalName.StartsWith(\"Great\")\nselect el;\n\nConsole.WriteLine(\"Great Grand Children Elements\");\nConsole.WriteLine(\"----\");\nforeach (XElement de in greatGrandChildren)\nConsole.WriteLine(de.Name);\n\nIEnumerable<XElement> allAncestors =\nfrom el in greatGrandChildren.Ancestors(aw + \"Child1\")\nselect el;\n\nConsole.WriteLine(\"\");\nConsole.WriteLine(\"Ancestors\");\nConsole.WriteLine(\"----\");\nforeach (XElement de in allAncestors)\nConsole.WriteLine(de.Name);</code></pre>\n<pre><code class=\"vb\">Imports <xmlns=\"http://www.adventure-works.com\">\n\nModule Module1\nSub Main()\nDim xmlTree As XElement = _\n    <Root>\n        <Child1>\n            <GrandChild1>\n                <GreatGrandChild1>content</GreatGrandChild1>\n            </GrandChild1>\n        </Child1>\n        <Child2>\n            <GrandChild2>\n                <GreatGrandChild2>content</GreatGrandChild2>\n            </GrandChild2>\n        </Child2>\n    </Root>\n\nDim greatGrandChildren = From el In xmlTree.Descendants _\n                         Where el.Name.LocalName.StartsWith(\"Great\") _\n                         Select el\n\nConsole.WriteLine(\"Great Grand Children Elements\")\nConsole.WriteLine(\"----\")\n\nFor Each de As XElement In greatGrandChildren\n    Console.WriteLine(de.Name)\nNext\n\nDim allAncestors = From el In greatGrandChildren.Ancestors(GetXmlNamespace() + \"Child1\") _\n                   Select el\n\nConsole.WriteLine(\"\")\nConsole.WriteLine(\"Ancestors\")\nConsole.WriteLine(\"----\")\n\nFor Each de As XElement In allAncestors\n    Console.WriteLine(de.Name)\nNext\nEnd Sub\nEnd Module</code></pre>\n<p>This example produces the following output:</p>\n<pre><code>Great Grand Children Elements\n----\n{http://www.adventure-works.com}GreatGrandChild1\n{http://www.adventure-works.com}GreatGrandChild2\n\nAncestors\n----\n{http://www.adventure-works.com}Child1</code></pre>\n"
   syntax:
-    content: 'public static Collections.Generic.IEnumerable<XElement> Ancestors<T>(this Collections.Generic.IEnumerable<T> source, XName name)where T : XNode'
+    content: 'public static IEnumerable<XElement> Ancestors<T>(this IEnumerable<T> source, XName name)where T : XNode'
     content.vb: >-
       <ExtensionAttribute>
 
-      Public Shared Function Ancestors(Of T As XNode)(source As Collections.Generic.IEnumerable(Of T), name As XName) As Collections.Generic.IEnumerable(Of XElement)
+      Public Shared Function Ancestors(Of T As XNode)(source As IEnumerable(Of T), name As XName) As IEnumerable(Of XElement)
     parameters:
     - id: source
       type: System.Collections.Generic.IEnumerable{{T}}
+      description: "\n<p>An <xref href=\"System.Collections.Generic.IEnumerable`1\" data-throw-if-not-resolved=\"false\"></xref> of <xref href=\"System.Xml.Linq.XNode\" data-throw-if-not-resolved=\"false\"></xref> that contains the source collection.</p>\n"
     - id: name
       type: System.Xml.Linq.XName
+      description: "\n<p>The <xref href=\"System.Xml.Linq.XName\" data-throw-if-not-resolved=\"false\"></xref> to match.</p>\n"
     typeParameters:
     - id: T
+      description: "\n<p>The type of the objects in <em>source</em>, constrained to <xref href=\"System.Xml.Linq.XNode\" data-throw-if-not-resolved=\"false\"></xref>.</p>\n"
     return:
       type: System.Collections.Generic.IEnumerable{System.Xml.Linq.XElement}
+      description: "\n<p>An <xref href=\"System.Collections.Generic.IEnumerable`1\" data-throw-if-not-resolved=\"false\"></xref> of <xref href=\"System.Xml.Linq.XElement\" data-throw-if-not-resolved=\"false\"></xref> that contains the ancestors of every node in the source collection. Only elements that have a matching <xref href=\"System.Xml.Linq.XName\" data-throw-if-not-resolved=\"false\"></xref> are included in the collection.</p>\n"
+  seealso:
+  - type: System.Xml.Linq.XNode.Ancestors
+    commentId: M:System.Xml.Linq.XNode.Ancestors
+  - type: System.Xml.Linq.XElement.AncestorsAndSelf
+    commentId: M:System.Xml.Linq.XElement.AncestorsAndSelf
+  - type: System.Xml.Linq.Extensions.Nodes``1(System.Collections.Generic.IEnumerable{``0})
+    commentId: M:System.Xml.Linq.Extensions.Nodes``1(System.Collections.Generic.IEnumerable{``0})
   modifiers.csharp:
   - public
   - static
@@ -139,7 +178,7 @@ items:
   - Public
   - Shared
   fullName.vb: System.Xml.Linq.Extensions.Ancestors(Of T)(System.Collections.Generic.IEnumerable(Of T), System.Xml.Linq.XName)
-  name.vb: Ancestors(Of T)(Collections.Generic.IEnumerable(Of T), XName)
+  name.vb: Ancestors(Of T)(IEnumerable(Of T), XName)
 - uid: System.Xml.Linq.Extensions.AncestorsAndSelf(System.Collections.Generic.IEnumerable{System.Xml.Linq.XElement})
   commentId: M:System.Xml.Linq.Extensions.AncestorsAndSelf(System.Collections.Generic.IEnumerable{System.Xml.Linq.XElement})
   id: AncestorsAndSelf(System.Collections.Generic.IEnumerable{System.Xml.Linq.XElement})
@@ -148,7 +187,7 @@ items:
   langs:
   - csharp
   - vb
-  name: AncestorsAndSelf(Collections.Generic.IEnumerable<XElement>)
+  name: AncestorsAndSelf(IEnumerable<XElement>)
   fullName: System.Xml.Linq.Extensions.AncestorsAndSelf(System.Collections.Generic.IEnumerable<System.Xml.Linq.XElement>)
   type: Method
   source:
@@ -162,17 +201,30 @@ items:
   assemblies:
   - System.Xml.XDocument
   namespace: System.Xml.Linq
+  summary: "\n<p>Returns a collection of elements that contains every element in the source collection, and the ancestors of every element in the source collection.</p>\n"
+  remarks: "\n<p>If multiple nodes in the source collection have the same ancestor, the ancestor will be included multiple times in the result collection. To avoid this, use the <see cref=\"Overload:System.Linq.Enumerable.Distinct\"></see> method.</p>\n<p>This method uses deferred execution. </p>\n"
+  example:
+  - "\n<p>The following example retrieves a collection of the great grandchildren elements. It then uses this axis method to retrieve all ancestors and self of all elements in the collection.</p>\n<pre><code class=\"c#\">XElement xmlTree = new XElement(\"Root\",\nnew XElement(\"Child1\",\nnew XElement(\"GrandChild1\",\n    new XElement(\"GreatGrandChild1\", \"content\")\n)\n),\nnew XElement(\"Child2\",\nnew XElement(\"GrandChild2\",\n    new XElement(\"GreatGrandChild2\", \"content\")\n)\n)\n);\nIEnumerable<XElement> greatGrandChildren =\nfrom el in xmlTree.Descendants()\nwhere el.Name.LocalName.StartsWith(\"Great\")\nselect el;\n\nConsole.WriteLine(\"Great Grand Children Elements\");\nConsole.WriteLine(\"----\");\nforeach (XElement de in greatGrandChildren)\nConsole.WriteLine(de.Name);\n\nIEnumerable<XElement> allAncestors =\nfrom el in greatGrandChildren.AncestorsAndSelf().Distinct()\nselect el;\n\nConsole.WriteLine(\"\");\nConsole.WriteLine(\"Ancestors and Self\");\nConsole.WriteLine(\"----\");\nforeach (XElement de in allAncestors)\nConsole.WriteLine(de.Name);</code></pre>\n<pre><code class=\"vb\">Dim xmlTree As XElement = _ \n<Root>\n<Child1>\n    <GrandChild1>\n        <GreatGrandChild1>content</GreatGrandChild1>\n    </GrandChild1>\n</Child1>\n<Child2>\n    <GrandChild2>\n        <GreatGrandChild2>content</GreatGrandChild2>\n    </GrandChild2>\n</Child2>\n</Root>\n\nDim greatGrandChildren = From el In xmlTree.Descendants _\n                 Where el.Name.LocalName.StartsWith(\"Great\") _\n                 Select el\n\nConsole.WriteLine(\"Great Grand Children Elements\")\nConsole.WriteLine(\"----\")\n\nFor Each de As XElement In greatGrandChildren\nConsole.WriteLine(de.Name)\nNext\n\nDim allAncestors = From el In greatGrandChildren.AncestorsAndSelf.Distinct _\n           Select el\n\nConsole.WriteLine(\"\")\nConsole.WriteLine(\"Ancestors and Self\")\nConsole.WriteLine(\"----\")\n\nFor Each de As XElement In allAncestors\nConsole.WriteLine(de.Name)\nNext</code></pre>\n<p>This example produces the following output:</p>\n<pre><code>Great Grand Children Elements\n----\nGreatGrandChild1\nGreatGrandChild2\n\nAncestors and Self\n----\nGreatGrandChild1\nGrandChild1\nChild1\nRoot\nGreatGrandChild2\nGrandChild2\nChild2</code></pre>\n<p>The following is the same example, but in this case the XML is in a namespace. For more information, see Working with XML Namespaces.</p>\n<pre><code class=\"c#\">XNamespace aw = \"http://www.adventure-works.com\";\nXElement xmlTree = new XElement(aw + \"Root\",\nnew XElement(aw + \"Child1\",\nnew XElement(aw + \"GrandChild1\",\n    new XElement(aw + \"GreatGrandChild1\", \"content\")\n)\n),\nnew XElement(aw + \"Child2\",\nnew XElement(aw + \"GrandChild2\",\n    new XElement(aw + \"GreatGrandChild2\", \"content\")\n)\n)\n);\nIEnumerable<XElement> greatGrandChildren =\nfrom el in xmlTree.Descendants()\nwhere el.Name.LocalName.StartsWith(\"Great\")\nselect el;\n\nConsole.WriteLine(\"Great Grand Children Elements\");\nConsole.WriteLine(\"----\");\nforeach (XElement de in greatGrandChildren)\nConsole.WriteLine(de.Name);\n\nIEnumerable<XElement> allAncestors =\nfrom el in greatGrandChildren.AncestorsAndSelf().Distinct()\nselect el;\n\nConsole.WriteLine(\"\");\nConsole.WriteLine(\"Ancestors and Self\");\nConsole.WriteLine(\"----\");\nforeach (XElement de in allAncestors)\nConsole.WriteLine(de.Name);</code></pre>\n<pre><code class=\"vb\">Imports <xmlns=\"http://www.adventure-works.com\">\n\nModule Module1\nSub Main()\nDim xmlTree As XElement = _\n    <Root>\n        <Child1>\n            <GrandChild1>\n                <GreatGrandChild1>content</GreatGrandChild1>\n            </GrandChild1>\n        </Child1>\n        <Child2>\n            <GrandChild2>\n                <GreatGrandChild2>content</GreatGrandChild2>\n            </GrandChild2>\n        </Child2>\n    </Root>\n\nDim greatGrandChildren = From el In xmlTree.Descendants _\n                         Where el.Name.LocalName.StartsWith(\"Great\") _\n                         Select el\n\nConsole.WriteLine(\"Great Grand Children Elements\")\nConsole.WriteLine(\"----\")\n\nFor Each de As XElement In greatGrandChildren\n    Console.WriteLine(de.Name)\nNext\n\nDim allAncestors = From el In greatGrandChildren.AncestorsAndSelf.Distinct _\n                   Select el\n\nConsole.WriteLine(\"\")\nConsole.WriteLine(\"Ancestors and Self\")\nConsole.WriteLine(\"----\")\n\nFor Each de As XElement In allAncestors\n    Console.WriteLine(de.Name)\nNext\nEnd Sub\nEnd Module</code></pre>\n<p>This example produces the following output:</p>\n<pre><code>Great Grand Children Elements\n----\n{http://www.adventure-works.com}GreatGrandChild1\n{http://www.adventure-works.com}GreatGrandChild2\n\nAncestors and Self\n----\n{http://www.adventure-works.com}GreatGrandChild1\n{http://www.adventure-works.com}GrandChild1\n{http://www.adventure-works.com}Child1\n{http://www.adventure-works.com}Root\n{http://www.adventure-works.com}GreatGrandChild2\n{http://www.adventure-works.com}GrandChild2\n{http://www.adventure-works.com}Child2</code></pre>\n"
   syntax:
-    content: public static Collections.Generic.IEnumerable<XElement> AncestorsAndSelf(this Collections.Generic.IEnumerable<XElement> source)
+    content: public static IEnumerable<XElement> AncestorsAndSelf(this IEnumerable<XElement> source)
     content.vb: >-
       <ExtensionAttribute>
 
-      Public Shared Function AncestorsAndSelf(source As Collections.Generic.IEnumerable(Of XElement)) As Collections.Generic.IEnumerable(Of XElement)
+      Public Shared Function AncestorsAndSelf(source As IEnumerable(Of XElement)) As IEnumerable(Of XElement)
     parameters:
     - id: source
       type: System.Collections.Generic.IEnumerable{System.Xml.Linq.XElement}
+      description: "\n<p>An <xref href=\"System.Collections.Generic.IEnumerable`1\" data-throw-if-not-resolved=\"false\"></xref> of <xref href=\"System.Xml.Linq.XElement\" data-throw-if-not-resolved=\"false\"></xref> that contains the source collection.</p>\n"
     return:
       type: System.Collections.Generic.IEnumerable{System.Xml.Linq.XElement}
+      description: "\n<p>An <xref href=\"System.Collections.Generic.IEnumerable`1\" data-throw-if-not-resolved=\"false\"></xref> of <xref href=\"System.Xml.Linq.XElement\" data-throw-if-not-resolved=\"false\"></xref> that contains every element in the source collection, and the ancestors of every element in the source collection.</p>\n"
+  seealso:
+  - type: System.Xml.Linq.XNode.Ancestors
+    commentId: M:System.Xml.Linq.XNode.Ancestors
+  - type: System.Xml.Linq.XElement.AncestorsAndSelf
+    commentId: M:System.Xml.Linq.XElement.AncestorsAndSelf
+  - type: System.Xml.Linq.Extensions.Nodes``1(System.Collections.Generic.IEnumerable{``0})
+    commentId: M:System.Xml.Linq.Extensions.Nodes``1(System.Collections.Generic.IEnumerable{``0})
   modifiers.csharp:
   - public
   - static
@@ -180,7 +232,7 @@ items:
   - Public
   - Shared
   fullName.vb: System.Xml.Linq.Extensions.AncestorsAndSelf(System.Collections.Generic.IEnumerable(Of System.Xml.Linq.XElement))
-  name.vb: AncestorsAndSelf(Collections.Generic.IEnumerable(Of XElement))
+  name.vb: AncestorsAndSelf(IEnumerable(Of XElement))
 - uid: System.Xml.Linq.Extensions.AncestorsAndSelf(System.Collections.Generic.IEnumerable{System.Xml.Linq.XElement},System.Xml.Linq.XName)
   commentId: M:System.Xml.Linq.Extensions.AncestorsAndSelf(System.Collections.Generic.IEnumerable{System.Xml.Linq.XElement},System.Xml.Linq.XName)
   id: AncestorsAndSelf(System.Collections.Generic.IEnumerable{System.Xml.Linq.XElement},System.Xml.Linq.XName)
@@ -189,7 +241,7 @@ items:
   langs:
   - csharp
   - vb
-  name: AncestorsAndSelf(Collections.Generic.IEnumerable<XElement>, XName)
+  name: AncestorsAndSelf(IEnumerable<XElement>, XName)
   fullName: System.Xml.Linq.Extensions.AncestorsAndSelf(System.Collections.Generic.IEnumerable<System.Xml.Linq.XElement>, System.Xml.Linq.XName)
   type: Method
   source:
@@ -203,19 +255,33 @@ items:
   assemblies:
   - System.Xml.XDocument
   namespace: System.Xml.Linq
+  summary: "\n<p>Returns a filtered collection of elements that contains every element in the source collection, and the ancestors of every element in the source collection. Only elements that have a matching <xref href=\"System.Xml.Linq.XName\" data-throw-if-not-resolved=\"false\"></xref> are included in the collection.</p>\n"
+  remarks: "\n<p>If multiple nodes in the source collection have the same ancestor with a matching <xref href=\"System.Xml.Linq.XName\" data-throw-if-not-resolved=\"false\"></xref>, the ancestor will be included multiple times in the result collection.</p>\n<p>This method uses deferred execution. </p>\n"
+  example:
+  - "\n<p>The following example retrieves a collection of the great grandchildren elements. It then uses this axis method to retrieve all self and ancestors of all elements in the collection that match a specified <xref href=\"System.Xml.Linq.XName\" data-throw-if-not-resolved=\"false\"></xref>.</p>\n<pre><code class=\"c#\">XElement xmlTree = new XElement(\"Root\",\nnew XElement(\"Child1\",\nnew XElement(\"GrandChild1\",\n    new XElement(\"GreatGrandChild1\", \"content\")\n)\n),\nnew XElement(\"Child2\",\nnew XElement(\"GrandChild2\",\n    new XElement(\"GreatGrandChild2\", \"content\")\n)\n)\n);\nIEnumerable<XElement> greatGrandChildren =\nfrom el in xmlTree.Descendants()\nwhere el.Name.LocalName.StartsWith(\"Great\")\nselect el;\n\nConsole.WriteLine(\"Great Grand Children Elements\");\nConsole.WriteLine(\"----\");\nforeach (XElement de in greatGrandChildren)\nConsole.WriteLine(de.Name);\n\nIEnumerable<XElement> allAncestors =\nfrom el in greatGrandChildren.AncestorsAndSelf(\"GreatGrandChild1\")\nselect el;\n\nConsole.WriteLine(\"\");\nConsole.WriteLine(\"Ancestors and Self\");\nConsole.WriteLine(\"----\");\nforeach (XElement de in allAncestors)\nConsole.WriteLine(de.Name);</code></pre>\n<pre><code class=\"vb\">Dim xmlTree As XElement = _\n<Root>\n<Child1>\n    <GrandChild1>\n        <GreatGrandChild1>content</GreatGrandChild1>\n    </GrandChild1>\n</Child1>\n<Child2>\n    <GrandChild2>\n        <GreatGrandChild2>content</GreatGrandChild2>\n    </GrandChild2>\n</Child2>\n</Root>\n\nDim greatGrandChildren = From el In xmlTree.Descendants _\n                 Where el.Name.LocalName.StartsWith(\"Great\") _\n                 Select el\n\nConsole.WriteLine(\"Great Grand Children Elements\")\nConsole.WriteLine(\"----\")\n\nFor Each de As XElement In greatGrandChildren\nConsole.WriteLine(de.Name)\nNext\n\nDim allAncestors = From el In greatGrandChildren.AncestorsAndSelf(\"GreatGrandChild1\") _\n           Select el\n\nConsole.WriteLine(\"\")\nConsole.WriteLine(\"Ancestors and Self\")\nConsole.WriteLine(\"----\")\n\nFor Each de As XElement In allAncestors\nConsole.WriteLine(de.Name)\nNext</code></pre>\n<p>This example produces the following output:</p>\n<pre><code>Great Grand Children Elements\n----\nGreatGrandChild1\nGreatGrandChild2\n\nAncestors and Self\n----\nGreatGrandChild1</code></pre>\n<p>The following is the same example, but in this case the XML is in a namespace. For more information, see Working with XML Namespaces.</p>\n<pre><code class=\"c#\">XNamespace aw = \"http://www.adventure-works.com\";\nXElement xmlTree = new XElement(aw + \"Root\",\nnew XElement(aw + \"Child1\",\nnew XElement(aw + \"GrandChild1\",\n    new XElement(aw + \"GreatGrandChild1\", \"content\")\n)\n),\nnew XElement(aw + \"Child2\",\nnew XElement(aw + \"GrandChild2\",\n    new XElement(aw + \"GreatGrandChild2\", \"content\")\n)\n)\n);\nIEnumerable<XElement> greatGrandChildren =\nfrom el in xmlTree.Descendants()\nwhere el.Name.LocalName.StartsWith(\"Great\")\nselect el;\n\nConsole.WriteLine(\"Great Grand Children Elements\");\nConsole.WriteLine(\"----\");\nforeach (XElement de in greatGrandChildren)\nConsole.WriteLine(de.Name);\n\nIEnumerable<XElement> allAncestors =\nfrom el in greatGrandChildren.AncestorsAndSelf(aw + \"GreatGrandChild1\")\nselect el;\n\nConsole.WriteLine(\"\");\nConsole.WriteLine(\"Ancestors and Self\");\nConsole.WriteLine(\"----\");\nforeach (XElement de in allAncestors)\nConsole.WriteLine(de.Name);</code></pre>\n<pre><code class=\"vb\">Imports <xmlns=\"http://www.adventure-works.com\">\n\nModule Module1\nSub Main()\nDim xmlTree As XElement = _\n    <Root>\n        <Child1>\n            <GrandChild1>\n                <GreatGrandChild1>content</GreatGrandChild1>\n            </GrandChild1>\n        </Child1>\n        <Child2>\n            <GrandChild2>\n                <GreatGrandChild2>content</GreatGrandChild2>\n            </GrandChild2>\n        </Child2>\n    </Root>\n\nDim greatGrandChildren = From el In xmlTree.Descendants _\n                         Where el.Name.LocalName.StartsWith(\"Great\") _\n                         Select el\n\nConsole.WriteLine(\"Great Grand Children Elements\")\nConsole.WriteLine(\"----\")\n\nFor Each de As XElement In greatGrandChildren\n    Console.WriteLine(de.Name)\nNext\n\nDim allAncestors = From el In greatGrandChildren.AncestorsAndSelf(GetXmlNamespace() + \"GreatGrandChild1\") _\n                   Select el\n\nConsole.WriteLine(\"\")\nConsole.WriteLine(\"Ancestors and Self\")\nConsole.WriteLine(\"----\")\n\nFor Each de As XElement In allAncestors\n    Console.WriteLine(de.Name)\nNext\nEnd Sub\nEnd Module</code></pre>\n<p>This example produces the following output:</p>\n<pre><code>Great Grand Children Elements\n----\n{http://www.adventure-works.com}GreatGrandChild1\n{http://www.adventure-works.com}GreatGrandChild2\n\nAncestors and Self\n----\n{http://www.adventure-works.com}GreatGrandChild1</code></pre>\n"
   syntax:
-    content: public static Collections.Generic.IEnumerable<XElement> AncestorsAndSelf(this Collections.Generic.IEnumerable<XElement> source, XName name)
+    content: public static IEnumerable<XElement> AncestorsAndSelf(this IEnumerable<XElement> source, XName name)
     content.vb: >-
       <ExtensionAttribute>
 
-      Public Shared Function AncestorsAndSelf(source As Collections.Generic.IEnumerable(Of XElement), name As XName) As Collections.Generic.IEnumerable(Of XElement)
+      Public Shared Function AncestorsAndSelf(source As IEnumerable(Of XElement), name As XName) As IEnumerable(Of XElement)
     parameters:
     - id: source
       type: System.Collections.Generic.IEnumerable{System.Xml.Linq.XElement}
+      description: "\n<p>An <xref href=\"System.Collections.Generic.IEnumerable`1\" data-throw-if-not-resolved=\"false\"></xref> of <xref href=\"System.Xml.Linq.XElement\" data-throw-if-not-resolved=\"false\"></xref> that contains the source collection.</p>\n"
     - id: name
       type: System.Xml.Linq.XName
+      description: "\n<p>The <xref href=\"System.Xml.Linq.XName\" data-throw-if-not-resolved=\"false\"></xref> to match.</p>\n"
     return:
       type: System.Collections.Generic.IEnumerable{System.Xml.Linq.XElement}
+      description: "\n<p>An <xref href=\"System.Collections.Generic.IEnumerable`1\" data-throw-if-not-resolved=\"false\"></xref> of <xref href=\"System.Xml.Linq.XElement\" data-throw-if-not-resolved=\"false\"></xref> that contains every element in the source collection, and the ancestors of every element in the source collection. Only elements that have a matching <xref href=\"System.Xml.Linq.XName\" data-throw-if-not-resolved=\"false\"></xref> are included in the collection.</p>\n"
+  seealso:
+  - type: System.Xml.Linq.XNode.Ancestors
+    commentId: M:System.Xml.Linq.XNode.Ancestors
+  - type: System.Xml.Linq.XElement.AncestorsAndSelf
+    commentId: M:System.Xml.Linq.XElement.AncestorsAndSelf
+  - type: System.Xml.Linq.Extensions.Nodes``1(System.Collections.Generic.IEnumerable{``0})
+    commentId: M:System.Xml.Linq.Extensions.Nodes``1(System.Collections.Generic.IEnumerable{``0})
   modifiers.csharp:
   - public
   - static
@@ -223,7 +289,7 @@ items:
   - Public
   - Shared
   fullName.vb: System.Xml.Linq.Extensions.AncestorsAndSelf(System.Collections.Generic.IEnumerable(Of System.Xml.Linq.XElement), System.Xml.Linq.XName)
-  name.vb: AncestorsAndSelf(Collections.Generic.IEnumerable(Of XElement), XName)
+  name.vb: AncestorsAndSelf(IEnumerable(Of XElement), XName)
 - uid: System.Xml.Linq.Extensions.Attributes(System.Collections.Generic.IEnumerable{System.Xml.Linq.XElement})
   commentId: M:System.Xml.Linq.Extensions.Attributes(System.Collections.Generic.IEnumerable{System.Xml.Linq.XElement})
   id: Attributes(System.Collections.Generic.IEnumerable{System.Xml.Linq.XElement})
@@ -232,7 +298,7 @@ items:
   langs:
   - csharp
   - vb
-  name: Attributes(Collections.Generic.IEnumerable<XElement>)
+  name: Attributes(IEnumerable<XElement>)
   fullName: System.Xml.Linq.Extensions.Attributes(System.Collections.Generic.IEnumerable<System.Xml.Linq.XElement>)
   type: Method
   source:
@@ -246,17 +312,26 @@ items:
   assemblies:
   - System.Xml.XDocument
   namespace: System.Xml.Linq
+  summary: "\n<p>Returns a collection of the attributes of every element in the source collection.</p>\n"
+  remarks: "\n<p>Note that unlike some other XML programming interfaces, in LINQ to XML, namespaces are surfaced as attributes.</p>\n<p>Although Visual Basic users can use the integrated attribute axis to retrieve attributes with a specified name from a collection of elements, there is no integrated Visual Basic axis to retrieve all attributes of all elements in a collection.</p>\n<p>This method uses deferred execution.</p>\n"
+  example:
+  - "\n<p>The following example retrieves a collection of elements, and then retrieves a collection of all attributes of all elements in the collection. Note that the resulting collection includes only the attributes of the <code>Child1</code> and <code>Child2</code> elements, and not the attributes of the <code>Root</code> element.</p>\n<p>Note that the namespace attribute is returned by this method.</p>\n<pre><code class=\"c#\">XElement xmlTree = new XElement(\"Root\",\nnew XAttribute(XNamespace.Xmlns + \"aw\", \"http://www.adventure-works.com\"),\nnew XAttribute(\"Att1\", \"content1\"),\nnew XAttribute(\"Att2\", \"content2\"),\nnew XElement(\"Child1\",\nnew XAttribute(\"Att1\", \"content3\"),\nnew XAttribute(\"Att2\", \"content4\")\n),\nnew XElement(\"Child2\",\nnew XAttribute(\"Att1\", \"content5\"),\nnew XAttribute(\"Att2\", \"content6\")\n)\n);\nConsole.WriteLine(xmlTree);\nConsole.WriteLine(\"-----\");\n\nIEnumerable<XAttribute> attList =\nfrom att in xmlTree.DescendantsAndSelf().Attributes()\nselect att;\n\nforeach (XAttribute att in attList)\nConsole.WriteLine(att);</code></pre>\n<pre><code class=\"vb\">Dim xmlTree As XElement = _\n<Root xmlns:aw=\"http://www.adventure-works.com\" Att1=\"content1\" Att2=\"content2\">\n<Child1 Att1=\"content3\" Att2=\"content4\"/>\n<Child2 Att1=\"content5\" Att2=\"content6\"/>\n</Root>\n\nDim attList = _\nFrom att In xmlTree.DescendantsAndSelf.Attributes _\nSelect att\n\nConsole.WriteLine(xmlTree)\nConsole.WriteLine(\"-----\")\n\nFor Each att As XAttribute In attList\nConsole.WriteLine(att)\nNext</code></pre>\n<p>This example produces the following output:</p>\n<pre><code><Root xmlns:aw=\"http://www.adventure-works.com\" Att1=\"content1\" Att2=\"content2\">\n<Child1 Att1=\"content3\" Att2=\"content4\" />\n<Child2 Att1=\"content5\" Att2=\"content6\" />\n</Root>\n-----\nxmlns:aw=\"http://www.adventure-works.com\"\nAtt1=\"content1\"\nAtt2=\"content2\"\nAtt1=\"content3\"\nAtt2=\"content4\"\nAtt1=\"content5\"\nAtt2=\"content6\"</code></pre>\n<p>The following is the same example, but in this case the XML is in a namespace. For more information, see Working with XML Namespaces. Note that the namespace attribute is included in the returned collection.</p>\n<pre><code class=\"c#\">XNamespace aw = \"http://www.adventure-works.com\";\nXElement xmlTree = new XElement(aw + \"Root\",\nnew XAttribute(XNamespace.Xmlns + \"aw\", \"http://www.adventure-works.com\"),\nnew XAttribute(aw + \"Att1\", \"content1\"),\nnew XAttribute(aw + \"Att2\", \"content2\"),\nnew XElement(aw + \"Child1\",\nnew XAttribute(aw + \"Att1\", \"content3\"),\nnew XAttribute(aw + \"Att2\", \"content4\")\n),\nnew XElement(aw + \"Child2\",\nnew XAttribute(aw + \"Att1\", \"content5\"),\nnew XAttribute(aw + \"Att2\", \"content6\")\n)\n);\nConsole.WriteLine(xmlTree);\nConsole.WriteLine(\"-----\");\n\nIEnumerable<XAttribute> attList =\nfrom att in xmlTree.DescendantsAndSelf().Attributes()\nselect att;\n\nforeach (XAttribute att in attList)\nConsole.WriteLine(att);</code></pre>\n<pre><code class=\"vb\">Imports <xmlns:aw=\"http://www.adventure-works.com\">\n\nModule Module1\nSub Main()\nDim xmlTree As XElement = _\n    <aw:Root xmlns:aw=\"http://www.adventure-works.com\" aw:Att1=\"content1\" aw:Att2=\"content2\">\n        <aw:Child1 aw:Att1=\"content3\" aw:Att2=\"content4\"/>\n        <aw:Child2 aw:Att1=\"content5\" aw:Att2=\"content6\"/>\n    </aw:Root>\n\nDim attList = _\n    From att In xmlTree.DescendantsAndSelf.Attributes _\n    Select att\n\nConsole.WriteLine(xmlTree)\nConsole.WriteLine(\"-----\")\n\nFor Each att As XAttribute In attList\n    Console.WriteLine(att)\nNext\nEnd Sub\nEnd Module</code></pre>\n<p>This example produces the following output:</p>\n<pre><code><aw:Root xmlns:aw=\"http://www.adventure-works.com\" aw:Att1=\"content1\" aw:Att2=\"content2\">\n<aw:Child1 aw:Att1=\"content3\" aw:Att2=\"content4\" />\n<aw:Child2 aw:Att1=\"content5\" aw:Att2=\"content6\" />\n</aw:Root>\n-----\nxmlns:aw=\"http://www.adventure-works.com\"\naw:Att1=\"content1\"\naw:Att2=\"content2\"\naw:Att1=\"content3\"\naw:Att2=\"content4\"\naw:Att1=\"content5\"\naw:Att2=\"content6\"</code></pre>\n"
   syntax:
-    content: public static Collections.Generic.IEnumerable<XAttribute> Attributes(this Collections.Generic.IEnumerable<XElement> source)
+    content: public static IEnumerable<XAttribute> Attributes(this IEnumerable<XElement> source)
     content.vb: >-
       <ExtensionAttribute>
 
-      Public Shared Function Attributes(source As Collections.Generic.IEnumerable(Of XElement)) As Collections.Generic.IEnumerable(Of XAttribute)
+      Public Shared Function Attributes(source As IEnumerable(Of XElement)) As IEnumerable(Of XAttribute)
     parameters:
     - id: source
       type: System.Collections.Generic.IEnumerable{System.Xml.Linq.XElement}
+      description: "\n<p>An <xref href=\"System.Collections.Generic.IEnumerable`1\" data-throw-if-not-resolved=\"false\"></xref> of <xref href=\"System.Xml.Linq.XElement\" data-throw-if-not-resolved=\"false\"></xref> that contains the source collection.</p>\n"
     return:
       type: System.Collections.Generic.IEnumerable{System.Xml.Linq.XAttribute}
+      description: "\n<p>An <xref href=\"System.Collections.Generic.IEnumerable`1\" data-throw-if-not-resolved=\"false\"></xref> of <xref href=\"System.Xml.Linq.XAttribute\" data-throw-if-not-resolved=\"false\"></xref> that contains the attributes of every element in the source collection.</p>\n"
+  seealso:
+  - type: System.Xml.Linq.XElement.Attributes
+    commentId: M:System.Xml.Linq.XElement.Attributes
   modifiers.csharp:
   - public
   - static
@@ -264,7 +339,7 @@ items:
   - Public
   - Shared
   fullName.vb: System.Xml.Linq.Extensions.Attributes(System.Collections.Generic.IEnumerable(Of System.Xml.Linq.XElement))
-  name.vb: Attributes(Collections.Generic.IEnumerable(Of XElement))
+  name.vb: Attributes(IEnumerable(Of XElement))
 - uid: System.Xml.Linq.Extensions.Attributes(System.Collections.Generic.IEnumerable{System.Xml.Linq.XElement},System.Xml.Linq.XName)
   commentId: M:System.Xml.Linq.Extensions.Attributes(System.Collections.Generic.IEnumerable{System.Xml.Linq.XElement},System.Xml.Linq.XName)
   id: Attributes(System.Collections.Generic.IEnumerable{System.Xml.Linq.XElement},System.Xml.Linq.XName)
@@ -273,7 +348,7 @@ items:
   langs:
   - csharp
   - vb
-  name: Attributes(Collections.Generic.IEnumerable<XElement>, XName)
+  name: Attributes(IEnumerable<XElement>, XName)
   fullName: System.Xml.Linq.Extensions.Attributes(System.Collections.Generic.IEnumerable<System.Xml.Linq.XElement>, System.Xml.Linq.XName)
   type: Method
   source:
@@ -287,19 +362,29 @@ items:
   assemblies:
   - System.Xml.XDocument
   namespace: System.Xml.Linq
+  summary: "\n<p>Returns a filtered collection of the attributes of every element in the source collection. Only elements that have a matching <xref href=\"System.Xml.Linq.XName\" data-throw-if-not-resolved=\"false\"></xref> are included in the collection.</p>\n"
+  remarks: "\n<p>Note that unlike some other XML programming interfaces, in LINQ to XML, namespaces are surfaced as attributes.</p>\n<p>This method uses deferred execution. </p>\n"
+  example:
+  - "\n<p>The following example retrieves a collection of elements, which in this case includes the <code>Child1</code> and <code>Child2</code> elements. It then retrieves all attributes of that child collection with a name of <code>Att1</code>.</p>\n<pre><code class=\"c#\">XElement xmlTree = new XElement(\"Root\",\nnew XAttribute(\"Att1\", \"content1\"),\nnew XAttribute(\"Att2\", \"content2\"),\nnew XElement(\"Child1\",\nnew XAttribute(\"Att1\", \"content3\"),\nnew XAttribute(\"Att2\", \"content4\")\n),\nnew XElement(\"Child2\",\nnew XAttribute(\"Att1\", \"content5\"),\nnew XAttribute(\"Att2\", \"content6\")\n)\n);\n\nIEnumerable<XAttribute> attList = from att in xmlTree.Elements().Attributes(\"Att1\")\n                          select att;\n\nforeach (XAttribute att in attList)\nConsole.WriteLine(att);</code></pre>\n<pre><code class=\"vb\">Dim xmlTree As XElement = _\n<Root Att1=\"content1\" Att2=\"content2\">\n<Child1 Att1=\"content3\" Att2=\"content4\">\n</Child1>\n<Child2 Att1=\"content5\" Att2=\"content6\">\n</Child2>\n</Root>\n\nDim attList = From att In xmlTree.Elements.Attributes(\"Att1\") _\n                  Select att\n\nFor Each att As XAttribute In attList\nConsole.WriteLine(att)\nNext</code></pre>\n<p>This example produces the following output:</p>\n<pre><code>Att1=\"content3\"\nAtt1=\"content5\"</code></pre>\n"
   syntax:
-    content: public static Collections.Generic.IEnumerable<XAttribute> Attributes(this Collections.Generic.IEnumerable<XElement> source, XName name)
+    content: public static IEnumerable<XAttribute> Attributes(this IEnumerable<XElement> source, XName name)
     content.vb: >-
       <ExtensionAttribute>
 
-      Public Shared Function Attributes(source As Collections.Generic.IEnumerable(Of XElement), name As XName) As Collections.Generic.IEnumerable(Of XAttribute)
+      Public Shared Function Attributes(source As IEnumerable(Of XElement), name As XName) As IEnumerable(Of XAttribute)
     parameters:
     - id: source
       type: System.Collections.Generic.IEnumerable{System.Xml.Linq.XElement}
+      description: "\n<p>An <xref href=\"System.Collections.Generic.IEnumerable`1\" data-throw-if-not-resolved=\"false\"></xref> of <xref href=\"System.Xml.Linq.XElement\" data-throw-if-not-resolved=\"false\"></xref> that contains the source collection.</p>\n"
     - id: name
       type: System.Xml.Linq.XName
+      description: "\n<p>The <xref href=\"System.Xml.Linq.XName\" data-throw-if-not-resolved=\"false\"></xref> to match.</p>\n"
     return:
       type: System.Collections.Generic.IEnumerable{System.Xml.Linq.XAttribute}
+      description: "\n<p>An <xref href=\"System.Collections.Generic.IEnumerable`1\" data-throw-if-not-resolved=\"false\"></xref> of <xref href=\"System.Xml.Linq.XAttribute\" data-throw-if-not-resolved=\"false\"></xref> that contains a filtered collection of the attributes of every element in the source collection. Only elements that have a matching <xref href=\"System.Xml.Linq.XName\" data-throw-if-not-resolved=\"false\"></xref> are included in the collection.</p>\n"
+  seealso:
+  - type: System.Xml.Linq.XElement.Attributes
+    commentId: M:System.Xml.Linq.XElement.Attributes
   modifiers.csharp:
   - public
   - static
@@ -307,7 +392,7 @@ items:
   - Public
   - Shared
   fullName.vb: System.Xml.Linq.Extensions.Attributes(System.Collections.Generic.IEnumerable(Of System.Xml.Linq.XElement), System.Xml.Linq.XName)
-  name.vb: Attributes(Collections.Generic.IEnumerable(Of XElement), XName)
+  name.vb: Attributes(IEnumerable(Of XElement), XName)
 - uid: System.Xml.Linq.Extensions.DescendantNodes``1(System.Collections.Generic.IEnumerable{``0})
   commentId: M:System.Xml.Linq.Extensions.DescendantNodes``1(System.Collections.Generic.IEnumerable{``0})
   id: DescendantNodes``1(System.Collections.Generic.IEnumerable{``0})
@@ -316,7 +401,7 @@ items:
   langs:
   - csharp
   - vb
-  name: DescendantNodes<T>(Collections.Generic.IEnumerable<T>)
+  name: DescendantNodes<T>(IEnumerable<T>)
   fullName: System.Xml.Linq.Extensions.DescendantNodes<T>(System.Collections.Generic.IEnumerable<T>)
   type: Method
   source:
@@ -330,19 +415,37 @@ items:
   assemblies:
   - System.Xml.XDocument
   namespace: System.Xml.Linq
+  summary: "\n<p>Returns a collection of the descendant nodes of every document and element in the source collection.</p>\n"
+  remarks: "\n<p>This axis extension method is used on <xref href=\"System.Xml.Linq.XDocument\" data-throw-if-not-resolved=\"false\"></xref> and <xref href=\"System.Xml.Linq.XElement\" data-throw-if-not-resolved=\"false\"></xref> objects. Both of these types derive from <xref href=\"System.Xml.Linq.XContainer\" data-throw-if-not-resolved=\"false\"></xref>, so this method operates on an <xref href=\"System.Collections.Generic.IEnumerable`1\" data-throw-if-not-resolved=\"false\"></xref> of <xref href=\"System.Xml.Linq.XContainer\" data-throw-if-not-resolved=\"false\"></xref> that contains the source collection.</p>\n<p>Although Visual Basic has an integrated XML axis for descendant elements, there is no integrated axis for descendant nodes, so Visual Basic users must use this axis method explicitly.</p>\n<p>This method uses deferred execution.</p>\n"
+  example:
+  - "\n<p>The following example retrieves a collection of two elements, and then retrieves a collection of all descendant nodes for every element in the source collection. Note that the attribute of the <code>GrandChild</code> element is not surfaced as a node.</p>\n<pre><code class=\"c#\">XElement xmlTree = XElement.Parse(\n@\"<Root>\n<Child>aaa<GrandChild anAttribute='xyz'>Text</GrandChild>\n<!--a comment-->\n<?xml-stylesheet type='text/xsl' href='test.xsl'?>\n</Child>\n<Child>ccc<GrandChild>Text</GrandChild>ddd</Child>\n</Root>\");\nIEnumerable<XNode> nodes =\nfrom node in xmlTree.Elements(\"Child\").DescendantNodes()\nselect node;\n\nforeach (XNode node in nodes)\n{\nswitch (node.NodeType)\n{\ncase XmlNodeType.Element:\n    Console.WriteLine(\"Element: {0}\", ((XElement)node).Name);\n    break;\ncase XmlNodeType.Text:\n    Console.WriteLine(\"Text: {0}\", ((XText)node).Value);\n    break;\ncase XmlNodeType.Comment:\n    Console.WriteLine(\"Comment: {0}\", ((XComment)node).Value);\n    break;\ncase XmlNodeType.ProcessingInstruction:\n    Console.WriteLine(\"PI: {0}\", ((XProcessingInstruction)node).Data);\n    break;\n}\n}</code></pre>\n<pre><code class=\"vb\">Dim xmlTree As XElement = _\n<Root>\n<Child>aaa<GrandChild anAttribute='xyz'>Text</GrandChild>\n<!--a comment-->\n<?xml-stylesheet type='text/xsl' href='test.xsl'?>\n</Child>\n<Child>ccc<GrandChild>Text</GrandChild>ddd</Child>\n</Root>\n\nDim nodes As IEnumerable(Of XNode) = _\nFrom node In xmlTree.<Child>.DescendantNodes _\nSelect node\n\nFor Each node As XNode In nodes\nSelect Case node.NodeType\nCase XmlNodeType.Element\n    Console.WriteLine(\"Element: {0}\", DirectCast(node, XElement).Name)\nCase XmlNodeType.Text\n    Console.WriteLine(\"Text: {0}\", DirectCast(node, XText).Value)\nCase XmlNodeType.Comment\n    Console.WriteLine(\"Comment: {0}\", DirectCast(node, XComment).Value)\nCase XmlNodeType.ProcessingInstruction\n    Console.WriteLine(\"PI: {0}\", DirectCast(node, XProcessingInstruction).Data)\nEnd Select\nNext</code></pre>\n<p>This example produces the following output:</p>\n<pre><code>Text: aaa\nElement: GrandChild\nText: Text\nComment: a comment\nPI: type='text/xsl' href='test.xsl'\nText: ccc\nElement: GrandChild\nText: Text\nText: ddd</code></pre>\n<p>The following is the same example, but in this case the XML is in a namespace. For more information, see Working with XML Namespaces.</p>\n<pre><code class=\"c#\">XNamespace aw = \"http://www.adventure-works.com\";\nXElement xmlTree = XElement.Parse(\n@\"<Root xmlns='http://www.adventure-works.com'>\n<Child>aaa<GrandChild anAttribute='xyz'>Text</GrandChild>\n<!--a comment-->\n<?xml-stylesheet type='text/xsl' href='test.xsl'?>\n</Child>\n<Child>ccc<GrandChild>Text</GrandChild>ddd</Child>\n</Root>\");\nIEnumerable<XNode> nodes =\nfrom node in xmlTree.Elements(aw + \"Child\").DescendantNodes()\nselect node;\n\nforeach (XNode node in nodes)\n{\nswitch (node.NodeType)\n{\ncase XmlNodeType.Element:\n    Console.WriteLine(\"Element: {0}\", ((XElement)node).Name);\n    break;\ncase XmlNodeType.Text:\n    Console.WriteLine(\"Text: {0}\", ((XText)node).Value);\n    break;\ncase XmlNodeType.Comment:\n    Console.WriteLine(\"Comment: {0}\", ((XComment)node).Value);\n    break;\ncase XmlNodeType.ProcessingInstruction:\n    Console.WriteLine(\"PI: {0}\", ((XProcessingInstruction)node).Data);\n    break;\n}\n}</code></pre>\n<pre><code class=\"vb\">Imports <xmlns=\"http://www.adventure-works.com\">\n\nModule Module1\nSub Main()\nDim xmlTree As XElement = _\n<Root>\n    <Child>aaa<GrandChild anAttribute='xyz'>Text</GrandChild>\n        <!--a comment-->\n        <?xml-stylesheet type='text/xsl' href='test.xsl'?>\n    </Child>\n    <Child>ccc<GrandChild>Text</GrandChild>ddd</Child>\n</Root>\n\nDim nodes As IEnumerable(Of XNode) = _\n    From node In xmlTree.<Child>.DescendantNodes _\n    Select node\n\nFor Each node As XNode In nodes\n    Select Case node.NodeType\n        Case XmlNodeType.Element\n            Console.WriteLine(\"Element: {0}\", DirectCast(node, XElement).Name)\n        Case XmlNodeType.Text\n            Console.WriteLine(\"Text: {0}\", DirectCast(node, XText).Value)\n        Case XmlNodeType.Comment\n            Console.WriteLine(\"Comment: {0}\", DirectCast(node, XComment).Value)\n        Case XmlNodeType.ProcessingInstruction\n            Console.WriteLine(\"PI: {0}\", DirectCast(node, XProcessingInstruction).Data)\n    End Select\nNext\nEnd Sub\nEnd Module</code></pre>\n<p>This example produces the following output:</p>\n<pre><code>Text: aaa\nElement: {http://www.adventure-works.com}GrandChild\nText: Text\nComment: a comment\nPI: type='text/xsl' href='test.xsl'\nText: ccc\nElement: {http://www.adventure-works.com}GrandChild\nText: Text\nText: ddd</code></pre>\n"
   syntax:
-    content: 'public static Collections.Generic.IEnumerable<XNode> DescendantNodes<T>(this Collections.Generic.IEnumerable<T> source)where T : XContainer'
+    content: 'public static IEnumerable<XNode> DescendantNodes<T>(this IEnumerable<T> source)where T : XContainer'
     content.vb: >-
       <ExtensionAttribute>
 
-      Public Shared Function DescendantNodes(Of T As XContainer)(source As Collections.Generic.IEnumerable(Of T)) As Collections.Generic.IEnumerable(Of XNode)
+      Public Shared Function DescendantNodes(Of T As XContainer)(source As IEnumerable(Of T)) As IEnumerable(Of XNode)
     parameters:
     - id: source
       type: System.Collections.Generic.IEnumerable{{T}}
+      description: "\n<p>An <xref href=\"System.Collections.Generic.IEnumerable`1\" data-throw-if-not-resolved=\"false\"></xref> of <xref href=\"System.Xml.Linq.XContainer\" data-throw-if-not-resolved=\"false\"></xref> that contains the source collection.</p>\n"
     typeParameters:
     - id: T
+      description: "\n<p>The type of the objects in <em>source</em>, constrained to <xref href=\"System.Xml.Linq.XContainer\" data-throw-if-not-resolved=\"false\"></xref>.</p>\n"
     return:
       type: System.Collections.Generic.IEnumerable{System.Xml.Linq.XNode}
+      description: "\n<p>An <xref href=\"System.Collections.Generic.IEnumerable`1\" data-throw-if-not-resolved=\"false\"></xref> of <xref href=\"System.Xml.Linq.XNode\" data-throw-if-not-resolved=\"false\"></xref> of the descendant nodes of every document and element in the source collection.</p>\n"
+  seealso:
+  - type: System.Xml.Linq.XElement.DescendantsAndSelf
+    commentId: M:System.Xml.Linq.XElement.DescendantsAndSelf
+  - type: System.Xml.Linq.XContainer.DescendantNodes
+    commentId: M:System.Xml.Linq.XContainer.DescendantNodes
+  - type: System.Xml.Linq.XContainer.Descendants
+    commentId: M:System.Xml.Linq.XContainer.Descendants
+  - type: System.Xml.Linq.Extensions.DescendantNodesAndSelf(System.Collections.Generic.IEnumerable{System.Xml.Linq.XElement})
+    commentId: M:System.Xml.Linq.Extensions.DescendantNodesAndSelf(System.Collections.Generic.IEnumerable{System.Xml.Linq.XElement})
+  - type: System.Xml.Linq.Extensions.Nodes``1(System.Collections.Generic.IEnumerable{``0})
+    commentId: M:System.Xml.Linq.Extensions.Nodes``1(System.Collections.Generic.IEnumerable{``0})
   modifiers.csharp:
   - public
   - static
@@ -350,7 +453,7 @@ items:
   - Public
   - Shared
   fullName.vb: System.Xml.Linq.Extensions.DescendantNodes(Of T)(System.Collections.Generic.IEnumerable(Of T))
-  name.vb: DescendantNodes(Of T)(Collections.Generic.IEnumerable(Of T))
+  name.vb: DescendantNodes(Of T)(IEnumerable(Of T))
 - uid: System.Xml.Linq.Extensions.DescendantNodesAndSelf(System.Collections.Generic.IEnumerable{System.Xml.Linq.XElement})
   commentId: M:System.Xml.Linq.Extensions.DescendantNodesAndSelf(System.Collections.Generic.IEnumerable{System.Xml.Linq.XElement})
   id: DescendantNodesAndSelf(System.Collections.Generic.IEnumerable{System.Xml.Linq.XElement})
@@ -359,7 +462,7 @@ items:
   langs:
   - csharp
   - vb
-  name: DescendantNodesAndSelf(Collections.Generic.IEnumerable<XElement>)
+  name: DescendantNodesAndSelf(IEnumerable<XElement>)
   fullName: System.Xml.Linq.Extensions.DescendantNodesAndSelf(System.Collections.Generic.IEnumerable<System.Xml.Linq.XElement>)
   type: Method
   source:
@@ -373,17 +476,34 @@ items:
   assemblies:
   - System.Xml.XDocument
   namespace: System.Xml.Linq
+  summary: "\n<p>Returns a collection of nodes that contains every element in the source collection, and the descendant nodes of every element in the source collection.</p>\n"
+  remarks: "\n<p>Although Visual Basic has an integrated XML axis for descendant elements, there is no integrated axis for descendant nodes, so Visual Basic users must use this axis method explicitly.</p>\n<p>This method uses deferred execution. </p>\n"
   syntax:
-    content: public static Collections.Generic.IEnumerable<XNode> DescendantNodesAndSelf(this Collections.Generic.IEnumerable<XElement> source)
+    content: public static IEnumerable<XNode> DescendantNodesAndSelf(this IEnumerable<XElement> source)
     content.vb: >-
       <ExtensionAttribute>
 
-      Public Shared Function DescendantNodesAndSelf(source As Collections.Generic.IEnumerable(Of XElement)) As Collections.Generic.IEnumerable(Of XNode)
+      Public Shared Function DescendantNodesAndSelf(source As IEnumerable(Of XElement)) As IEnumerable(Of XNode)
     parameters:
     - id: source
       type: System.Collections.Generic.IEnumerable{System.Xml.Linq.XElement}
+      description: "\n<p>An <xref href=\"System.Collections.Generic.IEnumerable`1\" data-throw-if-not-resolved=\"false\"></xref> of <xref href=\"System.Xml.Linq.XElement\" data-throw-if-not-resolved=\"false\"></xref> that contains the source collection.</p>\n"
     return:
       type: System.Collections.Generic.IEnumerable{System.Xml.Linq.XNode}
+      description: "\n<p>An <xref href=\"System.Collections.Generic.IEnumerable`1\" data-throw-if-not-resolved=\"false\"></xref> of <xref href=\"System.Xml.Linq.XNode\" data-throw-if-not-resolved=\"false\"></xref> that contains every element in the source collection, and the descendant nodes of every element in the source collection.</p>\n"
+  seealso:
+  - type: System.Xml.Linq.XElement.DescendantNodesAndSelf
+    commentId: M:System.Xml.Linq.XElement.DescendantNodesAndSelf
+  - type: System.Xml.Linq.XElement.DescendantsAndSelf
+    commentId: M:System.Xml.Linq.XElement.DescendantsAndSelf
+  - type: System.Xml.Linq.XContainer.DescendantNodes
+    commentId: M:System.Xml.Linq.XContainer.DescendantNodes
+  - type: System.Xml.Linq.XContainer.Descendants
+    commentId: M:System.Xml.Linq.XContainer.Descendants
+  - type: System.Xml.Linq.Extensions.DescendantNodes``1(System.Collections.Generic.IEnumerable{``0})
+    commentId: M:System.Xml.Linq.Extensions.DescendantNodes``1(System.Collections.Generic.IEnumerable{``0})
+  - type: System.Xml.Linq.Extensions.Nodes``1(System.Collections.Generic.IEnumerable{``0})
+    commentId: M:System.Xml.Linq.Extensions.Nodes``1(System.Collections.Generic.IEnumerable{``0})
   modifiers.csharp:
   - public
   - static
@@ -391,7 +511,7 @@ items:
   - Public
   - Shared
   fullName.vb: System.Xml.Linq.Extensions.DescendantNodesAndSelf(System.Collections.Generic.IEnumerable(Of System.Xml.Linq.XElement))
-  name.vb: DescendantNodesAndSelf(Collections.Generic.IEnumerable(Of XElement))
+  name.vb: DescendantNodesAndSelf(IEnumerable(Of XElement))
 - uid: System.Xml.Linq.Extensions.Descendants``1(System.Collections.Generic.IEnumerable{``0})
   commentId: M:System.Xml.Linq.Extensions.Descendants``1(System.Collections.Generic.IEnumerable{``0})
   id: Descendants``1(System.Collections.Generic.IEnumerable{``0})
@@ -400,7 +520,7 @@ items:
   langs:
   - csharp
   - vb
-  name: Descendants<T>(Collections.Generic.IEnumerable<T>)
+  name: Descendants<T>(IEnumerable<T>)
   fullName: System.Xml.Linq.Extensions.Descendants<T>(System.Collections.Generic.IEnumerable<T>)
   type: Method
   source:
@@ -414,19 +534,39 @@ items:
   assemblies:
   - System.Xml.XDocument
   namespace: System.Xml.Linq
+  summary: "\n<p>Returns a collection of elements that contains the descendant elements of every element and document in the source collection.</p>\n"
+  remarks: "\n<p>Visual Basic users can use the integrated XML descendant axis to retrieve the descendant elements of a collection. However, the integrated axis only retrieves descendants with a specified name. If Visual Basic users want to retrieve all descendants, then they must use this axis method explicitly.</p>\n<p>This method uses deferred execution. </p>\n"
+  example:
+  - "\n<p>The following example retrieves a collection of elements, and then uses this axis method to retrieve all descendent elements of every item in the collection of elements.</p>\n<pre><code class=\"c#\">XElement xmlTree = XElement.Parse(\n@\"<Root>\n<Para>\n<t>This is some text </t>\n<b>\n    <t>where</t>\n</b>\n<t> all of the nodes must be concatenated. </t>\n</Para>\n<Para>\n<t>This is a second sentence.</t>\n</Para>\n</Root>\");\n\nIEnumerable<XElement> elList =\nfrom el in xmlTree.Elements(\"Para\").Descendants()\nselect el;\n\nforeach (XElement el in elList)\nConsole.WriteLine(el);</code></pre>\n<pre><code class=\"vb\">Dim xmlTree As XElement = _\n<Root>\n<Para>\n    <t>This is some text </t>\n    <b>\n        <t>where</t>\n    </b>\n    <t> all of the nodes must be concatenated. </t>\n</Para>\n\n<Para>\n    <t>This is a second sentence.</t>\n</Para>\n</Root>\n\nDim elList = From el In xmlTree.<Para>.Descendants _\n                Select el\n\nFor Each el As XElement In elList\nConsole.WriteLine(el)\nNext</code></pre>\n<p>This example produces the following output:</p>\n<pre><code><t>This is some text </t>\n<b>\n<t>where</t>\n</b>\n<t>where</t>\n<t> all of the nodes must be concatenated. </t>\n<t>This is a second sentence.</t></code></pre>\n<p>The following is the same example, but in this case the XML is in a namespace. For more information, see Working with XML Namespaces.</p>\n<pre><code class=\"c#\">XNamespace aw = \"http://www.adventure-works.com\";\nXElement xmlTree = XElement.Parse(\n@\"<Root xmlns='http://www.adventure-works.com'>\n<Para>\n<t>This is some text </t>\n<b>\n    <t>where</t>\n</b>\n<t> all of the nodes must be concatenated. </t>\n</Para>\n<Para>\n<t>This is a second sentence.</t>\n</Para>\n</Root>\");\n\nIEnumerable<XElement> elList =\nfrom el in xmlTree.Elements(aw + \"Para\").Descendants()\nselect el;\n\nforeach (XElement el in elList)\nConsole.WriteLine(el);</code></pre>\n<pre><code class=\"vb\">Imports <xmlns=\"http://www.adventure-works.com\">\n\nModule Module1\nSub Main()\nDim xmlTree As XElement = _\n    <Root>\n        <Para>\n            <t>This is some text </t>\n            <b>\n                <t>where</t>\n            </b>\n            <t> all of the nodes must be concatenated. </t>\n        </Para>\n\n        <Para>\n            <t>This is a second sentence.</t>\n        </Para>\n    </Root>\n\nDim elList = From el In xmlTree.<Para>.Descendants _\n                        Select el\n\nFor Each el As XElement In elList\n    Console.WriteLine(el)\nNext\nEnd Sub\nEnd Module</code></pre>\n<p>This example produces the following output:</p>\n<pre><code><t xmlns=\"http://www.adventure-works.com\">This is some text </t>\n<b xmlns=\"http://www.adventure-works.com\">\n<t>where</t>\n</b>\n<t xmlns=\"http://www.adventure-works.com\">where</t>\n<t xmlns=\"http://www.adventure-works.com\"> all of the nodes must be concatenated. </t>\n<t xmlns=\"http://www.adventure-works.com\">This is a second sentence.</t></code></pre>\n"
   syntax:
-    content: 'public static Collections.Generic.IEnumerable<XElement> Descendants<T>(this Collections.Generic.IEnumerable<T> source)where T : XContainer'
+    content: 'public static IEnumerable<XElement> Descendants<T>(this IEnumerable<T> source)where T : XContainer'
     content.vb: >-
       <ExtensionAttribute>
 
-      Public Shared Function Descendants(Of T As XContainer)(source As Collections.Generic.IEnumerable(Of T)) As Collections.Generic.IEnumerable(Of XElement)
+      Public Shared Function Descendants(Of T As XContainer)(source As IEnumerable(Of T)) As IEnumerable(Of XElement)
     parameters:
     - id: source
       type: System.Collections.Generic.IEnumerable{{T}}
+      description: "\n<p>An <xref href=\"System.Collections.Generic.IEnumerable`1\" data-throw-if-not-resolved=\"false\"></xref> of <xref href=\"System.Xml.Linq.XContainer\" data-throw-if-not-resolved=\"false\"></xref> that contains the source collection.</p>\n"
     typeParameters:
     - id: T
+      description: "\n<p>The type of the objects in <em>source</em>, constrained to <xref href=\"System.Xml.Linq.XContainer\" data-throw-if-not-resolved=\"false\"></xref>.</p>\n"
     return:
       type: System.Collections.Generic.IEnumerable{System.Xml.Linq.XElement}
+      description: "\n<p>An <xref href=\"System.Collections.Generic.IEnumerable`1\" data-throw-if-not-resolved=\"false\"></xref> of <xref href=\"System.Xml.Linq.XElement\" data-throw-if-not-resolved=\"false\"></xref> that contains the descendant elements of every element and document in the source collection.</p>\n"
+  seealso:
+  - type: System.Xml.Linq.XElement.DescendantNodesAndSelf
+    commentId: M:System.Xml.Linq.XElement.DescendantNodesAndSelf
+  - type: System.Xml.Linq.XElement.DescendantsAndSelf
+    commentId: M:System.Xml.Linq.XElement.DescendantsAndSelf
+  - type: System.Xml.Linq.XContainer.DescendantNodes
+    commentId: M:System.Xml.Linq.XContainer.DescendantNodes
+  - type: System.Xml.Linq.XContainer.Descendants
+    commentId: M:System.Xml.Linq.XContainer.Descendants
+  - type: System.Xml.Linq.Extensions.DescendantNodes``1(System.Collections.Generic.IEnumerable{``0})
+    commentId: M:System.Xml.Linq.Extensions.DescendantNodes``1(System.Collections.Generic.IEnumerable{``0})
+  - type: System.Xml.Linq.Extensions.Nodes``1(System.Collections.Generic.IEnumerable{``0})
+    commentId: M:System.Xml.Linq.Extensions.Nodes``1(System.Collections.Generic.IEnumerable{``0})
   modifiers.csharp:
   - public
   - static
@@ -434,7 +574,7 @@ items:
   - Public
   - Shared
   fullName.vb: System.Xml.Linq.Extensions.Descendants(Of T)(System.Collections.Generic.IEnumerable(Of T))
-  name.vb: Descendants(Of T)(Collections.Generic.IEnumerable(Of T))
+  name.vb: Descendants(Of T)(IEnumerable(Of T))
 - uid: System.Xml.Linq.Extensions.Descendants``1(System.Collections.Generic.IEnumerable{``0},System.Xml.Linq.XName)
   commentId: M:System.Xml.Linq.Extensions.Descendants``1(System.Collections.Generic.IEnumerable{``0},System.Xml.Linq.XName)
   id: Descendants``1(System.Collections.Generic.IEnumerable{``0},System.Xml.Linq.XName)
@@ -443,7 +583,7 @@ items:
   langs:
   - csharp
   - vb
-  name: Descendants<T>(Collections.Generic.IEnumerable<T>, XName)
+  name: Descendants<T>(IEnumerable<T>, XName)
   fullName: System.Xml.Linq.Extensions.Descendants<T>(System.Collections.Generic.IEnumerable<T>, System.Xml.Linq.XName)
   type: Method
   source:
@@ -457,21 +597,42 @@ items:
   assemblies:
   - System.Xml.XDocument
   namespace: System.Xml.Linq
+  summary: "\n<p>Returns a filtered collection of elements that contains the descendant elements of every element and document in the source collection. Only elements that have a matching <xref href=\"System.Xml.Linq.XName\" data-throw-if-not-resolved=\"false\"></xref> are included in the collection.</p>\n"
+  remarks: "\n<p>Visual Basic users can use the Language-Integrated Axes in Visual Basic (LINQ to XML) instead of using this axis method explicitly.</p>\n<p>This method uses deferred execution. </p>\n"
+  example:
+  - "\n<p>The following example retrieves a collection of two elements, and then retrieves a collection of all descendants of the two elements that have the specified element name.</p>\n<pre><code class=\"c#\">XElement xmlTree = XElement.Parse(\n@\"<Root>\n<Para>\n<t>This is some text </t>\n<b>\n    <t>where</t>\n</b>\n<t> all of the text nodes must be concatenated. </t>\n</Para>\n<Para>\n<t>This is a second sentence.</t>\n</Para>\n</Root>\");\n\nstring str =\n(from el in xmlTree.Elements(\"Para\").Descendants(\"t\")\nselect (string)el)\n.Aggregate(new StringBuilder(),\n(sb, i) => sb.Append(i),\nsb => sb.ToString());\n\nConsole.WriteLine(str);</code></pre>\n<pre><code class=\"vb\">Dim xmlTree As XElement = _\n<Root>\n<Para>\n    <t>This is some text </t>\n    <b>\n        <t>where</t>\n    </b>\n    <t> all of the text nodes must be concatenated. </t>\n</Para>\n<Para>\n    <t>This is a second sentence.</t>\n</Para>\n</Root>\n\nDim str As String = _\n( _\nFrom el In xmlTree.<Para>...<t> _\nSelect CStr(el) _\n) _\n.Aggregate(New StringBuilder(), _\n       Function(ByVal sb, ByVal i) sb.Append(i), _\n       Function(ByVal sb) sb.ToString())\n\nConsole.WriteLine(str)</code></pre>\n<p>This example produces the following output:</p>\n<pre><code>This is some text where all of the text nodes must be concatenated. This is a second sentence.</code></pre>\n<p>The following is the same example, but in this case the XML is in a namespace. For more information, see Working with XML Namespaces.</p>\n<pre><code class=\"c#\">XNamespace aw = \"http://www.adventure-works.com\";\nXElement xmlTree = XElement.Parse(\n@\"<Root xmlns='http://www.adventure-works.com'>\n<Para>\n<t>This is some text </t>\n<b>\n    <t>where</t>\n</b>\n<t> all of the text nodes must be concatenated. </t>\n</Para>\n<Para>\n<t>This is a second sentence.</t>\n</Para>\n</Root>\");\n\nstring str =\n(from el in xmlTree.Elements(aw + \"Para\").Descendants(aw + \"t\")\nselect (string)el)\n.Aggregate(new StringBuilder(),\n(sb, i) => sb.Append(i),\nsb => sb.ToString());\n\nConsole.WriteLine(str);</code></pre>\n<pre><code class=\"vb\">Imports <xmlns=\"http://www.adventure-works.com\">\n\nModule Module1\nSub Main()\nDim xmlTree As XElement = _\n    <Root>\n        <Para>\n            <t>This is some text </t>\n            <b>\n                <t>where</t>\n            </b>\n            <t> all of the text nodes must be concatenated. </t>\n        </Para>\n        <Para>\n            <t>This is a second sentence.</t>\n        </Para>\n    </Root>\n\nDim str As String = _\n    ( _\n        From el In xmlTree.<Para>...<t> _\n        Select CStr(el) _\n    ) _\n    .Aggregate(New StringBuilder(), _\n               Function(sb, i) sb.Append(i), _\n               Function(sb) sb.ToString())\n\nConsole.WriteLine(str)\nEnd Sub\nEnd Module</code></pre>\n<p>This example produces the following output:</p>\n<pre><code>This is some text where all of the text nodes must be concatenated. This is a second sentence.</code></pre>\n"
   syntax:
-    content: 'public static Collections.Generic.IEnumerable<XElement> Descendants<T>(this Collections.Generic.IEnumerable<T> source, XName name)where T : XContainer'
+    content: 'public static IEnumerable<XElement> Descendants<T>(this IEnumerable<T> source, XName name)where T : XContainer'
     content.vb: >-
       <ExtensionAttribute>
 
-      Public Shared Function Descendants(Of T As XContainer)(source As Collections.Generic.IEnumerable(Of T), name As XName) As Collections.Generic.IEnumerable(Of XElement)
+      Public Shared Function Descendants(Of T As XContainer)(source As IEnumerable(Of T), name As XName) As IEnumerable(Of XElement)
     parameters:
     - id: source
       type: System.Collections.Generic.IEnumerable{{T}}
+      description: "\n<p>An <xref href=\"System.Collections.Generic.IEnumerable`1\" data-throw-if-not-resolved=\"false\"></xref> of <xref href=\"System.Xml.Linq.XContainer\" data-throw-if-not-resolved=\"false\"></xref> that contains the source collection.</p>\n"
     - id: name
       type: System.Xml.Linq.XName
+      description: "\n<p>The <xref href=\"System.Xml.Linq.XName\" data-throw-if-not-resolved=\"false\"></xref> to match.</p>\n"
     typeParameters:
     - id: T
+      description: "\n<p>The type of the objects in <em>source</em>, constrained to <xref href=\"System.Xml.Linq.XContainer\" data-throw-if-not-resolved=\"false\"></xref>.</p>\n"
     return:
       type: System.Collections.Generic.IEnumerable{System.Xml.Linq.XElement}
+      description: "\n<p>An <xref href=\"System.Collections.Generic.IEnumerable`1\" data-throw-if-not-resolved=\"false\"></xref> of <xref href=\"System.Xml.Linq.XElement\" data-throw-if-not-resolved=\"false\"></xref> that contains the descendant elements of every element and document in the source collection. Only elements that have a matching <xref href=\"System.Xml.Linq.XName\" data-throw-if-not-resolved=\"false\"></xref> are included in the collection.</p>\n"
+  seealso:
+  - type: System.Xml.Linq.XElement.DescendantNodesAndSelf
+    commentId: M:System.Xml.Linq.XElement.DescendantNodesAndSelf
+  - type: System.Xml.Linq.XElement.DescendantsAndSelf
+    commentId: M:System.Xml.Linq.XElement.DescendantsAndSelf
+  - type: System.Xml.Linq.XContainer.DescendantNodes
+    commentId: M:System.Xml.Linq.XContainer.DescendantNodes
+  - type: System.Xml.Linq.XContainer.Descendants
+    commentId: M:System.Xml.Linq.XContainer.Descendants
+  - type: System.Xml.Linq.Extensions.DescendantNodes``1(System.Collections.Generic.IEnumerable{``0})
+    commentId: M:System.Xml.Linq.Extensions.DescendantNodes``1(System.Collections.Generic.IEnumerable{``0})
+  - type: System.Xml.Linq.Extensions.Nodes``1(System.Collections.Generic.IEnumerable{``0})
+    commentId: M:System.Xml.Linq.Extensions.Nodes``1(System.Collections.Generic.IEnumerable{``0})
   modifiers.csharp:
   - public
   - static
@@ -479,7 +640,7 @@ items:
   - Public
   - Shared
   fullName.vb: System.Xml.Linq.Extensions.Descendants(Of T)(System.Collections.Generic.IEnumerable(Of T), System.Xml.Linq.XName)
-  name.vb: Descendants(Of T)(Collections.Generic.IEnumerable(Of T), XName)
+  name.vb: Descendants(Of T)(IEnumerable(Of T), XName)
 - uid: System.Xml.Linq.Extensions.DescendantsAndSelf(System.Collections.Generic.IEnumerable{System.Xml.Linq.XElement})
   commentId: M:System.Xml.Linq.Extensions.DescendantsAndSelf(System.Collections.Generic.IEnumerable{System.Xml.Linq.XElement})
   id: DescendantsAndSelf(System.Collections.Generic.IEnumerable{System.Xml.Linq.XElement})
@@ -488,7 +649,7 @@ items:
   langs:
   - csharp
   - vb
-  name: DescendantsAndSelf(Collections.Generic.IEnumerable<XElement>)
+  name: DescendantsAndSelf(IEnumerable<XElement>)
   fullName: System.Xml.Linq.Extensions.DescendantsAndSelf(System.Collections.Generic.IEnumerable<System.Xml.Linq.XElement>)
   type: Method
   source:
@@ -502,17 +663,34 @@ items:
   assemblies:
   - System.Xml.XDocument
   namespace: System.Xml.Linq
+  summary: "\n<p>Returns a collection of elements that contains every element in the source collection, and the descendent elements of every element in the source collection.</p>\n"
+  remarks: "\n<p>Although Visual Basic has an integrated XML axis for descendant elements, there is no integrated axis that has the semantics of this method, so Visual Basic users must use this axis method explicitly.</p>\n<p>This method uses deferred execution. </p>\n"
   syntax:
-    content: public static Collections.Generic.IEnumerable<XElement> DescendantsAndSelf(this Collections.Generic.IEnumerable<XElement> source)
+    content: public static IEnumerable<XElement> DescendantsAndSelf(this IEnumerable<XElement> source)
     content.vb: >-
       <ExtensionAttribute>
 
-      Public Shared Function DescendantsAndSelf(source As Collections.Generic.IEnumerable(Of XElement)) As Collections.Generic.IEnumerable(Of XElement)
+      Public Shared Function DescendantsAndSelf(source As IEnumerable(Of XElement)) As IEnumerable(Of XElement)
     parameters:
     - id: source
       type: System.Collections.Generic.IEnumerable{System.Xml.Linq.XElement}
+      description: "\n<p>An <xref href=\"System.Collections.Generic.IEnumerable`1\" data-throw-if-not-resolved=\"false\"></xref> of <xref href=\"System.Xml.Linq.XElement\" data-throw-if-not-resolved=\"false\"></xref> that contains the source collection.</p>\n"
     return:
       type: System.Collections.Generic.IEnumerable{System.Xml.Linq.XElement}
+      description: "\n<p>An <xref href=\"System.Collections.Generic.IEnumerable`1\" data-throw-if-not-resolved=\"false\"></xref> of <xref href=\"System.Xml.Linq.XElement\" data-throw-if-not-resolved=\"false\"></xref> that contains every element in the source collection, and the descendent elements of every element in the source collection.</p>\n"
+  seealso:
+  - type: System.Xml.Linq.XElement.DescendantNodesAndSelf
+    commentId: M:System.Xml.Linq.XElement.DescendantNodesAndSelf
+  - type: System.Xml.Linq.XElement.DescendantsAndSelf
+    commentId: M:System.Xml.Linq.XElement.DescendantsAndSelf
+  - type: System.Xml.Linq.XContainer.DescendantNodes
+    commentId: M:System.Xml.Linq.XContainer.DescendantNodes
+  - type: System.Xml.Linq.XContainer.Descendants
+    commentId: M:System.Xml.Linq.XContainer.Descendants
+  - type: System.Xml.Linq.Extensions.DescendantNodes``1(System.Collections.Generic.IEnumerable{``0})
+    commentId: M:System.Xml.Linq.Extensions.DescendantNodes``1(System.Collections.Generic.IEnumerable{``0})
+  - type: System.Xml.Linq.Extensions.Nodes``1(System.Collections.Generic.IEnumerable{``0})
+    commentId: M:System.Xml.Linq.Extensions.Nodes``1(System.Collections.Generic.IEnumerable{``0})
   modifiers.csharp:
   - public
   - static
@@ -520,7 +698,7 @@ items:
   - Public
   - Shared
   fullName.vb: System.Xml.Linq.Extensions.DescendantsAndSelf(System.Collections.Generic.IEnumerable(Of System.Xml.Linq.XElement))
-  name.vb: DescendantsAndSelf(Collections.Generic.IEnumerable(Of XElement))
+  name.vb: DescendantsAndSelf(IEnumerable(Of XElement))
 - uid: System.Xml.Linq.Extensions.DescendantsAndSelf(System.Collections.Generic.IEnumerable{System.Xml.Linq.XElement},System.Xml.Linq.XName)
   commentId: M:System.Xml.Linq.Extensions.DescendantsAndSelf(System.Collections.Generic.IEnumerable{System.Xml.Linq.XElement},System.Xml.Linq.XName)
   id: DescendantsAndSelf(System.Collections.Generic.IEnumerable{System.Xml.Linq.XElement},System.Xml.Linq.XName)
@@ -529,7 +707,7 @@ items:
   langs:
   - csharp
   - vb
-  name: DescendantsAndSelf(Collections.Generic.IEnumerable<XElement>, XName)
+  name: DescendantsAndSelf(IEnumerable<XElement>, XName)
   fullName: System.Xml.Linq.Extensions.DescendantsAndSelf(System.Collections.Generic.IEnumerable<System.Xml.Linq.XElement>, System.Xml.Linq.XName)
   type: Method
   source:
@@ -543,19 +721,37 @@ items:
   assemblies:
   - System.Xml.XDocument
   namespace: System.Xml.Linq
+  summary: "\n<p>Returns a filtered collection of elements that contains every element in the source collection, and the descendents of every element in the source collection. Only elements that have a matching <xref href=\"System.Xml.Linq.XName\" data-throw-if-not-resolved=\"false\"></xref> are included in the collection.</p>\n"
+  remarks: "\n<p>Although Visual Basic has an integrated XML axis for descendant elements, there is no integrated axis that has the semantics of this method, so Visual Basic users must use this axis method explicitly.</p>\n<p>This method uses deferred execution. </p>\n"
   syntax:
-    content: public static Collections.Generic.IEnumerable<XElement> DescendantsAndSelf(this Collections.Generic.IEnumerable<XElement> source, XName name)
+    content: public static IEnumerable<XElement> DescendantsAndSelf(this IEnumerable<XElement> source, XName name)
     content.vb: >-
       <ExtensionAttribute>
 
-      Public Shared Function DescendantsAndSelf(source As Collections.Generic.IEnumerable(Of XElement), name As XName) As Collections.Generic.IEnumerable(Of XElement)
+      Public Shared Function DescendantsAndSelf(source As IEnumerable(Of XElement), name As XName) As IEnumerable(Of XElement)
     parameters:
     - id: source
       type: System.Collections.Generic.IEnumerable{System.Xml.Linq.XElement}
+      description: "\n<p>An <xref href=\"System.Collections.Generic.IEnumerable`1\" data-throw-if-not-resolved=\"false\"></xref> of <xref href=\"System.Xml.Linq.XElement\" data-throw-if-not-resolved=\"false\"></xref> that contains the source collection.</p>\n"
     - id: name
       type: System.Xml.Linq.XName
+      description: "\n<p>The <xref href=\"System.Xml.Linq.XName\" data-throw-if-not-resolved=\"false\"></xref> to match.</p>\n"
     return:
       type: System.Collections.Generic.IEnumerable{System.Xml.Linq.XElement}
+      description: "\n<p>An <xref href=\"System.Collections.Generic.IEnumerable`1\" data-throw-if-not-resolved=\"false\"></xref> of <xref href=\"System.Xml.Linq.XElement\" data-throw-if-not-resolved=\"false\"></xref> that contains every element in the source collection, and the descendents of every element in the source collection. Only elements that have a matching <xref href=\"System.Xml.Linq.XName\" data-throw-if-not-resolved=\"false\"></xref> are included in the collection.</p>\n"
+  seealso:
+  - type: System.Xml.Linq.XElement.DescendantNodesAndSelf
+    commentId: M:System.Xml.Linq.XElement.DescendantNodesAndSelf
+  - type: System.Xml.Linq.XElement.DescendantsAndSelf
+    commentId: M:System.Xml.Linq.XElement.DescendantsAndSelf
+  - type: System.Xml.Linq.XContainer.DescendantNodes
+    commentId: M:System.Xml.Linq.XContainer.DescendantNodes
+  - type: System.Xml.Linq.XContainer.Descendants
+    commentId: M:System.Xml.Linq.XContainer.Descendants
+  - type: System.Xml.Linq.Extensions.DescendantNodes``1(System.Collections.Generic.IEnumerable{``0})
+    commentId: M:System.Xml.Linq.Extensions.DescendantNodes``1(System.Collections.Generic.IEnumerable{``0})
+  - type: System.Xml.Linq.Extensions.Nodes``1(System.Collections.Generic.IEnumerable{``0})
+    commentId: M:System.Xml.Linq.Extensions.Nodes``1(System.Collections.Generic.IEnumerable{``0})
   modifiers.csharp:
   - public
   - static
@@ -563,7 +759,7 @@ items:
   - Public
   - Shared
   fullName.vb: System.Xml.Linq.Extensions.DescendantsAndSelf(System.Collections.Generic.IEnumerable(Of System.Xml.Linq.XElement), System.Xml.Linq.XName)
-  name.vb: DescendantsAndSelf(Collections.Generic.IEnumerable(Of XElement), XName)
+  name.vb: DescendantsAndSelf(IEnumerable(Of XElement), XName)
 - uid: System.Xml.Linq.Extensions.Elements``1(System.Collections.Generic.IEnumerable{``0})
   commentId: M:System.Xml.Linq.Extensions.Elements``1(System.Collections.Generic.IEnumerable{``0})
   id: Elements``1(System.Collections.Generic.IEnumerable{``0})
@@ -572,7 +768,7 @@ items:
   langs:
   - csharp
   - vb
-  name: Elements<T>(Collections.Generic.IEnumerable<T>)
+  name: Elements<T>(IEnumerable<T>)
   fullName: System.Xml.Linq.Extensions.Elements<T>(System.Collections.Generic.IEnumerable<T>)
   type: Method
   source:
@@ -586,19 +782,35 @@ items:
   assemblies:
   - System.Xml.XDocument
   namespace: System.Xml.Linq
+  summary: "\n<p>Returns a collection of the child elements of every element and document in the source collection.</p>\n"
+  remarks: "\n<p>Although Visual Basic contains an integrated elements axis that allows you to find all child elements with a specified <xref href=\"System.Xml.Linq.XName\" data-throw-if-not-resolved=\"false\"></xref> for every element in the source collection, there is no integrated elements axis that allows you to retrieve a collection of every child element for every element in the source collection.</p>\n<p>This method uses deferred execution. </p>\n"
+  example:
+  - "\n<p>The following example retrieves a collection of elements with the element name of <code>Child</code>. It then uses this axis method to retrieve all child elements of the collection.</p>\n<pre><code class=\"c#\">XElement xmlTree = new XElement(\"Root\",\nnew XElement(\"Child\",\nnew XElement(\"GrandChild1\", 1),\nnew XElement(\"GrandChild2\", 2)\n),\nnew XElement(\"Child\",\nnew XElement(\"GrandChild3\", 3),\nnew XElement(\"GrandChild4\", 4)\n),\nnew XElement(\"Child\",\nnew XElement(\"GrandChild5\", 5),\nnew XElement(\"GrandChild6\", 6)\n)\n);\n\nIEnumerable<XElement> allGrandChildren =\nfrom el in xmlTree.Elements(\"Child\").Elements()\nselect el;\n\nforeach (XElement el in allGrandChildren)\nConsole.WriteLine(el);</code></pre>\n<pre><code class=\"vb\">Dim xmlTree As XElement = _\n<Root>\n  <Child>\n      <GrandChild1>1</GrandChild1>\n      <GrandChild2>2</GrandChild2>\n  </Child>\n\n  <Child>\n      <GrandChild3>3</GrandChild3>\n      <GrandChild4>4</GrandChild4>\n  </Child>\n\n  <Child>\n      <GrandChild5>5</GrandChild5>\n      <GrandChild6>6</GrandChild6>\n  </Child>\n</Root>\n\nDim allGrandChildren = From el In xmlTree.<Child>.Elements _\n               Select el\n\nFor Each el As XElement In allGrandChildren\nConsole.WriteLine(el)\nNext</code></pre>\n<p>This example produces the following output:</p>\n<pre><code><GrandChild1>1</GrandChild1>\n<GrandChild2>2</GrandChild2>\n<GrandChild3>3</GrandChild3>\n<GrandChild4>4</GrandChild4>\n<GrandChild5>5</GrandChild5>\n<GrandChild6>6</GrandChild6></code></pre>\n<p>The following is the same example, but in this case the XML is in a namespace. For more information, see Working with XML Namespaces.</p>\n<pre><code class=\"c#\">XNamespace aw = \"http://www.adventure-works.com\";\nXElement xmlTree = new XElement(aw + \"Root\",\nnew XElement(aw + \"Child\",\nnew XElement(aw + \"GrandChild1\", 1),\nnew XElement(aw + \"GrandChild2\", 2)\n),\nnew XElement(aw + \"Child\",\nnew XElement(aw + \"GrandChild3\", 3),\nnew XElement(aw + \"GrandChild4\", 4)\n),\nnew XElement(aw + \"Child\",\nnew XElement(aw + \"GrandChild5\", 5),\nnew XElement(aw + \"GrandChild6\", 6)\n)\n);\n\nIEnumerable<XElement> allGrandChildren =\nfrom el in xmlTree.Elements(aw + \"Child\").Elements()\nselect el;\n\nforeach (XElement el in allGrandChildren)\nConsole.WriteLine(el);</code></pre>\n<pre><code class=\"vb\">Imports <xmlns=\"http://www.adventure-works.com\">\n\nModule Module1\nSub Main()\nDim xmlTree As XElement = _\n     <Root>\n         <Child>\n             <GrandChild1>1</GrandChild1>\n             <GrandChild2>2</GrandChild2>\n         </Child>\n\n         <Child>\n             <GrandChild3>3</GrandChild3>\n             <GrandChild4>4</GrandChild4>\n         </Child>\n\n         <Child>\n             <GrandChild5>5</GrandChild5>\n             <GrandChild6>6</GrandChild6>\n         </Child>\n     </Root>\n\nDim allGrandChildren = From el In xmlTree.<Child>.Elements _\n                       Select el\n\nFor Each el As XElement In allGrandChildren\n    Console.WriteLine(el)\nNext\nEnd Sub\nEnd Module</code></pre>\n<p>This example produces the following output:</p>\n<pre><code><GrandChild1 xmlns=\"http://www.adventure-works.com\">1</GrandChild1>\n<GrandChild2 xmlns=\"http://www.adventure-works.com\">2</GrandChild2>\n<GrandChild3 xmlns=\"http://www.adventure-works.com\">3</GrandChild3>\n<GrandChild4 xmlns=\"http://www.adventure-works.com\">4</GrandChild4>\n<GrandChild5 xmlns=\"http://www.adventure-works.com\">5</GrandChild5>\n<GrandChild6 xmlns=\"http://www.adventure-works.com\">6</GrandChild6></code></pre>\n"
   syntax:
-    content: 'public static Collections.Generic.IEnumerable<XElement> Elements<T>(this Collections.Generic.IEnumerable<T> source)where T : XContainer'
+    content: 'public static IEnumerable<XElement> Elements<T>(this IEnumerable<T> source)where T : XContainer'
     content.vb: >-
       <ExtensionAttribute>
 
-      Public Shared Function Elements(Of T As XContainer)(source As Collections.Generic.IEnumerable(Of T)) As Collections.Generic.IEnumerable(Of XElement)
+      Public Shared Function Elements(Of T As XContainer)(source As IEnumerable(Of T)) As IEnumerable(Of XElement)
     parameters:
     - id: source
       type: System.Collections.Generic.IEnumerable{{T}}
+      description: "\n<p>An <xref href=\"System.Collections.Generic.IEnumerable`1\" data-throw-if-not-resolved=\"false\"></xref> of <xref href=\"System.Xml.Linq.XElement\" data-throw-if-not-resolved=\"false\"></xref> that contains the source collection.</p>\n"
     typeParameters:
     - id: T
+      description: "\n<p>The type of the objects in <em>source</em>, constrained to <xref href=\"System.Xml.Linq.XContainer\" data-throw-if-not-resolved=\"false\"></xref>.</p>\n"
     return:
       type: System.Collections.Generic.IEnumerable{System.Xml.Linq.XElement}
+      description: "\n<p>An <xref href=\"System.Collections.Generic.IEnumerable`1\" data-throw-if-not-resolved=\"false\"></xref> of <xref href=\"System.Xml.Linq.XElement\" data-throw-if-not-resolved=\"false\"></xref> of the child elements of every element or document in the source collection.</p>\n"
+  seealso:
+  - type: System.Xml.Linq.XElement.DescendantNodesAndSelf
+    commentId: M:System.Xml.Linq.XElement.DescendantNodesAndSelf
+  - type: System.Xml.Linq.XElement.DescendantsAndSelf
+    commentId: M:System.Xml.Linq.XElement.DescendantsAndSelf
+  - type: System.Xml.Linq.XContainer.DescendantNodes
+    commentId: M:System.Xml.Linq.XContainer.DescendantNodes
+  - type: System.Xml.Linq.XContainer.Descendants
+    commentId: M:System.Xml.Linq.XContainer.Descendants
   modifiers.csharp:
   - public
   - static
@@ -606,7 +818,7 @@ items:
   - Public
   - Shared
   fullName.vb: System.Xml.Linq.Extensions.Elements(Of T)(System.Collections.Generic.IEnumerable(Of T))
-  name.vb: Elements(Of T)(Collections.Generic.IEnumerable(Of T))
+  name.vb: Elements(Of T)(IEnumerable(Of T))
 - uid: System.Xml.Linq.Extensions.Elements``1(System.Collections.Generic.IEnumerable{``0},System.Xml.Linq.XName)
   commentId: M:System.Xml.Linq.Extensions.Elements``1(System.Collections.Generic.IEnumerable{``0},System.Xml.Linq.XName)
   id: Elements``1(System.Collections.Generic.IEnumerable{``0},System.Xml.Linq.XName)
@@ -615,7 +827,7 @@ items:
   langs:
   - csharp
   - vb
-  name: Elements<T>(Collections.Generic.IEnumerable<T>, XName)
+  name: Elements<T>(IEnumerable<T>, XName)
   fullName: System.Xml.Linq.Extensions.Elements<T>(System.Collections.Generic.IEnumerable<T>, System.Xml.Linq.XName)
   type: Method
   source:
@@ -629,21 +841,38 @@ items:
   assemblies:
   - System.Xml.XDocument
   namespace: System.Xml.Linq
+  summary: "\n<p>Returns a filtered collection of the child elements of every element and document in the source collection. Only elements that have a matching <xref href=\"System.Xml.Linq.XName\" data-throw-if-not-resolved=\"false\"></xref> are included in the collection.</p>\n"
+  remarks: "\n<p>Visual Basic users can use the integrated elements axis to retrieve the child elements of every element in a collection.</p>\n<p>This method uses deferred execution. </p>\n"
+  example:
+  - "\n<p>This extension method is useful when you want to retrieve all elements with a specified name at a particular depth. This is easy if the document is very regular, but if the document is irregular, it can be a bit more difficult. In the following example, we want to retrieve all <code>aaa</code> elements that are children of <code>Item</code> elements. A given <code>Item</code> element may or may not contain an <code>aaa</code> element. This is easily accomplished using this extension method, as follows:</p>\n<pre><code class=\"c#\">XElement xmlTree = new XElement(\"Root\",\nnew XElement(\"Item\",\nnew XElement(\"aaa\", 1),\nnew XElement(\"bbb\", 2)\n),\nnew XElement(\"Item\",\nnew XElement(\"ccc\", 3),\nnew XElement(\"aaa\", 4)\n),\nnew XElement(\"Item\",\nnew XElement(\"ddd\", 5),\nnew XElement(\"eee\", 6)\n)\n);\n\nIEnumerable<XElement> allGrandChildren =\nfrom el in xmlTree.Elements(\"Item\").Elements(\"aaa\")\nselect el;\n\nforeach (XElement el in allGrandChildren)\nConsole.WriteLine(el);</code></pre>\n<pre><code class=\"vb\">Dim xmlTree As XElement = _\n<Root>\n<Item>\n    <aaa>1</aaa>\n    <bbb>2</bbb>\n</Item>\n\n<Item>\n    <ccc>3</ccc>\n    <aaa>4</aaa>\n</Item>\n\n<Item>\n    <ddd>5</ddd>\n    <eee>6</eee>\n</Item>\n</Root>\n\nDim allGrandChildren = From el In xmlTree.<Item>.<aaa> _\n               Select el\n\nFor Each el As XElement In allGrandChildren\nConsole.WriteLine(el)\nNext</code></pre>\n<p>This example produces the following output:</p>\n<pre><code><aaa>1</aaa>\n<aaa>4</aaa></code></pre>\n<p>The following is the same example, but in this case the XML is in a namespace. For more information, see Working with XML Namespaces.</p>\n<pre><code class=\"c#\">XNamespace aw = \"http://www.adventure-works.com\";\nXElement xmlTree = new XElement(aw + \"Root\",\nnew XElement(aw + \"Item\",\nnew XElement(aw + \"aaa\", 1),\nnew XElement(aw + \"bbb\", 2)\n),\nnew XElement(aw + \"Item\",\nnew XElement(aw + \"ccc\", 3),\nnew XElement(aw + \"aaa\", 4)\n),\nnew XElement(aw + \"Item\",\nnew XElement(aw + \"ddd\", 5),\nnew XElement(aw + \"eee\", 6)\n)\n);\n\nIEnumerable<XElement> allGrandChildren =\nfrom el in xmlTree.Elements(aw + \"Item\").Elements(aw + \"aaa\")\nselect el;\n\nforeach (XElement el in allGrandChildren)\nConsole.WriteLine(el);</code></pre>\n<pre><code class=\"vb\">Imports <xmlns=\"http://www.adventure-works.com\">\n\nModule Module1\nSub Main()\nDim xmlTree As XElement = _\n    <Root>\n        <Item>\n            <aaa>1</aaa>\n            <bbb>2</bbb>\n        </Item>\n\n        <Item>\n            <ccc>3</ccc>\n            <aaa>4</aaa>\n        </Item>\n\n        <Item>\n            <ddd>5</ddd>\n            <eee>6</eee>\n        </Item>\n    </Root>\n\nDim allGrandChildren = From el In xmlTree.<Item>.<aaa> _\n                       Select el\n\nFor Each el As XElement In allGrandChildren\n    Console.WriteLine(el)\nNext\nEnd Sub\nEnd Module</code></pre>\n<p>This example produces the following output:</p>\n<pre><code><aaa xmlns=\"http://www.adventure-works.com\">1</aaa>\n<aaa xmlns=\"http://www.adventure-works.com\">4</aaa></code></pre>\n"
   syntax:
-    content: 'public static Collections.Generic.IEnumerable<XElement> Elements<T>(this Collections.Generic.IEnumerable<T> source, XName name)where T : XContainer'
+    content: 'public static IEnumerable<XElement> Elements<T>(this IEnumerable<T> source, XName name)where T : XContainer'
     content.vb: >-
       <ExtensionAttribute>
 
-      Public Shared Function Elements(Of T As XContainer)(source As Collections.Generic.IEnumerable(Of T), name As XName) As Collections.Generic.IEnumerable(Of XElement)
+      Public Shared Function Elements(Of T As XContainer)(source As IEnumerable(Of T), name As XName) As IEnumerable(Of XElement)
     parameters:
     - id: source
       type: System.Collections.Generic.IEnumerable{{T}}
+      description: "\n<p>An <xref href=\"System.Collections.Generic.IEnumerable`1\" data-throw-if-not-resolved=\"false\"></xref> of <xref href=\"System.Xml.Linq.XElement\" data-throw-if-not-resolved=\"false\"></xref> that contains the source collection.</p>\n"
     - id: name
       type: System.Xml.Linq.XName
+      description: "\n<p>The <xref href=\"System.Xml.Linq.XName\" data-throw-if-not-resolved=\"false\"></xref> to match.</p>\n"
     typeParameters:
     - id: T
+      description: "\n<p>The type of the objects in <em>source</em>, constrained to <xref href=\"System.Xml.Linq.XContainer\" data-throw-if-not-resolved=\"false\"></xref>.</p>\n"
     return:
       type: System.Collections.Generic.IEnumerable{System.Xml.Linq.XElement}
+      description: "\n<p>An <xref href=\"System.Collections.Generic.IEnumerable`1\" data-throw-if-not-resolved=\"false\"></xref> of <xref href=\"System.Xml.Linq.XElement\" data-throw-if-not-resolved=\"false\"></xref> of the child elements of every element and document in the source collection. Only elements that have a matching <xref href=\"System.Xml.Linq.XName\" data-throw-if-not-resolved=\"false\"></xref> are included in the collection.</p>\n"
+  seealso:
+  - type: System.Xml.Linq.XElement.DescendantNodesAndSelf
+    commentId: M:System.Xml.Linq.XElement.DescendantNodesAndSelf
+  - type: System.Xml.Linq.XElement.DescendantsAndSelf
+    commentId: M:System.Xml.Linq.XElement.DescendantsAndSelf
+  - type: System.Xml.Linq.XContainer.DescendantNodes
+    commentId: M:System.Xml.Linq.XContainer.DescendantNodes
+  - type: System.Xml.Linq.XContainer.Descendants
+    commentId: M:System.Xml.Linq.XContainer.Descendants
   modifiers.csharp:
   - public
   - static
@@ -651,7 +880,7 @@ items:
   - Public
   - Shared
   fullName.vb: System.Xml.Linq.Extensions.Elements(Of T)(System.Collections.Generic.IEnumerable(Of T), System.Xml.Linq.XName)
-  name.vb: Elements(Of T)(Collections.Generic.IEnumerable(Of T), XName)
+  name.vb: Elements(Of T)(IEnumerable(Of T), XName)
 - uid: System.Xml.Linq.Extensions.InDocumentOrder``1(System.Collections.Generic.IEnumerable{``0})
   commentId: M:System.Xml.Linq.Extensions.InDocumentOrder``1(System.Collections.Generic.IEnumerable{``0})
   id: InDocumentOrder``1(System.Collections.Generic.IEnumerable{``0})
@@ -660,7 +889,7 @@ items:
   langs:
   - csharp
   - vb
-  name: InDocumentOrder<T>(Collections.Generic.IEnumerable<T>)
+  name: InDocumentOrder<T>(IEnumerable<T>)
   fullName: System.Xml.Linq.Extensions.InDocumentOrder<T>(System.Collections.Generic.IEnumerable<T>)
   type: Method
   source:
@@ -674,19 +903,29 @@ items:
   assemblies:
   - System.Xml.XDocument
   namespace: System.Xml.Linq
+  summary: "\n<p>Returns a collection of nodes that contains all nodes in the source collection, sorted in document order.</p>\n"
+  remarks: "\n<p>This axis method uses deferred execution. However, it first enumerates its source collection, the sorts the nodes in document order, and then yields the results.</p>\n"
+  example:
+  - "\n<p>The following example creates a collection of nodes that are not in document order, and then uses this axis to create a new collection where the nodes are in document order.</p>\n<pre><code class=\"c#\">XElement xmlTree = new XElement(\"Root\",\nnew XElement(\"Item\",\nnew XElement(\"aaa\", 1),\nnew XElement(\"bbb\", 2)\n),\nnew XElement(\"Item\",\nnew XElement(\"ccc\", 3),\nnew XElement(\"aaa\", 4)\n),\nnew XElement(\"Item\",\nnew XElement(\"ddd\", 5),\nnew XElement(\"eee\", 6)\n)\n);\n\nXElement[] elementList = {\nxmlTree.Descendants(\"ddd\").First(),\nxmlTree.Descendants(\"ccc\").First(),\nxmlTree.Descendants(\"aaa\").First()\n};\n\nIEnumerable<XElement> inDocOrder = elementList.InDocumentOrder();\n\nforeach (XElement el in inDocOrder)\nConsole.WriteLine(el);</code></pre>\n<pre><code class=\"vb\">Dim xmlTree As XElement = _\n<Root>\n<Item>\n    <aaa>1</aaa>\n    <bbb>2</bbb>\n</Item>\n\n<Item>\n    <ccc>3</ccc>\n    <aaa>4</aaa>\n</Item>\n\n<Item>\n    <ddd>5</ddd>\n    <eee>6</eee>\n</Item>\n</Root>\n\nDim elementList() As XElement = _\n{ _\nxmlTree...<ddd>(0), _\nxmlTree...<ccc>(0), _\nxmlTree...<aaa>(0) _\n}\n\nDim inDocOrder = elementList.InDocumentOrder\n\nFor Each el As XElement In inDocOrder\nConsole.WriteLine(el)\nNext</code></pre>\n<p>This example produces the following output:</p>\n<pre><code><aaa>1</aaa>\n<ccc>3</ccc>\n<ddd>5</ddd></code></pre>\n"
   syntax:
-    content: 'public static Collections.Generic.IEnumerable<T> InDocumentOrder<T>(this Collections.Generic.IEnumerable<T> source)where T : XNode'
+    content: 'public static IEnumerable<T> InDocumentOrder<T>(this IEnumerable<T> source)where T : XNode'
     content.vb: >-
       <ExtensionAttribute>
 
-      Public Shared Function InDocumentOrder(Of T As XNode)(source As Collections.Generic.IEnumerable(Of T)) As Collections.Generic.IEnumerable(Of T)
+      Public Shared Function InDocumentOrder(Of T As XNode)(source As IEnumerable(Of T)) As IEnumerable(Of T)
     parameters:
     - id: source
       type: System.Collections.Generic.IEnumerable{{T}}
+      description: "\n<p>An <xref href=\"System.Collections.Generic.IEnumerable`1\" data-throw-if-not-resolved=\"false\"></xref> of <xref href=\"System.Xml.Linq.XNode\" data-throw-if-not-resolved=\"false\"></xref> that contains the source collection.</p>\n"
     typeParameters:
     - id: T
+      description: "\n<p>The type of the objects in <em>source</em>, constrained to <xref href=\"System.Xml.Linq.XNode\" data-throw-if-not-resolved=\"false\"></xref>.</p>\n"
     return:
       type: System.Collections.Generic.IEnumerable{{T}}
+      description: "\n<p>An <xref href=\"System.Collections.Generic.IEnumerable`1\" data-throw-if-not-resolved=\"false\"></xref> of <xref href=\"System.Xml.Linq.XNode\" data-throw-if-not-resolved=\"false\"></xref> that contains all nodes in the source collection, sorted in document order.</p>\n"
+  seealso:
+  - type: System.Xml.Linq.Extensions.Nodes``1(System.Collections.Generic.IEnumerable{``0})
+    commentId: M:System.Xml.Linq.Extensions.Nodes``1(System.Collections.Generic.IEnumerable{``0})
   modifiers.csharp:
   - public
   - static
@@ -694,7 +933,7 @@ items:
   - Public
   - Shared
   fullName.vb: System.Xml.Linq.Extensions.InDocumentOrder(Of T)(System.Collections.Generic.IEnumerable(Of T))
-  name.vb: InDocumentOrder(Of T)(Collections.Generic.IEnumerable(Of T))
+  name.vb: InDocumentOrder(Of T)(IEnumerable(Of T))
 - uid: System.Xml.Linq.Extensions.Nodes``1(System.Collections.Generic.IEnumerable{``0})
   commentId: M:System.Xml.Linq.Extensions.Nodes``1(System.Collections.Generic.IEnumerable{``0})
   id: Nodes``1(System.Collections.Generic.IEnumerable{``0})
@@ -703,7 +942,7 @@ items:
   langs:
   - csharp
   - vb
-  name: Nodes<T>(Collections.Generic.IEnumerable<T>)
+  name: Nodes<T>(IEnumerable<T>)
   fullName: System.Xml.Linq.Extensions.Nodes<T>(System.Collections.Generic.IEnumerable<T>)
   type: Method
   source:
@@ -717,19 +956,31 @@ items:
   assemblies:
   - System.Xml.XDocument
   namespace: System.Xml.Linq
+  summary: "\n<p>Returns a collection of the child nodes of every document and element in the source collection.</p>\n"
+  remarks: "\n<p>This method uses deferred execution. </p>\n"
+  example:
+  - "\n<p>The following example retrieves all of the child nodes for every node in a collection of elements with the name of <code>Child</code>.</p>\n<pre><code class=\"c#\">XElement xmlTree = XElement.Parse(\n@\"<Root><Child>aaa<GrandChild>Text</GrandChild>bbb</Child>\" +\n@\"<Child>ccc<GrandChild>Text</GrandChild>ddd</Child></Root>\");\nIEnumerable<XNode> nodes = xmlTree.Elements(\"Child\").Nodes();\n\nforeach (XNode node in nodes)\n{\nswitch (node.NodeType)\n{\ncase XmlNodeType.Element:\n    Console.WriteLine(\"Element: {0}\", ((XElement)node).Name);\n    break;\ncase XmlNodeType.Text:\n    Console.WriteLine(\"Text: {0}\", ((XText)node).Value);\n    break;\n}\n}</code></pre>\n<pre><code class=\"vb\">Dim xmlTree As XElement = _\n<Root>\n<Child>aaa<GrandChild>Text</GrandChild>bbb</Child>\n<Child>ccc<GrandChild>Text</GrandChild>ddd</Child>\n</Root>\n\nDim nodes = xmlTree.<Child>.Nodes()\n\n' Note that XNode uses XmlNodeType, which is in the System.Xml namespace.\nFor Each node As XNode In nodes\nSelect Case node.NodeType\nCase XmlNodeType.Element\n    Console.WriteLine(\"Element: {0}\", DirectCast(node, XElement).Name)\nCase XmlNodeType.Text\n    Console.WriteLine(\"Text: {0}\", DirectCast(node, XText).Value)\nEnd Select\nNext</code></pre>\n<p>This example produces the following output:</p>\n<pre><code>Text: aaa\nElement: GrandChild\nText: bbb\nText: ccc\nElement: GrandChild\nText: ddd</code></pre>\n"
   syntax:
-    content: 'public static Collections.Generic.IEnumerable<XNode> Nodes<T>(this Collections.Generic.IEnumerable<T> source)where T : XContainer'
+    content: 'public static IEnumerable<XNode> Nodes<T>(this IEnumerable<T> source)where T : XContainer'
     content.vb: >-
       <ExtensionAttribute>
 
-      Public Shared Function Nodes(Of T As XContainer)(source As Collections.Generic.IEnumerable(Of T)) As Collections.Generic.IEnumerable(Of XNode)
+      Public Shared Function Nodes(Of T As XContainer)(source As IEnumerable(Of T)) As IEnumerable(Of XNode)
     parameters:
     - id: source
       type: System.Collections.Generic.IEnumerable{{T}}
+      description: "\n<p>An <xref href=\"System.Collections.Generic.IEnumerable`1\" data-throw-if-not-resolved=\"false\"></xref> of <xref href=\"System.Xml.Linq.XNode\" data-throw-if-not-resolved=\"false\"></xref> that contains the source collection.</p>\n"
     typeParameters:
     - id: T
+      description: "\n<p>The type of the objects in <em>source</em>, constrained to <xref href=\"System.Xml.Linq.XContainer\" data-throw-if-not-resolved=\"false\"></xref>.</p>\n"
     return:
       type: System.Collections.Generic.IEnumerable{System.Xml.Linq.XNode}
+      description: "\n<p>An <xref href=\"System.Collections.Generic.IEnumerable`1\" data-throw-if-not-resolved=\"false\"></xref> of <xref href=\"System.Xml.Linq.XNode\" data-throw-if-not-resolved=\"false\"></xref> of the child nodes of every document and element in the source collection.</p>\n"
+  seealso:
+  - type: System.Xml.Linq.XContainer.Nodes
+    commentId: M:System.Xml.Linq.XContainer.Nodes
+  - type: System.Xml.Linq.Extensions.InDocumentOrder``1(System.Collections.Generic.IEnumerable{``0})
+    commentId: M:System.Xml.Linq.Extensions.InDocumentOrder``1(System.Collections.Generic.IEnumerable{``0})
   modifiers.csharp:
   - public
   - static
@@ -737,7 +988,7 @@ items:
   - Public
   - Shared
   fullName.vb: System.Xml.Linq.Extensions.Nodes(Of T)(System.Collections.Generic.IEnumerable(Of T))
-  name.vb: Nodes(Of T)(Collections.Generic.IEnumerable(Of T))
+  name.vb: Nodes(Of T)(IEnumerable(Of T))
 - uid: System.Xml.Linq.Extensions.Remove(System.Collections.Generic.IEnumerable{System.Xml.Linq.XAttribute})
   commentId: M:System.Xml.Linq.Extensions.Remove(System.Collections.Generic.IEnumerable{System.Xml.Linq.XAttribute})
   id: Remove(System.Collections.Generic.IEnumerable{System.Xml.Linq.XAttribute})
@@ -746,7 +997,7 @@ items:
   langs:
   - csharp
   - vb
-  name: Remove(Collections.Generic.IEnumerable<XAttribute>)
+  name: Remove(IEnumerable<XAttribute>)
   fullName: System.Xml.Linq.Extensions.Remove(System.Collections.Generic.IEnumerable<System.Xml.Linq.XAttribute>)
   type: Method
   source:
@@ -760,15 +1011,27 @@ items:
   assemblies:
   - System.Xml.XDocument
   namespace: System.Xml.Linq
+  summary: "\n<p>Removes every attribute in the source collection from its parent element.</p>\n"
+  remarks: "\n<p>This method uses snapshot semantics—that is, it copies the attributes in the source collection to a <xref href=\"System.Collections.Generic.List`1\" data-throw-if-not-resolved=\"false\"></xref> before disconnecting them from their parents. This is required to avoid issues with mixed imperative/declarative code. For more information, see Mixed Declarative Code/Imperative Code Bugs (LINQ to XML).</p>\n"
+  example:
+  - "\n<p>The following example retrieves a collection of attributes, and then calls this method to remove them from their parent elements.</p>\n<pre><code class=\"c#\">XElement root = new XElement(\"Root\",\nnew XAttribute(\"Att1\", 1),\nnew XAttribute(\"Att2\", 2),\nnew XAttribute(\"Att3\", 3),\nnew XAttribute(\"Att4\", 4),\nnew XAttribute(\"Att5\", 5)\n);\n\nIEnumerable<XAttribute> atList =\nfrom at in root.Attributes()\nwhere (int)at >= 3\nselect at;\n\natList.Remove();\n\nConsole.WriteLine(root);</code></pre>\n<pre><code class=\"vb\">Dim root As XElement = <Root Att1=\"1\" Att2=\"2\" Att3=\"3\" Att4=\"4\" Att5=\"5\"/>\n\nDim atList = From at In root.Attributes _\n     Where at.Value >= 3 _\n     Select at\n\natList.Remove()\n\nConsole.WriteLine(root)</code></pre>\n<p>This example produces the following output:</p>\n<pre><code><Root Att1=\"1\" Att2=\"2\" /></code></pre>\n"
   syntax:
-    content: public static void Remove(this Collections.Generic.IEnumerable<XAttribute> source)
+    content: public static void Remove(this IEnumerable<XAttribute> source)
     content.vb: >-
       <ExtensionAttribute>
 
-      Public Shared Sub Remove(source As Collections.Generic.IEnumerable(Of XAttribute))
+      Public Shared Sub Remove(source As IEnumerable(Of XAttribute))
     parameters:
     - id: source
       type: System.Collections.Generic.IEnumerable{System.Xml.Linq.XAttribute}
+      description: "\n<p>An <xref href=\"System.Collections.Generic.IEnumerable`1\" data-throw-if-not-resolved=\"false\"></xref> of <xref href=\"System.Xml.Linq.XAttribute\" data-throw-if-not-resolved=\"false\"></xref> that contains the source collection.</p>\n"
+  seealso:
+  - type: System.Xml.Linq.XElement.RemoveAttributes
+    commentId: M:System.Xml.Linq.XElement.RemoveAttributes
+  - type: System.Xml.Linq.XAttribute.Remove
+    commentId: M:System.Xml.Linq.XAttribute.Remove
+  - type: System.Xml.Linq.XNode.Remove
+    commentId: M:System.Xml.Linq.XNode.Remove
   modifiers.csharp:
   - public
   - static
@@ -776,7 +1039,7 @@ items:
   - Public
   - Shared
   fullName.vb: System.Xml.Linq.Extensions.Remove(System.Collections.Generic.IEnumerable(Of System.Xml.Linq.XAttribute))
-  name.vb: Remove(Collections.Generic.IEnumerable(Of XAttribute))
+  name.vb: Remove(IEnumerable(Of XAttribute))
 - uid: System.Xml.Linq.Extensions.Remove``1(System.Collections.Generic.IEnumerable{``0})
   commentId: M:System.Xml.Linq.Extensions.Remove``1(System.Collections.Generic.IEnumerable{``0})
   id: Remove``1(System.Collections.Generic.IEnumerable{``0})
@@ -785,7 +1048,7 @@ items:
   langs:
   - csharp
   - vb
-  name: Remove<T>(Collections.Generic.IEnumerable<T>)
+  name: Remove<T>(IEnumerable<T>)
   fullName: System.Xml.Linq.Extensions.Remove<T>(System.Collections.Generic.IEnumerable<T>)
   type: Method
   source:
@@ -799,17 +1062,30 @@ items:
   assemblies:
   - System.Xml.XDocument
   namespace: System.Xml.Linq
+  summary: "\n<p>Removes every node in the source collection from its parent node.</p>\n"
+  remarks: "\n<p>This method uses snapshot semantics—that is, it copies the attributes in the source collection to a List<T> before disconnecting them from their parents. This is required to avoid issues with mixed imperative/declarative code. For more information, see Mixed Declarative Code/Imperative Code Bugs (LINQ to XML).</p>\n"
+  example:
+  - "\n<p>The following example retrieves a collection of elements. It then calls this method to remove the elements from their parent element.</p>\n<pre><code class=\"c#\">XElement root = new XElement(\"Root\",\nnew XElement(\"Data\", 1),\nnew XElement(\"Data\", 2),\nnew XElement(\"Data\", 3),\nnew XElement(\"Data\", 4),\nnew XElement(\"Data\", 5)\n);\n\nIEnumerable<XElement> elList =\nfrom el in root.Elements()\nwhere (int)el >= 3\nselect el;\n\nelList.Remove();\n\nConsole.WriteLine(root);</code></pre>\n<pre><code class=\"vb\">Dim root As XElement = _\n<Root>\n<Data>1</Data>\n<Data>2</Data>\n<Data>3</Data>\n<Data>4</Data>\n<Data>5</Data>\n</Root>\n\nDim elList = From el In root.Elements _\n     Where el.Value >= 3 _\n     Select el\n\nelList.Remove()\n\nConsole.WriteLine(root)</code></pre>\n<p>This example produces the following output:</p>\n<pre><code><Root>\n<Data>1</Data>\n<Data>2</Data>\n</Root></code></pre>\n"
   syntax:
-    content: 'public static void Remove<T>(this Collections.Generic.IEnumerable<T> source)where T : XNode'
+    content: 'public static void Remove<T>(this IEnumerable<T> source)where T : XNode'
     content.vb: >-
       <ExtensionAttribute>
 
-      Public Shared Sub Remove(Of T As XNode)(source As Collections.Generic.IEnumerable(Of T))
+      Public Shared Sub Remove(Of T As XNode)(source As IEnumerable(Of T))
     parameters:
     - id: source
       type: System.Collections.Generic.IEnumerable{{T}}
+      description: "\n<p>An <xref href=\"System.Collections.Generic.IEnumerable`1\" data-throw-if-not-resolved=\"false\"></xref> of <xref href=\"System.Xml.Linq.XNode\" data-throw-if-not-resolved=\"false\"></xref> that contains the source collection.</p>\n"
     typeParameters:
     - id: T
+      description: "\n<p>The type of the objects in <em>source</em>, constrained to <xref href=\"System.Xml.Linq.XNode\" data-throw-if-not-resolved=\"false\"></xref>.</p>\n"
+  seealso:
+  - type: System.Xml.Linq.XElement.RemoveAll
+    commentId: M:System.Xml.Linq.XElement.RemoveAll
+  - type: System.Xml.Linq.XAttribute.Remove
+    commentId: M:System.Xml.Linq.XAttribute.Remove
+  - type: System.Xml.Linq.XNode.Remove
+    commentId: M:System.Xml.Linq.XNode.Remove
   modifiers.csharp:
   - public
   - static
@@ -817,7 +1093,7 @@ items:
   - Public
   - Shared
   fullName.vb: System.Xml.Linq.Extensions.Remove(Of T)(System.Collections.Generic.IEnumerable(Of T))
-  name.vb: Remove(Of T)(Collections.Generic.IEnumerable(Of T))
+  name.vb: Remove(Of T)(IEnumerable(Of T))
 references:
 - uid: System.Xml.Linq
   isExternal: false
@@ -828,6 +1104,215 @@ references:
   isExternal: false
   name: Object
   fullName: System.Object
+- uid: System.Object.ToString
+  parent: System.Object
+  isExternal: true
+  name: ToString()
+  fullName: System.Object.ToString()
+  spec.csharp:
+  - uid: System.Object.ToString
+    name: ToString
+    fullName: System.Object.ToString
+    isExternal: true
+  - name: (
+    fullName: (
+  - name: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.ToString
+    name: ToString
+    fullName: System.Object.ToString
+    isExternal: true
+  - name: (
+    fullName: (
+  - name: )
+    fullName: )
+- uid: System.Object.Equals(System.Object)
+  parent: System.Object
+  isExternal: true
+  name: Equals(Object)
+  fullName: System.Object.Equals(System.Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    fullName: )
+- uid: System.Object.Equals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  name: Equals(Object, Object)
+  fullName: System.Object.Equals(System.Object, System.Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    fullName: )
+- uid: System.Object.ReferenceEquals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  name: ReferenceEquals(Object, Object)
+  fullName: System.Object.ReferenceEquals(System.Object, System.Object)
+  spec.csharp:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    fullName: System.Object.ReferenceEquals
+    isExternal: true
+  - name: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    fullName: System.Object.ReferenceEquals
+    isExternal: true
+  - name: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    fullName: )
+- uid: System.Object.GetHashCode
+  parent: System.Object
+  isExternal: true
+  name: GetHashCode()
+  fullName: System.Object.GetHashCode()
+  spec.csharp:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    fullName: System.Object.GetHashCode
+    isExternal: true
+  - name: (
+    fullName: (
+  - name: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    fullName: System.Object.GetHashCode
+    isExternal: true
+  - name: (
+    fullName: (
+  - name: )
+    fullName: )
+- uid: System.Object.GetType
+  parent: System.Object
+  isExternal: true
+  name: GetType()
+  fullName: System.Object.GetType()
+  spec.csharp:
+  - uid: System.Object.GetType
+    name: GetType
+    fullName: System.Object.GetType
+    isExternal: true
+  - name: (
+    fullName: (
+  - name: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.GetType
+    name: GetType
+    fullName: System.Object.GetType
+    isExternal: true
+  - name: (
+    fullName: (
+  - name: )
+    fullName: )
+- uid: System.Object.MemberwiseClone
+  parent: System.Object
+  isExternal: true
+  name: MemberwiseClone()
+  fullName: System.Object.MemberwiseClone()
+  spec.csharp:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    fullName: System.Object.MemberwiseClone
+    isExternal: true
+  - name: (
+    fullName: (
+  - name: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    fullName: System.Object.MemberwiseClone
+    isExternal: true
+  - name: (
+    fullName: (
+  - name: )
+    fullName: )
 - uid: System
   isExternal: false
   name: System
@@ -835,13 +1320,13 @@ references:
 - uid: System.Collections.Generic.IEnumerable{{T}}
   parent: System.Collections.Generic
   definition: System.Collections.Generic.IEnumerable`1
-  name: Collections.Generic.IEnumerable<T>
+  name: IEnumerable<T>
   fullName: System.Collections.Generic.IEnumerable<T>
   fullname.vb: System.Collections.Generic.IEnumerable(Of T)
-  name.vb: Collections.Generic.IEnumerable(Of T)
+  name.vb: IEnumerable(Of T)
   spec.csharp:
   - uid: System.Collections.Generic.IEnumerable`1
-    name: Collections.Generic.IEnumerable
+    name: IEnumerable
     fullName: System.Collections.Generic.IEnumerable
   - name: <
     fullName: <
@@ -851,7 +1336,7 @@ references:
     fullName: '>'
   spec.vb:
   - uid: System.Collections.Generic.IEnumerable`1
-    name: Collections.Generic.IEnumerable
+    name: IEnumerable
     fullName: System.Collections.Generic.IEnumerable
   - name: '(Of '
     fullName: '(Of '
@@ -860,14 +1345,15 @@ references:
   - name: )
     fullName: )
 - uid: System.Collections.Generic.IEnumerable{System.Xml.Linq.XElement}
+  parent: System.Collections.Generic
   definition: System.Collections.Generic.IEnumerable`1
-  name: Collections.Generic.IEnumerable<XElement>
+  name: IEnumerable<XElement>
   fullName: System.Collections.Generic.IEnumerable<System.Xml.Linq.XElement>
   fullname.vb: System.Collections.Generic.IEnumerable(Of System.Xml.Linq.XElement)
-  name.vb: Collections.Generic.IEnumerable(Of XElement)
+  name.vb: IEnumerable(Of XElement)
   spec.csharp:
   - uid: System.Collections.Generic.IEnumerable`1
-    name: Collections.Generic.IEnumerable
+    name: IEnumerable
     fullName: System.Collections.Generic.IEnumerable
     isExternal: true
   - name: <
@@ -879,7 +1365,7 @@ references:
     fullName: '>'
   spec.vb:
   - uid: System.Collections.Generic.IEnumerable`1
-    name: Collections.Generic.IEnumerable
+    name: IEnumerable
     fullName: System.Collections.Generic.IEnumerable
     isExternal: true
   - name: '(Of '
@@ -892,28 +1378,28 @@ references:
 - uid: System.Collections.Generic.IEnumerable`1
   parent: System.Collections.Generic
   isExternal: false
-  name: Collections.Generic.IEnumerable<>
-  fullName: System.Collections.Generic.IEnumerable<>
-  fullname.vb: System.Collections.Generic.IEnumerable(Of )
-  name.vb: Collections.Generic.IEnumerable(Of )
+  name: IEnumerable<T>
+  fullName: System.Collections.Generic.IEnumerable<T>
+  fullname.vb: System.Collections.Generic.IEnumerable(Of T)
+  name.vb: IEnumerable(Of T)
   spec.csharp:
   - uid: System.Collections.Generic.IEnumerable`1
-    name: Collections.Generic.IEnumerable
+    name: IEnumerable
     fullName: System.Collections.Generic.IEnumerable
   - name: <
     fullName: <
-  - name: 
-    fullName: 
+  - name: T
+    fullName: T
   - name: '>'
     fullName: '>'
   spec.vb:
   - uid: System.Collections.Generic.IEnumerable`1
-    name: Collections.Generic.IEnumerable
+    name: IEnumerable
     fullName: System.Collections.Generic.IEnumerable
   - name: '(Of '
     fullName: '(Of '
-  - name: 
-    fullName: 
+  - name: T
+    fullName: T
   - name: )
     fullName: )
 - uid: System.Collections.Generic
@@ -926,14 +1412,15 @@ references:
   name: XName
   fullName: System.Xml.Linq.XName
 - uid: System.Collections.Generic.IEnumerable{System.Xml.Linq.XAttribute}
+  parent: System.Collections.Generic
   definition: System.Collections.Generic.IEnumerable`1
-  name: Collections.Generic.IEnumerable<XAttribute>
+  name: IEnumerable<XAttribute>
   fullName: System.Collections.Generic.IEnumerable<System.Xml.Linq.XAttribute>
   fullname.vb: System.Collections.Generic.IEnumerable(Of System.Xml.Linq.XAttribute)
-  name.vb: Collections.Generic.IEnumerable(Of XAttribute)
+  name.vb: IEnumerable(Of XAttribute)
   spec.csharp:
   - uid: System.Collections.Generic.IEnumerable`1
-    name: Collections.Generic.IEnumerable
+    name: IEnumerable
     fullName: System.Collections.Generic.IEnumerable
     isExternal: true
   - name: <
@@ -945,7 +1432,7 @@ references:
     fullName: '>'
   spec.vb:
   - uid: System.Collections.Generic.IEnumerable`1
-    name: Collections.Generic.IEnumerable
+    name: IEnumerable
     fullName: System.Collections.Generic.IEnumerable
     isExternal: true
   - name: '(Of '
@@ -956,14 +1443,15 @@ references:
   - name: )
     fullName: )
 - uid: System.Collections.Generic.IEnumerable{System.Xml.Linq.XNode}
+  parent: System.Collections.Generic
   definition: System.Collections.Generic.IEnumerable`1
-  name: Collections.Generic.IEnumerable<XNode>
+  name: IEnumerable<XNode>
   fullName: System.Collections.Generic.IEnumerable<System.Xml.Linq.XNode>
   fullname.vb: System.Collections.Generic.IEnumerable(Of System.Xml.Linq.XNode)
-  name.vb: Collections.Generic.IEnumerable(Of XNode)
+  name.vb: IEnumerable(Of XNode)
   spec.csharp:
   - uid: System.Collections.Generic.IEnumerable`1
-    name: Collections.Generic.IEnumerable
+    name: IEnumerable
     fullName: System.Collections.Generic.IEnumerable
     isExternal: true
   - name: <
@@ -975,7 +1463,7 @@ references:
     fullName: '>'
   spec.vb:
   - uid: System.Collections.Generic.IEnumerable`1
-    name: Collections.Generic.IEnumerable
+    name: IEnumerable
     fullName: System.Collections.Generic.IEnumerable
     isExternal: true
   - name: '(Of '

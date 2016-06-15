@@ -15,23 +15,35 @@ items:
   type: Class
   source:
     remote:
-      path: src/System.Diagnostics.Debug/ref/System.Diagnostics.Debug.cs
+      path: src/mscorlib/src/System/Diagnostics/Debugger.cs
       branch: master
-      repo: https://github.com/dotnet/corefx.git
+      repo: https://github.com/dotnet/coreclr.git
     id: Debugger
-    path: src/System.Diagnostics.Debug/ref/System.Diagnostics.Debug.cs
-    startLine: 59
+    path: src/mscorlib/src/System/Diagnostics/Debugger.cs
+    startLine: 19
   assemblies:
   - System.Diagnostics.Debug
   namespace: System.Diagnostics
   summary: "\n<p>Enables communication with a debugger. This class cannot be inherited.</p>\n"
   syntax:
-    content: 'public class Debugger : object'
+    content: >-
+      [ComVisible(true)]
+
+      public sealed class Debugger
     content.vb: >-
-      Public Class Debugger
-          Inherits Object
+      <ComVisible(True)>
+
+      Public NotInheritable Class Debugger
   inheritance:
   - System.Object
+  inheritedMembers:
+  - System.Object.ToString
+  - System.Object.Equals(System.Object)
+  - System.Object.Equals(System.Object,System.Object)
+  - System.Object.ReferenceEquals(System.Object,System.Object)
+  - System.Object.GetHashCode
+  - System.Object.GetType
+  - System.Object.MemberwiseClone
   modifiers.csharp:
   - public
   - class
@@ -49,24 +61,25 @@ items:
   fullName: System.Diagnostics.Debugger.IsAttached
   type: Property
   source:
-    remote:
-      path: src/System.Diagnostics.Debug/ref/System.Diagnostics.Debug.cs
-      branch: master
-      repo: https://github.com/dotnet/corefx.git
-    id: IsAttached
-    path: src/System.Diagnostics.Debug/ref/System.Diagnostics.Debug.cs
-    startLine: 61
+    path: System.Private.CoreLib
+    isExternal: true
   assemblies:
   - System.Diagnostics.Debug
   namespace: System.Diagnostics
   summary: "\n<p>Gets a value that indicates whether a debugger is attached to the process.</p>\n"
   syntax:
-    content: public static bool IsAttached { get; }
+    content: >-
+      public static bool IsAttached
+
+      {
+          [SecuritySafeCritical]
+          [MethodImpl(MethodImplOptions.InternalCall)]
+          get;
+      }
     content.vb: Public Shared ReadOnly Property IsAttached As Boolean
     parameters: []
     return:
       type: System.Boolean
-      description: "\n<p>\n<strong>true</strong> if a debugger is attached; otherwise, <strong>false</strong>.</p>\n"
   modifiers.csharp:
   - public
   - static
@@ -87,12 +100,12 @@ items:
   type: Method
   source:
     remote:
-      path: src/System.Diagnostics.Debug/ref/System.Diagnostics.Debug.cs
+      path: src/mscorlib/src/System/Diagnostics/Debugger.cs
       branch: master
-      repo: https://github.com/dotnet/corefx.git
+      repo: https://github.com/dotnet/coreclr.git
     id: Break
-    path: src/System.Diagnostics.Debug/ref/System.Diagnostics.Debug.cs
-    startLine: 62
+    path: src/mscorlib/src/System/Diagnostics/Debugger.cs
+    startLine: 34
   assemblies:
   - System.Diagnostics.Debug
   namespace: System.Diagnostics
@@ -101,8 +114,14 @@ items:
   example:
   - "\n<p>The following code example demonstrates how to stop the debugger at the call to <xref href=\"System.Console.WriteLine\" data-throw-if-not-resolved=\"false\"></xref>.</p>\n<pre><code class=\"vb\">Debugger.Break()\nConsole.WriteLine(\"Hello, world.\")</code></pre>\n<pre><code class=\"c#\">Debugger.Break();\nConsole.WriteLine(\"Hello, world.\");</code></pre>\n"
   syntax:
-    content: public static void Break()
-    content.vb: Public Shared Sub Break
+    content: >-
+      [SecuritySafeCritical]
+
+      public static void Break()
+    content.vb: >-
+      <SecuritySafeCritical>
+
+      Public Shared Sub Break
   exceptions:
   - type: System.Security.SecurityException
     commentId: T:System.Security.SecurityException
@@ -130,23 +149,28 @@ items:
   type: Method
   source:
     remote:
-      path: src/System.Diagnostics.Debug/ref/System.Diagnostics.Debug.cs
+      path: src/mscorlib/src/System/Diagnostics/Debugger.cs
       branch: master
-      repo: https://github.com/dotnet/corefx.git
+      repo: https://github.com/dotnet/coreclr.git
     id: Launch
-    path: src/System.Diagnostics.Debug/ref/System.Diagnostics.Debug.cs
-    startLine: 63
+    path: src/mscorlib/src/System/Diagnostics/Debugger.cs
+    startLine: 84
   assemblies:
   - System.Diagnostics.Debug
   namespace: System.Diagnostics
   summary: "\n<p>Launches and attaches a debugger to the process.</p>\n"
   remarks: "\n<p>If a debugger is already attached, nothing happens.</p>\n"
   syntax:
-    content: public static bool Launch()
-    content.vb: Public Shared Function Launch As Boolean
+    content: >-
+      [SecuritySafeCritical]
+
+      public static bool Launch()
+    content.vb: >-
+      <SecuritySafeCritical>
+
+      Public Shared Function Launch As Boolean
     return:
       type: System.Boolean
-      description: "\n<p>\n<strong>true</strong> if the startup is successful or if the debugger is already attached; otherwise, <strong>false</strong>.</p>\n"
   exceptions:
   - type: System.Security.SecurityException
     commentId: T:System.Security.SecurityException
@@ -175,6 +199,215 @@ references:
   isExternal: false
   name: Object
   fullName: System.Object
+- uid: System.Object.ToString
+  parent: System.Object
+  isExternal: true
+  name: ToString()
+  fullName: System.Object.ToString()
+  spec.csharp:
+  - uid: System.Object.ToString
+    name: ToString
+    fullName: System.Object.ToString
+    isExternal: true
+  - name: (
+    fullName: (
+  - name: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.ToString
+    name: ToString
+    fullName: System.Object.ToString
+    isExternal: true
+  - name: (
+    fullName: (
+  - name: )
+    fullName: )
+- uid: System.Object.Equals(System.Object)
+  parent: System.Object
+  isExternal: true
+  name: Equals(Object)
+  fullName: System.Object.Equals(System.Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    fullName: )
+- uid: System.Object.Equals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  name: Equals(Object, Object)
+  fullName: System.Object.Equals(System.Object, System.Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    fullName: )
+- uid: System.Object.ReferenceEquals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  name: ReferenceEquals(Object, Object)
+  fullName: System.Object.ReferenceEquals(System.Object, System.Object)
+  spec.csharp:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    fullName: System.Object.ReferenceEquals
+    isExternal: true
+  - name: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    fullName: System.Object.ReferenceEquals
+    isExternal: true
+  - name: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    fullName: )
+- uid: System.Object.GetHashCode
+  parent: System.Object
+  isExternal: true
+  name: GetHashCode()
+  fullName: System.Object.GetHashCode()
+  spec.csharp:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    fullName: System.Object.GetHashCode
+    isExternal: true
+  - name: (
+    fullName: (
+  - name: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    fullName: System.Object.GetHashCode
+    isExternal: true
+  - name: (
+    fullName: (
+  - name: )
+    fullName: )
+- uid: System.Object.GetType
+  parent: System.Object
+  isExternal: true
+  name: GetType()
+  fullName: System.Object.GetType()
+  spec.csharp:
+  - uid: System.Object.GetType
+    name: GetType
+    fullName: System.Object.GetType
+    isExternal: true
+  - name: (
+    fullName: (
+  - name: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.GetType
+    name: GetType
+    fullName: System.Object.GetType
+    isExternal: true
+  - name: (
+    fullName: (
+  - name: )
+    fullName: )
+- uid: System.Object.MemberwiseClone
+  parent: System.Object
+  isExternal: true
+  name: MemberwiseClone()
+  fullName: System.Object.MemberwiseClone()
+  spec.csharp:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    fullName: System.Object.MemberwiseClone
+    isExternal: true
+  - name: (
+    fullName: (
+  - name: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    fullName: System.Object.MemberwiseClone
+    isExternal: true
+  - name: (
+    fullName: (
+  - name: )
+    fullName: )
 - uid: System
   isExternal: false
   name: System

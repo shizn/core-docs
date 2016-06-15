@@ -27,12 +27,12 @@ items:
   type: Class
   source:
     remote:
-      path: src/System.Threading/ref/System.Threading.cs
+      path: src/mscorlib/src/System/Threading/Monitor.cs
       branch: master
-      repo: https://github.com/dotnet/corefx.git
+      repo: https://github.com/dotnet/coreclr.git
     id: Monitor
-    path: src/System.Threading/ref/System.Threading.cs
-    startLine: 183
+    path: src/mscorlib/src/System/Threading/Monitor.cs
+    startLine: 28
   assemblies:
   - System.Threading
   namespace: System.Threading
@@ -42,15 +42,31 @@ items:
   - <p>The following example uses the <xref href="System.Threading.Monitor" data-throw-if-not-resolved="false"></xref> class to synchronize access to a single instance of a random number generator represented by the <xref href="System.Random" data-throw-if-not-resolved="false"></xref> class. The example creates ten tasks, each of which executes asynchronously on a thread pool thread. Each task generates 10,000 random numbers, calculates their average, and updates two procedure-level variables that maintain a running total of the number of random numbers generated and their sum. After all tasks have executed, these two values are then used to calculate the overall mean. </p>System.Threading.Monitor.Class#1<p>Because they can be accessed from any task running on a thread pool thread, access to the variables <code>total</code> and <code>n</code> must also be synchronized. The <xref href="System.Threading.Interlocked.Add(System.Int64@,System.Int64)" data-throw-if-not-resolved="false"></xref> method is used for this purpose. </p>
   - '<p>The following example demonstrates the combined use of the <xref href="System.Threading.Monitor" data-throw-if-not-resolved="false"></xref> class (implemented with the <strong>lock</strong> or <strong>SyncLock</strong> language construct), the <xref href="System.Threading.Interlocked" data-throw-if-not-resolved="false"></xref> class, and the <xref href="System.Threading.AutoResetEvent" data-throw-if-not-resolved="false"></xref> class. It defines two <strong>internal</strong> (in C#) or <strong>Friend</strong> (in Visual Basic) classes, <code>SyncResource</code> and <code>UnSyncResource</code>, that respectively provide synchronized and unsynchronized access to a resource. To ensure that the example illustrates the difference between the synchronized and unsynchronized access (which could be the case if each method call completes rapidly), the method includes a random delay: for threads whose <xref href="System.Threading.Thread.ManagedThreadId" data-throw-if-not-resolved="false"></xref> property is even, the method calls <xref href="System.Threading.Thread.Sleep(System.Int32)" data-throw-if-not-resolved="false"></xref> to introduce a delay of 2,000 milliseconds. Note that, because the <code>SyncResource</code> class is not public, none of the client code takes a lock on the synchronized resource; the internal class itself takes the lock. This prevents malicious code from taking a lock on a public object. </p>Conceptual.Monitors#1<p>The example defines a variable, <code>numOps</code>, that defines the number of threads that will attempt to access the resource. The application thread calls the <xref href="System.Threading.ThreadPool.QueueUserWorkItem(System.Threading.WaitCallback)" data-throw-if-not-resolved="false"></xref> method for synchronized and unsynchronized access five times each. The <xref href="System.Threading.ThreadPool.QueueUserWorkItem(System.Threading.WaitCallback)" data-throw-if-not-resolved="false"></xref> method has a single parameter, a delegate that accepts no parameters and returns no value. For synchronized access, it invokes the <code>SyncUpdateResource</code> method; for unsynchronized access, it invokes the <code>UnSyncUpdateResource</code> method. After each set of method calls, the application thread calls the <see href="https://msdn.microsoft.com/library/58195swd.aspx">AutoResetEvent.WaitOne</see> method so that it blocks until the <xref href="System.Threading.AutoResetEvent" data-throw-if-not-resolved="false"></xref> instance is signaled. </p><p>Each call to the <code>SyncUpdateResource</code> method calls the internal <code>SyncResource.Access</code> method and then calls the <xref href="System.Threading.Interlocked.Decrement(System.Int64@)" data-throw-if-not-resolved="false"></xref> method to decrement the <code>numOps</code> counter. The <xref href="System.Threading.Interlocked.Decrement(System.Int64@)" data-throw-if-not-resolved="false"></xref> method Is used to decrement the counter, because otherwise you cannot be certain that a second thread will access the value before a first thread''s decremented value has been stored in the variable. When the last synchronized worker thread decrements the counter to zero, indicating that all synchronized threads have completed accessing the resource, the <code>SyncUpdateResource</code> method calls the <see href="https://msdn.microsoft.com/library/system.threading.eventwaithandle.set.aspx">EventWaitHandle.Set</see> method, which signals the main thread to continue execution. </p><p>Each call to the <code>UnSyncUpdateResource</code> method calls the internal <code>UnSyncResource.Access</code> method and then calls the <xref href="System.Threading.Interlocked.Decrement(System.Int64@)" data-throw-if-not-resolved="false"></xref> method to decrement the <code>numOps</code> counter. Once again, the <xref href="System.Threading.Interlocked.Decrement(System.Int64@)" data-throw-if-not-resolved="false"></xref> method Is used to decrement the counter to ensure that a second thread does not access the value before a first thread''s decremented value has been assigned to the variable. When the last unsynchronized worker thread decrements the counter to zero, indicating that no more unsynchronized threads need to access the resource, the <code>UnSyncUpdateResource</code> method calls the <see href="https://msdn.microsoft.com/library/system.threading.eventwaithandle.set.aspx">EventWaitHandle.Set</see> method, which signals the main thread to continue execution.</p><p>As the output from  the example shows, synchronized access ensures that the calling thread exits the protected resource before another thread can access it; each thread waits on its predecessor. On the other hand, without the lock, the <code>UnSyncResource.Access</code> method is called in the order in which threads reach it. </p>'
   syntax:
-    content: 'public class Monitor : object'
+    content: >-
+      [HostProtection(Synchronization = true, ExternalThreading = true)]
+
+      [ComVisible(true)]
+
+      public class Monitor
     content.vb: >-
+      <HostProtection(Synchronization:=True, ExternalThreading:=True)>
+
+      <ComVisible(True)>
+
       Public Class Monitor
-          Inherits Object
   seealso:
   - type: System.Threading.Thread
     commentId: T:System.Threading.Thread
   inheritance:
   - System.Object
+  inheritedMembers:
+  - System.Object.ToString
+  - System.Object.Equals(System.Object)
+  - System.Object.Equals(System.Object,System.Object)
+  - System.Object.ReferenceEquals(System.Object,System.Object)
+  - System.Object.GetHashCode
+  - System.Object.GetType
+  - System.Object.MemberwiseClone
   modifiers.csharp:
   - public
   - class
@@ -68,13 +84,8 @@ items:
   fullName: System.Threading.Monitor.Enter(System.Object)
   type: Method
   source:
-    remote:
-      path: src/System.Threading/ref/System.Threading.cs
-      branch: master
-      repo: https://github.com/dotnet/corefx.git
-    id: Enter
-    path: src/System.Threading/ref/System.Threading.cs
-    startLine: 185
+    path: System.Private.CoreLib
+    isExternal: true
   assemblies:
   - System.Threading
   namespace: System.Threading
@@ -83,12 +94,21 @@ items:
   example:
   - "\n<p>The following example demonstrates how to use the <strong>Enter</strong> method.</p>MonitorExmpl2#1"
   syntax:
-    content: public static void Enter(object obj)
-    content.vb: Public Shared Sub Enter(obj As Object)
+    content: >-
+      [SecuritySafeCritical]
+
+      [MethodImpl(MethodImplOptions.InternalCall)]
+
+      public static void Enter(object obj)
+    content.vb: >-
+      <SecuritySafeCritical>
+
+      <MethodImpl(MethodImplOptions.InternalCall)>
+
+      Public Shared Sub Enter(obj As Object)
     parameters:
     - id: obj
       type: System.Object
-      description: "\n<p>The object on which to acquire the monitor lock. </p>\n"
   exceptions:
   - type: System.ArgumentNullException
     commentId: T:System.ArgumentNullException
@@ -114,12 +134,12 @@ items:
   type: Method
   source:
     remote:
-      path: src/System.Threading/ref/System.Threading.cs
+      path: src/mscorlib/src/System/Threading/Monitor.cs
       branch: master
-      repo: https://github.com/dotnet/corefx.git
+      repo: https://github.com/dotnet/coreclr.git
     id: Enter
-    path: src/System.Threading/ref/System.Threading.cs
-    startLine: 186
+    path: src/mscorlib/src/System/Threading/Monitor.cs
+    startLine: 50
   assemblies:
   - System.Threading
   namespace: System.Threading
@@ -133,10 +153,8 @@ items:
     parameters:
     - id: obj
       type: System.Object
-      description: "\n<p>The object on which to wait. </p>\n"
     - id: lockTaken
       type: System.Boolean
-      description: "\n<p>The result of the attempt to acquire the lock, passed by reference. The input must be <strong>false</strong>. The output is <strong>true</strong> if the lock is acquired; otherwise, the output is <strong>false</strong>. The output is set even if an exception occurs during the attempt to acquire the lock. </p>\n<p>Note   If no exception occurs, the output of this method is always <strong>true</strong>.</p>\n"
   exceptions:
   - type: System.ArgumentException
     commentId: T:System.ArgumentException
@@ -163,13 +181,8 @@ items:
   fullName: System.Threading.Monitor.Exit(System.Object)
   type: Method
   source:
-    remote:
-      path: src/System.Threading/ref/System.Threading.cs
-      branch: master
-      repo: https://github.com/dotnet/corefx.git
-    id: Exit
-    path: src/System.Threading/ref/System.Threading.cs
-    startLine: 187
+    path: System.Private.CoreLib
+    isExternal: true
   assemblies:
   - System.Threading
   namespace: System.Threading
@@ -178,12 +191,25 @@ items:
   example:
   - "\n<p>The following example demonstrates how to use the <strong>Exit</strong> method.</p>MonitorExmpl2#1"
   syntax:
-    content: public static void Exit(object obj)
-    content.vb: Public Shared Sub Exit(obj As Object)
+    content: >-
+      [SecuritySafeCritical]
+
+      [MethodImpl(MethodImplOptions.InternalCall)]
+
+      [ReliabilityContract(Consistency.WillNotCorruptState, Cer.Success)]
+
+      public static void Exit(object obj)
+    content.vb: >-
+      <SecuritySafeCritical>
+
+      <MethodImpl(MethodImplOptions.InternalCall)>
+
+      <ReliabilityContract(Consistency.WillNotCorruptState, Cer.Success)>
+
+      Public Shared Sub Exit(obj As Object)
     parameters:
     - id: obj
       type: System.Object
-      description: "\n<p>The object on which to release the lock. </p>\n"
   exceptions:
   - type: System.ArgumentNullException
     commentId: T:System.ArgumentNullException
@@ -212,27 +238,31 @@ items:
   type: Method
   source:
     remote:
-      path: src/System.Threading/ref/System.Threading.cs
+      path: src/mscorlib/src/System/Threading/Monitor.cs
       branch: master
-      repo: https://github.com/dotnet/corefx.git
+      repo: https://github.com/dotnet/coreclr.git
     id: IsEntered
-    path: src/System.Threading/ref/System.Threading.cs
-    startLine: 188
+    path: src/mscorlib/src/System/Threading/Monitor.cs
+    startLine: 160
   assemblies:
   - System.Threading
   namespace: System.Threading
   summary: "\n<p>Determines whether the current thread holds the lock on the specified object. </p>\n"
   remarks: "\n<p>This method works only for locks that are acquired by using the methods of the <xref href=\"System.Threading.Monitor\" data-throw-if-not-resolved=\"false\"></xref> class, or by using the C# <strong>lock</strong> statement or the Visual Basic <strong>SyncLock</strong> statement, which are implemented with <xref href=\"System.Threading.Monitor\" data-throw-if-not-resolved=\"false\"></xref>. </p>\n<p>Use this method with diagnostic tools, such as the <xref href=\"System.Diagnostics.Debug.Assert(System.Boolean)\" data-throw-if-not-resolved=\"false\"></xref> method and the <xref href=\"System.Diagnostics.Contracts.Contract\" data-throw-if-not-resolved=\"false\"></xref> class, to debug locking issues that involve the <xref href=\"System.Threading.Monitor\" data-throw-if-not-resolved=\"false\"></xref>class. </p>\n"
   syntax:
-    content: public static bool IsEntered(object obj)
-    content.vb: Public Shared Function IsEntered(obj As Object) As Boolean
+    content: >-
+      [SecuritySafeCritical]
+
+      public static bool IsEntered(object obj)
+    content.vb: >-
+      <SecuritySafeCritical>
+
+      Public Shared Function IsEntered(obj As Object) As Boolean
     parameters:
     - id: obj
       type: System.Object
-      description: "\n<p>The object to test. </p>\n"
     return:
       type: System.Boolean
-      description: "\n<p>\n<strong>true</strong> if the current thread holds the lock on <em>obj</em>; otherwise, <strong>false</strong>.</p>\n"
   exceptions:
   - type: System.ArgumentNullException
     commentId: T:System.ArgumentNullException
@@ -255,24 +285,29 @@ items:
   type: Method
   source:
     remote:
-      path: src/System.Threading/ref/System.Threading.cs
+      path: src/mscorlib/src/System/Threading/Monitor.cs
       branch: master
-      repo: https://github.com/dotnet/corefx.git
+      repo: https://github.com/dotnet/coreclr.git
     id: Pulse
-    path: src/System.Threading/ref/System.Threading.cs
-    startLine: 189
+    path: src/mscorlib/src/System/Threading/Monitor.cs
+    startLine: 225
   assemblies:
   - System.Threading
   namespace: System.Threading
   summary: "\n<p>Notifies a thread in the waiting queue of a change in the locked object's state.</p>\n"
   remarks: "\n<p>Only the current owner of the lock can signal a waiting object using <strong>Pulse</strong>.</p>\n<p>The thread that currently owns the lock on the specified object invokes this method to signal the next thread in line for the lock. Upon receiving the pulse, the waiting thread is moved to the ready queue. When the thread that invoked <strong>Pulse</strong> releases the lock, the next thread in the ready queue (which is not necessarily the thread that was pulsed) acquires the lock.</p>\n<p>The <xref href=\"System.Threading.Monitor\" data-throw-if-not-resolved=\"false\"></xref> class does not maintain state indicating that the <xref href=\"System.Threading.Monitor.Pulse(System.Object)\" data-throw-if-not-resolved=\"false\"></xref> method has been called. Thus, if you call <xref href=\"System.Threading.Monitor.Pulse(System.Object)\" data-throw-if-not-resolved=\"false\"></xref> when no threads are waiting, the next thread that calls <see cref=\"Overload:System.Threading.Monitor.Wait\"></see> blocks as if <xref href=\"System.Threading.Monitor.Pulse(System.Object)\" data-throw-if-not-resolved=\"false\"></xref> had never been called. If two threads are using <xref href=\"System.Threading.Monitor.Pulse(System.Object)\" data-throw-if-not-resolved=\"false\"></xref> and <see cref=\"Overload:System.Threading.Monitor.Wait\"></see> to interact, this could result in a deadlock. Contrast this with the behavior of the <xref href=\"System.Threading.AutoResetEvent\" data-throw-if-not-resolved=\"false\"></xref> class: If you signal an <xref href=\"System.Threading.AutoResetEvent\" data-throw-if-not-resolved=\"false\"></xref> by calling its <xref href=\"System.Threading.EventWaitHandle.Set\" data-throw-if-not-resolved=\"false\"></xref> method, and there are no threads waiting, the <xref href=\"System.Threading.AutoResetEvent\" data-throw-if-not-resolved=\"false\"></xref> remains in a signaled state until a thread calls <see cref=\"Overload:System.Threading.WaitHandle.WaitOne\"></see>, <see cref=\"Overload:System.Threading.WaitHandle.WaitAny\"></see>, or <see cref=\"Overload:System.Threading.WaitHandle.WaitAll\"></see>. The <xref href=\"System.Threading.AutoResetEvent\" data-throw-if-not-resolved=\"false\"></xref> releases that thread and returns to the unsignaled state.</p>\n<p>Note that a synchronized object holds several references, including a reference to the thread that currently holds the lock, a reference to the ready queue, which contains the threads that are ready to obtain the lock, and a reference to the waiting queue, which contains the threads that are waiting for notification of a change in the object's state. </p>\n<p>The <strong>Pulse</strong>, <xref href=\"System.Threading.Monitor.PulseAll(System.Object)\" data-throw-if-not-resolved=\"false\"></xref>, and <xref href=\"System.Threading.Monitor.Wait(System.Object,System.Int32,System.Boolean)\" data-throw-if-not-resolved=\"false\"></xref> methods must be invoked from within a synchronized block of code. </p>\n<p>To signal multiple threads, use the <xref href=\"System.Threading.Monitor.PulseAll(System.Object)\" data-throw-if-not-resolved=\"false\"></xref> method.</p>\n"
   syntax:
-    content: public static void Pulse(object obj)
-    content.vb: Public Shared Sub Pulse(obj As Object)
+    content: >-
+      [SecuritySafeCritical]
+
+      public static void Pulse(object obj)
+    content.vb: >-
+      <SecuritySafeCritical>
+
+      Public Shared Sub Pulse(obj As Object)
     parameters:
     - id: obj
       type: System.Object
-      description: "\n<p>The object a thread is waiting for. </p>\n"
   exceptions:
   - type: System.ArgumentNullException
     commentId: T:System.ArgumentNullException
@@ -301,24 +336,29 @@ items:
   type: Method
   source:
     remote:
-      path: src/System.Threading/ref/System.Threading.cs
+      path: src/mscorlib/src/System/Threading/Monitor.cs
       branch: master
-      repo: https://github.com/dotnet/corefx.git
+      repo: https://github.com/dotnet/coreclr.git
     id: PulseAll
-    path: src/System.Threading/ref/System.Threading.cs
-    startLine: 190
+    path: src/mscorlib/src/System/Threading/Monitor.cs
+    startLine: 243
   assemblies:
   - System.Threading
   namespace: System.Threading
   summary: "\n<p>Notifies all waiting threads of a change in the object's state.</p>\n"
   remarks: "\n<p>The thread that currently owns the lock on the specified object invokes this method to signal all threads waiting to acquire the lock on the object. After the signal is sent, the waiting threads are moved to the ready queue. When the thread that invoked <strong>PulseAll</strong> releases the lock, the next thread in the ready queue acquires the lock.</p>\n<p>Note that a synchronized object holds several references, including a reference to the thread that currently holds the lock, a reference to the ready queue, which contains the threads that are ready to obtain the lock, and a reference to the waiting queue, which contains the threads that are waiting for notification of a change in the object's state. </p>\n<p>The <xref href=\"System.Threading.Monitor.Pulse(System.Object)\" data-throw-if-not-resolved=\"false\"></xref>, <strong>PulseAll</strong>, and <xref href=\"System.Threading.Monitor.Wait(System.Object,System.Int32,System.Boolean)\" data-throw-if-not-resolved=\"false\"></xref> methods must be invoked from within a synchronized block of code.</p>\n<p>The remarks for the <xref href=\"System.Threading.Monitor.Pulse(System.Object)\" data-throw-if-not-resolved=\"false\"></xref> method explain what happens if <xref href=\"System.Threading.Monitor.Pulse(System.Object)\" data-throw-if-not-resolved=\"false\"></xref> is called when no threads are waiting.</p>\n<p>To signal a single thread, use the <strong>Pulse</strong> method.</p>\n"
   syntax:
-    content: public static void PulseAll(object obj)
-    content.vb: Public Shared Sub PulseAll(obj As Object)
+    content: >-
+      [SecuritySafeCritical]
+
+      public static void PulseAll(object obj)
+    content.vb: >-
+      <SecuritySafeCritical>
+
+      Public Shared Sub PulseAll(obj As Object)
     parameters:
     - id: obj
       type: System.Object
-      description: "\n<p>The object that sends the pulse. </p>\n"
   exceptions:
   - type: System.ArgumentNullException
     commentId: T:System.ArgumentNullException
@@ -347,12 +387,12 @@ items:
   type: Method
   source:
     remote:
-      path: src/System.Threading/ref/System.Threading.cs
+      path: src/mscorlib/src/System/Threading/Monitor.cs
       branch: master
-      repo: https://github.com/dotnet/corefx.git
+      repo: https://github.com/dotnet/coreclr.git
     id: TryEnter
-    path: src/System.Threading/ref/System.Threading.cs
-    startLine: 191
+    path: src/mscorlib/src/System/Threading/Monitor.cs
+    startLine: 91
   assemblies:
   - System.Threading
   namespace: System.Threading
@@ -366,10 +406,8 @@ items:
     parameters:
     - id: obj
       type: System.Object
-      description: "\n<p>The object on which to acquire the lock. </p>\n"
     return:
       type: System.Boolean
-      description: "\n<p>\n<strong>true</strong> if the current thread acquires the lock; otherwise, <strong>false</strong>.</p>\n"
   exceptions:
   - type: System.ArgumentNullException
     commentId: T:System.ArgumentNullException
@@ -395,12 +433,12 @@ items:
   type: Method
   source:
     remote:
-      path: src/System.Threading/ref/System.Threading.cs
+      path: src/mscorlib/src/System/Threading/Monitor.cs
       branch: master
-      repo: https://github.com/dotnet/corefx.git
+      repo: https://github.com/dotnet/coreclr.git
     id: TryEnter
-    path: src/System.Threading/ref/System.Threading.cs
-    startLine: 192
+    path: src/mscorlib/src/System/Threading/Monitor.cs
+    startLine: 100
   assemblies:
   - System.Threading
   namespace: System.Threading
@@ -414,10 +452,8 @@ items:
     parameters:
     - id: obj
       type: System.Object
-      description: "\n<p>The object on which to acquire the lock. </p>\n"
     - id: lockTaken
       type: System.Boolean
-      description: "\n<p>The result of the attempt to acquire the lock, passed by reference. The input must be <strong>false</strong>. The output is <strong>true</strong> if the lock is acquired; otherwise, the output is <strong>false</strong>. The output is set even if an exception occurs during the attempt to acquire the lock.</p>\n"
   exceptions:
   - type: System.ArgumentException
     commentId: T:System.ArgumentException
@@ -445,12 +481,12 @@ items:
   type: Method
   source:
     remote:
-      path: src/System.Threading/ref/System.Threading.cs
+      path: src/mscorlib/src/System/Threading/Monitor.cs
       branch: master
-      repo: https://github.com/dotnet/corefx.git
+      repo: https://github.com/dotnet/coreclr.git
     id: TryEnter
-    path: src/System.Threading/ref/System.Threading.cs
-    startLine: 193
+    path: src/mscorlib/src/System/Threading/Monitor.cs
+    startLine: 118
   assemblies:
   - System.Threading
   namespace: System.Threading
@@ -462,13 +498,10 @@ items:
     parameters:
     - id: obj
       type: System.Object
-      description: "\n<p>The object on which to acquire the lock. </p>\n"
     - id: millisecondsTimeout
       type: System.Int32
-      description: "\n<p>The number of milliseconds to wait for the lock. </p>\n"
     return:
       type: System.Boolean
-      description: "\n<p>\n<strong>true</strong> if the current thread acquires the lock; otherwise, <strong>false</strong>.</p>\n"
   exceptions:
   - type: System.ArgumentNullException
     commentId: T:System.ArgumentNullException
@@ -497,12 +530,12 @@ items:
   type: Method
   source:
     remote:
-      path: src/System.Threading/ref/System.Threading.cs
+      path: src/mscorlib/src/System/Threading/Monitor.cs
       branch: master
-      repo: https://github.com/dotnet/corefx.git
+      repo: https://github.com/dotnet/coreclr.git
     id: TryEnter
-    path: src/System.Threading/ref/System.Threading.cs
-    startLine: 194
+    path: src/mscorlib/src/System/Threading/Monitor.cs
+    startLine: 140
   assemblies:
   - System.Threading
   namespace: System.Threading
@@ -516,13 +549,10 @@ items:
     parameters:
     - id: obj
       type: System.Object
-      description: "\n<p>The object on which to acquire the lock. </p>\n"
     - id: millisecondsTimeout
       type: System.Int32
-      description: "\n<p>The number of milliseconds to wait for the lock. </p>\n"
     - id: lockTaken
       type: System.Boolean
-      description: "\n<p>The result of the attempt to acquire the lock, passed by reference. The input must be <strong>false</strong>. The output is <strong>true</strong> if the lock is acquired; otherwise, the output is <strong>false</strong>. The output is set even if an exception occurs during the attempt to acquire the lock.</p>\n"
   exceptions:
   - type: System.ArgumentException
     commentId: T:System.ArgumentException
@@ -553,12 +583,12 @@ items:
   type: Method
   source:
     remote:
-      path: src/System.Threading/ref/System.Threading.cs
+      path: src/mscorlib/src/System/Threading/Monitor.cs
       branch: master
-      repo: https://github.com/dotnet/corefx.git
+      repo: https://github.com/dotnet/coreclr.git
     id: TryEnter
-    path: src/System.Threading/ref/System.Threading.cs
-    startLine: 195
+    path: src/mscorlib/src/System/Threading/Monitor.cs
+    startLine: 133
   assemblies:
   - System.Threading
   namespace: System.Threading
@@ -570,13 +600,10 @@ items:
     parameters:
     - id: obj
       type: System.Object
-      description: "\n<p>The object on which to acquire the lock. </p>\n"
     - id: timeout
       type: System.TimeSpan
-      description: "\n<p>A <xref href=\"System.TimeSpan\" data-throw-if-not-resolved=\"false\"></xref> representing the amount of time to wait for the lock. A value of –1 millisecond specifies an infinite wait.</p>\n"
     return:
       type: System.Boolean
-      description: "\n<p>\n<strong>true</strong> if the current thread acquires the lock; otherwise, <strong>false</strong>.</p>\n"
   exceptions:
   - type: System.ArgumentNullException
     commentId: T:System.ArgumentNullException
@@ -605,12 +632,12 @@ items:
   type: Method
   source:
     remote:
-      path: src/System.Threading/ref/System.Threading.cs
+      path: src/mscorlib/src/System/Threading/Monitor.cs
       branch: master
-      repo: https://github.com/dotnet/corefx.git
+      repo: https://github.com/dotnet/coreclr.git
     id: TryEnter
-    path: src/System.Threading/ref/System.Threading.cs
-    startLine: 196
+    path: src/mscorlib/src/System/Threading/Monitor.cs
+    startLine: 148
   assemblies:
   - System.Threading
   namespace: System.Threading
@@ -624,13 +651,10 @@ items:
     parameters:
     - id: obj
       type: System.Object
-      description: "\n<p>The object on which to acquire the lock. </p>\n"
     - id: timeout
       type: System.TimeSpan
-      description: "\n<p>The amount of time to wait for the lock. A value of –1 millisecond specifies an infinite wait.</p>\n"
     - id: lockTaken
       type: System.Boolean
-      description: "\n<p>The result of the attempt to acquire the lock, passed by reference. The input must be <strong>false</strong>. The output is <strong>true</strong> if the lock is acquired; otherwise, the output is <strong>false</strong>. The output is set even if an exception occurs during the attempt to acquire the lock.</p>\n"
   exceptions:
   - type: System.ArgumentException
     commentId: T:System.ArgumentException
@@ -664,12 +688,12 @@ items:
   type: Method
   source:
     remote:
-      path: src/System.Threading/ref/System.Threading.cs
+      path: src/mscorlib/src/System/Threading/Monitor.cs
       branch: master
-      repo: https://github.com/dotnet/corefx.git
+      repo: https://github.com/dotnet/coreclr.git
     id: Wait
-    path: src/System.Threading/ref/System.Threading.cs
-    startLine: 197
+    path: src/mscorlib/src/System/Threading/Monitor.cs
+    startLine: 211
   assemblies:
   - System.Threading
   namespace: System.Threading
@@ -681,10 +705,8 @@ items:
     parameters:
     - id: obj
       type: System.Object
-      description: "\n<p>The object on which to wait. </p>\n"
     return:
       type: System.Boolean
-      description: "\n<p>\n<strong>true</strong> if the call returned because the caller reacquired the lock for the specified object. This method does not return if the lock is not reacquired.</p>\n"
   exceptions:
   - type: System.ArgumentNullException
     commentId: T:System.ArgumentNullException
@@ -716,12 +738,12 @@ items:
   type: Method
   source:
     remote:
-      path: src/System.Threading/ref/System.Threading.cs
+      path: src/mscorlib/src/System/Threading/Monitor.cs
       branch: master
-      repo: https://github.com/dotnet/corefx.git
+      repo: https://github.com/dotnet/coreclr.git
     id: Wait
-    path: src/System.Threading/ref/System.Threading.cs
-    startLine: 198
+    path: src/mscorlib/src/System/Threading/Monitor.cs
+    startLine: 201
   assemblies:
   - System.Threading
   namespace: System.Threading
@@ -733,13 +755,10 @@ items:
     parameters:
     - id: obj
       type: System.Object
-      description: "\n<p>The object on which to wait. </p>\n"
     - id: millisecondsTimeout
       type: System.Int32
-      description: "\n<p>The number of milliseconds to wait before the thread enters the ready queue. </p>\n"
     return:
       type: System.Boolean
-      description: "\n<p>\n<strong>true</strong> if the lock was reacquired before the specified time elapsed; <strong>false</strong> if the lock was reacquired after the specified time elapsed. The method does not return until the lock is reacquired.</p>\n"
   exceptions:
   - type: System.ArgumentNullException
     commentId: T:System.ArgumentNullException
@@ -774,12 +793,12 @@ items:
   type: Method
   source:
     remote:
-      path: src/System.Threading/ref/System.Threading.cs
+      path: src/mscorlib/src/System/Threading/Monitor.cs
       branch: master
-      repo: https://github.com/dotnet/corefx.git
+      repo: https://github.com/dotnet/coreclr.git
     id: Wait
-    path: src/System.Threading/ref/System.Threading.cs
-    startLine: 199
+    path: src/mscorlib/src/System/Threading/Monitor.cs
+    startLine: 206
   assemblies:
   - System.Threading
   namespace: System.Threading
@@ -791,13 +810,10 @@ items:
     parameters:
     - id: obj
       type: System.Object
-      description: "\n<p>The object on which to wait. </p>\n"
     - id: timeout
       type: System.TimeSpan
-      description: "\n<p>A <xref href=\"System.TimeSpan\" data-throw-if-not-resolved=\"false\"></xref> representing the amount of time to wait before the thread enters the ready queue. </p>\n"
     return:
       type: System.Boolean
-      description: "\n<p>\n<strong>true</strong> if the lock was reacquired before the specified time elapsed; <strong>false</strong> if the lock was reacquired after the specified time elapsed. The method does not return until the lock is reacquired.</p>\n"
   exceptions:
   - type: System.ArgumentNullException
     commentId: T:System.ArgumentNullException
@@ -830,6 +846,215 @@ references:
   isExternal: false
   name: Object
   fullName: System.Object
+- uid: System.Object.ToString
+  parent: System.Object
+  isExternal: true
+  name: ToString()
+  fullName: System.Object.ToString()
+  spec.csharp:
+  - uid: System.Object.ToString
+    name: ToString
+    fullName: System.Object.ToString
+    isExternal: true
+  - name: (
+    fullName: (
+  - name: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.ToString
+    name: ToString
+    fullName: System.Object.ToString
+    isExternal: true
+  - name: (
+    fullName: (
+  - name: )
+    fullName: )
+- uid: System.Object.Equals(System.Object)
+  parent: System.Object
+  isExternal: true
+  name: Equals(Object)
+  fullName: System.Object.Equals(System.Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    fullName: )
+- uid: System.Object.Equals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  name: Equals(Object, Object)
+  fullName: System.Object.Equals(System.Object, System.Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    fullName: )
+- uid: System.Object.ReferenceEquals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  name: ReferenceEquals(Object, Object)
+  fullName: System.Object.ReferenceEquals(System.Object, System.Object)
+  spec.csharp:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    fullName: System.Object.ReferenceEquals
+    isExternal: true
+  - name: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    fullName: System.Object.ReferenceEquals
+    isExternal: true
+  - name: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    fullName: )
+- uid: System.Object.GetHashCode
+  parent: System.Object
+  isExternal: true
+  name: GetHashCode()
+  fullName: System.Object.GetHashCode()
+  spec.csharp:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    fullName: System.Object.GetHashCode
+    isExternal: true
+  - name: (
+    fullName: (
+  - name: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    fullName: System.Object.GetHashCode
+    isExternal: true
+  - name: (
+    fullName: (
+  - name: )
+    fullName: )
+- uid: System.Object.GetType
+  parent: System.Object
+  isExternal: true
+  name: GetType()
+  fullName: System.Object.GetType()
+  spec.csharp:
+  - uid: System.Object.GetType
+    name: GetType
+    fullName: System.Object.GetType
+    isExternal: true
+  - name: (
+    fullName: (
+  - name: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.GetType
+    name: GetType
+    fullName: System.Object.GetType
+    isExternal: true
+  - name: (
+    fullName: (
+  - name: )
+    fullName: )
+- uid: System.Object.MemberwiseClone
+  parent: System.Object
+  isExternal: true
+  name: MemberwiseClone()
+  fullName: System.Object.MemberwiseClone()
+  spec.csharp:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    fullName: System.Object.MemberwiseClone
+    isExternal: true
+  - name: (
+    fullName: (
+  - name: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    fullName: System.Object.MemberwiseClone
+    isExternal: true
+  - name: (
+    fullName: (
+  - name: )
+    fullName: )
 - uid: System
   isExternal: false
   name: System

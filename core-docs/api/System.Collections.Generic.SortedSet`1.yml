@@ -32,6 +32,13 @@ items:
   - System.Collections.Generic.SortedSet`1.Reverse
   - System.Collections.Generic.SortedSet`1.SetEquals(System.Collections.Generic.IEnumerable{`0})
   - System.Collections.Generic.SortedSet`1.SymmetricExceptWith(System.Collections.Generic.IEnumerable{`0})
+  - System.Collections.Generic.SortedSet`1.System#Collections#Generic#ICollection{T}#Add(`0)
+  - System.Collections.Generic.SortedSet`1.System#Collections#Generic#ICollection{T}#IsReadOnly
+  - System.Collections.Generic.SortedSet`1.System#Collections#Generic#IEnumerable{T}#GetEnumerator
+  - System.Collections.Generic.SortedSet`1.System#Collections#ICollection#CopyTo(System.Array,System.Int32)
+  - System.Collections.Generic.SortedSet`1.System#Collections#ICollection#IsSynchronized
+  - System.Collections.Generic.SortedSet`1.System#Collections#ICollection#SyncRoot
+  - System.Collections.Generic.SortedSet`1.System#Collections#IEnumerable#GetEnumerator
   - System.Collections.Generic.SortedSet`1.UnionWith(System.Collections.Generic.IEnumerable{`0})
   langs:
   - csharp
@@ -50,22 +57,50 @@ items:
   assemblies:
   - System.Collections
   namespace: System.Collections.Generic
+  summary: "\n<p>Represents a collection of objects that is maintained in sorted order.</p>\n"
+  remarks: "\n<p>A <xref href=\"System.Collections.Generic.SortedSet`1\" data-throw-if-not-resolved=\"false\"></xref> object maintains a sorted order without affecting performance as elements are inserted and deleted. Duplicate elements are not allowed. Changing the sort values of existing items is not supported and may lead to unexpected behavior.</p>\n<p>For a thread safe alternative to <xref href=\"System.Collections.Generic.SortedSet`1\" data-throw-if-not-resolved=\"false\"></xref>, see <xref href=\"System.Collections.Immutable.ImmutableSortedSet`1\" data-throw-if-not-resolved=\"false\"></xref></p>\n"
+  example:
+  - "\n<p>The following example demonstrates a <xref href=\"System.Collections.Generic.SortedSet`1\" data-throw-if-not-resolved=\"false\"></xref> class that is created with the constructor that takes an <xref href=\"System.Collections.Generic.IComparer`1\" data-throw-if-not-resolved=\"false\"></xref> as a parameter. This comparer (<code>ByFileExtension</code>) is used to sort a list of file names by their extensions.</p>\n<p>This example demonstrates how to create a sorted set of media file names, remove unwanted elements, view a range of elements, and compare the set with another sorted set.</p>System.Collections.Generic.SortedSet#1"
   syntax:
-    content: 'public class SortedSet<T> : object, ISet<T>, ICollection<T>, ICollection<T>, ICollection, IReadOnlyCollection<T>'
+    content: >-
+      [SuppressMessage("Microsoft.Naming", "CA1710:IdentifiersShouldHaveCorrectSuffix", Justification = "by design name choice")]
+
+      [DebuggerTypeProxy(typeof (ICollectionDebugView<>))]
+
+      [DebuggerDisplay("Count = {Count}")]
+
+      public class SortedSet<T> : ISet<T>, ICollection<T>, ICollection, IReadOnlyCollection<T>, IEnumerable<T>, IEnumerable
     content.vb: >-
+      <SuppressMessage("Microsoft.Naming", "CA1710:IdentifiersShouldHaveCorrectSuffix", Justification:="by design name choice")>
+
+      <DebuggerTypeProxy(GetType(ICollectionDebugView(Of )))>
+
+      <DebuggerDisplay("Count = {Count}")>
+
       Public Class SortedSet(Of T)
-          Inherits Object
-          Implements ISet(Of T), ICollection(Of T), ICollection(Of T), ICollection, IReadOnlyCollection(Of T)
+          Implements ISet(Of T), ICollection(Of T), ICollection, IReadOnlyCollection(Of T), IEnumerable(Of T), IEnumerable
     typeParameters:
     - id: T
+  seealso:
+  - type: System.Collections.Immutable.ImmutableSortedSet`1
+    commentId: T:System.Collections.Immutable.ImmutableSortedSet`1
   inheritance:
   - System.Object
   implements:
-  - System.Collections.Generic.IEnumerable{{T}}
+  - System.Collections.Generic.ICollection{{T}}
   - System.Collections.Generic.IReadOnlyCollection{{T}}
+  - System.Collections.Generic.IEnumerable{{T}}
   - System.Collections.Generic.ISet{{T}}
   - System.Collections.ICollection
   - System.Collections.IEnumerable
+  inheritedMembers:
+  - System.Object.ToString
+  - System.Object.Equals(System.Object)
+  - System.Object.Equals(System.Object,System.Object)
+  - System.Object.ReferenceEquals(System.Object,System.Object)
+  - System.Object.GetHashCode
+  - System.Object.GetType
+  - System.Object.MemberwiseClone
   modifiers.csharp:
   - public
   - class
@@ -95,6 +130,9 @@ items:
   assemblies:
   - System.Collections
   namespace: System.Collections.Generic
+  summary: "\n<p>Initializes a new instance of the <xref href=\"System.Collections.Generic.SortedSet`1\" data-throw-if-not-resolved=\"false\"></xref> class. </p>\n"
+  example:
+  - 
   syntax:
     content: public SortedSet()
     content.vb: Public Sub New
@@ -115,21 +153,29 @@ items:
   type: Constructor
   source:
     remote:
-      path: src/System.Collections/ref/System.Collections.cs
+      path: src/System.Collections/src/System/Collections/Generic/SortedSet.cs
       branch: master
       repo: https://github.com/dotnet/corefx.git
     id: .ctor
-    path: src/System.Collections/ref/System.Collections.cs
-    startLine: 523
+    path: src/System.Collections/src/System/Collections/Generic/SortedSet.cs
+    startLine: 66
   assemblies:
   - System.Collections
   namespace: System.Collections.Generic
+  summary: "\n<p>Initializes a new instance of the <xref href=\"System.Collections.Generic.SortedSet`1\" data-throw-if-not-resolved=\"false\"></xref> class that uses a specified comparer.</p>\n"
+  remarks: "\n<p>If <em>comparer</em> does not implement <xref href=\"System.IComparable`1\" data-throw-if-not-resolved=\"false\"></xref>, you must specify an <xref href=\"System.Collections.Generic.IComparer`1\" data-throw-if-not-resolved=\"false\"></xref> object to be used.</p>\n"
+  example:
+  - "\n<p>The following example defines a comparer (<code>ByFileExtension</code>) that is used to construct a sorted set that sorts file names by their extensions. This code example is part of a larger example provided for the <xref href=\"System.Collections.Generic.SortedSet`1\" data-throw-if-not-resolved=\"false\"></xref> class.</p>System.Collections.Generic.SortedSet#2,9"
   syntax:
     content: public SortedSet(IComparer<T> comparer)
     content.vb: Public Sub New(comparer As IComparer(Of T))
     parameters:
     - id: comparer
       type: System.Collections.Generic.IComparer{{T}}
+  exceptions:
+  - type: System.ArgumentNullException
+    commentId: T:System.ArgumentNullException
+    description: "\n<p>\n<em>comparer</em> is <strong>null</strong>.</p>\n"
   modifiers.csharp:
   - public
   modifiers.vb:
@@ -148,15 +194,19 @@ items:
   type: Constructor
   source:
     remote:
-      path: src/System.Collections/ref/System.Collections.cs
+      path: src/System.Collections/src/System/Collections/Generic/SortedSet.cs
       branch: master
       repo: https://github.com/dotnet/corefx.git
     id: .ctor
-    path: src/System.Collections/ref/System.Collections.cs
-    startLine: 524
+    path: src/System.Collections/src/System/Collections/Generic/SortedSet.cs
+    startLine: 79
   assemblies:
   - System.Collections
   namespace: System.Collections.Generic
+  summary: "\n<p>Initializes a new instance of the <xref href=\"System.Collections.Generic.SortedSet`1\" data-throw-if-not-resolved=\"false\"></xref> class that contains elements copied from a specified enumerable collection.</p>\n"
+  remarks: "\n<p>Duplicate elements in the enumerable collection are not copied into the new instance of the <xref href=\"System.Collections.Generic.SortedSet`1\" data-throw-if-not-resolved=\"false\"></xref> class, and no exceptions are thrown.</p>\n<p>This constructor is an O(<em>n</em> log <em>n</em>) operation, where <em>n</em> is the number of elements in the <em>collection</em> parameter.</p>\n"
+  example:
+  - 
   syntax:
     content: public SortedSet(IEnumerable<T> collection)
     content.vb: Public Sub New(collection As IEnumerable(Of T))
@@ -181,15 +231,18 @@ items:
   type: Constructor
   source:
     remote:
-      path: src/System.Collections/ref/System.Collections.cs
+      path: src/System.Collections/src/System/Collections/Generic/SortedSet.cs
       branch: master
       repo: https://github.com/dotnet/corefx.git
     id: .ctor
-    path: src/System.Collections/ref/System.Collections.cs
-    startLine: 525
+    path: src/System.Collections/src/System/Collections/Generic/SortedSet.cs
+    startLine: 81
   assemblies:
   - System.Collections
   namespace: System.Collections.Generic
+  summary: "\n<p>Initializes a new instance of the <xref href=\"System.Collections.Generic.SortedSet`1\" data-throw-if-not-resolved=\"false\"></xref> class that contains elements copied from a specified enumerable collection and that uses a specified comparer.</p>\n"
+  example:
+  - 
   syntax:
     content: public SortedSet(IEnumerable<T> collection, IComparer<T> comparer)
     content.vb: Public Sub New(collection As IEnumerable(Of T), comparer As IComparer(Of T))
@@ -198,6 +251,10 @@ items:
       type: System.Collections.Generic.IEnumerable{{T}}
     - id: comparer
       type: System.Collections.Generic.IComparer{{T}}
+  exceptions:
+  - type: System.ArgumentNullException
+    commentId: T:System.ArgumentNullException
+    description: "\n<p>\n<em>collection</em> is <strong>null</strong>.</p>\n"
   modifiers.csharp:
   - public
   modifiers.vb:
@@ -225,12 +282,16 @@ items:
   assemblies:
   - System.Collections
   namespace: System.Collections.Generic
+  summary: "\n<p>Gets the <xref href=\"System.Collections.Generic.IComparer`1\" data-throw-if-not-resolved=\"false\"></xref> object that is used to order the values in the <xref href=\"System.Collections.Generic.SortedSet`1\" data-throw-if-not-resolved=\"false\"></xref>.</p>\n"
+  remarks: "\n<p>The returned comparer can be either the default comparer of the type for a <xref href=\"System.Collections.Generic.SortedSet`1\" data-throw-if-not-resolved=\"false\"></xref>, or the comparer used for its constructor. </p>\n<p>Retrieving the value of this property is an O(1) operation.</p>\n"
+  example:
+  - 
   syntax:
     content: public IComparer<T> Comparer { get; }
     content.vb: Public ReadOnly Property Comparer As IComparer(Of T)
     parameters: []
     return:
-      type: IComparer{{T}}
+      type: System.Collections.Generic.IComparer{{T}}
   modifiers.csharp:
   - public
   - get
@@ -259,12 +320,20 @@ items:
   assemblies:
   - System.Collections
   namespace: System.Collections.Generic
+  summary: "\n<p>Gets the number of elements in the <xref href=\"System.Collections.Generic.SortedSet`1\" data-throw-if-not-resolved=\"false\"></xref>.</p>\n"
+  remarks: "\n<p>Retrieving the value of this property is an O(1) operation.</p>\n"
+  example:
+  - 
   syntax:
     content: public int Count { get; }
     content.vb: Public ReadOnly Property Count As Integer
     parameters: []
     return:
       type: System.Int32
+  implements:
+  - System.Collections.Generic.ICollection{{T}}.Count
+  - System.Collections.Generic.IReadOnlyCollection{{T}}.Count
+  - System.Collections.ICollection.Count
   modifiers.csharp:
   - public
   - get
@@ -293,6 +362,9 @@ items:
   assemblies:
   - System.Collections
   namespace: System.Collections.Generic
+  summary: "\n<p>Gets the maximum value in the <xref href=\"System.Collections.Generic.SortedSet`1\" data-throw-if-not-resolved=\"false\"></xref>, as defined by the comparer.</p>\n"
+  example:
+  - 
   syntax:
     content: public T Max { get; }
     content.vb: Public ReadOnly Property Max As T
@@ -327,6 +399,9 @@ items:
   assemblies:
   - System.Collections
   namespace: System.Collections.Generic
+  summary: "\n<p>Gets the minimum value in the <xref href=\"System.Collections.Generic.SortedSet`1\" data-throw-if-not-resolved=\"false\"></xref>, as defined by the comparer.</p>\n"
+  example:
+  - 
   syntax:
     content: public T Min { get; }
     content.vb: Public ReadOnly Property Min As T
@@ -340,6 +415,124 @@ items:
   - Public
   - ReadOnly
   fullName.vb: System.Collections.Generic.SortedSet(Of T).Min
+- uid: System.Collections.Generic.SortedSet`1.System#Collections#Generic#ICollection{T}#IsReadOnly
+  commentId: P:System.Collections.Generic.SortedSet`1.System#Collections#Generic#ICollection{T}#IsReadOnly
+  id: System#Collections#Generic#ICollection{T}#IsReadOnly
+  isEii: true
+  parent: System.Collections.Generic.SortedSet`1
+  langs:
+  - csharp
+  - vb
+  name: ICollection<T>.IsReadOnly
+  fullName: System.Collections.Generic.SortedSet<T>.System.Collections.Generic.ICollection<T>.IsReadOnly
+  type: Property
+  source:
+    remote:
+      path: src/System.Collections/src/System/Collections/Generic/SortedSet.cs
+      branch: master
+      repo: https://github.com/dotnet/corefx.git
+    id: System.Collections.Generic.ICollection<T>.IsReadOnly
+    path: src/System.Collections/src/System/Collections/Generic/SortedSet.cs
+    startLine: 303
+  assemblies:
+  - System.Collections
+  namespace: System.Collections.Generic
+  summary: "\n<p>Gets a value that indicates whether a <xref href=\"System.Collections.ICollection\" data-throw-if-not-resolved=\"false\"></xref> is read-only.</p>\n"
+  remarks: "\n<p>This member is an explicit interface member implementation. It can be used only when the <xref href=\"System.Collections.Generic.SortedSet`1\" data-throw-if-not-resolved=\"false\"></xref> instance is cast to an <xref href=\"System.Collections.Generic.ICollection`1\" data-throw-if-not-resolved=\"false\"></xref> interface.</p>\n<p>A collection that is read-only does not allow the addition, removal, or modification of elements after the collection is created.</p>\n<p>A collection that is read-only is simply a collection with a wrapper that prevents modifying the collection; therefore, if changes are made to the underlying collection, the read-only collection reflects those changes.</p>\n<p>Getting the value of this property is an O(1) operation.</p>\n"
+  example:
+  - 
+  syntax:
+    content: bool ICollection<T>.IsReadOnly { get; }
+    content.vb: ReadOnly WriteOnly Property System.Collections.Generic.ICollection<T>.IsReadOnly As Boolean Implements ICollection(Of T).IsReadOnly
+    parameters: []
+    return:
+      type: System.Boolean
+  implements:
+  - System.Collections.Generic.ICollection{{T}}.IsReadOnly
+  modifiers.csharp:
+  - get
+  modifiers.vb:
+  - ReadOnly
+  fullName.vb: System.Collections.Generic.SortedSet(Of T).System.Collections.Generic.ICollection<T>.IsReadOnly
+  name.vb: System.Collections.Generic.ICollection<T>.IsReadOnly
+- uid: System.Collections.Generic.SortedSet`1.System#Collections#ICollection#IsSynchronized
+  commentId: P:System.Collections.Generic.SortedSet`1.System#Collections#ICollection#IsSynchronized
+  id: System#Collections#ICollection#IsSynchronized
+  isEii: true
+  parent: System.Collections.Generic.SortedSet`1
+  langs:
+  - csharp
+  - vb
+  name: ICollection.IsSynchronized
+  fullName: System.Collections.Generic.SortedSet<T>.System.Collections.ICollection.IsSynchronized
+  type: Property
+  source:
+    remote:
+      path: src/System.Collections/src/System/Collections/Generic/SortedSet.cs
+      branch: master
+      repo: https://github.com/dotnet/corefx.git
+    id: System.Collections.ICollection.IsSynchronized
+    path: src/System.Collections/src/System/Collections/Generic/SortedSet.cs
+    startLine: 311
+  assemblies:
+  - System.Collections
+  namespace: System.Collections.Generic
+  summary: "\n<p>Gets a value that indicates whether access to the <xref href=\"System.Collections.ICollection\" data-throw-if-not-resolved=\"false\"></xref> is synchronized (thread safe).</p>\n"
+  remarks: "\n<p>This member is an explicit interface member implementation. It can be used only when the <xref href=\"System.Collections.Generic.SortedSet`1\" data-throw-if-not-resolved=\"false\"></xref> instance is cast to an <xref href=\"System.Collections.ICollection\" data-throw-if-not-resolved=\"false\"></xref> interface.</p>\n"
+  example:
+  - 
+  syntax:
+    content: bool ICollection.IsSynchronized { get; }
+    content.vb: ReadOnly WriteOnly Property System.Collections.ICollection.IsSynchronized As Boolean Implements ICollection.IsSynchronized
+    parameters: []
+    return:
+      type: System.Boolean
+  implements:
+  - System.Collections.ICollection.IsSynchronized
+  modifiers.csharp:
+  - get
+  modifiers.vb:
+  - ReadOnly
+  fullName.vb: System.Collections.Generic.SortedSet(Of T).System.Collections.ICollection.IsSynchronized
+  name.vb: System.Collections.ICollection.IsSynchronized
+- uid: System.Collections.Generic.SortedSet`1.System#Collections#ICollection#SyncRoot
+  commentId: P:System.Collections.Generic.SortedSet`1.System#Collections#ICollection#SyncRoot
+  id: System#Collections#ICollection#SyncRoot
+  isEii: true
+  parent: System.Collections.Generic.SortedSet`1
+  langs:
+  - csharp
+  - vb
+  name: ICollection.SyncRoot
+  fullName: System.Collections.Generic.SortedSet<T>.System.Collections.ICollection.SyncRoot
+  type: Property
+  source:
+    remote:
+      path: src/System.Collections/src/System/Collections/Generic/SortedSet.cs
+      branch: master
+      repo: https://github.com/dotnet/corefx.git
+    id: System.Collections.ICollection.SyncRoot
+    path: src/System.Collections/src/System/Collections/Generic/SortedSet.cs
+    startLine: 319
+  assemblies:
+  - System.Collections
+  namespace: System.Collections.Generic
+  summary: "\n<p>Gets an object that can be used to synchronize access to the <xref href=\"System.Collections.ICollection\" data-throw-if-not-resolved=\"false\"></xref>.</p>\n"
+  remarks: "\n<p>This member is an explicit interface member implementation. It can be used only when the <xref href=\"System.Collections.Generic.SortedSet`1\" data-throw-if-not-resolved=\"false\"></xref> instance is cast to an <xref href=\"System.Collections.ICollection\" data-throw-if-not-resolved=\"false\"></xref> interface.</p>\n<p>This method is an O(1) operation.</p>\n"
+  syntax:
+    content: object ICollection.SyncRoot { get; }
+    content.vb: ReadOnly WriteOnly Property System.Collections.ICollection.SyncRoot As Object Implements ICollection.SyncRoot
+    parameters: []
+    return:
+      type: System.Object
+  implements:
+  - System.Collections.ICollection.SyncRoot
+  modifiers.csharp:
+  - get
+  modifiers.vb:
+  - ReadOnly
+  fullName.vb: System.Collections.Generic.SortedSet(Of T).System.Collections.ICollection.SyncRoot
+  name.vb: System.Collections.ICollection.SyncRoot
 - uid: System.Collections.Generic.SortedSet`1.Add(`0)
   commentId: M:System.Collections.Generic.SortedSet`1.Add(`0)
   id: Add(`0)
@@ -361,6 +554,10 @@ items:
   assemblies:
   - System.Collections
   namespace: System.Collections.Generic
+  summary: "\n<p>Adds an element to the set and returns a value that indicates if it was successfully added.</p>\n"
+  remarks: "\n<p>The <xref href=\"System.Collections.Generic.SortedSet`1\" data-throw-if-not-resolved=\"false\"></xref> class does not accept duplicate elements. If <em>item</em> is already in the set, this method returns <strong>false</strong> and does not throw an exception.</p>\n<p>If <xref href=\"System.Collections.Generic.SortedSet`1.Count\" data-throw-if-not-resolved=\"false\"></xref> already equals the capacity of the <xref href=\"System.Collections.Generic.SortedSet`1\" data-throw-if-not-resolved=\"false\"></xref> object, the capacity is automatically adjusted to accommodate the new item.</p>\n"
+  example:
+  - "\n<p>The following example adds elements to a sorted set. This code example is part of a larger example provided for the <xref href=\"System.Collections.Generic.SortedSet`1\" data-throw-if-not-resolved=\"false\"></xref> class.</p>System.Collections.Generic.SortedSet#3"
   syntax:
     content: public bool Add(T item)
     content.vb: Public Function Add(item As T) As Boolean
@@ -396,9 +593,13 @@ items:
   assemblies:
   - System.Collections
   namespace: System.Collections.Generic
+  summary: "\n<p>Removes all elements from the set.</p>\n"
+  remarks: "\n<p>This method is an O(<em>n</em>) operation, where <em>n</em> is <xref href=\"System.Collections.Generic.SortedSet`1.Count\" data-throw-if-not-resolved=\"false\"></xref>.</p>\n"
   syntax:
     content: public virtual void Clear()
     content.vb: Public Overridable Sub Clear
+  implements:
+  - System.Collections.Generic.ICollection{{T}}.Clear
   modifiers.csharp:
   - public
   - virtual
@@ -427,6 +628,10 @@ items:
   assemblies:
   - System.Collections
   namespace: System.Collections.Generic
+  summary: "\n<p>Determines whether the set contains a specific element.</p>\n"
+  remarks: "\n<p>This method is an O(ln n) operation.</p>\n"
+  example:
+  - 
   syntax:
     content: public virtual bool Contains(T item)
     content.vb: Public Overridable Function Contains(item As T) As Boolean
@@ -435,6 +640,8 @@ items:
       type: '{T}'
     return:
       type: System.Boolean
+  implements:
+  - System.Collections.Generic.ICollection{{T}}.Contains({T})
   modifiers.csharp:
   - public
   - virtual
@@ -463,12 +670,23 @@ items:
   assemblies:
   - System.Collections
   namespace: System.Collections.Generic
+  summary: "\n<p>Copies the complete <xref href=\"System.Collections.Generic.SortedSet`1\" data-throw-if-not-resolved=\"false\"></xref> to a compatible one-dimensional array, starting at the beginning of the target array.</p>\n"
+  remarks: "\n<p>The indexing of <em>array</em> must be zero-based.</p>\n"
+  example:
+  - 
   syntax:
     content: public void CopyTo(T[] array)
     content.vb: Public Sub CopyTo(array As T())
     parameters:
     - id: array
       type: '{T}[]'
+  exceptions:
+  - type: System.ArgumentException
+    commentId: T:System.ArgumentException
+    description: "\n<p>The number of elements in the source <xref href=\"System.Collections.Generic.SortedSet`1\" data-throw-if-not-resolved=\"false\"></xref> exceeds the number of elements that the destination array can contain. </p>\n"
+  - type: System.ArgumentNullException
+    commentId: T:System.ArgumentNullException
+    description: "\n<p>\n<em>array</em> is <strong>null</strong>.</p>\n"
   modifiers.csharp:
   - public
   modifiers.vb:
@@ -496,6 +714,10 @@ items:
   assemblies:
   - System.Collections
   namespace: System.Collections.Generic
+  summary: "\n<p>Copies the complete <xref href=\"System.Collections.Generic.SortedSet`1\" data-throw-if-not-resolved=\"false\"></xref> to a compatible one-dimensional array, starting at the specified array index.</p>\n"
+  remarks: "\n<p>This method is an O(<em>n</em>) operation, where <em>n</em> is <xref href=\"System.Collections.Generic.SortedSet`1.Count\" data-throw-if-not-resolved=\"false\"></xref>.</p>\n"
+  example:
+  - 
   syntax:
     content: public void CopyTo(T[] array, int index)
     content.vb: Public Sub CopyTo(array As T(), index As Integer)
@@ -504,6 +726,18 @@ items:
       type: '{T}[]'
     - id: index
       type: System.Int32
+  exceptions:
+  - type: System.ArgumentException
+    commentId: T:System.ArgumentException
+    description: "\n<p>The number of elements in the source array is greater than the available space from <em>index</em> to the end of the destination array.</p>\n"
+  - type: System.ArgumentNullException
+    commentId: T:System.ArgumentNullException
+    description: "\n<p>\n<em>array</em> is <strong>null</strong>.</p>\n"
+  - type: System.ArgumentOutOfRangeException
+    commentId: T:System.ArgumentOutOfRangeException
+    description: "\n<p>\n<em>index</em> is less than zero.</p>\n"
+  implements:
+  - System.Collections.Generic.ICollection{{T}}.CopyTo({T}[],System.Int32)
   modifiers.csharp:
   - public
   modifiers.vb:
@@ -531,6 +765,10 @@ items:
   assemblies:
   - System.Collections
   namespace: System.Collections.Generic
+  summary: "\n<p>Copies a specified number of elements from <xref href=\"System.Collections.Generic.SortedSet`1\" data-throw-if-not-resolved=\"false\"></xref> to a compatible one-dimensional array, starting at the specified array index.</p>\n"
+  remarks: "\n<p>This method is an O(<em>n</em>) operation, where <em>n</em> is <em>count</em>.</p>\n"
+  example:
+  - 
   syntax:
     content: public void CopyTo(T[] array, int index, int count)
     content.vb: Public Sub CopyTo(array As T(), index As Integer, count As Integer)
@@ -541,6 +779,16 @@ items:
       type: System.Int32
     - id: count
       type: System.Int32
+  exceptions:
+  - type: System.ArgumentException
+    commentId: T:System.ArgumentException
+    description: "\n<p>The number of elements in the source array is greater than the available space from <em>index</em> to the end of the destination array.</p>\n"
+  - type: System.ArgumentNullException
+    commentId: T:System.ArgumentNullException
+    description: "\n<p>\n<em>array</em> is <strong>null</strong>.</p>\n"
+  - type: System.ArgumentOutOfRangeException
+    commentId: T:System.ArgumentOutOfRangeException
+    description: "\n<p>\n<em>index</em> is less than zero.</p>\n<p>-or-</p>\n<p>\n<em>count</em> is less than zero.</p>\n"
   modifiers.csharp:
   - public
   modifiers.vb:
@@ -559,21 +807,29 @@ items:
   type: Method
   source:
     remote:
-      path: src/System.Collections/ref/System.Collections.cs
+      path: src/System.Collections/src/System/Collections/Generic/SortedSet.cs
       branch: master
       repo: https://github.com/dotnet/corefx.git
     id: ExceptWith
-    path: src/System.Collections/ref/System.Collections.cs
-    startLine: 539
+    path: src/System.Collections/src/System/Collections/Generic/SortedSet.cs
+    startLine: 1291
   assemblies:
   - System.Collections
   namespace: System.Collections.Generic
+  summary: "\n<p>Removes all elements that are in a specified collection from the current <xref href=\"System.Collections.Generic.SortedSet`1\" data-throw-if-not-resolved=\"false\"></xref> object.</p>\n"
+  remarks: "\n<p>This method removes any element in the current <xref href=\"System.Collections.Generic.SortedSet`1\" data-throw-if-not-resolved=\"false\"></xref> that is also in <em>other</em>. Duplicate values in <em>other</em> are ignored.</p>\n<p>This method is an O(<em>n</em>) operation, where <em>n</em> is the number of elements in the <em>other</em> parameter.</p>\n"
+  example:
+  - "\n<p>The following example removes elements from a sorted set that are duplicated in another sorted set. This code example is part of a larger example provided for the <xref href=\"System.Collections.Generic.SortedSet`1\" data-throw-if-not-resolved=\"false\"></xref> class.</p>System.Collections.Generic.SortedSet#6"
   syntax:
     content: public void ExceptWith(IEnumerable<T> other)
     content.vb: Public Sub ExceptWith(other As IEnumerable(Of T))
     parameters:
     - id: other
       type: System.Collections.Generic.IEnumerable{{T}}
+  exceptions:
+  - type: System.ArgumentNullException
+    commentId: T:System.ArgumentNullException
+    description: "\n<p>\n<em>other</em> is <strong>null</strong>.</p>\n"
   modifiers.csharp:
   - public
   modifiers.vb:
@@ -601,6 +857,10 @@ items:
   assemblies:
   - System.Collections
   namespace: System.Collections.Generic
+  summary: "\n<p>Returns an enumerator that iterates through the <xref href=\"System.Collections.Generic.SortedSet`1\" data-throw-if-not-resolved=\"false\"></xref>.</p>\n"
+  remarks: "\n<p>Any changes to the <xref href=\"System.Collections.Generic.SortedSet`1\" data-throw-if-not-resolved=\"false\"></xref> will invalidate the enumerator.</p>\n<p>This method is an O(log n) operation.</p>\n"
+  example:
+  - 
   syntax:
     content: public SortedSet<T>.Enumerator GetEnumerator()
     content.vb: Public Function GetEnumerator As SortedSet(Of T).Enumerator
@@ -632,6 +892,10 @@ items:
   assemblies:
   - System.Collections
   namespace: System.Collections.Generic
+  summary: "\n<p>Returns a view of a subset in a <xref href=\"System.Collections.Generic.SortedSet`1\" data-throw-if-not-resolved=\"false\"></xref>.</p>\n"
+  remarks: "\n<p>This method returns a view of the range of elements that fall between <em>lowerValue </em>and <em>upperValue</em>, as defined by the comparer. This method does not copy elements from the <xref href=\"System.Collections.Generic.SortedSet`1\" data-throw-if-not-resolved=\"false\"></xref>, but provides a window into the underlying <xref href=\"System.Collections.Generic.SortedSet`1\" data-throw-if-not-resolved=\"false\"></xref> itself. You can make changes in both the view and in the underlying <xref href=\"System.Collections.Generic.SortedSet`1\" data-throw-if-not-resolved=\"false\"></xref>.</p>\n"
+  example:
+  - "\n<p>The following example uses the <xref href=\"System.Collections.Generic.SortedSet`1.GetViewBetween(`0,`0)\" data-throw-if-not-resolved=\"false\"></xref> method to list only the AVI files from a sorted set of media file names. The comparer evaluates file names according to their extensions. The <em>lowerValue </em>is \"AVI\" and the <em>upperValue</em> is only one value higher, \"AVJ\", to get the view of all AVI files. This code example is part of a larger example provided for the <xref href=\"System.Collections.Generic.SortedSet`1\" data-throw-if-not-resolved=\"false\"></xref> class. </p>System.Collections.Generic.SortedSet#5"
   syntax:
     content: public virtual SortedSet<T> GetViewBetween(T lowerValue, T upperValue)
     content.vb: Public Overridable Function GetViewBetween(lowerValue As T, upperValue As T) As SortedSet(Of T)
@@ -642,6 +906,13 @@ items:
       type: '{T}'
     return:
       type: System.Collections.Generic.SortedSet`1
+  exceptions:
+  - type: System.ArgumentException
+    commentId: T:System.ArgumentException
+    description: "\n<p>\n<em>lowerValue</em> is more than <em>upperValue</em> according to the comparer.</p>\n"
+  - type: System.ArgumentOutOfRangeException
+    commentId: T:System.ArgumentOutOfRangeException
+    description: "\n<p>A tried operation on the view was outside the range specified by <em>lowerValue</em> and <em>upperValue</em>.</p>\n"
   modifiers.csharp:
   - public
   - virtual
@@ -661,21 +932,29 @@ items:
   type: Method
   source:
     remote:
-      path: src/System.Collections/ref/System.Collections.cs
+      path: src/System.Collections/src/System/Collections/Generic/SortedSet.cs
       branch: master
       repo: https://github.com/dotnet/corefx.git
     id: IntersectWith
-    path: src/System.Collections/ref/System.Collections.cs
-    startLine: 542
+    path: src/System.Collections/src/System/Collections/Generic/SortedSet.cs
+    startLine: 1203
   assemblies:
   - System.Collections
   namespace: System.Collections.Generic
+  summary: "\n<p>Modifies the current <xref href=\"System.Collections.Generic.SortedSet`1\" data-throw-if-not-resolved=\"false\"></xref> object so that it contains only elements that are also in a specified collection.</p>\n"
+  remarks: "\n<p>This method ignores any duplicate elements in <em>other</em>.</p>\n<p>If the collection represented by the <em>other</em> parameter is a <xref href=\"System.Collections.Generic.SortedSet`1\" data-throw-if-not-resolved=\"false\"></xref> collection with the same equality comparer as the current <xref href=\"System.Collections.Generic.SortedSet`1\" data-throw-if-not-resolved=\"false\"></xref> object, this method is an O(<em>n</em>) operation. Otherwise, this method is an O(<em>n</em> + <em>m</em>) operation, where <em>n</em> is <xref href=\"System.Collections.Generic.SortedSet`1.Count\" data-throw-if-not-resolved=\"false\"></xref> and <em>m</em> is the number of elements in <em>other</em>.</p>\n"
+  example:
+  - 
   syntax:
     content: public virtual void IntersectWith(IEnumerable<T> other)
     content.vb: Public Overridable Sub IntersectWith(other As IEnumerable(Of T))
     parameters:
     - id: other
       type: System.Collections.Generic.IEnumerable{{T}}
+  exceptions:
+  - type: System.ArgumentNullException
+    commentId: T:System.ArgumentNullException
+    description: "\n<p>\n<em>other</em> is <strong>null</strong>.</p>\n"
   modifiers.csharp:
   - public
   - virtual
@@ -696,15 +975,19 @@ items:
   type: Method
   source:
     remote:
-      path: src/System.Collections/ref/System.Collections.cs
+      path: src/System.Collections/src/System/Collections/Generic/SortedSet.cs
       branch: master
       repo: https://github.com/dotnet/corefx.git
     id: IsProperSubsetOf
-    path: src/System.Collections/ref/System.Collections.cs
-    startLine: 543
+    path: src/System.Collections/src/System/Collections/Generic/SortedSet.cs
+    startLine: 1475
   assemblies:
   - System.Collections
   namespace: System.Collections.Generic
+  summary: "\n<p>Determines whether a <xref href=\"System.Collections.Generic.SortedSet`1\" data-throw-if-not-resolved=\"false\"></xref> object is a proper subset of the specified collection.</p>\n"
+  remarks: "\n<p>An empty set is a proper subset of any other collection. Therefore, this method returns <strong>true</strong> if the collection represented by the current <xref href=\"System.Collections.Generic.SortedSet`1\" data-throw-if-not-resolved=\"false\"></xref> object is empty unless the <em>other</em> parameter is also an empty set.</p>\n<p>This method always returns <strong>false</strong> if <xref href=\"System.Collections.Generic.SortedSet`1.Count\" data-throw-if-not-resolved=\"false\"></xref> is greater than or equal to the number of elements in <em>other</em>.</p>\n<p>If the collection represented by <em>other</em> is a <xref href=\"System.Collections.Generic.SortedSet`1\" data-throw-if-not-resolved=\"false\"></xref> collection with the same equality comparer as the current <xref href=\"System.Collections.Generic.SortedSet`1\" data-throw-if-not-resolved=\"false\"></xref> object, then this method is an O(<em>n</em>) operation. Otherwise, this method is an O(<em>n</em> + <em>m</em>) operation, where <em>n</em> is <xref href=\"System.Collections.Generic.SortedSet`1.Count\" data-throw-if-not-resolved=\"false\"></xref> and <em>m</em> is the number of elements in <em>other</em>.</p>\n"
+  example:
+  - 
   syntax:
     content: public bool IsProperSubsetOf(IEnumerable<T> other)
     content.vb: Public Function IsProperSubsetOf(other As IEnumerable(Of T)) As Boolean
@@ -713,6 +996,10 @@ items:
       type: System.Collections.Generic.IEnumerable{{T}}
     return:
       type: System.Boolean
+  exceptions:
+  - type: System.ArgumentNullException
+    commentId: T:System.ArgumentNullException
+    description: "\n<p>\n<em>other</em> is <strong>null</strong>.</p>\n"
   modifiers.csharp:
   - public
   modifiers.vb:
@@ -731,15 +1018,19 @@ items:
   type: Method
   source:
     remote:
-      path: src/System.Collections/ref/System.Collections.cs
+      path: src/System.Collections/src/System/Collections/Generic/SortedSet.cs
       branch: master
       repo: https://github.com/dotnet/corefx.git
     id: IsProperSupersetOf
-    path: src/System.Collections/ref/System.Collections.cs
-    startLine: 544
+    path: src/System.Collections/src/System/Collections/Generic/SortedSet.cs
+    startLine: 1545
   assemblies:
   - System.Collections
   namespace: System.Collections.Generic
+  summary: "\n<p>Determines whether a <xref href=\"System.Collections.Generic.SortedSet`1\" data-throw-if-not-resolved=\"false\"></xref> object is a proper superset of the specified collection.</p>\n"
+  remarks: "\n<p>An empty set is a proper superset of any other collection. Therefore, this method returns <strong>true</strong> if the collection represented by the <em>other</em> parameter is empty unless the current <xref href=\"System.Collections.Generic.SortedSet`1\" data-throw-if-not-resolved=\"false\"></xref> collection is also empty.</p>\n<p>This method always returns <strong>false</strong> if <xref href=\"System.Collections.Generic.SortedSet`1.Count\" data-throw-if-not-resolved=\"false\"></xref> is less than or equal to the number of elements in <em>other</em>.</p>\n<p>If the collection represented by <em>other</em> is a <xref href=\"System.Collections.Generic.SortedSet`1\" data-throw-if-not-resolved=\"false\"></xref> collection with the same equality comparer as the current <xref href=\"System.Collections.Generic.SortedSet`1\" data-throw-if-not-resolved=\"false\"></xref> object, this method is an O(<em>n</em>) operation. Otherwise, this method is an O(<em>n</em> + <em>m</em>) operation, where <em>n</em> is the number of elements in <em>other</em> and <em>m</em> is <xref href=\"System.Collections.Generic.SortedSet`1.Count\" data-throw-if-not-resolved=\"false\"></xref>.</p>\n"
+  example:
+  - 
   syntax:
     content: public bool IsProperSupersetOf(IEnumerable<T> other)
     content.vb: Public Function IsProperSupersetOf(other As IEnumerable(Of T)) As Boolean
@@ -748,6 +1039,10 @@ items:
       type: System.Collections.Generic.IEnumerable{{T}}
     return:
       type: System.Boolean
+  exceptions:
+  - type: System.ArgumentNullException
+    commentId: T:System.ArgumentNullException
+    description: "\n<p>\n<em>other</em> is <strong>null</strong>.</p>\n"
   modifiers.csharp:
   - public
   modifiers.vb:
@@ -766,15 +1061,17 @@ items:
   type: Method
   source:
     remote:
-      path: src/System.Collections/ref/System.Collections.cs
+      path: src/System.Collections/src/System/Collections/Generic/SortedSet.cs
       branch: master
       repo: https://github.com/dotnet/corefx.git
     id: IsSubsetOf
-    path: src/System.Collections/ref/System.Collections.cs
-    startLine: 545
+    path: src/System.Collections/src/System/Collections/Generic/SortedSet.cs
+    startLine: 1430
   assemblies:
   - System.Collections
   namespace: System.Collections.Generic
+  summary: "\n<p>Determines whether a <xref href=\"System.Collections.Generic.SortedSet`1\" data-throw-if-not-resolved=\"false\"></xref> object is a subset of the specified collection.</p>\n"
+  remarks: "\n<p>An empty set is a subset of any other collection, including an empty set; therefore, this method returns <strong>true</strong> if the collection represented by the current <xref href=\"System.Collections.Generic.SortedSet`1\" data-throw-if-not-resolved=\"false\"></xref> object is empty, even if the <em>other</em> parameter is an empty set.</p>\n<p>This method always returns <strong>false</strong> if <xref href=\"System.Collections.Generic.SortedSet`1.Count\" data-throw-if-not-resolved=\"false\"></xref> is greater than the number of elements in <em>other</em>.</p>\n<p>If the collection represented by <em>other</em> is a <xref href=\"System.Collections.Generic.SortedSet`1\" data-throw-if-not-resolved=\"false\"></xref> collection with the same equality comparer as the current <xref href=\"System.Collections.Generic.SortedSet`1\" data-throw-if-not-resolved=\"false\"></xref> object, this method is an O(<em>n</em>) operation. Otherwise, this method is an O(<em>n</em> + <em>m</em>) operation, where <em>n</em> is <xref href=\"System.Collections.Generic.SortedSet`1.Count\" data-throw-if-not-resolved=\"false\"></xref> and <em>m</em> is the number of elements in <em>other</em>.</p>\n"
   syntax:
     content: public bool IsSubsetOf(IEnumerable<T> other)
     content.vb: Public Function IsSubsetOf(other As IEnumerable(Of T)) As Boolean
@@ -783,6 +1080,10 @@ items:
       type: System.Collections.Generic.IEnumerable{{T}}
     return:
       type: System.Boolean
+  exceptions:
+  - type: System.ArgumentNullException
+    commentId: T:System.ArgumentNullException
+    description: "\n<p>\n<em>other</em> is <strong>null</strong>.</p>\n"
   modifiers.csharp:
   - public
   modifiers.vb:
@@ -801,15 +1102,19 @@ items:
   type: Method
   source:
     remote:
-      path: src/System.Collections/ref/System.Collections.cs
+      path: src/System.Collections/src/System/Collections/Generic/SortedSet.cs
       branch: master
       repo: https://github.com/dotnet/corefx.git
     id: IsSupersetOf
-    path: src/System.Collections/ref/System.Collections.cs
-    startLine: 546
+    path: src/System.Collections/src/System/Collections/Generic/SortedSet.cs
+    startLine: 1511
   assemblies:
   - System.Collections
   namespace: System.Collections.Generic
+  summary: "\n<p>Determines whether a <xref href=\"System.Collections.Generic.SortedSet`1\" data-throw-if-not-resolved=\"false\"></xref> object is a superset of the specified collection.</p>\n"
+  remarks: "\n<p>All collections, including the empty set, are supersets of the empty set. Therefore, this method returns <strong>true</strong> if the collection represented by the <em>other</em> parameter is empty, even if the current <xref href=\"System.Collections.Generic.SortedSet`1\" data-throw-if-not-resolved=\"false\"></xref> object is empty.</p>\n<p>This method always returns <strong>false</strong> if <xref href=\"System.Collections.Generic.SortedSet`1.Count\" data-throw-if-not-resolved=\"false\"></xref> is less than the number of elements in <em>other</em>.</p>\n<p>If the collection represented by <em>other</em> is a <xref href=\"System.Collections.Generic.SortedSet`1\" data-throw-if-not-resolved=\"false\"></xref> collection with the same equality comparer as the current <xref href=\"System.Collections.Generic.SortedSet`1\" data-throw-if-not-resolved=\"false\"></xref> object, this method is an O(<em>n</em>) operation. Otherwise, this method is an O(<em>n</em> + <em>m</em>) operation, where <em>n</em> is the number of elements in <em>other</em> and <em>m</em> is <xref href=\"System.Collections.Generic.SortedSet`1.Count\" data-throw-if-not-resolved=\"false\"></xref>.</p>\n"
+  example:
+  - 
   syntax:
     content: public bool IsSupersetOf(IEnumerable<T> other)
     content.vb: Public Function IsSupersetOf(other As IEnumerable(Of T)) As Boolean
@@ -818,6 +1123,10 @@ items:
       type: System.Collections.Generic.IEnumerable{{T}}
     return:
       type: System.Boolean
+  exceptions:
+  - type: System.ArgumentNullException
+    commentId: T:System.ArgumentNullException
+    description: "\n<p>\n<em>other</em> is <strong>null</strong>.</p>\n"
   modifiers.csharp:
   - public
   modifiers.vb:
@@ -836,15 +1145,19 @@ items:
   type: Method
   source:
     remote:
-      path: src/System.Collections/ref/System.Collections.cs
+      path: src/System.Collections/src/System/Collections/Generic/SortedSet.cs
       branch: master
       repo: https://github.com/dotnet/corefx.git
     id: Overlaps
-    path: src/System.Collections/ref/System.Collections.cs
-    startLine: 547
+    path: src/System.Collections/src/System/Collections/Generic/SortedSet.cs
+    startLine: 1628
   assemblies:
   - System.Collections
   namespace: System.Collections.Generic
+  summary: "\n<p>Determines whether the current <xref href=\"System.Collections.Generic.SortedSet`1\" data-throw-if-not-resolved=\"false\"></xref> object and a specified collection share common elements.</p>\n"
+  remarks: "\n<p>Any duplicate elements in <em>other</em> are ignored.</p>\n<p>This method is an O(<em>n</em>) operation, where <em>n</em> is the number of elements in <em>other</em>.</p>\n"
+  example:
+  - 
   syntax:
     content: public bool Overlaps(IEnumerable<T> other)
     content.vb: Public Function Overlaps(other As IEnumerable(Of T)) As Boolean
@@ -853,6 +1166,10 @@ items:
       type: System.Collections.Generic.IEnumerable{{T}}
     return:
       type: System.Boolean
+  exceptions:
+  - type: System.ArgumentNullException
+    commentId: T:System.ArgumentNullException
+    description: "\n<p>\n<em>other</em> is <strong>null</strong>.</p>\n"
   modifiers.csharp:
   - public
   modifiers.vb:
@@ -880,6 +1197,10 @@ items:
   assemblies:
   - System.Collections
   namespace: System.Collections.Generic
+  summary: "\n<p>Removes a specified item from the <xref href=\"System.Collections.Generic.SortedSet`1\" data-throw-if-not-resolved=\"false\"></xref>.</p>\n"
+  remarks: "\n<p>If the <xref href=\"System.Collections.Generic.SortedSet`1\" data-throw-if-not-resolved=\"false\"></xref> object does not contain the specified element, the object remains unchanged and no exception is thrown.</p>\n<p>\n<em>item</em> can be <strong>null</strong> for reference types.</p>\n<p>This method is an O(log n) operation.</p>\n"
+  example:
+  - 
   syntax:
     content: public bool Remove(T item)
     content.vb: Public Function Remove(item As T) As Boolean
@@ -888,6 +1209,8 @@ items:
       type: '{T}'
     return:
       type: System.Boolean
+  implements:
+  - System.Collections.Generic.ICollection{{T}}.Remove({T})
   modifiers.csharp:
   - public
   modifiers.vb:
@@ -905,15 +1228,19 @@ items:
   type: Method
   source:
     remote:
-      path: src/System.Collections/ref/System.Collections.cs
+      path: src/System.Collections/src/System/Collections/Generic/SortedSet.cs
       branch: master
       repo: https://github.com/dotnet/corefx.git
     id: RemoveWhere
-    path: src/System.Collections/ref/System.Collections.cs
-    startLine: 549
+    path: src/System.Collections/src/System/Collections/Generic/SortedSet.cs
+    startLine: 1755
   assemblies:
   - System.Collections
   namespace: System.Collections.Generic
+  summary: "\n<p>Removes all elements that match the conditions defined by the specified predicate from a <xref href=\"System.Collections.Generic.SortedSet`1\" data-throw-if-not-resolved=\"false\"></xref>.</p>\n"
+  remarks: "\n<p>\n<em>match</em> must not modify the <xref href=\"System.Collections.Generic.SortedSet`1\" data-throw-if-not-resolved=\"false\"></xref>. Doing so can cause unexpected results.</p>\n<p>Calling this method is an O(<em>n</em>) operation, where <em>n</em> is <xref href=\"System.Collections.Generic.SortedSet`1.Count\" data-throw-if-not-resolved=\"false\"></xref>.</p>\n"
+  example:
+  - "\n<p>The following example removes unwanted elements from a sorted set. This code example is part of a larger example provided for the <xref href=\"System.Collections.Generic.SortedSet`1\" data-throw-if-not-resolved=\"false\"></xref> class.</p>System.Collections.Generic.SortedSet#4,8"
   syntax:
     content: public int RemoveWhere(Predicate<T> match)
     content.vb: Public Function RemoveWhere(match As Predicate(Of T)) As Integer
@@ -922,6 +1249,10 @@ items:
       type: System.Predicate{{T}}
     return:
       type: System.Int32
+  exceptions:
+  - type: System.ArgumentNullException
+    commentId: T:System.ArgumentNullException
+    description: "\n<p>\n<em>match</em> is <strong>null</strong>.</p>\n"
   modifiers.csharp:
   - public
   modifiers.vb:
@@ -949,11 +1280,14 @@ items:
   assemblies:
   - System.Collections
   namespace: System.Collections.Generic
+  summary: "\n<p>Returns an <xref href=\"System.Collections.Generic.IEnumerable`1\" data-throw-if-not-resolved=\"false\"></xref> that iterates over the <xref href=\"System.Collections.Generic.SortedSet`1\" data-throw-if-not-resolved=\"false\"></xref> in reverse order.</p>\n"
+  example:
+  - 
   syntax:
     content: public IEnumerable<T> Reverse()
     content.vb: Public Function Reverse As IEnumerable(Of T)
     return:
-      type: IEnumerable{{T}}
+      type: System.Collections.Generic.IEnumerable{{T}}
   modifiers.csharp:
   - public
   modifiers.vb:
@@ -971,15 +1305,19 @@ items:
   type: Method
   source:
     remote:
-      path: src/System.Collections/ref/System.Collections.cs
+      path: src/System.Collections/src/System/Collections/Generic/SortedSet.cs
       branch: master
       repo: https://github.com/dotnet/corefx.git
     id: SetEquals
-    path: src/System.Collections/ref/System.Collections.cs
-    startLine: 551
+    path: src/System.Collections/src/System/Collections/Generic/SortedSet.cs
+    startLine: 1589
   assemblies:
   - System.Collections
   namespace: System.Collections.Generic
+  summary: "\n<p>Determines whether the current <xref href=\"System.Collections.Generic.SortedSet`1\" data-throw-if-not-resolved=\"false\"></xref> object and the specified collection contain the same elements.</p>\n"
+  remarks: "\n<p>This method ignores the order of elements and any duplicate elements in <em>other</em>.</p>\n<p>If the collection represented by <em>other</em> is a <xref href=\"System.Collections.Generic.SortedSet`1\" data-throw-if-not-resolved=\"false\"></xref> collection with the same equality comparer as the current <xref href=\"System.Collections.Generic.SortedSet`1\" data-throw-if-not-resolved=\"false\"></xref> object, this method is an O(log<em>n</em>) operation. Otherwise, this method is an O(<em>n</em> + <em>m</em>) operation, where <em>n</em> is the number of elements in <em>other</em> and <em>m</em> is <xref href=\"System.Collections.Generic.SortedSet`1.Count\" data-throw-if-not-resolved=\"false\"></xref>.</p>\n"
+  example:
+  - 
   syntax:
     content: public bool SetEquals(IEnumerable<T> other)
     content.vb: Public Function SetEquals(other As IEnumerable(Of T)) As Boolean
@@ -988,6 +1326,10 @@ items:
       type: System.Collections.Generic.IEnumerable{{T}}
     return:
       type: System.Boolean
+  exceptions:
+  - type: System.ArgumentNullException
+    commentId: T:System.ArgumentNullException
+    description: "\n<p>\n<em>other</em> is <strong>null</strong>.</p>\n"
   modifiers.csharp:
   - public
   modifiers.vb:
@@ -1006,27 +1348,189 @@ items:
   type: Method
   source:
     remote:
-      path: src/System.Collections/ref/System.Collections.cs
+      path: src/System.Collections/src/System/Collections/Generic/SortedSet.cs
       branch: master
       repo: https://github.com/dotnet/corefx.git
     id: SymmetricExceptWith
-    path: src/System.Collections/ref/System.Collections.cs
-    startLine: 552
+    path: src/System.Collections/src/System/Collections/Generic/SortedSet.cs
+    startLine: 1339
   assemblies:
   - System.Collections
   namespace: System.Collections.Generic
+  summary: "\n<p>Modifies the current <xref href=\"System.Collections.Generic.SortedSet`1\" data-throw-if-not-resolved=\"false\"></xref> object so that it contains only elements that are present either in the current object or in the specified collection, but not both.</p>\n"
+  remarks: "\n<p>Any duplicate elements in <em>other</em> are ignored.</p>\n<p>If the <em>other</em> parameter is a <xref href=\"System.Collections.Generic.SortedSet`1\" data-throw-if-not-resolved=\"false\"></xref> collection with the same equality comparer as the current <xref href=\"System.Collections.Generic.SortedSet`1\" data-throw-if-not-resolved=\"false\"></xref> object, this method is an O(n log <em>m</em>) operation. Otherwise, this method is an O(<em>n</em> log <em>m</em>) + O(<em>n</em>  log <em>n</em>) operation, where <em>n</em> is the number of elements in <em>other</em> and <em>m</em> is <xref href=\"System.Collections.Generic.SortedSet`1.Count\" data-throw-if-not-resolved=\"false\"></xref>.</p>\n"
+  example:
+  - 
   syntax:
     content: public void SymmetricExceptWith(IEnumerable<T> other)
     content.vb: Public Sub SymmetricExceptWith(other As IEnumerable(Of T))
     parameters:
     - id: other
       type: System.Collections.Generic.IEnumerable{{T}}
+  exceptions:
+  - type: System.ArgumentNullException
+    commentId: T:System.ArgumentNullException
+    description: "\n<p>\n<em>other</em> is <strong>null</strong>.</p>\n"
   modifiers.csharp:
   - public
   modifiers.vb:
   - Public
   fullName.vb: System.Collections.Generic.SortedSet(Of T).SymmetricExceptWith(System.Collections.Generic.IEnumerable(Of T))
   name.vb: SymmetricExceptWith(IEnumerable(Of T))
+- uid: System.Collections.Generic.SortedSet`1.System#Collections#Generic#ICollection{T}#Add(`0)
+  commentId: M:System.Collections.Generic.SortedSet`1.System#Collections#Generic#ICollection{T}#Add(`0)
+  id: System#Collections#Generic#ICollection{T}#Add(`0)
+  isEii: true
+  parent: System.Collections.Generic.SortedSet`1
+  langs:
+  - csharp
+  - vb
+  name: ICollection<T>.Add(T)
+  fullName: System.Collections.Generic.SortedSet<T>.System.Collections.Generic.ICollection<T>.Add(T)
+  type: Method
+  source:
+    remote:
+      path: src/System.Collections/src/System/Collections/Generic/SortedSet.cs
+      branch: master
+      repo: https://github.com/dotnet/corefx.git
+    id: System.Collections.Generic.ICollection<T>.Add
+    path: src/System.Collections/src/System/Collections/Generic/SortedSet.cs
+    startLine: 355
+  assemblies:
+  - System.Collections
+  namespace: System.Collections.Generic
+  summary: "\n<p>Adds an item to an <xref href=\"System.Collections.Generic.ICollection`1\" data-throw-if-not-resolved=\"false\"></xref> object.</p>\n"
+  remarks: "\n<p>This member is an explicit interface member implementation. It can be used only when the <xref href=\"System.Collections.Generic.SortedSet`1\" data-throw-if-not-resolved=\"false\"></xref> instance is cast to an <xref href=\"System.Collections.Generic.ICollection`1\" data-throw-if-not-resolved=\"false\"></xref> interface.</p>\n<p>If <xref href=\"System.Collections.Generic.List`1.Count\" data-throw-if-not-resolved=\"false\"></xref> is less than <xref href=\"System.Collections.Generic.List`1.Capacity\" data-throw-if-not-resolved=\"false\"></xref>, this method is an O(1) operation. If the capacity must be increased to accommodate the new element, this method becomes an O(<em>n</em>) operation, where <em>n</em> is <xref href=\"System.Collections.Generic.List`1.Count\" data-throw-if-not-resolved=\"false\"></xref>.</p>\n"
+  example:
+  - 
+  syntax:
+    content: void ICollection<T>.Add(T item)
+    content.vb: Sub System.Collections.Generic.ICollection<T>.Add(item As T) Implements ICollection(Of T).Add
+    parameters:
+    - id: item
+      type: '{T}'
+  exceptions:
+  - type: System.NotSupportedException
+    commentId: T:System.NotSupportedException
+    description: "\n<p>The <xref href=\"System.Collections.Generic.ICollection`1\" data-throw-if-not-resolved=\"false\"></xref> is read-only.</p>\n"
+  implements:
+  - System.Collections.Generic.ICollection{{T}}.Add({T})
+  fullName.vb: System.Collections.Generic.SortedSet(Of T).System.Collections.Generic.ICollection<T>.Add(T)
+  name.vb: System.Collections.Generic.ICollection<T>.Add(T)
+- uid: System.Collections.Generic.SortedSet`1.System#Collections#Generic#IEnumerable{T}#GetEnumerator
+  commentId: M:System.Collections.Generic.SortedSet`1.System#Collections#Generic#IEnumerable{T}#GetEnumerator
+  id: System#Collections#Generic#IEnumerable{T}#GetEnumerator
+  isEii: true
+  parent: System.Collections.Generic.SortedSet`1
+  langs:
+  - csharp
+  - vb
+  name: IEnumerable<T>.GetEnumerator()
+  fullName: System.Collections.Generic.SortedSet<T>.System.Collections.Generic.IEnumerable<T>.GetEnumerator()
+  type: Method
+  source:
+    remote:
+      path: src/System.Collections/src/System/Collections/Generic/SortedSet.cs
+      branch: master
+      repo: https://github.com/dotnet/corefx.git
+    id: System.Collections.Generic.IEnumerable<T>.GetEnumerator
+    path: src/System.Collections/src/System/Collections/Generic/SortedSet.cs
+    startLine: 731
+  assemblies:
+  - System.Collections
+  namespace: System.Collections.Generic
+  summary: "\n<p>Returns an enumerator that iterates through a collection.</p>\n"
+  remarks: "\n<p>This member is an explicit interface member implementation. It can be used only when the <xref href=\"System.Collections.Generic.SortedSet`1\" data-throw-if-not-resolved=\"false\"></xref> instance is cast to an <xref href=\"System.Collections.Generic.IEnumerable`1\" data-throw-if-not-resolved=\"false\"></xref> interface.</p>\n"
+  syntax:
+    content: IEnumerator<T> IEnumerable<T>.GetEnumerator()
+    content.vb: Function System.Collections.Generic.IEnumerable<T>.GetEnumerator As IEnumerator(Of T) Implements IEnumerable(Of T).GetEnumerator
+    return:
+      type: System.Collections.Generic.IEnumerator{{T}}
+  implements:
+  - System.Collections.Generic.IEnumerable{{T}}.GetEnumerator
+  fullName.vb: System.Collections.Generic.SortedSet(Of T).System.Collections.Generic.IEnumerable<T>.GetEnumerator()
+  name.vb: System.Collections.Generic.IEnumerable<T>.GetEnumerator()
+- uid: System.Collections.Generic.SortedSet`1.System#Collections#ICollection#CopyTo(System.Array,System.Int32)
+  commentId: M:System.Collections.Generic.SortedSet`1.System#Collections#ICollection#CopyTo(System.Array,System.Int32)
+  id: System#Collections#ICollection#CopyTo(System.Array,System.Int32)
+  isEii: true
+  parent: System.Collections.Generic.SortedSet`1
+  langs:
+  - csharp
+  - vb
+  name: ICollection.CopyTo(Array, Int32)
+  fullName: System.Collections.Generic.SortedSet<T>.System.Collections.ICollection.CopyTo(System.Array, System.Int32)
+  type: Method
+  source:
+    remote:
+      path: src/System.Collections/src/System/Collections/Generic/SortedSet.cs
+      branch: master
+      repo: https://github.com/dotnet/corefx.git
+    id: System.Collections.ICollection.CopyTo
+    path: src/System.Collections/src/System/Collections/Generic/SortedSet.cs
+    startLine: 669
+  assemblies:
+  - System.Collections
+  namespace: System.Collections.Generic
+  summary: "\n<p>Copies the complete <xref href=\"System.Collections.Generic.SortedSet`1\" data-throw-if-not-resolved=\"false\"></xref> to a compatible one-dimensional array, starting at the specified array index.</p>\n"
+  remarks: "\n<p>This member is an explicit interface member implementation. It can be used only when the <xref href=\"System.Collections.Generic.SortedSet`1\" data-throw-if-not-resolved=\"false\"></xref> instance is cast to an <xref href=\"System.Collections.ICollection\" data-throw-if-not-resolved=\"false\"></xref> interface.</p>\n"
+  example:
+  - 
+  syntax:
+    content: void ICollection.CopyTo(Array array, int index)
+    content.vb: Sub System.Collections.ICollection.CopyTo(array As Array, index As Integer) Implements ICollection.CopyTo
+    parameters:
+    - id: array
+      type: System.Array
+    - id: index
+      type: System.Int32
+  exceptions:
+  - type: System.ArgumentException
+    commentId: T:System.ArgumentException
+    description: "\n<p>The number of elements in the source array is greater than the available space from <em>index</em> to the end of the destination array. </p>\n"
+  - type: System.ArgumentNullException
+    commentId: T:System.ArgumentNullException
+    description: "\n<p>\n<em>array</em> is <strong>null</strong>.</p>\n"
+  - type: System.ArgumentOutOfRangeException
+    commentId: T:System.ArgumentOutOfRangeException
+    description: "\n<p>\n<em>index</em> is less than zero.</p>\n"
+  implements:
+  - System.Collections.ICollection.CopyTo(System.Array,System.Int32)
+  fullName.vb: System.Collections.Generic.SortedSet(Of T).System.Collections.ICollection.CopyTo(System.Array, System.Int32)
+  name.vb: System.Collections.ICollection.CopyTo(Array, Int32)
+- uid: System.Collections.Generic.SortedSet`1.System#Collections#IEnumerable#GetEnumerator
+  commentId: M:System.Collections.Generic.SortedSet`1.System#Collections#IEnumerable#GetEnumerator
+  id: System#Collections#IEnumerable#GetEnumerator
+  isEii: true
+  parent: System.Collections.Generic.SortedSet`1
+  langs:
+  - csharp
+  - vb
+  name: IEnumerable.GetEnumerator()
+  fullName: System.Collections.Generic.SortedSet<T>.System.Collections.IEnumerable.GetEnumerator()
+  type: Method
+  source:
+    remote:
+      path: src/System.Collections/src/System/Collections/Generic/SortedSet.cs
+      branch: master
+      repo: https://github.com/dotnet/corefx.git
+    id: System.Collections.IEnumerable.GetEnumerator
+    path: src/System.Collections/src/System/Collections/Generic/SortedSet.cs
+    startLine: 736
+  assemblies:
+  - System.Collections
+  namespace: System.Collections.Generic
+  summary: "\n<p>Returns an enumerator that iterates through a collection.</p>\n"
+  remarks: "\n<p>This member is an explicit interface member implementation. It can be used only when the <xref href=\"System.Collections.Generic.SortedSet`1\" data-throw-if-not-resolved=\"false\"></xref> instance is cast to an <xref href=\"System.Collections.IEnumerable\" data-throw-if-not-resolved=\"false\"></xref> interface.</p>\n<p>This method is an O(1) operation.</p>\n"
+  syntax:
+    content: IEnumerator IEnumerable.GetEnumerator()
+    content.vb: Function System.Collections.IEnumerable.GetEnumerator As IEnumerator Implements IEnumerable.GetEnumerator
+    return:
+      type: System.Collections.IEnumerator
+  implements:
+  - System.Collections.IEnumerable.GetEnumerator
+  fullName.vb: System.Collections.Generic.SortedSet(Of T).System.Collections.IEnumerable.GetEnumerator()
+  name.vb: System.Collections.IEnumerable.GetEnumerator()
 - uid: System.Collections.Generic.SortedSet`1.UnionWith(System.Collections.Generic.IEnumerable{`0})
   commentId: M:System.Collections.Generic.SortedSet`1.UnionWith(System.Collections.Generic.IEnumerable{`0})
   id: UnionWith(System.Collections.Generic.IEnumerable{`0})
@@ -1039,21 +1543,29 @@ items:
   type: Method
   source:
     remote:
-      path: src/System.Collections/ref/System.Collections.cs
+      path: src/System.Collections/src/System/Collections/Generic/SortedSet.cs
       branch: master
       repo: https://github.com/dotnet/corefx.git
     id: UnionWith
-    path: src/System.Collections/ref/System.Collections.cs
-    startLine: 557
+    path: src/System.Collections/src/System/Collections/Generic/SortedSet.cs
+    startLine: 1043
   assemblies:
   - System.Collections
   namespace: System.Collections.Generic
+  summary: "\n<p>Modifies the current <xref href=\"System.Collections.Generic.SortedSet`1\" data-throw-if-not-resolved=\"false\"></xref> object so that it contains all elements that are present in either the current object or the specified collection.</p>\n"
+  remarks: "\n<p>Any duplicate elements in <em>other</em> are ignored.</p>\n"
+  example:
+  - 
   syntax:
     content: public void UnionWith(IEnumerable<T> other)
     content.vb: Public Sub UnionWith(other As IEnumerable(Of T))
     parameters:
     - id: other
       type: System.Collections.Generic.IEnumerable{{T}}
+  exceptions:
+  - type: System.ArgumentNullException
+    commentId: T:System.ArgumentNullException
+    description: "\n<p>\n<em>other</em> is <strong>null</strong>.</p>\n"
   modifiers.csharp:
   - public
   modifiers.vb:
@@ -1070,17 +1582,17 @@ references:
   isExternal: false
   name: Object
   fullName: System.Object
-- uid: System.Collections.Generic.IEnumerable{{T}}
+- uid: System.Collections.Generic.ICollection{{T}}
   parent: System.Collections.Generic
-  definition: System.Collections.Generic.IEnumerable`1
-  name: Collections.Generic.IEnumerable<T>
-  fullName: System.Collections.Generic.IEnumerable<T>
-  fullname.vb: System.Collections.Generic.IEnumerable(Of T)
-  name.vb: Collections.Generic.IEnumerable(Of T)
+  definition: System.Collections.Generic.ICollection`1
+  name: ICollection<T>
+  fullName: System.Collections.Generic.ICollection<T>
+  fullname.vb: System.Collections.Generic.ICollection(Of T)
+  name.vb: ICollection(Of T)
   spec.csharp:
-  - uid: System.Collections.Generic.IEnumerable`1
-    name: Collections.Generic.IEnumerable
-    fullName: System.Collections.Generic.IEnumerable
+  - uid: System.Collections.Generic.ICollection`1
+    name: ICollection
+    fullName: System.Collections.Generic.ICollection
   - name: <
     fullName: <
   - name: T
@@ -1088,9 +1600,9 @@ references:
   - name: '>'
     fullName: '>'
   spec.vb:
-  - uid: System.Collections.Generic.IEnumerable`1
-    name: Collections.Generic.IEnumerable
-    fullName: System.Collections.Generic.IEnumerable
+  - uid: System.Collections.Generic.ICollection`1
+    name: ICollection
+    fullName: System.Collections.Generic.ICollection
   - name: '(Of '
     fullName: '(Of '
   - name: T
@@ -1118,6 +1630,33 @@ references:
   - uid: System.Collections.Generic.IReadOnlyCollection`1
     name: IReadOnlyCollection
     fullName: System.Collections.Generic.IReadOnlyCollection
+  - name: '(Of '
+    fullName: '(Of '
+  - name: T
+    fullName: T
+  - name: )
+    fullName: )
+- uid: System.Collections.Generic.IEnumerable{{T}}
+  parent: System.Collections.Generic
+  definition: System.Collections.Generic.IEnumerable`1
+  name: IEnumerable<T>
+  fullName: System.Collections.Generic.IEnumerable<T>
+  fullname.vb: System.Collections.Generic.IEnumerable(Of T)
+  name.vb: IEnumerable(Of T)
+  spec.csharp:
+  - uid: System.Collections.Generic.IEnumerable`1
+    name: IEnumerable
+    fullName: System.Collections.Generic.IEnumerable
+  - name: <
+    fullName: <
+  - name: T
+    fullName: T
+  - name: '>'
+    fullName: '>'
+  spec.vb:
+  - uid: System.Collections.Generic.IEnumerable`1
+    name: IEnumerable
+    fullName: System.Collections.Generic.IEnumerable
   - name: '(Of '
     fullName: '(Of '
   - name: T
@@ -1155,65 +1694,305 @@ references:
 - uid: System.Collections.ICollection
   parent: System.Collections
   isExternal: false
-  name: Collections.ICollection
+  name: ICollection
   fullName: System.Collections.ICollection
 - uid: System.Collections.IEnumerable
   parent: System.Collections
   isExternal: false
-  name: Collections.IEnumerable
+  name: IEnumerable
   fullName: System.Collections.IEnumerable
+- uid: System.Object.ToString
+  parent: System.Object
+  isExternal: true
+  name: ToString()
+  fullName: System.Object.ToString()
+  spec.csharp:
+  - uid: System.Object.ToString
+    name: ToString
+    fullName: System.Object.ToString
+    isExternal: true
+  - name: (
+    fullName: (
+  - name: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.ToString
+    name: ToString
+    fullName: System.Object.ToString
+    isExternal: true
+  - name: (
+    fullName: (
+  - name: )
+    fullName: )
+- uid: System.Object.Equals(System.Object)
+  parent: System.Object
+  isExternal: true
+  name: Equals(Object)
+  fullName: System.Object.Equals(System.Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    fullName: )
+- uid: System.Object.Equals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  name: Equals(Object, Object)
+  fullName: System.Object.Equals(System.Object, System.Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    fullName: )
+- uid: System.Object.ReferenceEquals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  name: ReferenceEquals(Object, Object)
+  fullName: System.Object.ReferenceEquals(System.Object, System.Object)
+  spec.csharp:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    fullName: System.Object.ReferenceEquals
+    isExternal: true
+  - name: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    fullName: System.Object.ReferenceEquals
+    isExternal: true
+  - name: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    fullName: )
+- uid: System.Object.GetHashCode
+  parent: System.Object
+  isExternal: true
+  name: GetHashCode()
+  fullName: System.Object.GetHashCode()
+  spec.csharp:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    fullName: System.Object.GetHashCode
+    isExternal: true
+  - name: (
+    fullName: (
+  - name: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    fullName: System.Object.GetHashCode
+    isExternal: true
+  - name: (
+    fullName: (
+  - name: )
+    fullName: )
+- uid: System.Object.GetType
+  parent: System.Object
+  isExternal: true
+  name: GetType()
+  fullName: System.Object.GetType()
+  spec.csharp:
+  - uid: System.Object.GetType
+    name: GetType
+    fullName: System.Object.GetType
+    isExternal: true
+  - name: (
+    fullName: (
+  - name: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.GetType
+    name: GetType
+    fullName: System.Object.GetType
+    isExternal: true
+  - name: (
+    fullName: (
+  - name: )
+    fullName: )
+- uid: System.Object.MemberwiseClone
+  parent: System.Object
+  isExternal: true
+  name: MemberwiseClone()
+  fullName: System.Object.MemberwiseClone()
+  spec.csharp:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    fullName: System.Object.MemberwiseClone
+    isExternal: true
+  - name: (
+    fullName: (
+  - name: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    fullName: System.Object.MemberwiseClone
+    isExternal: true
+  - name: (
+    fullName: (
+  - name: )
+    fullName: )
 - uid: System
   isExternal: false
   name: System
   fullName: System
-- uid: System.Collections.Generic.IEnumerable`1
+- uid: System.Collections.Generic.ICollection`1
   parent: System.Collections.Generic
   isExternal: false
-  name: Collections.Generic.IEnumerable<>
-  fullName: System.Collections.Generic.IEnumerable<>
-  fullname.vb: System.Collections.Generic.IEnumerable(Of )
-  name.vb: Collections.Generic.IEnumerable(Of )
+  name: ICollection<T>
+  fullName: System.Collections.Generic.ICollection<T>
+  fullname.vb: System.Collections.Generic.ICollection(Of T)
+  name.vb: ICollection(Of T)
   spec.csharp:
-  - uid: System.Collections.Generic.IEnumerable`1
-    name: Collections.Generic.IEnumerable
-    fullName: System.Collections.Generic.IEnumerable
+  - uid: System.Collections.Generic.ICollection`1
+    name: ICollection
+    fullName: System.Collections.Generic.ICollection
   - name: <
     fullName: <
-  - {}
+  - name: T
+    fullName: T
   - name: '>'
     fullName: '>'
   spec.vb:
-  - uid: System.Collections.Generic.IEnumerable`1
-    name: Collections.Generic.IEnumerable
-    fullName: System.Collections.Generic.IEnumerable
+  - uid: System.Collections.Generic.ICollection`1
+    name: ICollection
+    fullName: System.Collections.Generic.ICollection
   - name: '(Of '
     fullName: '(Of '
-  - {}
+  - name: T
+    fullName: T
   - name: )
     fullName: )
 - uid: System.Collections.Generic.IReadOnlyCollection`1
   parent: System.Collections.Generic
   isExternal: false
-  name: Generic.IReadOnlyCollection<>
-  fullName: System.Collections.Generic.IReadOnlyCollection<>
-  fullname.vb: System.Collections.Generic.IReadOnlyCollection(Of )
-  name.vb: Generic.IReadOnlyCollection(Of )
+  name: IReadOnlyCollection<T>
+  fullName: System.Collections.Generic.IReadOnlyCollection<T>
+  fullname.vb: System.Collections.Generic.IReadOnlyCollection(Of T)
+  name.vb: IReadOnlyCollection(Of T)
   spec.csharp:
   - uid: System.Collections.Generic.IReadOnlyCollection`1
-    name: Generic.IReadOnlyCollection
+    name: IReadOnlyCollection
     fullName: System.Collections.Generic.IReadOnlyCollection
   - name: <
     fullName: <
-  - {}
+  - name: T
+    fullName: T
   - name: '>'
     fullName: '>'
   spec.vb:
   - uid: System.Collections.Generic.IReadOnlyCollection`1
-    name: Generic.IReadOnlyCollection
+    name: IReadOnlyCollection
     fullName: System.Collections.Generic.IReadOnlyCollection
   - name: '(Of '
     fullName: '(Of '
-  - {}
+  - name: T
+    fullName: T
+  - name: )
+    fullName: )
+- uid: System.Collections.Generic.IEnumerable`1
+  parent: System.Collections.Generic
+  isExternal: false
+  name: IEnumerable<T>
+  fullName: System.Collections.Generic.IEnumerable<T>
+  fullname.vb: System.Collections.Generic.IEnumerable(Of T)
+  name.vb: IEnumerable(Of T)
+  spec.csharp:
+  - uid: System.Collections.Generic.IEnumerable`1
+    name: IEnumerable
+    fullName: System.Collections.Generic.IEnumerable
+  - name: <
+    fullName: <
+  - name: T
+    fullName: T
+  - name: '>'
+    fullName: '>'
+  spec.vb:
+  - uid: System.Collections.Generic.IEnumerable`1
+    name: IEnumerable
+    fullName: System.Collections.Generic.IEnumerable
+  - name: '(Of '
+    fullName: '(Of '
+  - name: T
+    fullName: T
   - name: )
     fullName: )
 - uid: System.Collections.Generic.ISet`1
@@ -1276,42 +2055,191 @@ references:
 - uid: System.Collections.Generic.IComparer`1
   parent: System.Collections.Generic
   isExternal: false
-  name: Collections.Generic.IComparer<>
-  fullName: System.Collections.Generic.IComparer<>
-  fullname.vb: System.Collections.Generic.IComparer(Of )
-  name.vb: Collections.Generic.IComparer(Of )
+  name: IComparer<T>
+  fullName: System.Collections.Generic.IComparer<T>
+  fullname.vb: System.Collections.Generic.IComparer(Of T)
+  name.vb: IComparer(Of T)
   spec.csharp:
   - uid: System.Collections.Generic.IComparer`1
-    name: Collections.Generic.IComparer
+    name: IComparer
     fullName: System.Collections.Generic.IComparer
   - name: <
     fullName: <
-  - {}
+  - name: T
+    fullName: T
   - name: '>'
     fullName: '>'
   spec.vb:
   - uid: System.Collections.Generic.IComparer`1
-    name: Collections.Generic.IComparer
+    name: IComparer
     fullName: System.Collections.Generic.IComparer
   - name: '(Of '
     fullName: '(Of '
-  - {}
+  - name: T
+    fullName: T
   - name: )
     fullName: )
+- uid: System.Collections.Generic.ICollection{{T}}.Count
+  parent: System.Collections.Generic.ICollection{{T}}
+  definition: System.Collections.Generic.ICollection`1.Count
+  name: Count
+  fullName: System.Collections.Generic.ICollection<T>.Count
+  fullname.vb: System.Collections.Generic.ICollection(Of T).Count
+- uid: System.Collections.Generic.IReadOnlyCollection{{T}}.Count
+  parent: System.Collections.Generic.IReadOnlyCollection{{T}}
+  definition: System.Collections.Generic.IReadOnlyCollection`1.Count
+  name: Count
+  fullName: System.Collections.Generic.IReadOnlyCollection<T>.Count
+  fullname.vb: System.Collections.Generic.IReadOnlyCollection(Of T).Count
+- uid: System.Collections.ICollection.Count
+  parent: System.Collections.ICollection
+  isExternal: false
+  name: Count
+  fullName: System.Collections.ICollection.Count
 - uid: System.Int32
   parent: System
   isExternal: false
   name: Int32
   fullName: System.Int32
+- uid: System.Collections.Generic.ICollection`1.Count
+  parent: System.Collections.Generic.ICollection`1
+  isExternal: false
+  name: Count
+  fullName: System.Collections.Generic.ICollection<T>.Count
+  fullname.vb: System.Collections.Generic.ICollection(Of T).Count
+- uid: System.Collections.Generic.IReadOnlyCollection`1.Count
+  parent: System.Collections.Generic.IReadOnlyCollection`1
+  isExternal: false
+  name: Count
+  fullName: System.Collections.Generic.IReadOnlyCollection<T>.Count
+  fullname.vb: System.Collections.Generic.IReadOnlyCollection(Of T).Count
 - uid: '{T}'
   isExternal: false
   name: T
   fullName: T
+- uid: System.Collections.Generic.ICollection{{T}}.IsReadOnly
+  parent: System.Collections.Generic.ICollection{{T}}
+  definition: System.Collections.Generic.ICollection`1.IsReadOnly
+  name: IsReadOnly
+  fullName: System.Collections.Generic.ICollection<T>.IsReadOnly
+  fullname.vb: System.Collections.Generic.ICollection(Of T).IsReadOnly
 - uid: System.Boolean
   parent: System
   isExternal: false
   name: Boolean
   fullName: System.Boolean
+- uid: System.Collections.Generic.ICollection`1.IsReadOnly
+  parent: System.Collections.Generic.ICollection`1
+  isExternal: false
+  name: IsReadOnly
+  fullName: System.Collections.Generic.ICollection<T>.IsReadOnly
+  fullname.vb: System.Collections.Generic.ICollection(Of T).IsReadOnly
+- uid: System.Collections.ICollection.IsSynchronized
+  parent: System.Collections.ICollection
+  isExternal: false
+  name: IsSynchronized
+  fullName: System.Collections.ICollection.IsSynchronized
+- uid: System.Collections.ICollection.SyncRoot
+  parent: System.Collections.ICollection
+  isExternal: false
+  name: SyncRoot
+  fullName: System.Collections.ICollection.SyncRoot
+- uid: System.Collections.Generic.ICollection{{T}}.Clear
+  parent: System.Collections.Generic.ICollection{{T}}
+  definition: System.Collections.Generic.ICollection`1.Clear
+  name: Clear()
+  fullName: System.Collections.Generic.ICollection<T>.Clear()
+  fullname.vb: System.Collections.Generic.ICollection(Of T).Clear()
+  spec.csharp:
+  - uid: System.Collections.Generic.ICollection`1.Clear
+    name: Clear
+    fullName: System.Collections.Generic.ICollection<T>.Clear
+  - name: (
+    fullName: (
+  - name: )
+    fullName: )
+  spec.vb:
+  - uid: System.Collections.Generic.ICollection`1.Clear
+    name: Clear
+    fullName: System.Collections.Generic.ICollection(Of T).Clear
+  - name: (
+    fullName: (
+  - name: )
+    fullName: )
+- uid: System.Collections.Generic.ICollection`1.Clear
+  parent: System.Collections.Generic.ICollection`1
+  isExternal: false
+  name: Clear()
+  fullName: System.Collections.Generic.ICollection<T>.Clear()
+  fullname.vb: System.Collections.Generic.ICollection(Of T).Clear()
+  spec.csharp:
+  - uid: System.Collections.Generic.ICollection`1.Clear
+    name: Clear
+    fullName: System.Collections.Generic.ICollection<T>.Clear
+  - name: (
+    fullName: (
+  - name: )
+    fullName: )
+  spec.vb:
+  - uid: System.Collections.Generic.ICollection`1.Clear
+    name: Clear
+    fullName: System.Collections.Generic.ICollection(Of T).Clear
+  - name: (
+    fullName: (
+  - name: )
+    fullName: )
+- uid: System.Collections.Generic.ICollection{{T}}.Contains({T})
+  parent: System.Collections.Generic.ICollection{{T}}
+  definition: System.Collections.Generic.ICollection`1.Contains(`0)
+  name: Contains(T)
+  fullName: System.Collections.Generic.ICollection<T>.Contains(T)
+  fullname.vb: System.Collections.Generic.ICollection(Of T).Contains(T)
+  spec.csharp:
+  - uid: System.Collections.Generic.ICollection`1.Contains(`0)
+    name: Contains
+    fullName: System.Collections.Generic.ICollection<T>.Contains
+  - name: (
+    fullName: (
+  - name: T
+    fullName: T
+  - name: )
+    fullName: )
+  spec.vb:
+  - uid: System.Collections.Generic.ICollection`1.Contains(`0)
+    name: Contains
+    fullName: System.Collections.Generic.ICollection(Of T).Contains
+  - name: (
+    fullName: (
+  - name: T
+    fullName: T
+  - name: )
+    fullName: )
+- uid: System.Collections.Generic.ICollection`1.Contains(`0)
+  parent: System.Collections.Generic.ICollection`1
+  isExternal: false
+  name: Contains(T)
+  fullName: System.Collections.Generic.ICollection<T>.Contains(T)
+  fullname.vb: System.Collections.Generic.ICollection(Of T).Contains(T)
+  spec.csharp:
+  - uid: System.Collections.Generic.ICollection`1.Contains(`0)
+    name: Contains
+    fullName: System.Collections.Generic.ICollection<T>.Contains
+  - name: (
+    fullName: (
+  - name: T
+    fullName: T
+  - name: )
+    fullName: )
+  spec.vb:
+  - uid: System.Collections.Generic.ICollection`1.Contains(`0)
+    name: Contains
+    fullName: System.Collections.Generic.ICollection(Of T).Contains
+  - name: (
+    fullName: (
+  - name: T
+    fullName: T
+  - name: )
+    fullName: )
 - uid: '{T}[]'
   isExternal: false
   name: T[]
@@ -1328,6 +2256,92 @@ references:
     fullName: T
   - name: ()
     fullName: ()
+- uid: System.Collections.Generic.ICollection{{T}}.CopyTo({T}[],System.Int32)
+  parent: System.Collections.Generic.ICollection{{T}}
+  definition: System.Collections.Generic.ICollection`1.CopyTo(`0[],System.Int32)
+  name: CopyTo(T[], Int32)
+  fullName: System.Collections.Generic.ICollection<T>.CopyTo(T[], System.Int32)
+  fullname.vb: System.Collections.Generic.ICollection(Of T).CopyTo(T(), System.Int32)
+  name.vb: CopyTo(T(), Int32)
+  spec.csharp:
+  - uid: System.Collections.Generic.ICollection`1.CopyTo(`0[],System.Int32)
+    name: CopyTo
+    fullName: System.Collections.Generic.ICollection<T>.CopyTo
+  - name: (
+    fullName: (
+  - name: T
+    fullName: T
+  - name: '[]'
+    fullName: '[]'
+  - name: ', '
+    fullName: ', '
+  - uid: System.Int32
+    name: Int32
+    fullName: System.Int32
+    isExternal: true
+  - name: )
+    fullName: )
+  spec.vb:
+  - uid: System.Collections.Generic.ICollection`1.CopyTo(`0[],System.Int32)
+    name: CopyTo
+    fullName: System.Collections.Generic.ICollection(Of T).CopyTo
+  - name: (
+    fullName: (
+  - name: T
+    fullName: T
+  - name: ()
+    fullName: ()
+  - name: ', '
+    fullName: ', '
+  - uid: System.Int32
+    name: Int32
+    fullName: System.Int32
+    isExternal: true
+  - name: )
+    fullName: )
+- uid: System.Collections.Generic.ICollection`1.CopyTo(`0[],System.Int32)
+  parent: System.Collections.Generic.ICollection`1
+  isExternal: true
+  name: CopyTo(T[], Int32)
+  fullName: System.Collections.Generic.ICollection<T>.CopyTo(T[], System.Int32)
+  fullname.vb: System.Collections.Generic.ICollection(Of T).CopyTo(T(), System.Int32)
+  name.vb: CopyTo(T(), Int32)
+  spec.csharp:
+  - uid: System.Collections.Generic.ICollection`1.CopyTo(`0[],System.Int32)
+    name: CopyTo
+    fullName: System.Collections.Generic.ICollection<T>.CopyTo
+  - name: (
+    fullName: (
+  - name: T
+    fullName: T
+  - name: '[]'
+    fullName: '[]'
+  - name: ', '
+    fullName: ', '
+  - uid: System.Int32
+    name: Int32
+    fullName: System.Int32
+    isExternal: true
+  - name: )
+    fullName: )
+  spec.vb:
+  - uid: System.Collections.Generic.ICollection`1.CopyTo(`0[],System.Int32)
+    name: CopyTo
+    fullName: System.Collections.Generic.ICollection(Of T).CopyTo
+  - name: (
+    fullName: (
+  - name: T
+    fullName: T
+  - name: ()
+    fullName: ()
+  - name: ', '
+    fullName: ', '
+  - uid: System.Int32
+    name: Int32
+    fullName: System.Int32
+    isExternal: true
+  - name: )
+    fullName: )
 - uid: System.Collections.Generic.SortedSet`1.Enumerator
   parent: System.Collections.Generic
   isExternal: false
@@ -1378,6 +2392,58 @@ references:
     fullName: T
   - name: )
     fullName: )
+- uid: System.Collections.Generic.ICollection{{T}}.Remove({T})
+  parent: System.Collections.Generic.ICollection{{T}}
+  definition: System.Collections.Generic.ICollection`1.Remove(`0)
+  name: Remove(T)
+  fullName: System.Collections.Generic.ICollection<T>.Remove(T)
+  fullname.vb: System.Collections.Generic.ICollection(Of T).Remove(T)
+  spec.csharp:
+  - uid: System.Collections.Generic.ICollection`1.Remove(`0)
+    name: Remove
+    fullName: System.Collections.Generic.ICollection<T>.Remove
+  - name: (
+    fullName: (
+  - name: T
+    fullName: T
+  - name: )
+    fullName: )
+  spec.vb:
+  - uid: System.Collections.Generic.ICollection`1.Remove(`0)
+    name: Remove
+    fullName: System.Collections.Generic.ICollection(Of T).Remove
+  - name: (
+    fullName: (
+  - name: T
+    fullName: T
+  - name: )
+    fullName: )
+- uid: System.Collections.Generic.ICollection`1.Remove(`0)
+  parent: System.Collections.Generic.ICollection`1
+  isExternal: false
+  name: Remove(T)
+  fullName: System.Collections.Generic.ICollection<T>.Remove(T)
+  fullname.vb: System.Collections.Generic.ICollection(Of T).Remove(T)
+  spec.csharp:
+  - uid: System.Collections.Generic.ICollection`1.Remove(`0)
+    name: Remove
+    fullName: System.Collections.Generic.ICollection<T>.Remove
+  - name: (
+    fullName: (
+  - name: T
+    fullName: T
+  - name: )
+    fullName: )
+  spec.vb:
+  - uid: System.Collections.Generic.ICollection`1.Remove(`0)
+    name: Remove
+    fullName: System.Collections.Generic.ICollection(Of T).Remove
+  - name: (
+    fullName: (
+  - name: T
+    fullName: T
+  - name: )
+    fullName: )
 - uid: System.Predicate{{T}}
   parent: System
   definition: System.Predicate`1
@@ -1408,17 +2474,18 @@ references:
 - uid: System.Predicate`1
   parent: System
   isExternal: false
-  name: Predicate<>
-  fullName: System.Predicate<>
-  fullname.vb: System.Predicate(Of )
-  name.vb: Predicate(Of )
+  name: Predicate<T>
+  fullName: System.Predicate<T>
+  fullname.vb: System.Predicate(Of T)
+  name.vb: Predicate(Of T)
   spec.csharp:
   - uid: System.Predicate`1
     name: Predicate
     fullName: System.Predicate
   - name: <
     fullName: <
-  - {}
+  - name: T
+    fullName: T
   - name: '>'
     fullName: '>'
   spec.vb:
@@ -1427,6 +2494,245 @@ references:
     fullName: System.Predicate
   - name: '(Of '
     fullName: '(Of '
-  - {}
+  - name: T
+    fullName: T
   - name: )
     fullName: )
+- uid: System.Collections.Generic.ICollection{{T}}.Add({T})
+  parent: System.Collections.Generic.ICollection{{T}}
+  definition: System.Collections.Generic.ICollection`1.Add(`0)
+  name: Add(T)
+  fullName: System.Collections.Generic.ICollection<T>.Add(T)
+  fullname.vb: System.Collections.Generic.ICollection(Of T).Add(T)
+  spec.csharp:
+  - uid: System.Collections.Generic.ICollection`1.Add(`0)
+    name: Add
+    fullName: System.Collections.Generic.ICollection<T>.Add
+  - name: (
+    fullName: (
+  - name: T
+    fullName: T
+  - name: )
+    fullName: )
+  spec.vb:
+  - uid: System.Collections.Generic.ICollection`1.Add(`0)
+    name: Add
+    fullName: System.Collections.Generic.ICollection(Of T).Add
+  - name: (
+    fullName: (
+  - name: T
+    fullName: T
+  - name: )
+    fullName: )
+- uid: System.Collections.Generic.ICollection`1.Add(`0)
+  parent: System.Collections.Generic.ICollection`1
+  isExternal: false
+  name: Add(T)
+  fullName: System.Collections.Generic.ICollection<T>.Add(T)
+  fullname.vb: System.Collections.Generic.ICollection(Of T).Add(T)
+  spec.csharp:
+  - uid: System.Collections.Generic.ICollection`1.Add(`0)
+    name: Add
+    fullName: System.Collections.Generic.ICollection<T>.Add
+  - name: (
+    fullName: (
+  - name: T
+    fullName: T
+  - name: )
+    fullName: )
+  spec.vb:
+  - uid: System.Collections.Generic.ICollection`1.Add(`0)
+    name: Add
+    fullName: System.Collections.Generic.ICollection(Of T).Add
+  - name: (
+    fullName: (
+  - name: T
+    fullName: T
+  - name: )
+    fullName: )
+- uid: System.Collections.Generic.IEnumerable{{T}}.GetEnumerator
+  parent: System.Collections.Generic.IEnumerable{{T}}
+  definition: System.Collections.Generic.IEnumerable`1.GetEnumerator
+  name: GetEnumerator()
+  fullName: System.Collections.Generic.IEnumerable<T>.GetEnumerator()
+  fullname.vb: System.Collections.Generic.IEnumerable(Of T).GetEnumerator()
+  spec.csharp:
+  - uid: System.Collections.Generic.IEnumerable`1.GetEnumerator
+    name: GetEnumerator
+    fullName: System.Collections.Generic.IEnumerable<T>.GetEnumerator
+  - name: (
+    fullName: (
+  - name: )
+    fullName: )
+  spec.vb:
+  - uid: System.Collections.Generic.IEnumerable`1.GetEnumerator
+    name: GetEnumerator
+    fullName: System.Collections.Generic.IEnumerable(Of T).GetEnumerator
+  - name: (
+    fullName: (
+  - name: )
+    fullName: )
+- uid: System.Collections.Generic.IEnumerator{{T}}
+  parent: System.Collections.Generic
+  definition: System.Collections.Generic.IEnumerator`1
+  name: IEnumerator<T>
+  fullName: System.Collections.Generic.IEnumerator<T>
+  fullname.vb: System.Collections.Generic.IEnumerator(Of T)
+  name.vb: IEnumerator(Of T)
+  spec.csharp:
+  - uid: System.Collections.Generic.IEnumerator`1
+    name: IEnumerator
+    fullName: System.Collections.Generic.IEnumerator
+  - name: <
+    fullName: <
+  - name: T
+    fullName: T
+  - name: '>'
+    fullName: '>'
+  spec.vb:
+  - uid: System.Collections.Generic.IEnumerator`1
+    name: IEnumerator
+    fullName: System.Collections.Generic.IEnumerator
+  - name: '(Of '
+    fullName: '(Of '
+  - name: T
+    fullName: T
+  - name: )
+    fullName: )
+- uid: System.Collections.Generic.IEnumerable`1.GetEnumerator
+  parent: System.Collections.Generic.IEnumerable`1
+  isExternal: false
+  name: GetEnumerator()
+  fullName: System.Collections.Generic.IEnumerable<T>.GetEnumerator()
+  fullname.vb: System.Collections.Generic.IEnumerable(Of T).GetEnumerator()
+  spec.csharp:
+  - uid: System.Collections.Generic.IEnumerable`1.GetEnumerator
+    name: GetEnumerator
+    fullName: System.Collections.Generic.IEnumerable<T>.GetEnumerator
+  - name: (
+    fullName: (
+  - name: )
+    fullName: )
+  spec.vb:
+  - uid: System.Collections.Generic.IEnumerable`1.GetEnumerator
+    name: GetEnumerator
+    fullName: System.Collections.Generic.IEnumerable(Of T).GetEnumerator
+  - name: (
+    fullName: (
+  - name: )
+    fullName: )
+- uid: System.Collections.Generic.IEnumerator`1
+  parent: System.Collections.Generic
+  isExternal: false
+  name: IEnumerator<T>
+  fullName: System.Collections.Generic.IEnumerator<T>
+  fullname.vb: System.Collections.Generic.IEnumerator(Of T)
+  name.vb: IEnumerator(Of T)
+  spec.csharp:
+  - uid: System.Collections.Generic.IEnumerator`1
+    name: IEnumerator
+    fullName: System.Collections.Generic.IEnumerator
+  - name: <
+    fullName: <
+  - name: T
+    fullName: T
+  - name: '>'
+    fullName: '>'
+  spec.vb:
+  - uid: System.Collections.Generic.IEnumerator`1
+    name: IEnumerator
+    fullName: System.Collections.Generic.IEnumerator
+  - name: '(Of '
+    fullName: '(Of '
+  - name: T
+    fullName: T
+  - name: )
+    fullName: )
+- uid: System.Collections.ICollection.CopyTo(System.Array,System.Int32)
+  parent: System.Collections.ICollection
+  isExternal: true
+  name: CopyTo(Array, Int32)
+  fullName: System.Collections.ICollection.CopyTo(System.Array, System.Int32)
+  spec.csharp:
+  - uid: System.Collections.ICollection.CopyTo(System.Array,System.Int32)
+    name: CopyTo
+    fullName: System.Collections.ICollection.CopyTo
+  - name: (
+    fullName: (
+  - uid: System.Array
+    name: Array
+    fullName: System.Array
+  - name: ', '
+    fullName: ', '
+  - uid: System.Int32
+    name: Int32
+    fullName: System.Int32
+    isExternal: true
+  - name: )
+    fullName: )
+  spec.vb:
+  - uid: System.Collections.ICollection.CopyTo(System.Array,System.Int32)
+    name: CopyTo
+    fullName: System.Collections.ICollection.CopyTo
+  - name: (
+    fullName: (
+  - uid: System.Array
+    name: Array
+    fullName: System.Array
+  - name: ', '
+    fullName: ', '
+  - uid: System.Int32
+    name: Int32
+    fullName: System.Int32
+    isExternal: true
+  - name: )
+    fullName: )
+- uid: System.Array
+  parent: System
+  isExternal: false
+  name: Array
+  fullName: System.Array
+- uid: System.Collections.IEnumerable.GetEnumerator
+  parent: System.Collections.IEnumerable
+  isExternal: false
+  name: GetEnumerator()
+  fullName: System.Collections.IEnumerable.GetEnumerator()
+  spec.csharp:
+  - uid: System.Collections.IEnumerable.GetEnumerator
+    name: GetEnumerator
+    fullName: System.Collections.IEnumerable.GetEnumerator
+  - name: (
+    fullName: (
+  - name: )
+    fullName: )
+  spec.vb:
+  - uid: System.Collections.IEnumerable.GetEnumerator
+    name: GetEnumerator
+    fullName: System.Collections.IEnumerable.GetEnumerator
+  - name: (
+    fullName: (
+  - name: )
+    fullName: )
+- uid: System.Collections.IEnumerator
+  parent: System.Collections
+  isExternal: false
+  name: IEnumerator
+  fullName: System.Collections.IEnumerator
+- uid: System.ArgumentNullException
+  isExternal: false
+  name: ArgumentNullException
+  fullName: System.ArgumentNullException
+- uid: System.ArgumentException
+  parent: System
+  isExternal: false
+  name: ArgumentException
+  fullName: System.ArgumentException
+- uid: System.ArgumentOutOfRangeException
+  isExternal: false
+  name: ArgumentOutOfRangeException
+  fullName: System.ArgumentOutOfRangeException
+- uid: System.NotSupportedException
+  parent: System
+  isExternal: false
+  name: NotSupportedException
+  fullName: System.NotSupportedException

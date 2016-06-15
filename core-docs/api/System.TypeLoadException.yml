@@ -17,22 +17,32 @@ items:
   type: Class
   source:
     remote:
-      path: src/System.Runtime/ref/System.Runtime.cs
+      path: src/mscorlib/src/System/TypeLoadException.cs
       branch: master
-      repo: https://github.com/dotnet/corefx.git
+      repo: https://github.com/dotnet/coreclr.git
     id: TypeLoadException
-    path: src/System.Runtime/ref/System.Runtime.cs
-    startLine: 1950
+    path: src/mscorlib/src/System/TypeLoadException.cs
+    startLine: 25
   assemblies:
   - System.Runtime
   namespace: System
   summary: "\n<p>The exception that is thrown when type-loading failures occur.</p>\n"
   remarks: "\n<p>\n<xref href=\"System.TypeLoadException\" data-throw-if-not-resolved=\"false\"></xref> is thrown when the common language runtime cannot find the assembly, the type within the assembly, or cannot load the type. The <xref href=\"System.TypeLoadException.Message\" data-throw-if-not-resolved=\"false\"></xref> property contains more detailed information that can help you identify the cause of the exception. </p>\n<p>\n<xref href=\"System.TypeLoadException\" data-throw-if-not-resolved=\"false\"></xref> uses the HRESULT COR_E_TYPELOAD, that has the value 0x80131522.</p>\n<p>For a list of initial property values for an instance of <xref href=\"System.TypeLoadException\" data-throw-if-not-resolved=\"false\"></xref>, see the <xref href=\"System.TypeLoadException.#ctor\" data-throw-if-not-resolved=\"false\"></xref> constructors.</p>\n"
   syntax:
-    content: 'public class TypeLoadException : Exception'
+    content: >-
+      [Serializable]
+
+      [ComVisible(true)]
+
+      public class TypeLoadException : SystemException, _Exception, ISerializable
     content.vb: >-
+      <Serializable>
+
+      <ComVisible(True)>
+
       Public Class TypeLoadException
-          Inherits Exception
+          Inherits SystemException
+          Implements _Exception, ISerializable
   seealso:
   - type: System.Exception
     commentId: T:System.Exception
@@ -50,10 +60,10 @@ items:
   - System.Exception.ToString
   - System.Object.Equals(System.Object)
   - System.Object.Equals(System.Object,System.Object)
+  - System.Object.ReferenceEquals(System.Object,System.Object)
   - System.Object.GetHashCode
   - System.Object.GetType
   - System.Object.MemberwiseClone
-  - System.Object.ReferenceEquals(System.Object,System.Object)
   modifiers.csharp:
   - public
   - class
@@ -72,12 +82,12 @@ items:
   type: Constructor
   source:
     remote:
-      path: src/System.Runtime/ref/System.Runtime.cs
+      path: src/mscorlib/src/System/TypeLoadException.cs
       branch: master
-      repo: https://github.com/dotnet/corefx.git
+      repo: https://github.com/dotnet/coreclr.git
     id: .ctor
-    path: src/System.Runtime/ref/System.Runtime.cs
-    startLine: 1952
+    path: src/mscorlib/src/System/TypeLoadException.cs
+    startLine: 29
   assemblies:
   - System.Runtime
   namespace: System
@@ -102,12 +112,12 @@ items:
   type: Constructor
   source:
     remote:
-      path: src/System.Runtime/ref/System.Runtime.cs
+      path: src/mscorlib/src/System/TypeLoadException.cs
       branch: master
-      repo: https://github.com/dotnet/corefx.git
+      repo: https://github.com/dotnet/coreclr.git
     id: .ctor
-    path: src/System.Runtime/ref/System.Runtime.cs
-    startLine: 1953
+    path: src/mscorlib/src/System/TypeLoadException.cs
+    startLine: 34
   assemblies:
   - System.Runtime
   namespace: System
@@ -121,7 +131,6 @@ items:
     parameters:
     - id: message
       type: System.String
-      description: "\n<p>The message that describes the error. </p>\n"
   modifiers.csharp:
   - public
   modifiers.vb:
@@ -138,12 +147,12 @@ items:
   type: Constructor
   source:
     remote:
-      path: src/System.Runtime/ref/System.Runtime.cs
+      path: src/mscorlib/src/System/TypeLoadException.cs
       branch: master
-      repo: https://github.com/dotnet/corefx.git
+      repo: https://github.com/dotnet/coreclr.git
     id: .ctor
-    path: src/System.Runtime/ref/System.Runtime.cs
-    startLine: 1954
+    path: src/mscorlib/src/System/TypeLoadException.cs
+    startLine: 39
   assemblies:
   - System.Runtime
   namespace: System
@@ -157,10 +166,8 @@ items:
     parameters:
     - id: message
       type: System.String
-      description: "\n<p>The error message that explains the reason for the exception. </p>\n"
     - id: inner
       type: System.Exception
-      description: "\n<p>The exception that is the cause of the current exception. If the <em>inner</em> parameter is not <strong>null</strong>, the current exception is raised in a <strong>catch</strong> block that handles the inner exception. </p>\n"
   seealso:
   - type: System.Exception
     commentId: T:System.Exception
@@ -180,12 +187,12 @@ items:
   type: Property
   source:
     remote:
-      path: src/System.Runtime/ref/System.Runtime.cs
+      path: src/mscorlib/src/System/TypeLoadException.cs
       branch: master
-      repo: https://github.com/dotnet/corefx.git
+      repo: https://github.com/dotnet/coreclr.git
     id: Message
-    path: src/System.Runtime/ref/System.Runtime.cs
-    startLine: 1955
+    path: src/mscorlib/src/System/TypeLoadException.cs
+    startLine: 44
   assemblies:
   - System.Runtime
   namespace: System
@@ -194,12 +201,17 @@ items:
   example:
   - "\n<p>The following example attempts to load a non-existent type from the mscorlib assembly. The resulting exception is caught, and the <xref href=\"System.TypeLoadException.TypeName\" data-throw-if-not-resolved=\"false\"></xref> and <xref href=\"System.TypeLoadException.Message\" data-throw-if-not-resolved=\"false\"></xref> values are displayed. For this code example to run, you must provide the fully qualified assembly name. For information about how to obtain the fully qualified assembly name, see Assembly Names.</p>TypeLoadException_TypeName#1"
   syntax:
-    content: public override string Message { get; }
+    content: >-
+      public override string Message
+
+      {
+          [SecuritySafeCritical]
+          get;
+      }
     content.vb: Public Overrides ReadOnly Property Message As String
     parameters: []
     return:
       type: System.String
-      description: "\n<p>The error message string.</p>\n"
   overridden: System.Exception.Message
   modifiers.csharp:
   - public
@@ -221,12 +233,12 @@ items:
   type: Property
   source:
     remote:
-      path: src/System.Runtime/ref/System.Runtime.cs
+      path: src/mscorlib/src/System/TypeLoadException.cs
       branch: master
-      repo: https://github.com/dotnet/corefx.git
+      repo: https://github.com/dotnet/coreclr.git
     id: TypeName
-    path: src/System.Runtime/ref/System.Runtime.cs
-    startLine: 1956
+    path: src/mscorlib/src/System/TypeLoadException.cs
+    startLine: 74
   assemblies:
   - System.Runtime
   namespace: System
@@ -239,7 +251,6 @@ items:
     parameters: []
     return:
       type: System.String
-      description: "\n<p>The fully qualified type name.</p>\n"
   modifiers.csharp:
   - public
   - get
@@ -335,166 +346,188 @@ references:
     fullName: )
 - uid: System.Object.Equals(System.Object)
   parent: System.Object
-  isExternal: false
+  isExternal: true
   name: Equals(Object)
   fullName: System.Object.Equals(System.Object)
   spec.csharp:
   - uid: System.Object.Equals(System.Object)
     name: Equals
     fullName: System.Object.Equals
+    isExternal: true
   - name: (
     fullName: (
   - uid: System.Object
     name: Object
     fullName: System.Object
+    isExternal: true
   - name: )
     fullName: )
   spec.vb:
   - uid: System.Object.Equals(System.Object)
     name: Equals
     fullName: System.Object.Equals
+    isExternal: true
   - name: (
     fullName: (
   - uid: System.Object
     name: Object
     fullName: System.Object
+    isExternal: true
   - name: )
     fullName: )
 - uid: System.Object.Equals(System.Object,System.Object)
   parent: System.Object
-  isExternal: false
+  isExternal: true
   name: Equals(Object, Object)
   fullName: System.Object.Equals(System.Object, System.Object)
   spec.csharp:
   - uid: System.Object.Equals(System.Object,System.Object)
     name: Equals
     fullName: System.Object.Equals
+    isExternal: true
   - name: (
     fullName: (
   - uid: System.Object
     name: Object
     fullName: System.Object
+    isExternal: true
   - name: ', '
     fullName: ', '
   - uid: System.Object
     name: Object
     fullName: System.Object
+    isExternal: true
   - name: )
     fullName: )
   spec.vb:
   - uid: System.Object.Equals(System.Object,System.Object)
     name: Equals
     fullName: System.Object.Equals
+    isExternal: true
   - name: (
     fullName: (
   - uid: System.Object
     name: Object
     fullName: System.Object
+    isExternal: true
   - name: ', '
     fullName: ', '
   - uid: System.Object
     name: Object
     fullName: System.Object
-  - name: )
-    fullName: )
-- uid: System.Object.GetHashCode
-  parent: System.Object
-  isExternal: false
-  name: GetHashCode()
-  fullName: System.Object.GetHashCode()
-  spec.csharp:
-  - uid: System.Object.GetHashCode
-    name: GetHashCode
-    fullName: System.Object.GetHashCode
-  - name: (
-    fullName: (
-  - name: )
-    fullName: )
-  spec.vb:
-  - uid: System.Object.GetHashCode
-    name: GetHashCode
-    fullName: System.Object.GetHashCode
-  - name: (
-    fullName: (
-  - name: )
-    fullName: )
-- uid: System.Object.GetType
-  parent: System.Object
-  isExternal: false
-  name: GetType()
-  fullName: System.Object.GetType()
-  spec.csharp:
-  - uid: System.Object.GetType
-    name: GetType
-    fullName: System.Object.GetType
-  - name: (
-    fullName: (
-  - name: )
-    fullName: )
-  spec.vb:
-  - uid: System.Object.GetType
-    name: GetType
-    fullName: System.Object.GetType
-  - name: (
-    fullName: (
-  - name: )
-    fullName: )
-- uid: System.Object.MemberwiseClone
-  parent: System.Object
-  isExternal: false
-  name: MemberwiseClone()
-  fullName: System.Object.MemberwiseClone()
-  spec.csharp:
-  - uid: System.Object.MemberwiseClone
-    name: MemberwiseClone
-    fullName: System.Object.MemberwiseClone
-  - name: (
-    fullName: (
-  - name: )
-    fullName: )
-  spec.vb:
-  - uid: System.Object.MemberwiseClone
-    name: MemberwiseClone
-    fullName: System.Object.MemberwiseClone
-  - name: (
-    fullName: (
+    isExternal: true
   - name: )
     fullName: )
 - uid: System.Object.ReferenceEquals(System.Object,System.Object)
   parent: System.Object
-  isExternal: false
+  isExternal: true
   name: ReferenceEquals(Object, Object)
   fullName: System.Object.ReferenceEquals(System.Object, System.Object)
   spec.csharp:
   - uid: System.Object.ReferenceEquals(System.Object,System.Object)
     name: ReferenceEquals
     fullName: System.Object.ReferenceEquals
+    isExternal: true
   - name: (
     fullName: (
   - uid: System.Object
     name: Object
     fullName: System.Object
+    isExternal: true
   - name: ', '
     fullName: ', '
   - uid: System.Object
     name: Object
     fullName: System.Object
+    isExternal: true
   - name: )
     fullName: )
   spec.vb:
   - uid: System.Object.ReferenceEquals(System.Object,System.Object)
     name: ReferenceEquals
     fullName: System.Object.ReferenceEquals
+    isExternal: true
   - name: (
     fullName: (
   - uid: System.Object
     name: Object
     fullName: System.Object
+    isExternal: true
   - name: ', '
     fullName: ', '
   - uid: System.Object
     name: Object
     fullName: System.Object
+    isExternal: true
+  - name: )
+    fullName: )
+- uid: System.Object.GetHashCode
+  parent: System.Object
+  isExternal: true
+  name: GetHashCode()
+  fullName: System.Object.GetHashCode()
+  spec.csharp:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    fullName: System.Object.GetHashCode
+    isExternal: true
+  - name: (
+    fullName: (
+  - name: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    fullName: System.Object.GetHashCode
+    isExternal: true
+  - name: (
+    fullName: (
+  - name: )
+    fullName: )
+- uid: System.Object.GetType
+  parent: System.Object
+  isExternal: true
+  name: GetType()
+  fullName: System.Object.GetType()
+  spec.csharp:
+  - uid: System.Object.GetType
+    name: GetType
+    fullName: System.Object.GetType
+    isExternal: true
+  - name: (
+    fullName: (
+  - name: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.GetType
+    name: GetType
+    fullName: System.Object.GetType
+    isExternal: true
+  - name: (
+    fullName: (
+  - name: )
+    fullName: )
+- uid: System.Object.MemberwiseClone
+  parent: System.Object
+  isExternal: true
+  name: MemberwiseClone()
+  fullName: System.Object.MemberwiseClone()
+  spec.csharp:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    fullName: System.Object.MemberwiseClone
+    isExternal: true
+  - name: (
+    fullName: (
+  - name: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    fullName: System.Object.MemberwiseClone
+    isExternal: true
+  - name: (
+    fullName: (
   - name: )
     fullName: )
 - uid: System.String

@@ -36,12 +36,12 @@ items:
   type: Struct
   source:
     remote:
-      path: src/System.Runtime/ref/System.Runtime.cs
+      path: src/mscorlib/src/System/IntPtr.cs
       branch: master
-      repo: https://github.com/dotnet/corefx.git
+      repo: https://github.com/dotnet/coreclr.git
     id: IntPtr
-    path: src/System.Runtime/ref/System.Runtime.cs
-    startLine: 1128
+    path: src/mscorlib/src/System/IntPtr.cs
+    startLine: 24
   assemblies:
   - System.Runtime
   namespace: System
@@ -51,20 +51,25 @@ items:
   - "\n<p>The following example uses managed pointers to reverse the characters in an array. After it initializes a <xref href=\"System.String\" data-throw-if-not-resolved=\"false\"></xref> object and gets its length, it does the following: </p>\n<ol><li>\n<p>Calls the <xref href=\"System.Runtime.InteropServices.Marshal.StringToHGlobalAnsi(System.String)\" data-throw-if-not-resolved=\"false\"></xref> method to copy the Unicode string to unmanaged memory as an ANSI (one-byte) character. The method returns an <xref href=\"System.IntPtr\" data-throw-if-not-resolved=\"false\"></xref> object that points to the beginning of the unmanaged string. The Visual Basic example uses this pointer directly; in the C++ and C# examples, it is cast to a pointer to a byte. </p>\n</li><li>\n<p>Calls the <xref href=\"System.Runtime.InteropServices.Marshal.AllocHGlobal(System.Int32)\" data-throw-if-not-resolved=\"false\"></xref> method to allocate the same number of bytes as the unmanaged string occupies. The method returns an <xref href=\"System.IntPtr\" data-throw-if-not-resolved=\"false\"></xref> object that points to the beginning of the unmanaged block of memory. The Visual Basic example uses this pointer directly; in the C++ and C# examples, it is cast to a pointer to a byte. </p>\n</li><li>\n<p>The Visual Basic example defines a variable named <code>offset</code> that is equal to the length of the ANSI string. It is used to determine the offset into unmanaged memory to which the next charter in the ANSI string is copied. Because its starting value is the length of the string, the copy operation will copy a character from the start of the string to the end of the memory block. </p>\n<p>The C# and C++ examples call the <xref href=\"System.IntPtr.ToPointer\" data-throw-if-not-resolved=\"false\"></xref> method to get an unmanaged pointer to the starting address of the string and the unmanaged block of memory, and they add one less than the length of the string to the starting address of the ANSI string. Because the unmanaged string pointer now points to the end of the string, the copy operation will copy a character from the end of the string to the start of the memory block. </p>\n</li><li>\n<p>Uses a loop to copy each character from the string to the unmanaged block of memory. </p>\n<p>The Visual Basic example calls the <xref href=\"System.Runtime.InteropServices.Marshal.ReadByte(System.IntPtr,System.Int32)\" data-throw-if-not-resolved=\"false\"></xref> method to read the byte (or one-byte character) at a specified offset from the managed pointer to the ANSI string. The offset is incremented with each iteration of the loop. It then calls the <xref href=\"System.Runtime.InteropServices.Marshal.WriteByte(System.IntPtr,System.Int32,System.Byte)\" data-throw-if-not-resolved=\"false\"></xref> method to write the byte to the memory address defined by the starting address of the unmanaged block of memory plus <code>offset</code>. It then decrements <code>offset</code>. </p>\n<p>The C# and C++ examples perform the copy operation, then decrement the pointer to the address of the next location in the unmanaged ANSI string and increment the pointer to the next address in the unmanaged block.  </p>\n</li><li>\n<p>All examples call the <xref href=\"System.Runtime.InteropServices.Marshal.PtrToStringAnsi(System.IntPtr,System.Int32)\" data-throw-if-not-resolved=\"false\"></xref> to convert the unmanaged memory block containing the copied ANSI string to a managed Unicode <xref href=\"System.String\" data-throw-if-not-resolved=\"false\"></xref> object. </p>\n</li><li>\n<p>After displaying the original and reversed strings, all examples call the <xref href=\"System.Runtime.InteropServices.Marshal.FreeHGlobal(System.IntPtr)\" data-throw-if-not-resolved=\"false\"></xref> method to free the memory allocated for the unmanaged ANSI string and the unmanaged block of memory. </p>\n</li></ol>System.IntPtr#1"
   syntax:
     content: >-
-      [StructLayout(LayoutKind.Sequential)]
+      [Serializable]
 
-      public struct IntPtr
+      [ComVisible(true)]
+
+      public struct IntPtr : ISerializable
     content.vb: >-
-      <StructLayout(LayoutKind.Sequential)>
+      <Serializable>
+
+      <ComVisible(True)>
 
       Public Structure IntPtr
+          Implements ISerializable
   seealso:
   - type: System.UIntPtr
     commentId: T:System.UIntPtr
   inheritedMembers:
   - System.Object.Equals(System.Object,System.Object)
-  - System.Object.GetType
   - System.Object.ReferenceEquals(System.Object,System.Object)
+  - System.Object.GetType
   attributes:
   - type: System.Runtime.InteropServices.StructLayoutAttribute
     ctor: System.Runtime.InteropServices.StructLayoutAttribute.#ctor(System.Runtime.InteropServices.LayoutKind)
@@ -89,12 +94,12 @@ items:
   type: Field
   source:
     remote:
-      path: src/System.Runtime/ref/System.Runtime.cs
+      path: src/mscorlib/src/System/IntPtr.cs
       branch: master
-      repo: https://github.com/dotnet/corefx.git
+      repo: https://github.com/dotnet/coreclr.git
     id: Zero
-    path: src/System.Runtime/ref/System.Runtime.cs
-    startLine: 1131
+    path: src/mscorlib/src/System/IntPtr.cs
+    startLine: 31
   assemblies:
   - System.Runtime
   namespace: System
@@ -125,23 +130,36 @@ items:
   type: Constructor
   source:
     remote:
-      path: src/System.Runtime/ref/System.Runtime.cs
+      path: src/mscorlib/src/System/IntPtr.cs
       branch: master
-      repo: https://github.com/dotnet/corefx.git
+      repo: https://github.com/dotnet/coreclr.git
     id: .ctor
-    path: src/System.Runtime/ref/System.Runtime.cs
-    startLine: 1132
+    path: src/mscorlib/src/System/IntPtr.cs
+    startLine: 42
   assemblies:
   - System.Runtime
   namespace: System
   summary: "\n<p>Initializes a new instance of <xref href=\"System.IntPtr\" data-throw-if-not-resolved=\"false\"></xref> using the specified 32-bit pointer or handle.</p>\n"
   syntax:
-    content: public IntPtr(int value)
-    content.vb: Public Sub New(value As Integer)
+    content: >-
+      [SecuritySafeCritical]
+
+      [ReliabilityContract(Consistency.MayCorruptInstance, Cer.MayFail)]
+
+      [NonVersionable]
+
+      public IntPtr(int value)
+    content.vb: >-
+      <SecuritySafeCritical>
+
+      <ReliabilityContract(Consistency.MayCorruptInstance, Cer.MayFail)>
+
+      <NonVersionable>
+
+      Public Sub New(value As Integer)
     parameters:
     - id: value
       type: System.Int32
-      description: "\n<p>A pointer or handle contained in a 32-bit signed integer. </p>\n"
   modifiers.csharp:
   - public
   modifiers.vb:
@@ -158,24 +176,37 @@ items:
   type: Constructor
   source:
     remote:
-      path: src/System.Runtime/ref/System.Runtime.cs
+      path: src/mscorlib/src/System/IntPtr.cs
       branch: master
-      repo: https://github.com/dotnet/corefx.git
+      repo: https://github.com/dotnet/coreclr.git
     id: .ctor
-    path: src/System.Runtime/ref/System.Runtime.cs
-    startLine: 1133
+    path: src/mscorlib/src/System/IntPtr.cs
+    startLine: 54
   assemblies:
   - System.Runtime
   namespace: System
   summary: "\n<p>Initializes a new instance of <xref href=\"System.IntPtr\" data-throw-if-not-resolved=\"false\"></xref> using the specified 64-bit pointer.</p>\n"
   remarks: "\n<p>An exception is only thrown if the value of <em>value</em> requires more bits than the current platform supports.</p>\n"
   syntax:
-    content: public IntPtr(long value)
-    content.vb: Public Sub New(value As Long)
+    content: >-
+      [SecuritySafeCritical]
+
+      [ReliabilityContract(Consistency.MayCorruptInstance, Cer.MayFail)]
+
+      [NonVersionable]
+
+      public IntPtr(long value)
+    content.vb: >-
+      <SecuritySafeCritical>
+
+      <ReliabilityContract(Consistency.MayCorruptInstance, Cer.MayFail)>
+
+      <NonVersionable>
+
+      Public Sub New(value As Long)
     parameters:
     - id: value
       type: System.Int64
-      description: "\n<p>A pointer or handle contained in a 64-bit signed integer. </p>\n"
   exceptions:
   - type: System.OverflowException
     commentId: T:System.OverflowException
@@ -196,33 +227,40 @@ items:
   type: Constructor
   source:
     remote:
-      path: src/System.Runtime/ref/System.Runtime.cs
+      path: src/mscorlib/src/System/IntPtr.cs
       branch: master
-      repo: https://github.com/dotnet/corefx.git
+      repo: https://github.com/dotnet/coreclr.git
     id: .ctor
-    path: src/System.Runtime/ref/System.Runtime.cs
-    startLine: 1134
+    path: src/mscorlib/src/System/IntPtr.cs
+    startLine: 66
   assemblies:
   - System.Runtime
   namespace: System
   summary: "\n<p>Initializes a new instance of <xref href=\"System.IntPtr\" data-throw-if-not-resolved=\"false\"></xref> using the specified pointer to an unspecified type.</p>\n"
   syntax:
     content: >-
+      [SecurityCritical]
+
       [CLSCompliant(false)]
 
-      [SecurityCritical]
+      [ReliabilityContract(Consistency.MayCorruptInstance, Cer.MayFail)]
+
+      [NonVersionable]
 
       public IntPtr(void *value)
     content.vb: >-
+      <SecurityCritical>
+
       <CLSCompliant(False)>
 
-      <SecurityCritical>
+      <ReliabilityContract(Consistency.MayCorruptInstance, Cer.MayFail)>
+
+      <NonVersionable>
 
       Public Sub New(value As  *)
     parameters:
     - id: value
       type: System.Void*
-      description: "\n<p>A pointer to an unspecified type. </p>\n"
   seealso:
   - type: System.Void
     commentId: T:System.Void
@@ -254,23 +292,29 @@ items:
   type: Property
   source:
     remote:
-      path: src/System.Runtime/ref/System.Runtime.cs
+      path: src/mscorlib/src/System/IntPtr.cs
       branch: master
-      repo: https://github.com/dotnet/corefx.git
+      repo: https://github.com/dotnet/coreclr.git
     id: Size
-    path: src/System.Runtime/ref/System.Runtime.cs
-    startLine: 1137
+    path: src/mscorlib/src/System/IntPtr.cs
+    startLine: 271
   assemblies:
   - System.Runtime
   namespace: System
   summary: "\n<p>Gets the size of this instance.</p>\n"
   syntax:
-    content: public static int Size { get; }
+    content: >-
+      public static int Size
+
+      {
+          [ReliabilityContract(Consistency.WillNotCorruptState, Cer.Success)]
+          [NonVersionable]
+          get;
+      }
     content.vb: Public Shared ReadOnly Property Size As Integer
     parameters: []
     return:
       type: System.Int32
-      description: "\n<p>The size of a pointer or handle in this process, measured in bytes. The value of this property is 4 in a 32-bit process, and 8 in a 64-bit process. You can define the process type by setting the <strong>/platform</strong> switch when you compile your code with the C# and Visual Basic compilers.</p>\n"
   modifiers.csharp:
   - public
   - static
@@ -291,12 +335,12 @@ items:
   type: Method
   source:
     remote:
-      path: src/System.Runtime/ref/System.Runtime.cs
+      path: src/mscorlib/src/System/IntPtr.cs
       branch: master
-      repo: https://github.com/dotnet/corefx.git
+      repo: https://github.com/dotnet/coreclr.git
     id: Add
-    path: src/System.Runtime/ref/System.Runtime.cs
-    startLine: 1138
+    path: src/mscorlib/src/System/IntPtr.cs
+    startLine: 237
   assemblies:
   - System.Runtime
   namespace: System
@@ -305,18 +349,25 @@ items:
   example:
   - "\n<p>The following example instantiates an <xref href=\"System.IntPtr\" data-throw-if-not-resolved=\"false\"></xref> object that points to the beginning of a ten-element array, and then calls the <xref href=\"System.IntPtr.Add(System.IntPtr,System.Int32)\" data-throw-if-not-resolved=\"false\"></xref> method to iterate the elements in the array.</p>System.IntPtr.Add#1"
   syntax:
-    content: public static IntPtr Add(IntPtr pointer, int offset)
-    content.vb: Public Shared Function Add(pointer As IntPtr, offset As Integer) As IntPtr
+    content: >-
+      [ReliabilityContract(Consistency.MayCorruptInstance, Cer.MayFail)]
+
+      [NonVersionable]
+
+      public static IntPtr Add(IntPtr pointer, int offset)
+    content.vb: >-
+      <ReliabilityContract(Consistency.MayCorruptInstance, Cer.MayFail)>
+
+      <NonVersionable>
+
+      Public Shared Function Add(pointer As IntPtr, offset As Integer) As IntPtr
     parameters:
     - id: pointer
       type: System.IntPtr
-      description: "\n<p>The pointer to add the offset to.</p>\n"
     - id: offset
       type: System.Int32
-      description: "\n<p>The offset to add.</p>\n"
     return:
       type: System.IntPtr
-      description: "\n<p>A new pointer that reflects the addition of <em>offset</em> to <em>pointer</em>.</p>\n"
   seealso:
   - type: System.IntPtr.op_Addition(System.IntPtr,System.Int32)
     commentId: M:System.IntPtr.op_Addition(System.IntPtr,System.Int32)
@@ -338,26 +389,30 @@ items:
   type: Method
   source:
     remote:
-      path: src/System.Runtime/ref/System.Runtime.cs
+      path: src/mscorlib/src/System/IntPtr.cs
       branch: master
-      repo: https://github.com/dotnet/corefx.git
+      repo: https://github.com/dotnet/coreclr.git
     id: Equals
-    path: src/System.Runtime/ref/System.Runtime.cs
-    startLine: 1139
+    path: src/mscorlib/src/System/IntPtr.cs
+    startLine: 101
   assemblies:
   - System.Runtime
   namespace: System
   summary: "\n<p>Returns a value indicating whether this instance is equal to a specified object.</p>\n"
   syntax:
-    content: public override bool Equals(object obj)
-    content.vb: Public Overrides Function Equals(obj As Object) As Boolean
+    content: >-
+      [SecuritySafeCritical]
+
+      public override bool Equals(object obj)
+    content.vb: >-
+      <SecuritySafeCritical>
+
+      Public Overrides Function Equals(obj As Object) As Boolean
     parameters:
     - id: obj
       type: System.Object
-      description: "\n<p>An object to compare with this instance or <strong>null</strong>. </p>\n"
     return:
       type: System.Boolean
-      description: "\n<p>\n<strong>true</strong> if <em>obj</em> is an instance of <xref href=\"System.IntPtr\" data-throw-if-not-resolved=\"false\"></xref> and equals the value of this instance; otherwise, <strong>false</strong>.</p>\n"
   overridden: System.ValueType.Equals(System.Object)
   modifiers.csharp:
   - public
@@ -377,22 +432,27 @@ items:
   type: Method
   source:
     remote:
-      path: src/System.Runtime/ref/System.Runtime.cs
+      path: src/mscorlib/src/System/IntPtr.cs
       branch: master
-      repo: https://github.com/dotnet/corefx.git
+      repo: https://github.com/dotnet/coreclr.git
     id: GetHashCode
-    path: src/System.Runtime/ref/System.Runtime.cs
-    startLine: 1140
+    path: src/mscorlib/src/System/IntPtr.cs
+    startLine: 109
   assemblies:
   - System.Runtime
   namespace: System
   summary: "\n<p>Returns the hash code for this instance.</p>\n"
   syntax:
-    content: public override int GetHashCode()
-    content.vb: Public Overrides Function GetHashCode As Integer
+    content: >-
+      [SecuritySafeCritical]
+
+      public override int GetHashCode()
+    content.vb: >-
+      <SecuritySafeCritical>
+
+      Public Overrides Function GetHashCode As Integer
     return:
       type: System.Int32
-      description: "\n<p>A 32-bit signed integer hash code.</p>\n"
   overridden: System.ValueType.GetHashCode
   modifiers.csharp:
   - public
@@ -412,12 +472,12 @@ items:
   type: Operator
   source:
     remote:
-      path: src/System.Runtime/ref/System.Runtime.cs
+      path: src/mscorlib/src/System/IntPtr.cs
       branch: master
-      repo: https://github.com/dotnet/corefx.git
+      repo: https://github.com/dotnet/coreclr.git
     id: op_Addition
-    path: src/System.Runtime/ref/System.Runtime.cs
-    startLine: 1141
+    path: src/mscorlib/src/System/IntPtr.cs
+    startLine: 244
   assemblies:
   - System.Runtime
   namespace: System
@@ -426,18 +486,25 @@ items:
   example:
   - 
   syntax:
-    content: public static IntPtr operator +(IntPtr pointer, int offset)
-    content.vb: Public Shared Operator +(pointer As IntPtr, offset As Integer) As IntPtr
+    content: >-
+      [ReliabilityContract(Consistency.MayCorruptInstance, Cer.MayFail)]
+
+      [NonVersionable]
+
+      public static IntPtr operator +(IntPtr pointer, int offset)
+    content.vb: >-
+      <ReliabilityContract(Consistency.MayCorruptInstance, Cer.MayFail)>
+
+      <NonVersionable>
+
+      Public Shared Operator +(pointer As IntPtr, offset As Integer) As IntPtr
     parameters:
     - id: pointer
       type: System.IntPtr
-      description: "\n<p>The pointer to add the offset to.</p>\n"
     - id: offset
       type: System.Int32
-      description: "\n<p>The offset to add.</p>\n"
     return:
       type: System.IntPtr
-      description: "\n<p>A new pointer that reflects the addition of <em>offset</em> to <em>pointer</em>.</p>\n"
   seealso:
   - type: System.IntPtr.Add(System.IntPtr,System.Int32)
     commentId: M:System.IntPtr.Add(System.IntPtr,System.Int32)
@@ -459,29 +526,40 @@ items:
   type: Operator
   source:
     remote:
-      path: src/System.Runtime/ref/System.Runtime.cs
+      path: src/mscorlib/src/System/IntPtr.cs
       branch: master
-      repo: https://github.com/dotnet/corefx.git
+      repo: https://github.com/dotnet/coreclr.git
     id: op_Equality
-    path: src/System.Runtime/ref/System.Runtime.cs
-    startLine: 1142
+    path: src/mscorlib/src/System/IntPtr.cs
+    startLine: 221
   assemblies:
   - System.Runtime
   namespace: System
   summary: "\n<p>Determines whether two specified instances of <xref href=\"System.IntPtr\" data-throw-if-not-resolved=\"false\"></xref> are equal.</p>\n"
   syntax:
-    content: public static bool operator ==(IntPtr value1, IntPtr value2)
-    content.vb: Public Shared Operator =(value1 As IntPtr, value2 As IntPtr) As Boolean
+    content: >-
+      [SecuritySafeCritical]
+
+      [ReliabilityContract(Consistency.WillNotCorruptState, Cer.Success)]
+
+      [NonVersionable]
+
+      public static bool operator ==(IntPtr value1, IntPtr value2)
+    content.vb: >-
+      <SecuritySafeCritical>
+
+      <ReliabilityContract(Consistency.WillNotCorruptState, Cer.Success)>
+
+      <NonVersionable>
+
+      Public Shared Operator =(value1 As IntPtr, value2 As IntPtr) As Boolean
     parameters:
     - id: value1
       type: System.IntPtr
-      description: "\n<p>The first pointer or handle to compare.</p>\n"
     - id: value2
       type: System.IntPtr
-      description: "\n<p>The second pointer or handle to compare.</p>\n"
     return:
       type: System.Boolean
-      description: "\n<p>\n<strong>true</strong> if <em>value1</em> equals <em>value2</em>; otherwise, <strong>false</strong>.</p>\n"
   modifiers.csharp:
   - public
   - static
@@ -500,26 +578,34 @@ items:
   type: Operator
   source:
     remote:
-      path: src/System.Runtime/ref/System.Runtime.cs
+      path: src/mscorlib/src/System/IntPtr.cs
       branch: master
-      repo: https://github.com/dotnet/corefx.git
+      repo: https://github.com/dotnet/coreclr.git
     id: op_Explicit
-    path: src/System.Runtime/ref/System.Runtime.cs
-    startLine: 1143
+    path: src/mscorlib/src/System/IntPtr.cs
+    startLine: 168
   assemblies:
   - System.Runtime
   namespace: System
   summary: "\n<p>Converts the value of a 32-bit signed integer to an <xref href=\"System.IntPtr\" data-throw-if-not-resolved=\"false\"></xref>.</p>\n"
   syntax:
-    content: public static explicit operator IntPtr(int value)
-    content.vb: Public Shared Narrowing Operator CType(value As Integer) As IntPtr
+    content: >-
+      [ReliabilityContract(Consistency.MayCorruptInstance, Cer.MayFail)]
+
+      [NonVersionable]
+
+      public static explicit operator IntPtr(int value)
+    content.vb: >-
+      <ReliabilityContract(Consistency.MayCorruptInstance, Cer.MayFail)>
+
+      <NonVersionable>
+
+      Public Shared Narrowing Operator CType(value As Integer) As IntPtr
     parameters:
     - id: value
       type: System.Int32
-      description: "\n<p>A 32-bit signed integer. </p>\n"
     return:
       type: System.IntPtr
-      description: "\n<p>A new instance of <xref href=\"System.IntPtr\" data-throw-if-not-resolved=\"false\"></xref> initialized to <em>value</em>.</p>\n"
   modifiers.csharp:
   - public
   - static
@@ -540,26 +626,34 @@ items:
   type: Operator
   source:
     remote:
-      path: src/System.Runtime/ref/System.Runtime.cs
+      path: src/mscorlib/src/System/IntPtr.cs
       branch: master
-      repo: https://github.com/dotnet/corefx.git
+      repo: https://github.com/dotnet/coreclr.git
     id: op_Explicit
-    path: src/System.Runtime/ref/System.Runtime.cs
-    startLine: 1144
+    path: src/mscorlib/src/System/IntPtr.cs
+    startLine: 175
   assemblies:
   - System.Runtime
   namespace: System
   summary: "\n<p>Converts the value of a 64-bit signed integer to an <xref href=\"System.IntPtr\" data-throw-if-not-resolved=\"false\"></xref>.</p>\n"
   syntax:
-    content: public static explicit operator IntPtr(long value)
-    content.vb: Public Shared Narrowing Operator CType(value As Long) As IntPtr
+    content: >-
+      [ReliabilityContract(Consistency.MayCorruptInstance, Cer.MayFail)]
+
+      [NonVersionable]
+
+      public static explicit operator IntPtr(long value)
+    content.vb: >-
+      <ReliabilityContract(Consistency.MayCorruptInstance, Cer.MayFail)>
+
+      <NonVersionable>
+
+      Public Shared Narrowing Operator CType(value As Long) As IntPtr
     parameters:
     - id: value
       type: System.Int64
-      description: "\n<p>A 64-bit signed integer. </p>\n"
     return:
       type: System.IntPtr
-      description: "\n<p>A new instance of <xref href=\"System.IntPtr\" data-throw-if-not-resolved=\"false\"></xref> initialized to <em>value</em>.</p>\n"
   exceptions:
   - type: System.OverflowException
     commentId: T:System.OverflowException
@@ -584,27 +678,35 @@ items:
   type: Operator
   source:
     remote:
-      path: src/System.Runtime/ref/System.Runtime.cs
+      path: src/mscorlib/src/System/IntPtr.cs
       branch: master
-      repo: https://github.com/dotnet/corefx.git
+      repo: https://github.com/dotnet/coreclr.git
     id: op_Explicit
-    path: src/System.Runtime/ref/System.Runtime.cs
-    startLine: 1145
+    path: src/mscorlib/src/System/IntPtr.cs
+    startLine: 198
   assemblies:
   - System.Runtime
   namespace: System
   summary: "\n<p>Converts the value of the specified <xref href=\"System.IntPtr\" data-throw-if-not-resolved=\"false\"></xref> to a 32-bit signed integer.</p>\n"
   remarks: "\n<p>An exception is only thrown if the value of <em>value</em> requires more bits than the current platform supports.</p>\n"
   syntax:
-    content: public static explicit operator int (IntPtr value)
-    content.vb: Public Shared Narrowing Operator CType(value As IntPtr) As Integer
+    content: >-
+      [SecuritySafeCritical]
+
+      [NonVersionable]
+
+      public static explicit operator int (IntPtr value)
+    content.vb: >-
+      <SecuritySafeCritical>
+
+      <NonVersionable>
+
+      Public Shared Narrowing Operator CType(value As IntPtr) As Integer
     parameters:
     - id: value
       type: System.IntPtr
-      description: "\n<p>The pointer or handle to convert.</p>\n"
     return:
       type: System.Int32
-      description: "\n<p>The contents of <em>value</em>.</p>\n"
   exceptions:
   - type: System.OverflowException
     commentId: T:System.OverflowException
@@ -632,26 +734,34 @@ items:
   type: Operator
   source:
     remote:
-      path: src/System.Runtime/ref/System.Runtime.cs
+      path: src/mscorlib/src/System/IntPtr.cs
       branch: master
-      repo: https://github.com/dotnet/corefx.git
+      repo: https://github.com/dotnet/coreclr.git
     id: op_Explicit
-    path: src/System.Runtime/ref/System.Runtime.cs
-    startLine: 1146
+    path: src/mscorlib/src/System/IntPtr.cs
+    startLine: 210
   assemblies:
   - System.Runtime
   namespace: System
   summary: "\n<p>Converts the value of the specified <xref href=\"System.IntPtr\" data-throw-if-not-resolved=\"false\"></xref> to a 64-bit signed integer.</p>\n"
   syntax:
-    content: public static explicit operator long (IntPtr value)
-    content.vb: Public Shared Narrowing Operator CType(value As IntPtr) As Long
+    content: >-
+      [SecuritySafeCritical]
+
+      [NonVersionable]
+
+      public static explicit operator long (IntPtr value)
+    content.vb: >-
+      <SecuritySafeCritical>
+
+      <NonVersionable>
+
+      Public Shared Narrowing Operator CType(value As IntPtr) As Long
     parameters:
     - id: value
       type: System.IntPtr
-      description: "\n<p>The pointer or handle to convert.</p>\n"
     return:
       type: System.Int64
-      description: "\n<p>The contents of <em>value</em>.</p>\n"
   seealso:
   - type: System.IntPtr.ToInt64
     commentId: M:System.IntPtr.ToInt64
@@ -675,29 +785,31 @@ items:
   type: Operator
   source:
     remote:
-      path: src/System.Runtime/ref/System.Runtime.cs
+      path: src/mscorlib/src/System/IntPtr.cs
       branch: master
-      repo: https://github.com/dotnet/corefx.git
+      repo: https://github.com/dotnet/coreclr.git
     id: op_Explicit
-    path: src/System.Runtime/ref/System.Runtime.cs
-    startLine: 1147
+    path: src/mscorlib/src/System/IntPtr.cs
+    startLine: 190
   assemblies:
   - System.Runtime
   namespace: System
   summary: "\n<p>Converts the value of the specified <xref href=\"System.IntPtr\" data-throw-if-not-resolved=\"false\"></xref> to a pointer to an unspecified type.</p>\n"
   syntax:
     content: >-
+      [SecuritySafeCritical]
+
       [CLSCompliant(false)]
 
+      [NonVersionable]
+
       public static explicit operator void *(IntPtr value)
-    content.vb: "<CLSCompliant(False)>\nPublic Shared Narrowing Operator CType(value As IntPtr) As "
+    content.vb: "<SecuritySafeCritical>\n<CLSCompliant(False)>\n<NonVersionable>\nPublic Shared Narrowing Operator CType(value As IntPtr) As "
     parameters:
     - id: value
       type: System.IntPtr
-      description: "\n<p>The pointer or handle to convert. </p>\n"
     return:
       type: System.Void*
-      description: "\n<p>The contents of <em>value</em>.</p>\n"
   seealso:
   - type: System.IntPtr.ToPointer
     commentId: M:System.IntPtr.ToPointer
@@ -727,36 +839,42 @@ items:
   type: Operator
   source:
     remote:
-      path: src/System.Runtime/ref/System.Runtime.cs
+      path: src/mscorlib/src/System/IntPtr.cs
       branch: master
-      repo: https://github.com/dotnet/corefx.git
+      repo: https://github.com/dotnet/coreclr.git
     id: op_Explicit
-    path: src/System.Runtime/ref/System.Runtime.cs
-    startLine: 1149
+    path: src/mscorlib/src/System/IntPtr.cs
+    startLine: 182
   assemblies:
   - System.Runtime
   namespace: System
   summary: "\n<p>Converts the specified pointer to an unspecified type to an <xref href=\"System.IntPtr\" data-throw-if-not-resolved=\"false\"></xref>.</p>\n"
   syntax:
     content: >-
+      [SecurityCritical]
+
       [CLSCompliant(false)]
 
-      [SecurityCritical]
+      [ReliabilityContract(Consistency.MayCorruptInstance, Cer.MayFail)]
+
+      [NonVersionable]
 
       public static explicit operator IntPtr(void *value)
     content.vb: >-
+      <SecurityCritical>
+
       <CLSCompliant(False)>
 
-      <SecurityCritical>
+      <ReliabilityContract(Consistency.MayCorruptInstance, Cer.MayFail)>
+
+      <NonVersionable>
 
       Public Shared Narrowing Operator CType(value As  *) As IntPtr
     parameters:
     - id: value
       type: System.Void*
-      description: "\n<p>A pointer to an unspecified type. </p>\n"
     return:
       type: System.IntPtr
-      description: "\n<p>A new instance of <xref href=\"System.IntPtr\" data-throw-if-not-resolved=\"false\"></xref> initialized to <em>value</em>.</p>\n"
   see:
   - type: System.Security.SecurityCriticalAttribute
     commentId: T:System.Security.SecurityCriticalAttribute
@@ -789,29 +907,40 @@ items:
   type: Operator
   source:
     remote:
-      path: src/System.Runtime/ref/System.Runtime.cs
+      path: src/mscorlib/src/System/IntPtr.cs
       branch: master
-      repo: https://github.com/dotnet/corefx.git
+      repo: https://github.com/dotnet/coreclr.git
     id: op_Inequality
-    path: src/System.Runtime/ref/System.Runtime.cs
-    startLine: 1152
+    path: src/mscorlib/src/System/IntPtr.cs
+    startLine: 229
   assemblies:
   - System.Runtime
   namespace: System
   summary: "\n<p>Determines whether two specified instances of <xref href=\"System.IntPtr\" data-throw-if-not-resolved=\"false\"></xref> are not equal.</p>\n"
   syntax:
-    content: public static bool operator !=(IntPtr value1, IntPtr value2)
-    content.vb: Public Shared Operator <>(value1 As IntPtr, value2 As IntPtr) As Boolean
+    content: >-
+      [SecuritySafeCritical]
+
+      [ReliabilityContract(Consistency.WillNotCorruptState, Cer.Success)]
+
+      [NonVersionable]
+
+      public static bool operator !=(IntPtr value1, IntPtr value2)
+    content.vb: >-
+      <SecuritySafeCritical>
+
+      <ReliabilityContract(Consistency.WillNotCorruptState, Cer.Success)>
+
+      <NonVersionable>
+
+      Public Shared Operator <>(value1 As IntPtr, value2 As IntPtr) As Boolean
     parameters:
     - id: value1
       type: System.IntPtr
-      description: "\n<p>The first pointer or handle to compare. </p>\n"
     - id: value2
       type: System.IntPtr
-      description: "\n<p>The second pointer or handle to compare. </p>\n"
     return:
       type: System.Boolean
-      description: "\n<p>\n<strong>true</strong> if <em>value1</em> does not equal <em>value2</em>; otherwise, <strong>false</strong>.</p>\n"
   modifiers.csharp:
   - public
   - static
@@ -830,12 +959,12 @@ items:
   type: Operator
   source:
     remote:
-      path: src/System.Runtime/ref/System.Runtime.cs
+      path: src/mscorlib/src/System/IntPtr.cs
       branch: master
-      repo: https://github.com/dotnet/corefx.git
+      repo: https://github.com/dotnet/coreclr.git
     id: op_Subtraction
-    path: src/System.Runtime/ref/System.Runtime.cs
-    startLine: 1153
+    path: src/mscorlib/src/System/IntPtr.cs
+    startLine: 261
   assemblies:
   - System.Runtime
   namespace: System
@@ -844,18 +973,25 @@ items:
   example:
   - 
   syntax:
-    content: public static IntPtr operator -(IntPtr pointer, int offset)
-    content.vb: Public Shared Operator -(pointer As IntPtr, offset As Integer) As IntPtr
+    content: >-
+      [ReliabilityContract(Consistency.MayCorruptInstance, Cer.MayFail)]
+
+      [NonVersionable]
+
+      public static IntPtr operator -(IntPtr pointer, int offset)
+    content.vb: >-
+      <ReliabilityContract(Consistency.MayCorruptInstance, Cer.MayFail)>
+
+      <NonVersionable>
+
+      Public Shared Operator -(pointer As IntPtr, offset As Integer) As IntPtr
     parameters:
     - id: pointer
       type: System.IntPtr
-      description: "\n<p>The pointer to subtract the offset from.</p>\n"
     - id: offset
       type: System.Int32
-      description: "\n<p>The offset to subtract.</p>\n"
     return:
       type: System.IntPtr
-      description: "\n<p>A new pointer that reflects the subtraction of <em>offset</em> from <em>pointer</em>.</p>\n"
   seealso:
   - type: System.IntPtr.Subtract(System.IntPtr,System.Int32)
     commentId: M:System.IntPtr.Subtract(System.IntPtr,System.Int32)
@@ -877,12 +1013,12 @@ items:
   type: Method
   source:
     remote:
-      path: src/System.Runtime/ref/System.Runtime.cs
+      path: src/mscorlib/src/System/IntPtr.cs
       branch: master
-      repo: https://github.com/dotnet/corefx.git
+      repo: https://github.com/dotnet/coreclr.git
     id: Subtract
-    path: src/System.Runtime/ref/System.Runtime.cs
-    startLine: 1154
+    path: src/mscorlib/src/System/IntPtr.cs
+    startLine: 255
   assemblies:
   - System.Runtime
   namespace: System
@@ -891,18 +1027,25 @@ items:
   example:
   - "\n<p>The following example instantiates an <xref href=\"System.IntPtr\" data-throw-if-not-resolved=\"false\"></xref> object that points to the end of a ten-element array, and then calls the <xref href=\"System.IntPtr.Subtract(System.IntPtr,System.Int32)\" data-throw-if-not-resolved=\"false\"></xref> method to iterate the elements in the array in reverse order. </p>System.IntPtr.Subtract#1"
   syntax:
-    content: public static IntPtr Subtract(IntPtr pointer, int offset)
-    content.vb: Public Shared Function Subtract(pointer As IntPtr, offset As Integer) As IntPtr
+    content: >-
+      [ReliabilityContract(Consistency.MayCorruptInstance, Cer.MayFail)]
+
+      [NonVersionable]
+
+      public static IntPtr Subtract(IntPtr pointer, int offset)
+    content.vb: >-
+      <ReliabilityContract(Consistency.MayCorruptInstance, Cer.MayFail)>
+
+      <NonVersionable>
+
+      Public Shared Function Subtract(pointer As IntPtr, offset As Integer) As IntPtr
     parameters:
     - id: pointer
       type: System.IntPtr
-      description: "\n<p>The pointer to subtract the offset from.</p>\n"
     - id: offset
       type: System.Int32
-      description: "\n<p>The offset to subtract.</p>\n"
     return:
       type: System.IntPtr
-      description: "\n<p>A new pointer that reflects the subtraction of <em>offset</em> from <em>pointer</em>.</p>\n"
   seealso:
   - type: System.IntPtr.op_Subtraction(System.IntPtr,System.Int32)
     commentId: M:System.IntPtr.op_Subtraction(System.IntPtr,System.Int32)
@@ -924,22 +1067,35 @@ items:
   type: Method
   source:
     remote:
-      path: src/System.Runtime/ref/System.Runtime.cs
+      path: src/mscorlib/src/System/IntPtr.cs
       branch: master
-      repo: https://github.com/dotnet/corefx.git
+      repo: https://github.com/dotnet/coreclr.git
     id: ToInt32
-    path: src/System.Runtime/ref/System.Runtime.cs
-    startLine: 1155
+    path: src/mscorlib/src/System/IntPtr.cs
+    startLine: 123
   assemblies:
   - System.Runtime
   namespace: System
   summary: "\n<p>Converts the value of this instance to a 32-bit signed integer.</p>\n"
   syntax:
-    content: public int ToInt32()
-    content.vb: Public Function ToInt32 As Integer
+    content: >-
+      [SecuritySafeCritical]
+
+      [ReliabilityContract(Consistency.WillNotCorruptState, Cer.Success)]
+
+      [NonVersionable]
+
+      public int ToInt32()
+    content.vb: >-
+      <SecuritySafeCritical>
+
+      <ReliabilityContract(Consistency.WillNotCorruptState, Cer.Success)>
+
+      <NonVersionable>
+
+      Public Function ToInt32 As Integer
     return:
       type: System.Int32
-      description: "\n<p>A 32-bit signed integer equal to the value of this instance.</p>\n"
   exceptions:
   - type: System.OverflowException
     commentId: T:System.OverflowException
@@ -960,22 +1116,35 @@ items:
   type: Method
   source:
     remote:
-      path: src/System.Runtime/ref/System.Runtime.cs
+      path: src/mscorlib/src/System/IntPtr.cs
       branch: master
-      repo: https://github.com/dotnet/corefx.git
+      repo: https://github.com/dotnet/coreclr.git
     id: ToInt64
-    path: src/System.Runtime/ref/System.Runtime.cs
-    startLine: 1156
+    path: src/mscorlib/src/System/IntPtr.cs
+    startLine: 135
   assemblies:
   - System.Runtime
   namespace: System
   summary: "\n<p>Converts the value of this instance to a 64-bit signed integer.</p>\n"
   syntax:
-    content: public long ToInt64()
-    content.vb: Public Function ToInt64 As Long
+    content: >-
+      [SecuritySafeCritical]
+
+      [ReliabilityContract(Consistency.WillNotCorruptState, Cer.Success)]
+
+      [NonVersionable]
+
+      public long ToInt64()
+    content.vb: >-
+      <SecuritySafeCritical>
+
+      <ReliabilityContract(Consistency.WillNotCorruptState, Cer.Success)>
+
+      <NonVersionable>
+
+      Public Function ToInt64 As Long
     return:
       type: System.Int64
-      description: "\n<p>A 64-bit signed integer equal to the value of this instance.</p>\n"
   modifiers.csharp:
   - public
   modifiers.vb:
@@ -992,12 +1161,12 @@ items:
   type: Method
   source:
     remote:
-      path: src/System.Runtime/ref/System.Runtime.cs
+      path: src/mscorlib/src/System/IntPtr.cs
       branch: master
-      repo: https://github.com/dotnet/corefx.git
+      repo: https://github.com/dotnet/coreclr.git
     id: ToPointer
-    path: src/System.Runtime/ref/System.Runtime.cs
-    startLine: 1157
+    path: src/mscorlib/src/System/IntPtr.cs
+    startLine: 287
   assemblies:
   - System.Runtime
   namespace: System
@@ -1006,13 +1175,18 @@ items:
   - "\n<p>The following example uses managed pointers to reverse the characters in an array. After it initializes a <xref href=\"System.String\" data-throw-if-not-resolved=\"false\"></xref> object and gets its length, it does the following: </p>\n<ul><li>\n<p>Calls the <xref href=\"System.Runtime.InteropServices.Marshal.StringToHGlobalAnsi(System.String)\" data-throw-if-not-resolved=\"false\"></xref> method to copy the Unicode string to unmanaged memory as ANSI (one-byte) characters. The method returns an <xref href=\"System.IntPtr\" data-throw-if-not-resolved=\"false\"></xref> object that points to the beginning of the unmanaged string. </p>\n</li><li>\n<p>Calls the <xref href=\"System.Runtime.InteropServices.Marshal.AllocHGlobal(System.Int32)\" data-throw-if-not-resolved=\"false\"></xref> method to allocate the same number of bytes as the unmanaged string occupies. The method returns an <xref href=\"System.IntPtr\" data-throw-if-not-resolved=\"false\"></xref> object that points to the beginning of the unmanaged block of memory. </p>\n</li><li>\n<p>Calls the <xref href=\"System.IntPtr.ToPointer\" data-throw-if-not-resolved=\"false\"></xref> method to get an unmanaged pointer to the starting address of the string and the unmanaged block of memory, and adds one less than the length of the string to the starting address of the ANSI string. Because the unmanaged string pointer now points to the end of the string, the copy operation will copy a character from the end of the string to the start of the memory block. </p>\n</li><li>\n<p>Uses a loop to copy each character from the string to the unmanaged block of memory. After each copy operation, it decrements the pointer to the address of the next location in the unmanaged ANSI string and increments the pointer to the next address in the unmanaged block.</p>\n</li><li>\n<p>Calls the <xref href=\"System.Runtime.InteropServices.Marshal.PtrToStringAnsi(System.IntPtr,System.Int32)\" data-throw-if-not-resolved=\"false\"></xref> to convert the unmanaged memory block containing the copied ANSI string to a managed Unicode <xref href=\"System.String\" data-throw-if-not-resolved=\"false\"></xref> object. </p>\n</li><li>\n<p>After displaying the original and reversed strings, calls the <xref href=\"System.Runtime.InteropServices.Marshal.FreeHGlobal(System.IntPtr)\" data-throw-if-not-resolved=\"false\"></xref> method to free the memory allocated for the unmanaged ANSI string and the unmanaged block of memory. </p>\n</li></ul>System.IntPtr.ToPointer#1"
   syntax:
     content: >-
+      [SecuritySafeCritical]
+
       [CLSCompliant(false)]
 
+      [ReliabilityContract(Consistency.WillNotCorruptState, Cer.Success)]
+
+      [NonVersionable]
+
       public void *ToPointer()
-    content.vb: "<CLSCompliant(False)>\nPublic Function ToPointer As "
+    content.vb: "<SecuritySafeCritical>\n<CLSCompliant(False)>\n<ReliabilityContract(Consistency.WillNotCorruptState, Cer.Success)>\n<NonVersionable>\nPublic Function ToPointer As "
     return:
       type: System.Void*
-      description: "\n<p>A pointer to <xref href=\"System.Void\" data-throw-if-not-resolved=\"false\"></xref>; that is, a pointer to memory containing data of an unspecified type.</p>\n"
   attributes:
   - type: System.CLSCompliantAttribute
     ctor: System.CLSCompliantAttribute.#ctor(System.Boolean)
@@ -1035,23 +1209,28 @@ items:
   type: Method
   source:
     remote:
-      path: src/System.Runtime/ref/System.Runtime.cs
+      path: src/mscorlib/src/System/IntPtr.cs
       branch: master
-      repo: https://github.com/dotnet/corefx.git
+      repo: https://github.com/dotnet/coreclr.git
     id: ToString
-    path: src/System.Runtime/ref/System.Runtime.cs
-    startLine: 1159
+    path: src/mscorlib/src/System/IntPtr.cs
+    startLine: 146
   assemblies:
   - System.Runtime
   namespace: System
   summary: "\n<p>Converts the numeric value of the current <xref href=\"System.IntPtr\" data-throw-if-not-resolved=\"false\"></xref> object to its equivalent string representation.</p>\n"
   remarks: "\n<p>If the value of the <xref href=\"System.IntPtr.Size\" data-throw-if-not-resolved=\"false\"></xref> property for this instance is 4, then this method is equivalent to <xref href=\"System.Int32.ToString\" data-throw-if-not-resolved=\"false\"></xref>; otherwise, this method is equivalent to <xref href=\"System.Int64.ToString\" data-throw-if-not-resolved=\"false\"></xref>.</p>\n"
   syntax:
-    content: public override string ToString()
-    content.vb: Public Overrides Function ToString As String
+    content: >-
+      [SecuritySafeCritical]
+
+      public override string ToString()
+    content.vb: >-
+      <SecuritySafeCritical>
+
+      Public Overrides Function ToString As String
     return:
       type: System.String
-      description: "\n<p>The string representation of the value of this instance.</p>\n"
   overridden: System.ValueType.ToString
   modifiers.csharp:
   - public
@@ -1071,27 +1250,31 @@ items:
   type: Method
   source:
     remote:
-      path: src/System.Runtime/ref/System.Runtime.cs
+      path: src/mscorlib/src/System/IntPtr.cs
       branch: master
-      repo: https://github.com/dotnet/corefx.git
+      repo: https://github.com/dotnet/coreclr.git
     id: ToString
-    path: src/System.Runtime/ref/System.Runtime.cs
-    startLine: 1160
+    path: src/mscorlib/src/System/IntPtr.cs
+    startLine: 155
   assemblies:
   - System.Runtime
   namespace: System
   summary: "\n<p>Converts the numeric value of the current <xref href=\"System.IntPtr\" data-throw-if-not-resolved=\"false\"></xref> object to its equivalent string representation.</p>\n"
   remarks: "\n<p>If the <em>format</em> parameter is <strong>null</strong> or an empty string (\"\"), the return value is formatted with the general format specifier (\"G\"). For more information about numeric format specifiers, see the Standard Numeric Format Strings topic. </p>\n<p>The return value is formatted using the invariant culture. </p>\n"
   syntax:
-    content: public string ToString(string format)
-    content.vb: Public Function ToString(format As String) As String
+    content: >-
+      [SecuritySafeCritical]
+
+      public string ToString(string format)
+    content.vb: >-
+      <SecuritySafeCritical>
+
+      Public Function ToString(format As String) As String
     parameters:
     - id: format
       type: System.String
-      description: "\n<p>A format specification that governs how the current <xref href=\"System.IntPtr\" data-throw-if-not-resolved=\"false\"></xref> object is converted. </p>\n"
     return:
       type: System.String
-      description: "\n<p>The string representation of the value of the current <xref href=\"System.IntPtr\" data-throw-if-not-resolved=\"false\"></xref> object.</p>\n"
   seealso:
   - type: System.Globalization.CultureInfo.InvariantCulture
     commentId: P:System.Globalization.CultureInfo.InvariantCulture
@@ -1106,97 +1289,111 @@ references:
   fullName: System
 - uid: System.Object.Equals(System.Object,System.Object)
   parent: System.Object
-  isExternal: false
+  isExternal: true
   name: Equals(Object, Object)
   fullName: System.Object.Equals(System.Object, System.Object)
   spec.csharp:
   - uid: System.Object.Equals(System.Object,System.Object)
     name: Equals
     fullName: System.Object.Equals
+    isExternal: true
   - name: (
     fullName: (
   - uid: System.Object
     name: Object
     fullName: System.Object
+    isExternal: true
   - name: ', '
     fullName: ', '
   - uid: System.Object
     name: Object
     fullName: System.Object
+    isExternal: true
   - name: )
     fullName: )
   spec.vb:
   - uid: System.Object.Equals(System.Object,System.Object)
     name: Equals
     fullName: System.Object.Equals
+    isExternal: true
   - name: (
     fullName: (
   - uid: System.Object
     name: Object
     fullName: System.Object
+    isExternal: true
   - name: ', '
     fullName: ', '
   - uid: System.Object
     name: Object
     fullName: System.Object
-  - name: )
-    fullName: )
-- uid: System.Object.GetType
-  parent: System.Object
-  isExternal: false
-  name: GetType()
-  fullName: System.Object.GetType()
-  spec.csharp:
-  - uid: System.Object.GetType
-    name: GetType
-    fullName: System.Object.GetType
-  - name: (
-    fullName: (
-  - name: )
-    fullName: )
-  spec.vb:
-  - uid: System.Object.GetType
-    name: GetType
-    fullName: System.Object.GetType
-  - name: (
-    fullName: (
+    isExternal: true
   - name: )
     fullName: )
 - uid: System.Object.ReferenceEquals(System.Object,System.Object)
   parent: System.Object
-  isExternal: false
+  isExternal: true
   name: ReferenceEquals(Object, Object)
   fullName: System.Object.ReferenceEquals(System.Object, System.Object)
   spec.csharp:
   - uid: System.Object.ReferenceEquals(System.Object,System.Object)
     name: ReferenceEquals
     fullName: System.Object.ReferenceEquals
+    isExternal: true
   - name: (
     fullName: (
   - uid: System.Object
     name: Object
     fullName: System.Object
+    isExternal: true
   - name: ', '
     fullName: ', '
   - uid: System.Object
     name: Object
     fullName: System.Object
+    isExternal: true
   - name: )
     fullName: )
   spec.vb:
   - uid: System.Object.ReferenceEquals(System.Object,System.Object)
     name: ReferenceEquals
     fullName: System.Object.ReferenceEquals
+    isExternal: true
   - name: (
     fullName: (
   - uid: System.Object
     name: Object
     fullName: System.Object
+    isExternal: true
   - name: ', '
     fullName: ', '
   - uid: System.Object
     name: Object
     fullName: System.Object
+    isExternal: true
+  - name: )
+    fullName: )
+- uid: System.Object.GetType
+  parent: System.Object
+  isExternal: true
+  name: GetType()
+  fullName: System.Object.GetType()
+  spec.csharp:
+  - uid: System.Object.GetType
+    name: GetType
+    fullName: System.Object.GetType
+    isExternal: true
+  - name: (
+    fullName: (
+  - name: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.GetType
+    name: GetType
+    fullName: System.Object.GetType
+    isExternal: true
+  - name: (
+    fullName: (
   - name: )
     fullName: )
 - uid: System.Object
@@ -1220,24 +1417,26 @@ references:
   name: Int64
   fullName: System.Int64
 - uid: System.Void*
-  isExternal: false
+  isExternal: true
   name: Void*
   fullName: System.Void*
   spec.csharp:
   - uid: System.Void
     name: Void
     fullName: System.Void
+    isExternal: true
   - name: '*'
     fullName: '*'
   spec.vb:
   - uid: System.Void
     name: Void
     fullName: System.Void
+    isExternal: true
   - name: '*'
     fullName: '*'
 - uid: System.ValueType.Equals(System.Object)
   parent: System.ValueType
-  isExternal: false
+  isExternal: true
   name: Equals(Object)
   fullName: System.ValueType.Equals(System.Object)
   spec.csharp:
@@ -1249,6 +1448,7 @@ references:
   - uid: System.Object
     name: Object
     fullName: System.Object
+    isExternal: true
   - name: )
     fullName: )
   spec.vb:
@@ -1260,6 +1460,7 @@ references:
   - uid: System.Object
     name: Object
     fullName: System.Object
+    isExternal: true
   - name: )
     fullName: )
 - uid: System.Boolean

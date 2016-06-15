@@ -27,13 +27,25 @@ items:
   assemblies:
   - System.Xml.XDocument
   namespace: System.Xml.Linq
+  summary: "\n<p>Represents an XML declaration.</p>\n"
+  remarks: "\n<p>An XML declaration is used to declare the XML version, the encoding, and whether or not the XML document is standalone. This class represents the XML concept of an XML declaration. </p>\n<p>Just as in the XML standard, declarations are associated with a document. When you create a document, you have the option to specify the declaration for the document. The <xref href=\"System.Xml.Linq.XDocument\" data-throw-if-not-resolved=\"false\"></xref> class contains the <xref href=\"System.Xml.Linq.XDocument.Declaration\" data-throw-if-not-resolved=\"false\"></xref> property, which allows you to set or get the declaration. For information about how to serialize an XML tree with an XML declaration, see Serializing with an XML Declaration. </p>\n"
+  example:
+  - 
   syntax:
-    content: 'public class XDeclaration : object'
-    content.vb: >-
-      Public Class XDeclaration
-          Inherits Object
+    content: public class XDeclaration
+    content.vb: Public Class XDeclaration
+  seealso:
+  - type: System.Xml.Linq.XDocument.Declaration
+    commentId: P:System.Xml.Linq.XDocument.Declaration
   inheritance:
   - System.Object
+  inheritedMembers:
+  - System.Object.Equals(System.Object)
+  - System.Object.Equals(System.Object,System.Object)
+  - System.Object.ReferenceEquals(System.Object,System.Object)
+  - System.Object.GetHashCode
+  - System.Object.GetType
+  - System.Object.MemberwiseClone
   modifiers.csharp:
   - public
   - class
@@ -61,16 +73,25 @@ items:
   assemblies:
   - System.Xml.XDocument
   namespace: System.Xml.Linq
+  summary: "\n<p>Initializes a new instance of the <xref href=\"System.Xml.Linq.XDeclaration\" data-throw-if-not-resolved=\"false\"></xref> class with the specified version, encoding, and standalone status.</p>\n"
+  example:
+  - "\n<p>The following example creates a document that contains a declaration.</p>\n<pre><code class=\"c#\">XDocument doc = new XDocument(\nnew XDeclaration(\"1.0\", \"utf-8\", \"yes\"),\nnew XComment(\"This is a comment\"),\nnew XElement(\"Root\", \"content\")\n);\ndoc.Save(\"Root.xml\");\n\nConsole.WriteLine(File.ReadAllText(\"Root.xml\"));</code></pre>\n<pre><code class=\"vb\">Dim doc As XDocument = _ \n<?xml version=\"1.0\" encoding=\"utf-8\" standalone=\"yes\"?>\n    <!--This is a comment-->\n    <Root>content</Root>\n\ndoc.Save(\"Root.xml\")\n\nConsole.WriteLine(File.ReadAllText(\"Root.xml\"))</code></pre>\n<p>This example produces the following output:</p>\n<pre><code class=\"xml\"><?xml version=\"1.0\" encoding=\"utf-8\" standalone=\"yes\"?>\n<!--This is a comment-->\n<Root>content</Root></code></pre>\n"
   syntax:
     content: public XDeclaration(string version, string encoding, string standalone)
     content.vb: Public Sub New(version As String, encoding As String, standalone As String)
     parameters:
     - id: version
       type: System.String
+      description: "\n<p>The version of the XML, usually \"1.0\".</p>\n"
     - id: encoding
       type: System.String
+      description: "\n<p>The encoding for the XML document.</p>\n"
     - id: standalone
       type: System.String
+      description: "\n<p>A string containing \"yes\" or \"no\" that specifies whether the XML is standalone or requires external entities to be resolved.</p>\n"
+  seealso:
+  - type: System.Xml.Linq.XDeclaration.ToString
+    commentId: M:System.Xml.Linq.XDeclaration.ToString
   modifiers.csharp:
   - public
   modifiers.vb:
@@ -96,12 +117,20 @@ items:
   assemblies:
   - System.Xml.XDocument
   namespace: System.Xml.Linq
+  summary: "\n<p>Initializes a new instance of the <xref href=\"System.Xml.Linq.XDeclaration\" data-throw-if-not-resolved=\"false\"></xref> class from another <xref href=\"System.Xml.Linq.XDeclaration\" data-throw-if-not-resolved=\"false\"></xref> object. </p>\n"
+  remarks: "\n<p>This constructor is primarily used internally to make a deep copy of an XML tree.</p>\n"
+  example:
+  - 
   syntax:
     content: public XDeclaration(XDeclaration other)
     content.vb: Public Sub New(other As XDeclaration)
     parameters:
     - id: other
       type: System.Xml.Linq.XDeclaration
+      description: "\n<p>The <xref href=\"System.Xml.Linq.XDeclaration\" data-throw-if-not-resolved=\"false\"></xref> used to initialize this <xref href=\"System.Xml.Linq.XDeclaration\" data-throw-if-not-resolved=\"false\"></xref> object.</p>\n"
+  seealso:
+  - type: System.Xml.Linq.XDeclaration.ToString
+    commentId: M:System.Xml.Linq.XDeclaration.ToString
   modifiers.csharp:
   - public
   modifiers.vb:
@@ -127,12 +156,20 @@ items:
   assemblies:
   - System.Xml.XDocument
   namespace: System.Xml.Linq
+  summary: "\n<p>Gets or sets the encoding for this document.</p>\n"
+  remarks: "\n<p>Any value returned by <xref href=\"System.Text.Encoding.WebName\" data-throw-if-not-resolved=\"false\"></xref> is a valid value.</p>\n<p>If you read an encoded document, then this property will be set to the code page name.</p>\n<p>If you set this property to a valid code page name, then when serializing, LINQ to XML will serialize with the specified encoding.</p>\n"
+  example:
+  - "\n<p>The following example creates two documents, one with utf-8 encoding, and one with utf-16 encoding. It then loads the documents and prints the encoding to the console.</p>\n<pre><code class=\"c#\">Console.WriteLine(\"Creating a document with utf-8 encoding\");\nXDocument encodedDoc8 = new XDocument(\nnew XDeclaration(\"1.0\", \"utf-8\", \"yes\"),\nnew XElement(\"Root\", \"Content\")\n);\nencodedDoc8.Save(\"EncodedUtf8.xml\");\nConsole.WriteLine(\"Encoding is:{0}\", encodedDoc8.Declaration.Encoding);\nConsole.WriteLine();\n\nConsole.WriteLine(\"Creating a document with utf-16 encoding\");\nXDocument encodedDoc16 = new XDocument(\nnew XDeclaration(\"1.0\", \"utf-16\", \"yes\"),\nnew XElement(\"Root\", \"Content\")\n);\nencodedDoc16.Save(\"EncodedUtf16.xml\");\nConsole.WriteLine(\"Encoding is:{0}\", encodedDoc16.Declaration.Encoding);\nConsole.WriteLine();\n\nXDocument newDoc8 = XDocument.Load(\"EncodedUtf8.xml\");\nConsole.WriteLine(\"Encoded document:\");\nConsole.WriteLine(File.ReadAllText(\"EncodedUtf8.xml\"));\nConsole.WriteLine();\nConsole.WriteLine(\"Encoding of loaded document is:{0}\", newDoc8.Declaration.Encoding);\nConsole.WriteLine();\n\nXDocument newDoc16 = XDocument.Load(\"EncodedUtf16.xml\");\nConsole.WriteLine(\"Encoded document:\");\nConsole.WriteLine(File.ReadAllText(\"EncodedUtf16.xml\"));\nConsole.WriteLine();\nConsole.WriteLine(\"Encoding of loaded document is:{0}\", newDoc16.Declaration.Encoding);</code></pre>\n<pre><code class=\"vb\">Console.WriteLine(\"Creating a document with utf-8 encoding\")\nDim encodedDoc8 As XDocument = _ \n<?xml version=\"1.0\" encoding=\"utf-8\" standalone=\"yes\"?>\n    <Root>Content</Root>\nencodedDoc8.Save(\"EncodedUtf8.xml\")\nConsole.WriteLine(\"Encoding is:{0}\", encodedDoc8.Declaration.Encoding)\nConsole.WriteLine()\n\nConsole.WriteLine(\"Creating a document with utf-16 encoding\")\nDim encodedDoc16 As XDocument = _ \n<?xml version=\"1.0\" encoding=\"utf-16\" standalone=\"yes\"?>\n    <Root>Content</Root>\n\nencodedDoc16.Save(\"EncodedUtf16.xml\")\nConsole.WriteLine(\"Encoding is:{0}\", encodedDoc16.Declaration.Encoding)\nConsole.WriteLine()\n\nDim newDoc8 As XDocument = XDocument.Load(\"EncodedUtf8.xml\")\nConsole.WriteLine(\"Encoded document:\")\nConsole.WriteLine(File.ReadAllText(\"EncodedUtf8.xml\"))\nConsole.WriteLine()\nConsole.WriteLine(\"Encoding of loaded document is:{0}\", newDoc8.Declaration.Encoding)\nConsole.WriteLine()\n\nDim newDoc16 As XDocument = XDocument.Load(\"EncodedUtf16.xml\")\nConsole.WriteLine(\"Encoded document:\")\nConsole.WriteLine(File.ReadAllText(\"EncodedUtf16.xml\"))\nConsole.WriteLine()\nConsole.WriteLine(\"Encoding of loaded document is:{0}\", newDoc16.Declaration.Encoding)</code></pre>\n<p>This example produces the following output:</p>\n<pre><code>Creating a document with utf-8 encoding\nEncoding is:utf-8\n\nCreating a document with utf-16 encoding\nEncoding is:utf-16\n\nEncoded document:\n<?xml version=\"1.0\" encoding=\"utf-8\" standalone=\"yes\"?>\n<Root>Content</Root>\n\nEncoding of loaded document is:utf-8\n\nEncoded document:\n<?xml version=\"1.0\" encoding=\"utf-16\" standalone=\"yes\"?>\n<Root>Content</Root>\n\nEncoding of loaded document is:utf-16</code></pre>\n"
   syntax:
     content: public string Encoding { get; set; }
     content.vb: Public Property Encoding As String
     parameters: []
     return:
       type: System.String
+      description: "\n<p>A <xref href=\"System.String\" data-throw-if-not-resolved=\"false\"></xref> containing the code page name for this document.</p>\n"
+  seealso:
+  - type: System.Xml.Linq.XDeclaration.ToString
+    commentId: M:System.Xml.Linq.XDeclaration.ToString
   modifiers.csharp:
   - public
   - get
@@ -160,12 +197,20 @@ items:
   assemblies:
   - System.Xml.XDocument
   namespace: System.Xml.Linq
+  summary: "\n<p>Gets or sets the standalone property for this document.</p>\n"
+  remarks: "\n<p>The valid values for standalone are \"yes\" or \"no\". These values are not enforced.</p>\n"
+  example:
+  - "\n<p>The following example uses this property to print the standalone property of a declaration.</p>\n<pre><code class=\"c#\">XDeclaration xd = new XDeclaration(\"1.0\", \"utf-8\", \"yes\");\nConsole.WriteLine(xd.Version);\nConsole.WriteLine(xd.Encoding);\nConsole.WriteLine(xd.Standalone);</code></pre>\n<pre><code class=\"vb\">Dim xd As XDeclaration = New XDeclaration(\"1.0\", \"utf-8\", \"yes\")\nConsole.WriteLine(xd.Version)\nConsole.WriteLine(xd.Encoding)\nConsole.WriteLine(xd.Standalone)</code></pre>\n<p>This example produces the following output:</p>\n<pre><code>1.0\nutf-8\nyes</code></pre>\n"
   syntax:
     content: public string Standalone { get; set; }
     content.vb: Public Property Standalone As String
     parameters: []
     return:
       type: System.String
+      description: "\n<p>A <xref href=\"System.String\" data-throw-if-not-resolved=\"false\"></xref> containing the standalone property for this document.</p>\n"
+  seealso:
+  - type: System.Xml.Linq.XDeclaration.Version
+    commentId: P:System.Xml.Linq.XDeclaration.Version
   modifiers.csharp:
   - public
   - get
@@ -193,12 +238,20 @@ items:
   assemblies:
   - System.Xml.XDocument
   namespace: System.Xml.Linq
+  summary: "\n<p>Gets or sets the version property for this document.</p>\n"
+  remarks: "\n<p>The value is usually \"1.0\". This value is not enforced.</p>\n"
+  example:
+  - "\n<p>The following example uses this property to print the version property of a declaration.</p>\n<p>[C#]</p>\n<pre><code>XDeclaration xd = new XDeclaration(\"1.0\", \"utf-8\", \"yes\");\nConsole.WriteLine(xd.Version);\nConsole.WriteLine(xd.Encoding);\nConsole.WriteLine(xd.Standalone);</code></pre>\n<p>[vb]</p>\n<pre><code>Dim xd As XDeclaration = New XDeclaration(\"1.0\", \"utf-8\", \"yes\")\nConsole.WriteLine(xd.Version)\nConsole.WriteLine(xd.Encoding)\nConsole.WriteLine(xd.Standalone)</code></pre>\n<p>This example produces the following output:</p>\n<pre><code>1.0\nutf-8\nyes</code></pre>\n"
   syntax:
     content: public string Version { get; set; }
     content.vb: Public Property Version As String
     parameters: []
     return:
       type: System.String
+      description: "\n<p>A <xref href=\"System.String\" data-throw-if-not-resolved=\"false\"></xref> containing the version property for this document.</p>\n"
+  seealso:
+  - type: System.Xml.Linq.XDeclaration.Standalone
+    commentId: P:System.Xml.Linq.XDeclaration.Standalone
   modifiers.csharp:
   - public
   - get
@@ -226,11 +279,16 @@ items:
   assemblies:
   - System.Xml.XDocument
   namespace: System.Xml.Linq
+  summary: "\n<p>Provides the declaration as a formatted string.</p>\n"
+  example:
+  - 
   syntax:
     content: public override string ToString()
     content.vb: Public Overrides Function ToString As String
     return:
       type: System.String
+      description: "\n<p>A <xref href=\"System.String\" data-throw-if-not-resolved=\"false\"></xref> that contains the formatted XML string.</p>\n"
+  overridden: System.Object.ToString
   modifiers.csharp:
   - public
   - override
@@ -247,6 +305,192 @@ references:
   isExternal: false
   name: Object
   fullName: System.Object
+- uid: System.Object.Equals(System.Object)
+  parent: System.Object
+  isExternal: true
+  name: Equals(Object)
+  fullName: System.Object.Equals(System.Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    fullName: )
+- uid: System.Object.Equals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  name: Equals(Object, Object)
+  fullName: System.Object.Equals(System.Object, System.Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    fullName: )
+- uid: System.Object.ReferenceEquals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  name: ReferenceEquals(Object, Object)
+  fullName: System.Object.ReferenceEquals(System.Object, System.Object)
+  spec.csharp:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    fullName: System.Object.ReferenceEquals
+    isExternal: true
+  - name: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    fullName: System.Object.ReferenceEquals
+    isExternal: true
+  - name: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    fullName: )
+- uid: System.Object.GetHashCode
+  parent: System.Object
+  isExternal: true
+  name: GetHashCode()
+  fullName: System.Object.GetHashCode()
+  spec.csharp:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    fullName: System.Object.GetHashCode
+    isExternal: true
+  - name: (
+    fullName: (
+  - name: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    fullName: System.Object.GetHashCode
+    isExternal: true
+  - name: (
+    fullName: (
+  - name: )
+    fullName: )
+- uid: System.Object.GetType
+  parent: System.Object
+  isExternal: true
+  name: GetType()
+  fullName: System.Object.GetType()
+  spec.csharp:
+  - uid: System.Object.GetType
+    name: GetType
+    fullName: System.Object.GetType
+    isExternal: true
+  - name: (
+    fullName: (
+  - name: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.GetType
+    name: GetType
+    fullName: System.Object.GetType
+    isExternal: true
+  - name: (
+    fullName: (
+  - name: )
+    fullName: )
+- uid: System.Object.MemberwiseClone
+  parent: System.Object
+  isExternal: true
+  name: MemberwiseClone()
+  fullName: System.Object.MemberwiseClone()
+  spec.csharp:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    fullName: System.Object.MemberwiseClone
+    isExternal: true
+  - name: (
+    fullName: (
+  - name: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    fullName: System.Object.MemberwiseClone
+    isExternal: true
+  - name: (
+    fullName: (
+  - name: )
+    fullName: )
 - uid: System
   isExternal: false
   name: System
@@ -261,3 +505,26 @@ references:
   isExternal: false
   name: XDeclaration
   fullName: System.Xml.Linq.XDeclaration
+- uid: System.Object.ToString
+  parent: System.Object
+  isExternal: true
+  name: ToString()
+  fullName: System.Object.ToString()
+  spec.csharp:
+  - uid: System.Object.ToString
+    name: ToString
+    fullName: System.Object.ToString
+    isExternal: true
+  - name: (
+    fullName: (
+  - name: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.ToString
+    name: ToString
+    fullName: System.Object.ToString
+    isExternal: true
+  - name: (
+    fullName: (
+  - name: )
+    fullName: )

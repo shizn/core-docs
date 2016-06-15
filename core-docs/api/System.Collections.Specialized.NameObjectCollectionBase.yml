@@ -25,6 +25,9 @@ items:
   - System.Collections.Specialized.NameObjectCollectionBase.GetEnumerator
   - System.Collections.Specialized.NameObjectCollectionBase.IsReadOnly
   - System.Collections.Specialized.NameObjectCollectionBase.Keys
+  - System.Collections.Specialized.NameObjectCollectionBase.System#Collections#ICollection#CopyTo(System.Array,System.Int32)
+  - System.Collections.Specialized.NameObjectCollectionBase.System#Collections#ICollection#IsSynchronized
+  - System.Collections.Specialized.NameObjectCollectionBase.System#Collections#ICollection#SyncRoot
   langs:
   - csharp
   - vb
@@ -42,15 +45,35 @@ items:
   assemblies:
   - System.Collections.Specialized
   namespace: System.Collections.Specialized
+  summary: "\n<p>Provides the <strong>abstract</strong> base class for a collection of associated <xref href=\"System.String\" data-throw-if-not-resolved=\"false\"></xref> keys and <xref href=\"System.Object\" data-throw-if-not-resolved=\"false\"></xref> values that can be accessed either with the key or with the index.</p>\n"
+  remarks: "\n<p>The underlying structure for this class is a hash table.</p>\n<p>Each element is a key/value pair.</p>\n<p>The capacity of a <xref href=\"System.Collections.Specialized.NameObjectCollectionBase\" data-throw-if-not-resolved=\"false\"></xref> is the number of elements the <xref href=\"System.Collections.Specialized.NameObjectCollectionBase\" data-throw-if-not-resolved=\"false\"></xref> can hold. As elements are added to a <xref href=\"System.Collections.Specialized.NameObjectCollectionBase\" data-throw-if-not-resolved=\"false\"></xref>, the capacity is automatically increased as required through reallocation.</p>\n<p>The hash code provider dispenses hash codes for keys in the <xref href=\"System.Collections.Specialized.NameObjectCollectionBase\" data-throw-if-not-resolved=\"false\"></xref> instance. The default hash code provider is the <xref href=\"System.Collections.CaseInsensitiveHashCodeProvider\" data-throw-if-not-resolved=\"false\"></xref>.</p>\n<p>The comparer determines whether two keys are equal. The default comparer is the <xref href=\"System.Collections.CaseInsensitiveComparer\" data-throw-if-not-resolved=\"false\"></xref>.</p>\n<p>In .NET Framework version 1.0, this class uses culture-sensitive string comparisons. However, in .NET Framework version 1.1 and later, this class uses <xref href=\"System.Globalization.CultureInfo.InvariantCulture\" data-throw-if-not-resolved=\"false\"></xref> when comparing strings. For more information about how culture affects comparisons and sorting, see Performing Culture-Insensitive String Operations.</p>\n<p>\n<strong>null</strong> is allowed as a key or as a value.</p>\n<p>The <xref href=\"System.Collections.Specialized.NameObjectCollectionBase.BaseGet(System.String)\" data-throw-if-not-resolved=\"false\"></xref> method does not distinguish between <strong>null</strong> which is returned because the specified key is not found and <strong>null</strong> which is returned because the value associated with the key is <strong>null</strong>.</p>\n"
+  example:
+  - "\n<p>The following code example shows how to implement and use the <xref href=\"System.Collections.Specialized.NameObjectCollectionBase\" data-throw-if-not-resolved=\"false\"></xref> class.</p>System.Collections.Specialized.NameObjectCollectionBase#1"
   syntax:
-    content: 'public abstract class NameObjectCollectionBase : ICollection'
+    content: 'public abstract class NameObjectCollectionBase : ICollection, IEnumerable'
     content.vb: >-
       Public MustInherit Class NameObjectCollectionBase
-          Inherits ICollection
+          Implements ICollection, IEnumerable
+  seealso:
+  - type: System.Collections.Hashtable
+    commentId: T:System.Collections.Hashtable
+  - type: System.Collections.Specialized.NameValueCollection
+    commentId: T:System.Collections.Specialized.NameValueCollection
+  - type: System.String
+    commentId: T:System.String
   inheritance:
   - System.Object
   implements:
+  - System.Collections.ICollection
   - System.Collections.IEnumerable
+  inheritedMembers:
+  - System.Object.ToString
+  - System.Object.Equals(System.Object)
+  - System.Object.Equals(System.Object,System.Object)
+  - System.Object.ReferenceEquals(System.Object,System.Object)
+  - System.Object.GetHashCode
+  - System.Object.GetType
+  - System.Object.MemberwiseClone
   modifiers.csharp:
   - public
   - abstract
@@ -80,9 +103,16 @@ items:
   assemblies:
   - System.Collections.Specialized
   namespace: System.Collections.Specialized
+  summary: "\n<p>Initializes a new instance of the <xref href=\"System.Collections.Specialized.NameObjectCollectionBase\" data-throw-if-not-resolved=\"false\"></xref> class that is empty.</p>\n"
+  remarks: "\n<p>The capacity of a <xref href=\"System.Collections.Specialized.NameObjectCollectionBase\" data-throw-if-not-resolved=\"false\"></xref> is the number of elements that the <xref href=\"System.Collections.Specialized.NameObjectCollectionBase\" data-throw-if-not-resolved=\"false\"></xref> can hold. As elements are added to a <xref href=\"System.Collections.Specialized.NameObjectCollectionBase\" data-throw-if-not-resolved=\"false\"></xref>, the capacity is automatically increased as required by reallocating the internal array.</p>\n<p>If the size of the collection can be estimated, specifying the initial capacity eliminates the need to perform a number of resizing operations while adding elements to the <xref href=\"System.Collections.Specialized.NameObjectCollectionBase\" data-throw-if-not-resolved=\"false\"></xref>.</p>\n<p>The hash code provider dispenses hash codes for keys in the <xref href=\"System.Collections.Specialized.NameObjectCollectionBase\" data-throw-if-not-resolved=\"false\"></xref> instance. The default hash code provider is the <xref href=\"System.Collections.CaseInsensitiveHashCodeProvider\" data-throw-if-not-resolved=\"false\"></xref>.</p>\n<p>The comparer determines whether two keys are equal. The default comparer is the <xref href=\"System.Collections.CaseInsensitiveComparer\" data-throw-if-not-resolved=\"false\"></xref>.</p>\n<p>This constructor is an O(1) operation.</p>\n"
   syntax:
     content: protected NameObjectCollectionBase()
     content.vb: Protected Sub New
+  seealso:
+  - type: System.Collections.CaseInsensitiveHashCodeProvider
+    commentId: T:System.Collections.CaseInsensitiveHashCodeProvider
+  - type: System.Collections.CaseInsensitiveComparer
+    commentId: T:System.Collections.CaseInsensitiveComparer
   modifiers.csharp:
   - protected
   modifiers.vb:
@@ -99,21 +129,26 @@ items:
   type: Constructor
   source:
     remote:
-      path: src/System.Collections.Specialized/ref/System.Collections.Specialized.cs
+      path: src/System.Collections.Specialized/src/System/Collections/Specialized/NameObjectCollectionBase.cs
       branch: master
       repo: https://github.com/dotnet/corefx.git
     id: .ctor
-    path: src/System.Collections.Specialized/ref/System.Collections.Specialized.cs
-    startLine: 92
+    path: src/System.Collections.Specialized/src/System/Collections/Specialized/NameObjectCollectionBase.cs
+    startLine: 41
   assemblies:
   - System.Collections.Specialized
   namespace: System.Collections.Specialized
+  summary: "\n<p>Initializes a new instance of the <xref href=\"System.Collections.Specialized.NameObjectCollectionBase\" data-throw-if-not-resolved=\"false\"></xref> class that is empty, has the default initial capacity, and uses the specified <xref href=\"System.Collections.IEqualityComparer\" data-throw-if-not-resolved=\"false\"></xref> object.</p>\n"
+  remarks: "\n<p>The capacity of a <xref href=\"System.Collections.Specialized.NameObjectCollectionBase\" data-throw-if-not-resolved=\"false\"></xref> object is the number of elements that the <xref href=\"System.Collections.Specialized.NameObjectCollectionBase\" data-throw-if-not-resolved=\"false\"></xref> can hold. As elements are added to a <xref href=\"System.Collections.Specialized.NameObjectCollectionBase\" data-throw-if-not-resolved=\"false\"></xref>, the capacity is automatically increased as required by reallocating the internal array.</p>\n<p>If the size of the collection can be estimated, specifying the initial capacity eliminates the need to perform a number of resizing operations while adding elements to the <xref href=\"System.Collections.Specialized.NameObjectCollectionBase\" data-throw-if-not-resolved=\"false\"></xref>.</p>\n<p>The <xref href=\"System.Collections.IEqualityComparer\" data-throw-if-not-resolved=\"false\"></xref> object combines the comparer and the hash code provider.  The hash code provider dispenses hash codes for keys in the <xref href=\"System.Collections.Specialized.NameObjectCollectionBase\" data-throw-if-not-resolved=\"false\"></xref>.  The comparer determines whether two keys are equal.</p>\n<p>This constructor is an O(1) operation.</p>\n"
   syntax:
     content: protected NameObjectCollectionBase(IEqualityComparer equalityComparer)
     content.vb: Protected Sub New(equalityComparer As IEqualityComparer)
     parameters:
     - id: equalityComparer
       type: System.Collections.IEqualityComparer
+  seealso:
+  - type: System.Collections.IEqualityComparer
+    commentId: T:System.Collections.IEqualityComparer
   modifiers.csharp:
   - protected
   modifiers.vb:
@@ -139,12 +174,23 @@ items:
   assemblies:
   - System.Collections.Specialized
   namespace: System.Collections.Specialized
+  summary: "\n<p>Initializes a new instance of the <xref href=\"System.Collections.Specialized.NameObjectCollectionBase\" data-throw-if-not-resolved=\"false\"></xref> class that is empty, has the specified initial capacity, and uses the default hash code provider and the default comparer.</p>\n"
+  remarks: "\n<p>The capacity of a <xref href=\"System.Collections.Specialized.NameObjectCollectionBase\" data-throw-if-not-resolved=\"false\"></xref> is the number of elements that the <xref href=\"System.Collections.Specialized.NameObjectCollectionBase\" data-throw-if-not-resolved=\"false\"></xref> can hold. As elements are added to a <xref href=\"System.Collections.Specialized.NameObjectCollectionBase\" data-throw-if-not-resolved=\"false\"></xref>, the capacity is automatically increased as required by reallocating the internal array.</p>\n<p>If the size of the collection can be estimated, specifying the initial capacity eliminates the need to perform a number of resizing operations while adding elements to the <xref href=\"System.Collections.Specialized.NameObjectCollectionBase\" data-throw-if-not-resolved=\"false\"></xref>.</p>\n<p>The hash code provider dispenses hash codes for keys in the <xref href=\"System.Collections.Specialized.NameObjectCollectionBase\" data-throw-if-not-resolved=\"false\"></xref> instance. The default hash code provider is the <xref href=\"System.Collections.CaseInsensitiveHashCodeProvider\" data-throw-if-not-resolved=\"false\"></xref>.</p>\n<p>The comparer determines whether two keys are equal. The default comparer is the <xref href=\"System.Collections.CaseInsensitiveComparer\" data-throw-if-not-resolved=\"false\"></xref>.</p>\n<p>This constructor is an O(<em>n</em>) operation, where <em>n</em> is <em>capacity</em>.</p>\n"
   syntax:
     content: protected NameObjectCollectionBase(int capacity)
     content.vb: Protected Sub New(capacity As Integer)
     parameters:
     - id: capacity
       type: System.Int32
+  exceptions:
+  - type: System.ArgumentOutOfRangeException
+    commentId: T:System.ArgumentOutOfRangeException
+    description: "\n<p>\n<em>capacity</em> is less than zero. </p>\n"
+  seealso:
+  - type: System.Collections.CaseInsensitiveHashCodeProvider
+    commentId: T:System.Collections.CaseInsensitiveHashCodeProvider
+  - type: System.Collections.CaseInsensitiveComparer
+    commentId: T:System.Collections.CaseInsensitiveComparer
   modifiers.csharp:
   - protected
   modifiers.vb:
@@ -161,15 +207,17 @@ items:
   type: Constructor
   source:
     remote:
-      path: src/System.Collections.Specialized/ref/System.Collections.Specialized.cs
+      path: src/System.Collections.Specialized/src/System/Collections/Specialized/NameObjectCollectionBase.cs
       branch: master
       repo: https://github.com/dotnet/corefx.git
     id: .ctor
-    path: src/System.Collections.Specialized/ref/System.Collections.Specialized.cs
-    startLine: 94
+    path: src/System.Collections.Specialized/src/System/Collections/Specialized/NameObjectCollectionBase.cs
+    startLine: 47
   assemblies:
   - System.Collections.Specialized
   namespace: System.Collections.Specialized
+  summary: "\n<p>Initializes a new instance of the <xref href=\"System.Collections.Specialized.NameObjectCollectionBase\" data-throw-if-not-resolved=\"false\"></xref> class that is empty, has the specified initial capacity, and uses the specified <xref href=\"System.Collections.IEqualityComparer\" data-throw-if-not-resolved=\"false\"></xref> object.</p>\n"
+  remarks: "\n<p>The capacity of a <xref href=\"System.Collections.Specialized.NameObjectCollectionBase\" data-throw-if-not-resolved=\"false\"></xref> object is the number of elements that the <xref href=\"System.Collections.Specialized.NameObjectCollectionBase\" data-throw-if-not-resolved=\"false\"></xref> can hold. As elements are added to a <xref href=\"System.Collections.Specialized.NameObjectCollectionBase\" data-throw-if-not-resolved=\"false\"></xref>, the capacity is automatically increased as required by reallocating the internal array.</p>\n<p>If the size of the collection can be estimated, specifying the initial capacity eliminates the need to perform a number of resizing operations while adding elements to the <xref href=\"System.Collections.Specialized.NameObjectCollectionBase\" data-throw-if-not-resolved=\"false\"></xref>.</p>\n<p>The <xref href=\"System.Collections.IEqualityComparer\" data-throw-if-not-resolved=\"false\"></xref> object combines the comparer and the hash code provider.  The hash code provider dispenses hash codes for keys in the <xref href=\"System.Collections.Specialized.NameObjectCollectionBase\" data-throw-if-not-resolved=\"false\"></xref>.  The comparer determines whether two keys are equal.</p>\n<p>This constructor is an O(<em>n</em>) operation, where <em>n</em> is the <em>capacity</em> parameter.</p>\n"
   syntax:
     content: protected NameObjectCollectionBase(int capacity, IEqualityComparer equalityComparer)
     content.vb: Protected Sub New(capacity As Integer, equalityComparer As IEqualityComparer)
@@ -178,6 +226,13 @@ items:
       type: System.Int32
     - id: equalityComparer
       type: System.Collections.IEqualityComparer
+  exceptions:
+  - type: System.ArgumentOutOfRangeException
+    commentId: T:System.ArgumentOutOfRangeException
+    description: "\n<p>\n<em>capacity</em> is less than zero.</p>\n"
+  seealso:
+  - type: System.Collections.IEqualityComparer
+    commentId: T:System.Collections.IEqualityComparer
   modifiers.csharp:
   - protected
   modifiers.vb:
@@ -203,12 +258,16 @@ items:
   assemblies:
   - System.Collections.Specialized
   namespace: System.Collections.Specialized
+  summary: "\n<p>Gets the number of key/value pairs contained in the <xref href=\"System.Collections.Specialized.NameObjectCollectionBase\" data-throw-if-not-resolved=\"false\"></xref> instance.</p>\n"
+  remarks: "\n<p>The capacity is the number of elements that the <xref href=\"System.Collections.Specialized.NameObjectCollectionBase\" data-throw-if-not-resolved=\"false\"></xref> can store. <xref href=\"System.Collections.Specialized.NameObjectCollectionBase.Count\" data-throw-if-not-resolved=\"false\"></xref> is the number of elements that are actually in the <xref href=\"System.Collections.Specialized.NameObjectCollectionBase\" data-throw-if-not-resolved=\"false\"></xref>.</p>\n<p>The capacity is always greater than or equal to <xref href=\"System.Collections.Specialized.NameObjectCollectionBase.Count\" data-throw-if-not-resolved=\"false\"></xref>. If <xref href=\"System.Collections.Specialized.NameObjectCollectionBase.Count\" data-throw-if-not-resolved=\"false\"></xref> exceeds the capacity while adding elements, the capacity is automatically increased by reallocating the internal array before copying the old elements and adding the new elements.</p>\n<p>Retrieving the value of this property is an O(1) operation.</p>\n"
   syntax:
     content: public virtual int Count { get; }
     content.vb: Public Overridable ReadOnly Property Count As Integer
     parameters: []
     return:
       type: System.Int32
+  implements:
+  - System.Collections.ICollection.Count
   modifiers.csharp:
   - public
   - virtual
@@ -238,6 +297,10 @@ items:
   assemblies:
   - System.Collections.Specialized
   namespace: System.Collections.Specialized
+  summary: "\n<p>Gets or sets a value indicating whether the <xref href=\"System.Collections.Specialized.NameObjectCollectionBase\" data-throw-if-not-resolved=\"false\"></xref> instance is read-only.</p>\n"
+  remarks: "\n<p>A collection that is read-only does not allow the addition, removal, or modification of elements after the collection is created.</p>\n<p>A collection that is read-only is simply a collection with a wrapper that prevents modifying the collection; therefore, if changes are made to the underlying collection, the read-only collection reflects those changes.</p>\n<p>Retrieving the value of this property is an O(1) operation.</p>\n"
+  example:
+  - "\n<p>The following code example creates a read-only collection.</p>System.Collections.Specialized.NameObjectCollectionBase.IsReadOnly#1"
   syntax:
     content: protected bool IsReadOnly { get; set; }
     content.vb: Protected Property IsReadOnly As Boolean
@@ -271,6 +334,8 @@ items:
   assemblies:
   - System.Collections.Specialized
   namespace: System.Collections.Specialized
+  summary: "\n<p>Gets a <xref href=\"System.Collections.Specialized.NameObjectCollectionBase.KeysCollection\" data-throw-if-not-resolved=\"false\"></xref> instance that contains all the keys in the <xref href=\"System.Collections.Specialized.NameObjectCollectionBase\" data-throw-if-not-resolved=\"false\"></xref> instance.</p>\n"
+  remarks: "\n<p>Retrieving the value of this property is an O(1) operation.</p>\n"
   syntax:
     content: public virtual NameObjectCollectionBase.KeysCollection Keys { get; }
     content.vb: Public Overridable ReadOnly Property Keys As NameObjectCollectionBase.KeysCollection
@@ -285,6 +350,86 @@ items:
   - Public
   - Overridable
   - ReadOnly
+- uid: System.Collections.Specialized.NameObjectCollectionBase.System#Collections#ICollection#IsSynchronized
+  commentId: P:System.Collections.Specialized.NameObjectCollectionBase.System#Collections#ICollection#IsSynchronized
+  id: System#Collections#ICollection#IsSynchronized
+  isEii: true
+  parent: System.Collections.Specialized.NameObjectCollectionBase
+  langs:
+  - csharp
+  - vb
+  name: ICollection.IsSynchronized
+  fullName: System.Collections.Specialized.NameObjectCollectionBase.System.Collections.ICollection.IsSynchronized
+  type: Property
+  source:
+    remote:
+      path: src/System.Collections.Specialized/src/System/Collections/Specialized/NameObjectCollectionBase.cs
+      branch: master
+      repo: https://github.com/dotnet/corefx.git
+    id: System.Collections.ICollection.IsSynchronized
+    path: src/System.Collections.Specialized/src/System/Collections/Specialized/NameObjectCollectionBase.cs
+    startLine: 368
+  assemblies:
+  - System.Collections.Specialized
+  namespace: System.Collections.Specialized
+  summary: "\n<p>Gets a value indicating whether access to the <xref href=\"System.Collections.Specialized.NameObjectCollectionBase\" data-throw-if-not-resolved=\"false\"></xref> object is synchronized (thread safe).</p>\n"
+  remarks: "\n<p>A <xref href=\"System.Collections.Specialized.NameObjectCollectionBase\" data-throw-if-not-resolved=\"false\"></xref> object is not synchronized. Derived classes can provide a synchronized version of the <xref href=\"System.Collections.Specialized.NameObjectCollectionBase\" data-throw-if-not-resolved=\"false\"></xref> using the <xref href=\"System.Collections.ICollection.SyncRoot\" data-throw-if-not-resolved=\"false\"></xref> property.</p>\n<p>Enumerating through a collection is intrinsically not a thread-safe procedure. Even when a collection is synchronized, other threads can still modify the collection, which causes the enumerator to throw an exception. To guarantee thread safety during enumeration, you can either lock the collection during the entire enumeration or catch the exceptions resulting from changes made by other threads.</p>\n<p>The following code example shows how to lock the collection using the <xref href=\"System.Collections.ICollection.SyncRoot\" data-throw-if-not-resolved=\"false\"></xref> property during the entire enumeration.</p>System.Collections.Specialized.NameObjectCollectionBase#2<p>Retrieving the value of this property is an O(1) operation.</p>"
+  syntax:
+    content: bool ICollection.IsSynchronized { get; }
+    content.vb: ReadOnly WriteOnly Property System.Collections.ICollection.IsSynchronized As Boolean Implements ICollection.IsSynchronized
+    parameters: []
+    return:
+      type: System.Boolean
+  seealso:
+  - type: System.Collections.ICollection.SyncRoot
+    commentId: P:System.Collections.ICollection.SyncRoot
+  implements:
+  - System.Collections.ICollection.IsSynchronized
+  modifiers.csharp:
+  - get
+  modifiers.vb:
+  - ReadOnly
+  name.vb: System.Collections.ICollection.IsSynchronized
+- uid: System.Collections.Specialized.NameObjectCollectionBase.System#Collections#ICollection#SyncRoot
+  commentId: P:System.Collections.Specialized.NameObjectCollectionBase.System#Collections#ICollection#SyncRoot
+  id: System#Collections#ICollection#SyncRoot
+  isEii: true
+  parent: System.Collections.Specialized.NameObjectCollectionBase
+  langs:
+  - csharp
+  - vb
+  name: ICollection.SyncRoot
+  fullName: System.Collections.Specialized.NameObjectCollectionBase.System.Collections.ICollection.SyncRoot
+  type: Property
+  source:
+    remote:
+      path: src/System.Collections.Specialized/src/System/Collections/Specialized/NameObjectCollectionBase.cs
+      branch: master
+      repo: https://github.com/dotnet/corefx.git
+    id: System.Collections.ICollection.SyncRoot
+    path: src/System.Collections.Specialized/src/System/Collections/Specialized/NameObjectCollectionBase.cs
+    startLine: 356
+  assemblies:
+  - System.Collections.Specialized
+  namespace: System.Collections.Specialized
+  summary: "\n<p>Gets an object that can be used to synchronize access to the <xref href=\"System.Collections.Specialized.NameObjectCollectionBase\" data-throw-if-not-resolved=\"false\"></xref> object.</p>\n"
+  remarks: "\n<p>Derived classes can provide their own synchronized version of the <xref href=\"System.Collections.Specialized.NameObjectCollectionBase\" data-throw-if-not-resolved=\"false\"></xref> class using the <xref href=\"System.Collections.ICollection.SyncRoot\" data-throw-if-not-resolved=\"false\"></xref> property. The synchronizing code must perform operations on the <xref href=\"System.Collections.ICollection.SyncRoot\" data-throw-if-not-resolved=\"false\"></xref> property of the <xref href=\"System.Collections.Specialized.NameObjectCollectionBase\" data-throw-if-not-resolved=\"false\"></xref> object, not directly on the <xref href=\"System.Collections.Specialized.NameObjectCollectionBase\" data-throw-if-not-resolved=\"false\"></xref> object. This ensures proper operation of collections that are derived from other objects. Specifically, it maintains proper synchronization with other threads that might be simultaneously modifying the <xref href=\"System.Collections.Specialized.NameObjectCollectionBase\" data-throw-if-not-resolved=\"false\"></xref> object.</p>\n<p>Enumerating through a collection is intrinsically not a thread-safe procedure. Even when a collection is synchronized, other threads can still modify the collection, which causes the enumerator to throw an exception. To guarantee thread safety during enumeration, you can either lock the collection during the entire enumeration or catch the exceptions resulting from changes made by other threads.</p>\n<p>The following code example shows how to lock the collection using the <xref href=\"System.Collections.ICollection.SyncRoot\" data-throw-if-not-resolved=\"false\"></xref> during the entire enumeration. </p>System.Collections.Specialized.NameObjectCollectionBase#2<p>Retrieving the value of this property is an O(1) operation.</p>"
+  syntax:
+    content: object ICollection.SyncRoot { get; }
+    content.vb: ReadOnly WriteOnly Property System.Collections.ICollection.SyncRoot As Object Implements ICollection.SyncRoot
+    parameters: []
+    return:
+      type: System.Object
+  seealso:
+  - type: System.Collections.ICollection.IsSynchronized
+    commentId: P:System.Collections.ICollection.IsSynchronized
+  implements:
+  - System.Collections.ICollection.SyncRoot
+  modifiers.csharp:
+  - get
+  modifiers.vb:
+  - ReadOnly
+  name.vb: System.Collections.ICollection.SyncRoot
 - uid: System.Collections.Specialized.NameObjectCollectionBase.BaseAdd(System.String,System.Object)
   commentId: M:System.Collections.Specialized.NameObjectCollectionBase.BaseAdd(System.String,System.Object)
   id: BaseAdd(System.String,System.Object)
@@ -297,15 +442,19 @@ items:
   type: Method
   source:
     remote:
-      path: src/System.Collections.Specialized/ref/System.Collections.Specialized.cs
+      path: src/System.Collections.Specialized/src/System/Collections/Specialized/NameObjectCollectionBase.cs
       branch: master
       repo: https://github.com/dotnet/corefx.git
     id: BaseAdd
-    path: src/System.Collections.Specialized/ref/System.Collections.Specialized.cs
-    startLine: 100
+    path: src/System.Collections.Specialized/src/System/Collections/Specialized/NameObjectCollectionBase.cs
+    startLine: 130
   assemblies:
   - System.Collections.Specialized
   namespace: System.Collections.Specialized
+  summary: "\n<p>Adds an entry with the specified key and value into the <xref href=\"System.Collections.Specialized.NameObjectCollectionBase\" data-throw-if-not-resolved=\"false\"></xref> instance.</p>\n"
+  remarks: "\n<p>If <xref href=\"System.Collections.Specialized.NameObjectCollectionBase.Count\" data-throw-if-not-resolved=\"false\"></xref> already equals the capacity, the capacity of the <xref href=\"System.Collections.Specialized.NameObjectCollectionBase\" data-throw-if-not-resolved=\"false\"></xref> is increased by automatically reallocating the internal array, and the existing elements are copied to the new array before the new element is added.</p>\n<p>If <xref href=\"System.Collections.Specialized.NameObjectCollectionBase.Count\" data-throw-if-not-resolved=\"false\"></xref> is less than the capacity, this method is an O(1) operation. If the capacity needs to be increased to accommodate the new element, this method becomes an O(<em>n</em>) operation, where <em>n</em> is <xref href=\"System.Collections.Specialized.NameObjectCollectionBase.Count\" data-throw-if-not-resolved=\"false\"></xref>.</p>\n"
+  example:
+  - "\n<p>The following code example uses <xref href=\"System.Collections.Specialized.NameObjectCollectionBase.BaseAdd(System.String,System.Object)\" data-throw-if-not-resolved=\"false\"></xref> to create a new <xref href=\"System.Collections.Specialized.NameObjectCollectionBase\" data-throw-if-not-resolved=\"false\"></xref> with elements from an <xref href=\"System.Collections.IDictionary\" data-throw-if-not-resolved=\"false\"></xref>.</p>System.Collections.Specialized.NameObjectCollectionBase.BaseAdd#1"
   syntax:
     content: protected void BaseAdd(string name, object value)
     content.vb: Protected Sub BaseAdd(name As String, value As Object)
@@ -314,6 +463,10 @@ items:
       type: System.String
     - id: value
       type: System.Object
+  exceptions:
+  - type: System.NotSupportedException
+    commentId: T:System.NotSupportedException
+    description: "\n<p>The collection is read-only. </p>\n"
   modifiers.csharp:
   - protected
   modifiers.vb:
@@ -339,9 +492,17 @@ items:
   assemblies:
   - System.Collections.Specialized
   namespace: System.Collections.Specialized
+  summary: "\n<p>Removes all entries from the <xref href=\"System.Collections.Specialized.NameObjectCollectionBase\" data-throw-if-not-resolved=\"false\"></xref> instance.</p>\n"
+  remarks: "\n<p>\n<xref href=\"System.Collections.Specialized.NameObjectCollectionBase.Count\" data-throw-if-not-resolved=\"false\"></xref> is set to zero, and references to other objects from elements of the collection are also released.</p>\n<p>This method is an O(1) operation.</p>\n"
+  example:
+  - "\n<p>The following code example uses <xref href=\"System.Collections.Specialized.NameObjectCollectionBase.BaseClear\" data-throw-if-not-resolved=\"false\"></xref> to remove all elements from a <xref href=\"System.Collections.Specialized.NameObjectCollectionBase\" data-throw-if-not-resolved=\"false\"></xref>.</p>System.Collections.Specialized.NameObjectCollectionBase.BaseClear#1"
   syntax:
     content: protected void BaseClear()
     content.vb: Protected Sub BaseClear
+  exceptions:
+  - type: System.NotSupportedException
+    commentId: T:System.NotSupportedException
+    description: "\n<p>The collection is read-only.</p>\n"
   modifiers.csharp:
   - protected
   modifiers.vb:
@@ -367,14 +528,22 @@ items:
   assemblies:
   - System.Collections.Specialized
   namespace: System.Collections.Specialized
+  summary: "\n<p>Gets the value of the entry at the specified index of the <xref href=\"System.Collections.Specialized.NameObjectCollectionBase\" data-throw-if-not-resolved=\"false\"></xref> instance.</p>\n"
+  remarks: "\n<p>This method is an O(1) operation.</p>\n"
+  example:
+  - "\n<p>The following code example uses <xref href=\"System.Collections.Specialized.NameObjectCollectionBase.BaseGetKey(System.Int32)\" data-throw-if-not-resolved=\"false\"></xref> and <xref href=\"System.Collections.Specialized.NameObjectCollectionBase.BaseGet(System.String)\" data-throw-if-not-resolved=\"false\"></xref> to get specific keys and values.</p>System.Collections.Specialized.NameObjectCollectionBase.BaseGet#1"
   syntax:
-    content: protected Object BaseGet(int index)
+    content: protected object BaseGet(int index)
     content.vb: Protected Function BaseGet(index As Integer) As Object
     parameters:
     - id: index
       type: System.Int32
     return:
-      type: Object
+      type: System.Object
+  exceptions:
+  - type: System.ArgumentOutOfRangeException
+    commentId: T:System.ArgumentOutOfRangeException
+    description: "\n<p>\n<em>index</em> is outside the valid range of indexes for the collection. </p>\n"
   modifiers.csharp:
   - protected
   modifiers.vb:
@@ -391,15 +560,19 @@ items:
   type: Method
   source:
     remote:
-      path: src/System.Collections.Specialized/ref/System.Collections.Specialized.cs
+      path: src/System.Collections.Specialized/src/System/Collections/Specialized/NameObjectCollectionBase.cs
       branch: master
       repo: https://github.com/dotnet/corefx.git
     id: BaseGet
-    path: src/System.Collections.Specialized/ref/System.Collections.Specialized.cs
-    startLine: 103
+    path: src/System.Collections.Specialized/src/System/Collections/Specialized/NameObjectCollectionBase.cs
+    startLine: 239
   assemblies:
   - System.Collections.Specialized
   namespace: System.Collections.Specialized
+  summary: "\n<p>Gets the value of the first entry with the specified key from the <xref href=\"System.Collections.Specialized.NameObjectCollectionBase\" data-throw-if-not-resolved=\"false\"></xref> instance.</p>\n"
+  remarks: "\n<p>If the collection contains multiple entries with the specified key, this method returns only the first entry. To get the values of subsequent entries with the same key, use the enumerator to iterate through the collection and compare the keys.</p>\n<p>This method returns <strong>null</strong> in the following cases: 1) if the specified key is not found; and 2) if the specified key is found and its associated value is <strong>null</strong>. This method does not distinguish between the two cases.</p>\n<p>This method is an O(1) operation.</p>\n"
+  example:
+  - "\n<p>The following code example uses <xref href=\"System.Collections.Specialized.NameObjectCollectionBase.BaseGetKey(System.Int32)\" data-throw-if-not-resolved=\"false\"></xref> and <xref href=\"System.Collections.Specialized.NameObjectCollectionBase.BaseGet(System.String)\" data-throw-if-not-resolved=\"false\"></xref> to get specific keys and values.</p>System.Collections.Specialized.NameObjectCollectionBase.BaseGet#1"
   syntax:
     content: protected object BaseGet(string name)
     content.vb: Protected Function BaseGet(name As String) As Object
@@ -408,6 +581,9 @@ items:
       type: System.String
     return:
       type: System.Object
+  seealso:
+  - type: System.Collections.Specialized.NameObjectCollectionBase.GetEnumerator
+    commentId: M:System.Collections.Specialized.NameObjectCollectionBase.GetEnumerator
   modifiers.csharp:
   - protected
   modifiers.vb:
@@ -433,11 +609,15 @@ items:
   assemblies:
   - System.Collections.Specialized
   namespace: System.Collections.Specialized
+  summary: "\n<p>Returns a <xref href=\"System.String\" data-throw-if-not-resolved=\"false\"></xref> array that contains all the keys in the <xref href=\"System.Collections.Specialized.NameObjectCollectionBase\" data-throw-if-not-resolved=\"false\"></xref> instance.</p>\n"
+  remarks: "\n<p>This method is an O(<em>n</em>) operation, where <em>n</em> is <xref href=\"System.Collections.Specialized.NameObjectCollectionBase.Count\" data-throw-if-not-resolved=\"false\"></xref>.</p>\n"
+  example:
+  - "\n<p>The following code example uses <xref href=\"System.Collections.Specialized.NameObjectCollectionBase.BaseGetAllKeys\" data-throw-if-not-resolved=\"false\"></xref> and <xref href=\"System.Collections.Specialized.NameObjectCollectionBase.BaseGetAllValues\" data-throw-if-not-resolved=\"false\"></xref> to get an array of the keys or an array of the values.</p>System.Collections.Specialized.NameObjectCollectionBase.BaseGetAll#1"
   syntax:
-    content: protected String[] BaseGetAllKeys()
+    content: protected string[] BaseGetAllKeys()
     content.vb: Protected Function BaseGetAllKeys As String()
     return:
-      type: String[]
+      type: System.String[]
   modifiers.csharp:
   - protected
   modifiers.vb:
@@ -463,11 +643,15 @@ items:
   assemblies:
   - System.Collections.Specialized
   namespace: System.Collections.Specialized
+  summary: "\n<p>Returns an <xref href=\"System.Object\" data-throw-if-not-resolved=\"false\"></xref> array that contains all the values in the <xref href=\"System.Collections.Specialized.NameObjectCollectionBase\" data-throw-if-not-resolved=\"false\"></xref> instance.</p>\n"
+  remarks: "\n<p>This method is an O(<em>n</em>) operation, where <em>n</em> is <xref href=\"System.Collections.Specialized.NameObjectCollectionBase.Count\" data-throw-if-not-resolved=\"false\"></xref>.</p>\n"
+  example:
+  - "\n<p>The following code example uses <xref href=\"System.Collections.Specialized.NameObjectCollectionBase.BaseGetAllKeys\" data-throw-if-not-resolved=\"false\"></xref> and <xref href=\"System.Collections.Specialized.NameObjectCollectionBase.BaseGetAllValues\" data-throw-if-not-resolved=\"false\"></xref> to get an array of the keys or an array of the values.</p>System.Collections.Specialized.NameObjectCollectionBase.BaseGetAll#1"
   syntax:
-    content: protected Object[] BaseGetAllValues()
+    content: protected object[] BaseGetAllValues()
     content.vb: Protected Function BaseGetAllValues As Object()
     return:
-      type: Object[]
+      type: System.Object[]
   modifiers.csharp:
   - protected
   modifiers.vb:
@@ -484,15 +668,17 @@ items:
   type: Method
   source:
     remote:
-      path: src/System.Collections.Specialized/ref/System.Collections.Specialized.cs
+      path: src/System.Collections.Specialized/src/System/Collections/Specialized/NameObjectCollectionBase.cs
       branch: master
       repo: https://github.com/dotnet/corefx.git
     id: BaseGetAllValues
-    path: src/System.Collections.Specialized/ref/System.Collections.Specialized.cs
-    startLine: 106
+    path: src/System.Collections.Specialized/src/System/Collections/Specialized/NameObjectCollectionBase.cs
+    startLine: 411
   assemblies:
   - System.Collections.Specialized
   namespace: System.Collections.Specialized
+  summary: "\n<p>Returns an array of the specified type that contains all the values in the <xref href=\"System.Collections.Specialized.NameObjectCollectionBase\" data-throw-if-not-resolved=\"false\"></xref> instance.</p>\n"
+  remarks: "\n<p>This method is an O(<em>n</em>) operation, where <em>n</em> is <xref href=\"System.Collections.Specialized.NameObjectCollectionBase.Count\" data-throw-if-not-resolved=\"false\"></xref>.</p>\n"
   syntax:
     content: protected object[] BaseGetAllValues(Type type)
     content.vb: Protected Function BaseGetAllValues(type As Type) As Object()
@@ -501,6 +687,16 @@ items:
       type: System.Type
     return:
       type: System.Object[]
+  exceptions:
+  - type: System.ArgumentNullException
+    commentId: T:System.ArgumentNullException
+    description: "\n<p>\n<em>type</em> is <strong>null</strong>. </p>\n"
+  - type: System.ArgumentException
+    commentId: T:System.ArgumentException
+    description: "\n<p>\n<em>type</em> is not a valid <xref href=\"System.Type\" data-throw-if-not-resolved=\"false\"></xref>. </p>\n"
+  seealso:
+  - type: System.Type
+    commentId: T:System.Type
   modifiers.csharp:
   - protected
   modifiers.vb:
@@ -526,14 +722,22 @@ items:
   assemblies:
   - System.Collections.Specialized
   namespace: System.Collections.Specialized
+  summary: "\n<p>Gets the key of the entry at the specified index of the <xref href=\"System.Collections.Specialized.NameObjectCollectionBase\" data-throw-if-not-resolved=\"false\"></xref> instance.</p>\n"
+  remarks: "\n<p>This method is an O(1) operation.</p>\n"
+  example:
+  - "\n<p>The following code example uses <xref href=\"System.Collections.Specialized.NameObjectCollectionBase.BaseGetKey(System.Int32)\" data-throw-if-not-resolved=\"false\"></xref> and <xref href=\"System.Collections.Specialized.NameObjectCollectionBase.BaseGet(System.String)\" data-throw-if-not-resolved=\"false\"></xref> to get specific keys and values.</p>System.Collections.Specialized.NameObjectCollectionBase.BaseGet#1"
   syntax:
-    content: protected String BaseGetKey(int index)
+    content: protected string BaseGetKey(int index)
     content.vb: Protected Function BaseGetKey(index As Integer) As String
     parameters:
     - id: index
       type: System.Int32
     return:
-      type: String
+      type: System.String
+  exceptions:
+  - type: System.ArgumentOutOfRangeException
+    commentId: T:System.ArgumentOutOfRangeException
+    description: "\n<p>\n<em>index</em> is outside the valid range of indexes for the collection. </p>\n"
   modifiers.csharp:
   - protected
   modifiers.vb:
@@ -559,6 +763,10 @@ items:
   assemblies:
   - System.Collections.Specialized
   namespace: System.Collections.Specialized
+  summary: "\n<p>Gets a value indicating whether the <xref href=\"System.Collections.Specialized.NameObjectCollectionBase\" data-throw-if-not-resolved=\"false\"></xref> instance contains entries whose keys are not <strong>null</strong>.</p>\n"
+  remarks: "\n<p>This method is an O(1) operation.</p>\n"
+  example:
+  - "\n<p>The following code example uses <xref href=\"System.Collections.Specialized.NameObjectCollectionBase.BaseHasKeys\" data-throw-if-not-resolved=\"false\"></xref> to determine if the collection contains keys that are not <strong>null</strong>.</p>System.Collections.Specialized.NameObjectCollectionBase.BaseHasKeys#1"
   syntax:
     content: protected bool BaseHasKeys()
     content.vb: Protected Function BaseHasKeys As Boolean
@@ -580,21 +788,29 @@ items:
   type: Method
   source:
     remote:
-      path: src/System.Collections.Specialized/ref/System.Collections.Specialized.cs
+      path: src/System.Collections.Specialized/src/System/Collections/Specialized/NameObjectCollectionBase.cs
       branch: master
       repo: https://github.com/dotnet/corefx.git
     id: BaseRemove
-    path: src/System.Collections.Specialized/ref/System.Collections.Specialized.cs
-    startLine: 109
+    path: src/System.Collections.Specialized/src/System/Collections/Specialized/NameObjectCollectionBase.cs
+    startLine: 159
   assemblies:
   - System.Collections.Specialized
   namespace: System.Collections.Specialized
+  summary: "\n<p>Removes the entries with the specified key from the <xref href=\"System.Collections.Specialized.NameObjectCollectionBase\" data-throw-if-not-resolved=\"false\"></xref> instance.</p>\n"
+  remarks: "\n<p>If the <xref href=\"System.Collections.Specialized.NameObjectCollectionBase\" data-throw-if-not-resolved=\"false\"></xref> does not contain an element with the specified key, the <xref href=\"System.Collections.Specialized.NameObjectCollectionBase\" data-throw-if-not-resolved=\"false\"></xref> remains unchanged. No exception is thrown.</p>\n<p>In collections of contiguous elements, such as lists, the elements that follow the removed element move up to occupy the vacated spot. If the collection is indexed, the indexes of the elements that are moved are also updated. This behavior does not apply to collections where elements are conceptually grouped into buckets, such as a hash table.</p>\n<p>This method is an O(<em>n</em>) operation, where <em>n</em> is <xref href=\"System.Collections.Specialized.NameObjectCollectionBase.Count\" data-throw-if-not-resolved=\"false\"></xref>.</p>\n"
+  example:
+  - "\n<p>The following code example uses <xref href=\"System.Collections.Specialized.NameObjectCollectionBase.BaseRemove(System.String)\" data-throw-if-not-resolved=\"false\"></xref> and <xref href=\"System.Collections.Specialized.NameObjectCollectionBase.BaseRemoveAt(System.Int32)\" data-throw-if-not-resolved=\"false\"></xref> to remove elements from a <xref href=\"System.Collections.Specialized.NameObjectCollectionBase\" data-throw-if-not-resolved=\"false\"></xref>.</p>System.Collections.Specialized.NameObjectCollectionBase.BaseRemove#1"
   syntax:
     content: protected void BaseRemove(string name)
     content.vb: Protected Sub BaseRemove(name As String)
     parameters:
     - id: name
       type: System.String
+  exceptions:
+  - type: System.NotSupportedException
+    commentId: T:System.NotSupportedException
+    description: "\n<p>The collection is read-only. </p>\n"
   modifiers.csharp:
   - protected
   modifiers.vb:
@@ -620,12 +836,23 @@ items:
   assemblies:
   - System.Collections.Specialized
   namespace: System.Collections.Specialized
+  summary: "\n<p>Removes the entry at the specified index of the <xref href=\"System.Collections.Specialized.NameObjectCollectionBase\" data-throw-if-not-resolved=\"false\"></xref> instance.</p>\n"
+  remarks: "\n<p>In collections of contiguous elements, such as lists, the elements that follow the removed element move up to occupy the vacated spot. If the collection is indexed, the indexes of the elements that are moved are also updated. This behavior does not apply to collections where elements are conceptually grouped into buckets, such as a hash table.</p>\n<p>This method is an O(<em>n</em>) operation, where <em>n</em> is <xref href=\"System.Collections.Specialized.NameObjectCollectionBase.Count\" data-throw-if-not-resolved=\"false\"></xref>.</p>\n"
+  example:
+  - "\n<p>The following code example uses <xref href=\"System.Collections.Specialized.NameObjectCollectionBase.BaseRemove(System.String)\" data-throw-if-not-resolved=\"false\"></xref> and <xref href=\"System.Collections.Specialized.NameObjectCollectionBase.BaseRemoveAt(System.Int32)\" data-throw-if-not-resolved=\"false\"></xref> to remove elements from a <xref href=\"System.Collections.Specialized.NameObjectCollectionBase\" data-throw-if-not-resolved=\"false\"></xref>.</p>System.Collections.Specialized.NameObjectCollectionBase.BaseRemove#1"
   syntax:
     content: protected void BaseRemoveAt(int index)
     content.vb: Protected Sub BaseRemoveAt(index As Integer)
     parameters:
     - id: index
       type: System.Int32
+  exceptions:
+  - type: System.ArgumentOutOfRangeException
+    commentId: T:System.ArgumentOutOfRangeException
+    description: "\n<p>\n<em>index</em> is outside the valid range of indexes for the collection.</p>\n"
+  - type: System.NotSupportedException
+    commentId: T:System.NotSupportedException
+    description: "\n<p>The collection is read-only.</p>\n"
   modifiers.csharp:
   - protected
   modifiers.vb:
@@ -642,15 +869,19 @@ items:
   type: Method
   source:
     remote:
-      path: src/System.Collections.Specialized/ref/System.Collections.Specialized.cs
+      path: src/System.Collections.Specialized/src/System/Collections/Specialized/NameObjectCollectionBase.cs
       branch: master
       repo: https://github.com/dotnet/corefx.git
     id: BaseSet
-    path: src/System.Collections.Specialized/ref/System.Collections.Specialized.cs
-    startLine: 111
+    path: src/System.Collections.Specialized/src/System/Collections/Specialized/NameObjectCollectionBase.cs
+    startLine: 297
   assemblies:
   - System.Collections.Specialized
   namespace: System.Collections.Specialized
+  summary: "\n<p>Sets the value of the entry at the specified index of the <xref href=\"System.Collections.Specialized.NameObjectCollectionBase\" data-throw-if-not-resolved=\"false\"></xref> instance.</p>\n"
+  remarks: "\n<p>This method is an O(1) operation.</p>\n"
+  example:
+  - "\n<p>The following code example uses <xref href=\"System.Collections.Specialized.NameObjectCollectionBase.BaseSet(System.String,System.Object)\" data-throw-if-not-resolved=\"false\"></xref> to set the value of a specific element.</p>System.Collections.Specialized.NameObjectCollectionBase.BaseSet#1"
   syntax:
     content: protected void BaseSet(int index, object value)
     content.vb: Protected Sub BaseSet(index As Integer, value As Object)
@@ -659,6 +890,13 @@ items:
       type: System.Int32
     - id: value
       type: System.Object
+  exceptions:
+  - type: System.NotSupportedException
+    commentId: T:System.NotSupportedException
+    description: "\n<p>The collection is read-only.</p>\n"
+  - type: System.ArgumentOutOfRangeException
+    commentId: T:System.ArgumentOutOfRangeException
+    description: "\n<p>\n<em>index</em> is outside the valid range of indexes for the collection.</p>\n"
   modifiers.csharp:
   - protected
   modifiers.vb:
@@ -675,15 +913,19 @@ items:
   type: Method
   source:
     remote:
-      path: src/System.Collections.Specialized/ref/System.Collections.Specialized.cs
+      path: src/System.Collections.Specialized/src/System/Collections/Specialized/NameObjectCollectionBase.cs
       branch: master
       repo: https://github.com/dotnet/corefx.git
     id: BaseSet
-    path: src/System.Collections.Specialized/ref/System.Collections.Specialized.cs
-    startLine: 112
+    path: src/System.Collections.Specialized/src/System/Collections/Specialized/NameObjectCollectionBase.cs
+    startLine: 251
   assemblies:
   - System.Collections.Specialized
   namespace: System.Collections.Specialized
+  summary: "\n<p>Sets the value of the first entry with the specified key in the <xref href=\"System.Collections.Specialized.NameObjectCollectionBase\" data-throw-if-not-resolved=\"false\"></xref> instance, if found; otherwise, adds an entry with the specified key and value into the <xref href=\"System.Collections.Specialized.NameObjectCollectionBase\" data-throw-if-not-resolved=\"false\"></xref> instance.</p>\n"
+  remarks: "\n<p>If the collection contains multiple entries with the specified key, this method sets only the first entry. To set the values of subsequent entries with the same key, use the enumerator to iterate through the collection and compare the keys.</p>\n<p>This method is an O(1) operation.</p>\n"
+  example:
+  - "\n<p>The following code example uses <xref href=\"System.Collections.Specialized.NameObjectCollectionBase.BaseSet(System.String,System.Object)\" data-throw-if-not-resolved=\"false\"></xref> to set the value of a specific element.</p>System.Collections.Specialized.NameObjectCollectionBase.BaseSet#1"
   syntax:
     content: protected void BaseSet(string name, object value)
     content.vb: Protected Sub BaseSet(name As String, value As Object)
@@ -692,6 +934,13 @@ items:
       type: System.String
     - id: value
       type: System.Object
+  exceptions:
+  - type: System.NotSupportedException
+    commentId: T:System.NotSupportedException
+    description: "\n<p>The collection is read-only. </p>\n"
+  seealso:
+  - type: System.Collections.Specialized.NameObjectCollectionBase.GetEnumerator
+    commentId: M:System.Collections.Specialized.NameObjectCollectionBase.GetEnumerator
   modifiers.csharp:
   - protected
   modifiers.vb:
@@ -717,17 +966,69 @@ items:
   assemblies:
   - System.Collections.Specialized
   namespace: System.Collections.Specialized
+  summary: "\n<p>Returns an enumerator that iterates through the <xref href=\"System.Collections.Specialized.NameObjectCollectionBase\" data-throw-if-not-resolved=\"false\"></xref>.</p>\n"
+  remarks: "\n<p>This enumerator returns the keys of the collection as strings.</p>\n<p>The <strong>foreach</strong> statement of the C# language (<strong>for each</strong> in Visual Basic) hides the complexity of the enumerators.  Therefore, using <strong>foreach</strong> is recommended, instead of directly manipulating the enumerator.</p>\n<p>Enumerators can be used to read the data in the collection, but they cannot be used to modify the underlying collection.</p>\n<p>Initially, the enumerator is positioned before the first element in the collection. <xref href=\"System.Collections.IEnumerator.Reset\" data-throw-if-not-resolved=\"false\"></xref> also brings the enumerator back to this position.  At this position, <xref href=\"System.Collections.IEnumerator.Current\" data-throw-if-not-resolved=\"false\"></xref> is undefined. Therefore, you must call <xref href=\"System.Collections.IEnumerator.MoveNext\" data-throw-if-not-resolved=\"false\"></xref> to advance the enumerator to the first element of the collection before reading the value of <xref href=\"System.Collections.IEnumerator.Current\" data-throw-if-not-resolved=\"false\"></xref>.</p>\n<p>\n<xref href=\"System.Collections.IEnumerator.Current\" data-throw-if-not-resolved=\"false\"></xref> returns the same object until either <xref href=\"System.Collections.IEnumerator.MoveNext\" data-throw-if-not-resolved=\"false\"></xref> or <xref href=\"System.Collections.IEnumerator.Reset\" data-throw-if-not-resolved=\"false\"></xref> is called. <xref href=\"System.Collections.IEnumerator.MoveNext\" data-throw-if-not-resolved=\"false\"></xref> sets <xref href=\"System.Collections.IEnumerator.Current\" data-throw-if-not-resolved=\"false\"></xref> to the next element.</p>\n<p>If <xref href=\"System.Collections.IEnumerator.MoveNext\" data-throw-if-not-resolved=\"false\"></xref> passes the end of the collection, the enumerator is positioned after the last element in the collection and <xref href=\"System.Collections.IEnumerator.MoveNext\" data-throw-if-not-resolved=\"false\"></xref> returns <strong>false</strong>. When the enumerator is at this position, subsequent calls to <xref href=\"System.Collections.IEnumerator.MoveNext\" data-throw-if-not-resolved=\"false\"></xref> also return <strong>false</strong>. If the last call to <xref href=\"System.Collections.IEnumerator.MoveNext\" data-throw-if-not-resolved=\"false\"></xref> returned <strong>false</strong>, <xref href=\"System.Collections.IEnumerator.Current\" data-throw-if-not-resolved=\"false\"></xref> is undefined. To set <xref href=\"System.Collections.IEnumerator.Current\" data-throw-if-not-resolved=\"false\"></xref> to the first element of the collection again, you can call <xref href=\"System.Collections.IEnumerator.Reset\" data-throw-if-not-resolved=\"false\"></xref> followed by <xref href=\"System.Collections.IEnumerator.MoveNext\" data-throw-if-not-resolved=\"false\"></xref>.</p>\n<p>An enumerator remains valid as long as the collection remains unchanged. If changes are made to the collection, such as adding, modifying, or deleting elements, the enumerator is irrecoverably invalidated and its behavior is undefined.</p>\n<p>The enumerator does not have exclusive access to the collection; therefore, enumerating through a collection is intrinsically not a thread safe procedure.  To guarantee thread safety during enumeration, you can lock the collection during the entire enumeration.  To allow the collection to be accessed by multiple threads for reading and writing, you must implement your own synchronization.</p>\n<p>This method is an O(1) operation.</p>\n"
   syntax:
     content: public virtual IEnumerator GetEnumerator()
     content.vb: Public Overridable Function GetEnumerator As IEnumerator
     return:
-      type: IEnumerator
+      type: System.Collections.IEnumerator
+  implements:
+  - System.Collections.IEnumerable.GetEnumerator
   modifiers.csharp:
   - public
   - virtual
   modifiers.vb:
   - Public
   - Overridable
+- uid: System.Collections.Specialized.NameObjectCollectionBase.System#Collections#ICollection#CopyTo(System.Array,System.Int32)
+  commentId: M:System.Collections.Specialized.NameObjectCollectionBase.System#Collections#ICollection#CopyTo(System.Array,System.Int32)
+  id: System#Collections#ICollection#CopyTo(System.Array,System.Int32)
+  isEii: true
+  parent: System.Collections.Specialized.NameObjectCollectionBase
+  langs:
+  - csharp
+  - vb
+  name: ICollection.CopyTo(Array, Int32)
+  fullName: System.Collections.Specialized.NameObjectCollectionBase.System.Collections.ICollection.CopyTo(System.Array, System.Int32)
+  type: Method
+  source:
+    remote:
+      path: src/System.Collections.Specialized/src/System/Collections/Specialized/NameObjectCollectionBase.cs
+      branch: master
+      repo: https://github.com/dotnet/corefx.git
+    id: System.Collections.ICollection.CopyTo
+    path: src/System.Collections.Specialized/src/System/Collections/Specialized/NameObjectCollectionBase.cs
+    startLine: 330
+  assemblies:
+  - System.Collections.Specialized
+  namespace: System.Collections.Specialized
+  summary: "\n<p>Copies the entire <xref href=\"System.Collections.Specialized.NameObjectCollectionBase\" data-throw-if-not-resolved=\"false\"></xref> to a compatible one-dimensional <xref href=\"System.Array\" data-throw-if-not-resolved=\"false\"></xref>, starting at the specified index of the target array.</p>\n"
+  remarks: "\n<p>The specified array must be of a compatible type.</p>\n<p>This method uses <xref href=\"System.Array.Copy(System.Array,System.Array,System.Int32)\" data-throw-if-not-resolved=\"false\"></xref> to copy the elements.</p>\n<p>While the <xref href=\"System.Collections.Specialized.NameObjectCollectionBase.System#Collections#ICollection#CopyTo(System.Array,System.Int32)\" data-throw-if-not-resolved=\"false\"></xref> method is not visible to COM clients by default, inheriting the <xref href=\"System.Collections.Specialized.NameObjectCollectionBase\" data-throw-if-not-resolved=\"false\"></xref> class can expose it and can cause undesirable behavior in COM clients.</p>\n<p>This method is an O(<em>n</em>) operation, where <em>n</em> is <xref href=\"System.Collections.Specialized.NameObjectCollectionBase.Count\" data-throw-if-not-resolved=\"false\"></xref>.</p>\n"
+  syntax:
+    content: void ICollection.CopyTo(Array array, int index)
+    content.vb: Sub System.Collections.ICollection.CopyTo(array As Array, index As Integer) Implements ICollection.CopyTo
+    parameters:
+    - id: array
+      type: System.Array
+    - id: index
+      type: System.Int32
+  exceptions:
+  - type: System.ArgumentNullException
+    commentId: T:System.ArgumentNullException
+    description: "\n<p>\n<em>array</em> is <strong>null</strong>.</p>\n"
+  - type: System.ArgumentOutOfRangeException
+    commentId: T:System.ArgumentOutOfRangeException
+    description: "\n<p>\n<em>index</em> is less than zero.</p>\n"
+  - type: System.ArgumentException
+    commentId: T:System.ArgumentException
+    description: "\n<p>\n<em>array</em> is multidimensional.</p>\n<p>-or-</p>\n<p>The number of elements in the source <xref href=\"System.Collections.Specialized.NameObjectCollectionBase\" data-throw-if-not-resolved=\"false\"></xref> is greater than the available space from <em>index</em> to the end of the destination <em>array</em>.</p>\n"
+  - type: System.InvalidCastException
+    commentId: T:System.InvalidCastException
+    description: "\n<p>The type of the source <xref href=\"System.Collections.Specialized.NameObjectCollectionBase\" data-throw-if-not-resolved=\"false\"></xref> cannot be cast automatically to the type of the destination <em>array</em>.</p>\n"
+  implements:
+  - System.Collections.ICollection.CopyTo(System.Array,System.Int32)
+  name.vb: System.Collections.ICollection.CopyTo(Array, Int32)
 references:
 - uid: System.Collections.Specialized
   isExternal: false
@@ -738,11 +1039,225 @@ references:
   isExternal: false
   name: Object
   fullName: System.Object
+- uid: System.Collections.ICollection
+  parent: System.Collections
+  isExternal: false
+  name: ICollection
+  fullName: System.Collections.ICollection
 - uid: System.Collections.IEnumerable
   parent: System.Collections
   isExternal: false
-  name: Collections.IEnumerable
+  name: IEnumerable
   fullName: System.Collections.IEnumerable
+- uid: System.Object.ToString
+  parent: System.Object
+  isExternal: true
+  name: ToString()
+  fullName: System.Object.ToString()
+  spec.csharp:
+  - uid: System.Object.ToString
+    name: ToString
+    fullName: System.Object.ToString
+    isExternal: true
+  - name: (
+    fullName: (
+  - name: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.ToString
+    name: ToString
+    fullName: System.Object.ToString
+    isExternal: true
+  - name: (
+    fullName: (
+  - name: )
+    fullName: )
+- uid: System.Object.Equals(System.Object)
+  parent: System.Object
+  isExternal: true
+  name: Equals(Object)
+  fullName: System.Object.Equals(System.Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    fullName: )
+- uid: System.Object.Equals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  name: Equals(Object, Object)
+  fullName: System.Object.Equals(System.Object, System.Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    fullName: )
+- uid: System.Object.ReferenceEquals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  name: ReferenceEquals(Object, Object)
+  fullName: System.Object.ReferenceEquals(System.Object, System.Object)
+  spec.csharp:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    fullName: System.Object.ReferenceEquals
+    isExternal: true
+  - name: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    fullName: System.Object.ReferenceEquals
+    isExternal: true
+  - name: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    fullName: )
+- uid: System.Object.GetHashCode
+  parent: System.Object
+  isExternal: true
+  name: GetHashCode()
+  fullName: System.Object.GetHashCode()
+  spec.csharp:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    fullName: System.Object.GetHashCode
+    isExternal: true
+  - name: (
+    fullName: (
+  - name: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    fullName: System.Object.GetHashCode
+    isExternal: true
+  - name: (
+    fullName: (
+  - name: )
+    fullName: )
+- uid: System.Object.GetType
+  parent: System.Object
+  isExternal: true
+  name: GetType()
+  fullName: System.Object.GetType()
+  spec.csharp:
+  - uid: System.Object.GetType
+    name: GetType
+    fullName: System.Object.GetType
+    isExternal: true
+  - name: (
+    fullName: (
+  - name: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.GetType
+    name: GetType
+    fullName: System.Object.GetType
+    isExternal: true
+  - name: (
+    fullName: (
+  - name: )
+    fullName: )
+- uid: System.Object.MemberwiseClone
+  parent: System.Object
+  isExternal: true
+  name: MemberwiseClone()
+  fullName: System.Object.MemberwiseClone()
+  spec.csharp:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    fullName: System.Object.MemberwiseClone
+    isExternal: true
+  - name: (
+    fullName: (
+  - name: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    fullName: System.Object.MemberwiseClone
+    isExternal: true
+  - name: (
+    fullName: (
+  - name: )
+    fullName: )
 - uid: System
   isExternal: false
   name: System
@@ -754,13 +1269,18 @@ references:
 - uid: System.Collections.IEqualityComparer
   parent: System.Collections
   isExternal: false
-  name: Collections.IEqualityComparer
+  name: IEqualityComparer
   fullName: System.Collections.IEqualityComparer
 - uid: System.Int32
   parent: System
   isExternal: false
   name: Int32
   fullName: System.Int32
+- uid: System.Collections.ICollection.Count
+  parent: System.Collections.ICollection
+  isExternal: false
+  name: Count
+  fullName: System.Collections.ICollection.Count
 - uid: System.Boolean
   parent: System
   isExternal: false
@@ -771,13 +1291,23 @@ references:
   isExternal: false
   name: NameObjectCollectionBase.KeysCollection
   fullName: System.Collections.Specialized.NameObjectCollectionBase.KeysCollection
+- uid: System.Collections.ICollection.IsSynchronized
+  parent: System.Collections.ICollection
+  isExternal: false
+  name: IsSynchronized
+  fullName: System.Collections.ICollection.IsSynchronized
+- uid: System.Collections.ICollection.SyncRoot
+  parent: System.Collections.ICollection
+  isExternal: false
+  name: SyncRoot
+  fullName: System.Collections.ICollection.SyncRoot
 - uid: System.String
   parent: System
   isExternal: false
   name: String
   fullName: System.String
 - uid: System.String[]
-  isExternal: false
+  isExternal: true
   name: String[]
   fullName: System.String[]
   fullname.vb: System.String()
@@ -786,16 +1316,18 @@ references:
   - uid: System.String
     name: String
     fullName: System.String
+    isExternal: true
   - name: '[]'
     fullName: '[]'
   spec.vb:
   - uid: System.String
     name: String
     fullName: System.String
+    isExternal: true
   - name: ()
     fullName: ()
 - uid: System.Object[]
-  isExternal: false
+  isExternal: true
   name: Object[]
   fullName: System.Object[]
   fullname.vb: System.Object()
@@ -804,12 +1336,14 @@ references:
   - uid: System.Object
     name: Object
     fullName: System.Object
+    isExternal: true
   - name: '[]'
     fullName: '[]'
   spec.vb:
   - uid: System.Object
     name: Object
     fullName: System.Object
+    isExternal: true
   - name: ()
     fullName: ()
 - uid: System.Type
@@ -817,8 +1351,95 @@ references:
   isExternal: false
   name: Type
   fullName: System.Type
+- uid: System.Collections.IEnumerable.GetEnumerator
+  parent: System.Collections.IEnumerable
+  isExternal: false
+  name: GetEnumerator()
+  fullName: System.Collections.IEnumerable.GetEnumerator()
+  spec.csharp:
+  - uid: System.Collections.IEnumerable.GetEnumerator
+    name: GetEnumerator
+    fullName: System.Collections.IEnumerable.GetEnumerator
+  - name: (
+    fullName: (
+  - name: )
+    fullName: )
+  spec.vb:
+  - uid: System.Collections.IEnumerable.GetEnumerator
+    name: GetEnumerator
+    fullName: System.Collections.IEnumerable.GetEnumerator
+  - name: (
+    fullName: (
+  - name: )
+    fullName: )
 - uid: System.Collections.IEnumerator
   parent: System.Collections
   isExternal: false
-  name: Collections.IEnumerator
+  name: IEnumerator
   fullName: System.Collections.IEnumerator
+- uid: System.Collections.ICollection.CopyTo(System.Array,System.Int32)
+  parent: System.Collections.ICollection
+  isExternal: true
+  name: CopyTo(Array, Int32)
+  fullName: System.Collections.ICollection.CopyTo(System.Array, System.Int32)
+  spec.csharp:
+  - uid: System.Collections.ICollection.CopyTo(System.Array,System.Int32)
+    name: CopyTo
+    fullName: System.Collections.ICollection.CopyTo
+  - name: (
+    fullName: (
+  - uid: System.Array
+    name: Array
+    fullName: System.Array
+  - name: ', '
+    fullName: ', '
+  - uid: System.Int32
+    name: Int32
+    fullName: System.Int32
+    isExternal: true
+  - name: )
+    fullName: )
+  spec.vb:
+  - uid: System.Collections.ICollection.CopyTo(System.Array,System.Int32)
+    name: CopyTo
+    fullName: System.Collections.ICollection.CopyTo
+  - name: (
+    fullName: (
+  - uid: System.Array
+    name: Array
+    fullName: System.Array
+  - name: ', '
+    fullName: ', '
+  - uid: System.Int32
+    name: Int32
+    fullName: System.Int32
+    isExternal: true
+  - name: )
+    fullName: )
+- uid: System.Array
+  parent: System
+  isExternal: false
+  name: Array
+  fullName: System.Array
+- uid: System.ArgumentOutOfRangeException
+  isExternal: false
+  name: ArgumentOutOfRangeException
+  fullName: System.ArgumentOutOfRangeException
+- uid: System.NotSupportedException
+  parent: System
+  isExternal: false
+  name: NotSupportedException
+  fullName: System.NotSupportedException
+- uid: System.ArgumentNullException
+  isExternal: false
+  name: ArgumentNullException
+  fullName: System.ArgumentNullException
+- uid: System.ArgumentException
+  parent: System
+  isExternal: false
+  name: ArgumentException
+  fullName: System.ArgumentException
+- uid: System.InvalidCastException
+  isExternal: false
+  name: InvalidCastException
+  fullName: System.InvalidCastException

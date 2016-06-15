@@ -8,6 +8,9 @@ items:
   - System.Collections.ReadOnlyCollectionBase.Count
   - System.Collections.ReadOnlyCollectionBase.GetEnumerator
   - System.Collections.ReadOnlyCollectionBase.InnerList
+  - System.Collections.ReadOnlyCollectionBase.System#Collections#ICollection#CopyTo(System.Array,System.Int32)
+  - System.Collections.ReadOnlyCollectionBase.System#Collections#ICollection#IsSynchronized
+  - System.Collections.ReadOnlyCollectionBase.System#Collections#ICollection#SyncRoot
   langs:
   - csharp
   - vb
@@ -30,10 +33,10 @@ items:
   example:
   - "\n<p>The following code example implements the <xref href=\"System.Collections.ReadOnlyCollectionBase\" data-throw-if-not-resolved=\"false\"></xref> class.</p>System.Collections.ReadOnlyCollectionBase#1"
   syntax:
-    content: 'public abstract class ReadOnlyCollectionBase : ICollection'
+    content: 'public abstract class ReadOnlyCollectionBase : ICollection, IEnumerable'
     content.vb: >-
       Public MustInherit Class ReadOnlyCollectionBase
-          Inherits ICollection
+          Implements ICollection, IEnumerable
   seealso:
   - type: System.Collections.ArrayList
     commentId: T:System.Collections.ArrayList
@@ -44,7 +47,16 @@ items:
   inheritance:
   - System.Object
   implements:
+  - System.Collections.ICollection
   - System.Collections.IEnumerable
+  inheritedMembers:
+  - System.Object.ToString
+  - System.Object.Equals(System.Object)
+  - System.Object.Equals(System.Object,System.Object)
+  - System.Object.ReferenceEquals(System.Object,System.Object)
+  - System.Object.GetHashCode
+  - System.Object.GetType
+  - System.Object.MemberwiseClone
   modifiers.csharp:
   - public
   - abstract
@@ -113,6 +125,8 @@ items:
     parameters: []
     return:
       type: System.Int32
+  implements:
+  - System.Collections.ICollection.Count
   modifiers.csharp:
   - public
   - virtual
@@ -158,6 +172,90 @@ items:
   modifiers.vb:
   - Protected
   - ReadOnly
+- uid: System.Collections.ReadOnlyCollectionBase.System#Collections#ICollection#IsSynchronized
+  commentId: P:System.Collections.ReadOnlyCollectionBase.System#Collections#ICollection#IsSynchronized
+  id: System#Collections#ICollection#IsSynchronized
+  isEii: true
+  parent: System.Collections.ReadOnlyCollectionBase
+  langs:
+  - csharp
+  - vb
+  name: ICollection.IsSynchronized
+  fullName: System.Collections.ReadOnlyCollectionBase.System.Collections.ICollection.IsSynchronized
+  type: Property
+  source:
+    remote:
+      path: src/System.Collections.NonGeneric/src/System/Collections/ReadOnlyCollectionBase.cs
+      branch: master
+      repo: https://github.com/dotnet/corefx.git
+    id: System.Collections.ICollection.IsSynchronized
+    path: src/System.Collections.NonGeneric/src/System/Collections/ReadOnlyCollectionBase.cs
+    startLine: 36
+  assemblies:
+  - System.Collections.NonGeneric
+  namespace: System.Collections
+  summary: "\n<p>Gets a value indicating whether access to a <xref href=\"System.Collections.ReadOnlyCollectionBase\" data-throw-if-not-resolved=\"false\"></xref> object is synchronized (thread safe).</p>\n"
+  remarks: "\n<p>A <xref href=\"System.Collections.ReadOnlyCollectionBase\" data-throw-if-not-resolved=\"false\"></xref> object is not synchronized. Derived classes can provide a synchronized version of the <xref href=\"System.Collections.ReadOnlyCollectionBase\" data-throw-if-not-resolved=\"false\"></xref> class using the <xref href=\"System.Collections.ICollection.SyncRoot\" data-throw-if-not-resolved=\"false\"></xref> property.</p>\n<p>Enumerating through a collection is intrinsically not a thread-safe procedure. Even when a collection is synchronized, other threads can still modify the collection, which causes the enumerator to throw an exception. To guarantee thread safety during enumeration, you can either lock the collection during the entire enumeration or catch the exceptions resulting from changes made by other threads.</p>\n"
+  example:
+  - "\n<p>The following code example shows how to lock the collection using the <xref href=\"System.Collections.ICollection.SyncRoot\" data-throw-if-not-resolved=\"false\"></xref> property during the entire enumeration. </p>System.Collections.ReadOnlyCollectionBase#2<p>Retrieving the value of this property is an O(1) operation.</p>"
+  syntax:
+    content: bool ICollection.IsSynchronized { get; }
+    content.vb: ReadOnly WriteOnly Property System.Collections.ICollection.IsSynchronized As Boolean Implements ICollection.IsSynchronized
+    parameters: []
+    return:
+      type: System.Boolean
+  seealso:
+  - type: System.Collections.ICollection.SyncRoot
+    commentId: P:System.Collections.ICollection.SyncRoot
+  implements:
+  - System.Collections.ICollection.IsSynchronized
+  modifiers.csharp:
+  - get
+  modifiers.vb:
+  - ReadOnly
+  name.vb: System.Collections.ICollection.IsSynchronized
+- uid: System.Collections.ReadOnlyCollectionBase.System#Collections#ICollection#SyncRoot
+  commentId: P:System.Collections.ReadOnlyCollectionBase.System#Collections#ICollection#SyncRoot
+  id: System#Collections#ICollection#SyncRoot
+  isEii: true
+  parent: System.Collections.ReadOnlyCollectionBase
+  langs:
+  - csharp
+  - vb
+  name: ICollection.SyncRoot
+  fullName: System.Collections.ReadOnlyCollectionBase.System.Collections.ICollection.SyncRoot
+  type: Property
+  source:
+    remote:
+      path: src/System.Collections.NonGeneric/src/System/Collections/ReadOnlyCollectionBase.cs
+      branch: master
+      repo: https://github.com/dotnet/corefx.git
+    id: System.Collections.ICollection.SyncRoot
+    path: src/System.Collections.NonGeneric/src/System/Collections/ReadOnlyCollectionBase.cs
+    startLine: 41
+  assemblies:
+  - System.Collections.NonGeneric
+  namespace: System.Collections
+  summary: "\n<p>Gets an object that can be used to synchronize access to a <xref href=\"System.Collections.ReadOnlyCollectionBase\" data-throw-if-not-resolved=\"false\"></xref> object.</p>\n"
+  remarks: "\n<p>Derived classes can provide their own synchronized version of the <xref href=\"System.Collections.ReadOnlyCollectionBase\" data-throw-if-not-resolved=\"false\"></xref> class using the <xref href=\"System.Collections.ICollection.SyncRoot\" data-throw-if-not-resolved=\"false\"></xref> property. The synchronizing code must perform operations on the <xref href=\"System.Collections.ICollection.SyncRoot\" data-throw-if-not-resolved=\"false\"></xref> property of the <xref href=\"System.Collections.ReadOnlyCollectionBase\" data-throw-if-not-resolved=\"false\"></xref> object, not directly on the <xref href=\"System.Collections.ReadOnlyCollectionBase\" data-throw-if-not-resolved=\"false\"></xref> object. This ensures proper operation of collections that are derived from other objects. Specifically, it maintains proper synchronization with other threads that might be simultaneously modifying the <xref href=\"System.Collections.ReadOnlyCollectionBase\" data-throw-if-not-resolved=\"false\"></xref> object.</p>\n<p>Enumerating through a collection is intrinsically not a thread-safe procedure. Even when a collection is synchronized, other threads can still modify the collection, which causes the enumerator to throw an exception. To guarantee thread safety during enumeration, you can either lock the collection during the entire enumeration or catch the exceptions resulting from changes made by other threads.</p>\n"
+  example:
+  - "\n<p>The following code example shows how to lock the collection using the <xref href=\"System.Collections.ICollection.SyncRoot\" data-throw-if-not-resolved=\"false\"></xref> property during the entire enumeration. </p>System.Collections.ReadOnlyCollectionBase#2<p>Retrieving the value of this property is an O(1) operation. </p>"
+  syntax:
+    content: object ICollection.SyncRoot { get; }
+    content.vb: ReadOnly WriteOnly Property System.Collections.ICollection.SyncRoot As Object Implements ICollection.SyncRoot
+    parameters: []
+    return:
+      type: System.Object
+  seealso:
+  - type: System.Collections.ICollection.IsSynchronized
+    commentId: P:System.Collections.ICollection.IsSynchronized
+  implements:
+  - System.Collections.ICollection.SyncRoot
+  modifiers.csharp:
+  - get
+  modifiers.vb:
+  - ReadOnly
+  name.vb: System.Collections.ICollection.SyncRoot
 - uid: System.Collections.ReadOnlyCollectionBase.GetEnumerator
   commentId: M:System.Collections.ReadOnlyCollectionBase.GetEnumerator
   id: GetEnumerator
@@ -187,16 +285,66 @@ items:
     content: public virtual IEnumerator GetEnumerator()
     content.vb: Public Overridable Function GetEnumerator As IEnumerator
     return:
-      type: IEnumerator
+      type: System.Collections.IEnumerator
   seealso:
   - type: System.Collections.IEnumerator
     commentId: T:System.Collections.IEnumerator
+  implements:
+  - System.Collections.IEnumerable.GetEnumerator
   modifiers.csharp:
   - public
   - virtual
   modifiers.vb:
   - Public
   - Overridable
+- uid: System.Collections.ReadOnlyCollectionBase.System#Collections#ICollection#CopyTo(System.Array,System.Int32)
+  commentId: M:System.Collections.ReadOnlyCollectionBase.System#Collections#ICollection#CopyTo(System.Array,System.Int32)
+  id: System#Collections#ICollection#CopyTo(System.Array,System.Int32)
+  isEii: true
+  parent: System.Collections.ReadOnlyCollectionBase
+  langs:
+  - csharp
+  - vb
+  name: ICollection.CopyTo(Array, Int32)
+  fullName: System.Collections.ReadOnlyCollectionBase.System.Collections.ICollection.CopyTo(System.Array, System.Int32)
+  type: Method
+  source:
+    remote:
+      path: src/System.Collections.NonGeneric/src/System/Collections/ReadOnlyCollectionBase.cs
+      branch: master
+      repo: https://github.com/dotnet/corefx.git
+    id: System.Collections.ICollection.CopyTo
+    path: src/System.Collections.NonGeneric/src/System/Collections/ReadOnlyCollectionBase.cs
+    startLine: 46
+  assemblies:
+  - System.Collections.NonGeneric
+  namespace: System.Collections
+  summary: "\n<p>Copies the entire <xref href=\"System.Collections.ReadOnlyCollectionBase\" data-throw-if-not-resolved=\"false\"></xref> to a compatible one-dimensional <xref href=\"System.Array\" data-throw-if-not-resolved=\"false\"></xref>, starting at the specified index of the target array.</p>\n"
+  remarks: "\n<p>The specified array must be of a compatible type.</p>\n<p>This method uses <xref href=\"System.Array.Copy(System.Array,System.Array,System.Int32)\" data-throw-if-not-resolved=\"false\"></xref> to copy the elements.</p>\n<p>This method is an O(<em>n</em>) operation, where <em>n</em> is <xref href=\"System.Collections.ReadOnlyCollectionBase.Count\" data-throw-if-not-resolved=\"false\"></xref>.</p>\n"
+  syntax:
+    content: void ICollection.CopyTo(Array array, int index)
+    content.vb: Sub System.Collections.ICollection.CopyTo(array As Array, index As Integer) Implements ICollection.CopyTo
+    parameters:
+    - id: array
+      type: System.Array
+    - id: index
+      type: System.Int32
+  exceptions:
+  - type: System.ArgumentNullException
+    commentId: T:System.ArgumentNullException
+    description: "\n<p>\n<em>array</em> is <strong>null</strong>. </p>\n"
+  - type: System.ArgumentOutOfRangeException
+    commentId: T:System.ArgumentOutOfRangeException
+    description: "\n<p>\n<em>index</em> is less than zero. </p>\n"
+  - type: System.ArgumentException
+    commentId: T:System.ArgumentException
+    description: "\n<p>\n<em>array</em> is multidimensional.</p>\n<p>-or- </p>\n<p>The number of elements in the source <xref href=\"System.Collections.ReadOnlyCollectionBase\" data-throw-if-not-resolved=\"false\"></xref> is greater than the available space from <em>index</em> to the end of the destination <em>array</em>. </p>\n"
+  - type: System.InvalidCastException
+    commentId: T:System.InvalidCastException
+    description: "\n<p>The type of the source <xref href=\"System.Collections.ReadOnlyCollectionBase\" data-throw-if-not-resolved=\"false\"></xref> cannot be cast automatically to the type of the destination <em>array</em>. </p>\n"
+  implements:
+  - System.Collections.ICollection.CopyTo(System.Array,System.Int32)
+  name.vb: System.Collections.ICollection.CopyTo(Array, Int32)
 references:
 - uid: System.Collections
   isExternal: false
@@ -207,15 +355,234 @@ references:
   isExternal: false
   name: Object
   fullName: System.Object
+- uid: System.Collections.ICollection
+  parent: System.Collections
+  isExternal: false
+  name: ICollection
+  fullName: System.Collections.ICollection
 - uid: System.Collections.IEnumerable
   parent: System.Collections
   isExternal: false
-  name: Collections.IEnumerable
+  name: IEnumerable
   fullName: System.Collections.IEnumerable
+- uid: System.Object.ToString
+  parent: System.Object
+  isExternal: true
+  name: ToString()
+  fullName: System.Object.ToString()
+  spec.csharp:
+  - uid: System.Object.ToString
+    name: ToString
+    fullName: System.Object.ToString
+    isExternal: true
+  - name: (
+    fullName: (
+  - name: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.ToString
+    name: ToString
+    fullName: System.Object.ToString
+    isExternal: true
+  - name: (
+    fullName: (
+  - name: )
+    fullName: )
+- uid: System.Object.Equals(System.Object)
+  parent: System.Object
+  isExternal: true
+  name: Equals(Object)
+  fullName: System.Object.Equals(System.Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    fullName: )
+- uid: System.Object.Equals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  name: Equals(Object, Object)
+  fullName: System.Object.Equals(System.Object, System.Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    fullName: )
+- uid: System.Object.ReferenceEquals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  name: ReferenceEquals(Object, Object)
+  fullName: System.Object.ReferenceEquals(System.Object, System.Object)
+  spec.csharp:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    fullName: System.Object.ReferenceEquals
+    isExternal: true
+  - name: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    fullName: System.Object.ReferenceEquals
+    isExternal: true
+  - name: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    fullName: )
+- uid: System.Object.GetHashCode
+  parent: System.Object
+  isExternal: true
+  name: GetHashCode()
+  fullName: System.Object.GetHashCode()
+  spec.csharp:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    fullName: System.Object.GetHashCode
+    isExternal: true
+  - name: (
+    fullName: (
+  - name: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    fullName: System.Object.GetHashCode
+    isExternal: true
+  - name: (
+    fullName: (
+  - name: )
+    fullName: )
+- uid: System.Object.GetType
+  parent: System.Object
+  isExternal: true
+  name: GetType()
+  fullName: System.Object.GetType()
+  spec.csharp:
+  - uid: System.Object.GetType
+    name: GetType
+    fullName: System.Object.GetType
+    isExternal: true
+  - name: (
+    fullName: (
+  - name: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.GetType
+    name: GetType
+    fullName: System.Object.GetType
+    isExternal: true
+  - name: (
+    fullName: (
+  - name: )
+    fullName: )
+- uid: System.Object.MemberwiseClone
+  parent: System.Object
+  isExternal: true
+  name: MemberwiseClone()
+  fullName: System.Object.MemberwiseClone()
+  spec.csharp:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    fullName: System.Object.MemberwiseClone
+    isExternal: true
+  - name: (
+    fullName: (
+  - name: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    fullName: System.Object.MemberwiseClone
+    isExternal: true
+  - name: (
+    fullName: (
+  - name: )
+    fullName: )
 - uid: System
   isExternal: false
   name: System
   fullName: System
+- uid: System.Collections.ICollection.Count
+  parent: System.Collections.ICollection
+  isExternal: false
+  name: Count
+  fullName: System.Collections.ICollection.Count
 - uid: System.Int32
   parent: System
   isExternal: false
@@ -226,8 +593,105 @@ references:
   isExternal: false
   name: ArrayList
   fullName: System.Collections.ArrayList
+- uid: System.Collections.ICollection.IsSynchronized
+  parent: System.Collections.ICollection
+  isExternal: false
+  name: IsSynchronized
+  fullName: System.Collections.ICollection.IsSynchronized
+- uid: System.Boolean
+  parent: System
+  isExternal: false
+  name: Boolean
+  fullName: System.Boolean
+- uid: System.Collections.ICollection.SyncRoot
+  parent: System.Collections.ICollection
+  isExternal: false
+  name: SyncRoot
+  fullName: System.Collections.ICollection.SyncRoot
+- uid: System.Collections.IEnumerable.GetEnumerator
+  parent: System.Collections.IEnumerable
+  isExternal: false
+  name: GetEnumerator()
+  fullName: System.Collections.IEnumerable.GetEnumerator()
+  spec.csharp:
+  - uid: System.Collections.IEnumerable.GetEnumerator
+    name: GetEnumerator
+    fullName: System.Collections.IEnumerable.GetEnumerator
+  - name: (
+    fullName: (
+  - name: )
+    fullName: )
+  spec.vb:
+  - uid: System.Collections.IEnumerable.GetEnumerator
+    name: GetEnumerator
+    fullName: System.Collections.IEnumerable.GetEnumerator
+  - name: (
+    fullName: (
+  - name: )
+    fullName: )
 - uid: System.Collections.IEnumerator
   parent: System.Collections
   isExternal: false
-  name: Collections.IEnumerator
+  name: IEnumerator
   fullName: System.Collections.IEnumerator
+- uid: System.Collections.ICollection.CopyTo(System.Array,System.Int32)
+  parent: System.Collections.ICollection
+  isExternal: true
+  name: CopyTo(Array, Int32)
+  fullName: System.Collections.ICollection.CopyTo(System.Array, System.Int32)
+  spec.csharp:
+  - uid: System.Collections.ICollection.CopyTo(System.Array,System.Int32)
+    name: CopyTo
+    fullName: System.Collections.ICollection.CopyTo
+  - name: (
+    fullName: (
+  - uid: System.Array
+    name: Array
+    fullName: System.Array
+  - name: ', '
+    fullName: ', '
+  - uid: System.Int32
+    name: Int32
+    fullName: System.Int32
+    isExternal: true
+  - name: )
+    fullName: )
+  spec.vb:
+  - uid: System.Collections.ICollection.CopyTo(System.Array,System.Int32)
+    name: CopyTo
+    fullName: System.Collections.ICollection.CopyTo
+  - name: (
+    fullName: (
+  - uid: System.Array
+    name: Array
+    fullName: System.Array
+  - name: ', '
+    fullName: ', '
+  - uid: System.Int32
+    name: Int32
+    fullName: System.Int32
+    isExternal: true
+  - name: )
+    fullName: )
+- uid: System.Array
+  parent: System
+  isExternal: false
+  name: Array
+  fullName: System.Array
+- uid: System.ArgumentNullException
+  isExternal: false
+  name: ArgumentNullException
+  fullName: System.ArgumentNullException
+- uid: System.ArgumentOutOfRangeException
+  isExternal: false
+  name: ArgumentOutOfRangeException
+  fullName: System.ArgumentOutOfRangeException
+- uid: System.ArgumentException
+  parent: System
+  isExternal: false
+  name: ArgumentException
+  fullName: System.ArgumentException
+- uid: System.InvalidCastException
+  isExternal: false
+  name: InvalidCastException
+  fullName: System.InvalidCastException

@@ -37,12 +37,12 @@ items:
   type: Class
   source:
     remote:
-      path: src/System.IO.UnmanagedMemoryStream/src/System/IO/UnmanagedMemoryStream.cs
+      path: src/mscorlib/src/System/IO/UnmanagedMemoryStream.cs
       branch: master
-      repo: https://github.com/dotnet/corefx.git
+      repo: https://github.com/dotnet/coreclr.git
     id: UnmanagedMemoryStream
-    path: src/System.IO.UnmanagedMemoryStream/src/System/IO/UnmanagedMemoryStream.cs
-    startLine: 73
+    path: src/mscorlib/src/System/IO/UnmanagedMemoryStream.cs
+    startLine: 83
   assemblies:
   - System.IO.UnmanagedMemoryStream
   namespace: System.IO
@@ -51,12 +51,50 @@ items:
   example:
   - "\n<p>The following code example demonstrates how to read from and write to unmanaged memory using the <xref href=\"System.IO.UnmanagedMemoryStream\" data-throw-if-not-resolved=\"false\"></xref> class.  A block of unmanaged memory is allocated and de-allocated using the <xref href=\"System.Runtime.InteropServices.Marshal\" data-throw-if-not-resolved=\"false\"></xref> class.</p>System.IO.UnmanagedMemoryStream#1"
   syntax:
-    content: 'public class UnmanagedMemoryStream : Stream'
+    content: 'public class UnmanagedMemoryStream : Stream, IDisposable'
     content.vb: >-
       Public Class UnmanagedMemoryStream
           Inherits Stream
+          Implements IDisposable
   inheritance:
   - System.Object
+  - System.MarshalByRefObject
+  - System.IO.Stream
+  implements:
+  - System.IDisposable
+  inheritedMembers:
+  - System.IO.Stream.Null
+  - System.IO.Stream.CopyToAsync(System.IO.Stream)
+  - System.IO.Stream.CopyToAsync(System.IO.Stream,System.Int32)
+  - System.IO.Stream.CopyToAsync(System.IO.Stream,System.Int32,System.Threading.CancellationToken)
+  - System.IO.Stream.CopyTo(System.IO.Stream)
+  - System.IO.Stream.CopyTo(System.IO.Stream,System.Int32)
+  - System.IO.Stream.Close
+  - System.IO.Stream.Dispose
+  - System.IO.Stream.FlushAsync
+  - System.IO.Stream.CreateWaitHandle
+  - System.IO.Stream.BeginRead(System.Byte[],System.Int32,System.Int32,System.AsyncCallback,System.Object)
+  - System.IO.Stream.EndRead(System.IAsyncResult)
+  - System.IO.Stream.ReadAsync(System.Byte[],System.Int32,System.Int32)
+  - System.IO.Stream.BeginWrite(System.Byte[],System.Int32,System.Int32,System.AsyncCallback,System.Object)
+  - System.IO.Stream.EndWrite(System.IAsyncResult)
+  - System.IO.Stream.WriteAsync(System.Byte[],System.Int32,System.Int32)
+  - System.IO.Stream.Synchronized(System.IO.Stream)
+  - System.IO.Stream.ObjectInvariant
+  - System.IO.Stream.CanTimeout
+  - System.IO.Stream.ReadTimeout
+  - System.IO.Stream.WriteTimeout
+  - System.MarshalByRefObject.MemberwiseClone(System.Boolean)
+  - System.MarshalByRefObject.GetLifetimeService
+  - System.MarshalByRefObject.InitializeLifetimeService
+  - System.MarshalByRefObject.CreateObjRef(System.Type)
+  - System.Object.ToString
+  - System.Object.Equals(System.Object)
+  - System.Object.Equals(System.Object,System.Object)
+  - System.Object.ReferenceEquals(System.Object,System.Object)
+  - System.Object.GetHashCode
+  - System.Object.GetType
+  - System.Object.MemberwiseClone
   modifiers.csharp:
   - public
   - class
@@ -75,19 +113,25 @@ items:
   type: Constructor
   source:
     remote:
-      path: src/System.IO.UnmanagedMemoryStream/src/System/IO/UnmanagedMemoryStream.cs
+      path: src/mscorlib/src/System/IO/UnmanagedMemoryStream.cs
       branch: master
-      repo: https://github.com/dotnet/corefx.git
+      repo: https://github.com/dotnet/coreclr.git
     id: .ctor
-    path: src/System.IO.UnmanagedMemoryStream/src/System/IO/UnmanagedMemoryStream.cs
-    startLine: 104
+    path: src/mscorlib/src/System/IO/UnmanagedMemoryStream.cs
+    startLine: 102
   assemblies:
   - System.IO.UnmanagedMemoryStream
   namespace: System.IO
   summary: "\n<p>Initializes a new instance of the <xref href=\"System.IO.UnmanagedMemoryStream\" data-throw-if-not-resolved=\"false\"></xref> class.</p>\n"
   syntax:
-    content: protected UnmanagedMemoryStream()
-    content.vb: Protected Sub New
+    content: >-
+      [SecuritySafeCritical]
+
+      protected UnmanagedMemoryStream()
+    content.vb: >-
+      <SecuritySafeCritical>
+
+      Protected Sub New
   exceptions:
   - type: System.Security.SecurityException
     commentId: T:System.Security.SecurityException
@@ -111,12 +155,12 @@ items:
   type: Constructor
   source:
     remote:
-      path: src/System.IO.UnmanagedMemoryStream/src/System/IO/UnmanagedMemoryStream.cs
+      path: src/mscorlib/src/System/IO/UnmanagedMemoryStream.cs
       branch: master
-      repo: https://github.com/dotnet/corefx.git
+      repo: https://github.com/dotnet/coreclr.git
     id: .ctor
-    path: src/System.IO.UnmanagedMemoryStream/src/System/IO/UnmanagedMemoryStream.cs
-    startLine: 211
+    path: src/mscorlib/src/System/IO/UnmanagedMemoryStream.cs
+    startLine: 187
   assemblies:
   - System.IO.UnmanagedMemoryStream
   namespace: System.IO
@@ -125,8 +169,18 @@ items:
   example:
   - "\n<p>The following code example demonstrates how to read from and write to unmanaged memory using the <xref href=\"System.IO.UnmanagedMemoryStream\" data-throw-if-not-resolved=\"false\"></xref> class. A block of unmanaged memory is allocated and de-allocated using the <xref href=\"System.Runtime.InteropServices.Marshal\" data-throw-if-not-resolved=\"false\"></xref> class.</p>System.IO.UnmanagedMemoryStream_Example#00"
   syntax:
-    content: public UnmanagedMemoryStream(byte *pointer, long length)
-    content.vb: Public Sub New(pointer As Byte *, length As Long)
+    content: >-
+      [SecurityCritical]
+
+      [CLSCompliant(false)]
+
+      public UnmanagedMemoryStream(byte *pointer, long length)
+    content.vb: >-
+      <SecurityCritical>
+
+      <CLSCompliant(False)>
+
+      Public Sub New(pointer As Byte *, length As Long)
     parameters:
     - id: pointer
       type: System.Byte*
@@ -147,6 +201,15 @@ items:
     commentId: F:System.Security.Permissions.SecurityPermissionFlag.UnmanagedCode
   - type: System.Security.SecurityCriticalAttribute
     commentId: T:System.Security.SecurityCriticalAttribute
+  attributes:
+  - type: System.CLSCompliantAttribute
+    ctor: System.CLSCompliantAttribute.#ctor(System.Boolean)
+    arguments:
+    - type: System.Boolean
+      value: false
+  - type: System.Security.SecurityCriticalAttribute
+    ctor: System.Security.SecurityCriticalAttribute.#ctor
+    arguments: []
   modifiers.csharp:
   - public
   modifiers.vb:
@@ -163,12 +226,12 @@ items:
   type: Constructor
   source:
     remote:
-      path: src/System.IO.UnmanagedMemoryStream/ref/System.IO.UnmanagedMemoryStream.cs
+      path: src/mscorlib/src/System/IO/UnmanagedMemoryStream.cs
       branch: master
-      repo: https://github.com/dotnet/corefx.git
+      repo: https://github.com/dotnet/coreclr.git
     id: .ctor
-    path: src/System.IO.UnmanagedMemoryStream/ref/System.IO.UnmanagedMemoryStream.cs
-    startLine: 63
+    path: src/mscorlib/src/System/IO/UnmanagedMemoryStream.cs
+    startLine: 194
   assemblies:
   - System.IO.UnmanagedMemoryStream
   namespace: System.IO
@@ -177,21 +240,27 @@ items:
   example:
   - "\n<p>The following code example demonstrates how to read from and write to unmanaged memory using the <xref href=\"System.IO.UnmanagedMemoryStream\" data-throw-if-not-resolved=\"false\"></xref> class.  A block of unmanaged memory is allocated and de-allocated using the <xref href=\"System.Runtime.InteropServices.Marshal\" data-throw-if-not-resolved=\"false\"></xref> class.</p>System.IO.UnmanagedMemoryStream#1"
   syntax:
-    content: public UnmanagedMemoryStream(byte *pointer, long length, long capacity, FileAccess access)
-    content.vb: Public Sub New(pointer As Byte *, length As Long, capacity As Long, access As FileAccess)
+    content: >-
+      [SecurityCritical]
+
+      [CLSCompliant(false)]
+
+      public UnmanagedMemoryStream(byte *pointer, long length, long capacity, FileAccess access)
+    content.vb: >-
+      <SecurityCritical>
+
+      <CLSCompliant(False)>
+
+      Public Sub New(pointer As Byte *, length As Long, capacity As Long, access As FileAccess)
     parameters:
     - id: pointer
       type: System.Byte*
-      description: "\n<p>A pointer to an unmanaged memory location.</p>\n"
     - id: length
       type: System.Int64
-      description: "\n<p>The length of the memory to use.</p>\n"
     - id: capacity
       type: System.Int64
-      description: "\n<p>The total amount of memory assigned to the stream.</p>\n"
     - id: access
       type: System.IO.FileAccess
-      description: "\n<p>One of the <xref href=\"System.IO.FileAccess\" data-throw-if-not-resolved=\"false\"></xref> values.</p>\n"
   exceptions:
   - type: System.Security.SecurityException
     commentId: T:System.Security.SecurityException
@@ -207,6 +276,15 @@ items:
     commentId: F:System.Security.Permissions.SecurityPermissionFlag.UnmanagedCode
   - type: System.Security.SecurityCriticalAttribute
     commentId: T:System.Security.SecurityCriticalAttribute
+  attributes:
+  - type: System.CLSCompliantAttribute
+    ctor: System.CLSCompliantAttribute.#ctor(System.Boolean)
+    arguments:
+    - type: System.Boolean
+      value: false
+  - type: System.Security.SecurityCriticalAttribute
+    ctor: System.Security.SecurityCriticalAttribute.#ctor
+    arguments: []
   modifiers.csharp:
   - public
   modifiers.vb:
@@ -218,17 +296,17 @@ items:
   langs:
   - csharp
   - vb
-  name: UnmanagedMemoryStream(Runtime.InteropServices.SafeBuffer, Int64, Int64)
+  name: UnmanagedMemoryStream(SafeBuffer, Int64, Int64)
   fullName: System.IO.UnmanagedMemoryStream.UnmanagedMemoryStream(System.Runtime.InteropServices.SafeBuffer, System.Int64, System.Int64)
   type: Constructor
   source:
     remote:
-      path: src/System.IO.UnmanagedMemoryStream/ref/System.IO.UnmanagedMemoryStream.cs
+      path: src/mscorlib/src/System/IO/UnmanagedMemoryStream.cs
       branch: master
-      repo: https://github.com/dotnet/corefx.git
+      repo: https://github.com/dotnet/coreclr.git
     id: .ctor
-    path: src/System.IO.UnmanagedMemoryStream/ref/System.IO.UnmanagedMemoryStream.cs
-    startLine: 66
+    path: src/mscorlib/src/System/IO/UnmanagedMemoryStream.cs
+    startLine: 111
   assemblies:
   - System.IO.UnmanagedMemoryStream
   namespace: System.IO
@@ -236,18 +314,21 @@ items:
   example:
   - 
   syntax:
-    content: public UnmanagedMemoryStream(Runtime.InteropServices.SafeBuffer buffer, long offset, long length)
-    content.vb: Public Sub New(buffer As Runtime.InteropServices.SafeBuffer, offset As Long, length As Long)
+    content: >-
+      [SecuritySafeCritical]
+
+      public UnmanagedMemoryStream(SafeBuffer buffer, long offset, long length)
+    content.vb: >-
+      <SecuritySafeCritical>
+
+      Public Sub New(buffer As SafeBuffer, offset As Long, length As Long)
     parameters:
     - id: buffer
       type: System.Runtime.InteropServices.SafeBuffer
-      description: "\n<p>The buffer to contain the unmanaged memory stream.</p>\n"
     - id: offset
       type: System.Int64
-      description: "\n<p>The byte position in the buffer at which to start the unmanaged memory stream.</p>\n"
     - id: length
       type: System.Int64
-      description: "\n<p>The length of the unmanaged memory stream.</p>\n"
   modifiers.csharp:
   - public
   modifiers.vb:
@@ -259,17 +340,17 @@ items:
   langs:
   - csharp
   - vb
-  name: UnmanagedMemoryStream(Runtime.InteropServices.SafeBuffer, Int64, Int64, FileAccess)
+  name: UnmanagedMemoryStream(SafeBuffer, Int64, Int64, FileAccess)
   fullName: System.IO.UnmanagedMemoryStream.UnmanagedMemoryStream(System.Runtime.InteropServices.SafeBuffer, System.Int64, System.Int64, System.IO.FileAccess)
   type: Constructor
   source:
     remote:
-      path: src/System.IO.UnmanagedMemoryStream/ref/System.IO.UnmanagedMemoryStream.cs
+      path: src/mscorlib/src/System/IO/UnmanagedMemoryStream.cs
       branch: master
-      repo: https://github.com/dotnet/corefx.git
+      repo: https://github.com/dotnet/coreclr.git
     id: .ctor
-    path: src/System.IO.UnmanagedMemoryStream/ref/System.IO.UnmanagedMemoryStream.cs
-    startLine: 67
+    path: src/mscorlib/src/System/IO/UnmanagedMemoryStream.cs
+    startLine: 116
   assemblies:
   - System.IO.UnmanagedMemoryStream
   namespace: System.IO
@@ -277,21 +358,23 @@ items:
   example:
   - 
   syntax:
-    content: public UnmanagedMemoryStream(Runtime.InteropServices.SafeBuffer buffer, long offset, long length, FileAccess access)
-    content.vb: Public Sub New(buffer As Runtime.InteropServices.SafeBuffer, offset As Long, length As Long, access As FileAccess)
+    content: >-
+      [SecuritySafeCritical]
+
+      public UnmanagedMemoryStream(SafeBuffer buffer, long offset, long length, FileAccess access)
+    content.vb: >-
+      <SecuritySafeCritical>
+
+      Public Sub New(buffer As SafeBuffer, offset As Long, length As Long, access As FileAccess)
     parameters:
     - id: buffer
       type: System.Runtime.InteropServices.SafeBuffer
-      description: "\n<p>The buffer to contain the unmanaged memory stream.</p>\n"
     - id: offset
       type: System.Int64
-      description: "\n<p>The byte position in the buffer at which to start the unmanaged memory stream.</p>\n"
     - id: length
       type: System.Int64
-      description: "\n<p>The length of the unmanaged memory stream.</p>\n"
     - id: access
       type: System.IO.FileAccess
-      description: "\n<p>The mode of file access to the unmanaged memory stream.</p>\n"
   modifiers.csharp:
   - public
   modifiers.vb:
@@ -308,12 +391,12 @@ items:
   type: Property
   source:
     remote:
-      path: src/System.IO.UnmanagedMemoryStream/src/System/IO/UnmanagedMemoryStream.cs
+      path: src/mscorlib/src/System/IO/UnmanagedMemoryStream.cs
       branch: master
-      repo: https://github.com/dotnet/corefx.git
+      repo: https://github.com/dotnet/coreclr.git
     id: CanRead
-    path: src/System.IO.UnmanagedMemoryStream/src/System/IO/UnmanagedMemoryStream.cs
-    startLine: 270
+    path: src/mscorlib/src/System/IO/UnmanagedMemoryStream.cs
+    startLine: 248
   assemblies:
   - System.IO.UnmanagedMemoryStream
   namespace: System.IO
@@ -327,6 +410,7 @@ items:
     parameters: []
     return:
       type: System.Boolean
+  overridden: System.IO.Stream.CanRead
   modifiers.csharp:
   - public
   - override
@@ -347,12 +431,12 @@ items:
   type: Property
   source:
     remote:
-      path: src/System.IO.UnmanagedMemoryStream/src/System/IO/UnmanagedMemoryStream.cs
+      path: src/mscorlib/src/System/IO/UnmanagedMemoryStream.cs
       branch: master
-      repo: https://github.com/dotnet/corefx.git
+      repo: https://github.com/dotnet/coreclr.git
     id: CanSeek
-    path: src/System.IO.UnmanagedMemoryStream/src/System/IO/UnmanagedMemoryStream.cs
-    startLine: 279
+    path: src/mscorlib/src/System/IO/UnmanagedMemoryStream.cs
+    startLine: 253
   assemblies:
   - System.IO.UnmanagedMemoryStream
   namespace: System.IO
@@ -364,6 +448,7 @@ items:
     parameters: []
     return:
       type: System.Boolean
+  overridden: System.IO.Stream.CanSeek
   modifiers.csharp:
   - public
   - override
@@ -384,12 +469,12 @@ items:
   type: Property
   source:
     remote:
-      path: src/System.IO.UnmanagedMemoryStream/src/System/IO/UnmanagedMemoryStream.cs
+      path: src/mscorlib/src/System/IO/UnmanagedMemoryStream.cs
       branch: master
-      repo: https://github.com/dotnet/corefx.git
+      repo: https://github.com/dotnet/coreclr.git
     id: CanWrite
-    path: src/System.IO.UnmanagedMemoryStream/src/System/IO/UnmanagedMemoryStream.cs
-    startLine: 288
+    path: src/mscorlib/src/System/IO/UnmanagedMemoryStream.cs
+    startLine: 258
   assemblies:
   - System.IO.UnmanagedMemoryStream
   namespace: System.IO
@@ -403,6 +488,7 @@ items:
     parameters: []
     return:
       type: System.Boolean
+  overridden: System.IO.Stream.CanWrite
   modifiers.csharp:
   - public
   - override
@@ -423,12 +509,12 @@ items:
   type: Property
   source:
     remote:
-      path: src/System.IO.UnmanagedMemoryStream/src/System/IO/UnmanagedMemoryStream.cs
+      path: src/mscorlib/src/System/IO/UnmanagedMemoryStream.cs
       branch: master
-      repo: https://github.com/dotnet/corefx.git
+      repo: https://github.com/dotnet/coreclr.git
     id: Capacity
-    path: src/System.IO.UnmanagedMemoryStream/src/System/IO/UnmanagedMemoryStream.cs
-    startLine: 354
+    path: src/mscorlib/src/System/IO/UnmanagedMemoryStream.cs
+    startLine: 305
   assemblies:
   - System.IO.UnmanagedMemoryStream
   namespace: System.IO
@@ -462,12 +548,12 @@ items:
   type: Property
   source:
     remote:
-      path: src/System.IO.UnmanagedMemoryStream/src/System/IO/UnmanagedMemoryStream.cs
+      path: src/mscorlib/src/System/IO/UnmanagedMemoryStream.cs
       branch: master
-      repo: https://github.com/dotnet/corefx.git
+      repo: https://github.com/dotnet/coreclr.git
     id: Length
-    path: src/System.IO.UnmanagedMemoryStream/src/System/IO/UnmanagedMemoryStream.cs
-    startLine: 342
+    path: src/mscorlib/src/System/IO/UnmanagedMemoryStream.cs
+    startLine: 298
   assemblies:
   - System.IO.UnmanagedMemoryStream
   namespace: System.IO
@@ -481,6 +567,7 @@ items:
     parameters: []
     return:
       type: System.Int64
+  overridden: System.IO.Stream.Length
   exceptions:
   - type: System.ObjectDisposedException
     commentId: T:System.ObjectDisposedException
@@ -505,23 +592,31 @@ items:
   type: Property
   source:
     remote:
-      path: src/System.IO.UnmanagedMemoryStream/src/System/IO/UnmanagedMemoryStream.cs
+      path: src/mscorlib/src/System/IO/UnmanagedMemoryStream.cs
       branch: master
-      repo: https://github.com/dotnet/corefx.git
+      repo: https://github.com/dotnet/coreclr.git
     id: Position
-    path: src/System.IO.UnmanagedMemoryStream/src/System/IO/UnmanagedMemoryStream.cs
-    startLine: 366
+    path: src/mscorlib/src/System/IO/UnmanagedMemoryStream.cs
+    startLine: 312
   assemblies:
   - System.IO.UnmanagedMemoryStream
   namespace: System.IO
   summary: "\n<p>Gets or sets the current position in a stream.</p>\n"
   remarks: "\n<p>When a stream is initialized, this property is set to zero.</p>\n<p>Although you can set the position of the stream beyond the stream's capacity, you will not be able to access that area using the <xref href=\"System.IO.UnmanagedMemoryStream.Read(System.Byte[],System.Int32,System.Int32)\" data-throw-if-not-resolved=\"false\"></xref> and <xref href=\"System.IO.UnmanagedMemoryStream.Write(System.Byte[],System.Int32,System.Int32)\" data-throw-if-not-resolved=\"false\"></xref> methods. <xref href=\"System.IO.UnmanagedMemoryStream.Read(System.Byte[],System.Int32,System.Int32)\" data-throw-if-not-resolved=\"false\"></xref> will return 0 and <xref href=\"System.IO.UnmanagedMemoryStream.Write(System.Byte[],System.Int32,System.Int32)\" data-throw-if-not-resolved=\"false\"></xref> will throw a <xref href=\"System.NotSupportedException\" data-throw-if-not-resolved=\"false\"></xref>. This support is primarily for design and code compatibility with basic stream operations.</p>\n"
   syntax:
-    content: public override long Position { get; set; }
+    content: >-
+      public override long Position
+
+      {
+          get;
+          [SecuritySafeCritical]
+          set;
+      }
     content.vb: Public Overrides Property Position As Long
     parameters: []
     return:
       type: System.Int64
+  overridden: System.IO.Stream.Position
   exceptions:
   - type: System.ObjectDisposedException
     commentId: T:System.ObjectDisposedException
@@ -549,20 +644,33 @@ items:
   type: Property
   source:
     remote:
-      path: src/System.IO.UnmanagedMemoryStream/src/System/IO/UnmanagedMemoryStream.cs
+      path: src/mscorlib/src/System/IO/UnmanagedMemoryStream.cs
       branch: master
-      repo: https://github.com/dotnet/corefx.git
+      repo: https://github.com/dotnet/coreclr.git
     id: PositionPointer
-    path: src/System.IO.UnmanagedMemoryStream/src/System/IO/UnmanagedMemoryStream.cs
-    startLine: 397
+    path: src/mscorlib/src/System/IO/UnmanagedMemoryStream.cs
+    startLine: 336
   assemblies:
   - System.IO.UnmanagedMemoryStream
   namespace: System.IO
   summary: "\n<p>Gets or sets a byte pointer to a stream based on the current position in the stream.</p>\n"
   remarks: "\n<p>To return a pointer to the entire stream, set the <xref href=\"System.IO.UnmanagedMemoryStream.Position\" data-throw-if-not-resolved=\"false\"></xref> property to zero, and then call this property.</p>\n"
   syntax:
-    content: public byte *PositionPointer { get; set; }
-    content.vb: Public Property PositionPointer As Byte
+    content: >-
+      [CLSCompliant(false)]
+
+      public byte *PositionPointer
+
+      {
+          [SecurityCritical]
+          get;
+          [SecurityCritical]
+          set;
+      }
+    content.vb: >-
+      <CLSCompliant(False)>
+
+      Public Property PositionPointer As Byte
     parameters: []
     return:
       type: System.Byte*
@@ -584,6 +692,12 @@ items:
     commentId: T:System.Security.Permissions.SecurityPermission
   - type: System.Security.SecurityCriticalAttribute
     commentId: T:System.Security.SecurityCriticalAttribute
+  attributes:
+  - type: System.CLSCompliantAttribute
+    ctor: System.CLSCompliantAttribute.#ctor(System.Boolean)
+    arguments:
+    - type: System.Boolean
+      value: false
   modifiers.csharp:
   - public
   - get
@@ -602,23 +716,30 @@ items:
   type: Method
   source:
     remote:
-      path: src/System.IO.UnmanagedMemoryStream/src/System/IO/UnmanagedMemoryStream.cs
+      path: src/mscorlib/src/System/IO/UnmanagedMemoryStream.cs
       branch: master
-      repo: https://github.com/dotnet/corefx.git
+      repo: https://github.com/dotnet/coreclr.git
     id: Dispose
-    path: src/System.IO.UnmanagedMemoryStream/src/System/IO/UnmanagedMemoryStream.cs
-    startLine: 298
+    path: src/mscorlib/src/System/IO/UnmanagedMemoryStream.cs
+    startLine: 263
   assemblies:
   - System.IO.UnmanagedMemoryStream
   namespace: System.IO
   summary: "\n<p>Releases the unmanaged resources used by the <xref href=\"System.IO.UnmanagedMemoryStream\" data-throw-if-not-resolved=\"false\"></xref> and optionally releases the managed resources.</p>\n"
   remarks: "\n<p>This method is called by the public <xref href=\"System.ComponentModel.Component.Dispose\" data-throw-if-not-resolved=\"false\"></xref> method and the <xref href=\"System.Object.Finalize\" data-throw-if-not-resolved=\"false\"></xref> method. <xref href=\"System.ComponentModel.Component.Dispose\" data-throw-if-not-resolved=\"false\"></xref> invokes the protected <xref href=\"System.IO.UnmanagedMemoryStream.Dispose(System.Boolean)\" data-throw-if-not-resolved=\"false\"></xref> method with the <em>disposing</em> parameter set to <strong>true</strong>. <xref href=\"System.Object.Finalize\" data-throw-if-not-resolved=\"false\"></xref> invokes <xref href=\"System.IO.UnmanagedMemoryStream.Dispose(System.Boolean)\" data-throw-if-not-resolved=\"false\"></xref> with <em>disposing</em> set to <strong>false</strong>.</p>\n<p>When the <em>disposing</em> parameter is <strong>true</strong>, this method releases all resources held by any managed objects that this <xref href=\"System.IO.UnmanagedMemoryStream\" data-throw-if-not-resolved=\"false\"></xref> references. This method invokes the <xref href=\"System.ComponentModel.Component.Dispose\" data-throw-if-not-resolved=\"false\"></xref> method of each referenced object.</p>\n"
   syntax:
-    content: protected override void Dispose(bool disposing)
-    content.vb: Protected Overrides Sub Dispose(disposing As Boolean)
+    content: >-
+      [SecuritySafeCritical]
+
+      protected override void Dispose(bool disposing)
+    content.vb: >-
+      <SecuritySafeCritical>
+
+      Protected Overrides Sub Dispose(disposing As Boolean)
     parameters:
     - id: disposing
       type: System.Boolean
+  overridden: System.IO.Stream.Dispose(System.Boolean)
   modifiers.csharp:
   - protected
   - override
@@ -637,12 +758,12 @@ items:
   type: Method
   source:
     remote:
-      path: src/System.IO.UnmanagedMemoryStream/src/System/IO/UnmanagedMemoryStream.cs
+      path: src/mscorlib/src/System/IO/UnmanagedMemoryStream.cs
       branch: master
-      repo: https://github.com/dotnet/corefx.git
+      repo: https://github.com/dotnet/coreclr.git
     id: Flush
-    path: src/System.IO.UnmanagedMemoryStream/src/System/IO/UnmanagedMemoryStream.cs
-    startLine: 313
+    path: src/mscorlib/src/System/IO/UnmanagedMemoryStream.cs
+    startLine: 275
   assemblies:
   - System.IO.UnmanagedMemoryStream
   namespace: System.IO
@@ -653,6 +774,7 @@ items:
   syntax:
     content: public override void Flush()
     content.vb: Public Overrides Sub Flush
+  overridden: System.IO.Stream.Flush
   exceptions:
   - type: System.ObjectDisposedException
     commentId: T:System.ObjectDisposedException
@@ -670,32 +792,41 @@ items:
   langs:
   - csharp
   - vb
-  name: FlushAsync(Threading.CancellationToken)
+  name: FlushAsync(CancellationToken)
   fullName: System.IO.UnmanagedMemoryStream.FlushAsync(System.Threading.CancellationToken)
   type: Method
   source:
     remote:
-      path: src/System.IO.UnmanagedMemoryStream/ref/System.IO.UnmanagedMemoryStream.cs
+      path: src/mscorlib/src/System/IO/UnmanagedMemoryStream.cs
       branch: master
-      repo: https://github.com/dotnet/corefx.git
+      repo: https://github.com/dotnet/coreclr.git
     id: FlushAsync
-    path: src/System.IO.UnmanagedMemoryStream/ref/System.IO.UnmanagedMemoryStream.cs
-    startLine: 78
+    path: src/mscorlib/src/System/IO/UnmanagedMemoryStream.cs
+    startLine: 279
   assemblies:
   - System.IO.UnmanagedMemoryStream
   namespace: System.IO
   summary: "\n<p>Overrides the <xref href=\"System.IO.Stream.FlushAsync(System.Threading.CancellationToken)\" data-throw-if-not-resolved=\"false\"></xref> method so that the operation is cancelled if specified, but no other action is performed.</p>\n<p>Available starting in .NET Framework 4.6</p>\n"
   remarks: "\n<p>If the operation isn’t cancelled, the <xref href=\"System.IO.UnmanagedMemoryStream\" data-throw-if-not-resolved=\"false\"></xref> calls the <xref href=\"System.IO.UnmanagedMemoryStream.Flush\" data-throw-if-not-resolved=\"false\"></xref> method, which means that no action performed.</p>\n"
   syntax:
-    content: public override Threading.Tasks.Task FlushAsync(Threading.CancellationToken cancellationToken)
-    content.vb: Public Overrides Function FlushAsync(cancellationToken As Threading.CancellationToken) As Threading.Tasks.Task
+    content: >-
+      [HostProtection(ExternalThreading = true)]
+
+      [ComVisible(false)]
+
+      public override Task FlushAsync(CancellationToken cancellationToken)
+    content.vb: >-
+      <HostProtection(ExternalThreading:=True)>
+
+      <ComVisible(False)>
+
+      Public Overrides Function FlushAsync(cancellationToken As CancellationToken) As Task
     parameters:
     - id: cancellationToken
       type: System.Threading.CancellationToken
-      description: "\n<p>The token to monitor for cancellation requests. The default value is <xref href=\"System.Threading.CancellationToken.None\" data-throw-if-not-resolved=\"false\"></xref>.</p>\n"
     return:
       type: System.Threading.Tasks.Task
-      description: "\n<p>A task that represents the asynchronous flush operation.</p>\n"
+  overridden: System.IO.Stream.FlushAsync(System.Threading.CancellationToken)
   modifiers.csharp:
   - public
   - override
@@ -714,33 +845,39 @@ items:
   type: Method
   source:
     remote:
-      path: src/System.IO.UnmanagedMemoryStream/ref/System.IO.UnmanagedMemoryStream.cs
+      path: src/mscorlib/src/System/IO/UnmanagedMemoryStream.cs
       branch: master
-      repo: https://github.com/dotnet/corefx.git
+      repo: https://github.com/dotnet/coreclr.git
     id: Initialize
-    path: src/System.IO.UnmanagedMemoryStream/ref/System.IO.UnmanagedMemoryStream.cs
-    startLine: 79
+    path: src/mscorlib/src/System/IO/UnmanagedMemoryStream.cs
+    startLine: 210
   assemblies:
   - System.IO.UnmanagedMemoryStream
   namespace: System.IO
   summary: "\n<p>Initializes a new instance of the <xref href=\"System.IO.UnmanagedMemoryStream\" data-throw-if-not-resolved=\"false\"></xref> class by using a pointer to an unmanaged memory location.</p>\n"
   remarks: "\n<p>This method is equivalent to the <xref href=\"System.IO.UnmanagedMemoryStream.#ctor(System.Byte*,System.Int64,System.Int64,System.IO.FileAccess)\" data-throw-if-not-resolved=\"false\"></xref> constructor. It supports methods that need to initialize the pointer before setting stream variables and, therefore, cannot call the parameterized constructor. Such methods should use the default constructor, <xref href=\"System.IO.UnmanagedMemoryStream.#ctor\" data-throw-if-not-resolved=\"false\"></xref>, initialize the pointer, and then invoke the <xref href=\"System.IO.UnmanagedMemoryStream.Initialize(System.Byte*,System.Int64,System.Int64,System.IO.FileAccess)\" data-throw-if-not-resolved=\"false\"></xref> method.</p>\n"
   syntax:
-    content: protected void Initialize(byte *pointer, long length, long capacity, FileAccess access)
-    content.vb: Protected Sub Initialize(pointer As Byte *, length As Long, capacity As Long, access As FileAccess)
+    content: >-
+      [SecurityCritical]
+
+      [CLSCompliant(false)]
+
+      protected void Initialize(byte *pointer, long length, long capacity, FileAccess access)
+    content.vb: >-
+      <SecurityCritical>
+
+      <CLSCompliant(False)>
+
+      Protected Sub Initialize(pointer As Byte *, length As Long, capacity As Long, access As FileAccess)
     parameters:
     - id: pointer
       type: System.Byte*
-      description: "\n<p>A pointer to an unmanaged memory location.</p>\n"
     - id: length
       type: System.Int64
-      description: "\n<p>The length of the memory to use.</p>\n"
     - id: capacity
       type: System.Int64
-      description: "\n<p>The total amount of memory assigned to the stream.</p>\n"
     - id: access
       type: System.IO.FileAccess
-      description: "\n<p>One of the <xref href=\"System.IO.FileAccess\" data-throw-if-not-resolved=\"false\"></xref> values.</p>\n"
   exceptions:
   - type: System.Security.SecurityException
     commentId: T:System.Security.SecurityException
@@ -756,6 +893,15 @@ items:
     commentId: F:System.Security.Permissions.SecurityPermissionFlag.UnmanagedCode
   - type: System.Security.SecurityCriticalAttribute
     commentId: T:System.Security.SecurityCriticalAttribute
+  attributes:
+  - type: System.CLSCompliantAttribute
+    ctor: System.CLSCompliantAttribute.#ctor(System.Boolean)
+    arguments:
+    - type: System.Boolean
+      value: false
+  - type: System.Security.SecurityCriticalAttribute
+    ctor: System.Security.SecurityCriticalAttribute.#ctor
+    arguments: []
   modifiers.csharp:
   - protected
   modifiers.vb:
@@ -767,17 +913,17 @@ items:
   langs:
   - csharp
   - vb
-  name: Initialize(Runtime.InteropServices.SafeBuffer, Int64, Int64, FileAccess)
+  name: Initialize(SafeBuffer, Int64, Int64, FileAccess)
   fullName: System.IO.UnmanagedMemoryStream.Initialize(System.Runtime.InteropServices.SafeBuffer, System.Int64, System.Int64, System.IO.FileAccess)
   type: Method
   source:
     remote:
-      path: src/System.IO.UnmanagedMemoryStream/ref/System.IO.UnmanagedMemoryStream.cs
+      path: src/mscorlib/src/System/IO/UnmanagedMemoryStream.cs
       branch: master
-      repo: https://github.com/dotnet/corefx.git
+      repo: https://github.com/dotnet/coreclr.git
     id: Initialize
-    path: src/System.IO.UnmanagedMemoryStream/ref/System.IO.UnmanagedMemoryStream.cs
-    startLine: 82
+    path: src/mscorlib/src/System/IO/UnmanagedMemoryStream.cs
+    startLine: 129
   assemblies:
   - System.IO.UnmanagedMemoryStream
   namespace: System.IO
@@ -785,21 +931,23 @@ items:
   example:
   - 
   syntax:
-    content: protected void Initialize(Runtime.InteropServices.SafeBuffer buffer, long offset, long length, FileAccess access)
-    content.vb: Protected Sub Initialize(buffer As Runtime.InteropServices.SafeBuffer, offset As Long, length As Long, access As FileAccess)
+    content: >-
+      [SecuritySafeCritical]
+
+      protected void Initialize(SafeBuffer buffer, long offset, long length, FileAccess access)
+    content.vb: >-
+      <SecuritySafeCritical>
+
+      Protected Sub Initialize(buffer As SafeBuffer, offset As Long, length As Long, access As FileAccess)
     parameters:
     - id: buffer
       type: System.Runtime.InteropServices.SafeBuffer
-      description: "\n<p>The buffer to contain the unmanaged memory stream.</p>\n"
     - id: offset
       type: System.Int64
-      description: "\n<p>The byte position in the buffer at which to start the unmanaged memory stream.</p>\n"
     - id: length
       type: System.Int64
-      description: "\n<p>The length of the unmanaged memory stream.</p>\n"
     - id: access
       type: System.IO.FileAccess
-      description: "\n<p>The mode of file access to the unmanaged memory stream.</p>\n"
   modifiers.csharp:
   - protected
   modifiers.vb:
@@ -816,12 +964,12 @@ items:
   type: Method
   source:
     remote:
-      path: src/System.IO.UnmanagedMemoryStream/src/System/IO/UnmanagedMemoryStream.cs
+      path: src/mscorlib/src/System/IO/UnmanagedMemoryStream.cs
       branch: master
-      repo: https://github.com/dotnet/corefx.git
+      repo: https://github.com/dotnet/coreclr.git
     id: Read
-    path: src/System.IO.UnmanagedMemoryStream/src/System/IO/UnmanagedMemoryStream.cs
-    startLine: 431
+    path: src/mscorlib/src/System/IO/UnmanagedMemoryStream.cs
+    startLine: 379
   assemblies:
   - System.IO.UnmanagedMemoryStream
   namespace: System.IO
@@ -830,21 +978,31 @@ items:
   example:
   - "\n<p>The following code example demonstrates how to read from and write to unmanaged memory using the <xref href=\"System.IO.UnmanagedMemoryStream\" data-throw-if-not-resolved=\"false\"></xref> class.  A block of unmanaged memory is allocated and de-allocated using the <xref href=\"System.Runtime.InteropServices.Marshal\" data-throw-if-not-resolved=\"false\"></xref> class.</p>System.IO.UnmanagedMemoryStream#1"
   syntax:
-    content: public override int Read(byte[] buffer, int offset, int count)
-    content.vb: Public Overrides Function Read(buffer As Byte(), offset As Integer, count As Integer) As Integer
+    content: >-
+      [SecuritySafeCritical]
+
+      public override int Read([In, Out] byte[] buffer, int offset, int count)
+    content.vb: >-
+      <SecuritySafeCritical>
+
+      Public Overrides Function Read(buffer As Byte(), offset As Integer, count As Integer) As Integer
     parameters:
     - id: buffer
       type: System.Byte[]
-      description: Buffer to read the bytes to.
+      attributes:
+      - type: System.Runtime.InteropServices.InAttribute
+        ctor: System.Runtime.InteropServices.InAttribute.#ctor
+        arguments: []
+      - type: System.Runtime.InteropServices.OutAttribute
+        ctor: System.Runtime.InteropServices.OutAttribute.#ctor
+        arguments: []
     - id: offset
       type: System.Int32
-      description: Starting index in the buffer.
     - id: count
       type: System.Int32
-      description: Maximum number of bytes to read.
     return:
       type: System.Int32
-      description: Number of bytes actually read.
+  overridden: System.IO.Stream.Read(System.Byte[],System.Int32,System.Int32)
   exceptions:
   - type: System.ObjectDisposedException
     commentId: T:System.ObjectDisposedException
@@ -876,41 +1034,47 @@ items:
   langs:
   - csharp
   - vb
-  name: ReadAsync(Byte[], Int32, Int32, Threading.CancellationToken)
+  name: ReadAsync(Byte[], Int32, Int32, CancellationToken)
   fullName: System.IO.UnmanagedMemoryStream.ReadAsync(System.Byte[], System.Int32, System.Int32, System.Threading.CancellationToken)
   type: Method
   source:
     remote:
-      path: src/System.IO.UnmanagedMemoryStream/ref/System.IO.UnmanagedMemoryStream.cs
+      path: src/mscorlib/src/System/IO/UnmanagedMemoryStream.cs
       branch: master
-      repo: https://github.com/dotnet/corefx.git
+      repo: https://github.com/dotnet/coreclr.git
     id: ReadAsync
-    path: src/System.IO.UnmanagedMemoryStream/ref/System.IO.UnmanagedMemoryStream.cs
-    startLine: 84
+    path: src/mscorlib/src/System/IO/UnmanagedMemoryStream.cs
+    startLine: 433
   assemblies:
   - System.IO.UnmanagedMemoryStream
   namespace: System.IO
   summary: "\n<p>Asynchronously reads the specified number of bytes into the specified array.</p>\n<p>Available starting in .NET Framework 4.6</p>\n"
   remarks: "\n<p>If an exception occurs during the read operation, it will be set as the <xref href=\"System.Threading.Tasks.Task.Exception\" data-throw-if-not-resolved=\"false\"></xref> of the property of the returned task.</p>\n"
   syntax:
-    content: public override Threading.Tasks.Task<int> ReadAsync(byte[] buffer, int offset, int count, Threading.CancellationToken cancellationToken)
-    content.vb: Public Overrides Function ReadAsync(buffer As Byte(), offset As Integer, count As Integer, cancellationToken As Threading.CancellationToken) As Threading.Tasks.Task(Of Integer)
+    content: >-
+      [HostProtection(ExternalThreading = true)]
+
+      [ComVisible(false)]
+
+      public override Task<int> ReadAsync(byte[] buffer, int offset, int count, CancellationToken cancellationToken)
+    content.vb: >-
+      <HostProtection(ExternalThreading:=True)>
+
+      <ComVisible(False)>
+
+      Public Overrides Function ReadAsync(buffer As Byte(), offset As Integer, count As Integer, cancellationToken As CancellationToken) As Task(Of Integer)
     parameters:
     - id: buffer
       type: System.Byte[]
-      description: "\n<p>The buffer to write the data into.</p>\n"
     - id: offset
       type: System.Int32
-      description: "\n<p>The byte offset in <em>buffer</em> at which to begin writing data from the stream.</p>\n"
     - id: count
       type: System.Int32
-      description: "\n<p>The maximum number of bytes to read.</p>\n"
     - id: cancellationToken
       type: System.Threading.CancellationToken
-      description: "\n<p>The token to monitor for cancellation requests. The default value is <xref href=\"System.Threading.CancellationToken.None\" data-throw-if-not-resolved=\"false\"></xref>.</p>\n"
     return:
       type: System.Threading.Tasks.Task{System.Int32}
-      description: "\n<p>A task that represents the asynchronous read operation. The value of the <em>TResult</em> parameter contains the total number of bytes read into the buffer. The result value can be less than the number of bytes requested if the number of bytes currently available is less than the requested number, or it can be 0 (zero) if the end of the stream has been reached.</p>\n"
+  overridden: System.IO.Stream.ReadAsync(System.Byte[],System.Int32,System.Int32,System.Threading.CancellationToken)
   modifiers.csharp:
   - public
   - override
@@ -918,7 +1082,7 @@ items:
   - Public
   - Overrides
   fullName.vb: System.IO.UnmanagedMemoryStream.ReadAsync(System.Byte(), System.Int32, System.Int32, System.Threading.CancellationToken)
-  name.vb: ReadAsync(Byte(), Int32, Int32, Threading.CancellationToken)
+  name.vb: ReadAsync(Byte(), Int32, Int32, CancellationToken)
 - uid: System.IO.UnmanagedMemoryStream.ReadByte
   commentId: M:System.IO.UnmanagedMemoryStream.ReadByte
   id: ReadByte
@@ -931,12 +1095,12 @@ items:
   type: Method
   source:
     remote:
-      path: src/System.IO.UnmanagedMemoryStream/src/System/IO/UnmanagedMemoryStream.cs
+      path: src/mscorlib/src/System/IO/UnmanagedMemoryStream.cs
       branch: master
-      repo: https://github.com/dotnet/corefx.git
+      repo: https://github.com/dotnet/coreclr.git
     id: ReadByte
-    path: src/System.IO.UnmanagedMemoryStream/src/System/IO/UnmanagedMemoryStream.cs
-    startLine: 533
+    path: src/mscorlib/src/System/IO/UnmanagedMemoryStream.cs
+    startLine: 462
   assemblies:
   - System.IO.UnmanagedMemoryStream
   namespace: System.IO
@@ -945,10 +1109,17 @@ items:
   example:
   - "\n<p>The following code example demonstrates how to read from and write to unmanaged memory using the <xref href=\"System.IO.UnmanagedMemoryStream\" data-throw-if-not-resolved=\"false\"></xref> class. A block of unmanaged memory is allocated and de-allocated using the <xref href=\"System.Runtime.InteropServices.Marshal\" data-throw-if-not-resolved=\"false\"></xref> class. In this example, an <xref href=\"System.IO.UnmanagedMemoryStream\" data-throw-if-not-resolved=\"false\"></xref> object is passed to a method which checks the <xref href=\"System.IO.UnmanagedMemoryStream.CanRead\" data-throw-if-not-resolved=\"false\"></xref> property before attempting to read and display the contents to the console.</p>System.IO.UnmanagedMemoryStream_Example#00"
   syntax:
-    content: public override int ReadByte()
-    content.vb: Public Overrides Function ReadByte As Integer
+    content: >-
+      [SecuritySafeCritical]
+
+      public override int ReadByte()
+    content.vb: >-
+      <SecuritySafeCritical>
+
+      Public Overrides Function ReadByte As Integer
     return:
       type: System.Int32
+  overridden: System.IO.Stream.ReadByte
   exceptions:
   - type: System.ObjectDisposedException
     commentId: T:System.ObjectDisposedException
@@ -974,12 +1145,12 @@ items:
   type: Method
   source:
     remote:
-      path: src/System.IO.UnmanagedMemoryStream/ref/System.IO.UnmanagedMemoryStream.cs
+      path: src/mscorlib/src/System/IO/UnmanagedMemoryStream.cs
       branch: master
-      repo: https://github.com/dotnet/corefx.git
+      repo: https://github.com/dotnet/coreclr.git
     id: Seek
-    path: src/System.IO.UnmanagedMemoryStream/ref/System.IO.UnmanagedMemoryStream.cs
-    startLine: 86
+    path: src/mscorlib/src/System/IO/UnmanagedMemoryStream.cs
+    startLine: 496
   assemblies:
   - System.IO.UnmanagedMemoryStream
   namespace: System.IO
@@ -991,13 +1162,11 @@ items:
     parameters:
     - id: offset
       type: System.Int64
-      description: "\n<p>The point relative to <em>origin</em> to begin seeking from. </p>\n"
     - id: loc
       type: System.IO.SeekOrigin
-      description: "\n<p>Specifies the beginning, the end, or the current position as a reference point for <em>origin</em>, using a value of type <xref href=\"System.IO.SeekOrigin\" data-throw-if-not-resolved=\"false\"></xref>. </p>\n"
     return:
       type: System.Int64
-      description: "\n<p>The new position in the stream.</p>\n"
+  overridden: System.IO.Stream.Seek(System.Int64,System.IO.SeekOrigin)
   exceptions:
   - type: System.IO.IOException
     commentId: T:System.IO.IOException
@@ -1029,23 +1198,30 @@ items:
   type: Method
   source:
     remote:
-      path: src/System.IO.UnmanagedMemoryStream/src/System/IO/UnmanagedMemoryStream.cs
+      path: src/mscorlib/src/System/IO/UnmanagedMemoryStream.cs
       branch: master
-      repo: https://github.com/dotnet/corefx.git
+      repo: https://github.com/dotnet/coreclr.git
     id: SetLength
-    path: src/System.IO.UnmanagedMemoryStream/src/System/IO/UnmanagedMemoryStream.cs
-    startLine: 619
+    path: src/mscorlib/src/System/IO/UnmanagedMemoryStream.cs
+    startLine: 530
   assemblies:
   - System.IO.UnmanagedMemoryStream
   namespace: System.IO
   summary: "\n<p>Sets the length of a stream to a specified value.</p>\n"
   remarks: "\n<p>If the given value is less than the current length of the stream, the stream is truncated. If the given value is larger than the current length of the stream, the stream is expanded. If the stream is expanded, the contents of the stream between the old and the new lengths are undefined.</p>\n<p>A stream must support both writing and seeking for <xref href=\"System.IO.UnmanagedMemoryStream.SetLength(System.Int64)\" data-throw-if-not-resolved=\"false\"></xref> to work.</p>\n"
   syntax:
-    content: public override void SetLength(long value)
-    content.vb: Public Overrides Sub SetLength(value As Long)
+    content: >-
+      [SecuritySafeCritical]
+
+      public override void SetLength(long value)
+    content.vb: >-
+      <SecuritySafeCritical>
+
+      Public Overrides Sub SetLength(value As Long)
     parameters:
     - id: value
       type: System.Int64
+  overridden: System.IO.Stream.SetLength(System.Int64)
   exceptions:
   - type: System.IO.IOException
     commentId: T:System.IO.IOException
@@ -1077,12 +1253,12 @@ items:
   type: Method
   source:
     remote:
-      path: src/System.IO.UnmanagedMemoryStream/src/System/IO/UnmanagedMemoryStream.cs
+      path: src/mscorlib/src/System/IO/UnmanagedMemoryStream.cs
       branch: master
-      repo: https://github.com/dotnet/corefx.git
+      repo: https://github.com/dotnet/coreclr.git
     id: Write
-    path: src/System.IO.UnmanagedMemoryStream/src/System/IO/UnmanagedMemoryStream.cs
-    startLine: 655
+    path: src/mscorlib/src/System/IO/UnmanagedMemoryStream.cs
+    startLine: 556
   assemblies:
   - System.IO.UnmanagedMemoryStream
   namespace: System.IO
@@ -1091,18 +1267,22 @@ items:
   example:
   - "\n<p>The following code example demonstrates how to read from and write to unmanaged memory using the <xref href=\"System.IO.UnmanagedMemoryStream\" data-throw-if-not-resolved=\"false\"></xref> class.  A block of unmanaged memory is allocated and de-allocated using the <xref href=\"System.Runtime.InteropServices.Marshal\" data-throw-if-not-resolved=\"false\"></xref> class.</p>System.IO.UnmanagedMemoryStream#1"
   syntax:
-    content: public override void Write(byte[] buffer, int offset, int count)
-    content.vb: Public Overrides Sub Write(buffer As Byte(), offset As Integer, count As Integer)
+    content: >-
+      [SecuritySafeCritical]
+
+      public override void Write(byte[] buffer, int offset, int count)
+    content.vb: >-
+      <SecuritySafeCritical>
+
+      Public Overrides Sub Write(buffer As Byte(), offset As Integer, count As Integer)
     parameters:
     - id: buffer
       type: System.Byte[]
-      description: Buffer that will be written.
     - id: offset
       type: System.Int32
-      description: Starting index in the buffer.
     - id: count
       type: System.Int32
-      description: Number of bytes to write.
+  overridden: System.IO.Stream.Write(System.Byte[],System.Int32,System.Int32)
   exceptions:
   - type: System.ObjectDisposedException
     commentId: T:System.ObjectDisposedException
@@ -1137,41 +1317,47 @@ items:
   langs:
   - csharp
   - vb
-  name: WriteAsync(Byte[], Int32, Int32, Threading.CancellationToken)
+  name: WriteAsync(Byte[], Int32, Int32, CancellationToken)
   fullName: System.IO.UnmanagedMemoryStream.WriteAsync(System.Byte[], System.Int32, System.Int32, System.Threading.CancellationToken)
   type: Method
   source:
     remote:
-      path: src/System.IO.UnmanagedMemoryStream/ref/System.IO.UnmanagedMemoryStream.cs
+      path: src/mscorlib/src/System/IO/UnmanagedMemoryStream.cs
       branch: master
-      repo: https://github.com/dotnet/corefx.git
+      repo: https://github.com/dotnet/coreclr.git
     id: WriteAsync
-    path: src/System.IO.UnmanagedMemoryStream/ref/System.IO.UnmanagedMemoryStream.cs
-    startLine: 89
+    path: src/mscorlib/src/System/IO/UnmanagedMemoryStream.cs
+    startLine: 627
   assemblies:
   - System.IO.UnmanagedMemoryStream
   namespace: System.IO
   summary: "\n<p>Asynchronously writes a sequence of bytes to the current stream, advances the current position within this stream by the number of bytes written, and monitors cancellation requests.</p>\n<p>Available starting in .NET Framework 4.6</p>\n"
   remarks: "\n<p>If an exception occurs during the write operation, it will be set as the <xref href=\"System.Threading.Tasks.Task.Exception\" data-throw-if-not-resolved=\"false\"></xref> of the property of the returned task.</p>\n"
   syntax:
-    content: public override Threading.Tasks.Task WriteAsync(byte[] buffer, int offset, int count, Threading.CancellationToken cancellationToken)
-    content.vb: Public Overrides Function WriteAsync(buffer As Byte(), offset As Integer, count As Integer, cancellationToken As Threading.CancellationToken) As Threading.Tasks.Task
+    content: >-
+      [HostProtection(ExternalThreading = true)]
+
+      [ComVisible(false)]
+
+      public override Task WriteAsync(byte[] buffer, int offset, int count, CancellationToken cancellationToken)
+    content.vb: >-
+      <HostProtection(ExternalThreading:=True)>
+
+      <ComVisible(False)>
+
+      Public Overrides Function WriteAsync(buffer As Byte(), offset As Integer, count As Integer, cancellationToken As CancellationToken) As Task
     parameters:
     - id: buffer
       type: System.Byte[]
-      description: "\n<p>The buffer to write data from.</p>\n"
     - id: offset
       type: System.Int32
-      description: "\n<p>The zero-based byte offset in <em>buffer</em> from which to begin copying bytes to the stream.</p>\n"
     - id: count
       type: System.Int32
-      description: "\n<p>The maximum number of bytes to write.</p>\n"
     - id: cancellationToken
       type: System.Threading.CancellationToken
-      description: "\n<p>The token to monitor for cancellation requests. The default value is <xref href=\"System.Threading.CancellationToken.None\" data-throw-if-not-resolved=\"false\"></xref>.</p>\n"
     return:
       type: System.Threading.Tasks.Task
-      description: "\n<p>A task that represents the asynchronous write operation.</p>\n"
+  overridden: System.IO.Stream.WriteAsync(System.Byte[],System.Int32,System.Int32,System.Threading.CancellationToken)
   modifiers.csharp:
   - public
   - override
@@ -1179,7 +1365,7 @@ items:
   - Public
   - Overrides
   fullName.vb: System.IO.UnmanagedMemoryStream.WriteAsync(System.Byte(), System.Int32, System.Int32, System.Threading.CancellationToken)
-  name.vb: WriteAsync(Byte(), Int32, Int32, Threading.CancellationToken)
+  name.vb: WriteAsync(Byte(), Int32, Int32, CancellationToken)
 - uid: System.IO.UnmanagedMemoryStream.WriteByte(System.Byte)
   commentId: M:System.IO.UnmanagedMemoryStream.WriteByte(System.Byte)
   id: WriteByte(System.Byte)
@@ -1192,12 +1378,12 @@ items:
   type: Method
   source:
     remote:
-      path: src/System.IO.UnmanagedMemoryStream/src/System/IO/UnmanagedMemoryStream.cs
+      path: src/mscorlib/src/System/IO/UnmanagedMemoryStream.cs
       branch: master
-      repo: https://github.com/dotnet/corefx.git
+      repo: https://github.com/dotnet/coreclr.git
     id: WriteByte
-    path: src/System.IO.UnmanagedMemoryStream/src/System/IO/UnmanagedMemoryStream.cs
-    startLine: 777
+    path: src/mscorlib/src/System/IO/UnmanagedMemoryStream.cs
+    startLine: 657
   assemblies:
   - System.IO.UnmanagedMemoryStream
   namespace: System.IO
@@ -1205,11 +1391,18 @@ items:
   example:
   - "\n<p>The following code example demonstrates how to read from and write to unmanaged memory using the <xref href=\"System.IO.UnmanagedMemoryStream\" data-throw-if-not-resolved=\"false\"></xref> class. A block of unmanaged memory is allocated and de-allocated using the <xref href=\"System.Runtime.InteropServices.Marshal\" data-throw-if-not-resolved=\"false\"></xref> class. In this example, an <xref href=\"System.IO.UnmanagedMemoryStream\" data-throw-if-not-resolved=\"false\"></xref> object is passed to a method which checks the <xref href=\"System.IO.UnmanagedMemoryStream.CanWrite\" data-throw-if-not-resolved=\"false\"></xref> property before attempting to write the data to the stream.</p>System.IO.UnmanagedMemoryStream_Example#00"
   syntax:
-    content: public override void WriteByte(byte value)
-    content.vb: Public Overrides Sub WriteByte(value As Byte)
+    content: >-
+      [SecuritySafeCritical]
+
+      public override void WriteByte(byte value)
+    content.vb: >-
+      <SecuritySafeCritical>
+
+      Public Overrides Sub WriteByte(value As Byte)
     parameters:
     - id: value
       type: System.Byte
+  overridden: System.IO.Stream.WriteByte(System.Byte)
   exceptions:
   - type: System.ObjectDisposedException
     commentId: T:System.ObjectDisposedException
@@ -1236,6 +1429,1032 @@ references:
   isExternal: false
   name: Object
   fullName: System.Object
+- uid: System.MarshalByRefObject
+  parent: System
+  isExternal: true
+  name: MarshalByRefObject
+  fullName: System.MarshalByRefObject
+- uid: System.IO.Stream
+  parent: System.IO
+  isExternal: false
+  name: Stream
+  fullName: System.IO.Stream
+- uid: System.IDisposable
+  parent: System
+  isExternal: false
+  name: IDisposable
+  fullName: System.IDisposable
+- uid: System.IO.Stream.Null
+  parent: System.IO.Stream
+  isExternal: false
+  fullName: System.IO.Stream.Null
+- uid: System.IO.Stream.CopyToAsync(System.IO.Stream)
+  parent: System.IO.Stream
+  isExternal: false
+  name: CopyToAsync(Stream)
+  fullName: System.IO.Stream.CopyToAsync(System.IO.Stream)
+  spec.csharp:
+  - uid: System.IO.Stream.CopyToAsync(System.IO.Stream)
+    name: CopyToAsync
+    fullName: System.IO.Stream.CopyToAsync
+  - name: (
+    fullName: (
+  - uid: System.IO.Stream
+    name: Stream
+    fullName: System.IO.Stream
+  - name: )
+    fullName: )
+  spec.vb:
+  - uid: System.IO.Stream.CopyToAsync(System.IO.Stream)
+    name: CopyToAsync
+    fullName: System.IO.Stream.CopyToAsync
+  - name: (
+    fullName: (
+  - uid: System.IO.Stream
+    name: Stream
+    fullName: System.IO.Stream
+  - name: )
+    fullName: )
+- uid: System.IO.Stream.CopyToAsync(System.IO.Stream,System.Int32)
+  parent: System.IO.Stream
+  isExternal: true
+  name: CopyToAsync(Stream, Int32)
+  fullName: System.IO.Stream.CopyToAsync(System.IO.Stream, System.Int32)
+  spec.csharp:
+  - uid: System.IO.Stream.CopyToAsync(System.IO.Stream,System.Int32)
+    name: CopyToAsync
+    fullName: System.IO.Stream.CopyToAsync
+  - name: (
+    fullName: (
+  - uid: System.IO.Stream
+    name: Stream
+    fullName: System.IO.Stream
+  - name: ', '
+    fullName: ', '
+  - uid: System.Int32
+    name: Int32
+    fullName: System.Int32
+    isExternal: true
+  - name: )
+    fullName: )
+  spec.vb:
+  - uid: System.IO.Stream.CopyToAsync(System.IO.Stream,System.Int32)
+    name: CopyToAsync
+    fullName: System.IO.Stream.CopyToAsync
+  - name: (
+    fullName: (
+  - uid: System.IO.Stream
+    name: Stream
+    fullName: System.IO.Stream
+  - name: ', '
+    fullName: ', '
+  - uid: System.Int32
+    name: Int32
+    fullName: System.Int32
+    isExternal: true
+  - name: )
+    fullName: )
+- uid: System.IO.Stream.CopyToAsync(System.IO.Stream,System.Int32,System.Threading.CancellationToken)
+  parent: System.IO.Stream
+  isExternal: true
+  name: CopyToAsync(Stream, Int32, CancellationToken)
+  fullName: System.IO.Stream.CopyToAsync(System.IO.Stream, System.Int32, System.Threading.CancellationToken)
+  spec.csharp:
+  - uid: System.IO.Stream.CopyToAsync(System.IO.Stream,System.Int32,System.Threading.CancellationToken)
+    name: CopyToAsync
+    fullName: System.IO.Stream.CopyToAsync
+  - name: (
+    fullName: (
+  - uid: System.IO.Stream
+    name: Stream
+    fullName: System.IO.Stream
+  - name: ', '
+    fullName: ', '
+  - uid: System.Int32
+    name: Int32
+    fullName: System.Int32
+    isExternal: true
+  - name: ', '
+    fullName: ', '
+  - uid: System.Threading.CancellationToken
+    name: CancellationToken
+    fullName: System.Threading.CancellationToken
+    isExternal: true
+  - name: )
+    fullName: )
+  spec.vb:
+  - uid: System.IO.Stream.CopyToAsync(System.IO.Stream,System.Int32,System.Threading.CancellationToken)
+    name: CopyToAsync
+    fullName: System.IO.Stream.CopyToAsync
+  - name: (
+    fullName: (
+  - uid: System.IO.Stream
+    name: Stream
+    fullName: System.IO.Stream
+  - name: ', '
+    fullName: ', '
+  - uid: System.Int32
+    name: Int32
+    fullName: System.Int32
+    isExternal: true
+  - name: ', '
+    fullName: ', '
+  - uid: System.Threading.CancellationToken
+    name: CancellationToken
+    fullName: System.Threading.CancellationToken
+    isExternal: true
+  - name: )
+    fullName: )
+- uid: System.IO.Stream.CopyTo(System.IO.Stream)
+  parent: System.IO.Stream
+  isExternal: false
+  name: CopyTo(Stream)
+  fullName: System.IO.Stream.CopyTo(System.IO.Stream)
+  spec.csharp:
+  - uid: System.IO.Stream.CopyTo(System.IO.Stream)
+    name: CopyTo
+    fullName: System.IO.Stream.CopyTo
+  - name: (
+    fullName: (
+  - uid: System.IO.Stream
+    name: Stream
+    fullName: System.IO.Stream
+  - name: )
+    fullName: )
+  spec.vb:
+  - uid: System.IO.Stream.CopyTo(System.IO.Stream)
+    name: CopyTo
+    fullName: System.IO.Stream.CopyTo
+  - name: (
+    fullName: (
+  - uid: System.IO.Stream
+    name: Stream
+    fullName: System.IO.Stream
+  - name: )
+    fullName: )
+- uid: System.IO.Stream.CopyTo(System.IO.Stream,System.Int32)
+  parent: System.IO.Stream
+  isExternal: true
+  name: CopyTo(Stream, Int32)
+  fullName: System.IO.Stream.CopyTo(System.IO.Stream, System.Int32)
+  spec.csharp:
+  - uid: System.IO.Stream.CopyTo(System.IO.Stream,System.Int32)
+    name: CopyTo
+    fullName: System.IO.Stream.CopyTo
+  - name: (
+    fullName: (
+  - uid: System.IO.Stream
+    name: Stream
+    fullName: System.IO.Stream
+  - name: ', '
+    fullName: ', '
+  - uid: System.Int32
+    name: Int32
+    fullName: System.Int32
+    isExternal: true
+  - name: )
+    fullName: )
+  spec.vb:
+  - uid: System.IO.Stream.CopyTo(System.IO.Stream,System.Int32)
+    name: CopyTo
+    fullName: System.IO.Stream.CopyTo
+  - name: (
+    fullName: (
+  - uid: System.IO.Stream
+    name: Stream
+    fullName: System.IO.Stream
+  - name: ', '
+    fullName: ', '
+  - uid: System.Int32
+    name: Int32
+    fullName: System.Int32
+    isExternal: true
+  - name: )
+    fullName: )
+- uid: System.IO.Stream.Close
+  parent: System.IO.Stream
+  isExternal: true
+  name: Close()
+  fullName: System.IO.Stream.Close()
+  spec.csharp:
+  - uid: System.IO.Stream.Close
+    name: Close
+    fullName: System.IO.Stream.Close
+    isExternal: true
+  - name: (
+    fullName: (
+  - name: )
+    fullName: )
+  spec.vb:
+  - uid: System.IO.Stream.Close
+    name: Close
+    fullName: System.IO.Stream.Close
+    isExternal: true
+  - name: (
+    fullName: (
+  - name: )
+    fullName: )
+- uid: System.IO.Stream.Dispose
+  parent: System.IO.Stream
+  isExternal: false
+  name: Dispose()
+  fullName: System.IO.Stream.Dispose()
+  spec.csharp:
+  - uid: System.IO.Stream.Dispose
+    name: Dispose
+    fullName: System.IO.Stream.Dispose
+  - name: (
+    fullName: (
+  - name: )
+    fullName: )
+  spec.vb:
+  - uid: System.IO.Stream.Dispose
+    name: Dispose
+    fullName: System.IO.Stream.Dispose
+  - name: (
+    fullName: (
+  - name: )
+    fullName: )
+- uid: System.IO.Stream.FlushAsync
+  parent: System.IO.Stream
+  isExternal: false
+  name: FlushAsync()
+  fullName: System.IO.Stream.FlushAsync()
+  spec.csharp:
+  - uid: System.IO.Stream.FlushAsync
+    name: FlushAsync
+    fullName: System.IO.Stream.FlushAsync
+  - name: (
+    fullName: (
+  - name: )
+    fullName: )
+  spec.vb:
+  - uid: System.IO.Stream.FlushAsync
+    name: FlushAsync
+    fullName: System.IO.Stream.FlushAsync
+  - name: (
+    fullName: (
+  - name: )
+    fullName: )
+- uid: System.IO.Stream.CreateWaitHandle
+  parent: System.IO.Stream
+  isExternal: true
+  name: CreateWaitHandle()
+  fullName: System.IO.Stream.CreateWaitHandle()
+  spec.csharp:
+  - uid: System.IO.Stream.CreateWaitHandle
+    name: CreateWaitHandle
+    fullName: System.IO.Stream.CreateWaitHandle
+    isExternal: true
+  - name: (
+    fullName: (
+  - name: )
+    fullName: )
+  spec.vb:
+  - uid: System.IO.Stream.CreateWaitHandle
+    name: CreateWaitHandle
+    fullName: System.IO.Stream.CreateWaitHandle
+    isExternal: true
+  - name: (
+    fullName: (
+  - name: )
+    fullName: )
+- uid: System.IO.Stream.BeginRead(System.Byte[],System.Int32,System.Int32,System.AsyncCallback,System.Object)
+  parent: System.IO.Stream
+  isExternal: true
+  name: BeginRead(Byte[], Int32, Int32, AsyncCallback, Object)
+  fullName: System.IO.Stream.BeginRead(System.Byte[], System.Int32, System.Int32, System.AsyncCallback, System.Object)
+  fullname.vb: System.IO.Stream.BeginRead(System.Byte(), System.Int32, System.Int32, System.AsyncCallback, System.Object)
+  name.vb: BeginRead(Byte(), Int32, Int32, AsyncCallback, Object)
+  spec.csharp:
+  - uid: System.IO.Stream.BeginRead(System.Byte[],System.Int32,System.Int32,System.AsyncCallback,System.Object)
+    name: BeginRead
+    fullName: System.IO.Stream.BeginRead
+    isExternal: true
+  - name: (
+    fullName: (
+  - uid: System.Byte
+    name: Byte
+    fullName: System.Byte
+    isExternal: true
+  - name: '[]'
+    fullName: '[]'
+  - name: ', '
+    fullName: ', '
+  - uid: System.Int32
+    name: Int32
+    fullName: System.Int32
+    isExternal: true
+  - name: ', '
+    fullName: ', '
+  - uid: System.Int32
+    name: Int32
+    fullName: System.Int32
+    isExternal: true
+  - name: ', '
+    fullName: ', '
+  - uid: System.AsyncCallback
+    name: AsyncCallback
+    fullName: System.AsyncCallback
+    isExternal: true
+  - name: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    fullName: )
+  spec.vb:
+  - uid: System.IO.Stream.BeginRead(System.Byte[],System.Int32,System.Int32,System.AsyncCallback,System.Object)
+    name: BeginRead
+    fullName: System.IO.Stream.BeginRead
+    isExternal: true
+  - name: (
+    fullName: (
+  - uid: System.Byte
+    name: Byte
+    fullName: System.Byte
+    isExternal: true
+  - name: ()
+    fullName: ()
+  - name: ', '
+    fullName: ', '
+  - uid: System.Int32
+    name: Int32
+    fullName: System.Int32
+    isExternal: true
+  - name: ', '
+    fullName: ', '
+  - uid: System.Int32
+    name: Int32
+    fullName: System.Int32
+    isExternal: true
+  - name: ', '
+    fullName: ', '
+  - uid: System.AsyncCallback
+    name: AsyncCallback
+    fullName: System.AsyncCallback
+    isExternal: true
+  - name: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    fullName: )
+- uid: System.IO.Stream.EndRead(System.IAsyncResult)
+  parent: System.IO.Stream
+  isExternal: true
+  name: EndRead(IAsyncResult)
+  fullName: System.IO.Stream.EndRead(System.IAsyncResult)
+  spec.csharp:
+  - uid: System.IO.Stream.EndRead(System.IAsyncResult)
+    name: EndRead
+    fullName: System.IO.Stream.EndRead
+    isExternal: true
+  - name: (
+    fullName: (
+  - uid: System.IAsyncResult
+    name: IAsyncResult
+    fullName: System.IAsyncResult
+    isExternal: true
+  - name: )
+    fullName: )
+  spec.vb:
+  - uid: System.IO.Stream.EndRead(System.IAsyncResult)
+    name: EndRead
+    fullName: System.IO.Stream.EndRead
+    isExternal: true
+  - name: (
+    fullName: (
+  - uid: System.IAsyncResult
+    name: IAsyncResult
+    fullName: System.IAsyncResult
+    isExternal: true
+  - name: )
+    fullName: )
+- uid: System.IO.Stream.ReadAsync(System.Byte[],System.Int32,System.Int32)
+  parent: System.IO.Stream
+  isExternal: true
+  name: ReadAsync(Byte[], Int32, Int32)
+  fullName: System.IO.Stream.ReadAsync(System.Byte[], System.Int32, System.Int32)
+  fullname.vb: System.IO.Stream.ReadAsync(System.Byte(), System.Int32, System.Int32)
+  name.vb: ReadAsync(Byte(), Int32, Int32)
+  spec.csharp:
+  - uid: System.IO.Stream.ReadAsync(System.Byte[],System.Int32,System.Int32)
+    name: ReadAsync
+    fullName: System.IO.Stream.ReadAsync
+  - name: (
+    fullName: (
+  - uid: System.Byte
+    name: Byte
+    fullName: System.Byte
+    isExternal: true
+  - name: '[]'
+    fullName: '[]'
+  - name: ', '
+    fullName: ', '
+  - uid: System.Int32
+    name: Int32
+    fullName: System.Int32
+    isExternal: true
+  - name: ', '
+    fullName: ', '
+  - uid: System.Int32
+    name: Int32
+    fullName: System.Int32
+    isExternal: true
+  - name: )
+    fullName: )
+  spec.vb:
+  - uid: System.IO.Stream.ReadAsync(System.Byte[],System.Int32,System.Int32)
+    name: ReadAsync
+    fullName: System.IO.Stream.ReadAsync
+  - name: (
+    fullName: (
+  - uid: System.Byte
+    name: Byte
+    fullName: System.Byte
+    isExternal: true
+  - name: ()
+    fullName: ()
+  - name: ', '
+    fullName: ', '
+  - uid: System.Int32
+    name: Int32
+    fullName: System.Int32
+    isExternal: true
+  - name: ', '
+    fullName: ', '
+  - uid: System.Int32
+    name: Int32
+    fullName: System.Int32
+    isExternal: true
+  - name: )
+    fullName: )
+- uid: System.IO.Stream.BeginWrite(System.Byte[],System.Int32,System.Int32,System.AsyncCallback,System.Object)
+  parent: System.IO.Stream
+  isExternal: true
+  name: BeginWrite(Byte[], Int32, Int32, AsyncCallback, Object)
+  fullName: System.IO.Stream.BeginWrite(System.Byte[], System.Int32, System.Int32, System.AsyncCallback, System.Object)
+  fullname.vb: System.IO.Stream.BeginWrite(System.Byte(), System.Int32, System.Int32, System.AsyncCallback, System.Object)
+  name.vb: BeginWrite(Byte(), Int32, Int32, AsyncCallback, Object)
+  spec.csharp:
+  - uid: System.IO.Stream.BeginWrite(System.Byte[],System.Int32,System.Int32,System.AsyncCallback,System.Object)
+    name: BeginWrite
+    fullName: System.IO.Stream.BeginWrite
+    isExternal: true
+  - name: (
+    fullName: (
+  - uid: System.Byte
+    name: Byte
+    fullName: System.Byte
+    isExternal: true
+  - name: '[]'
+    fullName: '[]'
+  - name: ', '
+    fullName: ', '
+  - uid: System.Int32
+    name: Int32
+    fullName: System.Int32
+    isExternal: true
+  - name: ', '
+    fullName: ', '
+  - uid: System.Int32
+    name: Int32
+    fullName: System.Int32
+    isExternal: true
+  - name: ', '
+    fullName: ', '
+  - uid: System.AsyncCallback
+    name: AsyncCallback
+    fullName: System.AsyncCallback
+    isExternal: true
+  - name: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    fullName: )
+  spec.vb:
+  - uid: System.IO.Stream.BeginWrite(System.Byte[],System.Int32,System.Int32,System.AsyncCallback,System.Object)
+    name: BeginWrite
+    fullName: System.IO.Stream.BeginWrite
+    isExternal: true
+  - name: (
+    fullName: (
+  - uid: System.Byte
+    name: Byte
+    fullName: System.Byte
+    isExternal: true
+  - name: ()
+    fullName: ()
+  - name: ', '
+    fullName: ', '
+  - uid: System.Int32
+    name: Int32
+    fullName: System.Int32
+    isExternal: true
+  - name: ', '
+    fullName: ', '
+  - uid: System.Int32
+    name: Int32
+    fullName: System.Int32
+    isExternal: true
+  - name: ', '
+    fullName: ', '
+  - uid: System.AsyncCallback
+    name: AsyncCallback
+    fullName: System.AsyncCallback
+    isExternal: true
+  - name: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    fullName: )
+- uid: System.IO.Stream.EndWrite(System.IAsyncResult)
+  parent: System.IO.Stream
+  isExternal: true
+  name: EndWrite(IAsyncResult)
+  fullName: System.IO.Stream.EndWrite(System.IAsyncResult)
+  spec.csharp:
+  - uid: System.IO.Stream.EndWrite(System.IAsyncResult)
+    name: EndWrite
+    fullName: System.IO.Stream.EndWrite
+    isExternal: true
+  - name: (
+    fullName: (
+  - uid: System.IAsyncResult
+    name: IAsyncResult
+    fullName: System.IAsyncResult
+    isExternal: true
+  - name: )
+    fullName: )
+  spec.vb:
+  - uid: System.IO.Stream.EndWrite(System.IAsyncResult)
+    name: EndWrite
+    fullName: System.IO.Stream.EndWrite
+    isExternal: true
+  - name: (
+    fullName: (
+  - uid: System.IAsyncResult
+    name: IAsyncResult
+    fullName: System.IAsyncResult
+    isExternal: true
+  - name: )
+    fullName: )
+- uid: System.IO.Stream.WriteAsync(System.Byte[],System.Int32,System.Int32)
+  parent: System.IO.Stream
+  isExternal: true
+  name: WriteAsync(Byte[], Int32, Int32)
+  fullName: System.IO.Stream.WriteAsync(System.Byte[], System.Int32, System.Int32)
+  fullname.vb: System.IO.Stream.WriteAsync(System.Byte(), System.Int32, System.Int32)
+  name.vb: WriteAsync(Byte(), Int32, Int32)
+  spec.csharp:
+  - uid: System.IO.Stream.WriteAsync(System.Byte[],System.Int32,System.Int32)
+    name: WriteAsync
+    fullName: System.IO.Stream.WriteAsync
+  - name: (
+    fullName: (
+  - uid: System.Byte
+    name: Byte
+    fullName: System.Byte
+    isExternal: true
+  - name: '[]'
+    fullName: '[]'
+  - name: ', '
+    fullName: ', '
+  - uid: System.Int32
+    name: Int32
+    fullName: System.Int32
+    isExternal: true
+  - name: ', '
+    fullName: ', '
+  - uid: System.Int32
+    name: Int32
+    fullName: System.Int32
+    isExternal: true
+  - name: )
+    fullName: )
+  spec.vb:
+  - uid: System.IO.Stream.WriteAsync(System.Byte[],System.Int32,System.Int32)
+    name: WriteAsync
+    fullName: System.IO.Stream.WriteAsync
+  - name: (
+    fullName: (
+  - uid: System.Byte
+    name: Byte
+    fullName: System.Byte
+    isExternal: true
+  - name: ()
+    fullName: ()
+  - name: ', '
+    fullName: ', '
+  - uid: System.Int32
+    name: Int32
+    fullName: System.Int32
+    isExternal: true
+  - name: ', '
+    fullName: ', '
+  - uid: System.Int32
+    name: Int32
+    fullName: System.Int32
+    isExternal: true
+  - name: )
+    fullName: )
+- uid: System.IO.Stream.Synchronized(System.IO.Stream)
+  parent: System.IO.Stream
+  isExternal: true
+  name: Synchronized(Stream)
+  fullName: System.IO.Stream.Synchronized(System.IO.Stream)
+  spec.csharp:
+  - uid: System.IO.Stream.Synchronized(System.IO.Stream)
+    name: Synchronized
+    fullName: System.IO.Stream.Synchronized
+    isExternal: true
+  - name: (
+    fullName: (
+  - uid: System.IO.Stream
+    name: Stream
+    fullName: System.IO.Stream
+    isExternal: true
+  - name: )
+    fullName: )
+  spec.vb:
+  - uid: System.IO.Stream.Synchronized(System.IO.Stream)
+    name: Synchronized
+    fullName: System.IO.Stream.Synchronized
+    isExternal: true
+  - name: (
+    fullName: (
+  - uid: System.IO.Stream
+    name: Stream
+    fullName: System.IO.Stream
+    isExternal: true
+  - name: )
+    fullName: )
+- uid: System.IO.Stream.ObjectInvariant
+  parent: System.IO.Stream
+  isExternal: true
+  name: ObjectInvariant()
+  fullName: System.IO.Stream.ObjectInvariant()
+  spec.csharp:
+  - uid: System.IO.Stream.ObjectInvariant
+    name: ObjectInvariant
+    fullName: System.IO.Stream.ObjectInvariant
+    isExternal: true
+  - name: (
+    fullName: (
+  - name: )
+    fullName: )
+  spec.vb:
+  - uid: System.IO.Stream.ObjectInvariant
+    name: ObjectInvariant
+    fullName: System.IO.Stream.ObjectInvariant
+    isExternal: true
+  - name: (
+    fullName: (
+  - name: )
+    fullName: )
+- uid: System.IO.Stream.CanTimeout
+  parent: System.IO.Stream
+  isExternal: false
+  name: CanTimeout
+  fullName: System.IO.Stream.CanTimeout
+- uid: System.IO.Stream.ReadTimeout
+  parent: System.IO.Stream
+  isExternal: false
+  name: ReadTimeout
+  fullName: System.IO.Stream.ReadTimeout
+- uid: System.IO.Stream.WriteTimeout
+  parent: System.IO.Stream
+  isExternal: false
+  name: WriteTimeout
+  fullName: System.IO.Stream.WriteTimeout
+- uid: System.MarshalByRefObject.MemberwiseClone(System.Boolean)
+  parent: System.MarshalByRefObject
+  isExternal: true
+  name: MemberwiseClone(Boolean)
+  fullName: System.MarshalByRefObject.MemberwiseClone(System.Boolean)
+  spec.csharp:
+  - uid: System.MarshalByRefObject.MemberwiseClone(System.Boolean)
+    name: MemberwiseClone
+    fullName: System.MarshalByRefObject.MemberwiseClone
+    isExternal: true
+  - name: (
+    fullName: (
+  - uid: System.Boolean
+    name: Boolean
+    fullName: System.Boolean
+    isExternal: true
+  - name: )
+    fullName: )
+  spec.vb:
+  - uid: System.MarshalByRefObject.MemberwiseClone(System.Boolean)
+    name: MemberwiseClone
+    fullName: System.MarshalByRefObject.MemberwiseClone
+    isExternal: true
+  - name: (
+    fullName: (
+  - uid: System.Boolean
+    name: Boolean
+    fullName: System.Boolean
+    isExternal: true
+  - name: )
+    fullName: )
+- uid: System.MarshalByRefObject.GetLifetimeService
+  parent: System.MarshalByRefObject
+  isExternal: true
+  name: GetLifetimeService()
+  fullName: System.MarshalByRefObject.GetLifetimeService()
+  spec.csharp:
+  - uid: System.MarshalByRefObject.GetLifetimeService
+    name: GetLifetimeService
+    fullName: System.MarshalByRefObject.GetLifetimeService
+    isExternal: true
+  - name: (
+    fullName: (
+  - name: )
+    fullName: )
+  spec.vb:
+  - uid: System.MarshalByRefObject.GetLifetimeService
+    name: GetLifetimeService
+    fullName: System.MarshalByRefObject.GetLifetimeService
+    isExternal: true
+  - name: (
+    fullName: (
+  - name: )
+    fullName: )
+- uid: System.MarshalByRefObject.InitializeLifetimeService
+  parent: System.MarshalByRefObject
+  isExternal: true
+  name: InitializeLifetimeService()
+  fullName: System.MarshalByRefObject.InitializeLifetimeService()
+  spec.csharp:
+  - uid: System.MarshalByRefObject.InitializeLifetimeService
+    name: InitializeLifetimeService
+    fullName: System.MarshalByRefObject.InitializeLifetimeService
+    isExternal: true
+  - name: (
+    fullName: (
+  - name: )
+    fullName: )
+  spec.vb:
+  - uid: System.MarshalByRefObject.InitializeLifetimeService
+    name: InitializeLifetimeService
+    fullName: System.MarshalByRefObject.InitializeLifetimeService
+    isExternal: true
+  - name: (
+    fullName: (
+  - name: )
+    fullName: )
+- uid: System.MarshalByRefObject.CreateObjRef(System.Type)
+  parent: System.MarshalByRefObject
+  isExternal: true
+  name: CreateObjRef(Type)
+  fullName: System.MarshalByRefObject.CreateObjRef(System.Type)
+  spec.csharp:
+  - uid: System.MarshalByRefObject.CreateObjRef(System.Type)
+    name: CreateObjRef
+    fullName: System.MarshalByRefObject.CreateObjRef
+    isExternal: true
+  - name: (
+    fullName: (
+  - uid: System.Type
+    name: Type
+    fullName: System.Type
+    isExternal: true
+  - name: )
+    fullName: )
+  spec.vb:
+  - uid: System.MarshalByRefObject.CreateObjRef(System.Type)
+    name: CreateObjRef
+    fullName: System.MarshalByRefObject.CreateObjRef
+    isExternal: true
+  - name: (
+    fullName: (
+  - uid: System.Type
+    name: Type
+    fullName: System.Type
+    isExternal: true
+  - name: )
+    fullName: )
+- uid: System.Object.ToString
+  parent: System.Object
+  isExternal: true
+  name: ToString()
+  fullName: System.Object.ToString()
+  spec.csharp:
+  - uid: System.Object.ToString
+    name: ToString
+    fullName: System.Object.ToString
+    isExternal: true
+  - name: (
+    fullName: (
+  - name: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.ToString
+    name: ToString
+    fullName: System.Object.ToString
+    isExternal: true
+  - name: (
+    fullName: (
+  - name: )
+    fullName: )
+- uid: System.Object.Equals(System.Object)
+  parent: System.Object
+  isExternal: true
+  name: Equals(Object)
+  fullName: System.Object.Equals(System.Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    fullName: )
+- uid: System.Object.Equals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  name: Equals(Object, Object)
+  fullName: System.Object.Equals(System.Object, System.Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    fullName: )
+- uid: System.Object.ReferenceEquals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  name: ReferenceEquals(Object, Object)
+  fullName: System.Object.ReferenceEquals(System.Object, System.Object)
+  spec.csharp:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    fullName: System.Object.ReferenceEquals
+    isExternal: true
+  - name: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    fullName: System.Object.ReferenceEquals
+    isExternal: true
+  - name: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    fullName: )
+- uid: System.Object.GetHashCode
+  parent: System.Object
+  isExternal: true
+  name: GetHashCode()
+  fullName: System.Object.GetHashCode()
+  spec.csharp:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    fullName: System.Object.GetHashCode
+    isExternal: true
+  - name: (
+    fullName: (
+  - name: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    fullName: System.Object.GetHashCode
+    isExternal: true
+  - name: (
+    fullName: (
+  - name: )
+    fullName: )
+- uid: System.Object.GetType
+  parent: System.Object
+  isExternal: true
+  name: GetType()
+  fullName: System.Object.GetType()
+  spec.csharp:
+  - uid: System.Object.GetType
+    name: GetType
+    fullName: System.Object.GetType
+    isExternal: true
+  - name: (
+    fullName: (
+  - name: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.GetType
+    name: GetType
+    fullName: System.Object.GetType
+    isExternal: true
+  - name: (
+    fullName: (
+  - name: )
+    fullName: )
+- uid: System.Object.MemberwiseClone
+  parent: System.Object
+  isExternal: true
+  name: MemberwiseClone()
+  fullName: System.Object.MemberwiseClone()
+  spec.csharp:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    fullName: System.Object.MemberwiseClone
+    isExternal: true
+  - name: (
+    fullName: (
+  - name: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    fullName: System.Object.MemberwiseClone
+    isExternal: true
+  - name: (
+    fullName: (
+  - name: )
+    fullName: )
 - uid: System
   isExternal: false
   name: System
@@ -1269,23 +2488,132 @@ references:
   name: FileAccess
   fullName: System.IO.FileAccess
 - uid: System.Runtime.InteropServices.SafeBuffer
+  parent: System.Runtime.InteropServices
   isExternal: false
   name: SafeBuffer
   fullName: System.Runtime.InteropServices.SafeBuffer
+- uid: System.Runtime.InteropServices
+  isExternal: false
+  name: System.Runtime.InteropServices
+  fullName: System.Runtime.InteropServices
+- uid: System.IO.Stream.CanRead
+  parent: System.IO.Stream
+  isExternal: false
+  name: CanRead
+  fullName: System.IO.Stream.CanRead
 - uid: System.Boolean
   parent: System
   isExternal: false
   name: Boolean
   fullName: System.Boolean
+- uid: System.IO.Stream.CanSeek
+  parent: System.IO.Stream
+  isExternal: false
+  name: CanSeek
+  fullName: System.IO.Stream.CanSeek
+- uid: System.IO.Stream.CanWrite
+  parent: System.IO.Stream
+  isExternal: false
+  name: CanWrite
+  fullName: System.IO.Stream.CanWrite
+- uid: System.IO.Stream.Length
+  parent: System.IO.Stream
+  isExternal: false
+  name: Length
+  fullName: System.IO.Stream.Length
+- uid: System.IO.Stream.Position
+  parent: System.IO.Stream
+  isExternal: false
+  name: Position
+  fullName: System.IO.Stream.Position
+- uid: System.IO.Stream.Dispose(System.Boolean)
+  parent: System.IO.Stream
+  isExternal: true
+  name: Dispose(Boolean)
+  fullName: System.IO.Stream.Dispose(System.Boolean)
+  spec.csharp:
+  - uid: System.IO.Stream.Dispose(System.Boolean)
+    name: Dispose
+    fullName: System.IO.Stream.Dispose
+  - name: (
+    fullName: (
+  - uid: System.Boolean
+    name: Boolean
+    fullName: System.Boolean
+    isExternal: true
+  - name: )
+    fullName: )
+  spec.vb:
+  - uid: System.IO.Stream.Dispose(System.Boolean)
+    name: Dispose
+    fullName: System.IO.Stream.Dispose
+  - name: (
+    fullName: (
+  - uid: System.Boolean
+    name: Boolean
+    fullName: System.Boolean
+    isExternal: true
+  - name: )
+    fullName: )
+- uid: System.IO.Stream.Flush
+  parent: System.IO.Stream
+  isExternal: false
+  name: Flush()
+  fullName: System.IO.Stream.Flush()
+  spec.csharp:
+  - uid: System.IO.Stream.Flush
+    name: Flush
+    fullName: System.IO.Stream.Flush
+  - name: (
+    fullName: (
+  - name: )
+    fullName: )
+  spec.vb:
+  - uid: System.IO.Stream.Flush
+    name: Flush
+    fullName: System.IO.Stream.Flush
+  - name: (
+    fullName: (
+  - name: )
+    fullName: )
+- uid: System.IO.Stream.FlushAsync(System.Threading.CancellationToken)
+  parent: System.IO.Stream
+  isExternal: true
+  name: FlushAsync(CancellationToken)
+  fullName: System.IO.Stream.FlushAsync(System.Threading.CancellationToken)
+  spec.csharp:
+  - uid: System.IO.Stream.FlushAsync(System.Threading.CancellationToken)
+    name: FlushAsync
+    fullName: System.IO.Stream.FlushAsync
+  - name: (
+    fullName: (
+  - uid: System.Threading.CancellationToken
+    name: CancellationToken
+    fullName: System.Threading.CancellationToken
+    isExternal: true
+  - name: )
+    fullName: )
+  spec.vb:
+  - uid: System.IO.Stream.FlushAsync(System.Threading.CancellationToken)
+    name: FlushAsync
+    fullName: System.IO.Stream.FlushAsync
+  - name: (
+    fullName: (
+  - uid: System.Threading.CancellationToken
+    name: CancellationToken
+    fullName: System.Threading.CancellationToken
+    isExternal: true
+  - name: )
+    fullName: )
 - uid: System.Threading.CancellationToken
   parent: System.Threading
   isExternal: false
-  name: Threading.CancellationToken
+  name: CancellationToken
   fullName: System.Threading.CancellationToken
 - uid: System.Threading.Tasks.Task
   parent: System.Threading.Tasks
   isExternal: false
-  name: Threading.Tasks.Task
+  name: Task
   fullName: System.Threading.Tasks.Task
 - uid: System.Threading
   isExternal: false
@@ -1295,8 +2623,67 @@ references:
   isExternal: false
   name: System.Threading.Tasks
   fullName: System.Threading.Tasks
+- uid: System.IO.Stream.Read(System.Byte[],System.Int32,System.Int32)
+  parent: System.IO.Stream
+  isExternal: true
+  name: Read(Byte[], Int32, Int32)
+  fullName: System.IO.Stream.Read(System.Byte[], System.Int32, System.Int32)
+  fullname.vb: System.IO.Stream.Read(System.Byte(), System.Int32, System.Int32)
+  name.vb: Read(Byte(), Int32, Int32)
+  spec.csharp:
+  - uid: System.IO.Stream.Read(System.Byte[],System.Int32,System.Int32)
+    name: Read
+    fullName: System.IO.Stream.Read
+  - name: (
+    fullName: (
+  - uid: System.Byte
+    name: Byte
+    fullName: System.Byte
+    isExternal: true
+  - name: '[]'
+    fullName: '[]'
+  - name: ', '
+    fullName: ', '
+  - uid: System.Int32
+    name: Int32
+    fullName: System.Int32
+    isExternal: true
+  - name: ', '
+    fullName: ', '
+  - uid: System.Int32
+    name: Int32
+    fullName: System.Int32
+    isExternal: true
+  - name: )
+    fullName: )
+  spec.vb:
+  - uid: System.IO.Stream.Read(System.Byte[],System.Int32,System.Int32)
+    name: Read
+    fullName: System.IO.Stream.Read
+  - name: (
+    fullName: (
+  - uid: System.Byte
+    name: Byte
+    fullName: System.Byte
+    isExternal: true
+  - name: ()
+    fullName: ()
+  - name: ', '
+    fullName: ', '
+  - uid: System.Int32
+    name: Int32
+    fullName: System.Int32
+    isExternal: true
+  - name: ', '
+    fullName: ', '
+  - uid: System.Int32
+    name: Int32
+    fullName: System.Int32
+    isExternal: true
+  - name: )
+    fullName: )
 - uid: System.Byte[]
-  isExternal: false
+  isExternal: true
   name: Byte[]
   fullName: System.Byte[]
   fullname.vb: System.Byte()
@@ -1305,12 +2692,14 @@ references:
   - uid: System.Byte
     name: Byte
     fullName: System.Byte
+    isExternal: true
   - name: '[]'
     fullName: '[]'
   spec.vb:
   - uid: System.Byte
     name: Byte
     fullName: System.Byte
+    isExternal: true
   - name: ()
     fullName: ()
 - uid: System.Int32
@@ -1318,15 +2707,87 @@ references:
   isExternal: false
   name: Int32
   fullName: System.Int32
+- uid: System.IO.Stream.ReadAsync(System.Byte[],System.Int32,System.Int32,System.Threading.CancellationToken)
+  parent: System.IO.Stream
+  isExternal: true
+  name: ReadAsync(Byte[], Int32, Int32, CancellationToken)
+  fullName: System.IO.Stream.ReadAsync(System.Byte[], System.Int32, System.Int32, System.Threading.CancellationToken)
+  fullname.vb: System.IO.Stream.ReadAsync(System.Byte(), System.Int32, System.Int32, System.Threading.CancellationToken)
+  name.vb: ReadAsync(Byte(), Int32, Int32, CancellationToken)
+  spec.csharp:
+  - uid: System.IO.Stream.ReadAsync(System.Byte[],System.Int32,System.Int32,System.Threading.CancellationToken)
+    name: ReadAsync
+    fullName: System.IO.Stream.ReadAsync
+  - name: (
+    fullName: (
+  - uid: System.Byte
+    name: Byte
+    fullName: System.Byte
+    isExternal: true
+  - name: '[]'
+    fullName: '[]'
+  - name: ', '
+    fullName: ', '
+  - uid: System.Int32
+    name: Int32
+    fullName: System.Int32
+    isExternal: true
+  - name: ', '
+    fullName: ', '
+  - uid: System.Int32
+    name: Int32
+    fullName: System.Int32
+    isExternal: true
+  - name: ', '
+    fullName: ', '
+  - uid: System.Threading.CancellationToken
+    name: CancellationToken
+    fullName: System.Threading.CancellationToken
+    isExternal: true
+  - name: )
+    fullName: )
+  spec.vb:
+  - uid: System.IO.Stream.ReadAsync(System.Byte[],System.Int32,System.Int32,System.Threading.CancellationToken)
+    name: ReadAsync
+    fullName: System.IO.Stream.ReadAsync
+  - name: (
+    fullName: (
+  - uid: System.Byte
+    name: Byte
+    fullName: System.Byte
+    isExternal: true
+  - name: ()
+    fullName: ()
+  - name: ', '
+    fullName: ', '
+  - uid: System.Int32
+    name: Int32
+    fullName: System.Int32
+    isExternal: true
+  - name: ', '
+    fullName: ', '
+  - uid: System.Int32
+    name: Int32
+    fullName: System.Int32
+    isExternal: true
+  - name: ', '
+    fullName: ', '
+  - uid: System.Threading.CancellationToken
+    name: CancellationToken
+    fullName: System.Threading.CancellationToken
+    isExternal: true
+  - name: )
+    fullName: )
 - uid: System.Threading.Tasks.Task{System.Int32}
+  parent: System.Threading.Tasks
   definition: System.Threading.Tasks.Task`1
-  name: Threading.Tasks.Task<Int32>
+  name: Task<Int32>
   fullName: System.Threading.Tasks.Task<System.Int32>
   fullname.vb: System.Threading.Tasks.Task(Of System.Int32)
-  name.vb: Threading.Tasks.Task(Of Int32)
+  name.vb: Task(Of Int32)
   spec.csharp:
   - uid: System.Threading.Tasks.Task`1
-    name: Threading.Tasks.Task
+    name: Task
     fullName: System.Threading.Tasks.Task
     isExternal: true
   - name: <
@@ -1339,7 +2800,7 @@ references:
     fullName: '>'
   spec.vb:
   - uid: System.Threading.Tasks.Task`1
-    name: Threading.Tasks.Task
+    name: Task
     fullName: System.Threading.Tasks.Task
     isExternal: true
   - name: '(Of '
@@ -1353,26 +2814,88 @@ references:
 - uid: System.Threading.Tasks.Task`1
   parent: System.Threading.Tasks
   isExternal: false
-  name: Threading.Tasks.Task<>
-  fullName: System.Threading.Tasks.Task<>
-  fullname.vb: System.Threading.Tasks.Task(Of )
-  name.vb: Threading.Tasks.Task(Of )
+  name: Task<TResult>
+  fullName: System.Threading.Tasks.Task<TResult>
+  fullname.vb: System.Threading.Tasks.Task(Of TResult)
+  name.vb: Task(Of TResult)
   spec.csharp:
   - uid: System.Threading.Tasks.Task`1
-    name: Threading.Tasks.Task
+    name: Task
     fullName: System.Threading.Tasks.Task
   - name: <
     fullName: <
-  - {}
+  - name: TResult
+    fullName: TResult
   - name: '>'
     fullName: '>'
   spec.vb:
   - uid: System.Threading.Tasks.Task`1
-    name: Threading.Tasks.Task
+    name: Task
     fullName: System.Threading.Tasks.Task
   - name: '(Of '
     fullName: '(Of '
-  - {}
+  - name: TResult
+    fullName: TResult
+  - name: )
+    fullName: )
+- uid: System.IO.Stream.ReadByte
+  parent: System.IO.Stream
+  isExternal: false
+  name: ReadByte()
+  fullName: System.IO.Stream.ReadByte()
+  spec.csharp:
+  - uid: System.IO.Stream.ReadByte
+    name: ReadByte
+    fullName: System.IO.Stream.ReadByte
+  - name: (
+    fullName: (
+  - name: )
+    fullName: )
+  spec.vb:
+  - uid: System.IO.Stream.ReadByte
+    name: ReadByte
+    fullName: System.IO.Stream.ReadByte
+  - name: (
+    fullName: (
+  - name: )
+    fullName: )
+- uid: System.IO.Stream.Seek(System.Int64,System.IO.SeekOrigin)
+  parent: System.IO.Stream
+  isExternal: true
+  name: Seek(Int64, SeekOrigin)
+  fullName: System.IO.Stream.Seek(System.Int64, System.IO.SeekOrigin)
+  spec.csharp:
+  - uid: System.IO.Stream.Seek(System.Int64,System.IO.SeekOrigin)
+    name: Seek
+    fullName: System.IO.Stream.Seek
+  - name: (
+    fullName: (
+  - uid: System.Int64
+    name: Int64
+    fullName: System.Int64
+    isExternal: true
+  - name: ', '
+    fullName: ', '
+  - uid: System.IO.SeekOrigin
+    name: SeekOrigin
+    fullName: System.IO.SeekOrigin
+  - name: )
+    fullName: )
+  spec.vb:
+  - uid: System.IO.Stream.Seek(System.Int64,System.IO.SeekOrigin)
+    name: Seek
+    fullName: System.IO.Stream.Seek
+  - name: (
+    fullName: (
+  - uid: System.Int64
+    name: Int64
+    fullName: System.Int64
+    isExternal: true
+  - name: ', '
+    fullName: ', '
+  - uid: System.IO.SeekOrigin
+    name: SeekOrigin
+    fullName: System.IO.SeekOrigin
   - name: )
     fullName: )
 - uid: System.IO.SeekOrigin
@@ -1380,6 +2903,194 @@ references:
   isExternal: false
   name: SeekOrigin
   fullName: System.IO.SeekOrigin
+- uid: System.IO.Stream.SetLength(System.Int64)
+  parent: System.IO.Stream
+  isExternal: true
+  name: SetLength(Int64)
+  fullName: System.IO.Stream.SetLength(System.Int64)
+  spec.csharp:
+  - uid: System.IO.Stream.SetLength(System.Int64)
+    name: SetLength
+    fullName: System.IO.Stream.SetLength
+  - name: (
+    fullName: (
+  - uid: System.Int64
+    name: Int64
+    fullName: System.Int64
+    isExternal: true
+  - name: )
+    fullName: )
+  spec.vb:
+  - uid: System.IO.Stream.SetLength(System.Int64)
+    name: SetLength
+    fullName: System.IO.Stream.SetLength
+  - name: (
+    fullName: (
+  - uid: System.Int64
+    name: Int64
+    fullName: System.Int64
+    isExternal: true
+  - name: )
+    fullName: )
+- uid: System.IO.Stream.Write(System.Byte[],System.Int32,System.Int32)
+  parent: System.IO.Stream
+  isExternal: true
+  name: Write(Byte[], Int32, Int32)
+  fullName: System.IO.Stream.Write(System.Byte[], System.Int32, System.Int32)
+  fullname.vb: System.IO.Stream.Write(System.Byte(), System.Int32, System.Int32)
+  name.vb: Write(Byte(), Int32, Int32)
+  spec.csharp:
+  - uid: System.IO.Stream.Write(System.Byte[],System.Int32,System.Int32)
+    name: Write
+    fullName: System.IO.Stream.Write
+  - name: (
+    fullName: (
+  - uid: System.Byte
+    name: Byte
+    fullName: System.Byte
+    isExternal: true
+  - name: '[]'
+    fullName: '[]'
+  - name: ', '
+    fullName: ', '
+  - uid: System.Int32
+    name: Int32
+    fullName: System.Int32
+    isExternal: true
+  - name: ', '
+    fullName: ', '
+  - uid: System.Int32
+    name: Int32
+    fullName: System.Int32
+    isExternal: true
+  - name: )
+    fullName: )
+  spec.vb:
+  - uid: System.IO.Stream.Write(System.Byte[],System.Int32,System.Int32)
+    name: Write
+    fullName: System.IO.Stream.Write
+  - name: (
+    fullName: (
+  - uid: System.Byte
+    name: Byte
+    fullName: System.Byte
+    isExternal: true
+  - name: ()
+    fullName: ()
+  - name: ', '
+    fullName: ', '
+  - uid: System.Int32
+    name: Int32
+    fullName: System.Int32
+    isExternal: true
+  - name: ', '
+    fullName: ', '
+  - uid: System.Int32
+    name: Int32
+    fullName: System.Int32
+    isExternal: true
+  - name: )
+    fullName: )
+- uid: System.IO.Stream.WriteAsync(System.Byte[],System.Int32,System.Int32,System.Threading.CancellationToken)
+  parent: System.IO.Stream
+  isExternal: true
+  name: WriteAsync(Byte[], Int32, Int32, CancellationToken)
+  fullName: System.IO.Stream.WriteAsync(System.Byte[], System.Int32, System.Int32, System.Threading.CancellationToken)
+  fullname.vb: System.IO.Stream.WriteAsync(System.Byte(), System.Int32, System.Int32, System.Threading.CancellationToken)
+  name.vb: WriteAsync(Byte(), Int32, Int32, CancellationToken)
+  spec.csharp:
+  - uid: System.IO.Stream.WriteAsync(System.Byte[],System.Int32,System.Int32,System.Threading.CancellationToken)
+    name: WriteAsync
+    fullName: System.IO.Stream.WriteAsync
+  - name: (
+    fullName: (
+  - uid: System.Byte
+    name: Byte
+    fullName: System.Byte
+    isExternal: true
+  - name: '[]'
+    fullName: '[]'
+  - name: ', '
+    fullName: ', '
+  - uid: System.Int32
+    name: Int32
+    fullName: System.Int32
+    isExternal: true
+  - name: ', '
+    fullName: ', '
+  - uid: System.Int32
+    name: Int32
+    fullName: System.Int32
+    isExternal: true
+  - name: ', '
+    fullName: ', '
+  - uid: System.Threading.CancellationToken
+    name: CancellationToken
+    fullName: System.Threading.CancellationToken
+    isExternal: true
+  - name: )
+    fullName: )
+  spec.vb:
+  - uid: System.IO.Stream.WriteAsync(System.Byte[],System.Int32,System.Int32,System.Threading.CancellationToken)
+    name: WriteAsync
+    fullName: System.IO.Stream.WriteAsync
+  - name: (
+    fullName: (
+  - uid: System.Byte
+    name: Byte
+    fullName: System.Byte
+    isExternal: true
+  - name: ()
+    fullName: ()
+  - name: ', '
+    fullName: ', '
+  - uid: System.Int32
+    name: Int32
+    fullName: System.Int32
+    isExternal: true
+  - name: ', '
+    fullName: ', '
+  - uid: System.Int32
+    name: Int32
+    fullName: System.Int32
+    isExternal: true
+  - name: ', '
+    fullName: ', '
+  - uid: System.Threading.CancellationToken
+    name: CancellationToken
+    fullName: System.Threading.CancellationToken
+    isExternal: true
+  - name: )
+    fullName: )
+- uid: System.IO.Stream.WriteByte(System.Byte)
+  parent: System.IO.Stream
+  isExternal: true
+  name: WriteByte(Byte)
+  fullName: System.IO.Stream.WriteByte(System.Byte)
+  spec.csharp:
+  - uid: System.IO.Stream.WriteByte(System.Byte)
+    name: WriteByte
+    fullName: System.IO.Stream.WriteByte
+  - name: (
+    fullName: (
+  - uid: System.Byte
+    name: Byte
+    fullName: System.Byte
+    isExternal: true
+  - name: )
+    fullName: )
+  spec.vb:
+  - uid: System.IO.Stream.WriteByte(System.Byte)
+    name: WriteByte
+    fullName: System.IO.Stream.WriteByte
+  - name: (
+    fullName: (
+  - uid: System.Byte
+    name: Byte
+    fullName: System.Byte
+    isExternal: true
+  - name: )
+    fullName: )
 - uid: System.Byte
   parent: System
   isExternal: false

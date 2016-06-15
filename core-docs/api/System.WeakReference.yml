@@ -18,12 +18,12 @@ items:
   type: Class
   source:
     remote:
-      path: src/System.Runtime/ref/System.Runtime.cs
+      path: src/mscorlib/src/System/WeakReference.cs
       branch: master
-      repo: https://github.com/dotnet/corefx.git
+      repo: https://github.com/dotnet/coreclr.git
     id: WeakReference
-    path: src/System.Runtime/ref/System.Runtime.cs
-    startLine: 2265
+    path: src/mscorlib/src/System/WeakReference.cs
+    startLine: 19
   assemblies:
   - System.Runtime
   namespace: System
@@ -32,8 +32,19 @@ items:
   example:
   - "\n<p>The following example demonstrates how you can use weak references to maintain a cache of objects as a resource for an application. The cache is constructed using an <xref href=\"System.Collections.Generic.IDictionary`2\" data-throw-if-not-resolved=\"false\"></xref> of <xref href=\"System.WeakReference\" data-throw-if-not-resolved=\"false\"></xref> objects keyed by an index value. The <xref href=\"System.WeakReference.Target\" data-throw-if-not-resolved=\"false\"></xref> property for the <xref href=\"System.WeakReference\" data-throw-if-not-resolved=\"false\"></xref> objects is an object in a byte array that represents data. </p>\n<p>The example randomly accesses objects in the cache. If an object is reclaimed for garbage collection, a new data object is regenerated; otherwise, the object is available to access because of the weak reference.</p>WeakReference#1"
   syntax:
-    content: public class WeakReference
-    content.vb: Public Class WeakReference
+    content: >-
+      [ComVisible(true)]
+
+      [Serializable]
+
+      public class WeakReference : ISerializable
+    content.vb: >-
+      <ComVisible(True)>
+
+      <Serializable>
+
+      Public Class WeakReference
+          Implements ISerializable
   seealso:
   - type: System.GC
     commentId: T:System.GC
@@ -43,13 +54,13 @@ items:
   inheritance:
   - System.Object
   inheritedMembers:
+  - System.Object.ToString
   - System.Object.Equals(System.Object)
   - System.Object.Equals(System.Object,System.Object)
+  - System.Object.ReferenceEquals(System.Object,System.Object)
   - System.Object.GetHashCode
   - System.Object.GetType
   - System.Object.MemberwiseClone
-  - System.Object.ReferenceEquals(System.Object,System.Object)
-  - System.Object.ToString
   modifiers.csharp:
   - public
   - class
@@ -68,12 +79,12 @@ items:
   type: Constructor
   source:
     remote:
-      path: src/System.Runtime/ref/System.Runtime.cs
+      path: src/mscorlib/src/System/WeakReference.cs
       branch: master
-      repo: https://github.com/dotnet/corefx.git
+      repo: https://github.com/dotnet/coreclr.git
     id: .ctor
-    path: src/System.Runtime/ref/System.Runtime.cs
-    startLine: 2267
+    path: src/mscorlib/src/System/WeakReference.cs
+    startLine: 42
   assemblies:
   - System.Runtime
   namespace: System
@@ -85,7 +96,6 @@ items:
     parameters:
     - id: target
       type: System.Object
-      description: "\n<p>The object to track or <strong>null</strong>. </p>\n"
   seealso:
   - type: System.Object
     commentId: T:System.Object
@@ -105,12 +115,12 @@ items:
   type: Constructor
   source:
     remote:
-      path: src/System.Runtime/ref/System.Runtime.cs
+      path: src/mscorlib/src/System/WeakReference.cs
       branch: master
-      repo: https://github.com/dotnet/corefx.git
+      repo: https://github.com/dotnet/coreclr.git
     id: .ctor
-    path: src/System.Runtime/ref/System.Runtime.cs
-    startLine: 2268
+    path: src/mscorlib/src/System/WeakReference.cs
+    startLine: 48
   assemblies:
   - System.Runtime
   namespace: System
@@ -124,10 +134,8 @@ items:
     parameters:
     - id: target
       type: System.Object
-      description: "\n<p>An object to track. </p>\n"
     - id: trackResurrection
       type: System.Boolean
-      description: "\n<p>Indicates when to stop tracking the object. If <strong>true</strong>, the object is tracked after finalization; if <strong>false</strong>, the object is only tracked until finalization. </p>\n"
   seealso:
   - type: System.Object
     commentId: T:System.Object
@@ -150,25 +158,26 @@ items:
   fullName: System.WeakReference.IsAlive
   type: Property
   source:
-    remote:
-      path: src/System.Runtime/ref/System.Runtime.cs
-      branch: master
-      repo: https://github.com/dotnet/corefx.git
-    id: IsAlive
-    path: src/System.Runtime/ref/System.Runtime.cs
-    startLine: 2269
+    path: System.Private.CoreLib
+    isExternal: true
   assemblies:
   - System.Runtime
   namespace: System
   summary: "\n<p>Gets an indication whether the object referenced by the current <xref href=\"System.WeakReference\" data-throw-if-not-resolved=\"false\"></xref> object has been garbage collected.</p>\n"
   remarks: "\n<p>Because an object could potentially be reclaimed for garbage collection immediately after the <xref href=\"System.WeakReference.IsAlive\" data-throw-if-not-resolved=\"false\"></xref> property returns <strong>true</strong>, using this property is not recommended unless you are testing only for a <strong>false</strong> return value.</p>\n"
   syntax:
-    content: public virtual bool IsAlive { get; }
+    content: >-
+      public virtual bool IsAlive
+
+      {
+          [MethodImpl(MethodImplOptions.InternalCall)]
+          [SecuritySafeCritical]
+          get;
+      }
     content.vb: Public Overridable ReadOnly Property IsAlive As Boolean
     parameters: []
     return:
       type: System.Boolean
-      description: "\n<p>\n<strong>true</strong> if the object referenced by the current <xref href=\"System.WeakReference\" data-throw-if-not-resolved=\"false\"></xref> object has not been garbage collected and is still accessible; otherwise, <strong>false</strong>.</p>\n"
   seealso:
   - type: System.GC
     commentId: T:System.GC
@@ -193,13 +202,8 @@ items:
   fullName: System.WeakReference.Target
   type: Property
   source:
-    remote:
-      path: src/System.Runtime/ref/System.Runtime.cs
-      branch: master
-      repo: https://github.com/dotnet/corefx.git
-    id: Target
-    path: src/System.Runtime/ref/System.Runtime.cs
-    startLine: 2270
+    path: System.Private.CoreLib
+    isExternal: true
   assemblies:
   - System.Runtime
   namespace: System
@@ -208,12 +212,21 @@ items:
   example:
   - "\n<p>The following example tries to obtain an object from a cache of objects with weak references. If the object was reclaimed for garbage collection, a new object is generated. This example is part of a larger example provided for the <xref href=\"System.WeakReference\" data-throw-if-not-resolved=\"false\"></xref> class.</p>WeakReference#3"
   syntax:
-    content: public virtual object Target { get; set; }
+    content: >-
+      public virtual object Target
+
+      {
+          [MethodImpl(MethodImplOptions.InternalCall)]
+          [SecuritySafeCritical]
+          get;
+          [MethodImpl(MethodImplOptions.InternalCall)]
+          [SecuritySafeCritical]
+          set;
+      }
     content.vb: Public Overridable Property Target As Object
     parameters: []
     return:
       type: System.Object
-      description: "\n<p>\n<strong>null</strong> if the object referenced by the current <xref href=\"System.WeakReference\" data-throw-if-not-resolved=\"false\"></xref> object has been garbage collected; otherwise, a reference to the object referenced by the current <xref href=\"System.WeakReference\" data-throw-if-not-resolved=\"false\"></xref> object.</p>\n"
   exceptions:
   - type: System.InvalidOperationException
     commentId: T:System.InvalidOperationException
@@ -243,12 +256,12 @@ items:
   type: Property
   source:
     remote:
-      path: src/System.Runtime/ref/System.Runtime.cs
+      path: src/mscorlib/src/System/WeakReference.cs
       branch: master
-      repo: https://github.com/dotnet/corefx.git
+      repo: https://github.com/dotnet/coreclr.git
     id: TrackResurrection
-    path: src/System.Runtime/ref/System.Runtime.cs
-    startLine: 2271
+    path: src/mscorlib/src/System/WeakReference.cs
+    startLine: 76
   assemblies:
   - System.Runtime
   namespace: System
@@ -260,7 +273,6 @@ items:
     parameters: []
     return:
       type: System.Boolean
-      description: "\n<p>\n<strong>true</strong> if the object the current <xref href=\"System.WeakReference\" data-throw-if-not-resolved=\"false\"></xref> object refers to is tracked after finalization; or <strong>false</strong> if the object is only tracked until finalization.</p>\n"
   seealso:
   - type: System.GC
     commentId: T:System.GC
@@ -283,20 +295,25 @@ items:
   fullName: System.WeakReference.Finalize()
   type: Method
   source:
-    remote:
-      path: src/System.Runtime/ref/System.Runtime.cs
-      branch: master
-      repo: https://github.com/dotnet/corefx.git
-    id: Finalize
-    path: src/System.Runtime/ref/System.Runtime.cs
-    startLine: 2272
+    path: System.Private.CoreLib
+    isExternal: true
   assemblies:
   - System.Runtime
   namespace: System
   summary: "\n<p>Discards the reference to the target represented by the current <xref href=\"System.WeakReference\" data-throw-if-not-resolved=\"false\"></xref> object.</p>\n"
   syntax:
-    content: protected void Finalize()
-    content.vb: Protected Sub Finalize
+    content: >-
+      [MethodImpl(MethodImplOptions.InternalCall)]
+
+      [SecuritySafeCritical]
+
+      protected void Finalize()
+    content.vb: >-
+      <MethodImpl(MethodImplOptions.InternalCall)>
+
+      <SecuritySafeCritical>
+
+      Protected Sub Finalize
   seealso:
   - type: System.GC
     commentId: T:System.GC
@@ -316,179 +333,16 @@ references:
   isExternal: false
   name: Object
   fullName: System.Object
-- uid: System.Object.Equals(System.Object)
-  parent: System.Object
-  isExternal: false
-  name: Equals(Object)
-  fullName: System.Object.Equals(System.Object)
-  spec.csharp:
-  - uid: System.Object.Equals(System.Object)
-    name: Equals
-    fullName: System.Object.Equals
-  - name: (
-    fullName: (
-  - uid: System.Object
-    name: Object
-    fullName: System.Object
-  - name: )
-    fullName: )
-  spec.vb:
-  - uid: System.Object.Equals(System.Object)
-    name: Equals
-    fullName: System.Object.Equals
-  - name: (
-    fullName: (
-  - uid: System.Object
-    name: Object
-    fullName: System.Object
-  - name: )
-    fullName: )
-- uid: System.Object.Equals(System.Object,System.Object)
-  parent: System.Object
-  isExternal: false
-  name: Equals(Object, Object)
-  fullName: System.Object.Equals(System.Object, System.Object)
-  spec.csharp:
-  - uid: System.Object.Equals(System.Object,System.Object)
-    name: Equals
-    fullName: System.Object.Equals
-  - name: (
-    fullName: (
-  - uid: System.Object
-    name: Object
-    fullName: System.Object
-  - name: ', '
-    fullName: ', '
-  - uid: System.Object
-    name: Object
-    fullName: System.Object
-  - name: )
-    fullName: )
-  spec.vb:
-  - uid: System.Object.Equals(System.Object,System.Object)
-    name: Equals
-    fullName: System.Object.Equals
-  - name: (
-    fullName: (
-  - uid: System.Object
-    name: Object
-    fullName: System.Object
-  - name: ', '
-    fullName: ', '
-  - uid: System.Object
-    name: Object
-    fullName: System.Object
-  - name: )
-    fullName: )
-- uid: System.Object.GetHashCode
-  parent: System.Object
-  isExternal: false
-  name: GetHashCode()
-  fullName: System.Object.GetHashCode()
-  spec.csharp:
-  - uid: System.Object.GetHashCode
-    name: GetHashCode
-    fullName: System.Object.GetHashCode
-  - name: (
-    fullName: (
-  - name: )
-    fullName: )
-  spec.vb:
-  - uid: System.Object.GetHashCode
-    name: GetHashCode
-    fullName: System.Object.GetHashCode
-  - name: (
-    fullName: (
-  - name: )
-    fullName: )
-- uid: System.Object.GetType
-  parent: System.Object
-  isExternal: false
-  name: GetType()
-  fullName: System.Object.GetType()
-  spec.csharp:
-  - uid: System.Object.GetType
-    name: GetType
-    fullName: System.Object.GetType
-  - name: (
-    fullName: (
-  - name: )
-    fullName: )
-  spec.vb:
-  - uid: System.Object.GetType
-    name: GetType
-    fullName: System.Object.GetType
-  - name: (
-    fullName: (
-  - name: )
-    fullName: )
-- uid: System.Object.MemberwiseClone
-  parent: System.Object
-  isExternal: false
-  name: MemberwiseClone()
-  fullName: System.Object.MemberwiseClone()
-  spec.csharp:
-  - uid: System.Object.MemberwiseClone
-    name: MemberwiseClone
-    fullName: System.Object.MemberwiseClone
-  - name: (
-    fullName: (
-  - name: )
-    fullName: )
-  spec.vb:
-  - uid: System.Object.MemberwiseClone
-    name: MemberwiseClone
-    fullName: System.Object.MemberwiseClone
-  - name: (
-    fullName: (
-  - name: )
-    fullName: )
-- uid: System.Object.ReferenceEquals(System.Object,System.Object)
-  parent: System.Object
-  isExternal: false
-  name: ReferenceEquals(Object, Object)
-  fullName: System.Object.ReferenceEquals(System.Object, System.Object)
-  spec.csharp:
-  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
-    name: ReferenceEquals
-    fullName: System.Object.ReferenceEquals
-  - name: (
-    fullName: (
-  - uid: System.Object
-    name: Object
-    fullName: System.Object
-  - name: ', '
-    fullName: ', '
-  - uid: System.Object
-    name: Object
-    fullName: System.Object
-  - name: )
-    fullName: )
-  spec.vb:
-  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
-    name: ReferenceEquals
-    fullName: System.Object.ReferenceEquals
-  - name: (
-    fullName: (
-  - uid: System.Object
-    name: Object
-    fullName: System.Object
-  - name: ', '
-    fullName: ', '
-  - uid: System.Object
-    name: Object
-    fullName: System.Object
-  - name: )
-    fullName: )
 - uid: System.Object.ToString
   parent: System.Object
-  isExternal: false
+  isExternal: true
   name: ToString()
   fullName: System.Object.ToString()
   spec.csharp:
   - uid: System.Object.ToString
     name: ToString
     fullName: System.Object.ToString
+    isExternal: true
   - name: (
     fullName: (
   - name: )
@@ -497,6 +351,193 @@ references:
   - uid: System.Object.ToString
     name: ToString
     fullName: System.Object.ToString
+    isExternal: true
+  - name: (
+    fullName: (
+  - name: )
+    fullName: )
+- uid: System.Object.Equals(System.Object)
+  parent: System.Object
+  isExternal: true
+  name: Equals(Object)
+  fullName: System.Object.Equals(System.Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    fullName: )
+- uid: System.Object.Equals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  name: Equals(Object, Object)
+  fullName: System.Object.Equals(System.Object, System.Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    fullName: )
+- uid: System.Object.ReferenceEquals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  name: ReferenceEquals(Object, Object)
+  fullName: System.Object.ReferenceEquals(System.Object, System.Object)
+  spec.csharp:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    fullName: System.Object.ReferenceEquals
+    isExternal: true
+  - name: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    fullName: System.Object.ReferenceEquals
+    isExternal: true
+  - name: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    fullName: )
+- uid: System.Object.GetHashCode
+  parent: System.Object
+  isExternal: true
+  name: GetHashCode()
+  fullName: System.Object.GetHashCode()
+  spec.csharp:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    fullName: System.Object.GetHashCode
+    isExternal: true
+  - name: (
+    fullName: (
+  - name: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    fullName: System.Object.GetHashCode
+    isExternal: true
+  - name: (
+    fullName: (
+  - name: )
+    fullName: )
+- uid: System.Object.GetType
+  parent: System.Object
+  isExternal: true
+  name: GetType()
+  fullName: System.Object.GetType()
+  spec.csharp:
+  - uid: System.Object.GetType
+    name: GetType
+    fullName: System.Object.GetType
+    isExternal: true
+  - name: (
+    fullName: (
+  - name: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.GetType
+    name: GetType
+    fullName: System.Object.GetType
+    isExternal: true
+  - name: (
+    fullName: (
+  - name: )
+    fullName: )
+- uid: System.Object.MemberwiseClone
+  parent: System.Object
+  isExternal: true
+  name: MemberwiseClone()
+  fullName: System.Object.MemberwiseClone()
+  spec.csharp:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    fullName: System.Object.MemberwiseClone
+    isExternal: true
+  - name: (
+    fullName: (
+  - name: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    fullName: System.Object.MemberwiseClone
+    isExternal: true
   - name: (
     fullName: (
   - name: )

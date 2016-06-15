@@ -36,17 +36,25 @@ items:
   assemblies:
   - System.Data.Common
   namespace: System.Data.Common
+  summary: "\n<p>Represents a parameter to a <xref href=\"System.Data.Common.DbCommand\" data-throw-if-not-resolved=\"false\"></xref> and optionally, its mapping to a <xref href=\"System.Data.DataSet\" data-throw-if-not-resolved=\"false\"></xref> column. For more information on parameters, see Configuring Parameters and Parameter Data Types.</p>\n"
   syntax:
-    content: 'public abstract class DbParameter : object, IDbDataParameter, IDataParameter'
+    content: 'public abstract class DbParameter : IDbDataParameter, IDataParameter'
     content.vb: >-
       Public MustInherit Class DbParameter
-          Inherits Object
           Implements IDbDataParameter, IDataParameter
   inheritance:
   - System.Object
   implements:
   - System.Data.IDbDataParameter
   - System.Data.IDataParameter
+  inheritedMembers:
+  - System.Object.ToString
+  - System.Object.Equals(System.Object)
+  - System.Object.Equals(System.Object,System.Object)
+  - System.Object.ReferenceEquals(System.Object,System.Object)
+  - System.Object.GetHashCode
+  - System.Object.GetType
+  - System.Object.MemberwiseClone
   modifiers.csharp:
   - public
   - abstract
@@ -76,6 +84,7 @@ items:
   assemblies:
   - System.Data.Common
   namespace: System.Data.Common
+  summary: "\n<p>Initializes a new instance of the <xref href=\"System.Data.Common.DbParameter\" data-throw-if-not-resolved=\"false\"></xref> class.</p>\n"
   syntax:
     content: protected DbParameter()
     content.vb: Protected Sub New
@@ -104,12 +113,17 @@ items:
   assemblies:
   - System.Data.Common
   namespace: System.Data.Common
+  summary: "\n<p>Gets or sets the <xref href=\"System.Data.DbType\" data-throw-if-not-resolved=\"false\"></xref> of the parameter.</p>\n"
   syntax:
     content: public abstract DbType DbType { get; set; }
     content.vb: Public MustOverride Property DbType As DbType
     parameters: []
     return:
       type: System.Data.DbType
+  exceptions:
+  - type: System.ArgumentException
+    commentId: T:System.ArgumentException
+    description: "\n<p>The property is not set to a valid <xref href=\"System.Data.DbType\" data-throw-if-not-resolved=\"false\"></xref>.</p>\n"
   implements:
   - System.Data.IDataParameter.DbType
   modifiers.csharp:
@@ -141,12 +155,18 @@ items:
   assemblies:
   - System.Data.Common
   namespace: System.Data.Common
+  summary: "\n<p>Gets or sets a value that indicates whether the parameter is input-only, output-only, bidirectional, or a stored procedure return value parameter.</p>\n"
+  remarks: "\n<p>If the <xref href=\"System.Data.ParameterDirection\" data-throw-if-not-resolved=\"false\"></xref> is output, and execution of the associated <xref href=\"System.Data.Common.DbCommand\" data-throw-if-not-resolved=\"false\"></xref> does not return a value, the <xref href=\"System.Data.Common.DbParameter\" data-throw-if-not-resolved=\"false\"></xref> contains a null value.</p>\n<p>\n<strong>Output</strong>, <strong>InputOut</strong>, and <strong>ReturnValue</strong> parameters returned by calling <xref href=\"System.Data.Common.DbCommand.ExecuteReader\" data-throw-if-not-resolved=\"false\"></xref> cannot be accessed until you call <xref href=\"System.Data.Common.DbDataReader.Close\" data-throw-if-not-resolved=\"false\"></xref> or <xref href=\"System.Data.Common.DbDataReader.Dispose\" data-throw-if-not-resolved=\"false\"></xref> on the <xref href=\"System.Data.Common.DbDataReader\" data-throw-if-not-resolved=\"false\"></xref>.</p>\n"
   syntax:
     content: public abstract ParameterDirection Direction { get; set; }
     content.vb: Public MustOverride Property Direction As ParameterDirection
     parameters: []
     return:
       type: System.Data.ParameterDirection
+  exceptions:
+  - type: System.ArgumentException
+    commentId: T:System.ArgumentException
+    description: "\n<p>The property is not set to one of the valid <xref href=\"System.Data.ParameterDirection\" data-throw-if-not-resolved=\"false\"></xref> values.</p>\n"
   implements:
   - System.Data.IDataParameter.Direction
   modifiers.csharp:
@@ -178,12 +198,14 @@ items:
   assemblies:
   - System.Data.Common
   namespace: System.Data.Common
+  summary: "\n<p>Gets or sets a value that indicates whether the parameter accepts null values.</p>\n"
+  remarks: "\n<p>Null values are handled using the <xref href=\"System.DBNull\" data-throw-if-not-resolved=\"false\"></xref> class.</p>\n"
   syntax:
-    content: public abstract Boolean IsNullable { get; set; }
+    content: public abstract bool IsNullable { get; set; }
     content.vb: Public MustOverride Property IsNullable As Boolean
     parameters: []
     return:
-      type: Boolean
+      type: System.Boolean
   implements:
   - System.Data.IDataParameter.IsNullable
   modifiers.csharp:
@@ -215,12 +237,13 @@ items:
   assemblies:
   - System.Data.Common
   namespace: System.Data.Common
+  summary: "\n<p>Gets or sets the name of the <xref href=\"System.Data.Common.DbParameter\" data-throw-if-not-resolved=\"false\"></xref>.</p>\n"
   syntax:
-    content: public abstract String ParameterName { get; set; }
+    content: public abstract string ParameterName { get; set; }
     content.vb: Public MustOverride Property ParameterName As String
     parameters: []
     return:
-      type: String
+      type: System.String
   implements:
   - System.Data.IDataParameter.ParameterName
   modifiers.csharp:
@@ -252,6 +275,7 @@ items:
   assemblies:
   - System.Data.Common
   namespace: System.Data.Common
+  summary: "\n<p>[Supported in the .NET Framework 4.5.1 and later versions] </p>\n<p>Gets or sets the maximum number of digits used to represent the <xref href=\"System.Data.Common.DbParameter.Value\" data-throw-if-not-resolved=\"false\"></xref> property.</p>\n"
   syntax:
     content: public virtual byte Precision { get; set; }
     content.vb: Public Overridable Property Precision As Byte
@@ -287,6 +311,7 @@ items:
   assemblies:
   - System.Data.Common
   namespace: System.Data.Common
+  summary: "\n<p>Gets or sets the number of decimal places to which <xref href=\"System.Data.Common.DbParameter.Value\" data-throw-if-not-resolved=\"false\"></xref> is resolved.</p>\n"
   syntax:
     content: public virtual byte Scale { get; set; }
     content.vb: Public Overridable Property Scale As Byte
@@ -322,6 +347,8 @@ items:
   assemblies:
   - System.Data.Common
   namespace: System.Data.Common
+  summary: "\n<p>Gets or sets the maximum size, in bytes, of the data within the column.</p>\n"
+  remarks: "\n<p>The <xref href=\"System.Data.Common.DbParameter.Size\" data-throw-if-not-resolved=\"false\"></xref> property is used for binary and string types.</p>\n<p>For nonstring data types and ANSI string data, the <xref href=\"System.Data.Common.DbParameter.Size\" data-throw-if-not-resolved=\"false\"></xref> property refers to the number of bytes. For Unicode string data, <xref href=\"System.Data.Common.DbParameter.Size\" data-throw-if-not-resolved=\"false\"></xref> refers to the number of characters. The count for strings does not include the terminating character.</p>\n<p>For variable-length data types, <xref href=\"System.Data.Common.DbParameter.Size\" data-throw-if-not-resolved=\"false\"></xref> describes the maximum amount of data to transmit to the server. For example, for a Unicode string value, <xref href=\"System.Data.Common.DbParameter.Size\" data-throw-if-not-resolved=\"false\"></xref> could be used to limit the amount of data sent to the server to the first one hundred characters.</p>\n<p>For bidirectional and output parameters, and return values, you must set the value of <xref href=\"System.Data.Common.DbParameter.Size\" data-throw-if-not-resolved=\"false\"></xref>. This is not required for input parameters, and if not explicitly set, the value is inferred from the actual size of the specified parameter when a parameterized statement is executed.</p>\n<p>The <xref href=\"System.Data.Common.DbParameter.DbType\" data-throw-if-not-resolved=\"false\"></xref> and <xref href=\"System.Data.Common.DbParameter.Size\" data-throw-if-not-resolved=\"false\"></xref> properties of a parameter can be inferred by setting <xref href=\"System.Data.Common.DbParameter.Value\" data-throw-if-not-resolved=\"false\"></xref>. Therefore, you are not required to specify them. However, they are not exposed in <xref href=\"System.Data.Common.DbParameter\" data-throw-if-not-resolved=\"false\"></xref> property settings. For example, if the size of the parameter has been inferred, <xref href=\"System.Data.Common.DbParameter.Size\" data-throw-if-not-resolved=\"false\"></xref> does not contain inferred value after statement execution.</p>\n<p>For fixed length data types, the value of <xref href=\"System.Data.Common.DbParameter.Size\" data-throw-if-not-resolved=\"false\"></xref> is ignored. It can be retrieved for informational purposes, and returns the maximum amount of bytes the provider uses when transmitting the value of the parameter to the server.</p>\n<p>If the size of the value supplied for a <xref href=\"System.Data.Common.DbParameter\" data-throw-if-not-resolved=\"false\"></xref> exceeds the specified <xref href=\"System.Data.Common.DbParameter.Size\" data-throw-if-not-resolved=\"false\"></xref>, the <xref href=\"System.Data.Common.DbParameter.Value\" data-throw-if-not-resolved=\"false\"></xref> of the <xref href=\"System.Data.Common.DbParameter\" data-throw-if-not-resolved=\"false\"></xref> will contain the specified value, truncated to the Size of the <xref href=\"System.Data.Common.DbParameter\" data-throw-if-not-resolved=\"false\"></xref>.</p>\n<p>For parameters of type <strong>DbType</strong>.<strong>String</strong>, the value of <xref href=\"System.Data.Common.DbParameter.Size\" data-throw-if-not-resolved=\"false\"></xref> is length in Unicode characters. For parameters of type <strong>DbType</strong>.<strong>Xml</strong>, <xref href=\"System.Data.Common.DbParameter.Size\" data-throw-if-not-resolved=\"false\"></xref> is ignored.</p>\n"
   syntax:
     content: public abstract int Size { get; set; }
     content.vb: Public MustOverride Property Size As Integer
@@ -359,12 +386,14 @@ items:
   assemblies:
   - System.Data.Common
   namespace: System.Data.Common
+  summary: "\n<p>Gets or sets the name of the source column mapped to the <xref href=\"System.Data.DataSet\" data-throw-if-not-resolved=\"false\"></xref> and used for loading or returning the <xref href=\"System.Data.Common.DbParameter.Value\" data-throw-if-not-resolved=\"false\"></xref>.</p>\n"
+  remarks: "\n<p>When <xref href=\"System.Data.Common.DbParameter.SourceColumn\" data-throw-if-not-resolved=\"false\"></xref> is set to anything other than an empty string, the value of the parameter is retrieved from the column with the <xref href=\"System.Data.Common.DbParameter.SourceColumn\" data-throw-if-not-resolved=\"false\"></xref> name. If <xref href=\"System.Data.Common.DbParameter.Direction\" data-throw-if-not-resolved=\"false\"></xref> is set to <strong>Input</strong>, the value is taken from the <xref href=\"System.Data.DataSet\" data-throw-if-not-resolved=\"false\"></xref>. If <xref href=\"System.Data.Common.DbParameter.Direction\" data-throw-if-not-resolved=\"false\"></xref> is set to <strong>Output</strong>, the value is taken from the data source. A <xref href=\"System.Data.Common.DbParameter.Direction\" data-throw-if-not-resolved=\"false\"></xref> of <strong>InputOutput</strong> is a combination of both.</p>\n<p>For more information about how to use the <xref href=\"System.Data.Common.DbParameter.SourceColumn\" data-throw-if-not-resolved=\"false\"></xref> property, see DataAdapter Parameters and Updating Data Sources with DataAdapters.</p>\n"
   syntax:
-    content: public abstract String SourceColumn { get; set; }
+    content: public abstract string SourceColumn { get; set; }
     content.vb: Public MustOverride Property SourceColumn As String
     parameters: []
     return:
-      type: String
+      type: System.String
   implements:
   - System.Data.IDataParameter.SourceColumn
   modifiers.csharp:
@@ -396,6 +425,8 @@ items:
   assemblies:
   - System.Data.Common
   namespace: System.Data.Common
+  summary: "\n<p>Sets or gets a value which indicates whether the source column is nullable. This allows <xref href=\"System.Data.Common.DbCommandBuilder\" data-throw-if-not-resolved=\"false\"></xref> to correctly generate Update statements for nullable columns.</p>\n"
+  remarks: "\n<p>\n<xref href=\"System.Data.Common.DbParameter.SourceColumnNullMapping\" data-throw-if-not-resolved=\"false\"></xref> is used by the <xref href=\"System.Data.Common.DbCommandBuilder\" data-throw-if-not-resolved=\"false\"></xref> to correctly generate update commands when dealing with nullable columns. Generally, use of <xref href=\"System.Data.Common.DbParameter.SourceColumnNullMapping\" data-throw-if-not-resolved=\"false\"></xref> is limited to developers inheriting from <xref href=\"System.Data.Common.DbCommandBuilder\" data-throw-if-not-resolved=\"false\"></xref>.</p>\n<p>\n<xref href=\"System.Data.Common.DbCommandBuilder\" data-throw-if-not-resolved=\"false\"></xref> uses this property to determine whether the source column is nullable, and sets this property to <strong>true</strong> if it is nullable, and <strong>false</strong> if it is not. When <xref href=\"System.Data.Common.DbCommandBuilder\" data-throw-if-not-resolved=\"false\"></xref> is generating its Update statement, it examines the <xref href=\"System.Data.Common.DbParameter.SourceColumnNullMapping\" data-throw-if-not-resolved=\"false\"></xref> for each parameter. If the property is <strong>true</strong>, <xref href=\"System.Data.Common.DbCommandBuilder\" data-throw-if-not-resolved=\"false\"></xref> generates a WHERE clauses like the following (in this query expression, \"FieldName\" represents the name of the field):</p>\n<pre><code>((@IsNull_FieldName = 1 AND FieldName IS NULL) OR \n(FieldName = @Original_FieldName))</code></pre>\n<p>If <xref href=\"System.Data.Common.DbParameter.SourceColumnNullMapping\" data-throw-if-not-resolved=\"false\"></xref> for the field is <strong>false</strong>, <xref href=\"System.Data.Common.DbCommandBuilder\" data-throw-if-not-resolved=\"false\"></xref> generates the following WHERE clause:</p>\n<pre><code>FieldName = @OriginalFieldName</code></pre>\n<p>In addition, @IsNull_FieldName contains 1 if the source field contains null, and 0 if it does not. This mechanism allows for a performance optimization in SQL Server, and provides for common code that works across multiple providers.</p>\n"
   syntax:
     content: public abstract bool SourceColumnNullMapping { get; set; }
     content.vb: Public MustOverride Property SourceColumnNullMapping As Boolean
@@ -432,12 +463,17 @@ items:
   assemblies:
   - System.Data.Common
   namespace: System.Data.Common
+  summary: "\n<p>Indicates the precision of numeric parameters.</p>\n"
+  remarks: "\n<p>This member is an explicit interface member implementation. It can be used only when the <xref href=\"System.Data.Common.DbParameter\" data-throw-if-not-resolved=\"false\"></xref> instance is cast to an <xref href=\"System.Data.IDbDataParameter\" data-throw-if-not-resolved=\"false\"></xref> interface.</p>\n<p>For more information, see <xref href=\"System.Data.IDbDataParameter.Precision\" data-throw-if-not-resolved=\"false\"></xref>.</p>\n"
+  example:
+  - 
   syntax:
     content: byte IDbDataParameter.Precision { get; set; }
     content.vb: ReadOnly WriteOnly Property System.Data.IDbDataParameter.Precision As Byte Implements IDbDataParameter.Precision
     parameters: []
     return:
       type: System.Byte
+      description: "\n<p>The maximum number of digits used to represent the <strong>Value</strong> property of a data provider <strong>Parameter</strong> object. The default value is 0, which indicates that a data provider sets the precision for <strong>Value</strong>.</p>\n"
   implements:
   - System.Data.IDbDataParameter.Precision
   modifiers.csharp:
@@ -466,12 +502,17 @@ items:
   assemblies:
   - System.Data.Common
   namespace: System.Data.Common
+  summary: "\n<p>For a description of this member, see <xref href=\"System.Data.IDbDataParameter.Scale\" data-throw-if-not-resolved=\"false\"></xref>.</p>\n"
+  remarks: "\n<p>This member is an explicit interface member implementation. It can be used only when the <xref href=\"System.Data.Common.DbParameter\" data-throw-if-not-resolved=\"false\"></xref> instance is cast to an <xref href=\"System.Data.IDbDataParameter\" data-throw-if-not-resolved=\"false\"></xref> interface.</p>\n<p>For more information, see <xref href=\"System.Data.IDbDataParameter.Scale\" data-throw-if-not-resolved=\"false\"></xref>.</p>\n"
+  example:
+  - 
   syntax:
     content: byte IDbDataParameter.Scale { get; set; }
     content.vb: ReadOnly WriteOnly Property System.Data.IDbDataParameter.Scale As Byte Implements IDbDataParameter.Scale
     parameters: []
     return:
       type: System.Byte
+      description: "\n<p>The number of decimal places to which <xref href=\"System.Data.OleDb.OleDbParameter.Value\" data-throw-if-not-resolved=\"false\"></xref> is resolved. The default is 0.</p>\n"
   implements:
   - System.Data.IDbDataParameter.Scale
   modifiers.csharp:
@@ -499,6 +540,8 @@ items:
   assemblies:
   - System.Data.Common
   namespace: System.Data.Common
+  summary: "\n<p>Gets or sets the value of the parameter.</p>\n"
+  remarks: "\n<p>For input parameters, the value is bound to the <xref href=\"System.Data.Common.DbCommand\" data-throw-if-not-resolved=\"false\"></xref> that is sent to the server. For output and return value parameters, the value is set on completion of the <xref href=\"System.Data.Common.DbCommand\" data-throw-if-not-resolved=\"false\"></xref> and after the <xref href=\"System.Data.Common.DbDataReader\" data-throw-if-not-resolved=\"false\"></xref> is closed.</p>\n<p>When you send a null parameter value to the server, you must specify <xref href=\"System.DBNull\" data-throw-if-not-resolved=\"false\"></xref>, not null. The null value in the system is an empty object that has no value. <xref href=\"System.DBNull\" data-throw-if-not-resolved=\"false\"></xref> is used to represent null values.</p>\n<p>If the application specifies the database type, the bound value is converted to that type when the provider sends the data to the server. The provider tries to convert any type of value if it supports the <xref href=\"System.IConvertible\" data-throw-if-not-resolved=\"false\"></xref> interface. Conversion errors may result if the specified type is not compatible with the value.</p>\n<p>The <xref href=\"System.Data.Common.DbParameter.DbType\" data-throw-if-not-resolved=\"false\"></xref> property can be inferred by setting the Value.</p>\n<p>The <xref href=\"System.Data.Common.DbParameter.Value\" data-throw-if-not-resolved=\"false\"></xref> property is overwritten by <strong>DbDataAdapter.Update</strong>.</p>\n"
   syntax:
     content: public abstract object Value { get; set; }
     content.vb: Public MustOverride Property Value As Object
@@ -570,6 +613,9 @@ items:
   assemblies:
   - System.Data.Common
   namespace: System.Data.Common
+  summary: "\n<p>Resets the <strong>DbType</strong> property to its original settings.</p>\n"
+  example:
+  - 
   syntax:
     content: public abstract void ResetDbType()
     content.vb: Public MustOverride Sub ResetDbType
@@ -599,6 +645,215 @@ references:
   isExternal: false
   name: IDataParameter
   fullName: System.Data.IDataParameter
+- uid: System.Object.ToString
+  parent: System.Object
+  isExternal: true
+  name: ToString()
+  fullName: System.Object.ToString()
+  spec.csharp:
+  - uid: System.Object.ToString
+    name: ToString
+    fullName: System.Object.ToString
+    isExternal: true
+  - name: (
+    fullName: (
+  - name: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.ToString
+    name: ToString
+    fullName: System.Object.ToString
+    isExternal: true
+  - name: (
+    fullName: (
+  - name: )
+    fullName: )
+- uid: System.Object.Equals(System.Object)
+  parent: System.Object
+  isExternal: true
+  name: Equals(Object)
+  fullName: System.Object.Equals(System.Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    fullName: )
+- uid: System.Object.Equals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  name: Equals(Object, Object)
+  fullName: System.Object.Equals(System.Object, System.Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    fullName: )
+- uid: System.Object.ReferenceEquals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  name: ReferenceEquals(Object, Object)
+  fullName: System.Object.ReferenceEquals(System.Object, System.Object)
+  spec.csharp:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    fullName: System.Object.ReferenceEquals
+    isExternal: true
+  - name: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    fullName: System.Object.ReferenceEquals
+    isExternal: true
+  - name: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    fullName: )
+- uid: System.Object.GetHashCode
+  parent: System.Object
+  isExternal: true
+  name: GetHashCode()
+  fullName: System.Object.GetHashCode()
+  spec.csharp:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    fullName: System.Object.GetHashCode
+    isExternal: true
+  - name: (
+    fullName: (
+  - name: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    fullName: System.Object.GetHashCode
+    isExternal: true
+  - name: (
+    fullName: (
+  - name: )
+    fullName: )
+- uid: System.Object.GetType
+  parent: System.Object
+  isExternal: true
+  name: GetType()
+  fullName: System.Object.GetType()
+  spec.csharp:
+  - uid: System.Object.GetType
+    name: GetType
+    fullName: System.Object.GetType
+    isExternal: true
+  - name: (
+    fullName: (
+  - name: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.GetType
+    name: GetType
+    fullName: System.Object.GetType
+    isExternal: true
+  - name: (
+    fullName: (
+  - name: )
+    fullName: )
+- uid: System.Object.MemberwiseClone
+  parent: System.Object
+  isExternal: true
+  name: MemberwiseClone()
+  fullName: System.Object.MemberwiseClone()
+  spec.csharp:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    fullName: System.Object.MemberwiseClone
+    isExternal: true
+  - name: (
+    fullName: (
+  - name: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    fullName: System.Object.MemberwiseClone
+    isExternal: true
+  - name: (
+    fullName: (
+  - name: )
+    fullName: )
 - uid: System
   isExternal: false
   name: System
@@ -692,3 +947,8 @@ references:
   isExternal: false
   name: DataRowVersion
   fullName: System.Data.DataRowVersion
+- uid: System.ArgumentException
+  parent: System
+  isExternal: false
+  name: ArgumentException
+  fullName: System.ArgumentException

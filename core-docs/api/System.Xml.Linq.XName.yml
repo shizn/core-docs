@@ -14,6 +14,7 @@ items:
   - System.Xml.Linq.XName.op_Equality(System.Xml.Linq.XName,System.Xml.Linq.XName)
   - System.Xml.Linq.XName.op_Implicit(System.String)~System.Xml.Linq.XName
   - System.Xml.Linq.XName.op_Inequality(System.Xml.Linq.XName,System.Xml.Linq.XName)
+  - System.Xml.Linq.XName.System#IEquatable{System#Xml#Linq#XName}#Equals(System.Xml.Linq.XName)
   - System.Xml.Linq.XName.ToString
   langs:
   - csharp
@@ -32,13 +33,22 @@ items:
   assemblies:
   - System.Xml.XDocument
   namespace: System.Xml.Linq
+  summary: "\n<p>Represents a name of an XML element or attribute. </p>\n"
+  remarks: "\n<p>XML names include a namespace and a local name. A fully qualified name is the combination of the namespace and local name. </p>\n"
   syntax:
     content: 'public sealed class XName : IEquatable<XName>'
     content.vb: >-
       Public NotInheritable Class XName
-          Inherits IEquatable(Of XName)
+          Implements IEquatable(Of XName)
   inheritance:
   - System.Object
+  implements:
+  - System.IEquatable{System.Xml.Linq.XName}
+  inheritedMembers:
+  - System.Object.Equals(System.Object,System.Object)
+  - System.Object.ReferenceEquals(System.Object,System.Object)
+  - System.Object.GetType
+  - System.Object.MemberwiseClone
   modifiers.csharp:
   - public
   - sealed
@@ -68,12 +78,20 @@ items:
   assemblies:
   - System.Xml.XDocument
   namespace: System.Xml.Linq
+  summary: "\n<p>Gets the local (unqualified) part of the name.</p>\n"
+  remarks: "\n<p>This property is guaranteed to not be <strong>null</strong>.</p>\n"
+  example:
+  - "\n<p>The following example shows the use of this property.</p>\n<pre><code class=\"c#\">XNamespace ns = \"http://www.adventure-works.com\";\nXElement root = new XElement(ns + \"Root\", \"content\");\nConsole.WriteLine(root.Name);\nConsole.WriteLine(root.Name.LocalName);\nConsole.WriteLine(root.Name.Namespace);</code></pre>\n<pre><code class=\"vb\">Imports <xmlns=\"http://www.adventure-works.com\">\n\nModule Module1\nSub Main()\nDim root As XElement = <Root/>\nConsole.WriteLine(root.Name)\nConsole.WriteLine(root.Name.LocalName)\nConsole.WriteLine(root.Name.Namespace)\nEnd Sub\nEnd Module</code></pre>\n<p>This example produces the following output:</p>\n<pre><code>{http://www.adventure-works.com}Root\nRoot\nhttp://www.adventure-works.com</code></pre>\n"
   syntax:
     content: public string LocalName { get; }
     content.vb: Public ReadOnly Property LocalName As String
     parameters: []
     return:
       type: System.String
+      description: "\n<p>A <xref href=\"System.String\" data-throw-if-not-resolved=\"false\"></xref> that contains the local (unqualified) part of the name.</p>\n"
+  seealso:
+  - type: System.Xml.Linq.XName.Namespace
+    commentId: P:System.Xml.Linq.XName.Namespace
   modifiers.csharp:
   - public
   - get
@@ -101,12 +119,17 @@ items:
   assemblies:
   - System.Xml.XDocument
   namespace: System.Xml.Linq
+  summary: "\n<p>Gets the namespace part of the fully qualified name.</p>\n"
+  remarks: "\n<p>The <xref href=\"System.Xml.Linq.XName.Namespace\" data-throw-if-not-resolved=\"false\"></xref> property is guaranteed to not be <strong>null</strong>. If an <xref href=\"System.Xml.Linq.XName\" data-throw-if-not-resolved=\"false\"></xref> is in no namespace, this property returns <xref href=\"System.Xml.Linq.XNamespace.None\" data-throw-if-not-resolved=\"false\"></xref>.</p>\n"
+  example:
+  - "\n<p>The following example shows the use of this property.</p>\n<pre><code class=\"c#\">XNamespace ns = \"http://www.adventure-works.com\";\nXElement root = new XElement(ns + \"Root\", \"content\");\nConsole.WriteLine(root.Name);\nConsole.WriteLine(root.Name.LocalName);\nConsole.WriteLine(root.Name.Namespace);</code></pre>\n<pre><code class=\"vb\">Imports <xmlns=\"http://www.adventure-works.com\">\n\nModule Module1\nSub Main()\nDim root As XElement = <Root/>\nConsole.WriteLine(root.Name)\nConsole.WriteLine(root.Name.LocalName)\nConsole.WriteLine(root.Name.Namespace)\nEnd Sub\nEnd Module</code></pre>\n<p>This example produces the following output:</p>\n<pre><code>{http://www.adventure-works.com}Root\nRoot\nhttp://www.adventure-works.com</code></pre>\n"
   syntax:
     content: public XNamespace Namespace { get; }
     content.vb: Public ReadOnly Property Namespace As XNamespace
     parameters: []
     return:
       type: System.Xml.Linq.XNamespace
+      description: "\n<p>An <xref href=\"System.Xml.Linq.XNamespace\" data-throw-if-not-resolved=\"false\"></xref> that contains the namespace part of the name.</p>\n"
   modifiers.csharp:
   - public
   - get
@@ -134,12 +157,17 @@ items:
   assemblies:
   - System.Xml.XDocument
   namespace: System.Xml.Linq
+  summary: "\n<p>Returns the URI of the <xref href=\"System.Xml.Linq.XNamespace\" data-throw-if-not-resolved=\"false\"></xref> for this <xref href=\"System.Xml.Linq.XName\" data-throw-if-not-resolved=\"false\"></xref>.</p>\n"
+  remarks: "\n<p>This is a convenience property to get the namespace name from an <xref href=\"System.Xml.Linq.XName\" data-throw-if-not-resolved=\"false\"></xref>.</p>\n"
+  example:
+  - "\n<p>This example creates an element in a namespace, and then prints the element's namespace.</p>\n<pre><code class=\"c#\">XNamespace aw = \"http://www.adventure-works.com\";\nXElement root = new XElement(aw + \"Root\");\nConsole.WriteLine(root.Name.NamespaceName);</code></pre>\n<pre><code class=\"vb\">Imports <xmlns=\"http://www.adventure-works.com\">\n\nModule Module1\nSub Main()\nDim root As XElement = <Root/>\nConsole.WriteLine(root.Name.NamespaceName)\nEnd Sub\nEnd Module</code></pre>\n<p>This example produces the following output:</p>\n<pre><code>http://www.adventure-works.com</code></pre>\n"
   syntax:
     content: public string NamespaceName { get; }
     content.vb: Public ReadOnly Property NamespaceName As String
     parameters: []
     return:
       type: System.String
+      description: "\n<p>The URI of the <xref href=\"System.Xml.Linq.XNamespace\" data-throw-if-not-resolved=\"false\"></xref> for this <xref href=\"System.Xml.Linq.XName\" data-throw-if-not-resolved=\"false\"></xref>.</p>\n"
   modifiers.csharp:
   - public
   - get
@@ -167,14 +195,21 @@ items:
   assemblies:
   - System.Xml.XDocument
   namespace: System.Xml.Linq
+  summary: "\n<p>Determines whether the specified <xref href=\"System.Xml.Linq.XName\" data-throw-if-not-resolved=\"false\"></xref> is equal to this <xref href=\"System.Xml.Linq.XName\" data-throw-if-not-resolved=\"false\"></xref>.</p>\n"
+  remarks: "\n<p>For two <xref href=\"System.Xml.Linq.XName\" data-throw-if-not-resolved=\"false\"></xref> objects to be equal, they must have the same expanded name.</p>\n"
+  example:
+  - 
   syntax:
     content: public override bool Equals(object obj)
     content.vb: Public Overrides Function Equals(obj As Object) As Boolean
     parameters:
     - id: obj
       type: System.Object
+      description: "\n<p>The <xref href=\"System.Xml.Linq.XName\" data-throw-if-not-resolved=\"false\"></xref> to compare to the current <xref href=\"System.Xml.Linq.XName\" data-throw-if-not-resolved=\"false\"></xref>.</p>\n"
     return:
       type: System.Boolean
+      description: "\n<p>\n<strong>true</strong> if the specified <xref href=\"System.Xml.Linq.XName\" data-throw-if-not-resolved=\"false\"></xref> is equal to the current <xref href=\"System.Xml.Linq.XName\" data-throw-if-not-resolved=\"false\"></xref>; otherwise <strong>false</strong>.</p>\n"
+  overridden: System.Object.Equals(System.Object)
   modifiers.csharp:
   - public
   - override
@@ -202,14 +237,20 @@ items:
   assemblies:
   - System.Xml.XDocument
   namespace: System.Xml.Linq
+  summary: "\n<p>Gets an <xref href=\"System.Xml.Linq.XName\" data-throw-if-not-resolved=\"false\"></xref> object from an expanded name.</p>\n"
+  remarks: "\n<p>This method contains overloads that allow you to create an <xref href=\"System.Xml.Linq.XName\" data-throw-if-not-resolved=\"false\"></xref>. You can create it from a expanded XML name in the form <code>{namespace}localname</code>, or from a namespace and a local name, specified separately.</p>\n<p>A much more common and easier way to create an <xref href=\"System.Xml.Linq.XName\" data-throw-if-not-resolved=\"false\"></xref> is to use the implicit conversion from string.</p>\n<p>Because <xref href=\"System.Xml.Linq.XName\" data-throw-if-not-resolved=\"false\"></xref> are atomized, if there is an existing <xref href=\"System.Xml.Linq.XName\" data-throw-if-not-resolved=\"false\"></xref> with exactly the same name, the assigned variable will refer to the existing <xref href=\"System.Xml.Linq.XName\" data-throw-if-not-resolved=\"false\"></xref>. If there is no existing <xref href=\"System.Xml.Linq.XName\" data-throw-if-not-resolved=\"false\"></xref>, a new one will be created and initialized.</p>\n"
+  example:
+  - "\n<p>The following example shows the use of this method.</p>\n<pre><code class=\"c#\">XName name = XName.Get(\"{http://www.adventure-works.com}Root\");\nXElement el = new XElement(name, \"content\");\nConsole.WriteLine(el);\n\n// This is the preferred approach for specifying the XName in the\n// constructor of XElement.\nXNamespace aw = \"http://www.adventure-works.com\";\nXElement el2 = new XElement(aw + \"Root\", \"content\");\nConsole.WriteLine(el2);</code></pre>\n<pre><code class=\"vb\">Imports <xmlns=\"http://www.adventure-works.com\">\n\nModule Module1\nSub Main()\nDim name As XName = XName.Get(\"{http://www.adventure-works.com}Root\")\nDim el As XElement = New XElement(name, \"content\")\nConsole.WriteLine(el)\n\n' The preferred approach for specifying an XName in a namespace\n' for Visual Basic is to import a global namespace.\nDim el2 As XElement = <Root>content</Root>\nConsole.WriteLine(el2)\nEnd Sub\nEnd Module</code></pre>\n<p>This example produces the following output:</p>\n<pre><code><Root xmlns=\"http://www.adventure-works.com\">content</Root>\n<Root xmlns=\"http://www.adventure-works.com\">content</Root></code></pre>\n"
   syntax:
     content: public static XName Get(string expandedName)
     content.vb: Public Shared Function Get(expandedName As String) As XName
     parameters:
     - id: expandedName
       type: System.String
+      description: "\n<p>A <xref href=\"System.String\" data-throw-if-not-resolved=\"false\"></xref> that contains an expanded XML name in the format <code>{namespace}localname</code>.</p>\n"
     return:
       type: System.Xml.Linq.XName
+      description: "\n<p>An <xref href=\"System.Xml.Linq.XName\" data-throw-if-not-resolved=\"false\"></xref> object constructed from the expanded name.</p>\n"
   modifiers.csharp:
   - public
   - static
@@ -237,16 +278,23 @@ items:
   assemblies:
   - System.Xml.XDocument
   namespace: System.Xml.Linq
+  summary: "\n<p>Gets an <xref href=\"System.Xml.Linq.XName\" data-throw-if-not-resolved=\"false\"></xref> object from a local name and a namespace.</p>\n"
+  remarks: "\n<p>This method contains overloads that allow you to create an <xref href=\"System.Xml.Linq.XName\" data-throw-if-not-resolved=\"false\"></xref>. You can create it from an expanded XML name in the form <code>{namespace}localname</code>, or from a namespace and a local name, specified separately.</p>\n<p>A much more common and easier way to create an <xref href=\"System.Xml.Linq.XName\" data-throw-if-not-resolved=\"false\"></xref> is to use the implicit conversion from string.</p>\n<p>Because <xref href=\"System.Xml.Linq.XName\" data-throw-if-not-resolved=\"false\"></xref> are atomized, if there is an existing <xref href=\"System.Xml.Linq.XName\" data-throw-if-not-resolved=\"false\"></xref> with exactly the same name, the assigned variable will refer to the existing <xref href=\"System.Xml.Linq.XName\" data-throw-if-not-resolved=\"false\"></xref>. If there is no existing <xref href=\"System.Xml.Linq.XName\" data-throw-if-not-resolved=\"false\"></xref>, a new one will be created and initialized.</p>\n"
+  example:
+  - "\n<p>The following example shows the use of this method.</p>\n<pre><code class=\"c#\">XName name = XName.Get(\"Root\", \"http://www.adventure-works.com\");\nXElement el = new XElement(name, \"content\");\nConsole.WriteLine(el);\n\n// This is the preferred form.\nXNamespace aw = \"http://www.adventure-works.com\";\nXElement el2 = new XElement(aw + \"Root\", \"content\");\nConsole.WriteLine(el2);</code></pre>\n<pre><code class=\"vb\">Imports <xmlns=\"http://www.adventure-works.com\">\n\nModule Module1\nSub Main()\nDim name As XName = XName.Get(\"{http://www.adventure-works.com}Root\")\nDim el As XElement = New XElement(name, \"content\")\nConsole.WriteLine(el)\n\n' The preferred approach for specifying an XName in a namespace\n' for Visual Basic is to import a global namespace.\nDim el2 As XElement = <Root>content</Root>\nConsole.WriteLine(el2)\nEnd Sub\nEnd Module</code></pre>\n<p>This example produces the following output:</p>\n<pre><code><Root xmlns=\"http://www.adventure-works.com\">content</Root>\n<Root xmlns=\"http://www.adventure-works.com\">content</Root></code></pre>\n"
   syntax:
     content: public static XName Get(string localName, string namespaceName)
     content.vb: Public Shared Function Get(localName As String, namespaceName As String) As XName
     parameters:
     - id: localName
       type: System.String
+      description: "\n<p>A local (unqualified) name.</p>\n"
     - id: namespaceName
       type: System.String
+      description: "\n<p>An XML namespace.</p>\n"
     return:
       type: System.Xml.Linq.XName
+      description: "\n<p>An <xref href=\"System.Xml.Linq.XName\" data-throw-if-not-resolved=\"false\"></xref> object created from the specified local name and namespace.</p>\n"
   modifiers.csharp:
   - public
   - static
@@ -274,11 +322,17 @@ items:
   assemblies:
   - System.Xml.XDocument
   namespace: System.Xml.Linq
+  summary: "\n<p>Gets a hash code for this <xref href=\"System.Xml.Linq.XName\" data-throw-if-not-resolved=\"false\"></xref>.</p>\n"
+  remarks: "\n<p>This method serves as a hash function for <xref href=\"System.Xml.Linq.XName\" data-throw-if-not-resolved=\"false\"></xref>. You can use <xref href=\"System.Xml.Linq.XName.GetHashCode\" data-throw-if-not-resolved=\"false\"></xref> in hashing algorithms, or in data structures such as a hash table.</p>\n"
+  example:
+  - 
   syntax:
     content: public override int GetHashCode()
     content.vb: Public Overrides Function GetHashCode As Integer
     return:
       type: System.Int32
+      description: "\n<p>An <xref href=\"System.Int32\" data-throw-if-not-resolved=\"false\"></xref> that contains the hash code for the <xref href=\"System.Xml.Linq.XName\" data-throw-if-not-resolved=\"false\"></xref>.</p>\n"
+  overridden: System.Object.GetHashCode
   modifiers.csharp:
   - public
   - override
@@ -306,16 +360,23 @@ items:
   assemblies:
   - System.Xml.XDocument
   namespace: System.Xml.Linq
+  summary: "\n<p>Returns a value indicating whether two instances of <xref href=\"System.Xml.Linq.XName\" data-throw-if-not-resolved=\"false\"></xref> are equal.</p>\n"
+  remarks: "\n<p>The operator overloads <code>==</code> and <code>!=</code> are included to enable comparisons between <xref href=\"System.Xml.Linq.XName\" data-throw-if-not-resolved=\"false\"></xref> and a <strong>string</strong>, such as<strong></strong><code>element.Name == \"SomeElementName\"</code>. The predefined reference equality operators in C# require one operand to be convertible to the type of the other through reference conversions only. These operators do not consider the implicit conversion from string to <xref href=\"System.Xml.Linq.XName\" data-throw-if-not-resolved=\"false\"></xref>.</p>\n"
+  example:
+  - "\n<p>The following example shows some comparisons between <xref href=\"System.Xml.Linq.XName\" data-throw-if-not-resolved=\"false\"></xref> objects and strings.</p>\n<pre><code class=\"c#\">XName xn;\nxn = XName.Get(\"Root\");\nConsole.WriteLine(xn == \"Root\");\n\nxn = XName.Get(\"Root\", \"http://www.adventure-works.com\");\nConsole.WriteLine(xn == \"{http://www.adventure-works.com}Root\");\n\nXElement root = new XElement(\"Root\", \"content\");\nConsole.WriteLine(root.Name == \"Root\");</code></pre>\n<pre><code class=\"vb\">Dim xn As XName\nxn = XName.Get(\"Root\")\nConsole.WriteLine(xn = \"Root\")\n\nxn = XName.Get(\"Root\", \"http://www.adventure-works.com\")\nConsole.WriteLine(xn = \"{http://www.adventure-works.com}Root\")\n\nDim root As XElement = New XElement(\"Root\", \"content\")\nConsole.WriteLine(root.Name = \"Root\")</code></pre>\n<p>This example produces the following output:</p>\n<pre><code>True\nTrue\nTrue</code></pre>\n"
   syntax:
     content: public static bool operator ==(XName left, XName right)
     content.vb: Public Shared Operator =(left As XName, right As XName) As Boolean
     parameters:
     - id: left
       type: System.Xml.Linq.XName
+      description: "\n<p>The first <xref href=\"System.Xml.Linq.XName\" data-throw-if-not-resolved=\"false\"></xref> to compare.</p>\n"
     - id: right
       type: System.Xml.Linq.XName
+      description: "\n<p>The second <xref href=\"System.Xml.Linq.XName\" data-throw-if-not-resolved=\"false\"></xref> to compare.</p>\n"
     return:
       type: System.Boolean
+      description: "\n<p>\n<strong>true</strong> if <em>left</em> and <em>right</em> are equal; otherwise <strong>false</strong>.</p>\n"
   modifiers.csharp:
   - public
   - static
@@ -343,14 +404,32 @@ items:
   assemblies:
   - System.Xml.XDocument
   namespace: System.Xml.Linq
+  summary: "\n<p>Converts a string formatted as an expanded XML name (that is,<code>{namespace}localname</code>) to an <xref href=\"System.Xml.Linq.XName\" data-throw-if-not-resolved=\"false\"></xref> object.</p>\n"
+  remarks: "\n<p>You are using this implicit operator when you create an <xref href=\"System.Xml.Linq.XElement\" data-throw-if-not-resolved=\"false\"></xref> or <xref href=\"System.Xml.Linq.XAttribute\" data-throw-if-not-resolved=\"false\"></xref> by passing a string to the appropriate constructor.</p>\n"
+  example:
+  - "\n<p>The following example creates an <xref href=\"System.Xml.Linq.XName\" data-throw-if-not-resolved=\"false\"></xref> by assigning a string to it, which invokes this implicit conversion operator.</p>\n<pre><code class=\"c#\">XElement el = new XElement(\"{http://www.adventure-works.com}Root\", \"content\");\nConsole.WriteLine(el);\n\n// The preferred approach is to initialize an XNamespace object\n// and use the overload of the addition operator.\nXNamespace aw = \"http://www.adventure-works.com\";\nXElement root = new XElement(aw + \"Root\", \"content\");\nConsole.WriteLine(root);</code></pre>\n<pre><code class=\"vb\">Imports <xmlns=\"http://www.adventure-works.com\">\n\nModule Module1\nSub Main()\nDim el As XElement = New XElement(\"{http://www.adventure-works.com}Root\", \"content\")\nConsole.WriteLine(el)\n\n' The preferred approach is to import a global namespace and \n' use an XML literal.\nDim root As XElement = <Root>content</Root>\nConsole.WriteLine(root)\nEnd Sub\nEnd Module</code></pre>\n<p>This example produces the following output:</p>\n<pre><code><Root xmlns=\"http://www.adventure-works.com\">content</Root>\n<Root xmlns=\"http://www.adventure-works.com\">content</Root></code></pre>\n"
   syntax:
-    content: public static implicit operator XName(string expandedName)
-    content.vb: Public Shared Widening Operator CType(expandedName As String) As XName
+    content: >-
+      [CLSCompliant(false)]
+
+      public static implicit operator XName(string expandedName)
+    content.vb: >-
+      <CLSCompliant(False)>
+
+      Public Shared Widening Operator CType(expandedName As String) As XName
     parameters:
     - id: expandedName
       type: System.String
+      description: "\n<p>A string that contains an expanded XML name in the format <code>{namespace}localname</code>.</p>\n"
     return:
       type: System.Xml.Linq.XName
+      description: "\n<p>An <xref href=\"System.Xml.Linq.XName\" data-throw-if-not-resolved=\"false\"></xref> object constructed from the expanded name.</p>\n"
+  attributes:
+  - type: System.CLSCompliantAttribute
+    ctor: System.CLSCompliantAttribute.#ctor(System.Boolean)
+    arguments:
+    - type: System.Boolean
+      value: false
   modifiers.csharp:
   - public
   - static
@@ -380,22 +459,65 @@ items:
   assemblies:
   - System.Xml.XDocument
   namespace: System.Xml.Linq
+  summary: "\n<p>Returns a value indicating whether two instances of <xref href=\"System.Xml.Linq.XName\" data-throw-if-not-resolved=\"false\"></xref> are not equal.</p>\n"
+  remarks: "\n<p>The operator overloads <code>==</code> and <code>!=</code> are included to enable comparisons between <xref href=\"System.Xml.Linq.XName\" data-throw-if-not-resolved=\"false\"></xref> and a string, such as<strong></strong><code>element.Name == \"SomeElementName\"</code>. The predefined reference equality operators in C# require one operand to be convertible to the type of the other through reference conversions only. These operators do not consider the implicit conversion from string to <xref href=\"System.Xml.Linq.XName\" data-throw-if-not-resolved=\"false\"></xref>.</p>\n"
+  example:
+  - "\n<p>The following C# example compares an <xref href=\"System.Xml.Linq.XName\" data-throw-if-not-resolved=\"false\"></xref> object to a string, which invokes this operator. </p>\n<pre><code class=\"c#\">XNamespace aw = \"http://www.adventure-works.com\";\nXElement root = new XElement(aw + \"Root\", \"content\");\n\nConsole.WriteLine(root.Name != \"{http://www.adventure-works.com}Root\");\n\n// the following is the preferred idiom\nConsole.WriteLine(root.Name != aw + \"Root\");</code></pre>\n<pre><code class=\"vb\">Imports <xmlns=\"http://www.adventure-works.com\">\n\nModule Module1\nSub Main()\nDim root As XElement = <Root>content</Root>\nConsole.WriteLine(root.Name <> \"{http://www.adventure-works.com}Root\")\n\n' the following is the preferred idiom\nConsole.WriteLine(root.Name <> GetXmlNamespace() + \"Root\")\nEnd Sub\nEnd Module</code></pre>\n<p>This example produces the following output:</p>\n<pre><code>False\nFalse</code></pre>\n"
   syntax:
     content: public static bool operator !=(XName left, XName right)
     content.vb: Public Shared Operator <>(left As XName, right As XName) As Boolean
     parameters:
     - id: left
       type: System.Xml.Linq.XName
+      description: "\n<p>The first <xref href=\"System.Xml.Linq.XName\" data-throw-if-not-resolved=\"false\"></xref> to compare.</p>\n"
     - id: right
       type: System.Xml.Linq.XName
+      description: "\n<p>The second <xref href=\"System.Xml.Linq.XName\" data-throw-if-not-resolved=\"false\"></xref> to compare.</p>\n"
     return:
       type: System.Boolean
+      description: "\n<p>\n<strong>true</strong> if <em>left</em> and <em>right</em> are not equal; otherwise <strong>false</strong>.</p>\n"
   modifiers.csharp:
   - public
   - static
   modifiers.vb:
   - Public
   - Shared
+- uid: System.Xml.Linq.XName.System#IEquatable{System#Xml#Linq#XName}#Equals(System.Xml.Linq.XName)
+  commentId: M:System.Xml.Linq.XName.System#IEquatable{System#Xml#Linq#XName}#Equals(System.Xml.Linq.XName)
+  id: System#IEquatable{System#Xml#Linq#XName}#Equals(System.Xml.Linq.XName)
+  isEii: true
+  parent: System.Xml.Linq.XName
+  langs:
+  - csharp
+  - vb
+  name: IEquatable<XName>.Equals(XName)
+  fullName: System.Xml.Linq.XName.System.IEquatable<System.Xml.Linq.XName>.Equals(System.Xml.Linq.XName)
+  type: Method
+  source:
+    remote:
+      path: src/System.Xml.XDocument/ref/System.Xml.XDocument.cs
+      branch: master
+      repo: https://github.com/dotnet/corefx.git
+    id: System.IEquatable<System.Xml.Linq.XName>.Equals
+    path: src/System.Xml.XDocument/ref/System.Xml.XDocument.cs
+    startLine: 320
+  assemblies:
+  - System.Xml.XDocument
+  namespace: System.Xml.Linq
+  summary: "\n<p>Indicates whether the current <xref href=\"System.Xml.Linq.XName\" data-throw-if-not-resolved=\"false\"></xref> is equal to the specified <xref href=\"System.Xml.Linq.XName\" data-throw-if-not-resolved=\"false\"></xref>.</p>\n"
+  syntax:
+    content: bool IEquatable<XName>.Equals(XName other)
+    content.vb: Function System.IEquatable<System.Xml.Linq.XName>.Equals(other As XName) As Boolean Implements IEquatable(Of XName).Equals
+    parameters:
+    - id: other
+      type: System.Xml.Linq.XName
+      description: "\n<p>The <xref href=\"System.Xml.Linq.XName\" data-throw-if-not-resolved=\"false\"></xref> to compare with this <xref href=\"System.Xml.Linq.XName\" data-throw-if-not-resolved=\"false\"></xref>.</p>\n"
+    return:
+      type: System.Boolean
+      description: "\n<p>\n<strong>true</strong> if this <xref href=\"System.Xml.Linq.XName\" data-throw-if-not-resolved=\"false\"></xref> is equal to the specified <xref href=\"System.Xml.Linq.XName\" data-throw-if-not-resolved=\"false\"></xref>, otherwise <strong>false</strong>.</p>\n"
+  implements:
+  - System.IEquatable{System.Xml.Linq.XName}.Equals(System.Xml.Linq.XName)
+  name.vb: System.IEquatable<System.Xml.Linq.XName>.Equals(XName)
 - uid: System.Xml.Linq.XName.ToString
   commentId: M:System.Xml.Linq.XName.ToString
   id: ToString
@@ -417,11 +539,16 @@ items:
   assemblies:
   - System.Xml.XDocument
   namespace: System.Xml.Linq
+  summary: "\n<p>Returns the expanded XML name in the format <code>{namespace}localname</code>.</p>\n"
+  example:
+  - "\n<p>The following example calls <xref href=\"System.Console.WriteLine\" data-throw-if-not-resolved=\"false\"></xref>, passing an <xref href=\"System.Xml.Linq.XName\" data-throw-if-not-resolved=\"false\"></xref>. This causes the <xref href=\"System.Xml.Linq.XName.ToString\" data-throw-if-not-resolved=\"false\"></xref> method to be called.</p>\n<pre><code class=\"c#\">XNamespace ns = \"http://www.adventure-works.com\";\nXElement root = new XElement(ns + \"Root\", \"content\");\nConsole.WriteLine(root.Name);\nConsole.WriteLine(root.Name.LocalName);\nConsole.WriteLine(root.Name.Namespace);</code></pre>\n<pre><code class=\"vb\">Imports <xmlns=\"http://www.adventure-works.com\">\n\nModule Module1\nSub Main()\nDim root As XElement = <Root>content</Root>\nConsole.WriteLine(root.Name)\nConsole.WriteLine(root.Name.LocalName)\nConsole.WriteLine(root.Name.Namespace)\nEnd Sub\nEnd Module</code></pre>\n<p>This example produces the following output:</p>\n<pre><code>{http://www.adventure-works.com}Root\nRoot\nhttp://www.adventure-works.com</code></pre>\n"
   syntax:
     content: public override string ToString()
     content.vb: Public Overrides Function ToString As String
     return:
       type: System.String
+      description: "\n<p>A <xref href=\"System.String\" data-throw-if-not-resolved=\"false\"></xref> that contains the expanded XML name in the format <code>{namespace}localname</code>.</p>\n"
+  overridden: System.Object.ToString
   modifiers.csharp:
   - public
   - override
@@ -438,10 +565,200 @@ references:
   isExternal: false
   name: Object
   fullName: System.Object
+- uid: System.IEquatable{System.Xml.Linq.XName}
+  parent: System
+  definition: System.IEquatable`1
+  name: IEquatable<XName>
+  fullName: System.IEquatable<System.Xml.Linq.XName>
+  fullname.vb: System.IEquatable(Of System.Xml.Linq.XName)
+  name.vb: IEquatable(Of XName)
+  spec.csharp:
+  - uid: System.IEquatable`1
+    name: IEquatable
+    fullName: System.IEquatable
+    isExternal: true
+  - name: <
+    fullName: <
+  - uid: System.Xml.Linq.XName
+    name: XName
+    fullName: System.Xml.Linq.XName
+  - name: '>'
+    fullName: '>'
+  spec.vb:
+  - uid: System.IEquatable`1
+    name: IEquatable
+    fullName: System.IEquatable
+    isExternal: true
+  - name: '(Of '
+    fullName: '(Of '
+  - uid: System.Xml.Linq.XName
+    name: XName
+    fullName: System.Xml.Linq.XName
+  - name: )
+    fullName: )
+- uid: System.Object.Equals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  name: Equals(Object, Object)
+  fullName: System.Object.Equals(System.Object, System.Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    fullName: )
+- uid: System.Object.ReferenceEquals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  name: ReferenceEquals(Object, Object)
+  fullName: System.Object.ReferenceEquals(System.Object, System.Object)
+  spec.csharp:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    fullName: System.Object.ReferenceEquals
+    isExternal: true
+  - name: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    fullName: System.Object.ReferenceEquals
+    isExternal: true
+  - name: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    fullName: )
+- uid: System.Object.GetType
+  parent: System.Object
+  isExternal: true
+  name: GetType()
+  fullName: System.Object.GetType()
+  spec.csharp:
+  - uid: System.Object.GetType
+    name: GetType
+    fullName: System.Object.GetType
+    isExternal: true
+  - name: (
+    fullName: (
+  - name: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.GetType
+    name: GetType
+    fullName: System.Object.GetType
+    isExternal: true
+  - name: (
+    fullName: (
+  - name: )
+    fullName: )
+- uid: System.Object.MemberwiseClone
+  parent: System.Object
+  isExternal: true
+  name: MemberwiseClone()
+  fullName: System.Object.MemberwiseClone()
+  spec.csharp:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    fullName: System.Object.MemberwiseClone
+    isExternal: true
+  - name: (
+    fullName: (
+  - name: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    fullName: System.Object.MemberwiseClone
+    isExternal: true
+  - name: (
+    fullName: (
+  - name: )
+    fullName: )
 - uid: System
   isExternal: false
   name: System
   fullName: System
+- uid: System.IEquatable`1
+  parent: System
+  isExternal: false
+  name: IEquatable<T>
+  fullName: System.IEquatable<T>
+  fullname.vb: System.IEquatable(Of T)
+  name.vb: IEquatable(Of T)
+  spec.csharp:
+  - uid: System.IEquatable`1
+    name: IEquatable
+    fullName: System.IEquatable
+  - name: <
+    fullName: <
+  - name: T
+    fullName: T
+  - name: '>'
+    fullName: '>'
+  spec.vb:
+  - uid: System.IEquatable`1
+    name: IEquatable
+    fullName: System.IEquatable
+  - name: '(Of '
+    fullName: '(Of '
+  - name: T
+    fullName: T
+  - name: )
+    fullName: )
 - uid: System.String
   parent: System
   isExternal: false
@@ -452,6 +769,37 @@ references:
   isExternal: false
   name: XNamespace
   fullName: System.Xml.Linq.XNamespace
+- uid: System.Object.Equals(System.Object)
+  parent: System.Object
+  isExternal: true
+  name: Equals(Object)
+  fullName: System.Object.Equals(System.Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    fullName: )
 - uid: System.Boolean
   parent: System
   isExternal: false
@@ -462,8 +810,110 @@ references:
   isExternal: false
   name: XName
   fullName: System.Xml.Linq.XName
+- uid: System.Object.GetHashCode
+  parent: System.Object
+  isExternal: true
+  name: GetHashCode()
+  fullName: System.Object.GetHashCode()
+  spec.csharp:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    fullName: System.Object.GetHashCode
+    isExternal: true
+  - name: (
+    fullName: (
+  - name: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    fullName: System.Object.GetHashCode
+    isExternal: true
+  - name: (
+    fullName: (
+  - name: )
+    fullName: )
 - uid: System.Int32
   parent: System
   isExternal: false
   name: Int32
   fullName: System.Int32
+- uid: System.IEquatable{System.Xml.Linq.XName}.Equals(System.Xml.Linq.XName)
+  parent: System.IEquatable{System.Xml.Linq.XName}
+  definition: System.IEquatable`1.Equals(`0)
+  name: Equals(XName)
+  fullName: System.IEquatable<System.Xml.Linq.XName>.Equals(System.Xml.Linq.XName)
+  fullname.vb: System.IEquatable(Of System.Xml.Linq.XName).Equals(System.Xml.Linq.XName)
+  spec.csharp:
+  - uid: System.IEquatable`1.Equals(`0)
+    name: Equals
+    fullName: System.IEquatable<System.Xml.Linq.XName>.Equals
+    isExternal: true
+  - name: (
+    fullName: (
+  - uid: System.Xml.Linq.XName
+    name: XName
+    fullName: System.Xml.Linq.XName
+  - name: )
+    fullName: )
+  spec.vb:
+  - uid: System.IEquatable`1.Equals(`0)
+    name: Equals
+    fullName: System.IEquatable(Of System.Xml.Linq.XName).Equals
+    isExternal: true
+  - name: (
+    fullName: (
+  - uid: System.Xml.Linq.XName
+    name: XName
+    fullName: System.Xml.Linq.XName
+  - name: )
+    fullName: )
+- uid: System.IEquatable`1.Equals(`0)
+  parent: System.IEquatable`1
+  isExternal: false
+  name: Equals(T)
+  fullName: System.IEquatable<T>.Equals(T)
+  fullname.vb: System.IEquatable(Of T).Equals(T)
+  spec.csharp:
+  - uid: System.IEquatable`1.Equals(`0)
+    name: Equals
+    fullName: System.IEquatable<T>.Equals
+  - name: (
+    fullName: (
+  - name: T
+    fullName: T
+  - name: )
+    fullName: )
+  spec.vb:
+  - uid: System.IEquatable`1.Equals(`0)
+    name: Equals
+    fullName: System.IEquatable(Of T).Equals
+  - name: (
+    fullName: (
+  - name: T
+    fullName: T
+  - name: )
+    fullName: )
+- uid: System.Object.ToString
+  parent: System.Object
+  isExternal: true
+  name: ToString()
+  fullName: System.Object.ToString()
+  spec.csharp:
+  - uid: System.Object.ToString
+    name: ToString
+    fullName: System.Object.ToString
+    isExternal: true
+  - name: (
+    fullName: (
+  - name: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.ToString
+    name: ToString
+    fullName: System.Object.ToString
+    isExternal: true
+  - name: (
+    fullName: (
+  - name: )
+    fullName: )

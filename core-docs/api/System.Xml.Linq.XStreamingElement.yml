@@ -35,13 +35,22 @@ items:
   assemblies:
   - System.Xml.XDocument
   namespace: System.Xml.Linq
+  summary: "\n<p>Represents elements in an XML tree that supports deferred streaming output.</p>\n"
+  remarks: "\n<p>This class allows you to create an XML tree that supports deferred streaming output. You use this class to create an XML tree in a very similar fashion to creating an XML tree using <xref href=\"System.Xml.Linq.XElement\" data-throw-if-not-resolved=\"false\"></xref>. However, there is a fundamental difference. When you use a LINQ query to specify content when creating an XML tree using <xref href=\"System.Xml.Linq.XElement\" data-throw-if-not-resolved=\"false\"></xref>, the query variable is iterated at the time of construction of the XML tree, and the results of the query are added to the XML tree. In contrast, when you create an XML tree using <xref href=\"System.Xml.Linq.XStreamingElement\" data-throw-if-not-resolved=\"false\"></xref>, a reference to the query variable is stored in the XML tree without being iterated. Queries are iterated only upon serialization. This allows you to create larger XML trees while maintaining a smaller memory footprint.</p>\n<p>If you are streaming from an input source, such as a text file, then you can read a very large text file, and generate a very large XML document while maintaining a small memory footprint.</p>\n<p>Another scenario is that you have a large XML tree that has been loaded into memory, and you want to create a transformed version of the document. If you create a new document using <xref href=\"System.Xml.Linq.XElement\" data-throw-if-not-resolved=\"false\"></xref>, then you will have two large XML trees in memory upon completion of the transformation. However, if you create the new XML tree using <xref href=\"System.Xml.Linq.XStreamingElement\" data-throw-if-not-resolved=\"false\"></xref>, then your working set will be effectively cut in half.</p>\n<p>Note that when debugging a program that uses <xref href=\"System.Xml.Linq.XStreamingElement\" data-throw-if-not-resolved=\"false\"></xref>, displaying the value of an object causes its <see cref=\"Overload:System.Xml.Linq.XStreamingElement.ToString\"></see> method to be called. This causes the XML to be serialized. If the semantics of your streaming element query are such that the streaming element can only be streamed once, this may cause undesirable behavior in your debugging experience.</p>\n"
+  example:
+  - "\n<p>The following example first creates a source XML tree. It then creates a transform of the source XML tree using <xref href=\"System.Xml.Linq.XElement\" data-throw-if-not-resolved=\"false\"></xref>. This transform creates a new tree in memory. It then creates a transform of the source XML tree using <xref href=\"System.Xml.Linq.XStreamingElement\" data-throw-if-not-resolved=\"false\"></xref>. This transform doesn't execute the query until the transformed tree is serialized to the console. Its memory usage is less.</p>\n<pre><code class=\"c#\">XElement srcTree = new XElement(\"Root\",\n               new XElement(\"Child\", 1),\n               new XElement(\"Child\", 2),\n               new XElement(\"Child\", 3),\n               new XElement(\"Child\", 4),\n               new XElement(\"Child\", 5)\n           );\n\nXElement dstTree1 = new XElement(\"NewRoot\",\n                from el in srcTree.Elements()\n                where (int)el >= 3\n                select new XElement(\"DifferentChild\", (int)el)\n            );\n\nXStreamingElement dstTree2 = new XStreamingElement(\"NewRoot\",\n                from el in srcTree.Elements()\n                where (int)el >= 3\n                select new XElement(\"DifferentChild\", (int)el)\n            );\n\nConsole.WriteLine(dstTree1);\nConsole.WriteLine(\"------\");\nConsole.WriteLine(dstTree2);</code></pre>\n<pre><code class=\"vb\">Dim srcTree As XElement = _\n<Root>\n    <Child>1</Child>\n    <Child>2</Child>\n    <Child>3</Child>\n    <Child>4</Child>\n    <Child>5</Child>\n</Root>\n\nDim dstTree1 As XElement = _\n<NewRoot>\n<%= From el In srcTree.Elements _\n    Where (el.Value >= 3) _\n    Select <DifferentChild><%= el.Value %></DifferentChild> %>\n</NewRoot>\n\nDim dstTree2 As XStreamingElement = New XStreamingElement(\"NewRoot\", _\n        From el In srcTree.Elements _\n        Where el.Value >= 3 _\n        Select <DifferentChild><%= el.Value %></DifferentChild> _\n    )\n\nConsole.WriteLine(dstTree1)\nConsole.WriteLine(\"------\")\nConsole.WriteLine(dstTree2)</code></pre>\n<p>This example produces the following output:</p>\n<pre><code><NewRoot>\n<DifferentChild>3</DifferentChild>\n<DifferentChild>4</DifferentChild>\n<DifferentChild>5</DifferentChild>\n</NewRoot>\n------\n<NewRoot>\n<DifferentChild>3</DifferentChild>\n<DifferentChild>4</DifferentChild>\n<DifferentChild>5</DifferentChild>\n</NewRoot></code></pre>\n<p>One approach to processing a text file is to write an extension method that streams the text file a line at a time using the <strong>yield return</strong> construct. You then can write a LINQ query that processes the text file in a lazy deferred fashion. If you then use the <xref href=\"System.Xml.Linq.XStreamingElement\" data-throw-if-not-resolved=\"false\"></xref> to stream output, you then can create a transform from the text file to XML that uses a minimal amount of memory, regardless of the size of the source text file.</p>\n<p>The following text file, People.txt, is the source for this example.</p>\n<pre><code>#This is a comment\n1,Tai,Yee,Writer\n2,Nikolay,Grachev,Programmer\n3,David,Wright,Inventor</code></pre>\n<p>The following code contains an extension method that streams the lines of the text file in a deferred fashion.</p>\n<pre><code class=\"c#\">public static class StreamReaderSequence\n{\npublic static IEnumerable<string> Lines(this StreamReader source)\n{\nString line;\n\nif (source == null)\n    throw new ArgumentNullException(\"source\");\nwhile ((line = source.ReadLine()) != null)\n{\n    yield return line;\n}\n}\n}\n\nclass Program\n{\nstatic void Main(string[] args)\n{\nStreamReader sr = new StreamReader(\"People.txt\");\nXStreamingElement xmlTree = new XStreamingElement(\"Root\",\n    from line in sr.Lines()\n    let items = line.Split(',')\n    where !line.StartsWith(\"#\")\n    select new XElement(\"Person\",\n               new XAttribute(\"ID\", items[0]),\n               new XElement(\"First\", items[1]),\n               new XElement(\"Last\", items[2]),\n               new XElement(\"Occupation\", items[3])\n           )\n);\nConsole.WriteLine(xmlTree);\nsr.Close();\n}\n}</code></pre>\n<pre><code class=\"vb\">Module StreamReaderSequence\n\n<Runtime.CompilerServices.Extension>\nPublic Iterator Function Lines(source As IO.StreamReader) As IEnumerable(Of String)\nIf source Is Nothing Then Throw New ArgumentNullException(\"source\")\nDim line As String = source.ReadLine()\nWhile (line <> Nothing)\n    Yield line\n    line = source.ReadLine()\nEnd While\nEnd Function\n\nEnd Module\n\nModule Module1\nSub Main()\nDim sr As New IO.StreamReader(\"People.txt\")\nDim xmlTree As New XStreamingElement(\"Root\",\n    From line In sr.Lines()\n    Let items = line.Split(\",\"c)\n    Where Not line.StartsWith(\"#\")\n    Select <Person ID=<%= items(0) %>>\n               <First><%= items(1) %></First>\n               <Last><%= items(2) %></Last>\n               <Occupation><%= items(3) %></Occupation>\n           </Person>)\nConsole.WriteLine(xmlTree)\nsr.Close()\nEnd Sub\nEnd Module</code></pre>\n<p>This example produces the following output:</p>\n<pre><code class=\"xml\"><Root>\n<Person ID=\"1\">\n<First>Tai</First>\n<Last>Yee</Last>\n<Occupation>Writer</Occupation>\n</Person>\n<Person ID=\"2\">\n<First>Nikolay</First>\n<Last>Grachev</Last>\n<Occupation>Programmer</Occupation>\n</Person>\n<Person ID=\"3\">\n<First>David</First>\n<Last>Wright</Last>\n<Occupation>Inventor</Occupation>\n</Person>\n</Root></code></pre>\n<p>Sometimes you have to transform large XML files, and write your application so that the memory footprint of the application is predictable. If you try to populate an XML tree with a very large XML file, your memory usage will be proportional to the size of the file (that is, excessive). Therefore, you should use a streaming technique instead.</p>\n<p>Certain standard query operators, such as <xref href=\"System.Linq.Enumerable.OrderBy``2(System.Collections.Generic.IEnumerable{``0},System.Func{``0,``1})\" data-throw-if-not-resolved=\"false\"></xref>, iterate their source, collect all of the data, sort it, and then finally yield the first item in the sequence. Note that if you use a query operator that materializes its source before yielding the first item, you will not retain a small memory footprint for your application.</p>\n<p>Even if you use the technique described in , if you try to assemble an XML tree that contains the transformed document, memory usage may be too great.</p>\n<p>The following example builds on the example in How to: Stream XML Fragments with Access to Header Information.</p>\n<p>This example uses the deferred execution capabilities of <xref href=\"System.Xml.Linq.XStreamingElement\" data-throw-if-not-resolved=\"false\"></xref> to stream the output.</p>\n<p>Note that the custom axis (<code>StreamCustomerItem</code>) is specifically written so that it expects a document that has <code>Customer</code>, <code>Name</code>, and <code>Item</code> elements, and that those elements will be arranged as in the following Source.xml document. A more robust implementation, however, would either validate the source document with an XSD, or would be prepared to parse an invalid document.</p>\n<p>The following is the source document, Source.xml:</p>\n<pre><code class=\"xml\"><?xml version=\"1.0\" encoding=\"utf-8\" ?> \n<Root>\n<Customer>\n<Name>A. Datum Corporation</Name>\n<Item>\n<Key>0001</Key>\n</Item>\n<Item>\n<Key>0002</Key>\n</Item>\n<Item>\n<Key>0003</Key>\n</Item>\n<Item>\n<Key>0004</Key>\n</Item>\n</Customer>\n<Customer>\n<Name>Fabrikam, Inc.</Name>\n<Item>\n<Key>0005</Key>\n</Item>\n<Item>\n<Key>0006</Key>\n</Item>\n<Item>\n<Key>0007</Key>\n</Item>\n<Item>\n<Key>0008</Key>\n</Item>\n</Customer>\n<Customer>\n<Name>Southridge Video</Name>\n<Item>\n<Key>0009</Key>\n</Item>\n<Item>\n<Key>0010</Key>\n</Item>\n</Customer>\n</Root></code></pre>\n<p>The following code contains a method that uses an <xref href=\"System.Xml.XmlReader\" data-throw-if-not-resolved=\"false\"></xref> to stream the source XML. It uses <xref href=\"System.Xml.Linq.XStreamingElement\" data-throw-if-not-resolved=\"false\"></xref> to stream the new XML.</p>\n<pre><code class=\"c#\">static IEnumerable<XElement> StreamCustomerItem(string uri)\n{\nusing (XmlReader reader = XmlReader.Create(uri))\n{\nXElement name = null;\nXElement item = null;\n\nreader.MoveToContent();\n\n// Parse the file, save header information when encountered, and yield the\n// Item XElement objects as they are created.\n\n// loop through Customer elements\nwhile (reader.Read())\n{\n    if (reader.NodeType == XmlNodeType.Element\n        && reader.Name == \"Customer\")\n    {\n        // move to Name element\n        while (reader.Read())\n        {\n            if (reader.NodeType == XmlNodeType.Element &&\n                reader.Name == \"Name\")\n            {\n                name = XElement.ReadFrom(reader) as XElement;\n                break;\n            }\n        }\n\n        // loop through Item elements\n        while (reader.Read())\n        {\n            if (reader.NodeType == XmlNodeType.EndElement)\n                break;\n            if (reader.NodeType == XmlNodeType.Element\n                && reader.Name == \"Item\")\n            {\n                item = XElement.ReadFrom(reader) as XElement;\n                if (item != null)\n                {\n                    XElement tempRoot = new XElement(\"Root\",\n                        new XElement(name)\n                    );\n                    tempRoot.Add(item);\n                    yield return item;\n                }\n            }\n        }\n    }\n}\n}\n}\n\nstatic void Main(string[] args)\n{\nXStreamingElement root = new XStreamingElement(\"Root\",\nfrom el in StreamCustomerItem(\"Source.xml\")\nselect new XElement(\"Item\",\n    new XElement(\"Customer\", (string)el.Parent.Element(\"Name\")),\n    new XElement(el.Element(\"Key\"))\n)\n);\nroot.Save(\"Test.xml\");\nConsole.WriteLine(File.ReadAllText(\"Test.xml\"));\n}</code></pre>\n<pre><code class=\"vb\">Iterator Function StreamCustomerItem(uri As String) As IEnumerable(Of XElement)\n\nDim name As XElement = Nothing\nDim item As XElement = Nothing\n\nDim reader As XmlReader = XmlReader.Create(uri)\nreader.MoveToContent()\n\n' Parse the file, save header information when encountered, and yield the\n' Item XElement objects as they are created.\n\n' Loop through Customer elements.\nWhile (reader.Read())\nIf (reader.NodeType = XmlNodeType.Element And reader.Name = \"Customer\") Then\n    While (reader.Read())\n        ' Move to Name element\n        If (reader.NodeType = XmlNodeType.Element And reader.Name = \"Name\") Then\n            name = CType(XElement.ReadFrom(reader), XElement)\n            Exit While\n        End If\n    End While\n\n    ' Loop through Item elements\n    While (reader.Read())\n        If (reader.NodeType = XmlNodeType.EndElement) Then\n            Exit While\n        End If\n\n        If (reader.NodeType = XmlNodeType.Element And reader.Name = \"Item\") Then\n            item = CType(XElement.ReadFrom(reader), XElement)\n            If (Not (item Is Nothing)) Then\n                Dim tempRoot = New XElement(\"Root\",\n                    New XElement(name)\n                )\n                tempRoot.Add(item)\n                Yield item\n             End If\n        End If\n    End While\nEnd If\nEnd While\nreader.Close()\nEnd Function\n\nSub Main()\nDim root As New XStreamingElement(\"Root\",\nFrom el In StreamCustomerItem(\"c:\\trash\\Source.xml\")\nSelect New XElement(\"Item\",\n    New XElement(\"Customer\", CStr(el.Parent.Element(\"Name\"))),\n    New XElement(el.Element(\"Key\"))))\nroot.Save(\"c:\\trash\\Test.xml\")\nConsole.WriteLine(System.IO.File.ReadAllText(\"c:\\trash\\Test.xml\"))\nEnd Sub</code></pre>\n<p>This example produces the following output:</p>\n<pre><code class=\"xml\"><?xml version=\"1.0\" encoding=\"utf-8\"?>\n<Root>\n<Item>\n<Customer>A. Datum Corporation</Customer>\n<Key>0001</Key>\n</Item>\n<Item>\n<Customer>A. Datum Corporation</Customer>\n<Key>0002</Key>\n</Item>\n<Item>\n<Customer>A. Datum Corporation</Customer>\n<Key>0003</Key>\n</Item>\n<Item>\n<Customer>A. Datum Corporation</Customer>\n<Key>0004</Key>\n</Item>\n<Item>\n<Customer>Fabrikam, Inc.</Customer>\n<Key>0005</Key>\n</Item>\n<Item>\n<Customer>Fabrikam, Inc.</Customer>\n<Key>0006</Key>\n</Item>\n<Item>\n<Customer>Fabrikam, Inc.</Customer>\n<Key>0007</Key>\n</Item>\n<Item>\n<Customer>Fabrikam, Inc.</Customer>\n<Key>0008</Key>\n</Item>\n<Item>\n<Customer>Southridge Video</Customer>\n<Key>0009</Key>\n</Item>\n<Item>\n<Customer>Southridge Video</Customer>\n<Key>0010</Key>\n</Item>\n</Root></code></pre>\n"
   syntax:
-    content: 'public class XStreamingElement : object'
-    content.vb: >-
-      Public Class XStreamingElement
-          Inherits Object
+    content: public class XStreamingElement
+    content.vb: Public Class XStreamingElement
   inheritance:
   - System.Object
+  inheritedMembers:
+  - System.Object.Equals(System.Object)
+  - System.Object.Equals(System.Object,System.Object)
+  - System.Object.ReferenceEquals(System.Object,System.Object)
+  - System.Object.GetHashCode
+  - System.Object.GetType
+  - System.Object.MemberwiseClone
   modifiers.csharp:
   - public
   - class
@@ -69,12 +78,17 @@ items:
   assemblies:
   - System.Xml.XDocument
   namespace: System.Xml.Linq
+  summary: "\n<p>Initializes a new instance of the <xref href=\"System.Xml.Linq.XElement\" data-throw-if-not-resolved=\"false\"></xref> class from the specified <xref href=\"System.Xml.Linq.XName\" data-throw-if-not-resolved=\"false\"></xref>.</p>\n"
+  remarks: "\n<p>This constructor creates a streaming element with no content and no attributes.</p>\n<p>There is an implicit conversion from string to <xref href=\"System.Xml.Linq.XName\" data-throw-if-not-resolved=\"false\"></xref>. Typical use of this constructor is to specify a string as the parameter instead of creating a new <xref href=\"System.Xml.Linq.XName\" data-throw-if-not-resolved=\"false\"></xref>.</p>\n"
+  example:
+  - "\n<pre><code class=\"c#\">XElement srcTree = new XElement(\"Root\",\n               new XElement(\"Child\", 1),\n               new XElement(\"Child\", 2),\n               new XElement(\"Child\", 3),\n               new XElement(\"Child\", 4),\n               new XElement(\"Child\", 5)\n           );\n\nXStreamingElement dstTree = new XStreamingElement(\"NewRoot\",\n                from el in srcTree.Elements()\n                where (int)el >= 3\n                select new XElement(\"DifferentChild\", (int)el)\n            );\n\nConsole.WriteLine(dstTree);</code></pre>\n<pre><code class=\"vb\">Dim srcTree As XElement = _\n<Root>\n    <Child>1</Child>\n    <Child>2</Child>\n    <Child>3</Child>\n    <Child>4</Child>\n    <Child>5</Child>\n</Root>\n\nDim dstTree As XStreamingElement = New XStreamingElement(\"NewRoot\", _\n        From el In srcTree.Elements _\n        Where el.Value >= 3 _\n        Select <DifferentChild><%= el.Value %></DifferentChild> _\n    )\n\nConsole.WriteLine(dstTree)</code></pre>\n<p>This example produces the following output:</p>\n<pre><code><NewRoot>\n<DifferentChild>3</DifferentChild>\n<DifferentChild>4</DifferentChild>\n<DifferentChild>5</DifferentChild>\n</NewRoot></code></pre>\n"
   syntax:
     content: public XStreamingElement(XName name)
     content.vb: Public Sub New(name As XName)
     parameters:
     - id: name
       type: System.Xml.Linq.XName
+      description: "\n<p>An <xref href=\"System.Xml.Linq.XName\" data-throw-if-not-resolved=\"false\"></xref> that contains the name of the element.</p>\n"
   modifiers.csharp:
   - public
   modifiers.vb:
@@ -100,14 +114,20 @@ items:
   assemblies:
   - System.Xml.XDocument
   namespace: System.Xml.Linq
+  summary: "\n<p>Initializes a new instance of the <xref href=\"System.Xml.Linq.XStreamingElement\" data-throw-if-not-resolved=\"false\"></xref> class with the specified name and content.</p>\n"
+  remarks: "\n<p>This constructor creates a streaming element with the specified content and attributes.</p>\n<p>There is an implicit conversion from string to <xref href=\"System.Xml.Linq.XName\" data-throw-if-not-resolved=\"false\"></xref>. Typical use of this constructor is to specify a string as the parameter instead of creating a new <xref href=\"System.Xml.Linq.XName\" data-throw-if-not-resolved=\"false\"></xref>.</p>\n<p>Queries are not iterated until the <xref href=\"System.Xml.Linq.XStreamingElement\" data-throw-if-not-resolved=\"false\"></xref> is serialized. This is in contrast to using queries for content for an <xref href=\"System.Xml.Linq.XElement\" data-throw-if-not-resolved=\"false\"></xref>, where queries are iterated at the time of construction of the new <xref href=\"System.Xml.Linq.XElement\" data-throw-if-not-resolved=\"false\"></xref>.</p>\n<p>For details about the valid content that can be passed to this constructor, see Valid Content of XElement and XDocument Objects.</p>\n"
+  example:
+  - "\n<p>This example uses the following XML file, named Source.xml:</p>\n<pre><code class=\"xml\"><?xml version=\"1.0\" encoding=\"utf-8\" ?> \n<Root>\n<Child Key=\"01\">\n<GrandChild>aaa</GrandChild>\n</Child>\n<Child Key=\"02\">\n<GrandChild>bbb</GrandChild>\n</Child>\n<Child Key=\"03\">\n<GrandChild>ccc</GrandChild>\n</Child>\n</Root></code></pre>\n"
   syntax:
     content: public XStreamingElement(XName name, object content)
     content.vb: Public Sub New(name As XName, content As Object)
     parameters:
     - id: name
       type: System.Xml.Linq.XName
+      description: "\n<p>An <xref href=\"System.Xml.Linq.XName\" data-throw-if-not-resolved=\"false\"></xref> that contains the element name.</p>\n"
     - id: content
       type: System.Object
+      description: "\n<p>The contents of the element.</p>\n"
   modifiers.csharp:
   - public
   modifiers.vb:
@@ -133,14 +153,20 @@ items:
   assemblies:
   - System.Xml.XDocument
   namespace: System.Xml.Linq
+  summary: "\n<p>Initializes a new instance of the <xref href=\"System.Xml.Linq.XStreamingElement\" data-throw-if-not-resolved=\"false\"></xref> class with the specified name and content.</p>\n"
+  remarks: "\n<p>This constructor creates a streaming element with the specified content and attributes.</p>\n<p>There is an implicit conversion from string to <xref href=\"System.Xml.Linq.XName\" data-throw-if-not-resolved=\"false\"></xref>. Typical use of this constructor is to specify a string as the parameter instead of creating a new <xref href=\"System.Xml.Linq.XName\" data-throw-if-not-resolved=\"false\"></xref>.</p>\n<p>Queries are not iterated until the <xref href=\"System.Xml.Linq.XStreamingElement\" data-throw-if-not-resolved=\"false\"></xref> is serialized. This is in contrast to using queries for content for an <xref href=\"System.Xml.Linq.XElement\" data-throw-if-not-resolved=\"false\"></xref>, where queries are iterated at the time of construction of the new <xref href=\"System.Xml.Linq.XElement\" data-throw-if-not-resolved=\"false\"></xref>.</p>\n<p>For details about the valid content that can be passed to this function, see Valid Content of XElement and XDocument Objects.</p>\n"
+  example:
+  - "\n<p>This example uses the following XML file, named Source.xml:</p>\n<pre><code class=\"xml\"><?xml version=\"1.0\" encoding=\"utf-8\" ?> \n<Root>\n<Child Key=\"01\">\n<GrandChild>aaa</GrandChild>\n</Child>\n<Child Key=\"02\">\n<GrandChild>bbb</GrandChild>\n</Child>\n<Child Key=\"03\">\n<GrandChild>ccc</GrandChild>\n</Child>\n</Root></code></pre>\n"
   syntax:
     content: public XStreamingElement(XName name, params object[] content)
     content.vb: Public Sub New(name As XName, ParamArray content As Object())
     parameters:
     - id: name
       type: System.Xml.Linq.XName
+      description: "\n<p>An <xref href=\"System.Xml.Linq.XName\" data-throw-if-not-resolved=\"false\"></xref> that contains the element name.</p>\n"
     - id: content
       type: System.Object[]
+      description: "\n<p>The contents of the element.</p>\n"
   modifiers.csharp:
   - public
   modifiers.vb:
@@ -168,12 +194,16 @@ items:
   assemblies:
   - System.Xml.XDocument
   namespace: System.Xml.Linq
+  summary: "\n<p>Gets or sets the name of this streaming element.</p>\n"
+  example:
+  - "\n<p>This example creates a new streaming element, and then prints the name of the element.</p>\n<pre><code class=\"c#\">XElement srcTree = new XElement(\"Root\",\n               new XElement(\"Child\", 1),\n               new XElement(\"Child\", 2),\n               new XElement(\"Child\", 3),\n               new XElement(\"Child\", 4),\n               new XElement(\"Child\", 5)\n           );\n\nXStreamingElement dstTree = new XStreamingElement(\"NewRoot\",\n                from el in srcTree.Elements()\n                where (int)el >= 3\n                select new XElement(\"DifferentChild\", (int)el)\n            );\n\nConsole.WriteLine(dstTree.Name);</code></pre>\n<pre><code class=\"vb\">Dim srcTree As XElement = _\n<Root>\n    <Child>1</Child>\n    <Child>2</Child>\n    <Child>3</Child>\n    <Child>4</Child>\n    <Child>5</Child>\n</Root>\n\nDim dstTree As XStreamingElement = New XStreamingElement(\"NewRoot\", _\n        From el In srcTree.Elements _\n        Where el.Value >= 3 _\n        Select <DifferentChild><%= el.Value %></DifferentChild> _\n    )\n\nConsole.WriteLine(dstTree.Name)</code></pre>\n<p>This example produces the following output:</p>\n<pre><code>NewRoot</code></pre>\n"
   syntax:
     content: public XName Name { get; set; }
     content.vb: Public Property Name As XName
     parameters: []
     return:
       type: System.Xml.Linq.XName
+      description: "\n<p>An <xref href=\"System.Xml.Linq.XName\" data-throw-if-not-resolved=\"false\"></xref> that contains the name of this streaming element.</p>\n"
   modifiers.csharp:
   - public
   - get
@@ -201,12 +231,17 @@ items:
   assemblies:
   - System.Xml.XDocument
   namespace: System.Xml.Linq
+  summary: "\n<p>Adds the specified content as children to this <xref href=\"System.Xml.Linq.XStreamingElement\" data-throw-if-not-resolved=\"false\"></xref>.</p>\n"
+  remarks: "\n<p>This constructor adds the specified content and attributes to the <xref href=\"System.Xml.Linq.XStreamingElement\" data-throw-if-not-resolved=\"false\"></xref>. While it is often possible to construct the <xref href=\"System.Xml.Linq.XStreamingElement\" data-throw-if-not-resolved=\"false\"></xref> in a single statement, it is sometimes more convenient to add content to the streaming element incrementally.</p>\n<p>Queries are not iterated until the <xref href=\"System.Xml.Linq.XStreamingElement\" data-throw-if-not-resolved=\"false\"></xref> is serialized. This is in contrast to using queries for content for an <xref href=\"System.Xml.Linq.XElement\" data-throw-if-not-resolved=\"false\"></xref>, where queries are iterated at the time of construction of the new <xref href=\"System.Xml.Linq.XElement\" data-throw-if-not-resolved=\"false\"></xref>.</p>\n<p>For details about the valid content that can be passed to this function, see Valid Content of XElement and XDocument Objects.</p>\n"
+  example:
+  - "\n<p>The following example creates a new <xref href=\"System.Xml.Linq.XStreamingElement\" data-throw-if-not-resolved=\"false\"></xref>. It then adds two queries to the streaming element. The queries are not iterated until the streaming element is serialized.</p>\n<pre><code class=\"c#\">XElement srcTree = new XElement(\"Root\",\n               new XElement(\"Child\", 1),\n               new XElement(\"Child\", 2),\n               new XElement(\"Child\", 3),\n               new XElement(\"Child\", 4),\n               new XElement(\"Child\", 5)\n           );\n\nXStreamingElement dstTree = new XStreamingElement(\"NewRoot\");\n\ndstTree.Add(\nfrom el in srcTree.Elements()\nwhere (int)el <= 1\nselect new XElement(\"Child\", (int)el)\n);\n\ndstTree.Add(\nfrom el in srcTree.Elements()\nwhere (int)el >= 3\nselect new XElement(\"DifferentChild\", (int)el)\n);\n\nConsole.WriteLine(dstTree);</code></pre>\n<pre><code class=\"vb\">Dim srcTree As XElement = _\n<Root>\n<Child>1</Child>\n<Child>2</Child>\n<Child>3</Child>\n<Child>4</Child>\n<Child>5</Child>\n</Root>\n\nDim dstTree As XStreamingElement = New XStreamingElement(\"NewRoot\")\n\ndstTree.Add( _\nFrom el In srcTree.Elements() _\nWhere el.Value <= 1 _\nSelect <Child><%= el.Value %></Child> _\n)\n\ndstTree.Add( _\nFrom el In srcTree.Elements() _\nWhere el.Value >= 3 _\nSelect <DifferentChild><%= el.Value %></DifferentChild> _\n)\n\nConsole.WriteLine(dstTree)</code></pre>\n<p>This example produces the following output:</p>\n<pre><code class=\"xml\"><NewRoot>\n<Child>1</Child>\n<DifferentChild>3</DifferentChild>\n<DifferentChild>4</DifferentChild>\n<DifferentChild>5</DifferentChild>\n</NewRoot></code></pre>\n"
   syntax:
     content: public void Add(object content)
     content.vb: Public Sub Add(content As Object)
     parameters:
     - id: content
       type: System.Object
+      description: "\n<p>Content to be added to the streaming element.</p>\n"
   modifiers.csharp:
   - public
   modifiers.vb:
@@ -232,12 +267,17 @@ items:
   assemblies:
   - System.Xml.XDocument
   namespace: System.Xml.Linq
+  summary: "\n<p>Adds the specified content as children to this <xref href=\"System.Xml.Linq.XStreamingElement\" data-throw-if-not-resolved=\"false\"></xref>.</p>\n"
+  remarks: "\n<p>This constructor adds the specified content and attributes to the <xref href=\"System.Xml.Linq.XStreamingElement\" data-throw-if-not-resolved=\"false\"></xref>. While it is often possible to construct the <xref href=\"System.Xml.Linq.XStreamingElement\" data-throw-if-not-resolved=\"false\"></xref> in a single statement, it is sometimes more convenient to add content to the streaming element incrementally.</p>\n<p>Queries are not iterated until the <xref href=\"System.Xml.Linq.XStreamingElement\" data-throw-if-not-resolved=\"false\"></xref> is serialized. This is in contrast to using queries for content for an <xref href=\"System.Xml.Linq.XElement\" data-throw-if-not-resolved=\"false\"></xref>, where queries are iterated at the time of construction of the new <xref href=\"System.Xml.Linq.XElement\" data-throw-if-not-resolved=\"false\"></xref>.</p>\n<p>For details about the valid content that can be passed to this function, see Valid Content of XElement and XDocument Objects.</p>\n"
+  example:
+  - "\n<p>The following example creates a new <xref href=\"System.Xml.Linq.XStreamingElement\" data-throw-if-not-resolved=\"false\"></xref>. It then adds two queries to the streaming element. The queries are not iterated until the streaming element is serialized.</p>\n<pre><code class=\"c#\">XElement srcTree = new XElement(\"Root\",\n               new XElement(\"Child\", 1),\n               new XElement(\"Child\", 2),\n               new XElement(\"Child\", 3),\n               new XElement(\"Child\", 4),\n               new XElement(\"Child\", 5)\n           );\n\nXStreamingElement dstTree = new XStreamingElement(\"NewRoot\");\n\ndstTree.Add(\nfrom el in srcTree.Elements()\nwhere (int)el <= 1\nselect new XElement(\"Child\", (int)el)\n);\n\ndstTree.Add(\nfrom el in srcTree.Elements()\nwhere (int)el >= 3\nselect new XElement(\"DifferentChild\", (int)el)\n);\n\nConsole.WriteLine(dstTree);</code></pre>\n<pre><code class=\"vb\">Dim srcTree As XElement = _\n<Root>\n<Child>1</Child>\n<Child>2</Child>\n<Child>3</Child>\n<Child>4</Child>\n<Child>5</Child>\n</Root>\n\nDim dstTree As XStreamingElement = New XStreamingElement(\"NewRoot\")\n\ndstTree.Add( _\nFrom el In srcTree.Elements() _\nWhere el.Value <= 1 _\nSelect <Child><%= el.Value %></Child> _\n)\n\ndstTree.Add( _\nFrom el In srcTree.Elements() _\nWhere el.Value >= 3 _\nSelect <DifferentChild><%= el.Value %></DifferentChild> _\n)\n\nConsole.WriteLine(dstTree)</code></pre>\n<p>This example produces the following output:</p>\n<pre><code class=\"xml\"><NewRoot>\n<Child>1</Child>\n<DifferentChild>3</DifferentChild>\n<DifferentChild>4</DifferentChild>\n<DifferentChild>5</DifferentChild>\n</NewRoot></code></pre>\n"
   syntax:
     content: public void Add(params object[] content)
     content.vb: Public Sub Add(ParamArray content As Object())
     parameters:
     - id: content
       type: System.Object[]
+      description: "\n<p>Content to be added to the streaming element.</p>\n"
   modifiers.csharp:
   - public
   modifiers.vb:
@@ -251,7 +291,7 @@ items:
   langs:
   - csharp
   - vb
-  name: Save(IO.Stream)
+  name: Save(Stream)
   fullName: System.Xml.Linq.XStreamingElement.Save(System.IO.Stream)
   type: Method
   source:
@@ -265,12 +305,17 @@ items:
   assemblies:
   - System.Xml.XDocument
   namespace: System.Xml.Linq
+  summary: "\n<p>Outputs this <xref href=\"System.Xml.Linq.XStreamingElement\" data-throw-if-not-resolved=\"false\"></xref> to the specified <xref href=\"System.IO.Stream\" data-throw-if-not-resolved=\"false\"></xref>.</p>\n"
+  remarks: "\n<p>The serialized XML will be indented. All insignificant white space will be removed, and additional white space will be added so that the XML will be properly indented. The behavior of this method is that insignificant white space will not be preserved.</p>\n<p>If you want to control white space, use the overload of <see cref=\"Overload:System.Xml.Linq.XStreamingElement.Save\"></see> that takes <xref href=\"System.Xml.Linq.SaveOptions\" data-throw-if-not-resolved=\"false\"></xref> as a parameter. Use the <xref href=\"System.Xml.Linq.SaveOptions.DisableFormatting\" data-throw-if-not-resolved=\"false\"></xref> option to save unindented XML. This will cause the writer to write all white spaces exactly as represented in the XML tree.</p>\n<p>Use <xref href=\"System.Xml.Linq.SaveOptions.OmitDuplicateNamespaces\" data-throw-if-not-resolved=\"false\"></xref> option if you want to remove duplicate namespace declarations.</p>\n"
+  example:
+  - 
   syntax:
-    content: public void Save(IO.Stream stream)
-    content.vb: Public Sub Save(stream As IO.Stream)
+    content: public void Save(Stream stream)
+    content.vb: Public Sub Save(stream As Stream)
     parameters:
     - id: stream
       type: System.IO.Stream
+      description: "\n<p>The stream to output this <xref href=\"System.Xml.Linq.XDocument\" data-throw-if-not-resolved=\"false\"></xref> to.</p>\n"
   modifiers.csharp:
   - public
   modifiers.vb:
@@ -282,7 +327,7 @@ items:
   langs:
   - csharp
   - vb
-  name: Save(IO.Stream, SaveOptions)
+  name: Save(Stream, SaveOptions)
   fullName: System.Xml.Linq.XStreamingElement.Save(System.IO.Stream, System.Xml.Linq.SaveOptions)
   type: Method
   source:
@@ -296,14 +341,20 @@ items:
   assemblies:
   - System.Xml.XDocument
   namespace: System.Xml.Linq
+  summary: "\n<p>Outputs this <xref href=\"System.Xml.Linq.XStreamingElement\" data-throw-if-not-resolved=\"false\"></xref> to the specified <xref href=\"System.IO.Stream\" data-throw-if-not-resolved=\"false\"></xref>, optionally specifying formatting behavior.</p>\n"
+  remarks: "\n<p>By default the <em>options</em> are set to <xref href=\"System.Xml.Linq.SaveOptions.None\" data-throw-if-not-resolved=\"false\"></xref>. This option will remove all extraneous insignificant white space, and add appropriate insignificant white space so that the XML is properly indented. </p>\n<p>If you want to save unindented XML, specify the <xref href=\"System.Xml.Linq.SaveOptions.DisableFormatting\" data-throw-if-not-resolved=\"false\"></xref> flag for <em>options</em>. This will cause the writer to write all white spaces exactly as represented in the XML tree.</p>\n<p>Use <xref href=\"System.Xml.Linq.SaveOptions.OmitDuplicateNamespaces\" data-throw-if-not-resolved=\"false\"></xref> option if you want to remove duplicate namespace declarations.</p>\n"
+  example:
+  - 
   syntax:
-    content: public void Save(IO.Stream stream, SaveOptions options)
-    content.vb: Public Sub Save(stream As IO.Stream, options As SaveOptions)
+    content: public void Save(Stream stream, SaveOptions options)
+    content.vb: Public Sub Save(stream As Stream, options As SaveOptions)
     parameters:
     - id: stream
       type: System.IO.Stream
+      description: "\n<p>The stream to output this <xref href=\"System.Xml.Linq.XDocument\" data-throw-if-not-resolved=\"false\"></xref> to.</p>\n"
     - id: options
       type: System.Xml.Linq.SaveOptions
+      description: "\n<p>A <xref href=\"System.Xml.Linq.SaveOptions\" data-throw-if-not-resolved=\"false\"></xref> object that specifies formatting behavior.</p>\n"
   modifiers.csharp:
   - public
   modifiers.vb:
@@ -315,7 +366,7 @@ items:
   langs:
   - csharp
   - vb
-  name: Save(IO.TextWriter)
+  name: Save(TextWriter)
   fullName: System.Xml.Linq.XStreamingElement.Save(System.IO.TextWriter)
   type: Method
   source:
@@ -329,12 +380,17 @@ items:
   assemblies:
   - System.Xml.XDocument
   namespace: System.Xml.Linq
+  summary: "\n<p>Serialize this streaming element to a <xref href=\"System.IO.TextWriter\" data-throw-if-not-resolved=\"false\"></xref>.</p>\n"
+  remarks: "\n<p>The serialized XML will be indented. All insignificant white space will be removed, and additional white space will be added so that the XML will be properly indented. The behavior of this method is that insignificant white space nodes in the XML tree will not be preserved.</p>\n<p>If you want to control white space, use one of the overloads of <see cref=\"Overload:System.Xml.Linq.XStreamingElement.Save\"></see> that take <xref href=\"System.Xml.Linq.SaveOptions\" data-throw-if-not-resolved=\"false\"></xref> as a parameter. For more information, see Preserving White Space while Loading or Parsing XML and Preserving White Space While Serializing.</p>\n"
+  example:
+  - "\n<p>The following example creates a source XML tree, then instantiates an <xref href=\"System.Xml.Linq.XStreamingElement\" data-throw-if-not-resolved=\"false\"></xref> using a query on the source XML tree. It then writes the streaming element to a <xref href=\"System.IO.StringWriter\" data-throw-if-not-resolved=\"false\"></xref>.</p>\n<pre><code class=\"c#\">XElement srcTree = new XElement(\"Root\",\n               new XElement(\"Child\", 1),\n               new XElement(\"Child\", 2),\n               new XElement(\"Child\", 3),\n               new XElement(\"Child\", 4),\n               new XElement(\"Child\", 5)\n           );\n\nXStreamingElement dstTree = new XStreamingElement(\"NewRoot\",\n                from el in srcTree.Elements()\n                where (int)el >= 3\n                select new XElement(\"DifferentChild\", (int)el)\n            );\n\nStringBuilder sb = new StringBuilder();\ndstTree.Save(new StringWriter(sb));\nConsole.WriteLine(sb.ToString());</code></pre>\n<pre><code class=\"vb\">Dim srcTree As XElement = _\n<Root>\n<Child>1</Child>\n<Child>2</Child>\n<Child>3</Child>\n<Child>4</Child>\n<Child>5</Child>\n</Root>\n\nDim dstTree As XStreamingElement = New XStreamingElement(\"NewRoot\", _\n                From el In srcTree.Elements() _\n                Where el.Value >= 3 _\n                Select <DifferentChild><%= el.Value %></DifferentChild> _\n            )\n\nDim sb As StringBuilder = New StringBuilder()\ndstTree.Save(New StringWriter(sb))\nConsole.WriteLine(sb.ToString())</code></pre>\n<p>This example produces the following output:</p>\n<pre><code class=\"xml\"><?xml version=\"1.0\" encoding=\"utf-16\"?>\n<NewRoot>\n<DifferentChild>3</DifferentChild>\n<DifferentChild>4</DifferentChild>\n<DifferentChild>5</DifferentChild>\n</NewRoot></code></pre>\n"
   syntax:
-    content: public void Save(IO.TextWriter textWriter)
-    content.vb: Public Sub Save(textWriter As IO.TextWriter)
+    content: public void Save(TextWriter textWriter)
+    content.vb: Public Sub Save(textWriter As TextWriter)
     parameters:
     - id: textWriter
       type: System.IO.TextWriter
+      description: "\n<p>A <xref href=\"System.IO.TextWriter\" data-throw-if-not-resolved=\"false\"></xref> that the <xref href=\"System.Xml.Linq.XStreamingElement\" data-throw-if-not-resolved=\"false\"></xref> will be written to.</p>\n"
   modifiers.csharp:
   - public
   modifiers.vb:
@@ -346,7 +402,7 @@ items:
   langs:
   - csharp
   - vb
-  name: Save(IO.TextWriter, SaveOptions)
+  name: Save(TextWriter, SaveOptions)
   fullName: System.Xml.Linq.XStreamingElement.Save(System.IO.TextWriter, System.Xml.Linq.SaveOptions)
   type: Method
   source:
@@ -360,14 +416,20 @@ items:
   assemblies:
   - System.Xml.XDocument
   namespace: System.Xml.Linq
+  summary: "\n<p>Serialize this streaming element to a <xref href=\"System.IO.TextWriter\" data-throw-if-not-resolved=\"false\"></xref>, optionally disabling formatting.</p>\n"
+  remarks: "\n<p>If you want to save unindented XML, specify the <xref href=\"System.Xml.Linq.SaveOptions.DisableFormatting\" data-throw-if-not-resolved=\"false\"></xref> flag for <em>options</em>. This will cause the writer to write all white space exactly as represented in the XML tree.</p>\n<p>If you want to save indented XML, do not specify the <xref href=\"System.Xml.Linq.SaveOptions.DisableFormatting\" data-throw-if-not-resolved=\"false\"></xref> flag for <em>options</em>. This will remove all extraneous insignificant white space, and add appropriate insignificant white space so that the XML is properly indented. This is the default behavior, and the behavior of the overloads of the <see cref=\"Overload:System.Xml.Linq.XElement.Save\"></see> methods that do not take <em>options</em> as a parameter.</p>\n<p>For more information, see Preserving White Space while Loading or Parsing XML and Preserving White Space While Serializing.</p>\n"
+  example:
+  - "\n<p>The following example shows two uses of this method. The first use preserves white space. The second one serializes the <xref href=\"System.Xml.Linq.XStreamingElement\" data-throw-if-not-resolved=\"false\"></xref> with formatting.</p>\n<pre><code class=\"c#\">XElement srcTree = new XElement(\"Root\",\n               new XElement(\"Child\", 1),\n               new XElement(\"Child\", 2),\n               new XElement(\"Child\", 3),\n               new XElement(\"Child\", 4),\n               new XElement(\"Child\", 5)\n           );\n\nXStreamingElement dstTree = new XStreamingElement(\"NewRoot\",\n                from el in srcTree.Elements()\n                where (int)el == 3\n                select new XElement(\"DifferentChild\", (int)el)\n            );\n\nStringBuilder sb = new StringBuilder();\ndstTree.Save(new StringWriter(sb), SaveOptions.DisableFormatting);\nConsole.WriteLine(sb.ToString());\nConsole.WriteLine(\"------\");\nsb = new StringBuilder();\ndstTree.Save(new StringWriter(sb), SaveOptions.None);\nConsole.WriteLine(sb.ToString());</code></pre>\n<pre><code class=\"vb\">Dim srcTree As XElement = _\n<Root>\n<Child>1</Child>\n<Child>2</Child>\n<Child>3</Child>\n<Child>4</Child>\n<Child>5</Child>\n</Root>\n\nDim dstTree As XStreamingElement = New XStreamingElement(\"NewRoot\", _\n                From el In srcTree.Elements() _\n                Where el.Value = 3 _\n                Select <DifferentChild><%= el.Value %></DifferentChild> _\n            )\n\nDim sb As StringBuilder = New StringBuilder()\ndstTree.Save(New StringWriter(sb), SaveOptions.DisableFormatting)\nConsole.WriteLine(sb.ToString())\nConsole.WriteLine(\"------\")\nsb = New StringBuilder()\ndstTree.Save(New StringWriter(sb), SaveOptions.None)\nConsole.WriteLine(sb.ToString())</code></pre>\n<p>This example produces the following output:</p>\n<pre><code class=\"xml\"><?xml version=\"1.0\" encoding=\"utf-16\"?><NewRoot><DifferentChild>3</DifferentChild></NewRoot>\n------\n<?xml version=\"1.0\" encoding=\"utf-16\"?>\n<NewRoot>\n<DifferentChild>3</DifferentChild>\n</NewRoot></code></pre>\n"
   syntax:
-    content: public void Save(IO.TextWriter textWriter, SaveOptions options)
-    content.vb: Public Sub Save(textWriter As IO.TextWriter, options As SaveOptions)
+    content: public void Save(TextWriter textWriter, SaveOptions options)
+    content.vb: Public Sub Save(textWriter As TextWriter, options As SaveOptions)
     parameters:
     - id: textWriter
       type: System.IO.TextWriter
+      description: "\n<p>The <xref href=\"System.IO.TextWriter\" data-throw-if-not-resolved=\"false\"></xref> to output the XML to.</p>\n"
     - id: options
       type: System.Xml.Linq.SaveOptions
+      description: "\n<p>A <xref href=\"System.Xml.Linq.SaveOptions\" data-throw-if-not-resolved=\"false\"></xref> that specifies formatting behavior.</p>\n"
   modifiers.csharp:
   - public
   modifiers.vb:
@@ -393,12 +455,16 @@ items:
   assemblies:
   - System.Xml.XDocument
   namespace: System.Xml.Linq
+  summary: "\n<p>Serialize this streaming element to an <xref href=\"System.Xml.XmlWriter\" data-throw-if-not-resolved=\"false\"></xref>.</p>\n"
+  example:
+  - "\n<p>The following example creates an <xref href=\"System.Xml.Linq.XStreamingElement\" data-throw-if-not-resolved=\"false\"></xref> and writes it to an <xref href=\"System.Xml.XmlWriter\" data-throw-if-not-resolved=\"false\"></xref>.</p>\n<pre><code class=\"c#\">XElement srcTree = new XElement(\"Root\",\n               new XElement(\"Child\", 1),\n               new XElement(\"Child\", 2),\n               new XElement(\"Child\", 3),\n               new XElement(\"Child\", 4),\n               new XElement(\"Child\", 5)\n           );\n\nStringBuilder sb = new StringBuilder();\nXmlWriterSettings xws = new XmlWriterSettings();\nxws.OmitXmlDeclaration = true;\nusing (XmlWriter xw = XmlWriter.Create(sb, xws))\n{\nXStreamingElement dstTree = new XStreamingElement(\"NewRoot\",\n                    from el in srcTree.Elements()\n                    where (int)el == 5\n                    select new XElement(\"DifferentChild\", (int)el)\n                );\n\ndstTree.Save(xw);\n}\nConsole.WriteLine(sb.ToString());</code></pre>\n<pre><code class=\"vb\">Dim srcTree As XElement = _\n<Root>\n<Child>1</Child>\n<Child>2</Child>\n<Child>3</Child>\n<Child>4</Child>\n<Child>5</Child>\n</Root>\n\nDim sb As StringBuilder = New StringBuilder()\nDim xws As XmlWriterSettings = New XmlWriterSettings()\nxws.OmitXmlDeclaration = True\nUsing xw As XmlWriter = XmlWriter.Create(sb, xws)\nDim dstTree As XStreamingElement = New XStreamingElement(\"NewRoot\", _\n                    From el In srcTree.Elements() _\n                    Where el.Value = 5 _\n                    Select <DifferentChild><%= el.Value %></DifferentChild> _\n                )\ndstTree.Save(xw)\nEnd Using\nConsole.WriteLine(sb.ToString())</code></pre>\n<p>This example produces the following output:</p>\n<pre><code class=\"xml\"><NewRoot><DifferentChild>5</DifferentChild></NewRoot></code></pre>\n"
   syntax:
     content: public void Save(XmlWriter writer)
     content.vb: Public Sub Save(writer As XmlWriter)
     parameters:
     - id: writer
       type: System.Xml.XmlWriter
+      description: "\n<p>A <xref href=\"System.Xml.XmlWriter\" data-throw-if-not-resolved=\"false\"></xref> that the <xref href=\"System.Xml.Linq.XElement\" data-throw-if-not-resolved=\"false\"></xref> will be written to.</p>\n"
   modifiers.csharp:
   - public
   modifiers.vb:
@@ -424,11 +490,17 @@ items:
   assemblies:
   - System.Xml.XDocument
   namespace: System.Xml.Linq
+  summary: "\n<p>Returns the formatted (indented) XML for this streaming element.</p>\n"
+  remarks: "\n<p>Note that when debugging a program that uses <xref href=\"System.Xml.Linq.XStreamingElement\" data-throw-if-not-resolved=\"false\"></xref>, displaying the value of an object causes its <see cref=\"Overload:System.Xml.Linq.XStreamingElement.ToString\"></see> method to be called. This causes the XML to be serialized. If the semantics of your streaming element query are such that the streaming element can only be streamed once, this may cause undesirable behavior in your debugging experience.</p>\n"
+  example:
+  - "\n<p>The following example shows two uses of <see cref=\"Overload:System.Xml.Linq.XStreamingElement.ToString\"></see>. The first use preserves white space. The second one serializes the <xref href=\"System.Xml.Linq.XStreamingElement\" data-throw-if-not-resolved=\"false\"></xref> with formatting.</p>\n<pre><code class=\"c#\">XElement srcTree = new XElement(\"Root\",\n               new XElement(\"Child\", 1),\n               new XElement(\"Child\", 2),\n               new XElement(\"Child\", 3),\n               new XElement(\"Child\", 4),\n               new XElement(\"Child\", 5)\n           );\n\nXStreamingElement dstTree = new XStreamingElement(\"NewRoot\",\n                from el in srcTree.Elements()\n                where (int)el == 3\n                select new XElement(\"DifferentChild\", (int)el)\n            );\n\nConsole.WriteLine(dstTree.ToString(SaveOptions.DisableFormatting));\nConsole.WriteLine(\"------\");\nConsole.WriteLine(dstTree.ToString());</code></pre>\n<pre><code class=\"vb\">Dim srcTree As XElement = _\n<Root>\n<Child>1</Child>\n<Child>2</Child>\n<Child>3</Child>\n<Child>4</Child>\n<Child>5</Child>\n</Root>\n\nDim dstTree As XStreamingElement = New XStreamingElement(\"NewRoot\", _\n                From el In srcTree.Elements() _\n                Where el.Value = 3 _\n                Select <DifferentChild><%= el.Value %></DifferentChild> _\n            )\n\nConsole.WriteLine(dstTree.ToString(SaveOptions.DisableFormatting))\nConsole.WriteLine(\"------\")\nConsole.WriteLine(dstTree.ToString())</code></pre>\n<p>This example produces the following output:</p>\n<pre><code><NewRoot><DifferentChild>3</DifferentChild></NewRoot>\n------\n<NewRoot>\n<DifferentChild>3</DifferentChild>\n</NewRoot></code></pre>\n"
   syntax:
     content: public override string ToString()
     content.vb: Public Overrides Function ToString As String
     return:
       type: System.String
+      description: "\n<p>A <xref href=\"System.String\" data-throw-if-not-resolved=\"false\"></xref> containing the indented XML.</p>\n"
+  overridden: System.Object.ToString
   modifiers.csharp:
   - public
   - override
@@ -456,14 +528,20 @@ items:
   assemblies:
   - System.Xml.XDocument
   namespace: System.Xml.Linq
+  summary: "\n<p>Returns the XML for this streaming element, optionally disabling formatting.</p>\n"
+  remarks: "\n<p>Note that when debugging a program that uses <xref href=\"System.Xml.Linq.XStreamingElement\" data-throw-if-not-resolved=\"false\"></xref>, displaying the value of an object causes its <see cref=\"Overload:System.Xml.Linq.XStreamingElement.ToString\"></see> method to be called. This causes the XML to be serialized. If the semantics of your streaming element query are such that the streaming element can only be streamed once, this may cause undesirable behavior in your debugging experience.</p>\n"
+  example:
+  - "\n<p>The following example shows two uses of <see cref=\"Overload:System.Xml.Linq.XStreamingElement.ToString\"></see>. The first use preserves white space. The second one serializes the <xref href=\"System.Xml.Linq.XStreamingElement\" data-throw-if-not-resolved=\"false\"></xref> with formatting.</p>\n<pre><code class=\"c#\">XElement srcTree = new XElement(\"Root\",\n               new XElement(\"Child\", 1),\n               new XElement(\"Child\", 2),\n               new XElement(\"Child\", 3),\n               new XElement(\"Child\", 4),\n               new XElement(\"Child\", 5)\n           );\n\nXStreamingElement dstTree = new XStreamingElement(\"NewRoot\",\n                from el in srcTree.Elements()\n                where (int)el == 3\n                select new XElement(\"DifferentChild\", (int)el)\n            );\n\nConsole.WriteLine(dstTree.ToString(SaveOptions.DisableFormatting));\nConsole.WriteLine(\"------\");\nConsole.WriteLine(dstTree.ToString());</code></pre>\n<pre><code class=\"vb\">Dim srcTree As XElement = _\n<Root>\n<Child>1</Child>\n<Child>2</Child>\n<Child>3</Child>\n<Child>4</Child>\n<Child>5</Child>\n</Root>\n\nDim dstTree As XStreamingElement = New XStreamingElement(\"NewRoot\", _\n                From el In srcTree.Elements() _\n                Where el.Value = 3 _\n                Select <DifferentChild><%= el.Value %></DifferentChild> _\n            )\n\nConsole.WriteLine(dstTree.ToString(SaveOptions.DisableFormatting))\nConsole.WriteLine(\"------\")\nConsole.WriteLine(dstTree.ToString())</code></pre>\n<p>This example produces the following output:</p>\n<pre><code><NewRoot><DifferentChild>3</DifferentChild></NewRoot>\n------\n<NewRoot>\n<DifferentChild>3</DifferentChild>\n</NewRoot></code></pre>\n"
   syntax:
     content: public string ToString(SaveOptions options)
     content.vb: Public Function ToString(options As SaveOptions) As String
     parameters:
     - id: options
       type: System.Xml.Linq.SaveOptions
+      description: "\n<p>A <xref href=\"System.Xml.Linq.SaveOptions\" data-throw-if-not-resolved=\"false\"></xref> that specifies formatting behavior.</p>\n"
     return:
       type: System.String
+      description: "\n<p>A <xref href=\"System.String\" data-throw-if-not-resolved=\"false\"></xref> containing the XML.</p>\n"
   modifiers.csharp:
   - public
   modifiers.vb:
@@ -489,12 +567,16 @@ items:
   assemblies:
   - System.Xml.XDocument
   namespace: System.Xml.Linq
+  summary: "\n<p>Writes this streaming element to an <xref href=\"System.Xml.XmlWriter\" data-throw-if-not-resolved=\"false\"></xref>.</p>\n"
+  example:
+  - "\n<p>The following example creates an XML tree using <xref href=\"System.Xml.Linq.XStreamingElement\" data-throw-if-not-resolved=\"false\"></xref>. It then writes the streaming element to an <xref href=\"System.Xml.XmlWriter\" data-throw-if-not-resolved=\"false\"></xref>.</p>\n<pre><code class=\"c#\">XElement srcTree = new XElement(\"Root\",\n               new XElement(\"Child\", 1),\n               new XElement(\"Child\", 2),\n               new XElement(\"Child\", 3),\n               new XElement(\"Child\", 4),\n               new XElement(\"Child\", 5)\n           );\n\nXStreamingElement dstTree = new XStreamingElement(\"NewRoot\",\n                from el in srcTree.Elements()\n                where (int)el == 3\n                select new XElement(\"DifferentChild\", (int)el)\n            );\n\nStringBuilder sb = new StringBuilder();\nXmlWriterSettings xws = new XmlWriterSettings();\nxws.OmitXmlDeclaration = true;\nxws.Indent = true;\n\nusing (XmlWriter xw = XmlWriter.Create(sb, xws))\n{\ndstTree.WriteTo(xw);\n}\nConsole.WriteLine(sb.ToString());</code></pre>\n<pre><code class=\"vb\">Dim srcTree As XElement = _\n<Root>\n<Child>1</Child>\n<Child>2</Child>\n<Child>3</Child>\n<Child>4</Child>\n<Child>5</Child>\n</Root>\n\nDim dstTree As XStreamingElement = _ \nNew XStreamingElement(\"NewRoot\", _\nFrom el In srcTree.Elements() _\nWhere el.Value = 3 _\nSelect <DifferentChild><%= el.Value %></DifferentChild> )\n\nDim sb As StringBuilder = New StringBuilder()\nDim xws As XmlWriterSettings = New XmlWriterSettings()\nxws.OmitXmlDeclaration = True\nxws.Indent = True\n\nUsing xw As XmlWriter = XmlWriter.Create(sb, xws)\ndstTree.WriteTo(xw)\nEnd Using\nConsole.WriteLine(sb.ToString())</code></pre>\n<p>This example produces the following output:</p>\n<pre><code class=\"xml\"><NewRoot>\n<DifferentChild>3</DifferentChild>\n</NewRoot></code></pre>\n"
   syntax:
     content: public void WriteTo(XmlWriter writer)
     content.vb: Public Sub WriteTo(writer As XmlWriter)
     parameters:
     - id: writer
       type: System.Xml.XmlWriter
+      description: "\n<p>An <xref href=\"System.Xml.XmlWriter\" data-throw-if-not-resolved=\"false\"></xref> into which this method will write.</p>\n"
   modifiers.csharp:
   - public
   modifiers.vb:
@@ -509,6 +591,192 @@ references:
   isExternal: false
   name: Object
   fullName: System.Object
+- uid: System.Object.Equals(System.Object)
+  parent: System.Object
+  isExternal: true
+  name: Equals(Object)
+  fullName: System.Object.Equals(System.Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    fullName: )
+- uid: System.Object.Equals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  name: Equals(Object, Object)
+  fullName: System.Object.Equals(System.Object, System.Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    fullName: )
+- uid: System.Object.ReferenceEquals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  name: ReferenceEquals(Object, Object)
+  fullName: System.Object.ReferenceEquals(System.Object, System.Object)
+  spec.csharp:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    fullName: System.Object.ReferenceEquals
+    isExternal: true
+  - name: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    fullName: System.Object.ReferenceEquals
+    isExternal: true
+  - name: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    fullName: )
+- uid: System.Object.GetHashCode
+  parent: System.Object
+  isExternal: true
+  name: GetHashCode()
+  fullName: System.Object.GetHashCode()
+  spec.csharp:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    fullName: System.Object.GetHashCode
+    isExternal: true
+  - name: (
+    fullName: (
+  - name: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    fullName: System.Object.GetHashCode
+    isExternal: true
+  - name: (
+    fullName: (
+  - name: )
+    fullName: )
+- uid: System.Object.GetType
+  parent: System.Object
+  isExternal: true
+  name: GetType()
+  fullName: System.Object.GetType()
+  spec.csharp:
+  - uid: System.Object.GetType
+    name: GetType
+    fullName: System.Object.GetType
+    isExternal: true
+  - name: (
+    fullName: (
+  - name: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.GetType
+    name: GetType
+    fullName: System.Object.GetType
+    isExternal: true
+  - name: (
+    fullName: (
+  - name: )
+    fullName: )
+- uid: System.Object.MemberwiseClone
+  parent: System.Object
+  isExternal: true
+  name: MemberwiseClone()
+  fullName: System.Object.MemberwiseClone()
+  spec.csharp:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    fullName: System.Object.MemberwiseClone
+    isExternal: true
+  - name: (
+    fullName: (
+  - name: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    fullName: System.Object.MemberwiseClone
+    isExternal: true
+  - name: (
+    fullName: (
+  - name: )
+    fullName: )
 - uid: System
   isExternal: false
   name: System
@@ -519,7 +787,7 @@ references:
   name: XName
   fullName: System.Xml.Linq.XName
 - uid: System.Object[]
-  isExternal: false
+  isExternal: true
   name: Object[]
   fullName: System.Object[]
   fullname.vb: System.Object()
@@ -528,18 +796,20 @@ references:
   - uid: System.Object
     name: Object
     fullName: System.Object
+    isExternal: true
   - name: '[]'
     fullName: '[]'
   spec.vb:
   - uid: System.Object
     name: Object
     fullName: System.Object
+    isExternal: true
   - name: ()
     fullName: ()
 - uid: System.IO.Stream
   parent: System.IO
   isExternal: false
-  name: IO.Stream
+  name: Stream
   fullName: System.IO.Stream
 - uid: System.IO
   isExternal: false
@@ -553,7 +823,7 @@ references:
 - uid: System.IO.TextWriter
   parent: System.IO
   isExternal: false
-  name: IO.TextWriter
+  name: TextWriter
   fullName: System.IO.TextWriter
 - uid: System.Xml.XmlWriter
   parent: System.Xml
@@ -564,6 +834,29 @@ references:
   isExternal: false
   name: System.Xml
   fullName: System.Xml
+- uid: System.Object.ToString
+  parent: System.Object
+  isExternal: true
+  name: ToString()
+  fullName: System.Object.ToString()
+  spec.csharp:
+  - uid: System.Object.ToString
+    name: ToString
+    fullName: System.Object.ToString
+    isExternal: true
+  - name: (
+    fullName: (
+  - name: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.ToString
+    name: ToString
+    fullName: System.Object.ToString
+    isExternal: true
+  - name: (
+    fullName: (
+  - name: )
+    fullName: )
 - uid: System.String
   parent: System
   isExternal: false

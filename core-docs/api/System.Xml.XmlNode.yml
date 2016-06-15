@@ -39,6 +39,7 @@ items:
   - System.Xml.XmlNode.RemoveChild(System.Xml.XmlNode)
   - System.Xml.XmlNode.ReplaceChild(System.Xml.XmlNode,System.Xml.XmlNode)
   - System.Xml.XmlNode.Supports(System.String,System.String)
+  - System.Xml.XmlNode.System#Collections#IEnumerable#GetEnumerator
   - System.Xml.XmlNode.Value
   - System.Xml.XmlNode.WriteContentTo(System.Xml.XmlWriter)
   - System.Xml.XmlNode.WriteTo(System.Xml.XmlWriter)
@@ -59,13 +60,28 @@ items:
   assemblies:
   - System.Xml.XmlDocument
   namespace: System.Xml
+  summary: "\n<p>Represents a single node in the XML document. </p>\n"
+  remarks: "\n<p>This class implements the W3C Document Object Model (DOM) Level 1 Core and the Core DOM Level 2. The DOM is an in-memory (cache) tree representation of an XML document. <strong>XmlNode</strong> is the base class in the .NET implementation of the DOM. It supports XPath selections and provides editing capabilities. The <xref href=\"System.Xml.XmlDocument\" data-throw-if-not-resolved=\"false\"></xref> class extends <strong>XmlNode</strong> and represents an XML document. You can use <strong>XmlDocument</strong> to load and save XML data. It also includes methods for node creation. See XML Document Object Model (DOM) for more information.</p>\n<p>Exceptions raised as a result of using the <xref href=\"System.Xml.XmlNode\" data-throw-if-not-resolved=\"false\"></xref> class, such as the <xref href=\"System.Xml.XmlException\" data-throw-if-not-resolved=\"false\"></xref> class may contain sensitive information that should not be exposed in untrusted scenarios. Exceptions should be properly handled so that this sensitive information is not exposed in untrusted scenarios.</p>\n"
   syntax:
-    content: 'public abstract class XmlNode : Collections.IEnumerable'
+    content: 'public abstract class XmlNode : IEnumerable'
     content.vb: >-
       Public MustInherit Class XmlNode
-          Inherits Collections.IEnumerable
+          Implements IEnumerable
+  seealso:
+  - type: System.Xml.XmlNode.SelectNodes(System.String)
+    commentId: M:System.Xml.XmlNode.SelectNodes(System.String)
   inheritance:
   - System.Object
+  implements:
+  - System.Collections.IEnumerable
+  inheritedMembers:
+  - System.Object.ToString
+  - System.Object.Equals(System.Object)
+  - System.Object.Equals(System.Object,System.Object)
+  - System.Object.ReferenceEquals(System.Object,System.Object)
+  - System.Object.GetHashCode
+  - System.Object.GetType
+  - System.Object.MemberwiseClone
   modifiers.csharp:
   - public
   - abstract
@@ -95,12 +111,16 @@ items:
   assemblies:
   - System.Xml.XmlDocument
   namespace: System.Xml
+  summary: "\n<p>Gets an <xref href=\"System.Xml.XmlAttributeCollection\" data-throw-if-not-resolved=\"false\"></xref> containing the attributes of this node.</p>\n"
+  example:
+  - "\n<p>The following example adds a new attribute to the XML document.</p>Classic WebData XmlNode.GetNamespaceOfPrefix Example#1"
   syntax:
     content: public virtual XmlAttributeCollection Attributes { get; }
     content.vb: Public Overridable ReadOnly Property Attributes As XmlAttributeCollection
     parameters: []
     return:
       type: System.Xml.XmlAttributeCollection
+      description: "\n<p>An <strong>XmlAttributeCollection</strong> containing the attributes of the node.</p>\n<p>If the node is of type XmlNodeType.Element, the attributes of the node are returned. Otherwise, this property returns <strong>null</strong>.</p>\n"
   modifiers.csharp:
   - public
   - virtual
@@ -130,12 +150,15 @@ items:
   assemblies:
   - System.Xml.XmlDocument
   namespace: System.Xml
+  summary: "\n<p>Gets the base URI of the current node.</p>\n"
+  remarks: "\n<p>A networked XML document is comprised of chunks of data aggregated using various W3C standard inclusion mechanisms and therefore contains nodes that come from different places. The <strong>BaseURI</strong> tells you where these nodes came from.</p>\n<p>The value of this property varies depending on the node type. For example, Document nodes return the location of the <xref href=\"System.Xml.XmlDocument\" data-throw-if-not-resolved=\"false\"></xref> object. Nodes which are child nodes of external EntityReference nodes return the location of the entity itself. For example, consider the following XML document: </p>\n<pre><code> <!DOCTYPE item [\n<!ENTITY xyz SYSTEM \"a/b.xml\">\n]>\n<item num='123'>&xyz;</item></code></pre>\n<p>where the external entity <strong>a/b.xml</strong> contains the XML text: <code><test>123</test></code>.</p>\n<p>If the document is loaded from http://server/mydata.xml, <strong>BaseURI</strong> returns the following: </p>\n<p>NodeType </p>\n<p>Name </p>\n<p>BaseURI </p>\n<p>\n<strong>BaseURI</strong> looks for entity reference boundaries, so if entities are expanded this information is not preserved and this property returns the location of the <strong>XmlDocument</strong> object in all cases.</p>\n<p>As a second example, given the following XML document: </p>\n<pre><code> <!DOCTYPE Mydata SYSTEM \"http://localhost/doctype.dtd\">\n<baa>&xyz;</baa></code></pre>\n<p>where the DTD file contains the following: </p>\n<pre><code> <!ENTITY xyz <E1>My Data</E1>\n<!ELEMENT baa #PCDATA>\n<!ATTLIST baa attr1 \"woof\"></code></pre>\n<p>If the XML document is loaded from http://localhost/mydata.xml, <strong>BaseURI</strong> returns the following for each of the nodes: </p>\n<p>NodeType </p>\n<p>Name </p>\n<p>BaseURI </p>\n<p>The base URI of a default attribute is the same as the base URI of the element to which they belong.</p>\n<p>This property is a Microsoft extension to the Document Object Model (DOM).</p>\n"
   syntax:
     content: public virtual string BaseURI { get; }
     content.vb: Public Overridable ReadOnly Property BaseURI As String
     parameters: []
     return:
       type: System.String
+      description: "\n<p>The location from which the node was loaded or String.Empty if the node has no base URI.</p>\n"
   modifiers.csharp:
   - public
   - virtual
@@ -165,12 +188,17 @@ items:
   assemblies:
   - System.Xml.XmlDocument
   namespace: System.Xml
+  summary: "\n<p>Gets all the child nodes of the node.</p>\n"
+  remarks: "\n<p>For information about child nodes, see the <see href=\"http://www.w3.org/TR/REC-DOM-Level-1/level-one-core.html\">W3C DOM (Core) Level 1 specification</see></p>\n"
+  example:
+  - "\n<p>The following example displays all the child nodes of the root element.</p>Classic WebData XmlNode.HasChildNodes Example#1"
   syntax:
     content: public virtual XmlNodeList ChildNodes { get; }
     content.vb: Public Overridable ReadOnly Property ChildNodes As XmlNodeList
     parameters: []
     return:
       type: System.Xml.XmlNodeList
+      description: "\n<p>An object that contains all the child nodes of the node.</p>\n<p>If there are no child nodes, this property returns an empty <xref href=\"System.Xml.XmlNodeList\" data-throw-if-not-resolved=\"false\"></xref>.</p>\n"
   modifiers.csharp:
   - public
   - virtual
@@ -200,12 +228,17 @@ items:
   assemblies:
   - System.Xml.XmlDocument
   namespace: System.Xml
+  summary: "\n<p>Gets the first child of the node.</p>\n"
+  remarks: "\n<p>For information about child nodes, see the <see href=\"http://www.w3.org/TR/REC-DOM-Level-1/level-one-core.html\">W3C DOM (Core) Level 1 specification</see></p>\n"
+  example:
+  - "\n<p>The following example displays the title element.</p>Classic WebData XmlNode.FirstChild Example#1"
   syntax:
     content: public virtual XmlNode FirstChild { get; }
     content.vb: Public Overridable ReadOnly Property FirstChild As XmlNode
     parameters: []
     return:
       type: System.Xml.XmlNode
+      description: "\n<p>The first child of the node. If there is no such node, <strong>null</strong> is returned.</p>\n"
   modifiers.csharp:
   - public
   - virtual
@@ -235,12 +268,17 @@ items:
   assemblies:
   - System.Xml.XmlDocument
   namespace: System.Xml
+  summary: "\n<p>Gets a value indicating whether this node has any child nodes.</p>\n"
+  remarks: "\n<p>For information about child nodes, see the <see href=\"http://www.w3.org/TR/REC-DOM-Level-1/level-one-core.html\">W3C DOM (Core) Level 1 specification</see></p>\n"
+  example:
+  - "\n<p>The following example displays all the child nodes of the root element.</p>Classic WebData XmlNode.HasChildNodes Example#1"
   syntax:
     content: public virtual bool HasChildNodes { get; }
     content.vb: Public Overridable ReadOnly Property HasChildNodes As Boolean
     parameters: []
     return:
       type: System.Boolean
+      description: "\n<p>\n<strong>true</strong> if the node has child nodes; otherwise, <strong>false</strong>.</p>\n"
   modifiers.csharp:
   - public
   - virtual
@@ -270,12 +308,17 @@ items:
   assemblies:
   - System.Xml.XmlDocument
   namespace: System.Xml
+  summary: "\n<p>Gets or sets the concatenated values of the node and all its child nodes.</p>\n"
+  remarks: "\n<p>Setting this property replaces all the child nodes with the parsed contents of the given string.</p>\n<p>For leaf nodes, <strong>InnerText</strong> returns the same content as the <xref href=\"System.Xml.XmlNode.Value\" data-throw-if-not-resolved=\"false\"></xref> property.</p>\n<p>This property is a Microsoft extension to the Document Object Model (DOM).</p>\n"
+  example:
+  - "\n<p>The following example compares the <strong>InnerText</strong> and <xref href=\"System.Xml.XmlNode.InnerXml\" data-throw-if-not-resolved=\"false\"></xref> properties.</p>Classic WebData XmlNode.InnerText Example#1<p>Output:</p><pre><code>Display the InnerText of the element...\nsome textmore text\nDisplay the InnerXml of the element...\nsome text<child />more text\n<elem>Text containing &lt;markup/&gt; will have char(&lt;) and char(&gt;) escape\nd.</elem>\n<elem>Text containing <markup />.</elem></code></pre>"
   syntax:
     content: public virtual string InnerText { get; set; }
     content.vb: Public Overridable Property InnerText As String
     parameters: []
     return:
       type: System.String
+      description: "\n<p>The concatenated values of the node and all its child nodes.</p>\n"
   modifiers.csharp:
   - public
   - virtual
@@ -305,12 +348,24 @@ items:
   assemblies:
   - System.Xml.XmlDocument
   namespace: System.Xml
+  summary: "\n<p>Gets or sets the markup representing only the child nodes of this node.</p>\n"
+  remarks: "\n<p>Attempting to set this property from a node that cannot have child nodes, for example a Text node, throws an exception. Otherwise, setting <strong>InnerXml</strong> replaces the child nodes, of the node, with the parsed contents of the given string. The parsing is done in the current namespace context.</p>\n<p>This property is a Microsoft extension to the Document Object Model (DOM).</p>\n<p>\n<strong>InnerXml</strong> is not an efficient way to modify the DOM. There may be performance issues when replacing complex nodes. It is more efficient to construct nodes and use methods such as <strong>InsertBefore</strong>, <strong>InsertAfter</strong>, <strong>AppendChild</strong>, and <strong>RemoveChild</strong> to modify the Xml document.</p>\n"
+  example:
+  - "\n<p>The following example compares the <xref href=\"System.Xml.XmlNode.InnerText\" data-throw-if-not-resolved=\"false\"></xref> and <strong>InnerXml</strong> properties.</p>Classic WebData XmlNode.InnerText Example#1"
   syntax:
     content: public virtual string InnerXml { get; set; }
     content.vb: Public Overridable Property InnerXml As String
     parameters: []
     return:
       type: System.String
+      description: "\n<p>The markup of the child nodes of this node.</p>\n<p>\n<strong>InnerXml</strong> does not return default attributes.</p>\n"
+  exceptions:
+  - type: System.InvalidOperationException
+    commentId: T:System.InvalidOperationException
+    description: "\n<p>Setting this property on a node that cannot have child nodes. </p>\n"
+  - type: System.Xml.XmlException
+    commentId: T:System.Xml.XmlException
+    description: "\n<p>The XML specified when setting this property is not well-formed. </p>\n"
   modifiers.csharp:
   - public
   - virtual
@@ -340,12 +395,15 @@ items:
   assemblies:
   - System.Xml.XmlDocument
   namespace: System.Xml
+  summary: "\n<p>Gets a value indicating whether the node is read-only.</p>\n"
+  remarks: "\n<p>A read-only node is one whose properties, attributes, or child nodes cannot be changed. You can remove a read-only node from the tree and insert it somewhere else. For example, Entity nodes are always read-only.</p>\n<p>This property is a Microsoft extension to the Document Object Model (DOM).</p>\n"
   syntax:
     content: public virtual bool IsReadOnly { get; }
     content.vb: Public Overridable ReadOnly Property IsReadOnly As Boolean
     parameters: []
     return:
       type: System.Boolean
+      description: "\n<p>\n<strong>true</strong> if the node is read-only; otherwise <strong>false</strong>.</p>\n"
   modifiers.csharp:
   - public
   - virtual
@@ -375,14 +433,20 @@ items:
   assemblies:
   - System.Xml.XmlDocument
   namespace: System.Xml
+  summary: "\n<p>Gets the first child element with the specified <xref href=\"System.Xml.XmlNode.Name\" data-throw-if-not-resolved=\"false\"></xref>.</p>\n"
+  remarks: "\n<p>This property is a Microsoft extension to the Document Object Model (DOM).</p>\n"
+  example:
+  - "\n<p>The following example displays the title element.</p>Classic WebData XmlNode.this Example#1"
   syntax:
     content: public virtual XmlElement this[string name] { get; }
     content.vb: Public Overridable ReadOnly Property Item(name As String) As XmlElement
     parameters:
     - id: name
       type: System.String
+      description: "\n<p>The qualified name of the element to retrieve. </p>\n"
     return:
       type: System.Xml.XmlElement
+      description: "\n<p>The first <xref href=\"System.Xml.XmlElement\" data-throw-if-not-resolved=\"false\"></xref> that matches the specified name. It returns a null reference (<strong>Nothing</strong> in Visual Basic) if there is no match.</p>\n"
   modifiers.csharp:
   - public
   - virtual
@@ -414,16 +478,21 @@ items:
   assemblies:
   - System.Xml.XmlDocument
   namespace: System.Xml
+  summary: "\n<p>Gets the first child element with the specified <xref href=\"System.Xml.XmlNode.LocalName\" data-throw-if-not-resolved=\"false\"></xref> and <xref href=\"System.Xml.XmlNode.NamespaceURI\" data-throw-if-not-resolved=\"false\"></xref>.</p>\n"
+  remarks: "\n<p>This property is a Microsoft extension to the Document Object Model (DOM).</p>\n"
   syntax:
     content: public virtual XmlElement this[string localname, string ns] { get; }
     content.vb: Public Overridable ReadOnly Property Item(localname As String, ns As String) As XmlElement
     parameters:
     - id: localname
       type: System.String
+      description: "\n<p>The local name of the element. </p>\n"
     - id: ns
       type: System.String
+      description: "\n<p>The namespace URI of the element. </p>\n"
     return:
       type: System.Xml.XmlElement
+      description: "\n<p>The first <xref href=\"System.Xml.XmlElement\" data-throw-if-not-resolved=\"false\"></xref> with the matching <em>localname</em> and <em>ns</em>. . It returns a null reference (<strong>Nothing</strong> in Visual Basic) if there is no match.</p>\n"
   modifiers.csharp:
   - public
   - virtual
@@ -455,12 +524,16 @@ items:
   assemblies:
   - System.Xml.XmlDocument
   namespace: System.Xml
+  summary: "\n<p>Gets the last child of the node.</p>\n"
+  example:
+  - "\n<p>The following example displays the price element.</p>Classic WebData XmlNode.LastChild Example#1"
   syntax:
     content: public virtual XmlNode LastChild { get; }
     content.vb: Public Overridable ReadOnly Property LastChild As XmlNode
     parameters: []
     return:
       type: System.Xml.XmlNode
+      description: "\n<p>The last child of the node. If there is no such node, <strong>null</strong> is returned.</p>\n"
   modifiers.csharp:
   - public
   - virtual
@@ -490,12 +563,20 @@ items:
   assemblies:
   - System.Xml.XmlDocument
   namespace: System.Xml
+  summary: "\n<p>Gets the local name of the node, when overridden in a derived class.</p>\n"
+  remarks: "\n<p>If the node does not have a prefix, LocalName is the same as <xref href=\"System.Xml.XmlNode.Name\" data-throw-if-not-resolved=\"false\"></xref>.</p>\n"
   syntax:
     content: public abstract string LocalName { get; }
     content.vb: Public MustOverride ReadOnly Property LocalName As String
     parameters: []
     return:
       type: System.String
+      description: "\n<p>The name of the node with the prefix removed. For example, <strong>LocalName</strong> is book for the element <bk:book>.</p>\n<p>The name returned is dependent on the <xref href=\"System.Xml.XmlNode.NodeType\" data-throw-if-not-resolved=\"false\"></xref> of the node: </p>\n<p>Type </p>\n<p>Name </p>\n<table><tbody><tr><td>\n<p>Attribute </p>\n</td><td>\n<p>The local name of the attribute. </p>\n</td></tr><tr><td>\n<p>CDATA </p>\n</td><td>\n<p>#cdata-section </p>\n</td></tr><tr><td>\n<p>Comment </p>\n</td><td>\n<p>#comment </p>\n</td></tr><tr><td>\n<p>Document </p>\n</td><td>\n<p>#document </p>\n</td></tr><tr><td>\n<p>DocumentFragment </p>\n</td><td>\n<p>#document-fragment </p>\n</td></tr><tr><td>\n<p>DocumentType </p>\n</td><td>\n<p>The document type name. </p>\n</td></tr><tr><td>\n<p>Element </p>\n</td><td>\n<p>The local name of the element. </p>\n</td></tr><tr><td>\n<p>Entity </p>\n</td><td>\n<p>The name of the entity. </p>\n</td></tr><tr><td>\n<p>EntityReference </p>\n</td><td>\n<p>The name of the entity referenced. </p>\n</td></tr><tr><td>\n<p>Notation </p>\n</td><td>\n<p>The notation name. </p>\n</td></tr><tr><td>\n<p>ProcessingInstruction </p>\n</td><td>\n<p>The target of the processing instruction. </p>\n</td></tr><tr><td>\n<p>Text </p>\n</td><td>\n<p>#text </p>\n</td></tr><tr><td>\n<p>Whitespace </p>\n</td><td>\n<p>#whitespace </p>\n</td></tr><tr><td>\n<p>SignificantWhitespace </p>\n</td><td>\n<p>#significant-whitespace </p>\n</td></tr><tr><td>\n<p>XmlDeclaration </p>\n</td><td>\n<p>#xml-declaration </p>\n</td></tr></tbody></table>\n"
+  seealso:
+  - type: System.Xml.XmlNode.Prefix
+    commentId: P:System.Xml.XmlNode.Prefix
+  - type: System.Xml.XmlNode.Name
+    commentId: P:System.Xml.XmlNode.Name
   modifiers.csharp:
   - public
   - abstract
@@ -525,12 +606,14 @@ items:
   assemblies:
   - System.Xml.XmlDocument
   namespace: System.Xml
+  summary: "\n<p>Gets the qualified name of the node, when overridden in a derived class.</p>\n"
   syntax:
     content: public abstract string Name { get; }
     content.vb: Public MustOverride ReadOnly Property Name As String
     parameters: []
     return:
       type: System.String
+      description: "\n<p>The qualified name of the node. The name returned is dependent on the <xref href=\"System.Xml.XmlNode.NodeType\" data-throw-if-not-resolved=\"false\"></xref> of the node: </p>\n<p>Type </p>\n<p>Name </p>\n<table><tbody><tr><td>\n<p>Attribute </p>\n</td><td>\n<p>The qualified name of the attribute. </p>\n</td></tr><tr><td>\n<p>CDATA </p>\n</td><td>\n<p>#cdata-section </p>\n</td></tr><tr><td>\n<p>Comment </p>\n</td><td>\n<p>#comment </p>\n</td></tr><tr><td>\n<p>Document </p>\n</td><td>\n<p>#document </p>\n</td></tr><tr><td>\n<p>DocumentFragment </p>\n</td><td>\n<p>#document-fragment </p>\n</td></tr><tr><td>\n<p>DocumentType </p>\n</td><td>\n<p>The document type name. </p>\n</td></tr><tr><td>\n<p>Element </p>\n</td><td>\n<p>The qualified name of the element. </p>\n</td></tr><tr><td>\n<p>Entity </p>\n</td><td>\n<p>The name of the entity. </p>\n</td></tr><tr><td>\n<p>EntityReference </p>\n</td><td>\n<p>The name of the entity referenced. </p>\n</td></tr><tr><td>\n<p>Notation </p>\n</td><td>\n<p>The notation name. </p>\n</td></tr><tr><td>\n<p>ProcessingInstruction </p>\n</td><td>\n<p>The target of the processing instruction. </p>\n</td></tr><tr><td>\n<p>Text </p>\n</td><td>\n<p>#text </p>\n</td></tr><tr><td>\n<p>Whitespace </p>\n</td><td>\n<p>#whitespace </p>\n</td></tr><tr><td>\n<p>SignificantWhitespace </p>\n</td><td>\n<p>#significant-whitespace </p>\n</td></tr><tr><td>\n<p>XmlDeclaration </p>\n</td><td>\n<p>#xml-declaration </p>\n</td></tr></tbody></table>\n"
   modifiers.csharp:
   - public
   - abstract
@@ -560,12 +643,15 @@ items:
   assemblies:
   - System.Xml.XmlDocument
   namespace: System.Xml
+  summary: "\n<p>Gets the namespace URI of this node.</p>\n"
+  remarks: "\n<p>This is the namespace URI specified at creation time. For example, <strong>NamespaceURI</strong> is urn:samples for the element <bk:book xmlns:bk= \"urn:samples\"> </p>\n<p>An attribute does not inherit its namespace from the element it is attached to. If an attribute is not explicitly given a namespace, it simply has no namespace.</p>\n"
   syntax:
     content: public virtual string NamespaceURI { get; }
     content.vb: Public Overridable ReadOnly Property NamespaceURI As String
     parameters: []
     return:
       type: System.String
+      description: "\n<p>The namespace URI of this node. If there is no namespace URI, this property returns String.Empty.</p>\n"
   modifiers.csharp:
   - public
   - virtual
@@ -595,12 +681,16 @@ items:
   assemblies:
   - System.Xml.XmlDocument
   namespace: System.Xml
+  summary: "\n<p>Gets the node immediately following this node.</p>\n"
+  example:
+  - "\n<p>The following example displays all the books in the XML document.</p>Classic WebData XmlNode.NextSibling Example#1"
   syntax:
     content: public virtual XmlNode NextSibling { get; }
     content.vb: Public Overridable ReadOnly Property NextSibling As XmlNode
     parameters: []
     return:
       type: System.Xml.XmlNode
+      description: "\n<p>The next <strong>XmlNode</strong>. If there is no next node, <strong>null</strong> is returned.</p>\n"
   modifiers.csharp:
   - public
   - virtual
@@ -630,12 +720,15 @@ items:
   assemblies:
   - System.Xml.XmlDocument
   namespace: System.Xml
+  summary: "\n<p>Gets the type of the current node, when overridden in a derived class.</p>\n"
+  remarks: "\n<p>This property never returns the <strong>XmlNodeType</strong> EndElement, EndEntity or None.</p>\n"
   syntax:
     content: public abstract XmlNodeType NodeType { get; }
     content.vb: Public MustOverride ReadOnly Property NodeType As XmlNodeType
     parameters: []
     return:
       type: System.Xml.XmlNodeType
+      description: "\n<p>One of the <xref href=\"System.Xml.XmlNodeType\" data-throw-if-not-resolved=\"false\"></xref> values.</p>\n"
   modifiers.csharp:
   - public
   - abstract
@@ -665,12 +758,17 @@ items:
   assemblies:
   - System.Xml.XmlDocument
   namespace: System.Xml
+  summary: "\n<p>Gets the markup containing this node and all its child nodes.</p>\n"
+  remarks: "\n<p>This property is a Microsoft extension to the Document Object Model (DOM).</p>\n"
+  example:
+  - "\n<p>The following example compares output from the <xref href=\"System.Xml.XmlNode.InnerXml\" data-throw-if-not-resolved=\"false\"></xref> and <strong>OuterXml</strong> properties.</p>Classic WebData XmlNode.OuterXml Example#1"
   syntax:
     content: public virtual string OuterXml { get; }
     content.vb: Public Overridable ReadOnly Property OuterXml As String
     parameters: []
     return:
       type: System.String
+      description: "\n<p>The markup containing this node and all its child nodes.</p>\n<p>\n<strong>OuterXml</strong> does not return default attributes.</p>\n"
   modifiers.csharp:
   - public
   - virtual
@@ -700,12 +798,17 @@ items:
   assemblies:
   - System.Xml.XmlDocument
   namespace: System.Xml
+  summary: "\n<p>Gets the <xref href=\"System.Xml.XmlDocument\" data-throw-if-not-resolved=\"false\"></xref> to which this node belongs.</p>\n"
+  remarks: "\n<p>When adding nodes to the current node, use the <xref href=\"System.Xml.XmlDocument\" data-throw-if-not-resolved=\"false\"></xref> returned by the <xref href=\"System.Xml.XmlNode.OwnerDocument\" data-throw-if-not-resolved=\"false\"></xref> property to create the node.</p>\n"
+  example:
+  - "\n<p>See <xref href=\"System.Xml.XmlElement.OwnerDocument\" data-throw-if-not-resolved=\"false\"></xref> (in the XmlElement class) for an example using this property.</p>\n"
   syntax:
     content: public virtual XmlDocument OwnerDocument { get; }
     content.vb: Public Overridable ReadOnly Property OwnerDocument As XmlDocument
     parameters: []
     return:
       type: System.Xml.XmlDocument
+      description: "\n<p>The <xref href=\"System.Xml.XmlDocument\" data-throw-if-not-resolved=\"false\"></xref> to which this node belongs.</p>\n<p>If the node is an <xref href=\"System.Xml.XmlDocument\" data-throw-if-not-resolved=\"false\"></xref> (NodeType equals XmlNodeType.Document), this property returns <strong>null</strong>.</p>\n"
   modifiers.csharp:
   - public
   - virtual
@@ -735,12 +838,15 @@ items:
   assemblies:
   - System.Xml.XmlDocument
   namespace: System.Xml
+  summary: "\n<p>Gets the parent of this node (for nodes that can have parents).</p>\n"
+  remarks: "\n<p>For information about parent and child nodes, see the <see href=\"http://www.w3.org/TR/REC-DOM-Level-1/level-one-core.html\">W3C DOM (Core) Level 1 specification</see></p>\n"
   syntax:
     content: public virtual XmlNode ParentNode { get; }
     content.vb: Public Overridable ReadOnly Property ParentNode As XmlNode
     parameters: []
     return:
       type: System.Xml.XmlNode
+      description: "\n<p>The <strong>XmlNode</strong> that is the parent of the current node. If a node has just been created and not yet added to the tree, or if it has been removed from the tree, the parent is <strong>null</strong>. For all other nodes, the value returned depends on the <xref href=\"System.Xml.XmlNode.NodeType\" data-throw-if-not-resolved=\"false\"></xref> of the node. The following table describes the possible return values for the <strong>ParentNode</strong> property.</p>\n<p>NodeType </p>\n<p>Return Value of ParentNode </p>\n<table><tbody><tr><td>\n<p>Attribute, Document, DocumentFragment, Entity, Notation </p>\n</td><td>\n<p>Returns <strong>null</strong>; these nodes do not have parents. </p>\n</td></tr><tr><td>\n<p>CDATA </p>\n</td><td>\n<p>Returns the element or entity reference containing the CDATA section. </p>\n</td></tr><tr><td>\n<p>Comment </p>\n</td><td>\n<p>Returns the element, entity reference, document type, or document containing the comment. </p>\n</td></tr><tr><td>\n<p>DocumentType </p>\n</td><td>\n<p>Returns the document node. </p>\n</td></tr><tr><td>\n<p>Element </p>\n</td><td>\n<p>Returns the parent node of the element. If the element is the root node in the tree, the parent is the document node. </p>\n</td></tr><tr><td>\n<p>EntityReference </p>\n</td><td>\n<p>Returns the element, attribute, or entity reference containing the entity reference. </p>\n</td></tr><tr><td>\n<p>ProcessingInstruction </p>\n</td><td>\n<p>Returns the document, element, document type, or entity reference containing the processing instruction. </p>\n</td></tr><tr><td>\n<p>Text </p>\n</td><td>\n<p>Returns the parent element, attribute, or entity reference containing the text node. </p>\n</td></tr></tbody></table>\n"
   modifiers.csharp:
   - public
   - virtual
@@ -770,12 +876,22 @@ items:
   assemblies:
   - System.Xml.XmlDocument
   namespace: System.Xml
+  summary: "\n<p>Gets or sets the namespace prefix of this node.</p>\n"
+  remarks: "\n<p>Setting this property, when permitted, changes the <xref href=\"System.Xml.XmlNode.Name\" data-throw-if-not-resolved=\"false\"></xref> property, which holds the qualified name, on Element and Attribute nodes. Setting this property on node types that cannot have a prefix (such as Text, Comment, EntityReference, CDATA, ProcessingInstruction, Document, and DocumentFragment) has no effect. Changing the prefix of an attribute that is known to have a default value, does not make a new attribute with the default value and the original prefix appear, since the namespace URI and local name do not change.</p>\n"
   syntax:
     content: public virtual string Prefix { get; set; }
     content.vb: Public Overridable Property Prefix As String
     parameters: []
     return:
       type: System.String
+      description: "\n<p>The namespace prefix of this node. For example, <strong>Prefix</strong> is bk for the element <bk:book>. If there is no prefix, this property returns String.Empty.</p>\n"
+  exceptions:
+  - type: System.ArgumentException
+    commentId: T:System.ArgumentException
+    description: "\n<p>This node is read-only. </p>\n"
+  - type: System.Xml.XmlException
+    commentId: T:System.Xml.XmlException
+    description: "\n<p>The specified prefix contains an invalid character.</p>\n<p>The specified prefix is malformed.</p>\n<p>The specified prefix is \"xml\" and the namespaceURI of this node is different from \"http://www.w3.org/XML/1998/namespace\".</p>\n<p>This node is an attribute and the specified prefix is \"xmlns\" and the namespaceURI of this node is different from \"http://www.w3.org/2000/xmlns/ \".</p>\n<p>This node is an attribute and the qualifiedName of this node is \"xmlns\". </p>\n"
   modifiers.csharp:
   - public
   - virtual
@@ -805,12 +921,16 @@ items:
   assemblies:
   - System.Xml.XmlDocument
   namespace: System.Xml
+  summary: "\n<p>Gets the node immediately preceding this node.</p>\n"
+  example:
+  - "\n<p>The following example displays all the books in the XML document.</p>Classic WebData XmlNode.PreviousSibling Example#1"
   syntax:
     content: public virtual XmlNode PreviousSibling { get; }
     content.vb: Public Overridable ReadOnly Property PreviousSibling As XmlNode
     parameters: []
     return:
       type: System.Xml.XmlNode
+      description: "\n<p>The preceding <strong>XmlNode</strong>. If there is no preceding node, <strong>null</strong> is returned.</p>\n"
   modifiers.csharp:
   - public
   - virtual
@@ -840,12 +960,15 @@ items:
   assemblies:
   - System.Xml.XmlDocument
   namespace: System.Xml
+  summary: "\n<p>Gets the text node that immediately precedes this node.</p>\n"
+  remarks: "\n<p>This property has faster performance than the <xref href=\"System.Xml.XmlNode.PreviousSibling\" data-throw-if-not-resolved=\"false\"></xref> property but you can use it only to get a node of type <xref href=\"System.Xml.XmlNodeType.Text\" data-throw-if-not-resolved=\"false\"></xref>. To get any other type of node that that precedes this node, use the <xref href=\"System.Xml.XmlNode.PreviousSibling\" data-throw-if-not-resolved=\"false\"></xref> property. </p>\n"
   syntax:
     content: public virtual XmlNode PreviousText { get; }
     content.vb: Public Overridable ReadOnly Property PreviousText As XmlNode
     parameters: []
     return:
       type: System.Xml.XmlNode
+      description: "\n<p>Returns <xref href=\"System.Xml.XmlNode\" data-throw-if-not-resolved=\"false\"></xref>.</p>\n"
   modifiers.csharp:
   - public
   - virtual
@@ -875,12 +998,23 @@ items:
   assemblies:
   - System.Xml.XmlDocument
   namespace: System.Xml
+  summary: "\n<p>Gets or sets the value of the node.</p>\n"
+  example:
+  - "\n<p>The following example adds a new attribute to the XML document and sets the <xref href=\"System.Xml.XmlNode.Value\" data-throw-if-not-resolved=\"false\"></xref> property of the new attribute.</p>Classic WebData XmlNode.GetNamespaceOfPrefix Example#1"
   syntax:
     content: public virtual string Value { get; set; }
     content.vb: Public Overridable Property Value As String
     parameters: []
     return:
       type: System.String
+      description: "\n<p>The value returned depends on the <xref href=\"System.Xml.XmlNode.NodeType\" data-throw-if-not-resolved=\"false\"></xref> of the node: </p>\n<p>Type </p>\n<p>Value </p>\n<table><tbody><tr><td>\n<p>Attribute </p>\n</td><td>\n<p>The value of the attribute. </p>\n</td></tr><tr><td>\n<p>CDATASection </p>\n</td><td>\n<p>The content of the CDATA Section. </p>\n</td></tr><tr><td>\n<p>Comment </p>\n</td><td>\n<p>The content of the comment. </p>\n</td></tr><tr><td>\n<p>Document </p>\n</td><td>\n<p>\n<strong>null</strong>. </p>\n</td></tr><tr><td>\n<p>DocumentFragment </p>\n</td><td>\n<p>\n<strong>null</strong>. </p>\n</td></tr><tr><td>\n<p>DocumentType </p>\n</td><td>\n<p>\n<strong>null</strong>. </p>\n</td></tr><tr><td>\n<p>Element </p>\n</td><td>\n<p>\n<strong>null</strong>. You can use the <xref href=\"System.Xml.XmlElement.InnerText\" data-throw-if-not-resolved=\"false\"></xref> or <xref href=\"System.Xml.XmlElement.InnerXml\" data-throw-if-not-resolved=\"false\"></xref> properties to access the value of the element node. </p>\n</td></tr><tr><td>\n<p>Entity </p>\n</td><td>\n<p>\n<strong>null</strong>. </p>\n</td></tr><tr><td>\n<p>EntityReference </p>\n</td><td>\n<p>\n<strong>null</strong>. </p>\n</td></tr><tr><td>\n<p>Notation </p>\n</td><td>\n<p>\n<strong>null</strong>. </p>\n</td></tr><tr><td>\n<p>ProcessingInstruction </p>\n</td><td>\n<p>The entire content excluding the target. </p>\n</td></tr><tr><td>\n<p>Text </p>\n</td><td>\n<p>The content of the text node. </p>\n</td></tr><tr><td>\n<p>SignificantWhitespace </p>\n</td><td>\n<p>The white space characters. White space can consist of one or more space characters, carriage returns, line feeds, or tabs. </p>\n</td></tr><tr><td>\n<p>Whitespace </p>\n</td><td>\n<p>The white space characters. White space can consist of one or more space characters, carriage returns, line feeds, or tabs. </p>\n</td></tr><tr><td>\n<p>XmlDeclaration </p>\n</td><td>\n<p>The content of the declaration (that is, everything between <?xml and ?>). </p>\n</td></tr></tbody></table>\n"
+  exceptions:
+  - type: System.ArgumentException
+    commentId: T:System.ArgumentException
+    description: "\n<p>Setting the value of a node that is read-only. </p>\n"
+  - type: System.InvalidOperationException
+    commentId: T:System.InvalidOperationException
+    description: "\n<p>Setting the value of a node that is not supposed to have a value (for example, an Element node). </p>\n"
   modifiers.csharp:
   - public
   - virtual
@@ -910,14 +1044,30 @@ items:
   assemblies:
   - System.Xml.XmlDocument
   namespace: System.Xml
+  summary: "\n<p>Adds the specified node to the end of the list of child nodes, of this node.</p>\n"
+  remarks: "\n<p>If the <em>newChild</em> is already in the tree, it is removed from its original position and added to its target position. For more information about inserting nodes, see Inserting Nodes into an XML Document.</p>\n<p>If the node being inserted was created from another document, you can use <xref href=\"System.Xml.XmlDocument.ImportNode(System.Xml.XmlNode,System.Boolean)\" data-throw-if-not-resolved=\"false\"></xref> to import the node to the current document. The imported node can then be inserted into the current document.</p>\n"
+  example:
+  - "\n<p>The following example adds a new node to the XML document.</p>Classic WebData XmlNode.AppendChild Example#1<p>Output:</p><pre><code>Display the modified XML...\n<?xml version=\"1.0\" encoding=\"IBM437\"?>\n<book genre=\"novel\" ISBN=\"1-861001-57-5\">\n<title>Pride And Prejudice</title>\n<price>19.95</price></code></pre>"
   syntax:
     content: public virtual XmlNode AppendChild(XmlNode newChild)
     content.vb: Public Overridable Function AppendChild(newChild As XmlNode) As XmlNode
     parameters:
     - id: newChild
       type: System.Xml.XmlNode
+      description: "\n<p>The node to add. All the contents of the node to be added are moved into the specified location. </p>\n"
     return:
       type: System.Xml.XmlNode
+      description: "\n<p>The node added.</p>\n"
+  exceptions:
+  - type: System.InvalidOperationException
+    commentId: T:System.InvalidOperationException
+    description: "\n<p>This node is of a type that does not allow child nodes of the type of the <em>newChild</em> node.</p>\n<p>The <em>newChild</em> is an ancestor of this node. </p>\n"
+  - type: System.ArgumentException
+    commentId: T:System.ArgumentException
+    description: "\n<p>The <em>newChild</em> was created from a different document than the one that created this node.</p>\n<p>This node is read-only. </p>\n"
+  seealso:
+  - type: System.Xml.XmlDocument.ImportNode(System.Xml.XmlNode,System.Boolean)
+    commentId: M:System.Xml.XmlDocument.ImportNode(System.Xml.XmlNode,System.Boolean)
   modifiers.csharp:
   - public
   - virtual
@@ -945,14 +1095,24 @@ items:
   assemblies:
   - System.Xml.XmlDocument
   namespace: System.Xml
+  summary: "\n<p>Creates a duplicate of the node, when overridden in a derived class.</p>\n"
+  remarks: "\n<p>This method serves as a copy constructor for nodes. The duplicate node has no parent (<xref href=\"System.Xml.XmlNode.ParentNode\" data-throw-if-not-resolved=\"false\"></xref> returns <strong>null</strong>).</p>\n<p>The following table describes the specific behavior for each <xref href=\"System.Xml.XmlNodeType\" data-throw-if-not-resolved=\"false\"></xref>.</p>\n<p>XmlNodeType </p>\n<p>CloneNode(true) </p>\n<p>CloneNode(false) </p>\n"
+  example:
+  - "\n<p>The following example shows the difference between a deep and shallow clone.</p>Classic WebData XmlNode.CloneNode Example#1"
   syntax:
     content: public abstract XmlNode CloneNode(bool deep)
     content.vb: Public MustOverride Function CloneNode(deep As Boolean) As XmlNode
     parameters:
     - id: deep
       type: System.Boolean
+      description: "\n<p>\n<strong>true</strong> to recursively clone the subtree under the specified node; <strong>false</strong> to clone only the node itself. </p>\n"
     return:
       type: System.Xml.XmlNode
+      description: "\n<p>The cloned node.</p>\n"
+  exceptions:
+  - type: System.InvalidOperationException
+    commentId: T:System.InvalidOperationException
+    description: "\n<p>Calling this method on a node type that cannot be cloned. </p>\n"
   modifiers.csharp:
   - public
   - abstract
@@ -980,11 +1140,16 @@ items:
   assemblies:
   - System.Xml.XmlDocument
   namespace: System.Xml
+  summary: "\n<p>Get an enumerator that iterates through the child nodes in the current node.</p>\n"
+  remarks: "\n<p>Provides support for the “for each” style iteration over the nodes in the <strong>XmlNode</strong>.</p>\n<p>This method is a Microsoft extension to the Document Object Model (DOM).</p>\n"
+  example:
+  - "\n<p>The following example displays all the books in the XML document.</p>Classic WebData XmlNode.GetEnumerator Example#1<p>The example uses the file, <strong>books.xml</strong>, as input.</p>Classic WebData XmlNode.GetEnumerator Example#2"
   syntax:
-    content: public Collections.IEnumerator GetEnumerator()
-    content.vb: Public Function GetEnumerator As Collections.IEnumerator
+    content: public IEnumerator GetEnumerator()
+    content.vb: Public Function GetEnumerator As IEnumerator
     return:
       type: System.Collections.IEnumerator
+      description: "\n<p>An <xref href=\"System.Collections.IEnumerator\" data-throw-if-not-resolved=\"false\"></xref> object that can be used to iterate through the child nodes in the current node.</p>\n"
   modifiers.csharp:
   - public
   modifiers.vb:
@@ -1010,14 +1175,20 @@ items:
   assemblies:
   - System.Xml.XmlDocument
   namespace: System.Xml
+  summary: "\n<p>Looks up the closest xmlns declaration for the given prefix that is in scope for the current node and returns the namespace URI in the declaration.</p>\n"
+  remarks: "\n<p>This method is a Microsoft extension to the Document Object Model (DOM).</p>\n"
+  example:
+  - "\n<p>The following example adds a new attribute to the XML document.</p>Classic WebData XmlNode.GetNamespaceOfPrefix Example#1"
   syntax:
     content: public virtual string GetNamespaceOfPrefix(string prefix)
     content.vb: Public Overridable Function GetNamespaceOfPrefix(prefix As String) As String
     parameters:
     - id: prefix
       type: System.String
+      description: "\n<p>The prefix whose namespace URI you want to find. </p>\n"
     return:
       type: System.String
+      description: "\n<p>The namespace URI of the specified prefix.</p>\n"
   modifiers.csharp:
   - public
   - virtual
@@ -1045,14 +1216,20 @@ items:
   assemblies:
   - System.Xml.XmlDocument
   namespace: System.Xml
+  summary: "\n<p>Looks up the closest xmlns declaration for the given namespace URI that is in scope for the current node and returns the prefix defined in that declaration.</p>\n"
+  remarks: "\n<p>This method is a Microsoft extension to the Document Object Model (DOM).</p>\n"
+  example:
+  - "\n<p>The following example adds a new element to the XML document.</p>Classic WebData XmlNode.GetPrefixOfNamespace Example#1"
   syntax:
     content: public virtual string GetPrefixOfNamespace(string namespaceURI)
     content.vb: Public Overridable Function GetPrefixOfNamespace(namespaceURI As String) As String
     parameters:
     - id: namespaceURI
       type: System.String
+      description: "\n<p>The namespace URI whose prefix you want to find. </p>\n"
     return:
       type: System.String
+      description: "\n<p>The prefix for the specified namespace URI.</p>\n"
   modifiers.csharp:
   - public
   - virtual
@@ -1080,16 +1257,33 @@ items:
   assemblies:
   - System.Xml.XmlDocument
   namespace: System.Xml
+  summary: "\n<p>Inserts the specified node immediately after the specified reference node.</p>\n"
+  remarks: "\n<p>If <em>refChild</em> is <strong>null</strong>, insert <em>newChild</em> at the beginning of the list of child nodes. All the contents of the <em>newChild</em> are inserted, in the same order, after <em>refChild</em>. If the <em>newChild</em> is already in the tree, it is removed from its original position and added to its target position. For more information about inserting nodes, see Inserting Nodes into an XML Document.</p>\n<p>If the node being inserted was created from another document, you can use <xref href=\"System.Xml.XmlDocument.ImportNode(System.Xml.XmlNode,System.Boolean)\" data-throw-if-not-resolved=\"false\"></xref> to import the node to the current document. The imported node can then be inserted into the current document.</p>\n<p>This method is a Microsoft extension to the Document Object Model (DOM).</p>\n"
+  example:
+  - "\n<p>The following example adds a new node to the XML document.</p>Classic WebData XmlNode.InsertAfter Example#1"
   syntax:
     content: public virtual XmlNode InsertAfter(XmlNode newChild, XmlNode refChild)
     content.vb: Public Overridable Function InsertAfter(newChild As XmlNode, refChild As XmlNode) As XmlNode
     parameters:
     - id: newChild
       type: System.Xml.XmlNode
+      description: "\n<p>The <strong>XmlNode</strong> to insert. </p>\n"
     - id: refChild
       type: System.Xml.XmlNode
+      description: "\n<p>The <strong>XmlNode</strong> that is the reference node. The <em>newNode</em> is placed after the <em>refNode</em>. </p>\n"
     return:
       type: System.Xml.XmlNode
+      description: "\n<p>The node being inserted.</p>\n"
+  exceptions:
+  - type: System.InvalidOperationException
+    commentId: T:System.InvalidOperationException
+    description: "\n<p>This node is of a type that does not allow child nodes of the type of the <em>newChild</em> node.</p>\n<p>The <em>newChild</em> is an ancestor of this node. </p>\n"
+  - type: System.ArgumentException
+    commentId: T:System.ArgumentException
+    description: "\n<p>The <em>newChild</em> was created from a different document than the one that created this node.</p>\n<p>The <em>refChild</em> is not a child of this node.</p>\n<p>This node is read-only. </p>\n"
+  seealso:
+  - type: System.Xml.XmlDocument.ImportNode(System.Xml.XmlNode,System.Boolean)
+    commentId: M:System.Xml.XmlDocument.ImportNode(System.Xml.XmlNode,System.Boolean)
   modifiers.csharp:
   - public
   - virtual
@@ -1117,16 +1311,33 @@ items:
   assemblies:
   - System.Xml.XmlDocument
   namespace: System.Xml
+  summary: "\n<p>Inserts the specified node immediately before the specified reference node.</p>\n"
+  remarks: "\n<p>If <em>refChild</em> is <strong>null</strong>, insert <em>newChild</em> at the end of the list of child nodes. All the contents of the <em>newChild</em> are inserted, in the same order, before <em>refChild</em>. If the <em>newChild</em> is already in the tree, it is removed from its original position and added to its target position. For more information about inserting nodes, see Inserting Nodes into an XML Document.</p>\n<p>If the node being inserted was created from another document, you can use <xref href=\"System.Xml.XmlDocument.ImportNode(System.Xml.XmlNode,System.Boolean)\" data-throw-if-not-resolved=\"false\"></xref> to import the node to the current document. The imported node can then be inserted into the current document.</p>\n"
+  example:
+  - "\n<p>The following example adds a new node to the XML document.</p>Classic WebData XmlNode.InsertBefore Example#1"
   syntax:
     content: public virtual XmlNode InsertBefore(XmlNode newChild, XmlNode refChild)
     content.vb: Public Overridable Function InsertBefore(newChild As XmlNode, refChild As XmlNode) As XmlNode
     parameters:
     - id: newChild
       type: System.Xml.XmlNode
+      description: "\n<p>The <strong>XmlNode</strong> to insert. </p>\n"
     - id: refChild
       type: System.Xml.XmlNode
+      description: "\n<p>The <strong>XmlNode</strong> that is the reference node. The <em>newChild</em> is placed before this node. </p>\n"
     return:
       type: System.Xml.XmlNode
+      description: "\n<p>The node being inserted.</p>\n"
+  exceptions:
+  - type: System.InvalidOperationException
+    commentId: T:System.InvalidOperationException
+    description: "\n<p>The current node is of a type that does not allow child nodes of the type of the <em>newChild</em> node.</p>\n<p>The <em>newChild</em> is an ancestor of this node. </p>\n"
+  - type: System.ArgumentException
+    commentId: T:System.ArgumentException
+    description: "\n<p>The <em>newChild</em> was created from a different document than the one that created this node.</p>\n<p>The <em>refChild</em> is not a child of this node.</p>\n<p>This node is read-only. </p>\n"
+  seealso:
+  - type: System.Xml.XmlDocument.ImportNode(System.Xml.XmlNode,System.Boolean)
+    commentId: M:System.Xml.XmlDocument.ImportNode(System.Xml.XmlNode,System.Boolean)
   modifiers.csharp:
   - public
   - virtual
@@ -1154,6 +1365,8 @@ items:
   assemblies:
   - System.Xml.XmlDocument
   namespace: System.Xml
+  summary: "\n<p>Puts all XmlText nodes in the full depth of the sub-tree underneath this XmlNode into a \"normal\" form where only markup (that is, tags, comments, processing instructions, CDATA sections, and entity references) separates XmlText nodes, that is, there are no adjacent XmlText nodes.</p>\n"
+  remarks: "\n<p>This method can be used to ensure that the DOM view of a document is the same as if it were saved and re-loaded, and is useful when operations (such as XPointer lookups) that depend on a particular document tree structure are to be used.</p>\n"
   syntax:
     content: public virtual void Normalize()
     content.vb: Public Overridable Sub Normalize
@@ -1184,14 +1397,30 @@ items:
   assemblies:
   - System.Xml.XmlDocument
   namespace: System.Xml
+  summary: "\n<p>Adds the specified node to the beginning of the list of child nodes for this node.</p>\n"
+  remarks: "\n<p>If the <em>newChild</em> is already in the tree, it is removed from its original position and added to its target position. For more information about inserting nodes, see Inserting Nodes into an XML Document.</p>\n<p>If the node being inserted was created from another document, you can use <xref href=\"System.Xml.XmlDocument.ImportNode(System.Xml.XmlNode,System.Boolean)\" data-throw-if-not-resolved=\"false\"></xref> to import the node to the current document. The imported node can then be inserted into the current document.</p>\n<p>This method is a Microsoft extension to the Document Object Model (DOM).</p>\n"
+  example:
+  - "\n<p>The following example adds a new node to the XML document.</p>Classic WebData XmlNode.PrependChild Example#1"
   syntax:
     content: public virtual XmlNode PrependChild(XmlNode newChild)
     content.vb: Public Overridable Function PrependChild(newChild As XmlNode) As XmlNode
     parameters:
     - id: newChild
       type: System.Xml.XmlNode
+      description: "\n<p>The node to add. All the contents of the node to be added are moved into the specified location.</p>\n"
     return:
       type: System.Xml.XmlNode
+      description: "\n<p>The node added.</p>\n"
+  exceptions:
+  - type: System.InvalidOperationException
+    commentId: T:System.InvalidOperationException
+    description: "\n<p>This node is of a type that does not allow child nodes of the type of the <em>newChild</em> node.</p>\n<p>The <em>newChild</em> is an ancestor of this node. </p>\n"
+  - type: System.ArgumentException
+    commentId: T:System.ArgumentException
+    description: "\n<p>The <em>newChild</em> was created from a different document than the one that created this node.</p>\n<p>This node is read-only. </p>\n"
+  seealso:
+  - type: System.Xml.XmlDocument.ImportNode(System.Xml.XmlNode,System.Boolean)
+    commentId: M:System.Xml.XmlDocument.ImportNode(System.Xml.XmlNode,System.Boolean)
   modifiers.csharp:
   - public
   - virtual
@@ -1219,6 +1448,10 @@ items:
   assemblies:
   - System.Xml.XmlDocument
   namespace: System.Xml
+  summary: "\n<p>Removes all the child nodes and/or attributes of the current node.</p>\n"
+  remarks: "\n<p>If a removed attribute is known to have a default value, an attribute immediately appears containing the default value and, if applicable, the corresponding namespace URI, local name, and prefix.</p>\n<p>This method is a Microsoft extension to the Document Object Model (DOM).</p>\n"
+  example:
+  - "\n<p>The following example removes all child and attribute nodes from the root node.</p>Classic WebData XmlNode.RemoveAll Example#1"
   syntax:
     content: public virtual void RemoveAll()
     content.vb: Public Overridable Sub RemoveAll
@@ -1249,14 +1482,23 @@ items:
   assemblies:
   - System.Xml.XmlDocument
   namespace: System.Xml
+  summary: "\n<p>Removes specified child node.</p>\n"
+  example:
+  - "\n<p>The following example removes a node from the XML document.</p>Classic WebData XmlNode.RemoveChild Example#1"
   syntax:
     content: public virtual XmlNode RemoveChild(XmlNode oldChild)
     content.vb: Public Overridable Function RemoveChild(oldChild As XmlNode) As XmlNode
     parameters:
     - id: oldChild
       type: System.Xml.XmlNode
+      description: "\n<p>The node being removed. </p>\n"
     return:
       type: System.Xml.XmlNode
+      description: "\n<p>The node removed.</p>\n"
+  exceptions:
+  - type: System.ArgumentException
+    commentId: T:System.ArgumentException
+    description: "\n<p>The <em>oldChild</em> is not a child of this node. Or this node is read-only. </p>\n"
   modifiers.csharp:
   - public
   - virtual
@@ -1284,16 +1526,33 @@ items:
   assemblies:
   - System.Xml.XmlDocument
   namespace: System.Xml
+  summary: "\n<p>Replaces the child node <em>oldChild</em> with <em>newChild</em> node.</p>\n"
+  remarks: "\n<p>If the <em>newChild</em> is already in the tree, it is first removed.</p>\n<p>If the <em>newChild</em> was created from another document, you can use <xref href=\"System.Xml.XmlDocument.ImportNode(System.Xml.XmlNode,System.Boolean)\" data-throw-if-not-resolved=\"false\"></xref> to import the node to the current document. The imported node can then be passed to the <strong>ReplaceChild</strong> method.</p>\n"
+  example:
+  - "\n<p>The following example replaces the title element in the XML document.</p>Classic WebData XmlNode.ReplaceChild Example#1"
   syntax:
     content: public virtual XmlNode ReplaceChild(XmlNode newChild, XmlNode oldChild)
     content.vb: Public Overridable Function ReplaceChild(newChild As XmlNode, oldChild As XmlNode) As XmlNode
     parameters:
     - id: newChild
       type: System.Xml.XmlNode
+      description: "\n<p>The new node to put in the child list. </p>\n"
     - id: oldChild
       type: System.Xml.XmlNode
+      description: "\n<p>The node being replaced in the list. </p>\n"
     return:
       type: System.Xml.XmlNode
+      description: "\n<p>The node replaced.</p>\n"
+  exceptions:
+  - type: System.InvalidOperationException
+    commentId: T:System.InvalidOperationException
+    description: "\n<p>This node is of a type that does not allow child nodes of the type of the <em>newChild</em> node.</p>\n<p>The <em>newChild</em> is an ancestor of this node. </p>\n"
+  - type: System.ArgumentException
+    commentId: T:System.ArgumentException
+    description: "\n<p>The <em>newChild</em> was created from a different document than the one that created this node.</p>\n<p>This node is read-only.</p>\n<p>The <em>oldChild</em> is not a child of this node. </p>\n"
+  seealso:
+  - type: System.Xml.XmlDocument.ImportNode(System.Xml.XmlNode,System.Boolean)
+    commentId: M:System.Xml.XmlDocument.ImportNode(System.Xml.XmlNode,System.Boolean)
   modifiers.csharp:
   - public
   - virtual
@@ -1321,22 +1580,61 @@ items:
   assemblies:
   - System.Xml.XmlDocument
   namespace: System.Xml
+  summary: "\n<p>Tests if the DOM implementation implements a specific feature.</p>\n"
   syntax:
     content: public virtual bool Supports(string feature, string version)
     content.vb: Public Overridable Function Supports(feature As String, version As String) As Boolean
     parameters:
     - id: feature
       type: System.String
+      description: "\n<p>The package name of the feature to test. This name is not case-sensitive. </p>\n"
     - id: version
       type: System.String
+      description: "\n<p>The version number of the package name to test. If the version is not specified (null), supporting any version of the feature causes the method to return true. </p>\n"
     return:
       type: System.Boolean
+      description: "\n<p>\n<strong>true</strong> if the feature is implemented in the specified version; otherwise, <strong>false</strong>. The following table describes the combinations that return <strong>true</strong>.</p>\n<p>Feature </p>\n<p>Version </p>\n<table><tbody><tr><td>\n<p>XML </p>\n</td><td>\n<p>1.0 </p>\n</td></tr><tr><td>\n<p>XML </p>\n</td><td>\n<p>2.0 </p>\n</td></tr></tbody></table>\n"
   modifiers.csharp:
   - public
   - virtual
   modifiers.vb:
   - Public
   - Overridable
+- uid: System.Xml.XmlNode.System#Collections#IEnumerable#GetEnumerator
+  commentId: M:System.Xml.XmlNode.System#Collections#IEnumerable#GetEnumerator
+  id: System#Collections#IEnumerable#GetEnumerator
+  isEii: true
+  parent: System.Xml.XmlNode
+  langs:
+  - csharp
+  - vb
+  name: IEnumerable.GetEnumerator()
+  fullName: System.Xml.XmlNode.System.Collections.IEnumerable.GetEnumerator()
+  type: Method
+  source:
+    remote:
+      path: src/System.Xml.XmlDocument/ref/System.Xml.XmlDocument.cs
+      branch: master
+      repo: https://github.com/dotnet/corefx.git
+    id: System.Collections.IEnumerable.GetEnumerator
+    path: src/System.Xml.XmlDocument/ref/System.Xml.XmlDocument.cs
+    startLine: 280
+  assemblies:
+  - System.Xml.XmlDocument
+  namespace: System.Xml
+  summary: "\n<p>For a description of this member, see <xref href=\"System.Xml.XmlNode.GetEnumerator\" data-throw-if-not-resolved=\"false\"></xref>.</p>\n"
+  remarks: "\n<p>This member is an explicit interface member implementation. It can be used only when the <xref href=\"System.Xml.XmlNode\" data-throw-if-not-resolved=\"false\"></xref> instance is cast to an <xref href=\"System.Collections.IEnumerable\" data-throw-if-not-resolved=\"false\"></xref> interface.</p>\n"
+  example:
+  - 
+  syntax:
+    content: IEnumerator IEnumerable.GetEnumerator()
+    content.vb: Function System.Collections.IEnumerable.GetEnumerator As IEnumerator Implements IEnumerable.GetEnumerator
+    return:
+      type: System.Collections.IEnumerator
+      description: "\n<p>Returns an enumerator for the collection.</p>\n"
+  implements:
+  - System.Collections.IEnumerable.GetEnumerator
+  name.vb: System.Collections.IEnumerable.GetEnumerator()
 - uid: System.Xml.XmlNode.WriteContentTo(System.Xml.XmlWriter)
   commentId: M:System.Xml.XmlNode.WriteContentTo(System.Xml.XmlWriter)
   id: WriteContentTo(System.Xml.XmlWriter)
@@ -1358,12 +1656,20 @@ items:
   assemblies:
   - System.Xml.XmlDocument
   namespace: System.Xml
+  summary: "\n<p>Saves all the child nodes of the node to the specified <xref href=\"System.Xml.XmlWriter\" data-throw-if-not-resolved=\"false\"></xref>, when overridden in a derived class.</p>\n"
+  remarks: "\n<p>This method is a Microsoft extension to the Document Object Model (DOM). It is functionally equivalent to the <xref href=\"System.Xml.XmlNode.InnerXml\" data-throw-if-not-resolved=\"false\"></xref> property.</p>\n"
+  example:
+  - "\n<p>The following example displays the contents of the root node to the console.</p>Classic WebData XmlNode.WriteContentTo Example#1"
   syntax:
     content: public abstract void WriteContentTo(XmlWriter w)
     content.vb: Public MustOverride Sub WriteContentTo(w As XmlWriter)
     parameters:
     - id: w
       type: System.Xml.XmlWriter
+      description: "\n<p>The <strong>XmlWriter</strong> to which you want to save. </p>\n"
+  seealso:
+  - type: System.Xml.XmlNode.WriteTo(System.Xml.XmlWriter)
+    commentId: M:System.Xml.XmlNode.WriteTo(System.Xml.XmlWriter)
   modifiers.csharp:
   - public
   - abstract
@@ -1391,12 +1697,17 @@ items:
   assemblies:
   - System.Xml.XmlDocument
   namespace: System.Xml
+  summary: "\n<p>Saves the current node to the specified <xref href=\"System.Xml.XmlWriter\" data-throw-if-not-resolved=\"false\"></xref>, when overridden in a derived class.</p>\n"
+  remarks: "\n<p>This method is a Microsoft extension to the Document Object Model (DOM). It is functionally equivalent to the <xref href=\"System.Xml.XmlNode.OuterXml\" data-throw-if-not-resolved=\"false\"></xref> property.</p>\n"
+  example:
+  - "\n<p>The following example displays the root node to the console.</p>Classic WebData XmlNode.WriteTo Example#1"
   syntax:
     content: public abstract void WriteTo(XmlWriter w)
     content.vb: Public MustOverride Sub WriteTo(w As XmlWriter)
     parameters:
     - id: w
       type: System.Xml.XmlWriter
+      description: "\n<p>The <strong>XmlWriter</strong> to which you want to save. </p>\n"
   modifiers.csharp:
   - public
   - abstract
@@ -1413,10 +1724,228 @@ references:
   isExternal: false
   name: Object
   fullName: System.Object
+- uid: System.Collections.IEnumerable
+  parent: System.Collections
+  isExternal: false
+  name: IEnumerable
+  fullName: System.Collections.IEnumerable
+- uid: System.Object.ToString
+  parent: System.Object
+  isExternal: true
+  name: ToString()
+  fullName: System.Object.ToString()
+  spec.csharp:
+  - uid: System.Object.ToString
+    name: ToString
+    fullName: System.Object.ToString
+    isExternal: true
+  - name: (
+    fullName: (
+  - name: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.ToString
+    name: ToString
+    fullName: System.Object.ToString
+    isExternal: true
+  - name: (
+    fullName: (
+  - name: )
+    fullName: )
+- uid: System.Object.Equals(System.Object)
+  parent: System.Object
+  isExternal: true
+  name: Equals(Object)
+  fullName: System.Object.Equals(System.Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    fullName: )
+- uid: System.Object.Equals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  name: Equals(Object, Object)
+  fullName: System.Object.Equals(System.Object, System.Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    fullName: )
+- uid: System.Object.ReferenceEquals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  name: ReferenceEquals(Object, Object)
+  fullName: System.Object.ReferenceEquals(System.Object, System.Object)
+  spec.csharp:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    fullName: System.Object.ReferenceEquals
+    isExternal: true
+  - name: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    fullName: System.Object.ReferenceEquals
+    isExternal: true
+  - name: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    fullName: )
+- uid: System.Object.GetHashCode
+  parent: System.Object
+  isExternal: true
+  name: GetHashCode()
+  fullName: System.Object.GetHashCode()
+  spec.csharp:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    fullName: System.Object.GetHashCode
+    isExternal: true
+  - name: (
+    fullName: (
+  - name: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    fullName: System.Object.GetHashCode
+    isExternal: true
+  - name: (
+    fullName: (
+  - name: )
+    fullName: )
+- uid: System.Object.GetType
+  parent: System.Object
+  isExternal: true
+  name: GetType()
+  fullName: System.Object.GetType()
+  spec.csharp:
+  - uid: System.Object.GetType
+    name: GetType
+    fullName: System.Object.GetType
+    isExternal: true
+  - name: (
+    fullName: (
+  - name: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.GetType
+    name: GetType
+    fullName: System.Object.GetType
+    isExternal: true
+  - name: (
+    fullName: (
+  - name: )
+    fullName: )
+- uid: System.Object.MemberwiseClone
+  parent: System.Object
+  isExternal: true
+  name: MemberwiseClone()
+  fullName: System.Object.MemberwiseClone()
+  spec.csharp:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    fullName: System.Object.MemberwiseClone
+    isExternal: true
+  - name: (
+    fullName: (
+  - name: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    fullName: System.Object.MemberwiseClone
+    isExternal: true
+  - name: (
+    fullName: (
+  - name: )
+    fullName: )
 - uid: System
   isExternal: false
   name: System
   fullName: System
+- uid: System.Collections
+  isExternal: false
+  name: System.Collections
+  fullName: System.Collections
 - uid: System.Xml.XmlAttributeCollection
   parent: System.Xml
   isExternal: false
@@ -1460,14 +1989,45 @@ references:
 - uid: System.Collections.IEnumerator
   parent: System.Collections
   isExternal: false
-  name: Collections.IEnumerator
+  name: IEnumerator
   fullName: System.Collections.IEnumerator
-- uid: System.Collections
+- uid: System.Collections.IEnumerable.GetEnumerator
+  parent: System.Collections.IEnumerable
   isExternal: false
-  name: System.Collections
-  fullName: System.Collections
+  name: GetEnumerator()
+  fullName: System.Collections.IEnumerable.GetEnumerator()
+  spec.csharp:
+  - uid: System.Collections.IEnumerable.GetEnumerator
+    name: GetEnumerator
+    fullName: System.Collections.IEnumerable.GetEnumerator
+  - name: (
+    fullName: (
+  - name: )
+    fullName: )
+  spec.vb:
+  - uid: System.Collections.IEnumerable.GetEnumerator
+    name: GetEnumerator
+    fullName: System.Collections.IEnumerable.GetEnumerator
+  - name: (
+    fullName: (
+  - name: )
+    fullName: )
 - uid: System.Xml.XmlWriter
   parent: System.Xml
   isExternal: false
   name: XmlWriter
   fullName: System.Xml.XmlWriter
+- uid: System.InvalidOperationException
+  parent: System
+  isExternal: false
+  name: InvalidOperationException
+  fullName: System.InvalidOperationException
+- uid: System.Xml.XmlException
+  isExternal: false
+  name: XmlException
+  fullName: System.Xml.XmlException
+- uid: System.ArgumentException
+  parent: System
+  isExternal: false
+  name: ArgumentException
+  fullName: System.ArgumentException

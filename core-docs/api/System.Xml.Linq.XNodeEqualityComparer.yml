@@ -7,6 +7,8 @@ items:
   - System.Xml.Linq.XNodeEqualityComparer.#ctor
   - System.Xml.Linq.XNodeEqualityComparer.Equals(System.Xml.Linq.XNode,System.Xml.Linq.XNode)
   - System.Xml.Linq.XNodeEqualityComparer.GetHashCode(System.Xml.Linq.XNode)
+  - System.Xml.Linq.XNodeEqualityComparer.System#Collections#IEqualityComparer#Equals(System.Object,System.Object)
+  - System.Xml.Linq.XNodeEqualityComparer.System#Collections#IEqualityComparer#GetHashCode(System.Object)
   langs:
   - csharp
   - vb
@@ -24,16 +26,28 @@ items:
   assemblies:
   - System.Xml.XDocument
   namespace: System.Xml.Linq
+  summary: "\n<p>Compares nodes to determine whether they are equal. This class cannot be inherited. </p>\n"
+  remarks: "\n<p>The purpose of this class is to implement <xref href=\"System.Collections.IEqualityComparer\" data-throw-if-not-resolved=\"false\"></xref> and <xref href=\"System.Collections.Generic.IEqualityComparer`1\" data-throw-if-not-resolved=\"false\"></xref>. Classes that require identity (such as <xref href=\"System.Collections.Generic.Dictionary`2\" data-throw-if-not-resolved=\"false\"></xref> ) require an instance of a class that implements one of these interfaces. </p>\n"
+  example:
+  - 
   syntax:
-    content: 'public sealed class XNodeEqualityComparer : Collections.Generic.IEqualityComparer<XNode>, Collections.IEqualityComparer'
+    content: 'public sealed class XNodeEqualityComparer : IEqualityComparer<XNode>, IEqualityComparer'
     content.vb: >-
       Public NotInheritable Class XNodeEqualityComparer
-          Inherits Collections.Generic.IEqualityComparer(Of XNode)
-          Implements Collections.IEqualityComparer
+          Implements IEqualityComparer(Of XNode), IEqualityComparer
   inheritance:
   - System.Object
   implements:
+  - System.Collections.Generic.IEqualityComparer{System.Xml.Linq.XNode}
   - System.Collections.IEqualityComparer
+  inheritedMembers:
+  - System.Object.ToString
+  - System.Object.Equals(System.Object)
+  - System.Object.Equals(System.Object,System.Object)
+  - System.Object.ReferenceEquals(System.Object,System.Object)
+  - System.Object.GetHashCode
+  - System.Object.GetType
+  - System.Object.MemberwiseClone
   modifiers.csharp:
   - public
   - sealed
@@ -63,6 +77,9 @@ items:
   assemblies:
   - System.Xml.XDocument
   namespace: System.Xml.Linq
+  summary: "\n<p>Initializes a new instance of the <xref href=\"System.Xml.Linq.XNodeEqualityComparer\" data-throw-if-not-resolved=\"false\"></xref> class. </p>\n"
+  example:
+  - "\n<p>The following example uses this class to determine whether two nodes are equal.</p>\n<pre><code class=\"c#\">XElement xmlTree1 = new XElement(\"Root\",\nnew XAttribute(\"Att1\", 1),\nnew XAttribute(\"Att2\", 2),\nnew XElement(\"Child1\", 1),\nnew XElement(\"Child2\", \"some content\")\n);\nXElement xmlTree2 = new XElement(\"Root\",\nnew XAttribute(\"Att1\", 1),\nnew XAttribute(\"Att2\", 2),\nnew XElement(\"Child1\", 1),\nnew XElement(\"Child2\", \"some content\")\n);\nXNodeEqualityComparer equalityComparer = new XNodeEqualityComparer();\nConsole.WriteLine(equalityComparer.Equals(xmlTree1, xmlTree2));\nxmlTree2.Add(new XElement(\"NewChild\", \"new content\"));\nConsole.WriteLine(equalityComparer.Equals(xmlTree1, xmlTree2));</code></pre>\n<p>This example produces the following output:</p>\n<pre><code>True\nFalse</code></pre>\n"
   syntax:
     content: public XNodeEqualityComparer()
     content.vb: Public Sub New
@@ -91,16 +108,25 @@ items:
   assemblies:
   - System.Xml.XDocument
   namespace: System.Xml.Linq
+  summary: "\n<p>Compares the values of two nodes.</p>\n"
+  remarks: "\n<p>The following criteria determine whether two nodes are equal:</p>\n<ul><li>\n<p>A <strong>null</strong> node is equal to another <strong>null</strong> node but unequal to a non-<strong>null</strong> node. </p>\n</li><li>\n<p>Two <xref href=\"System.Xml.Linq.XNode\" data-throw-if-not-resolved=\"false\"></xref> objects of different types are never equal. </p>\n</li><li>\n<p>Two <xref href=\"System.Xml.Linq.XText\" data-throw-if-not-resolved=\"false\"></xref> nodes are equal if they contain the same text. </p>\n</li><li>\n<p>Two <xref href=\"System.Xml.Linq.XElement\" data-throw-if-not-resolved=\"false\"></xref> nodes are equal if they have the same tag name, the same set of attributes with the same values, and (ignoring comments and processing instructions), contain two equal-length sequences of pairwise equal content nodes. </p>\n</li><li>\n<p>Two <xref href=\"System.Xml.Linq.XDocument\" data-throw-if-not-resolved=\"false\"></xref> objects are equal if their root nodes are equal. </p>\n</li><li>\n<p>Two <xref href=\"System.Xml.Linq.XComment\" data-throw-if-not-resolved=\"false\"></xref> nodes are equal if they contain the same comment text. </p>\n</li><li>\n<p>Two <xref href=\"System.Xml.Linq.XProcessingInstruction\" data-throw-if-not-resolved=\"false\"></xref> nodes are equal if they have the same target and data. </p>\n</li><li>\n<p>Two <xref href=\"System.Xml.Linq.XDocumentType\" data-throw-if-not-resolved=\"false\"></xref> nodes are equal if the have the same name, public ID, system ID, and internal subset.</p>\n</li></ul>\n"
+  example:
+  - "\n<p>The following example uses this class to compare two nodes.</p>\n<pre><code class=\"c#\">XElement xmlTree1 = new XElement(\"Root\",\nnew XAttribute(\"Att1\", 1),\nnew XAttribute(\"Att2\", 2),\nnew XElement(\"Child1\", 1),\nnew XElement(\"Child2\", \"some content\")\n);\nXElement xmlTree2 = new XElement(\"Root\",\nnew XAttribute(\"Att1\", 1),\nnew XAttribute(\"Att2\", 2),\nnew XElement(\"Child1\", 1),\nnew XElement(\"Child2\", \"some content\")\n);\nXNodeEqualityComparer equalityComparer = new XNodeEqualityComparer();\nConsole.WriteLine(equalityComparer.Equals(xmlTree1, xmlTree2));\nxmlTree2.Add(new XElement(\"NewChild\", \"new content\"));\nConsole.WriteLine(equalityComparer.Equals(xmlTree1, xmlTree2));</code></pre>\n<p>This example produces the following output:</p>\n<pre><code>True\nFalse</code></pre>\n"
   syntax:
     content: public bool Equals(XNode x, XNode y)
     content.vb: Public Function Equals(x As XNode, y As XNode) As Boolean
     parameters:
     - id: x
       type: System.Xml.Linq.XNode
+      description: "\n<p>The first <xref href=\"System.Xml.Linq.XNode\" data-throw-if-not-resolved=\"false\"></xref> to compare.</p>\n"
     - id: y
       type: System.Xml.Linq.XNode
+      description: "\n<p>The second <xref href=\"System.Xml.Linq.XNode\" data-throw-if-not-resolved=\"false\"></xref> to compare.</p>\n"
     return:
       type: System.Boolean
+      description: "\n<p>A <xref href=\"System.Boolean\" data-throw-if-not-resolved=\"false\"></xref> indicating if the nodes are equal.</p>\n"
+  implements:
+  - System.Collections.Generic.IEqualityComparer{System.Xml.Linq.XNode}.Equals(System.Xml.Linq.XNode,System.Xml.Linq.XNode)
   modifiers.csharp:
   - public
   modifiers.vb:
@@ -126,18 +152,107 @@ items:
   assemblies:
   - System.Xml.XDocument
   namespace: System.Xml.Linq
+  summary: "\n<p>Returns a hash code based on an <xref href=\"System.Xml.Linq.XNode\" data-throw-if-not-resolved=\"false\"></xref>.</p>\n"
+  remarks: "\n<p>The <xref href=\"System.Xml.Linq.XNode\" data-throw-if-not-resolved=\"false\"></xref> implementation of  <xref href=\"System.Object.GetHashCode\" data-throw-if-not-resolved=\"false\"></xref> is based on the referential identity of the node. This method computes a deep hash code based on the value of the node and all descendants. The hash code reflects all attributes and all descendent nodes.</p>\n"
+  example:
+  - "\n<p>The following example uses this method to get a deep hash code for an XML tree.</p>\n<pre><code class=\"c#\">XElement xmlTree = new XElement(\"Root\",\nnew XAttribute(\"Att1\", 1),\nnew XAttribute(\"Att2\", 2),\nnew XElement(\"Child1\", 1),\nnew XElement(\"Child2\", \"some content\")\n);\nXNodeEqualityComparer equalityComparer = new XNodeEqualityComparer();\nConsole.WriteLine(\"HashCode: {0}\", equalityComparer.GetHashCode(xmlTree).ToString(\"X\"));\nxmlTree.Add(new XElement(\"NewChild\", \"new content\"));\nConsole.WriteLine(\"HashCode: {0}\", equalityComparer.GetHashCode(xmlTree).ToString(\"X\"));</code></pre>\n<p>This example produces the following output:</p>\n<pre><code>HashCode: 958CCD0\nHashCode: AD26516B</code></pre>\n"
   syntax:
     content: public int GetHashCode(XNode obj)
     content.vb: Public Function GetHashCode(obj As XNode) As Integer
     parameters:
     - id: obj
       type: System.Xml.Linq.XNode
+      description: "\n<p>The <xref href=\"System.Xml.Linq.XNode\" data-throw-if-not-resolved=\"false\"></xref> to hash.</p>\n"
     return:
       type: System.Int32
+      description: "\n<p>A <xref href=\"System.Int32\" data-throw-if-not-resolved=\"false\"></xref> that contains a value-based hash code for the node.</p>\n"
+  implements:
+  - System.Collections.Generic.IEqualityComparer{System.Xml.Linq.XNode}.GetHashCode(System.Xml.Linq.XNode)
   modifiers.csharp:
   - public
   modifiers.vb:
   - Public
+- uid: System.Xml.Linq.XNodeEqualityComparer.System#Collections#IEqualityComparer#Equals(System.Object,System.Object)
+  commentId: M:System.Xml.Linq.XNodeEqualityComparer.System#Collections#IEqualityComparer#Equals(System.Object,System.Object)
+  id: System#Collections#IEqualityComparer#Equals(System.Object,System.Object)
+  isEii: true
+  parent: System.Xml.Linq.XNodeEqualityComparer
+  langs:
+  - csharp
+  - vb
+  name: IEqualityComparer.Equals(Object, Object)
+  fullName: System.Xml.Linq.XNodeEqualityComparer.System.Collections.IEqualityComparer.Equals(System.Object, System.Object)
+  type: Method
+  source:
+    remote:
+      path: src/System.Xml.XDocument/ref/System.Xml.XDocument.cs
+      branch: master
+      repo: https://github.com/dotnet/corefx.git
+    id: System.Collections.IEqualityComparer.Equals
+    path: src/System.Xml.XDocument/ref/System.Xml.XDocument.cs
+    startLine: 385
+  assemblies:
+  - System.Xml.XDocument
+  namespace: System.Xml.Linq
+  summary: "\n<p>Compares the values of two nodes.</p>\n"
+  remarks: "\n<p>The following criteria determine whether two nodes are equal:</p>\n<ul><li>\n<p>A <strong>null</strong> node is equal to another <strong>null</strong> node but unequal to a non-<strong>null</strong> node. </p>\n</li><li>\n<p>Two <xref href=\"System.Xml.Linq.XNode\" data-throw-if-not-resolved=\"false\"></xref> objects of different types are never equal. </p>\n</li><li>\n<p>Two <xref href=\"System.Xml.Linq.XText\" data-throw-if-not-resolved=\"false\"></xref> nodes are equal if they contain the same text. </p>\n</li><li>\n<p>Two <xref href=\"System.Xml.Linq.XElement\" data-throw-if-not-resolved=\"false\"></xref> nodes are equal if they have the same tag name, the same set of attributes with the same values, and (ignoring comments and processing instructions), contain two equa-length sequences of pairwise equal content nodes. </p>\n</li><li>\n<p>Two <xref href=\"System.Xml.Linq.XDocument\" data-throw-if-not-resolved=\"false\"></xref> objects are equal if their root nodes are equal. </p>\n</li><li>\n<p>Two <xref href=\"System.Xml.Linq.XComment\" data-throw-if-not-resolved=\"false\"></xref> nodes are equal if they contain the same comment text. </p>\n</li><li>\n<p>Two <xref href=\"System.Xml.Linq.XProcessingInstruction\" data-throw-if-not-resolved=\"false\"></xref> nodes are equal if they have the same target and data. </p>\n</li><li>\n<p>Two <xref href=\"System.Xml.Linq.XDocumentType\" data-throw-if-not-resolved=\"false\"></xref> nodes are equal if the have the same name, public ID, system ID, and internal subset.</p>\n</li></ul>\n"
+  example:
+  - 
+  syntax:
+    content: bool IEqualityComparer.Equals(object x, object y)
+    content.vb: Function System.Collections.IEqualityComparer.Equals(x As Object, y As Object) As Boolean Implements IEqualityComparer.Equals
+    parameters:
+    - id: x
+      type: System.Object
+      description: "\n<p>The first <xref href=\"System.Xml.Linq.XNode\" data-throw-if-not-resolved=\"false\"></xref> to compare.</p>\n"
+    - id: y
+      type: System.Object
+      description: "\n<p>The second <xref href=\"System.Xml.Linq.XNode\" data-throw-if-not-resolved=\"false\"></xref> to compare.</p>\n"
+    return:
+      type: System.Boolean
+      description: "\n<p>\n<strong>true</strong> if the nodes are equal; otherwise <strong>false</strong>.</p>\n"
+  implements:
+  - System.Collections.IEqualityComparer.Equals(System.Object,System.Object)
+  name.vb: System.Collections.IEqualityComparer.Equals(Object, Object)
+- uid: System.Xml.Linq.XNodeEqualityComparer.System#Collections#IEqualityComparer#GetHashCode(System.Object)
+  commentId: M:System.Xml.Linq.XNodeEqualityComparer.System#Collections#IEqualityComparer#GetHashCode(System.Object)
+  id: System#Collections#IEqualityComparer#GetHashCode(System.Object)
+  isEii: true
+  parent: System.Xml.Linq.XNodeEqualityComparer
+  langs:
+  - csharp
+  - vb
+  name: IEqualityComparer.GetHashCode(Object)
+  fullName: System.Xml.Linq.XNodeEqualityComparer.System.Collections.IEqualityComparer.GetHashCode(System.Object)
+  type: Method
+  source:
+    remote:
+      path: src/System.Xml.XDocument/ref/System.Xml.XDocument.cs
+      branch: master
+      repo: https://github.com/dotnet/corefx.git
+    id: System.Collections.IEqualityComparer.GetHashCode
+    path: src/System.Xml.XDocument/ref/System.Xml.XDocument.cs
+    startLine: 386
+  assemblies:
+  - System.Xml.XDocument
+  namespace: System.Xml.Linq
+  summary: "\n<p>Returns a hash code based on the value of a node.</p>\n"
+  remarks: "\n<p>The <xref href=\"System.Xml.Linq.XNode\" data-throw-if-not-resolved=\"false\"></xref> implementation of <xref href=\"System.Object.GetHashCode\" data-throw-if-not-resolved=\"false\"></xref> is based on the referential identity of the node. This method computes a deep hash code based on the value of the node, its attributes, and its descendants.</p>\n"
+  example:
+  - 
+  syntax:
+    content: int IEqualityComparer.GetHashCode(object obj)
+    content.vb: Function System.Collections.IEqualityComparer.GetHashCode(obj As Object) As Integer Implements IEqualityComparer.GetHashCode
+    parameters:
+    - id: obj
+      type: System.Object
+      description: "\n<p>The node to hash.</p>\n"
+    return:
+      type: System.Int32
+      description: "\n<p>A <xref href=\"System.Int32\" data-throw-if-not-resolved=\"false\"></xref> that contains a value-based hash code for the node.</p>\n"
+  implements:
+  - System.Collections.IEqualityComparer.GetHashCode(System.Object)
+  name.vb: System.Collections.IEqualityComparer.GetHashCode(Object)
 references:
 - uid: System.Xml.Linq
   isExternal: false
@@ -148,19 +263,330 @@ references:
   isExternal: false
   name: Object
   fullName: System.Object
+- uid: System.Collections.Generic.IEqualityComparer{System.Xml.Linq.XNode}
+  parent: System.Collections.Generic
+  definition: System.Collections.Generic.IEqualityComparer`1
+  name: IEqualityComparer<XNode>
+  fullName: System.Collections.Generic.IEqualityComparer<System.Xml.Linq.XNode>
+  fullname.vb: System.Collections.Generic.IEqualityComparer(Of System.Xml.Linq.XNode)
+  name.vb: IEqualityComparer(Of XNode)
+  spec.csharp:
+  - uid: System.Collections.Generic.IEqualityComparer`1
+    name: IEqualityComparer
+    fullName: System.Collections.Generic.IEqualityComparer
+    isExternal: true
+  - name: <
+    fullName: <
+  - uid: System.Xml.Linq.XNode
+    name: XNode
+    fullName: System.Xml.Linq.XNode
+  - name: '>'
+    fullName: '>'
+  spec.vb:
+  - uid: System.Collections.Generic.IEqualityComparer`1
+    name: IEqualityComparer
+    fullName: System.Collections.Generic.IEqualityComparer
+    isExternal: true
+  - name: '(Of '
+    fullName: '(Of '
+  - uid: System.Xml.Linq.XNode
+    name: XNode
+    fullName: System.Xml.Linq.XNode
+  - name: )
+    fullName: )
 - uid: System.Collections.IEqualityComparer
   parent: System.Collections
   isExternal: false
-  name: Collections.IEqualityComparer
+  name: IEqualityComparer
   fullName: System.Collections.IEqualityComparer
+- uid: System.Object.ToString
+  parent: System.Object
+  isExternal: true
+  name: ToString()
+  fullName: System.Object.ToString()
+  spec.csharp:
+  - uid: System.Object.ToString
+    name: ToString
+    fullName: System.Object.ToString
+    isExternal: true
+  - name: (
+    fullName: (
+  - name: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.ToString
+    name: ToString
+    fullName: System.Object.ToString
+    isExternal: true
+  - name: (
+    fullName: (
+  - name: )
+    fullName: )
+- uid: System.Object.Equals(System.Object)
+  parent: System.Object
+  isExternal: true
+  name: Equals(Object)
+  fullName: System.Object.Equals(System.Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    fullName: )
+- uid: System.Object.Equals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  name: Equals(Object, Object)
+  fullName: System.Object.Equals(System.Object, System.Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    fullName: )
+- uid: System.Object.ReferenceEquals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  name: ReferenceEquals(Object, Object)
+  fullName: System.Object.ReferenceEquals(System.Object, System.Object)
+  spec.csharp:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    fullName: System.Object.ReferenceEquals
+    isExternal: true
+  - name: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    fullName: System.Object.ReferenceEquals
+    isExternal: true
+  - name: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    fullName: )
+- uid: System.Object.GetHashCode
+  parent: System.Object
+  isExternal: true
+  name: GetHashCode()
+  fullName: System.Object.GetHashCode()
+  spec.csharp:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    fullName: System.Object.GetHashCode
+    isExternal: true
+  - name: (
+    fullName: (
+  - name: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    fullName: System.Object.GetHashCode
+    isExternal: true
+  - name: (
+    fullName: (
+  - name: )
+    fullName: )
+- uid: System.Object.GetType
+  parent: System.Object
+  isExternal: true
+  name: GetType()
+  fullName: System.Object.GetType()
+  spec.csharp:
+  - uid: System.Object.GetType
+    name: GetType
+    fullName: System.Object.GetType
+    isExternal: true
+  - name: (
+    fullName: (
+  - name: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.GetType
+    name: GetType
+    fullName: System.Object.GetType
+    isExternal: true
+  - name: (
+    fullName: (
+  - name: )
+    fullName: )
+- uid: System.Object.MemberwiseClone
+  parent: System.Object
+  isExternal: true
+  name: MemberwiseClone()
+  fullName: System.Object.MemberwiseClone()
+  spec.csharp:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    fullName: System.Object.MemberwiseClone
+    isExternal: true
+  - name: (
+    fullName: (
+  - name: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    fullName: System.Object.MemberwiseClone
+    isExternal: true
+  - name: (
+    fullName: (
+  - name: )
+    fullName: )
 - uid: System
   isExternal: false
   name: System
   fullName: System
+- uid: System.Collections.Generic.IEqualityComparer`1
+  parent: System.Collections.Generic
+  isExternal: false
+  name: IEqualityComparer<T>
+  fullName: System.Collections.Generic.IEqualityComparer<T>
+  fullname.vb: System.Collections.Generic.IEqualityComparer(Of T)
+  name.vb: IEqualityComparer(Of T)
+  spec.csharp:
+  - uid: System.Collections.Generic.IEqualityComparer`1
+    name: IEqualityComparer
+    fullName: System.Collections.Generic.IEqualityComparer
+  - name: <
+    fullName: <
+  - name: T
+    fullName: T
+  - name: '>'
+    fullName: '>'
+  spec.vb:
+  - uid: System.Collections.Generic.IEqualityComparer`1
+    name: IEqualityComparer
+    fullName: System.Collections.Generic.IEqualityComparer
+  - name: '(Of '
+    fullName: '(Of '
+  - name: T
+    fullName: T
+  - name: )
+    fullName: )
+- uid: System.Collections.Generic
+  isExternal: false
+  name: System.Collections.Generic
+  fullName: System.Collections.Generic
 - uid: System.Collections
   isExternal: false
   name: System.Collections
   fullName: System.Collections
+- uid: System.Collections.Generic.IEqualityComparer{System.Xml.Linq.XNode}.Equals(System.Xml.Linq.XNode,System.Xml.Linq.XNode)
+  parent: System.Collections.Generic.IEqualityComparer{System.Xml.Linq.XNode}
+  definition: System.Collections.Generic.IEqualityComparer`1.Equals(`0,`0)
+  name: Equals(XNode, XNode)
+  fullName: System.Collections.Generic.IEqualityComparer<System.Xml.Linq.XNode>.Equals(System.Xml.Linq.XNode, System.Xml.Linq.XNode)
+  fullname.vb: System.Collections.Generic.IEqualityComparer(Of System.Xml.Linq.XNode).Equals(System.Xml.Linq.XNode, System.Xml.Linq.XNode)
+  spec.csharp:
+  - uid: System.Collections.Generic.IEqualityComparer`1.Equals(`0,`0)
+    name: Equals
+    fullName: System.Collections.Generic.IEqualityComparer<System.Xml.Linq.XNode>.Equals
+    isExternal: true
+  - name: (
+    fullName: (
+  - uid: System.Xml.Linq.XNode
+    name: XNode
+    fullName: System.Xml.Linq.XNode
+  - name: ', '
+    fullName: ', '
+  - uid: System.Xml.Linq.XNode
+    name: XNode
+    fullName: System.Xml.Linq.XNode
+  - name: )
+    fullName: )
+  spec.vb:
+  - uid: System.Collections.Generic.IEqualityComparer`1.Equals(`0,`0)
+    name: Equals
+    fullName: System.Collections.Generic.IEqualityComparer(Of System.Xml.Linq.XNode).Equals
+    isExternal: true
+  - name: (
+    fullName: (
+  - uid: System.Xml.Linq.XNode
+    name: XNode
+    fullName: System.Xml.Linq.XNode
+  - name: ', '
+    fullName: ', '
+  - uid: System.Xml.Linq.XNode
+    name: XNode
+    fullName: System.Xml.Linq.XNode
+  - name: )
+    fullName: )
 - uid: System.Xml.Linq.XNode
   parent: System.Xml.Linq
   isExternal: false
@@ -171,8 +597,176 @@ references:
   isExternal: false
   name: Boolean
   fullName: System.Boolean
+- uid: System.Collections.Generic.IEqualityComparer`1.Equals(`0,`0)
+  parent: System.Collections.Generic.IEqualityComparer`1
+  isExternal: true
+  name: Equals(T, T)
+  fullName: System.Collections.Generic.IEqualityComparer<T>.Equals(T, T)
+  fullname.vb: System.Collections.Generic.IEqualityComparer(Of T).Equals(T, T)
+  spec.csharp:
+  - uid: System.Collections.Generic.IEqualityComparer`1.Equals(`0,`0)
+    name: Equals
+    fullName: System.Collections.Generic.IEqualityComparer<T>.Equals
+    isExternal: true
+  - name: (
+    fullName: (
+  - name: T
+    fullName: T
+  - name: ', '
+    fullName: ', '
+  - name: T
+    fullName: T
+  - name: )
+    fullName: )
+  spec.vb:
+  - uid: System.Collections.Generic.IEqualityComparer`1.Equals(`0,`0)
+    name: Equals
+    fullName: System.Collections.Generic.IEqualityComparer(Of T).Equals
+    isExternal: true
+  - name: (
+    fullName: (
+  - name: T
+    fullName: T
+  - name: ', '
+    fullName: ', '
+  - name: T
+    fullName: T
+  - name: )
+    fullName: )
+- uid: System.Collections.Generic.IEqualityComparer{System.Xml.Linq.XNode}.GetHashCode(System.Xml.Linq.XNode)
+  parent: System.Collections.Generic.IEqualityComparer{System.Xml.Linq.XNode}
+  definition: System.Collections.Generic.IEqualityComparer`1.GetHashCode(`0)
+  name: GetHashCode(XNode)
+  fullName: System.Collections.Generic.IEqualityComparer<System.Xml.Linq.XNode>.GetHashCode(System.Xml.Linq.XNode)
+  fullname.vb: System.Collections.Generic.IEqualityComparer(Of System.Xml.Linq.XNode).GetHashCode(System.Xml.Linq.XNode)
+  spec.csharp:
+  - uid: System.Collections.Generic.IEqualityComparer`1.GetHashCode(`0)
+    name: GetHashCode
+    fullName: System.Collections.Generic.IEqualityComparer<System.Xml.Linq.XNode>.GetHashCode
+    isExternal: true
+  - name: (
+    fullName: (
+  - uid: System.Xml.Linq.XNode
+    name: XNode
+    fullName: System.Xml.Linq.XNode
+  - name: )
+    fullName: )
+  spec.vb:
+  - uid: System.Collections.Generic.IEqualityComparer`1.GetHashCode(`0)
+    name: GetHashCode
+    fullName: System.Collections.Generic.IEqualityComparer(Of System.Xml.Linq.XNode).GetHashCode
+    isExternal: true
+  - name: (
+    fullName: (
+  - uid: System.Xml.Linq.XNode
+    name: XNode
+    fullName: System.Xml.Linq.XNode
+  - name: )
+    fullName: )
 - uid: System.Int32
   parent: System
   isExternal: false
   name: Int32
   fullName: System.Int32
+- uid: System.Collections.Generic.IEqualityComparer`1.GetHashCode(`0)
+  parent: System.Collections.Generic.IEqualityComparer`1
+  isExternal: true
+  name: GetHashCode(T)
+  fullName: System.Collections.Generic.IEqualityComparer<T>.GetHashCode(T)
+  fullname.vb: System.Collections.Generic.IEqualityComparer(Of T).GetHashCode(T)
+  spec.csharp:
+  - uid: System.Collections.Generic.IEqualityComparer`1.GetHashCode(`0)
+    name: GetHashCode
+    fullName: System.Collections.Generic.IEqualityComparer<T>.GetHashCode
+    isExternal: true
+  - name: (
+    fullName: (
+  - name: T
+    fullName: T
+  - name: )
+    fullName: )
+  spec.vb:
+  - uid: System.Collections.Generic.IEqualityComparer`1.GetHashCode(`0)
+    name: GetHashCode
+    fullName: System.Collections.Generic.IEqualityComparer(Of T).GetHashCode
+    isExternal: true
+  - name: (
+    fullName: (
+  - name: T
+    fullName: T
+  - name: )
+    fullName: )
+- uid: System.Collections.IEqualityComparer.Equals(System.Object,System.Object)
+  parent: System.Collections.IEqualityComparer
+  isExternal: true
+  name: Equals(Object, Object)
+  fullName: System.Collections.IEqualityComparer.Equals(System.Object, System.Object)
+  spec.csharp:
+  - uid: System.Collections.IEqualityComparer.Equals(System.Object,System.Object)
+    name: Equals
+    fullName: System.Collections.IEqualityComparer.Equals
+    isExternal: true
+  - name: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    fullName: )
+  spec.vb:
+  - uid: System.Collections.IEqualityComparer.Equals(System.Object,System.Object)
+    name: Equals
+    fullName: System.Collections.IEqualityComparer.Equals
+    isExternal: true
+  - name: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    fullName: )
+- uid: System.Collections.IEqualityComparer.GetHashCode(System.Object)
+  parent: System.Collections.IEqualityComparer
+  isExternal: true
+  name: GetHashCode(Object)
+  fullName: System.Collections.IEqualityComparer.GetHashCode(System.Object)
+  spec.csharp:
+  - uid: System.Collections.IEqualityComparer.GetHashCode(System.Object)
+    name: GetHashCode
+    fullName: System.Collections.IEqualityComparer.GetHashCode
+    isExternal: true
+  - name: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    fullName: )
+  spec.vb:
+  - uid: System.Collections.IEqualityComparer.GetHashCode(System.Object)
+    name: GetHashCode
+    fullName: System.Collections.IEqualityComparer.GetHashCode
+    isExternal: true
+  - name: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    fullName: )

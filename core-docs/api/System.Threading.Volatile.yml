@@ -40,24 +40,30 @@ items:
   type: Class
   source:
     remote:
-      path: src/System.Threading/ref/System.Threading.cs
+      path: src/mscorlib/src/System/Threading/Volatile.cs
       branch: master
-      repo: https://github.com/dotnet/corefx.git
+      repo: https://github.com/dotnet/coreclr.git
     id: Volatile
-    path: src/System.Threading/ref/System.Threading.cs
-    startLine: 341
+    path: src/mscorlib/src/System/Threading/Volatile.cs
+    startLine: 26
   assemblies:
   - System.Threading
   namespace: System.Threading
   summary: "\n<p>Contains methods for performing volatile memory operations.</p>\n"
   remarks: "\n<p>On a multiprocessor system, a volatile write operation ensures that a value written to a memory location is immediately visible to all processors. A volatile read operation obtains the very latest value written to a memory location by any processor. These operations might require flushing processor caches, which can affect performance. </p>\n<p>On a uniprocessor system, volatile reads and writes ensure that a value is read or written to memory and not cached (for example, in a processor register). Thus, you can use these operations to synchronize access to a field that can be updated by another thread or by hardware.</p>\n<p>Volatile memory operations are for special cases of synchronization, where normal locking is not an acceptable alternative. Under normal circumstances, the C# <strong>lock</strong> statement, the Visual Basic <strong>SyncLock</strong> statement, and the <xref href=\"System.Threading.Monitor\" data-throw-if-not-resolved=\"false\"></xref> class provide the easiest and least error-prone way of synchronizing access to data, and the <xref href=\"System.Lazy`1\" data-throw-if-not-resolved=\"false\"></xref> class provides a simple way to write lazy initialization code without directly using double-checked locking. </p>\n<p>The <xref href=\"System.Threading.Volatile.Read(System.Byte@)\" data-throw-if-not-resolved=\"false\"></xref> and <xref href=\"System.Threading.Volatile.Write(System.Byte@,System.Byte)\" data-throw-if-not-resolved=\"false\"></xref> methods enable functionality that is not supported in languages. For example:</p>\n<ul><li>\n<p>Some languages, such as Visual Basic, do not recognize the concept of volatile memory operations. The <xref href=\"System.Threading.Volatile\" data-throw-if-not-resolved=\"false\"></xref> class provides that functionality in such languages.</p>\n<p>Calling one of these methods affects only a single memory access. To provide effective synchronization for a field, all access to the field must use <xref href=\"System.Threading.Volatile.Read(System.Byte@)\" data-throw-if-not-resolved=\"false\"></xref> and <xref href=\"System.Threading.Volatile.Write(System.Byte@,System.Byte)\" data-throw-if-not-resolved=\"false\"></xref>.</p>\n</li><li>\n<p>In C#, using the <strong>volatile</strong> modifier on a field guarantees that every access to that field uses the <xref href=\"System.Threading.Volatile.Read(System.Byte@)\" data-throw-if-not-resolved=\"false\"></xref> and <xref href=\"System.Threading.Volatile.Write(System.Byte@,System.Byte)\" data-throw-if-not-resolved=\"false\"></xref> methods, but the <strong>volatile</strong> modifier cannot be applied to array elements. The <xref href=\"System.Threading.Volatile.Read(System.Byte@)\" data-throw-if-not-resolved=\"false\"></xref> and <xref href=\"System.Threading.Volatile.Write(System.Byte@,System.Byte)\" data-throw-if-not-resolved=\"false\"></xref> methods can be used on array elements.</p>\n</li></ul>\n"
   syntax:
-    content: 'public class Volatile : object'
-    content.vb: >-
-      Public Class Volatile
-          Inherits Object
+    content: public class Volatile
+    content.vb: Public Class Volatile
   inheritance:
   - System.Object
+  inheritedMembers:
+  - System.Object.ToString
+  - System.Object.Equals(System.Object)
+  - System.Object.Equals(System.Object,System.Object)
+  - System.Object.ReferenceEquals(System.Object,System.Object)
+  - System.Object.GetHashCode
+  - System.Object.GetType
+  - System.Object.MemberwiseClone
   modifiers.csharp:
   - public
   - class
@@ -76,27 +82,31 @@ items:
   type: Method
   source:
     remote:
-      path: src/System.Threading/ref/System.Threading.cs
+      path: src/mscorlib/src/System/Threading/Volatile.cs
       branch: master
-      repo: https://github.com/dotnet/corefx.git
+      repo: https://github.com/dotnet/coreclr.git
     id: Read
-    path: src/System.Threading/ref/System.Threading.cs
-    startLine: 343
+    path: src/mscorlib/src/System/Threading/Volatile.cs
+    startLine: 28
   assemblies:
   - System.Threading
   namespace: System.Threading
   summary: "\n<p>Reads the value of the specified field. On systems that require it, inserts a memory barrier that prevents the processor from reordering memory operations as follows: If a read or write appears after this method in the code, the processor cannot move it before this method. </p>\n"
   remarks: "\n<p>For more information, see the <xref href=\"System.Threading.Volatile\" data-throw-if-not-resolved=\"false\"></xref> class.</p>\n"
   syntax:
-    content: public static bool Read(ref bool location)
-    content.vb: Public Shared Function Read(ByRef location As Boolean) As Boolean
+    content: >-
+      [ReliabilityContract(Consistency.WillNotCorruptState, Cer.Success)]
+
+      public static bool Read(ref bool location)
+    content.vb: >-
+      <ReliabilityContract(Consistency.WillNotCorruptState, Cer.Success)>
+
+      Public Shared Function Read(ByRef location As Boolean) As Boolean
     parameters:
     - id: location
       type: System.Boolean
-      description: "\n<p>The field to read.</p>\n"
     return:
       type: System.Boolean
-      description: "\n<p>The value that was read. This value is the latest written by any processor in the computer, regardless of the number of processors or the state of processor cache. </p>\n"
   modifiers.csharp:
   - public
   - static
@@ -117,27 +127,31 @@ items:
   type: Method
   source:
     remote:
-      path: src/System.Threading/ref/System.Threading.cs
+      path: src/mscorlib/src/System/Threading/Volatile.cs
       branch: master
-      repo: https://github.com/dotnet/corefx.git
+      repo: https://github.com/dotnet/coreclr.git
     id: Read
-    path: src/System.Threading/ref/System.Threading.cs
-    startLine: 344
+    path: src/mscorlib/src/System/Threading/Volatile.cs
+    startLine: 51
   assemblies:
   - System.Threading
   namespace: System.Threading
   summary: "\n<p>Reads the value of the specified field. On systems that require it, inserts a memory barrier that prevents the processor from reordering memory operations as follows: If a read or write appears after this method in the code, the processor cannot move it before this method.</p>\n"
   remarks: "\n<p>For more information, see the <xref href=\"System.Threading.Volatile\" data-throw-if-not-resolved=\"false\"></xref> class.</p>\n"
   syntax:
-    content: public static byte Read(ref byte location)
-    content.vb: Public Shared Function Read(ByRef location As Byte) As Byte
+    content: >-
+      [ReliabilityContract(Consistency.WillNotCorruptState, Cer.Success)]
+
+      public static byte Read(ref byte location)
+    content.vb: >-
+      <ReliabilityContract(Consistency.WillNotCorruptState, Cer.Success)>
+
+      Public Shared Function Read(ByRef location As Byte) As Byte
     parameters:
     - id: location
       type: System.Byte
-      description: "\n<p>The field to read.</p>\n"
     return:
       type: System.Byte
-      description: "\n<p>The value that was read. This value is the latest written by any processor in the computer, regardless of the number of processors or the state of processor cache. </p>\n"
   modifiers.csharp:
   - public
   - static
@@ -158,27 +172,31 @@ items:
   type: Method
   source:
     remote:
-      path: src/System.Threading/ref/System.Threading.cs
+      path: src/mscorlib/src/System/Threading/Volatile.cs
       branch: master
-      repo: https://github.com/dotnet/corefx.git
+      repo: https://github.com/dotnet/coreclr.git
     id: Read
-    path: src/System.Threading/ref/System.Threading.cs
-    startLine: 345
+    path: src/mscorlib/src/System/Threading/Volatile.cs
+    startLine: 172
   assemblies:
   - System.Threading
   namespace: System.Threading
   summary: "\n<p>Reads the value of the specified field. On systems that require it, inserts a memory barrier that prevents the processor from reordering memory operations as follows: If a read or write appears after this method in the code, the processor cannot move it before this method.</p>\n"
   remarks: "\n<p>For more information, see the <xref href=\"System.Threading.Volatile\" data-throw-if-not-resolved=\"false\"></xref> class.</p>\n"
   syntax:
-    content: public static double Read(ref double location)
-    content.vb: Public Shared Function Read(ByRef location As Double) As Double
+    content: >-
+      [ReliabilityContract(Consistency.WillNotCorruptState, Cer.Success)]
+
+      public static double Read(ref double location)
+    content.vb: >-
+      <ReliabilityContract(Consistency.WillNotCorruptState, Cer.Success)>
+
+      Public Shared Function Read(ByRef location As Double) As Double
     parameters:
     - id: location
       type: System.Double
-      description: "\n<p>The field to read.</p>\n"
     return:
       type: System.Double
-      description: "\n<p>The value that was read. This value is the latest written by any processor in the computer, regardless of the number of processors or the state of processor cache. </p>\n"
   modifiers.csharp:
   - public
   - static
@@ -199,27 +217,31 @@ items:
   type: Method
   source:
     remote:
-      path: src/System.Threading/ref/System.Threading.cs
+      path: src/mscorlib/src/System/Threading/Volatile.cs
       branch: master
-      repo: https://github.com/dotnet/corefx.git
+      repo: https://github.com/dotnet/coreclr.git
     id: Read
-    path: src/System.Threading/ref/System.Threading.cs
-    startLine: 346
+    path: src/mscorlib/src/System/Threading/Volatile.cs
+    startLine: 62
   assemblies:
   - System.Threading
   namespace: System.Threading
   summary: "\n<p>Reads the value of the specified field. On systems that require it, inserts a memory barrier that prevents the processor from reordering memory operations as follows: If a read or write appears after this method in the code, the processor cannot move it before this method.</p>\n"
   remarks: "\n<p>For more information, see the <xref href=\"System.Threading.Volatile\" data-throw-if-not-resolved=\"false\"></xref> class.</p>\n"
   syntax:
-    content: public static short Read(ref short location)
-    content.vb: Public Shared Function Read(ByRef location As Short) As Short
+    content: >-
+      [ReliabilityContract(Consistency.WillNotCorruptState, Cer.Success)]
+
+      public static short Read(ref short location)
+    content.vb: >-
+      <ReliabilityContract(Consistency.WillNotCorruptState, Cer.Success)>
+
+      Public Shared Function Read(ByRef location As Short) As Short
     parameters:
     - id: location
       type: System.Int16
-      description: "\n<p>The field to read.</p>\n"
     return:
       type: System.Int16
-      description: "\n<p>The value that was read. This value is the latest written by any processor in the computer, regardless of the number of processors or the state of processor cache. </p>\n"
   modifiers.csharp:
   - public
   - static
@@ -240,27 +262,31 @@ items:
   type: Method
   source:
     remote:
-      path: src/System.Threading/ref/System.Threading.cs
+      path: src/mscorlib/src/System/Threading/Volatile.cs
       branch: master
-      repo: https://github.com/dotnet/corefx.git
+      repo: https://github.com/dotnet/coreclr.git
     id: Read
-    path: src/System.Threading/ref/System.Threading.cs
-    startLine: 347
+    path: src/mscorlib/src/System/Threading/Volatile.cs
+    startLine: 85
   assemblies:
   - System.Threading
   namespace: System.Threading
   summary: "\n<p>Reads the value of the specified field. On systems that require it, inserts a memory barrier that prevents the processor from reordering memory operations as follows: If a read or write appears after this method in the code, the processor cannot move it before this method.</p>\n"
   remarks: "\n<p>For more information, see the <xref href=\"System.Threading.Volatile\" data-throw-if-not-resolved=\"false\"></xref> class.</p>\n"
   syntax:
-    content: public static int Read(ref int location)
-    content.vb: Public Shared Function Read(ByRef location As Integer) As Integer
+    content: >-
+      [ReliabilityContract(Consistency.WillNotCorruptState, Cer.Success)]
+
+      public static int Read(ref int location)
+    content.vb: >-
+      <ReliabilityContract(Consistency.WillNotCorruptState, Cer.Success)>
+
+      Public Shared Function Read(ByRef location As Integer) As Integer
     parameters:
     - id: location
       type: System.Int32
-      description: "\n<p>The field to read.</p>\n"
     return:
       type: System.Int32
-      description: "\n<p>The value that was read. This value is the latest written by any processor in the computer, regardless of the number of processors or the state of processor cache. </p>\n"
   modifiers.csharp:
   - public
   - static
@@ -281,27 +307,31 @@ items:
   type: Method
   source:
     remote:
-      path: src/System.Threading/ref/System.Threading.cs
+      path: src/mscorlib/src/System/Threading/Volatile.cs
       branch: master
-      repo: https://github.com/dotnet/corefx.git
+      repo: https://github.com/dotnet/coreclr.git
     id: Read
-    path: src/System.Threading/ref/System.Threading.cs
-    startLine: 348
+    path: src/mscorlib/src/System/Threading/Volatile.cs
+    startLine: 108
   assemblies:
   - System.Threading
   namespace: System.Threading
   summary: "\n<p>Reads the value of the specified field. On systems that require it, inserts a memory barrier that prevents the processor from reordering memory operations as follows: If a read or write appears after this method in the code, the processor cannot move it before this method.</p>\n"
   remarks: "\n<p>For more information, see the <xref href=\"System.Threading.Volatile\" data-throw-if-not-resolved=\"false\"></xref> class.</p>\n"
   syntax:
-    content: public static long Read(ref long location)
-    content.vb: Public Shared Function Read(ByRef location As Long) As Long
+    content: >-
+      [ReliabilityContract(Consistency.WillNotCorruptState, Cer.Success)]
+
+      public static long Read(ref long location)
+    content.vb: >-
+      <ReliabilityContract(Consistency.WillNotCorruptState, Cer.Success)>
+
+      Public Shared Function Read(ByRef location As Long) As Long
     parameters:
     - id: location
       type: System.Int64
-      description: "\n<p>The field to read.</p>\n"
     return:
       type: System.Int64
-      description: "\n<p>The value that was read. This value is the latest written by any processor in the computer, regardless of the number of processors or the state of processor cache. </p>\n"
   modifiers.csharp:
   - public
   - static
@@ -322,27 +352,31 @@ items:
   type: Method
   source:
     remote:
-      path: src/System.Threading/ref/System.Threading.cs
+      path: src/mscorlib/src/System/Threading/Volatile.cs
       branch: master
-      repo: https://github.com/dotnet/corefx.git
+      repo: https://github.com/dotnet/coreclr.git
     id: Read
-    path: src/System.Threading/ref/System.Threading.cs
-    startLine: 349
+    path: src/mscorlib/src/System/Threading/Volatile.cs
+    startLine: 138
   assemblies:
   - System.Threading
   namespace: System.Threading
   summary: "\n<p>Reads the value of the specified field. On systems that require it, inserts a memory barrier that prevents the processor from reordering memory operations as follows: If a read or write appears after this method in the code, the processor cannot move it before this method.</p>\n"
   remarks: "\n<p>For more information, see the <xref href=\"System.Threading.Volatile\" data-throw-if-not-resolved=\"false\"></xref> class.</p>\n"
   syntax:
-    content: public static IntPtr Read(ref IntPtr location)
-    content.vb: Public Shared Function Read(ByRef location As IntPtr) As IntPtr
+    content: >-
+      [ReliabilityContract(Consistency.WillNotCorruptState, Cer.Success)]
+
+      public static IntPtr Read(ref IntPtr location)
+    content.vb: >-
+      <ReliabilityContract(Consistency.WillNotCorruptState, Cer.Success)>
+
+      Public Shared Function Read(ByRef location As IntPtr) As IntPtr
     parameters:
     - id: location
       type: System.IntPtr
-      description: "\n<p>The field to read.</p>\n"
     return:
       type: System.IntPtr
-      description: "\n<p>The value that was read. This value is the latest written by any processor in the computer, regardless of the number of processors or the state of processor cache. </p>\n"
   modifiers.csharp:
   - public
   - static
@@ -363,27 +397,41 @@ items:
   type: Method
   source:
     remote:
-      path: src/System.Threading/ref/System.Threading.cs
+      path: src/mscorlib/src/System/Threading/Volatile.cs
       branch: master
-      repo: https://github.com/dotnet/corefx.git
+      repo: https://github.com/dotnet/coreclr.git
     id: Read
-    path: src/System.Threading/ref/System.Threading.cs
-    startLine: 350
+    path: src/mscorlib/src/System/Threading/Volatile.cs
+    startLine: 39
   assemblies:
   - System.Threading
   namespace: System.Threading
   summary: "\n<p>Reads the value of the specified field. On systems that require it, inserts a memory barrier that prevents the processor from reordering memory operations as follows: If a read or write appears after this method in the code, the processor cannot move it before this method.</p>\n"
   remarks: "\n<p>For more information, see the <xref href=\"System.Threading.Volatile\" data-throw-if-not-resolved=\"false\"></xref> class.</p>\n"
   syntax:
-    content: public static sbyte Read(ref sbyte location)
-    content.vb: Public Shared Function Read(ByRef location As SByte) As SByte
+    content: >-
+      [ReliabilityContract(Consistency.WillNotCorruptState, Cer.Success)]
+
+      [CLSCompliant(false)]
+
+      public static sbyte Read(ref sbyte location)
+    content.vb: >-
+      <ReliabilityContract(Consistency.WillNotCorruptState, Cer.Success)>
+
+      <CLSCompliant(False)>
+
+      Public Shared Function Read(ByRef location As SByte) As SByte
     parameters:
     - id: location
       type: System.SByte
-      description: "\n<p>The field to read.</p>\n"
     return:
       type: System.SByte
-      description: "\n<p>The value that was read. This value is the latest written by any processor in the computer, regardless of the number of processors or the state of processor cache. </p>\n"
+  attributes:
+  - type: System.CLSCompliantAttribute
+    ctor: System.CLSCompliantAttribute.#ctor(System.Boolean)
+    arguments:
+    - type: System.Boolean
+      value: false
   modifiers.csharp:
   - public
   - static
@@ -404,27 +452,31 @@ items:
   type: Method
   source:
     remote:
-      path: src/System.Threading/ref/System.Threading.cs
+      path: src/mscorlib/src/System/Threading/Volatile.cs
       branch: master
-      repo: https://github.com/dotnet/corefx.git
+      repo: https://github.com/dotnet/coreclr.git
     id: Read
-    path: src/System.Threading/ref/System.Threading.cs
-    startLine: 352
+    path: src/mscorlib/src/System/Threading/Volatile.cs
+    startLine: 161
   assemblies:
   - System.Threading
   namespace: System.Threading
   summary: "\n<p>Reads the value of the specified field. On systems that require it, inserts a memory barrier that prevents the processor from reordering memory operations as follows: If a read or write appears after this method in the code, the processor cannot move it before this method.</p>\n"
   remarks: "\n<p>For more information, see the <xref href=\"System.Threading.Volatile\" data-throw-if-not-resolved=\"false\"></xref> class.</p>\n"
   syntax:
-    content: public static float Read(ref float location)
-    content.vb: Public Shared Function Read(ByRef location As Single) As Single
+    content: >-
+      [ReliabilityContract(Consistency.WillNotCorruptState, Cer.Success)]
+
+      public static float Read(ref float location)
+    content.vb: >-
+      <ReliabilityContract(Consistency.WillNotCorruptState, Cer.Success)>
+
+      Public Shared Function Read(ByRef location As Single) As Single
     parameters:
     - id: location
       type: System.Single
-      description: "\n<p>The field to read.</p>\n"
     return:
       type: System.Single
-      description: "\n<p>The value that was read. This value is the latest written by any processor in the computer, regardless of the number of processors or the state of processor cache. </p>\n"
   modifiers.csharp:
   - public
   - static
@@ -445,27 +497,41 @@ items:
   type: Method
   source:
     remote:
-      path: src/System.Threading/ref/System.Threading.cs
+      path: src/mscorlib/src/System/Threading/Volatile.cs
       branch: master
-      repo: https://github.com/dotnet/corefx.git
+      repo: https://github.com/dotnet/coreclr.git
     id: Read
-    path: src/System.Threading/ref/System.Threading.cs
-    startLine: 353
+    path: src/mscorlib/src/System/Threading/Volatile.cs
+    startLine: 73
   assemblies:
   - System.Threading
   namespace: System.Threading
   summary: "\n<p>Reads the value of the specified field. On systems that require it, inserts a memory barrier that prevents the processor from reordering memory operations as follows: If a read or write appears after this method in the code, the processor cannot move it before this method.</p>\n"
   remarks: "\n<p>For more information, see the <xref href=\"System.Threading.Volatile\" data-throw-if-not-resolved=\"false\"></xref> class.</p>\n"
   syntax:
-    content: public static ushort Read(ref ushort location)
-    content.vb: Public Shared Function Read(ByRef location As UShort) As UShort
+    content: >-
+      [ReliabilityContract(Consistency.WillNotCorruptState, Cer.Success)]
+
+      [CLSCompliant(false)]
+
+      public static ushort Read(ref ushort location)
+    content.vb: >-
+      <ReliabilityContract(Consistency.WillNotCorruptState, Cer.Success)>
+
+      <CLSCompliant(False)>
+
+      Public Shared Function Read(ByRef location As UShort) As UShort
     parameters:
     - id: location
       type: System.UInt16
-      description: "\n<p>The field to read.</p>\n"
     return:
       type: System.UInt16
-      description: "\n<p>The value that was read. This value is the latest written by any processor in the computer, regardless of the number of processors or the state of processor cache.</p>\n"
+  attributes:
+  - type: System.CLSCompliantAttribute
+    ctor: System.CLSCompliantAttribute.#ctor(System.Boolean)
+    arguments:
+    - type: System.Boolean
+      value: false
   modifiers.csharp:
   - public
   - static
@@ -486,27 +552,41 @@ items:
   type: Method
   source:
     remote:
-      path: src/System.Threading/ref/System.Threading.cs
+      path: src/mscorlib/src/System/Threading/Volatile.cs
       branch: master
-      repo: https://github.com/dotnet/corefx.git
+      repo: https://github.com/dotnet/coreclr.git
     id: Read
-    path: src/System.Threading/ref/System.Threading.cs
-    startLine: 355
+    path: src/mscorlib/src/System/Threading/Volatile.cs
+    startLine: 96
   assemblies:
   - System.Threading
   namespace: System.Threading
   summary: "\n<p>Reads the value of the specified field. On systems that require it, inserts a memory barrier that prevents the processor from reordering memory operations as follows: If a read or write appears after this method in the code, the processor cannot move it before this method.</p>\n"
   remarks: "\n<p>For more information, see the <xref href=\"System.Threading.Volatile\" data-throw-if-not-resolved=\"false\"></xref> class.</p>\n"
   syntax:
-    content: public static uint Read(ref uint location)
-    content.vb: Public Shared Function Read(ByRef location As UInteger) As UInteger
+    content: >-
+      [ReliabilityContract(Consistency.WillNotCorruptState, Cer.Success)]
+
+      [CLSCompliant(false)]
+
+      public static uint Read(ref uint location)
+    content.vb: >-
+      <ReliabilityContract(Consistency.WillNotCorruptState, Cer.Success)>
+
+      <CLSCompliant(False)>
+
+      Public Shared Function Read(ByRef location As UInteger) As UInteger
     parameters:
     - id: location
       type: System.UInt32
-      description: "\n<p>The field to read.</p>\n"
     return:
       type: System.UInt32
-      description: "\n<p>The value that was read. This value is the latest written by any processor in the computer, regardless of the number of processors or the state of processor cache.</p>\n"
+  attributes:
+  - type: System.CLSCompliantAttribute
+    ctor: System.CLSCompliantAttribute.#ctor(System.Boolean)
+    arguments:
+    - type: System.Boolean
+      value: false
   modifiers.csharp:
   - public
   - static
@@ -527,27 +607,45 @@ items:
   type: Method
   source:
     remote:
-      path: src/System.Threading/ref/System.Threading.cs
+      path: src/mscorlib/src/System/Threading/Volatile.cs
       branch: master
-      repo: https://github.com/dotnet/corefx.git
+      repo: https://github.com/dotnet/coreclr.git
     id: Read
-    path: src/System.Threading/ref/System.Threading.cs
-    startLine: 357
+    path: src/mscorlib/src/System/Threading/Volatile.cs
+    startLine: 120
   assemblies:
   - System.Threading
   namespace: System.Threading
   summary: "\n<p>Reads the value of the specified field. On systems that require it, inserts a memory barrier that prevents the processor from reordering memory operations as follows: If a read or write appears after this method in the code, the processor cannot move it before this method.</p>\n"
   remarks: "\n<p>For more information, see the <xref href=\"System.Threading.Volatile\" data-throw-if-not-resolved=\"false\"></xref> class.</p>\n"
   syntax:
-    content: public static ulong Read(ref ulong location)
-    content.vb: Public Shared Function Read(ByRef location As ULong) As ULong
+    content: >-
+      [ReliabilityContract(Consistency.WillNotCorruptState, Cer.Success)]
+
+      [CLSCompliant(false)]
+
+      [SecuritySafeCritical]
+
+      public static ulong Read(ref ulong location)
+    content.vb: >-
+      <ReliabilityContract(Consistency.WillNotCorruptState, Cer.Success)>
+
+      <CLSCompliant(False)>
+
+      <SecuritySafeCritical>
+
+      Public Shared Function Read(ByRef location As ULong) As ULong
     parameters:
     - id: location
       type: System.UInt64
-      description: "\n<p>The field to read.</p>\n"
     return:
       type: System.UInt64
-      description: "\n<p>The value that was read. This value is the latest written by any processor in the computer, regardless of the number of processors or the state of processor cache. </p>\n"
+  attributes:
+  - type: System.CLSCompliantAttribute
+    ctor: System.CLSCompliantAttribute.#ctor(System.Boolean)
+    arguments:
+    - type: System.Boolean
+      value: false
   modifiers.csharp:
   - public
   - static
@@ -568,27 +666,41 @@ items:
   type: Method
   source:
     remote:
-      path: src/System.Threading/ref/System.Threading.cs
+      path: src/mscorlib/src/System/Threading/Volatile.cs
       branch: master
-      repo: https://github.com/dotnet/corefx.git
+      repo: https://github.com/dotnet/coreclr.git
     id: Read
-    path: src/System.Threading/ref/System.Threading.cs
-    startLine: 359
+    path: src/mscorlib/src/System/Threading/Volatile.cs
+    startLine: 149
   assemblies:
   - System.Threading
   namespace: System.Threading
   summary: "\n<p>Reads the value of the specified field. On systems that require it, inserts a memory barrier that prevents the processor from reordering memory operations as follows: If a read or write appears after this method in the code, the processor cannot move it before this method.</p>\n"
   remarks: "\n<p>For more information, see the <xref href=\"System.Threading.Volatile\" data-throw-if-not-resolved=\"false\"></xref> class.</p>\n"
   syntax:
-    content: public static UIntPtr Read(ref UIntPtr location)
-    content.vb: Public Shared Function Read(ByRef location As UIntPtr) As UIntPtr
+    content: >-
+      [ReliabilityContract(Consistency.WillNotCorruptState, Cer.Success)]
+
+      [CLSCompliant(false)]
+
+      public static UIntPtr Read(ref UIntPtr location)
+    content.vb: >-
+      <ReliabilityContract(Consistency.WillNotCorruptState, Cer.Success)>
+
+      <CLSCompliant(False)>
+
+      Public Shared Function Read(ByRef location As UIntPtr) As UIntPtr
     parameters:
     - id: location
       type: System.UIntPtr
-      description: "\n<p>The field to read.</p>\n"
     return:
       type: System.UIntPtr
-      description: "\n<p>The value that was read. This value is the latest written by any processor in the computer, regardless of the number of processors or the state of processor cache. </p>\n"
+  attributes:
+  - type: System.CLSCompliantAttribute
+    ctor: System.CLSCompliantAttribute.#ctor(System.Boolean)
+    arguments:
+    - type: System.Boolean
+      value: false
   modifiers.csharp:
   - public
   - static
@@ -609,30 +721,37 @@ items:
   type: Method
   source:
     remote:
-      path: src/System.Threading/ref/System.Threading.cs
+      path: src/mscorlib/src/System/Threading/Volatile.cs
       branch: master
-      repo: https://github.com/dotnet/corefx.git
+      repo: https://github.com/dotnet/coreclr.git
     id: Read
-    path: src/System.Threading/ref/System.Threading.cs
-    startLine: 361
+    path: src/mscorlib/src/System/Threading/Volatile.cs
+    startLine: 184
   assemblies:
   - System.Threading
   namespace: System.Threading
   summary: "\n<p>Reads the object reference from the specified field. On systems that require it, inserts a memory barrier that prevents the processor from reordering memory operations as follows: If a read or write appears after this method in the code, the processor cannot move it before this method.</p>\n"
   remarks: "\n<p>For more information, see the <xref href=\"System.Threading.Volatile\" data-throw-if-not-resolved=\"false\"></xref> class.</p>\n"
   syntax:
-    content: 'public static T Read<T>(ref T location)where T : class'
-    content.vb: Public Shared Function Read(Of T As Class)(ByRef location As T) As T
+    content: >-
+      [ReliabilityContract(Consistency.WillNotCorruptState, Cer.Success)]
+
+      [SecuritySafeCritical]
+
+      public static T Read<T>(ref T location)where T : class
+    content.vb: >-
+      <ReliabilityContract(Consistency.WillNotCorruptState, Cer.Success)>
+
+      <SecuritySafeCritical>
+
+      Public Shared Function Read(Of T As Class)(ByRef location As T) As T
     parameters:
     - id: location
       type: '{T}'
-      description: "\n<p>The field to read.</p>\n"
     typeParameters:
     - id: T
-      description: "\n<p>The type of field to read. This must be a reference type, not a value type.</p>\n"
     return:
       type: '{T}'
-      description: "\n<p>The reference to <em>T</em> that was read. This reference is the latest written by any processor in the computer, regardless of the number of processors or the state of processor cache. </p>\n"
   modifiers.csharp:
   - public
   - static
@@ -653,27 +772,31 @@ items:
   type: Method
   source:
     remote:
-      path: src/System.Threading/ref/System.Threading.cs
+      path: src/mscorlib/src/System/Threading/Volatile.cs
       branch: master
-      repo: https://github.com/dotnet/corefx.git
+      repo: https://github.com/dotnet/coreclr.git
     id: Write
-    path: src/System.Threading/ref/System.Threading.cs
-    startLine: 362
+    path: src/mscorlib/src/System/Threading/Volatile.cs
+    startLine: 199
   assemblies:
   - System.Threading
   namespace: System.Threading
   summary: "\n<p>Writes the specified value to the specified field. On systems that require it, inserts a memory barrier that prevents the processor from reordering memory operations as follows: If a read or write appears before this method in the code, the processor cannot move it after this method.</p>\n"
   remarks: "\n<p>For more information, see the <xref href=\"System.Threading.Volatile\" data-throw-if-not-resolved=\"false\"></xref> class.</p>\n"
   syntax:
-    content: public static void Write(ref bool location, bool value)
-    content.vb: Public Shared Sub Write(ByRef location As Boolean, value As Boolean)
+    content: >-
+      [ReliabilityContract(Consistency.WillNotCorruptState, Cer.Success)]
+
+      public static void Write(ref bool location, bool value)
+    content.vb: >-
+      <ReliabilityContract(Consistency.WillNotCorruptState, Cer.Success)>
+
+      Public Shared Sub Write(ByRef location As Boolean, value As Boolean)
     parameters:
     - id: location
       type: System.Boolean
-      description: "\n<p>The field where the value is written.</p>\n"
     - id: value
       type: System.Boolean
-      description: "\n<p>The value to write. The value is written immediately so that it is visible to all processors in the computer. </p>\n"
   modifiers.csharp:
   - public
   - static
@@ -694,27 +817,31 @@ items:
   type: Method
   source:
     remote:
-      path: src/System.Threading/ref/System.Threading.cs
+      path: src/mscorlib/src/System/Threading/Volatile.cs
       branch: master
-      repo: https://github.com/dotnet/corefx.git
+      repo: https://github.com/dotnet/coreclr.git
     id: Write
-    path: src/System.Threading/ref/System.Threading.cs
-    startLine: 363
+    path: src/mscorlib/src/System/Threading/Volatile.cs
+    startLine: 220
   assemblies:
   - System.Threading
   namespace: System.Threading
   summary: "\n<p>Writes the specified value to the specified field. On systems that require it, inserts a memory barrier that prevents the processor from reordering memory operations as follows: If a read or write appears before this method in the code, the processor cannot move it after this method.</p>\n"
   remarks: "\n<p>For more information, see the <xref href=\"System.Threading.Volatile\" data-throw-if-not-resolved=\"false\"></xref> class.</p>\n"
   syntax:
-    content: public static void Write(ref byte location, byte value)
-    content.vb: Public Shared Sub Write(ByRef location As Byte, value As Byte)
+    content: >-
+      [ReliabilityContract(Consistency.WillNotCorruptState, Cer.Success)]
+
+      public static void Write(ref byte location, byte value)
+    content.vb: >-
+      <ReliabilityContract(Consistency.WillNotCorruptState, Cer.Success)>
+
+      Public Shared Sub Write(ByRef location As Byte, value As Byte)
     parameters:
     - id: location
       type: System.Byte
-      description: "\n<p>The field where the value is written.</p>\n"
     - id: value
       type: System.Byte
-      description: "\n<p>The value to write. The value is written immediately so that it is visible to all processors in the computer.</p>\n"
   modifiers.csharp:
   - public
   - static
@@ -735,27 +862,31 @@ items:
   type: Method
   source:
     remote:
-      path: src/System.Threading/ref/System.Threading.cs
+      path: src/mscorlib/src/System/Threading/Volatile.cs
       branch: master
-      repo: https://github.com/dotnet/corefx.git
+      repo: https://github.com/dotnet/coreclr.git
     id: Write
-    path: src/System.Threading/ref/System.Threading.cs
-    startLine: 364
+    path: src/mscorlib/src/System/Threading/Volatile.cs
+    startLine: 339
   assemblies:
   - System.Threading
   namespace: System.Threading
   summary: "\n<p>Writes the specified value to the specified field. On systems that require it, inserts a memory barrier that prevents the processor from reordering memory operations as follows: If a read or write appears before this method in the code, the processor cannot move it after this method.</p>\n"
   remarks: "\n<p>For more information, see the <xref href=\"System.Threading.Volatile\" data-throw-if-not-resolved=\"false\"></xref> class.</p>\n"
   syntax:
-    content: public static void Write(ref double location, double value)
-    content.vb: Public Shared Sub Write(ByRef location As Double, value As Double)
+    content: >-
+      [ReliabilityContract(Consistency.WillNotCorruptState, Cer.Success)]
+
+      public static void Write(ref double location, double value)
+    content.vb: >-
+      <ReliabilityContract(Consistency.WillNotCorruptState, Cer.Success)>
+
+      Public Shared Sub Write(ByRef location As Double, value As Double)
     parameters:
     - id: location
       type: System.Double
-      description: "\n<p>The field where the value is written.</p>\n"
     - id: value
       type: System.Double
-      description: "\n<p>The value to write. The value is written immediately so that it is visible to all processors in the computer.</p>\n"
   modifiers.csharp:
   - public
   - static
@@ -776,27 +907,31 @@ items:
   type: Method
   source:
     remote:
-      path: src/System.Threading/ref/System.Threading.cs
+      path: src/mscorlib/src/System/Threading/Volatile.cs
       branch: master
-      repo: https://github.com/dotnet/corefx.git
+      repo: https://github.com/dotnet/coreclr.git
     id: Write
-    path: src/System.Threading/ref/System.Threading.cs
-    startLine: 365
+    path: src/mscorlib/src/System/Threading/Volatile.cs
+    startLine: 230
   assemblies:
   - System.Threading
   namespace: System.Threading
   summary: "\n<p>Writes the specified value to the specified field. On systems that require it, inserts a memory barrier that prevents the processor from reordering memory operations as follows: If a read or write appears before this method in the code, the processor cannot move it after this method.</p>\n"
   remarks: "\n<p>For more information, see the <xref href=\"System.Threading.Volatile\" data-throw-if-not-resolved=\"false\"></xref> class.</p>\n"
   syntax:
-    content: public static void Write(ref short location, short value)
-    content.vb: Public Shared Sub Write(ByRef location As Short, value As Short)
+    content: >-
+      [ReliabilityContract(Consistency.WillNotCorruptState, Cer.Success)]
+
+      public static void Write(ref short location, short value)
+    content.vb: >-
+      <ReliabilityContract(Consistency.WillNotCorruptState, Cer.Success)>
+
+      Public Shared Sub Write(ByRef location As Short, value As Short)
     parameters:
     - id: location
       type: System.Int16
-      description: "\n<p>The field where the value is written.</p>\n"
     - id: value
       type: System.Int16
-      description: "\n<p>The value to write. The value is written immediately so that it is visible to all processors in the computer.</p>\n"
   modifiers.csharp:
   - public
   - static
@@ -817,27 +952,31 @@ items:
   type: Method
   source:
     remote:
-      path: src/System.Threading/ref/System.Threading.cs
+      path: src/mscorlib/src/System/Threading/Volatile.cs
       branch: master
-      repo: https://github.com/dotnet/corefx.git
+      repo: https://github.com/dotnet/coreclr.git
     id: Write
-    path: src/System.Threading/ref/System.Threading.cs
-    startLine: 366
+    path: src/mscorlib/src/System/Threading/Volatile.cs
+    startLine: 251
   assemblies:
   - System.Threading
   namespace: System.Threading
   summary: "\n<p>Writes the specified value to the specified field. On systems that require it, inserts a memory barrier that prevents the processor from reordering memory operations as follows: If a read or write appears before this method in the code, the processor cannot move it after this method.</p>\n"
   remarks: "\n<p>For more information, see the <xref href=\"System.Threading.Volatile\" data-throw-if-not-resolved=\"false\"></xref> class.</p>\n"
   syntax:
-    content: public static void Write(ref int location, int value)
-    content.vb: Public Shared Sub Write(ByRef location As Integer, value As Integer)
+    content: >-
+      [ReliabilityContract(Consistency.WillNotCorruptState, Cer.Success)]
+
+      public static void Write(ref int location, int value)
+    content.vb: >-
+      <ReliabilityContract(Consistency.WillNotCorruptState, Cer.Success)>
+
+      Public Shared Sub Write(ByRef location As Integer, value As Integer)
     parameters:
     - id: location
       type: System.Int32
-      description: "\n<p>The field where the value is written.</p>\n"
     - id: value
       type: System.Int32
-      description: "\n<p>The value to write. The value is written immediately so that it is visible to all processors in the computer.</p>\n"
   modifiers.csharp:
   - public
   - static
@@ -858,27 +997,31 @@ items:
   type: Method
   source:
     remote:
-      path: src/System.Threading/ref/System.Threading.cs
+      path: src/mscorlib/src/System/Threading/Volatile.cs
       branch: master
-      repo: https://github.com/dotnet/corefx.git
+      repo: https://github.com/dotnet/coreclr.git
     id: Write
-    path: src/System.Threading/ref/System.Threading.cs
-    startLine: 367
+    path: src/mscorlib/src/System/Threading/Volatile.cs
+    startLine: 272
   assemblies:
   - System.Threading
   namespace: System.Threading
   summary: "\n<p>Writes the specified value to the specified field. On systems that require it, inserts a memory barrier that prevents the processor from reordering memory operations as follows: If a memory operation appears before this method in the code, the processor cannot move it after this method.</p>\n"
   remarks: "\n<p>For more information, see the <xref href=\"System.Threading.Volatile\" data-throw-if-not-resolved=\"false\"></xref> class.</p>\n"
   syntax:
-    content: public static void Write(ref long location, long value)
-    content.vb: Public Shared Sub Write(ByRef location As Long, value As Long)
+    content: >-
+      [ReliabilityContract(Consistency.WillNotCorruptState, Cer.Success)]
+
+      public static void Write(ref long location, long value)
+    content.vb: >-
+      <ReliabilityContract(Consistency.WillNotCorruptState, Cer.Success)>
+
+      Public Shared Sub Write(ByRef location As Long, value As Long)
     parameters:
     - id: location
       type: System.Int64
-      description: "\n<p>The field where the value is written.</p>\n"
     - id: value
       type: System.Int64
-      description: "\n<p>The value to write. The value is written immediately so that it is visible to all processors in the computer.</p>\n"
   modifiers.csharp:
   - public
   - static
@@ -899,27 +1042,31 @@ items:
   type: Method
   source:
     remote:
-      path: src/System.Threading/ref/System.Threading.cs
+      path: src/mscorlib/src/System/Threading/Volatile.cs
       branch: master
-      repo: https://github.com/dotnet/corefx.git
+      repo: https://github.com/dotnet/coreclr.git
     id: Write
-    path: src/System.Threading/ref/System.Threading.cs
-    startLine: 368
+    path: src/mscorlib/src/System/Threading/Volatile.cs
+    startLine: 308
   assemblies:
   - System.Threading
   namespace: System.Threading
   summary: "\n<p>Writes the specified value to the specified field. On systems that require it, inserts a memory barrier that prevents the processor from reordering memory operations as follows: If a read or write appears before this method in the code, the processor cannot move it after this method.</p>\n"
   remarks: "\n<p>For more information, see the <xref href=\"System.Threading.Volatile\" data-throw-if-not-resolved=\"false\"></xref> class.</p>\n"
   syntax:
-    content: public static void Write(ref IntPtr location, IntPtr value)
-    content.vb: Public Shared Sub Write(ByRef location As IntPtr, value As IntPtr)
+    content: >-
+      [ReliabilityContract(Consistency.WillNotCorruptState, Cer.Success)]
+
+      public static void Write(ref IntPtr location, IntPtr value)
+    content.vb: >-
+      <ReliabilityContract(Consistency.WillNotCorruptState, Cer.Success)>
+
+      Public Shared Sub Write(ByRef location As IntPtr, value As IntPtr)
     parameters:
     - id: location
       type: System.IntPtr
-      description: "\n<p>The field where the value is written.</p>\n"
     - id: value
       type: System.IntPtr
-      description: "\n<p>The value to write. The value is written immediately so that it is visible to all processors in the computer.</p>\n"
   modifiers.csharp:
   - public
   - static
@@ -940,27 +1087,41 @@ items:
   type: Method
   source:
     remote:
-      path: src/System.Threading/ref/System.Threading.cs
+      path: src/mscorlib/src/System/Threading/Volatile.cs
       branch: master
-      repo: https://github.com/dotnet/corefx.git
+      repo: https://github.com/dotnet/coreclr.git
     id: Write
-    path: src/System.Threading/ref/System.Threading.cs
-    startLine: 369
+    path: src/mscorlib/src/System/Threading/Volatile.cs
+    startLine: 209
   assemblies:
   - System.Threading
   namespace: System.Threading
   summary: "\n<p>Writes the specified value to the specified field. On systems that require it, inserts a memory barrier that prevents the processor from reordering memory operations as follows: If a read or write appears before this method in the code, the processor cannot move it after this method.</p>\n"
   remarks: "\n<p>For more information, see the <xref href=\"System.Threading.Volatile\" data-throw-if-not-resolved=\"false\"></xref> class.</p>\n"
   syntax:
-    content: public static void Write(ref sbyte location, sbyte value)
-    content.vb: Public Shared Sub Write(ByRef location As SByte, value As SByte)
+    content: >-
+      [ReliabilityContract(Consistency.WillNotCorruptState, Cer.Success)]
+
+      [CLSCompliant(false)]
+
+      public static void Write(ref sbyte location, sbyte value)
+    content.vb: >-
+      <ReliabilityContract(Consistency.WillNotCorruptState, Cer.Success)>
+
+      <CLSCompliant(False)>
+
+      Public Shared Sub Write(ByRef location As SByte, value As SByte)
     parameters:
     - id: location
       type: System.SByte
-      description: "\n<p>The field where the value is written.</p>\n"
     - id: value
       type: System.SByte
-      description: "\n<p>The value to write. The value is written immediately so that it is visible to all processors in the computer.</p>\n"
+  attributes:
+  - type: System.CLSCompliantAttribute
+    ctor: System.CLSCompliantAttribute.#ctor(System.Boolean)
+    arguments:
+    - type: System.Boolean
+      value: false
   modifiers.csharp:
   - public
   - static
@@ -981,27 +1142,31 @@ items:
   type: Method
   source:
     remote:
-      path: src/System.Threading/ref/System.Threading.cs
+      path: src/mscorlib/src/System/Threading/Volatile.cs
       branch: master
-      repo: https://github.com/dotnet/corefx.git
+      repo: https://github.com/dotnet/coreclr.git
     id: Write
-    path: src/System.Threading/ref/System.Threading.cs
-    startLine: 371
+    path: src/mscorlib/src/System/Threading/Volatile.cs
+    startLine: 329
   assemblies:
   - System.Threading
   namespace: System.Threading
   summary: "\n<p>Writes the specified value to the specified field. On systems that require it, inserts a memory barrier that prevents the processor from reordering memory operations as follows: If a read or write appears before this method in the code, the processor cannot move it after this method.</p>\n"
   remarks: "\n<p>For more information, see the <xref href=\"System.Threading.Volatile\" data-throw-if-not-resolved=\"false\"></xref> class.</p>\n"
   syntax:
-    content: public static void Write(ref float location, float value)
-    content.vb: Public Shared Sub Write(ByRef location As Single, value As Single)
+    content: >-
+      [ReliabilityContract(Consistency.WillNotCorruptState, Cer.Success)]
+
+      public static void Write(ref float location, float value)
+    content.vb: >-
+      <ReliabilityContract(Consistency.WillNotCorruptState, Cer.Success)>
+
+      Public Shared Sub Write(ByRef location As Single, value As Single)
     parameters:
     - id: location
       type: System.Single
-      description: "\n<p>The field where the value is written.</p>\n"
     - id: value
       type: System.Single
-      description: "\n<p>The value to write. The value is written immediately so that it is visible to all processors in the computer.</p>\n"
   modifiers.csharp:
   - public
   - static
@@ -1022,27 +1187,41 @@ items:
   type: Method
   source:
     remote:
-      path: src/System.Threading/ref/System.Threading.cs
+      path: src/mscorlib/src/System/Threading/Volatile.cs
       branch: master
-      repo: https://github.com/dotnet/corefx.git
+      repo: https://github.com/dotnet/coreclr.git
     id: Write
-    path: src/System.Threading/ref/System.Threading.cs
-    startLine: 372
+    path: src/mscorlib/src/System/Threading/Volatile.cs
+    startLine: 240
   assemblies:
   - System.Threading
   namespace: System.Threading
   summary: "\n<p>Writes the specified value to the specified field. On systems that require it, inserts a memory barrier that prevents the processor from reordering memory operations as follows: If a read or write appears before this method in the code, the processor cannot move it after this method.</p>\n"
   remarks: "\n<p>For more information, see the <xref href=\"System.Threading.Volatile\" data-throw-if-not-resolved=\"false\"></xref> class.</p>\n"
   syntax:
-    content: public static void Write(ref ushort location, ushort value)
-    content.vb: Public Shared Sub Write(ByRef location As UShort, value As UShort)
+    content: >-
+      [ReliabilityContract(Consistency.WillNotCorruptState, Cer.Success)]
+
+      [CLSCompliant(false)]
+
+      public static void Write(ref ushort location, ushort value)
+    content.vb: >-
+      <ReliabilityContract(Consistency.WillNotCorruptState, Cer.Success)>
+
+      <CLSCompliant(False)>
+
+      Public Shared Sub Write(ByRef location As UShort, value As UShort)
     parameters:
     - id: location
       type: System.UInt16
-      description: "\n<p>The field where the value is written.</p>\n"
     - id: value
       type: System.UInt16
-      description: "\n<p>The value to write. The value is written immediately so that it is visible to all processors in the computer.</p>\n"
+  attributes:
+  - type: System.CLSCompliantAttribute
+    ctor: System.CLSCompliantAttribute.#ctor(System.Boolean)
+    arguments:
+    - type: System.Boolean
+      value: false
   modifiers.csharp:
   - public
   - static
@@ -1063,27 +1242,41 @@ items:
   type: Method
   source:
     remote:
-      path: src/System.Threading/ref/System.Threading.cs
+      path: src/mscorlib/src/System/Threading/Volatile.cs
       branch: master
-      repo: https://github.com/dotnet/corefx.git
+      repo: https://github.com/dotnet/coreclr.git
     id: Write
-    path: src/System.Threading/ref/System.Threading.cs
-    startLine: 374
+    path: src/mscorlib/src/System/Threading/Volatile.cs
+    startLine: 261
   assemblies:
   - System.Threading
   namespace: System.Threading
   summary: "\n<p>Writes the specified value to the specified field. On systems that require it, inserts a memory barrier that prevents the processor from reordering memory operations as follows: If a read or write appears before this method in the code, the processor cannot move it after this method.</p>\n"
   remarks: "\n<p>For more information, see the <xref href=\"System.Threading.Volatile\" data-throw-if-not-resolved=\"false\"></xref> class.</p>\n"
   syntax:
-    content: public static void Write(ref uint location, uint value)
-    content.vb: Public Shared Sub Write(ByRef location As UInteger, value As UInteger)
+    content: >-
+      [ReliabilityContract(Consistency.WillNotCorruptState, Cer.Success)]
+
+      [CLSCompliant(false)]
+
+      public static void Write(ref uint location, uint value)
+    content.vb: >-
+      <ReliabilityContract(Consistency.WillNotCorruptState, Cer.Success)>
+
+      <CLSCompliant(False)>
+
+      Public Shared Sub Write(ByRef location As UInteger, value As UInteger)
     parameters:
     - id: location
       type: System.UInt32
-      description: "\n<p>The field where the value is written.</p>\n"
     - id: value
       type: System.UInt32
-      description: "\n<p>The value to write. The value is written immediately so that it is visible to all processors in the computer.</p>\n"
+  attributes:
+  - type: System.CLSCompliantAttribute
+    ctor: System.CLSCompliantAttribute.#ctor(System.Boolean)
+    arguments:
+    - type: System.Boolean
+      value: false
   modifiers.csharp:
   - public
   - static
@@ -1104,27 +1297,45 @@ items:
   type: Method
   source:
     remote:
-      path: src/System.Threading/ref/System.Threading.cs
+      path: src/mscorlib/src/System/Threading/Volatile.cs
       branch: master
-      repo: https://github.com/dotnet/corefx.git
+      repo: https://github.com/dotnet/coreclr.git
     id: Write
-    path: src/System.Threading/ref/System.Threading.cs
-    startLine: 376
+    path: src/mscorlib/src/System/Threading/Volatile.cs
+    startLine: 284
   assemblies:
   - System.Threading
   namespace: System.Threading
   summary: "\n<p>Writes the specified value to the specified field. On systems that require it, inserts a memory barrier that prevents the processor from reordering memory operations as follows: If a read or write appears before this method in the code, the processor cannot move it after this method.</p>\n"
   remarks: "\n<p>For more information, see the <xref href=\"System.Threading.Volatile\" data-throw-if-not-resolved=\"false\"></xref> class.</p>\n"
   syntax:
-    content: public static void Write(ref ulong location, ulong value)
-    content.vb: Public Shared Sub Write(ByRef location As ULong, value As ULong)
+    content: >-
+      [ReliabilityContract(Consistency.WillNotCorruptState, Cer.Success)]
+
+      [CLSCompliant(false)]
+
+      [SecuritySafeCritical]
+
+      public static void Write(ref ulong location, ulong value)
+    content.vb: >-
+      <ReliabilityContract(Consistency.WillNotCorruptState, Cer.Success)>
+
+      <CLSCompliant(False)>
+
+      <SecuritySafeCritical>
+
+      Public Shared Sub Write(ByRef location As ULong, value As ULong)
     parameters:
     - id: location
       type: System.UInt64
-      description: "\n<p>The field where the value is written.</p>\n"
     - id: value
       type: System.UInt64
-      description: "\n<p>The value to write. The value is written immediately so that it is visible to all processors in the computer.</p>\n"
+  attributes:
+  - type: System.CLSCompliantAttribute
+    ctor: System.CLSCompliantAttribute.#ctor(System.Boolean)
+    arguments:
+    - type: System.Boolean
+      value: false
   modifiers.csharp:
   - public
   - static
@@ -1145,27 +1356,41 @@ items:
   type: Method
   source:
     remote:
-      path: src/System.Threading/ref/System.Threading.cs
+      path: src/mscorlib/src/System/Threading/Volatile.cs
       branch: master
-      repo: https://github.com/dotnet/corefx.git
+      repo: https://github.com/dotnet/coreclr.git
     id: Write
-    path: src/System.Threading/ref/System.Threading.cs
-    startLine: 378
+    path: src/mscorlib/src/System/Threading/Volatile.cs
+    startLine: 318
   assemblies:
   - System.Threading
   namespace: System.Threading
   summary: "\n<p>Writes the specified value to the specified field. On systems that require it, inserts a memory barrier that prevents the processor from reordering memory operations as follows: If a read or write appears before this method in the code, the processor cannot move it after this method.</p>\n"
   remarks: "\n<p>For more information, see the <xref href=\"System.Threading.Volatile\" data-throw-if-not-resolved=\"false\"></xref> class.</p>\n"
   syntax:
-    content: public static void Write(ref UIntPtr location, UIntPtr value)
-    content.vb: Public Shared Sub Write(ByRef location As UIntPtr, value As UIntPtr)
+    content: >-
+      [ReliabilityContract(Consistency.WillNotCorruptState, Cer.Success)]
+
+      [CLSCompliant(false)]
+
+      public static void Write(ref UIntPtr location, UIntPtr value)
+    content.vb: >-
+      <ReliabilityContract(Consistency.WillNotCorruptState, Cer.Success)>
+
+      <CLSCompliant(False)>
+
+      Public Shared Sub Write(ByRef location As UIntPtr, value As UIntPtr)
     parameters:
     - id: location
       type: System.UIntPtr
-      description: "\n<p>The field where the value is written.</p>\n"
     - id: value
       type: System.UIntPtr
-      description: "\n<p>The value to write. The value is written immediately so that it is visible to all processors in the computer.</p>\n"
+  attributes:
+  - type: System.CLSCompliantAttribute
+    ctor: System.CLSCompliantAttribute.#ctor(System.Boolean)
+    arguments:
+    - type: System.Boolean
+      value: false
   modifiers.csharp:
   - public
   - static
@@ -1186,30 +1411,37 @@ items:
   type: Method
   source:
     remote:
-      path: src/System.Threading/ref/System.Threading.cs
+      path: src/mscorlib/src/System/Threading/Volatile.cs
       branch: master
-      repo: https://github.com/dotnet/corefx.git
+      repo: https://github.com/dotnet/coreclr.git
     id: Write
-    path: src/System.Threading/ref/System.Threading.cs
-    startLine: 380
+    path: src/mscorlib/src/System/Threading/Volatile.cs
+    startLine: 351
   assemblies:
   - System.Threading
   namespace: System.Threading
   summary: "\n<p>Writes the specified object reference to the specified field. On systems that require it, inserts a memory barrier that prevents the processor from reordering memory operations as follows: If a read or write appears before this method in the code, the processor cannot move it after this method. </p>\n"
   remarks: "\n<p>For more information, see the <xref href=\"System.Threading.Volatile\" data-throw-if-not-resolved=\"false\"></xref> class.</p>\n"
   syntax:
-    content: 'public static void Write<T>(ref T location, T value)where T : class'
-    content.vb: Public Shared Sub Write(Of T As Class)(ByRef location As T, value As T)
+    content: >-
+      [ReliabilityContract(Consistency.WillNotCorruptState, Cer.Success)]
+
+      [SecuritySafeCritical]
+
+      public static void Write<T>(ref T location, T value)where T : class
+    content.vb: >-
+      <ReliabilityContract(Consistency.WillNotCorruptState, Cer.Success)>
+
+      <SecuritySafeCritical>
+
+      Public Shared Sub Write(Of T As Class)(ByRef location As T, value As T)
     parameters:
     - id: location
       type: '{T}'
-      description: "\n<p>The field where the object reference is written.</p>\n"
     - id: value
       type: '{T}'
-      description: "\n<p>The object reference to write. The reference is written immediately so that it is visible to all processors in the computer.</p>\n"
     typeParameters:
     - id: T
-      description: "\n<p>The type of field to write. This must be a reference type, not a value type. </p>\n"
   modifiers.csharp:
   - public
   - static
@@ -1228,6 +1460,215 @@ references:
   isExternal: false
   name: Object
   fullName: System.Object
+- uid: System.Object.ToString
+  parent: System.Object
+  isExternal: true
+  name: ToString()
+  fullName: System.Object.ToString()
+  spec.csharp:
+  - uid: System.Object.ToString
+    name: ToString
+    fullName: System.Object.ToString
+    isExternal: true
+  - name: (
+    fullName: (
+  - name: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.ToString
+    name: ToString
+    fullName: System.Object.ToString
+    isExternal: true
+  - name: (
+    fullName: (
+  - name: )
+    fullName: )
+- uid: System.Object.Equals(System.Object)
+  parent: System.Object
+  isExternal: true
+  name: Equals(Object)
+  fullName: System.Object.Equals(System.Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    fullName: )
+- uid: System.Object.Equals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  name: Equals(Object, Object)
+  fullName: System.Object.Equals(System.Object, System.Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    fullName: )
+- uid: System.Object.ReferenceEquals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  name: ReferenceEquals(Object, Object)
+  fullName: System.Object.ReferenceEquals(System.Object, System.Object)
+  spec.csharp:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    fullName: System.Object.ReferenceEquals
+    isExternal: true
+  - name: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    fullName: System.Object.ReferenceEquals
+    isExternal: true
+  - name: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    fullName: )
+- uid: System.Object.GetHashCode
+  parent: System.Object
+  isExternal: true
+  name: GetHashCode()
+  fullName: System.Object.GetHashCode()
+  spec.csharp:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    fullName: System.Object.GetHashCode
+    isExternal: true
+  - name: (
+    fullName: (
+  - name: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    fullName: System.Object.GetHashCode
+    isExternal: true
+  - name: (
+    fullName: (
+  - name: )
+    fullName: )
+- uid: System.Object.GetType
+  parent: System.Object
+  isExternal: true
+  name: GetType()
+  fullName: System.Object.GetType()
+  spec.csharp:
+  - uid: System.Object.GetType
+    name: GetType
+    fullName: System.Object.GetType
+    isExternal: true
+  - name: (
+    fullName: (
+  - name: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.GetType
+    name: GetType
+    fullName: System.Object.GetType
+    isExternal: true
+  - name: (
+    fullName: (
+  - name: )
+    fullName: )
+- uid: System.Object.MemberwiseClone
+  parent: System.Object
+  isExternal: true
+  name: MemberwiseClone()
+  fullName: System.Object.MemberwiseClone()
+  spec.csharp:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    fullName: System.Object.MemberwiseClone
+    isExternal: true
+  - name: (
+    fullName: (
+  - name: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    fullName: System.Object.MemberwiseClone
+    isExternal: true
+  - name: (
+    fullName: (
+  - name: )
+    fullName: )
 - uid: System
   isExternal: false
   name: System

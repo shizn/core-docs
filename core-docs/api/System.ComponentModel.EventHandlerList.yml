@@ -27,13 +27,27 @@ items:
   assemblies:
   - System.ComponentModel.Primitives
   namespace: System.ComponentModel
+  summary: "\n<p>Provides a simple list of delegates. This class cannot be inherited.</p>\n"
+  remarks: "\n<p>This class uses a linear search algorithm to find entries in the list of delegates. A linear search algorithm is inefficient when working with a large number of entries. Therefore, when you have a large list, finding entries is slow.</p>\n"
+  example:
+  - "\n<p>For an example of using an <xref href=\"System.ComponentModel.EventHandlerList\" data-throw-if-not-resolved=\"false\"></xref>, see How to: Handle Multiple Events Using Event Properties.</p>\n"
   syntax:
     content: 'public sealed class EventHandlerList : IDisposable'
     content.vb: >-
       Public NotInheritable Class EventHandlerList
-          Inherits IDisposable
+          Implements IDisposable
   inheritance:
   - System.Object
+  implements:
+  - System.IDisposable
+  inheritedMembers:
+  - System.Object.ToString
+  - System.Object.Equals(System.Object)
+  - System.Object.Equals(System.Object,System.Object)
+  - System.Object.ReferenceEquals(System.Object,System.Object)
+  - System.Object.GetHashCode
+  - System.Object.GetType
+  - System.Object.MemberwiseClone
   modifiers.csharp:
   - public
   - sealed
@@ -63,9 +77,16 @@ items:
   assemblies:
   - System.ComponentModel.Primitives
   namespace: System.ComponentModel
+  summary: "\n<p>Initializes a new instance of the <xref href=\"System.ComponentModel.EventHandlerList\" data-throw-if-not-resolved=\"false\"></xref> class. </p>\n"
   syntax:
-    content: public EventHandlerList()
-    content.vb: Public Sub New
+    content: >-
+      [SuppressMessage("Microsoft.Security", "CA2122:DoNotIndirectlyExposeMethodsWithLinkDemands")]
+
+      public EventHandlerList()
+    content.vb: >-
+      <SuppressMessage("Microsoft.Security", "CA2122:DoNotIndirectlyExposeMethodsWithLinkDemands")>
+
+      Public Sub New
   modifiers.csharp:
   - public
   modifiers.vb:
@@ -91,14 +112,26 @@ items:
   assemblies:
   - System.ComponentModel.Primitives
   namespace: System.ComponentModel
+  summary: "\n<p>Gets or sets the delegate for the specified object.</p>\n"
+  remarks: "\n<p>When the key is not found in the list and you provide a delegate to set the value of the key, then the key is added to the top of the list and assigned to the delegate as its value.</p>\n"
   syntax:
-    content: public Delegate this[object key] { get; set; }
+    content: >-
+      public Delegate this[object key]
+
+      {
+          [SuppressMessage("Microsoft.Security", "CA2122:DoNotIndirectlyExposeMethodsWithLinkDemands")]
+          get;
+          set;
+      }
     content.vb: 'Public Property Item(key As Object) As '
     parameters:
     - id: key
       type: System.Object
     return:
-      type: Delegate
+      type: System.Delegate
+  seealso:
+  - type: System.ComponentModel.EventHandlerList
+    commentId: T:System.ComponentModel.EventHandlerList
   modifiers.csharp:
   - public
   - get
@@ -119,18 +152,25 @@ items:
   type: Method
   source:
     remote:
-      path: src/System.ComponentModel.Primitives/ref/System.ComponentModel.Primitives.cs
+      path: src/System.ComponentModel.Primitives/src/System/ComponentModel/EventHandlerList.cs
       branch: master
       repo: https://github.com/dotnet/corefx.git
     id: AddHandler
-    path: src/System.ComponentModel.Primitives/ref/System.ComponentModel.Primitives.cs
-    startLine: 110
+    path: src/System.ComponentModel.Primitives/src/System/ComponentModel/EventHandlerList.cs
+    startLine: 58
   assemblies:
   - System.ComponentModel.Primitives
   namespace: System.ComponentModel
+  summary: "\n<p>Adds a delegate to the list.</p>\n"
   syntax:
-    content: public void AddHandler(object key, Delegate value)
-    content.vb: Public Sub AddHandler(key As Object, value As  Delegate)
+    content: >-
+      [SuppressMessage("Microsoft.Security", "CA2122:DoNotIndirectlyExposeMethodsWithLinkDemands")]
+
+      public void AddHandler(object key, Delegate value)
+    content.vb: >-
+      <SuppressMessage("Microsoft.Security", "CA2122:DoNotIndirectlyExposeMethodsWithLinkDemands")>
+
+      Public Sub AddHandler(key As Object, value As  Delegate)
     parameters:
     - id: key
       type: System.Object
@@ -161,6 +201,7 @@ items:
   assemblies:
   - System.ComponentModel.Primitives
   namespace: System.ComponentModel
+  summary: "\n<p>Adds a list of delegates to the current list.</p>\n"
   syntax:
     content: public void AddHandlers(EventHandlerList listToAddFrom)
     content.vb: Public Sub AddHandlers(listToAddFrom As EventHandlerList)
@@ -192,9 +233,13 @@ items:
   assemblies:
   - System.ComponentModel.Primitives
   namespace: System.ComponentModel
+  summary: "\n<p>Disposes the delegate list.</p>\n"
+  remarks: "\n<p>Call <xref href=\"System.ComponentModel.EventHandlerList.Dispose\" data-throw-if-not-resolved=\"false\"></xref> when you are finished using the <xref href=\"System.ComponentModel.EventHandlerList\" data-throw-if-not-resolved=\"false\"></xref>. The <xref href=\"System.ComponentModel.EventHandlerList.Dispose\" data-throw-if-not-resolved=\"false\"></xref> method leaves the <xref href=\"System.ComponentModel.EventHandlerList\" data-throw-if-not-resolved=\"false\"></xref> in an unusable state. After calling <xref href=\"System.ComponentModel.EventHandlerList.Dispose\" data-throw-if-not-resolved=\"false\"></xref>, you must release all references to the <xref href=\"System.ComponentModel.EventHandlerList\" data-throw-if-not-resolved=\"false\"></xref> so the memory it was occupying can be reclaimed by garbage collection.</p>\n<p>Always call <xref href=\"System.ComponentModel.EventHandlerList.Dispose\" data-throw-if-not-resolved=\"false\"></xref> before you release your last reference to the <xref href=\"System.ComponentModel.EventHandlerList\" data-throw-if-not-resolved=\"false\"></xref>. Otherwise, the resources the <xref href=\"System.ComponentModel.EventHandlerList\" data-throw-if-not-resolved=\"false\"></xref> is using will not be freed until garbage collection calls the <xref href=\"System.ComponentModel.EventHandlerList\" data-throw-if-not-resolved=\"false\"></xref> object's destructor.</p>\n"
   syntax:
     content: public void Dispose()
     content.vb: Public Sub Dispose
+  implements:
+  - System.IDisposable.Dispose
   modifiers.csharp:
   - public
   modifiers.vb:
@@ -211,18 +256,25 @@ items:
   type: Method
   source:
     remote:
-      path: src/System.ComponentModel.Primitives/ref/System.ComponentModel.Primitives.cs
+      path: src/System.ComponentModel.Primitives/src/System/ComponentModel/EventHandlerList.cs
       branch: master
       repo: https://github.com/dotnet/corefx.git
     id: RemoveHandler
-    path: src/System.ComponentModel.Primitives/ref/System.ComponentModel.Primitives.cs
-    startLine: 113
+    path: src/System.ComponentModel.Primitives/src/System/ComponentModel/EventHandlerList.cs
+    startLine: 108
   assemblies:
   - System.ComponentModel.Primitives
   namespace: System.ComponentModel
+  summary: "\n<p>Removes a delegate from the list.</p>\n"
   syntax:
-    content: public void RemoveHandler(object key, Delegate value)
-    content.vb: Public Sub RemoveHandler(key As Object, value As  Delegate)
+    content: >-
+      [SuppressMessage("Microsoft.Security", "CA2122:DoNotIndirectlyExposeMethodsWithLinkDemands")]
+
+      public void RemoveHandler(object key, Delegate value)
+    content.vb: >-
+      <SuppressMessage("Microsoft.Security", "CA2122:DoNotIndirectlyExposeMethodsWithLinkDemands")>
+
+      Public Sub RemoveHandler(key As Object, value As  Delegate)
     parameters:
     - id: key
       type: System.Object
@@ -242,6 +294,220 @@ references:
   isExternal: false
   name: Object
   fullName: System.Object
+- uid: System.IDisposable
+  parent: System
+  isExternal: false
+  name: IDisposable
+  fullName: System.IDisposable
+- uid: System.Object.ToString
+  parent: System.Object
+  isExternal: true
+  name: ToString()
+  fullName: System.Object.ToString()
+  spec.csharp:
+  - uid: System.Object.ToString
+    name: ToString
+    fullName: System.Object.ToString
+    isExternal: true
+  - name: (
+    fullName: (
+  - name: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.ToString
+    name: ToString
+    fullName: System.Object.ToString
+    isExternal: true
+  - name: (
+    fullName: (
+  - name: )
+    fullName: )
+- uid: System.Object.Equals(System.Object)
+  parent: System.Object
+  isExternal: true
+  name: Equals(Object)
+  fullName: System.Object.Equals(System.Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    fullName: )
+- uid: System.Object.Equals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  name: Equals(Object, Object)
+  fullName: System.Object.Equals(System.Object, System.Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    fullName: )
+- uid: System.Object.ReferenceEquals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  name: ReferenceEquals(Object, Object)
+  fullName: System.Object.ReferenceEquals(System.Object, System.Object)
+  spec.csharp:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    fullName: System.Object.ReferenceEquals
+    isExternal: true
+  - name: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    fullName: System.Object.ReferenceEquals
+    isExternal: true
+  - name: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    fullName: )
+- uid: System.Object.GetHashCode
+  parent: System.Object
+  isExternal: true
+  name: GetHashCode()
+  fullName: System.Object.GetHashCode()
+  spec.csharp:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    fullName: System.Object.GetHashCode
+    isExternal: true
+  - name: (
+    fullName: (
+  - name: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    fullName: System.Object.GetHashCode
+    isExternal: true
+  - name: (
+    fullName: (
+  - name: )
+    fullName: )
+- uid: System.Object.GetType
+  parent: System.Object
+  isExternal: true
+  name: GetType()
+  fullName: System.Object.GetType()
+  spec.csharp:
+  - uid: System.Object.GetType
+    name: GetType
+    fullName: System.Object.GetType
+    isExternal: true
+  - name: (
+    fullName: (
+  - name: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.GetType
+    name: GetType
+    fullName: System.Object.GetType
+    isExternal: true
+  - name: (
+    fullName: (
+  - name: )
+    fullName: )
+- uid: System.Object.MemberwiseClone
+  parent: System.Object
+  isExternal: true
+  name: MemberwiseClone()
+  fullName: System.Object.MemberwiseClone()
+  spec.csharp:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    fullName: System.Object.MemberwiseClone
+    isExternal: true
+  - name: (
+    fullName: (
+  - name: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    fullName: System.Object.MemberwiseClone
+    isExternal: true
+  - name: (
+    fullName: (
+  - name: )
+    fullName: )
 - uid: System
   isExternal: false
   name: System
@@ -256,3 +522,24 @@ references:
   isExternal: false
   name: EventHandlerList
   fullName: System.ComponentModel.EventHandlerList
+- uid: System.IDisposable.Dispose
+  parent: System.IDisposable
+  isExternal: false
+  name: Dispose()
+  fullName: System.IDisposable.Dispose()
+  spec.csharp:
+  - uid: System.IDisposable.Dispose
+    name: Dispose
+    fullName: System.IDisposable.Dispose
+  - name: (
+    fullName: (
+  - name: )
+    fullName: )
+  spec.vb:
+  - uid: System.IDisposable.Dispose
+    name: Dispose
+    fullName: System.IDisposable.Dispose
+  - name: (
+    fullName: (
+  - name: )
+    fullName: )

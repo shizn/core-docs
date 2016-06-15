@@ -15,24 +15,49 @@ items:
   type: Class
   source:
     remote:
-      path: src/Microsoft.Win32.Registry.AccessControl/src/System/Security/AccessControl/RegistrySecurity.cs
+      path: src/Microsoft.Win32.Registry.AccessControl/ref/Microsoft.Win32.Registry.AccessControl.cs
       branch: master
       repo: https://github.com/dotnet/corefx.git
     id: RegistryAuditRule
-    path: src/Microsoft.Win32.Registry.AccessControl/src/System/Security/AccessControl/RegistrySecurity.cs
-    startLine: 62
+    path: src/Microsoft.Win32.Registry.AccessControl/ref/Microsoft.Win32.Registry.AccessControl.cs
+    startLine: 29
   assemblies:
   - Microsoft.Win32.Registry.AccessControl
   namespace: System.Security.AccessControl
   summary: "\n<p>Represents a set of access rights to be audited for a user or group. This class cannot be inherited.</p>\n"
   remarks: "\n<p>The <xref href=\"System.Security.AccessControl.RegistryAuditRule\" data-throw-if-not-resolved=\"false\"></xref> class is one of a set of classes that the .NET Framework provides for managing Windows access control security on registry keys. For an overview of these classes and their relationship to the underlying Windows access control structures, see <xref href=\"System.Security.AccessControl.RegistrySecurity\" data-throw-if-not-resolved=\"false\"></xref>.</p>\n<p>Windows access control security can only be applied to registry keys. It cannot be applied to individual key/value pairs stored in a key.</p>\n<p>To get a list of the audit rules currently applied to a registry key, use the <xref href=\"Microsoft.Win32.RegistryKey.GetAccessControl\" data-throw-if-not-resolved=\"false\"></xref> method to get a <xref href=\"System.Security.AccessControl.RegistrySecurity\" data-throw-if-not-resolved=\"false\"></xref> object, and then use its <xref href=\"System.Security.AccessControl.CommonObjectSecurity.GetAuditRules(System.Boolean,System.Boolean,System.Type)\" data-throw-if-not-resolved=\"false\"></xref> method to obtain a collection of <xref href=\"System.Security.AccessControl.RegistryAuditRule\" data-throw-if-not-resolved=\"false\"></xref> objects.</p>\n<p>\n<xref href=\"System.Security.AccessControl.RegistryAuditRule\" data-throw-if-not-resolved=\"false\"></xref> objects do not map one-to-one with access control entries in the underlying discretionary access control list (DACL). When you get the set of all audit rules for a registry key, the set contains the minimum number of rules currently required to express all the access control entries. </p>\n<p>The underlying access control entries change as you apply and remove rules. The information in rules is merged if possible, to maintain the smallest number of access control entries. Thus, when you read the current list of rules, it might not look exactly like the list of all the rules you have added.</p>\n<p>Use <xref href=\"System.Security.AccessControl.RegistryAuditRule\" data-throw-if-not-resolved=\"false\"></xref> objects to specify access rights to be audited for a user or group. To apply a rule to a registry key, use the <xref href=\"Microsoft.Win32.RegistryKey.GetAccessControl\" data-throw-if-not-resolved=\"false\"></xref> method to get the <xref href=\"System.Security.AccessControl.RegistrySecurity\" data-throw-if-not-resolved=\"false\"></xref> object. Modify the <xref href=\"System.Security.AccessControl.RegistrySecurity\" data-throw-if-not-resolved=\"false\"></xref> object by using its methods to add the rule, and then use the <xref href=\"Microsoft.Win32.RegistryKey.SetAccessControl(System.Security.AccessControl.RegistrySecurity)\" data-throw-if-not-resolved=\"false\"></xref> method to reattach the security object.</p>\n<p>Changes you make to a <xref href=\"System.Security.AccessControl.RegistrySecurity\" data-throw-if-not-resolved=\"false\"></xref> object do not affect the access levels of the registry key until you call the <xref href=\"Microsoft.Win32.RegistryKey.SetAccessControl(System.Security.AccessControl.RegistrySecurity)\" data-throw-if-not-resolved=\"false\"></xref> method to assign the altered security object to the registry key.</p>\n<p>\n<xref href=\"System.Security.AccessControl.RegistryAuditRule\" data-throw-if-not-resolved=\"false\"></xref> objects are immutable. Security for a registry key is modified by using the methods of the <xref href=\"System.Security.AccessControl.RegistrySecurity\" data-throw-if-not-resolved=\"false\"></xref> class to add or remove rules; as you do this, the underlying access control entries are modified. </p>\n"
   syntax:
-    content: 'public sealed class RegistryAuditRule : AuditRule'
+    content: >-
+      [SecurityCritical]
+
+      public sealed class RegistryAuditRule : AuditRule
     content.vb: >-
+      <SecurityCritical>
+
       Public NotInheritable Class RegistryAuditRule
           Inherits AuditRule
   inheritance:
   - System.Object
+  - System.Security.AccessControl.AuthorizationRule
+  - System.Security.AccessControl.AuditRule
+  inheritedMembers:
+  - System.Security.AccessControl.AuditRule.AuditFlags
+  - System.Security.AccessControl.AuthorizationRule.IdentityReference
+  - System.Security.AccessControl.AuthorizationRule.AccessMask
+  - System.Security.AccessControl.AuthorizationRule.IsInherited
+  - System.Security.AccessControl.AuthorizationRule.InheritanceFlags
+  - System.Security.AccessControl.AuthorizationRule.PropagationFlags
+  - System.Object.ToString
+  - System.Object.Equals(System.Object)
+  - System.Object.Equals(System.Object,System.Object)
+  - System.Object.ReferenceEquals(System.Object,System.Object)
+  - System.Object.GetHashCode
+  - System.Object.GetType
+  - System.Object.MemberwiseClone
+  attributes:
+  - type: System.Security.SecurityCriticalAttribute
+    ctor: System.Security.SecurityCriticalAttribute.#ctor
+    arguments: []
   modifiers.csharp:
   - public
   - sealed
@@ -48,7 +73,7 @@ items:
   langs:
   - csharp
   - vb
-  name: RegistryAuditRule(Principal.IdentityReference, RegistryRights, InheritanceFlags, PropagationFlags, AuditFlags)
+  name: RegistryAuditRule(IdentityReference, RegistryRights, InheritanceFlags, PropagationFlags, AuditFlags)
   fullName: System.Security.AccessControl.RegistryAuditRule.RegistryAuditRule(System.Security.Principal.IdentityReference, System.Security.AccessControl.RegistryRights, System.Security.AccessControl.InheritanceFlags, System.Security.AccessControl.PropagationFlags, System.Security.AccessControl.AuditFlags)
   type: Constructor
   source:
@@ -65,8 +90,8 @@ items:
   summary: "\n<p>Initializes a new instance of the <xref href=\"System.Security.AccessControl.RegistryAuditRule\" data-throw-if-not-resolved=\"false\"></xref> class, specifying the user or group to audit, the rights to audit, whether to take inheritance into account, and whether to audit success, failure, or both.</p>\n"
   remarks: "\n<p>All registry keys are containers, so the only inheritance flag that is meaningful for registry keys is the <xref href=\"System.Security.AccessControl.InheritanceFlags.ContainerInherit\" data-throw-if-not-resolved=\"false\"></xref> flag. If this flag is not specified, the propagation flags are ignored, and only the immediate key is affected. If the flag is present, the rule is propagated as shown in the following table. The table assumes there is a subkey S with child subkey CS and grandchild subkey GS. That is, the path for the grandchild subkey is S\\CS\\GS.</p>\n<p>Propagation flags</p>\n<p>S</p>\n<p>CS</p>\n<p>GS</p>\n<p>The pattern for the grandchild subkey governs all subkeys contained by the grandchild subkey. </p>\n<p>For example, if the <xref href=\"System.Security.AccessControl.InheritanceFlags.ContainerInherit\" data-throw-if-not-resolved=\"false\"></xref> flag is specified for <em>inheritanceFlags</em> and the <xref href=\"System.Security.AccessControl.PropagationFlags.InheritOnly\" data-throw-if-not-resolved=\"false\"></xref> propagation flag is specified for <em>propagationFlags</em>, this rule does not apply to the immediate subkey, but does apply to all its immediate child subkeys and to all subkeys they contain. </p>\n<p>Although you can specify the <xref href=\"System.Security.AccessControl.InheritanceFlags.ObjectInherit\" data-throw-if-not-resolved=\"false\"></xref> flag for <em>inheritanceFlags</em>, there is no point in doing so. For the purposes of access control, the name/value pairs in a subkey are not separate objects. The access rights to name/value pairs are controlled by the rights of the subkey. Furthermore, since all subkeys are containers (that is, they can contain other subkeys), they are not affected by the <xref href=\"System.Security.AccessControl.InheritanceFlags.ObjectInherit\" data-throw-if-not-resolved=\"false\"></xref> flag. Finally, specifying the <xref href=\"System.Security.AccessControl.InheritanceFlags.ObjectInherit\" data-throw-if-not-resolved=\"false\"></xref> flag needlessly complicates the maintenance of rules, because it interferes with the normal combination of compatible rules. </p>\n"
   syntax:
-    content: public RegistryAuditRule(Principal.IdentityReference identity, RegistryRights registryRights, InheritanceFlags inheritanceFlags, PropagationFlags propagationFlags, AuditFlags flags)
-    content.vb: Public Sub New(identity As Principal.IdentityReference, registryRights As RegistryRights, inheritanceFlags As InheritanceFlags, propagationFlags As PropagationFlags, flags As AuditFlags)
+    content: public RegistryAuditRule(IdentityReference identity, RegistryRights registryRights, InheritanceFlags inheritanceFlags, PropagationFlags propagationFlags, AuditFlags flags)
+    content.vb: Public Sub New(identity As IdentityReference, registryRights As RegistryRights, inheritanceFlags As InheritanceFlags, propagationFlags As PropagationFlags, flags As AuditFlags)
     parameters:
     - id: identity
       type: System.Security.Principal.IdentityReference
@@ -165,12 +190,12 @@ items:
   type: Property
   source:
     remote:
-      path: src/Microsoft.Win32.Registry.AccessControl/src/System/Security/AccessControl/RegistrySecurity.cs
+      path: src/Microsoft.Win32.Registry.AccessControl/ref/Microsoft.Win32.Registry.AccessControl.cs
       branch: master
       repo: https://github.com/dotnet/corefx.git
     id: RegistryRights
-    path: src/Microsoft.Win32.Registry.AccessControl/src/System/Security/AccessControl/RegistrySecurity.cs
-    startLine: 79
+    path: src/Microsoft.Win32.Registry.AccessControl/ref/Microsoft.Win32.Registry.AccessControl.cs
+    startLine: 34
   assemblies:
   - Microsoft.Win32.Registry.AccessControl
   namespace: System.Security.AccessControl
@@ -181,7 +206,8 @@ items:
     content.vb: Public ReadOnly Property RegistryRights As RegistryRights
     parameters: []
     return:
-      type: RegistryRights
+      type: System.Security.AccessControl.RegistryRights
+      description: "\n<p>A bitwise combination of <xref href=\"System.Security.AccessControl.RegistryRights\" data-throw-if-not-resolved=\"false\"></xref> values that indicates the rights affected by the audit rule.</p>\n"
   modifiers.csharp:
   - public
   - get
@@ -198,6 +224,255 @@ references:
   isExternal: false
   name: Object
   fullName: System.Object
+- uid: System.Security.AccessControl.AuthorizationRule
+  parent: System.Security.AccessControl
+  isExternal: false
+  name: AuthorizationRule
+  fullName: System.Security.AccessControl.AuthorizationRule
+- uid: System.Security.AccessControl.AuditRule
+  parent: System.Security.AccessControl
+  isExternal: false
+  name: AuditRule
+  fullName: System.Security.AccessControl.AuditRule
+- uid: System.Security.AccessControl.AuditRule.AuditFlags
+  parent: System.Security.AccessControl.AuditRule
+  isExternal: false
+  name: AuditFlags
+  fullName: System.Security.AccessControl.AuditRule.AuditFlags
+- uid: System.Security.AccessControl.AuthorizationRule.IdentityReference
+  parent: System.Security.AccessControl.AuthorizationRule
+  isExternal: false
+  name: IdentityReference
+  fullName: System.Security.AccessControl.AuthorizationRule.IdentityReference
+- uid: System.Security.AccessControl.AuthorizationRule.AccessMask
+  parent: System.Security.AccessControl.AuthorizationRule
+  isExternal: false
+  name: AccessMask
+  fullName: System.Security.AccessControl.AuthorizationRule.AccessMask
+- uid: System.Security.AccessControl.AuthorizationRule.IsInherited
+  parent: System.Security.AccessControl.AuthorizationRule
+  isExternal: false
+  name: IsInherited
+  fullName: System.Security.AccessControl.AuthorizationRule.IsInherited
+- uid: System.Security.AccessControl.AuthorizationRule.InheritanceFlags
+  parent: System.Security.AccessControl.AuthorizationRule
+  isExternal: false
+  name: InheritanceFlags
+  fullName: System.Security.AccessControl.AuthorizationRule.InheritanceFlags
+- uid: System.Security.AccessControl.AuthorizationRule.PropagationFlags
+  parent: System.Security.AccessControl.AuthorizationRule
+  isExternal: false
+  name: PropagationFlags
+  fullName: System.Security.AccessControl.AuthorizationRule.PropagationFlags
+- uid: System.Object.ToString
+  parent: System.Object
+  isExternal: true
+  name: ToString()
+  fullName: System.Object.ToString()
+  spec.csharp:
+  - uid: System.Object.ToString
+    name: ToString
+    fullName: System.Object.ToString
+    isExternal: true
+  - name: (
+    fullName: (
+  - name: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.ToString
+    name: ToString
+    fullName: System.Object.ToString
+    isExternal: true
+  - name: (
+    fullName: (
+  - name: )
+    fullName: )
+- uid: System.Object.Equals(System.Object)
+  parent: System.Object
+  isExternal: true
+  name: Equals(Object)
+  fullName: System.Object.Equals(System.Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    fullName: )
+- uid: System.Object.Equals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  name: Equals(Object, Object)
+  fullName: System.Object.Equals(System.Object, System.Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    fullName: )
+- uid: System.Object.ReferenceEquals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  name: ReferenceEquals(Object, Object)
+  fullName: System.Object.ReferenceEquals(System.Object, System.Object)
+  spec.csharp:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    fullName: System.Object.ReferenceEquals
+    isExternal: true
+  - name: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    fullName: System.Object.ReferenceEquals
+    isExternal: true
+  - name: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    fullName: )
+- uid: System.Object.GetHashCode
+  parent: System.Object
+  isExternal: true
+  name: GetHashCode()
+  fullName: System.Object.GetHashCode()
+  spec.csharp:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    fullName: System.Object.GetHashCode
+    isExternal: true
+  - name: (
+    fullName: (
+  - name: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    fullName: System.Object.GetHashCode
+    isExternal: true
+  - name: (
+    fullName: (
+  - name: )
+    fullName: )
+- uid: System.Object.GetType
+  parent: System.Object
+  isExternal: true
+  name: GetType()
+  fullName: System.Object.GetType()
+  spec.csharp:
+  - uid: System.Object.GetType
+    name: GetType
+    fullName: System.Object.GetType
+    isExternal: true
+  - name: (
+    fullName: (
+  - name: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.GetType
+    name: GetType
+    fullName: System.Object.GetType
+    isExternal: true
+  - name: (
+    fullName: (
+  - name: )
+    fullName: )
+- uid: System.Object.MemberwiseClone
+  parent: System.Object
+  isExternal: true
+  name: MemberwiseClone()
+  fullName: System.Object.MemberwiseClone()
+  spec.csharp:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    fullName: System.Object.MemberwiseClone
+    isExternal: true
+  - name: (
+    fullName: (
+  - name: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    fullName: System.Object.MemberwiseClone
+    isExternal: true
+  - name: (
+    fullName: (
+  - name: )
+    fullName: )
 - uid: System
   isExternal: false
   name: System
@@ -205,7 +480,7 @@ references:
 - uid: System.Security.Principal.IdentityReference
   parent: System.Security.Principal
   isExternal: false
-  name: Principal.IdentityReference
+  name: IdentityReference
   fullName: System.Security.Principal.IdentityReference
 - uid: System.Security.AccessControl.RegistryRights
   parent: System.Security.AccessControl

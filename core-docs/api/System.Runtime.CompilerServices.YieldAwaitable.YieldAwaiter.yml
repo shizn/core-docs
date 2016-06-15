@@ -16,25 +16,47 @@ items:
   type: Struct
   source:
     remote:
-      path: src/System.Threading.Tasks/ref/System.Threading.Tasks.cs
+      path: src/mscorlib/src/System/Runtime/CompilerServices/YieldAwaitable.cs
       branch: master
-      repo: https://github.com/dotnet/corefx.git
+      repo: https://github.com/dotnet/coreclr.git
     id: YieldAwaiter
-    path: src/System.Threading.Tasks/ref/System.Threading.Tasks.cs
-    startLine: 137
+    path: src/mscorlib/src/System/Runtime/CompilerServices/YieldAwaitable.cs
+    startLine: 50
   assemblies:
   - System.Threading.Tasks
   namespace: System.Runtime.CompilerServices
   summary: "\n<p>Provides an awaiter for switching into a target environment.</p>\n"
   remarks: "\n<p>This type and its members are intended for use by the compiler.</p>\n"
   syntax:
-    content: 'public struct YieldAwaiter : ICriticalNotifyCompletion, INotifyCompletion'
+    content: >-
+      [HostProtection(Synchronization = true, ExternalThreading = true)]
+
+      public struct YieldAwaiter : ICriticalNotifyCompletion, INotifyCompletion
     content.vb: >-
+      <HostProtection(Synchronization:=True, ExternalThreading:=True)>
+
       Public Structure YieldAwaiter
           Implements ICriticalNotifyCompletion, INotifyCompletion
   implements:
   - System.Runtime.CompilerServices.ICriticalNotifyCompletion
   - System.Runtime.CompilerServices.INotifyCompletion
+  inheritedMembers:
+  - System.ValueType.Equals(System.Object)
+  - System.ValueType.GetHashCode
+  - System.ValueType.ToString
+  - System.Object.Equals(System.Object,System.Object)
+  - System.Object.ReferenceEquals(System.Object,System.Object)
+  - System.Object.GetType
+  attributes:
+  - type: System.Runtime.InteropServices.StructLayoutAttribute
+    ctor: System.Runtime.InteropServices.StructLayoutAttribute.#ctor(System.Runtime.InteropServices.LayoutKind)
+    arguments:
+    - type: System.Runtime.InteropServices.LayoutKind
+      value: 0
+    namedArguments:
+    - name: Size
+      type: System.Int32
+      value: 1
   modifiers.csharp:
   - public
   - struct
@@ -53,12 +75,12 @@ items:
   type: Property
   source:
     remote:
-      path: src/System.Threading.Tasks/ref/System.Threading.Tasks.cs
+      path: src/mscorlib/src/System/Runtime/CompilerServices/YieldAwaitable.cs
       branch: master
-      repo: https://github.com/dotnet/corefx.git
+      repo: https://github.com/dotnet/coreclr.git
     id: IsCompleted
-    path: src/System.Threading.Tasks/ref/System.Threading.Tasks.cs
-    startLine: 140
+    path: src/mscorlib/src/System/Runtime/CompilerServices/YieldAwaitable.cs
+    startLine: 55
   assemblies:
   - System.Threading.Tasks
   namespace: System.Runtime.CompilerServices
@@ -70,7 +92,6 @@ items:
     parameters: []
     return:
       type: System.Boolean
-      description: "\n<p>Always <strong>false</strong>, which indicates that a yield is always required for <xref href=\"System.Runtime.CompilerServices.YieldAwaitable.YieldAwaiter\" data-throw-if-not-resolved=\"false\"></xref>.</p>\n"
   modifiers.csharp:
   - public
   - get
@@ -89,12 +110,12 @@ items:
   type: Method
   source:
     remote:
-      path: src/System.Threading.Tasks/ref/System.Threading.Tasks.cs
+      path: src/mscorlib/src/System/Runtime/CompilerServices/YieldAwaitable.cs
       branch: master
-      repo: https://github.com/dotnet/corefx.git
+      repo: https://github.com/dotnet/coreclr.git
     id: GetResult
-    path: src/System.Threading.Tasks/ref/System.Threading.Tasks.cs
-    startLine: 141
+    path: src/mscorlib/src/System/Runtime/CompilerServices/YieldAwaitable.cs
+    startLine: 164
   assemblies:
   - System.Threading.Tasks
   namespace: System.Runtime.CompilerServices
@@ -119,24 +140,30 @@ items:
   type: Method
   source:
     remote:
-      path: src/System.Threading.Tasks/ref/System.Threading.Tasks.cs
+      path: src/mscorlib/src/System/Runtime/CompilerServices/YieldAwaitable.cs
       branch: master
-      repo: https://github.com/dotnet/corefx.git
+      repo: https://github.com/dotnet/coreclr.git
     id: OnCompleted
-    path: src/System.Threading.Tasks/ref/System.Threading.Tasks.cs
-    startLine: 142
+    path: src/mscorlib/src/System/Runtime/CompilerServices/YieldAwaitable.cs
+    startLine: 60
   assemblies:
   - System.Threading.Tasks
   namespace: System.Runtime.CompilerServices
   summary: "\n<p>Sets the continuation to invoke.</p>\n"
   remarks: "\n<p>This type and its members are intended for use by the compiler.</p>\n"
   syntax:
-    content: public void OnCompleted(Action continuation)
-    content.vb: Public Sub OnCompleted(continuation As Action)
+    content: >-
+      [SecuritySafeCritical]
+
+      public void OnCompleted(Action continuation)
+    content.vb: >-
+      <SecuritySafeCritical>
+
+      Public Sub OnCompleted(continuation As Action)
     parameters:
     - id: continuation
       type: System.Action
-      description: "\n<p>The action to invoke asynchronously.</p>\n"
+      description: The action to invoke asynchronously.
   exceptions:
   - type: System.ArgumentNullException
     commentId: T:System.ArgumentNullException
@@ -159,29 +186,39 @@ items:
   type: Method
   source:
     remote:
-      path: src/System.Threading.Tasks/ref/System.Threading.Tasks.cs
+      path: src/mscorlib/src/System/Runtime/CompilerServices/YieldAwaitable.cs
       branch: master
-      repo: https://github.com/dotnet/corefx.git
+      repo: https://github.com/dotnet/coreclr.git
     id: UnsafeOnCompleted
-    path: src/System.Threading.Tasks/ref/System.Threading.Tasks.cs
-    startLine: 143
+    path: src/mscorlib/src/System/Runtime/CompilerServices/YieldAwaitable.cs
+    startLine: 69
   assemblies:
   - System.Threading.Tasks
   namespace: System.Runtime.CompilerServices
   summary: "\n<p>Posts the <em>continuation</em> back to the current context.</p>\n"
   syntax:
-    content: public void UnsafeOnCompleted(Action continuation)
-    content.vb: Public Sub UnsafeOnCompleted(continuation As Action)
+    content: >-
+      [SecurityCritical]
+
+      public void UnsafeOnCompleted(Action continuation)
+    content.vb: >-
+      <SecurityCritical>
+
+      Public Sub UnsafeOnCompleted(continuation As Action)
     parameters:
     - id: continuation
       type: System.Action
-      description: "\n<p>The action to invoke asynchronously.</p>\n"
+      description: The action to invoke asynchronously.
   exceptions:
   - type: System.ArgumentNullException
     commentId: T:System.ArgumentNullException
     description: "\n<p>The <em>continuation</em> argument is <strong>null</strong>.</p>\n"
   implements:
   - System.Runtime.CompilerServices.ICriticalNotifyCompletion.UnsafeOnCompleted(System.Action)
+  attributes:
+  - type: System.Security.SecurityCriticalAttribute
+    ctor: System.Security.SecurityCriticalAttribute.#ctor
+    arguments: []
   modifiers.csharp:
   - public
   modifiers.vb:
@@ -201,15 +238,205 @@ references:
   isExternal: false
   name: INotifyCompletion
   fullName: System.Runtime.CompilerServices.INotifyCompletion
+- uid: System.ValueType.Equals(System.Object)
+  parent: System.ValueType
+  isExternal: true
+  name: Equals(Object)
+  fullName: System.ValueType.Equals(System.Object)
+  spec.csharp:
+  - uid: System.ValueType.Equals(System.Object)
+    name: Equals
+    fullName: System.ValueType.Equals
+  - name: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    fullName: )
+  spec.vb:
+  - uid: System.ValueType.Equals(System.Object)
+    name: Equals
+    fullName: System.ValueType.Equals
+  - name: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    fullName: )
+- uid: System.ValueType.GetHashCode
+  parent: System.ValueType
+  isExternal: false
+  name: GetHashCode()
+  fullName: System.ValueType.GetHashCode()
+  spec.csharp:
+  - uid: System.ValueType.GetHashCode
+    name: GetHashCode
+    fullName: System.ValueType.GetHashCode
+  - name: (
+    fullName: (
+  - name: )
+    fullName: )
+  spec.vb:
+  - uid: System.ValueType.GetHashCode
+    name: GetHashCode
+    fullName: System.ValueType.GetHashCode
+  - name: (
+    fullName: (
+  - name: )
+    fullName: )
+- uid: System.ValueType.ToString
+  parent: System.ValueType
+  isExternal: false
+  name: ToString()
+  fullName: System.ValueType.ToString()
+  spec.csharp:
+  - uid: System.ValueType.ToString
+    name: ToString
+    fullName: System.ValueType.ToString
+  - name: (
+    fullName: (
+  - name: )
+    fullName: )
+  spec.vb:
+  - uid: System.ValueType.ToString
+    name: ToString
+    fullName: System.ValueType.ToString
+  - name: (
+    fullName: (
+  - name: )
+    fullName: )
+- uid: System.Object.Equals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  name: Equals(Object, Object)
+  fullName: System.Object.Equals(System.Object, System.Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    fullName: )
+- uid: System.Object.ReferenceEquals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  name: ReferenceEquals(Object, Object)
+  fullName: System.Object.ReferenceEquals(System.Object, System.Object)
+  spec.csharp:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    fullName: System.Object.ReferenceEquals
+    isExternal: true
+  - name: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    fullName: System.Object.ReferenceEquals
+    isExternal: true
+  - name: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    fullName: )
+- uid: System.Object.GetType
+  parent: System.Object
+  isExternal: true
+  name: GetType()
+  fullName: System.Object.GetType()
+  spec.csharp:
+  - uid: System.Object.GetType
+    name: GetType
+    fullName: System.Object.GetType
+    isExternal: true
+  - name: (
+    fullName: (
+  - name: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.GetType
+    name: GetType
+    fullName: System.Object.GetType
+    isExternal: true
+  - name: (
+    fullName: (
+  - name: )
+    fullName: )
+- uid: System.ValueType
+  parent: System
+  isExternal: false
+  name: ValueType
+  fullName: System.ValueType
+- uid: System.Object
+  parent: System
+  isExternal: false
+  name: Object
+  fullName: System.Object
+- uid: System
+  isExternal: false
+  name: System
+  fullName: System
 - uid: System.Boolean
   parent: System
   isExternal: false
   name: Boolean
   fullName: System.Boolean
-- uid: System
-  isExternal: false
-  name: System
-  fullName: System
 - uid: System.Runtime.CompilerServices.INotifyCompletion.OnCompleted(System.Action)
   parent: System.Runtime.CompilerServices.INotifyCompletion
   isExternal: true
@@ -240,6 +467,7 @@ references:
   - name: )
     fullName: )
 - uid: System.Action
+  parent: System
   isExternal: false
   name: Action
   fullName: System.Action

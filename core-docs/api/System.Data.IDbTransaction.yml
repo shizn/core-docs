@@ -25,11 +25,17 @@ items:
   assemblies:
   - System.Data.Common
   namespace: System.Data
+  summary: "\n<p>Represents a transaction to be performed at a data source, and is implemented by .NET Framework data providers that access relational databases.</p>\n"
+  remarks: "\n<p>The <xref href=\"System.Data.IDbTransaction\" data-throw-if-not-resolved=\"false\"></xref> interface allows an inheriting class to implement a Transaction class, which represents the transaction to be performed at a data source. For more information about Transaction classes, see Transactions and Concurrency. </p>\n<p>An application does not create an instance of the <xref href=\"System.Data.IDbTransaction\" data-throw-if-not-resolved=\"false\"></xref> interface directly, but creates an instance of a class that inherits <xref href=\"System.Data.IDbTransaction\" data-throw-if-not-resolved=\"false\"></xref>.</p>\n<p>Classes that inherit <xref href=\"System.Data.IDbTransaction\" data-throw-if-not-resolved=\"false\"></xref> must implement the inherited members, and typically define additional members to add provider-specific functionality. For example, the <xref href=\"System.Data.IDbTransaction\" data-throw-if-not-resolved=\"false\"></xref> interface defines the <xref href=\"System.Data.IDbTransaction.Commit\" data-throw-if-not-resolved=\"false\"></xref> method. In turn, the <xref href=\"System.Data.OleDb.OleDbTransaction\" data-throw-if-not-resolved=\"false\"></xref> class inherits this property, and also defines the <xref href=\"System.Data.OleDb.OleDbTransaction.Begin(System.Data.IsolationLevel)\" data-throw-if-not-resolved=\"false\"></xref> method.</p>\n"
+  example:
+  - "\n<p>The following example creates instances of the derived classes, <xref href=\"System.Data.SqlClient.SqlConnection\" data-throw-if-not-resolved=\"false\"></xref> and <xref href=\"System.Data.SqlClient.SqlTransaction\" data-throw-if-not-resolved=\"false\"></xref>. It also demonstrates how to use the <xref href=\"System.Data.SqlClient.SqlConnection.BeginTransaction\" data-throw-if-not-resolved=\"false\"></xref>, <xref href=\"System.Data.SqlClient.SqlTransaction.Commit\" data-throw-if-not-resolved=\"false\"></xref>, and <xref href=\"System.Data.SqlClient.SqlTransaction.Rollback\" data-throw-if-not-resolved=\"false\"></xref> methods.</p>Classic WebData SqlConnection.BeginTransaction Example#1"
   syntax:
     content: 'public interface IDbTransaction : IDisposable'
     content.vb: >-
       Public Interface IDbTransaction
           Inherits IDisposable
+  inheritedMembers:
+  - System.IDisposable.Dispose
   modifiers.csharp:
   - public
   - interface
@@ -57,6 +63,8 @@ items:
   assemblies:
   - System.Data.Common
   namespace: System.Data
+  summary: "\n<p>Specifies the Connection object to associate with the transaction.</p>\n"
+  remarks: "\n<p>A single application may have multiple database connections, each with zero or more transactions. This property enables you to determine the connection object associated with a particular transaction.</p>\n"
   syntax:
     content: IDbConnection Connection { get; }
     content.vb: ReadOnly Property Connection As IDbConnection
@@ -88,6 +96,8 @@ items:
   assemblies:
   - System.Data.Common
   namespace: System.Data
+  summary: "\n<p>Specifies the <xref href=\"System.Data.IsolationLevel\" data-throw-if-not-resolved=\"false\"></xref> for this transaction.</p>\n"
+  remarks: "\n<p>Parallel transactions are not supported. Therefore, the <xref href=\"System.Data.IsolationLevel\" data-throw-if-not-resolved=\"false\"></xref> applies to the entire transaction.</p>\n"
   syntax:
     content: IsolationLevel IsolationLevel { get; }
     content.vb: ReadOnly Property IsolationLevel As IsolationLevel
@@ -119,9 +129,26 @@ items:
   assemblies:
   - System.Data.Common
   namespace: System.Data
+  summary: "\n<p>Commits the database transaction.</p>\n"
+  example:
+  - "\n<p>The following example creates instances of the derived classes, <xref href=\"System.Data.SqlClient.SqlConnection\" data-throw-if-not-resolved=\"false\"></xref> and a <xref href=\"System.Data.SqlClient.SqlTransaction\" data-throw-if-not-resolved=\"false\"></xref>. It also demonstrates how to use the <xref href=\"System.Data.SqlClient.SqlTransaction.Commit\" data-throw-if-not-resolved=\"false\"></xref>, <xref href=\"System.Data.SqlClient.SqlConnection.BeginTransaction\" data-throw-if-not-resolved=\"false\"></xref>, and <xref href=\"System.Data.SqlClient.SqlTransaction.Rollback\" data-throw-if-not-resolved=\"false\"></xref> methods.</p>Classic WebData SqlConnection.BeginTransaction Example#1"
   syntax:
     content: void Commit()
     content.vb: Sub Commit
+  exceptions:
+  - type: System.Exception
+    commentId: T:System.Exception
+    description: "\n<p>An error occurred while trying to commit the transaction. </p>\n"
+  - type: System.InvalidOperationException
+    commentId: T:System.InvalidOperationException
+    description: "\n<p>The transaction has already been committed or rolled back.</p>\n<p>-or- </p>\n<p>The connection is broken. </p>\n"
+  seealso:
+  - type: System.Data.SqlClient.SqlConnection.BeginTransaction
+    commentId: M:System.Data.SqlClient.SqlConnection.BeginTransaction
+  - type: System.Data.SqlClient.SqlTransaction.Save(System.String)
+    commentId: M:System.Data.SqlClient.SqlTransaction.Save(System.String)
+  - type: System.Data.SqlClient.SqlTransaction.Rollback
+    commentId: M:System.Data.SqlClient.SqlTransaction.Rollback
 - uid: System.Data.IDbTransaction.Rollback
   commentId: M:System.Data.IDbTransaction.Rollback
   id: Rollback
@@ -143,14 +170,60 @@ items:
   assemblies:
   - System.Data.Common
   namespace: System.Data
+  summary: "\n<p>Rolls back a transaction from a pending state.</p>\n"
+  remarks: "\n<p>The transaction can only be rolled back from a pending state (after <xref href=\"System.Data.IDbConnection.BeginTransaction\" data-throw-if-not-resolved=\"false\"></xref> has been called, but before <xref href=\"System.Data.IDbTransaction.Commit\" data-throw-if-not-resolved=\"false\"></xref> is called).</p>\n"
+  example:
+  - "\n<p>The following example creates instances of the derived classes, <xref href=\"System.Data.SqlClient.SqlConnection\" data-throw-if-not-resolved=\"false\"></xref> and a <xref href=\"System.Data.SqlClient.SqlTransaction\" data-throw-if-not-resolved=\"false\"></xref>. It also demonstrates how to use the <xref href=\"System.Data.SqlClient.SqlConnection.BeginTransaction\" data-throw-if-not-resolved=\"false\"></xref>, <xref href=\"System.Data.SqlClient.SqlTransaction.Commit\" data-throw-if-not-resolved=\"false\"></xref>, and <xref href=\"System.Data.SqlClient.SqlTransaction.Rollback\" data-throw-if-not-resolved=\"false\"></xref> methods.</p>Classic WebData SqlConnection.BeginTransaction Example#1"
   syntax:
     content: void Rollback()
     content.vb: Sub Rollback
+  exceptions:
+  - type: System.Exception
+    commentId: T:System.Exception
+    description: "\n<p>An error occurred while trying to commit the transaction. </p>\n"
+  - type: System.InvalidOperationException
+    commentId: T:System.InvalidOperationException
+    description: "\n<p>The transaction has already been committed or rolled back.</p>\n<p>-or- </p>\n<p>The connection is broken. </p>\n"
+  seealso:
+  - type: System.Data.IDbTransaction.Commit
+    commentId: M:System.Data.IDbTransaction.Commit
+  - type: System.Data.IDbConnection.BeginTransaction
+    commentId: M:System.Data.IDbConnection.BeginTransaction
 references:
 - uid: System.Data
   isExternal: false
   name: System.Data
   fullName: System.Data
+- uid: System.IDisposable.Dispose
+  parent: System.IDisposable
+  isExternal: false
+  name: Dispose()
+  fullName: System.IDisposable.Dispose()
+  spec.csharp:
+  - uid: System.IDisposable.Dispose
+    name: Dispose
+    fullName: System.IDisposable.Dispose
+  - name: (
+    fullName: (
+  - name: )
+    fullName: )
+  spec.vb:
+  - uid: System.IDisposable.Dispose
+    name: Dispose
+    fullName: System.IDisposable.Dispose
+  - name: (
+    fullName: (
+  - name: )
+    fullName: )
+- uid: System.IDisposable
+  parent: System
+  isExternal: false
+  name: IDisposable
+  fullName: System.IDisposable
+- uid: System
+  isExternal: false
+  name: System
+  fullName: System
 - uid: System.Data.IDbConnection
   parent: System.Data
   isExternal: false
@@ -161,3 +234,13 @@ references:
   isExternal: false
   name: IsolationLevel
   fullName: System.Data.IsolationLevel
+- uid: System.Exception
+  parent: System
+  isExternal: false
+  name: Exception
+  fullName: System.Exception
+- uid: System.InvalidOperationException
+  parent: System
+  isExternal: false
+  name: InvalidOperationException
+  fullName: System.InvalidOperationException

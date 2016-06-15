@@ -33,6 +33,10 @@ items:
   assemblies:
   - System.ComponentModel.TypeConverter
   namespace: System.ComponentModel
+  summary: "\n<p>Provides a type converter to convert <xref href=\"System.Enum\" data-throw-if-not-resolved=\"false\"></xref> objects to and from various other representations.</p>\n"
+  remarks: "\n<p>This converter can only convert an enumeration object to and from a string. The <xref href=\"System.ComponentModel.EnumConverter\" data-throw-if-not-resolved=\"false\"></xref> class provides the <xref href=\"System.ComponentModel.EnumConverter.Comparer\" data-throw-if-not-resolved=\"false\"></xref> property to get an <xref href=\"System.Collections.IComparer\" data-throw-if-not-resolved=\"false\"></xref> interface that can be used to sort the values of the enumeration. By default, the enumeration values are sorted in the order they appear in the file.</p>\n<p>For more information about type converters, see the <xref href=\"System.ComponentModel.TypeConverter\" data-throw-if-not-resolved=\"false\"></xref> base class and How to: Implement a Type Converter.</p>\n<p>You should never create an instance of an <xref href=\"System.ComponentModel.EnumConverter\" data-throw-if-not-resolved=\"false\"></xref>. Instead, call the <xref href=\"System.ComponentModel.TypeDescriptor.GetConverter(System.Object)\" data-throw-if-not-resolved=\"false\"></xref> method of the <xref href=\"System.ComponentModel.TypeDescriptor\" data-throw-if-not-resolved=\"false\"></xref> class. For more information, see the examples in the <xref href=\"System.ComponentModel.TypeConverter\" data-throw-if-not-resolved=\"false\"></xref> base class.</p>\n"
+  example:
+  - "\n<p>The following code example converts a variable of type <xref href=\"System.Enum\" data-throw-if-not-resolved=\"false\"></xref> to a string, and vice versa. The example requires that you have declared an <xref href=\"System.Enum\" data-throw-if-not-resolved=\"false\"></xref> called <code>Servers</code> and that it has the following members: </p>\n<pre><code>Windows=1, Exchange=2, BizTalk=3</code></pre>Converters#12"
   syntax:
     content: 'public class EnumConverter : TypeConverter'
     content.vb: >-
@@ -72,6 +76,13 @@ items:
   - System.ComponentModel.TypeConverter.GetStandardValuesSupported
   - System.ComponentModel.TypeConverter.IsValid(System.Object)
   - System.ComponentModel.TypeConverter.SortProperties(System.ComponentModel.PropertyDescriptorCollection,System.String[])
+  - System.Object.ToString
+  - System.Object.Equals(System.Object)
+  - System.Object.Equals(System.Object,System.Object)
+  - System.Object.ReferenceEquals(System.Object,System.Object)
+  - System.Object.GetHashCode
+  - System.Object.GetType
+  - System.Object.MemberwiseClone
   modifiers.csharp:
   - public
   - class
@@ -90,15 +101,16 @@ items:
   type: Constructor
   source:
     remote:
-      path: src/System.ComponentModel.TypeConverter/ref/System.ComponentModel.TypeConverter.cs
+      path: src/System.ComponentModel.TypeConverter/src/System/ComponentModel/EnumConverter.cs
       branch: master
       repo: https://github.com/dotnet/corefx.git
     id: .ctor
-    path: src/System.ComponentModel.TypeConverter/ref/System.ComponentModel.TypeConverter.cs
-    startLine: 155
+    path: src/System.ComponentModel.TypeConverter/src/System/ComponentModel/EnumConverter.cs
+    startLine: 42
   assemblies:
   - System.ComponentModel.TypeConverter
   namespace: System.ComponentModel
+  summary: "\n<p>Initializes a new instance of the <xref href=\"System.ComponentModel.EnumConverter\" data-throw-if-not-resolved=\"false\"></xref> class for the given type.</p>\n"
   syntax:
     content: public EnumConverter(Type type)
     content.vb: Public Sub New(type As Type)
@@ -130,12 +142,13 @@ items:
   assemblies:
   - System.ComponentModel.TypeConverter
   namespace: System.ComponentModel
+  summary: "\n<p>Specifies the type of the enumerator this converter is associated with.</p>\n"
   syntax:
     content: protected Type EnumType { get; }
     content.vb: Protected ReadOnly Property EnumType As Type
     parameters: []
     return:
-      type: Type
+      type: System.Type
   modifiers.csharp:
   - protected
   - get
@@ -163,12 +176,14 @@ items:
   assemblies:
   - System.ComponentModel.TypeConverter
   namespace: System.ComponentModel
+  summary: "\n<p>Gets an <xref href=\"System.Collections.IComparer\" data-throw-if-not-resolved=\"false\"></xref> that can be used to sort the values of the enumeration.</p>\n"
+  remarks: "\n<p>By default, the enumeration values are sorted in the order they appear in the file.</p>\n"
   syntax:
     content: protected virtual IComparer Comparer { get; }
     content.vb: Protected Overridable ReadOnly Property Comparer As IComparer
     parameters: []
     return:
-      type: IComparer
+      type: System.Collections.IComparer
   modifiers.csharp:
   - protected
   - virtual
@@ -189,15 +204,17 @@ items:
   type: Method
   source:
     remote:
-      path: src/System.ComponentModel.TypeConverter/ref/System.ComponentModel.TypeConverter.cs
+      path: src/System.ComponentModel.TypeConverter/src/System/ComponentModel/EnumConverter.cs
       branch: master
       repo: https://github.com/dotnet/corefx.git
     id: CanConvertFrom
-    path: src/System.ComponentModel.TypeConverter/ref/System.ComponentModel.TypeConverter.cs
-    startLine: 158
+    path: src/System.ComponentModel.TypeConverter/src/System/ComponentModel/EnumConverter.cs
+    startLine: 79
   assemblies:
   - System.ComponentModel.TypeConverter
   namespace: System.ComponentModel
+  summary: "\n<p>Gets a value indicating whether this converter can convert an object in the given source type to an enumeration object using the specified context.</p>\n"
+  remarks: "\n<p>This converter can only convert an enumeration object to and from a string.</p>\n<p>The <em>context</em> parameter can be used to extract additional information about the environment this converter is being invoked from. This can be <strong>null</strong>, so always check. Also, properties on the context object can return <strong>null</strong>.</p>\n"
   syntax:
     content: public override bool CanConvertFrom(ITypeDescriptorContext context, Type sourceType)
     content.vb: Public Overrides Function CanConvertFrom(context As ITypeDescriptorContext, sourceType As Type) As Boolean
@@ -209,6 +226,9 @@ items:
     return:
       type: System.Boolean
   overridden: System.ComponentModel.TypeConverter.CanConvertFrom(System.ComponentModel.ITypeDescriptorContext,System.Type)
+  seealso:
+  - type: System.ComponentModel.TypeConverter
+    commentId: T:System.ComponentModel.TypeConverter
   modifiers.csharp:
   - public
   - override
@@ -227,15 +247,17 @@ items:
   type: Method
   source:
     remote:
-      path: src/System.ComponentModel.TypeConverter/ref/System.ComponentModel.TypeConverter.cs
+      path: src/System.ComponentModel.TypeConverter/src/System/ComponentModel/EnumConverter.cs
       branch: master
       repo: https://github.com/dotnet/corefx.git
     id: CanConvertTo
-    path: src/System.ComponentModel.TypeConverter/ref/System.ComponentModel.TypeConverter.cs
-    startLine: 159
+    path: src/System.ComponentModel.TypeConverter/src/System/ComponentModel/EnumConverter.cs
+    startLine: 92
   assemblies:
   - System.ComponentModel.TypeConverter
   namespace: System.ComponentModel
+  summary: "\n<p>Gets a value indicating whether this converter can convert an object to the given destination type using the context.</p>\n"
+  remarks: "\n<p>The <em>context</em> parameter can be used to extract additional information about the environment this converter is being invoked from. This can be <strong>null</strong>, so always check. Also, properties on the context object can return <strong>null</strong>.</p>\n"
   syntax:
     content: public override bool CanConvertTo(ITypeDescriptorContext context, Type destinationType)
     content.vb: Public Overrides Function CanConvertTo(context As ITypeDescriptorContext, destinationType As Type) As Boolean
@@ -247,6 +269,9 @@ items:
     return:
       type: System.Boolean
   overridden: System.ComponentModel.TypeConverter.CanConvertTo(System.ComponentModel.ITypeDescriptorContext,System.Type)
+  seealso:
+  - type: System.ComponentModel.ITypeDescriptorContext
+    commentId: T:System.ComponentModel.ITypeDescriptorContext
   modifiers.csharp:
   - public
   - override
@@ -260,23 +285,25 @@ items:
   langs:
   - csharp
   - vb
-  name: ConvertFrom(ITypeDescriptorContext, Globalization.CultureInfo, Object)
+  name: ConvertFrom(ITypeDescriptorContext, CultureInfo, Object)
   fullName: System.ComponentModel.EnumConverter.ConvertFrom(System.ComponentModel.ITypeDescriptorContext, System.Globalization.CultureInfo, System.Object)
   type: Method
   source:
     remote:
-      path: src/System.ComponentModel.TypeConverter/ref/System.ComponentModel.TypeConverter.cs
+      path: src/System.ComponentModel.TypeConverter/src/System/ComponentModel/EnumConverter.cs
       branch: master
       repo: https://github.com/dotnet/corefx.git
     id: ConvertFrom
-    path: src/System.ComponentModel.TypeConverter/ref/System.ComponentModel.TypeConverter.cs
-    startLine: 160
+    path: src/System.ComponentModel.TypeConverter/src/System/ComponentModel/EnumConverter.cs
+    startLine: 121
   assemblies:
   - System.ComponentModel.TypeConverter
   namespace: System.ComponentModel
+  summary: "\n<p>Converts the specified value object to an enumeration object.</p>\n"
+  remarks: "\n<p>This converter can only convert an enumeration object to and from a string.</p>\n<p>The <em>context</em> parameter can be used to extract additional information about the environment this converter is being invoked from. This can be <strong>null</strong>, so always check. Also, properties on the context object can return <strong>null</strong>.</p>\n"
   syntax:
-    content: public override object ConvertFrom(ITypeDescriptorContext context, Globalization.CultureInfo culture, object value)
-    content.vb: Public Overrides Function ConvertFrom(context As ITypeDescriptorContext, culture As Globalization.CultureInfo, value As Object) As Object
+    content: public override object ConvertFrom(ITypeDescriptorContext context, CultureInfo culture, object value)
+    content.vb: Public Overrides Function ConvertFrom(context As ITypeDescriptorContext, culture As CultureInfo, value As Object) As Object
     parameters:
     - id: context
       type: System.ComponentModel.ITypeDescriptorContext
@@ -287,6 +314,16 @@ items:
     return:
       type: System.Object
   overridden: System.ComponentModel.TypeConverter.ConvertFrom(System.ComponentModel.ITypeDescriptorContext,System.Globalization.CultureInfo,System.Object)
+  exceptions:
+  - type: System.FormatException
+    commentId: T:System.FormatException
+    description: "\n<p>\n<em>value</em> is not a valid value for the target type. </p>\n"
+  - type: System.NotSupportedException
+    commentId: T:System.NotSupportedException
+    description: "\n<p>The conversion cannot be performed. </p>\n"
+  seealso:
+  - type: System.ComponentModel.TypeConverter
+    commentId: T:System.ComponentModel.TypeConverter
   modifiers.csharp:
   - public
   - override
@@ -300,23 +337,25 @@ items:
   langs:
   - csharp
   - vb
-  name: ConvertTo(ITypeDescriptorContext, Globalization.CultureInfo, Object, Type)
+  name: ConvertTo(ITypeDescriptorContext, CultureInfo, Object, Type)
   fullName: System.ComponentModel.EnumConverter.ConvertTo(System.ComponentModel.ITypeDescriptorContext, System.Globalization.CultureInfo, System.Object, System.Type)
   type: Method
   source:
     remote:
-      path: src/System.ComponentModel.TypeConverter/ref/System.ComponentModel.TypeConverter.cs
+      path: src/System.ComponentModel.TypeConverter/src/System/ComponentModel/EnumConverter.cs
       branch: master
       repo: https://github.com/dotnet/corefx.git
     id: ConvertTo
-    path: src/System.ComponentModel.TypeConverter/ref/System.ComponentModel.TypeConverter.cs
-    startLine: 161
+    path: src/System.ComponentModel.TypeConverter/src/System/ComponentModel/EnumConverter.cs
+    startLine: 166
   assemblies:
   - System.ComponentModel.TypeConverter
   namespace: System.ComponentModel
+  summary: "\n<p>Converts the given value object to the specified destination type.</p>\n"
+  remarks: "\n<p>This converter can only convert an enumeration object to and from a string.</p>\n<p>The <em>context</em> parameter can be used to extract additional information about the environment this converter is being invoked from. This can be <strong>null</strong>, so always check. Also, properties on the context object can return <strong>null</strong>.</p>\n<p>The behavior of the <see cref=\"Overload:System.ComponentModel.EnumConverter.ConvertTo\"></see> method is undefined if the enumeration has multiple fields with the same value.</p>\n"
   syntax:
-    content: public override object ConvertTo(ITypeDescriptorContext context, Globalization.CultureInfo culture, object value, Type destinationType)
-    content.vb: Public Overrides Function ConvertTo(context As ITypeDescriptorContext, culture As Globalization.CultureInfo, value As Object, destinationType As Type) As Object
+    content: public override object ConvertTo(ITypeDescriptorContext context, CultureInfo culture, object value, Type destinationType)
+    content.vb: Public Overrides Function ConvertTo(context As ITypeDescriptorContext, culture As CultureInfo, value As Object, destinationType As Type) As Object
     parameters:
     - id: context
       type: System.ComponentModel.ITypeDescriptorContext
@@ -329,6 +368,16 @@ items:
     return:
       type: System.Object
   overridden: System.ComponentModel.TypeConverter.ConvertTo(System.ComponentModel.ITypeDescriptorContext,System.Globalization.CultureInfo,System.Object,System.Type)
+  exceptions:
+  - type: System.ArgumentNullException
+    commentId: T:System.ArgumentNullException
+    description: "\n<p>\n<em>destinationType</em> is <strong>null</strong>. </p>\n"
+  - type: System.ArgumentException
+    commentId: T:System.ArgumentException
+    description: "\n<p>\n<em>value</em> is not a valid value for the enumeration. </p>\n"
+  - type: System.NotSupportedException
+    commentId: T:System.NotSupportedException
+    description: "\n<p>The conversion cannot be performed. </p>\n"
   modifiers.csharp:
   - public
   - override
@@ -356,6 +405,8 @@ items:
   assemblies:
   - System.ComponentModel.TypeConverter
   namespace: System.ComponentModel
+  summary: "\n<p>Gets a collection of standard values for the data type this validator is designed for.</p>\n"
+  remarks: "\n<p>The <em>context</em> parameter can be used to extract additional information about the environment this converter is being invoked from. This can be <strong>null</strong>, so always check. Also, properties on the context object can return <strong>null</strong>.</p>\n<p>Any fields of the enumeration that are marked with <xref href=\"System.ComponentModel.BrowsableAttribute\" data-throw-if-not-resolved=\"false\"></xref> set to <strong>false</strong> will not be returned.</p>\n"
   syntax:
     content: public override TypeConverter.StandardValuesCollection GetStandardValues(ITypeDescriptorContext context)
     content.vb: Public Overrides Function GetStandardValues(context As ITypeDescriptorContext) As TypeConverter.StandardValuesCollection
@@ -365,6 +416,9 @@ items:
     return:
       type: System.ComponentModel.TypeConverter.StandardValuesCollection
   overridden: System.ComponentModel.TypeConverter.GetStandardValues(System.ComponentModel.ITypeDescriptorContext)
+  seealso:
+  - type: System.ComponentModel.ITypeDescriptorContext
+    commentId: T:System.ComponentModel.ITypeDescriptorContext
   modifiers.csharp:
   - public
   - override
@@ -392,6 +446,8 @@ items:
   assemblies:
   - System.ComponentModel.TypeConverter
   namespace: System.ComponentModel
+  summary: "\n<p>Gets a value indicating whether the list of standard values returned from <xref href=\"System.ComponentModel.TypeConverter.GetStandardValues\" data-throw-if-not-resolved=\"false\"></xref> is an exclusive list using the specified context.</p>\n"
+  remarks: "\n<p>The <em>context</em> parameter can be used to extract additional information about the environment this converter is being invoked from. This can be <strong>null</strong>, so always check. Also, properties on the context object can return <strong>null</strong>.</p>\n"
   syntax:
     content: public override bool GetStandardValuesExclusive(ITypeDescriptorContext context)
     content.vb: Public Overrides Function GetStandardValuesExclusive(context As ITypeDescriptorContext) As Boolean
@@ -401,6 +457,9 @@ items:
     return:
       type: System.Boolean
   overridden: System.ComponentModel.TypeConverter.GetStandardValuesExclusive(System.ComponentModel.ITypeDescriptorContext)
+  seealso:
+  - type: System.ComponentModel.ITypeDescriptorContext
+    commentId: T:System.ComponentModel.ITypeDescriptorContext
   modifiers.csharp:
   - public
   - override
@@ -428,6 +487,8 @@ items:
   assemblies:
   - System.ComponentModel.TypeConverter
   namespace: System.ComponentModel
+  summary: "\n<p>Gets a value indicating whether this object supports a standard set of values that can be picked from a list using the specified context.</p>\n"
+  remarks: "\n<p>The <em>context</em> parameter can be used to extract additional information about the environment this converter is being invoked from. This can be <strong>null</strong>, so always check. Also, properties on the context object can return <strong>null</strong>.</p>\n"
   syntax:
     content: public override bool GetStandardValuesSupported(ITypeDescriptorContext context)
     content.vb: Public Overrides Function GetStandardValuesSupported(context As ITypeDescriptorContext) As Boolean
@@ -437,6 +498,9 @@ items:
     return:
       type: System.Boolean
   overridden: System.ComponentModel.TypeConverter.GetStandardValuesSupported(System.ComponentModel.ITypeDescriptorContext)
+  seealso:
+  - type: System.ComponentModel.ITypeDescriptorContext
+    commentId: T:System.ComponentModel.ITypeDescriptorContext
   modifiers.csharp:
   - public
   - override
@@ -464,6 +528,8 @@ items:
   assemblies:
   - System.ComponentModel.TypeConverter
   namespace: System.ComponentModel
+  summary: "\n<p>Gets a value indicating whether the given object value is valid for this type.</p>\n"
+  remarks: "\n<p>The <em>context</em> parameter can be used to extract additional information about the environment this converter is being invoked from. This can be <strong>null</strong>, so always check. Also, properties on the context object can return <strong>null</strong>.</p>\n"
   syntax:
     content: public override bool IsValid(ITypeDescriptorContext context, object value)
     content.vb: Public Overrides Function IsValid(context As ITypeDescriptorContext, value As Object) As Boolean
@@ -475,6 +541,9 @@ items:
     return:
       type: System.Boolean
   overridden: System.ComponentModel.TypeConverter.IsValid(System.ComponentModel.ITypeDescriptorContext,System.Object)
+  seealso:
+  - type: System.ComponentModel.ITypeDescriptorContext
+    commentId: T:System.ComponentModel.ITypeDescriptorContext
   modifiers.csharp:
   - public
   - override
@@ -502,6 +571,7 @@ items:
   assemblies:
   - System.ComponentModel.TypeConverter
   namespace: System.ComponentModel
+  summary: "\n<p>Gets or sets a <xref href=\"System.ComponentModel.TypeConverter.StandardValuesCollection\" data-throw-if-not-resolved=\"false\"></xref> that specifies the possible values for the enumeration.</p>\n"
   syntax:
     content: protected TypeConverter.StandardValuesCollection Values { get; set; }
     content.vb: Protected Property Values As TypeConverter.StandardValuesCollection
@@ -687,7 +757,7 @@ references:
 - uid: System.ComponentModel.TypeConverter.ConvertFromString(System.ComponentModel.ITypeDescriptorContext,System.Globalization.CultureInfo,System.String)
   parent: System.ComponentModel.TypeConverter
   isExternal: true
-  name: ConvertFromString(ITypeDescriptorContext, Globalization.CultureInfo, String)
+  name: ConvertFromString(ITypeDescriptorContext, CultureInfo, String)
   fullName: System.ComponentModel.TypeConverter.ConvertFromString(System.ComponentModel.ITypeDescriptorContext, System.Globalization.CultureInfo, System.String)
   spec.csharp:
   - uid: System.ComponentModel.TypeConverter.ConvertFromString(System.ComponentModel.ITypeDescriptorContext,System.Globalization.CultureInfo,System.String)
@@ -701,7 +771,7 @@ references:
   - name: ', '
     fullName: ', '
   - uid: System.Globalization.CultureInfo
-    name: Globalization.CultureInfo
+    name: CultureInfo
     fullName: System.Globalization.CultureInfo
     isExternal: true
   - name: ', '
@@ -724,7 +794,7 @@ references:
   - name: ', '
     fullName: ', '
   - uid: System.Globalization.CultureInfo
-    name: Globalization.CultureInfo
+    name: CultureInfo
     fullName: System.Globalization.CultureInfo
     isExternal: true
   - name: ', '
@@ -915,7 +985,7 @@ references:
 - uid: System.ComponentModel.TypeConverter.ConvertToString(System.ComponentModel.ITypeDescriptorContext,System.Globalization.CultureInfo,System.Object)
   parent: System.ComponentModel.TypeConverter
   isExternal: true
-  name: ConvertToString(ITypeDescriptorContext, Globalization.CultureInfo, Object)
+  name: ConvertToString(ITypeDescriptorContext, CultureInfo, Object)
   fullName: System.ComponentModel.TypeConverter.ConvertToString(System.ComponentModel.ITypeDescriptorContext, System.Globalization.CultureInfo, System.Object)
   spec.csharp:
   - uid: System.ComponentModel.TypeConverter.ConvertToString(System.ComponentModel.ITypeDescriptorContext,System.Globalization.CultureInfo,System.Object)
@@ -929,7 +999,7 @@ references:
   - name: ', '
     fullName: ', '
   - uid: System.Globalization.CultureInfo
-    name: Globalization.CultureInfo
+    name: CultureInfo
     fullName: System.Globalization.CultureInfo
     isExternal: true
   - name: ', '
@@ -952,7 +1022,7 @@ references:
   - name: ', '
     fullName: ', '
   - uid: System.Globalization.CultureInfo
-    name: Globalization.CultureInfo
+    name: CultureInfo
     fullName: System.Globalization.CultureInfo
     isExternal: true
   - name: ', '
@@ -1034,7 +1104,7 @@ references:
 - uid: System.ComponentModel.TypeConverter.CreateInstance(System.Collections.IDictionary)
   parent: System.ComponentModel.TypeConverter
   isExternal: true
-  name: CreateInstance(Collections.IDictionary)
+  name: CreateInstance(IDictionary)
   fullName: System.ComponentModel.TypeConverter.CreateInstance(System.Collections.IDictionary)
   spec.csharp:
   - uid: System.ComponentModel.TypeConverter.CreateInstance(System.Collections.IDictionary)
@@ -1043,7 +1113,7 @@ references:
   - name: (
     fullName: (
   - uid: System.Collections.IDictionary
-    name: Collections.IDictionary
+    name: IDictionary
     fullName: System.Collections.IDictionary
     isExternal: true
   - name: )
@@ -1055,7 +1125,7 @@ references:
   - name: (
     fullName: (
   - uid: System.Collections.IDictionary
-    name: Collections.IDictionary
+    name: IDictionary
     fullName: System.Collections.IDictionary
     isExternal: true
   - name: )
@@ -1063,7 +1133,7 @@ references:
 - uid: System.ComponentModel.TypeConverter.CreateInstance(System.ComponentModel.ITypeDescriptorContext,System.Collections.IDictionary)
   parent: System.ComponentModel.TypeConverter
   isExternal: true
-  name: CreateInstance(ITypeDescriptorContext, Collections.IDictionary)
+  name: CreateInstance(ITypeDescriptorContext, IDictionary)
   fullName: System.ComponentModel.TypeConverter.CreateInstance(System.ComponentModel.ITypeDescriptorContext, System.Collections.IDictionary)
   spec.csharp:
   - uid: System.ComponentModel.TypeConverter.CreateInstance(System.ComponentModel.ITypeDescriptorContext,System.Collections.IDictionary)
@@ -1077,7 +1147,7 @@ references:
   - name: ', '
     fullName: ', '
   - uid: System.Collections.IDictionary
-    name: Collections.IDictionary
+    name: IDictionary
     fullName: System.Collections.IDictionary
     isExternal: true
   - name: )
@@ -1094,7 +1164,7 @@ references:
   - name: ', '
     fullName: ', '
   - uid: System.Collections.IDictionary
-    name: Collections.IDictionary
+    name: IDictionary
     fullName: System.Collections.IDictionary
     isExternal: true
   - name: )
@@ -1527,6 +1597,215 @@ references:
     fullName: ()
   - name: )
     fullName: )
+- uid: System.Object.ToString
+  parent: System.Object
+  isExternal: true
+  name: ToString()
+  fullName: System.Object.ToString()
+  spec.csharp:
+  - uid: System.Object.ToString
+    name: ToString
+    fullName: System.Object.ToString
+    isExternal: true
+  - name: (
+    fullName: (
+  - name: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.ToString
+    name: ToString
+    fullName: System.Object.ToString
+    isExternal: true
+  - name: (
+    fullName: (
+  - name: )
+    fullName: )
+- uid: System.Object.Equals(System.Object)
+  parent: System.Object
+  isExternal: true
+  name: Equals(Object)
+  fullName: System.Object.Equals(System.Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    fullName: )
+- uid: System.Object.Equals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  name: Equals(Object, Object)
+  fullName: System.Object.Equals(System.Object, System.Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    fullName: )
+- uid: System.Object.ReferenceEquals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  name: ReferenceEquals(Object, Object)
+  fullName: System.Object.ReferenceEquals(System.Object, System.Object)
+  spec.csharp:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    fullName: System.Object.ReferenceEquals
+    isExternal: true
+  - name: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    fullName: System.Object.ReferenceEquals
+    isExternal: true
+  - name: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    fullName: )
+- uid: System.Object.GetHashCode
+  parent: System.Object
+  isExternal: true
+  name: GetHashCode()
+  fullName: System.Object.GetHashCode()
+  spec.csharp:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    fullName: System.Object.GetHashCode
+    isExternal: true
+  - name: (
+    fullName: (
+  - name: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    fullName: System.Object.GetHashCode
+    isExternal: true
+  - name: (
+    fullName: (
+  - name: )
+    fullName: )
+- uid: System.Object.GetType
+  parent: System.Object
+  isExternal: true
+  name: GetType()
+  fullName: System.Object.GetType()
+  spec.csharp:
+  - uid: System.Object.GetType
+    name: GetType
+    fullName: System.Object.GetType
+    isExternal: true
+  - name: (
+    fullName: (
+  - name: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.GetType
+    name: GetType
+    fullName: System.Object.GetType
+    isExternal: true
+  - name: (
+    fullName: (
+  - name: )
+    fullName: )
+- uid: System.Object.MemberwiseClone
+  parent: System.Object
+  isExternal: true
+  name: MemberwiseClone()
+  fullName: System.Object.MemberwiseClone()
+  spec.csharp:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    fullName: System.Object.MemberwiseClone
+    isExternal: true
+  - name: (
+    fullName: (
+  - name: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    fullName: System.Object.MemberwiseClone
+    isExternal: true
+  - name: (
+    fullName: (
+  - name: )
+    fullName: )
 - uid: System
   isExternal: false
   name: System
@@ -1539,7 +1818,7 @@ references:
 - uid: System.Collections.IComparer
   parent: System.Collections
   isExternal: false
-  name: Collections.IComparer
+  name: IComparer
   fullName: System.Collections.IComparer
 - uid: System.Collections
   isExternal: false
@@ -1636,7 +1915,7 @@ references:
 - uid: System.ComponentModel.TypeConverter.ConvertFrom(System.ComponentModel.ITypeDescriptorContext,System.Globalization.CultureInfo,System.Object)
   parent: System.ComponentModel.TypeConverter
   isExternal: true
-  name: ConvertFrom(ITypeDescriptorContext, Globalization.CultureInfo, Object)
+  name: ConvertFrom(ITypeDescriptorContext, CultureInfo, Object)
   fullName: System.ComponentModel.TypeConverter.ConvertFrom(System.ComponentModel.ITypeDescriptorContext, System.Globalization.CultureInfo, System.Object)
   spec.csharp:
   - uid: System.ComponentModel.TypeConverter.ConvertFrom(System.ComponentModel.ITypeDescriptorContext,System.Globalization.CultureInfo,System.Object)
@@ -1650,7 +1929,7 @@ references:
   - name: ', '
     fullName: ', '
   - uid: System.Globalization.CultureInfo
-    name: Globalization.CultureInfo
+    name: CultureInfo
     fullName: System.Globalization.CultureInfo
     isExternal: true
   - name: ', '
@@ -1673,7 +1952,7 @@ references:
   - name: ', '
     fullName: ', '
   - uid: System.Globalization.CultureInfo
-    name: Globalization.CultureInfo
+    name: CultureInfo
     fullName: System.Globalization.CultureInfo
     isExternal: true
   - name: ', '
@@ -1696,7 +1975,7 @@ references:
 - uid: System.ComponentModel.TypeConverter.ConvertTo(System.ComponentModel.ITypeDescriptorContext,System.Globalization.CultureInfo,System.Object,System.Type)
   parent: System.ComponentModel.TypeConverter
   isExternal: true
-  name: ConvertTo(ITypeDescriptorContext, Globalization.CultureInfo, Object, Type)
+  name: ConvertTo(ITypeDescriptorContext, CultureInfo, Object, Type)
   fullName: System.ComponentModel.TypeConverter.ConvertTo(System.ComponentModel.ITypeDescriptorContext, System.Globalization.CultureInfo, System.Object, System.Type)
   spec.csharp:
   - uid: System.ComponentModel.TypeConverter.ConvertTo(System.ComponentModel.ITypeDescriptorContext,System.Globalization.CultureInfo,System.Object,System.Type)
@@ -1710,7 +1989,7 @@ references:
   - name: ', '
     fullName: ', '
   - uid: System.Globalization.CultureInfo
-    name: Globalization.CultureInfo
+    name: CultureInfo
     fullName: System.Globalization.CultureInfo
     isExternal: true
   - name: ', '
@@ -1739,7 +2018,7 @@ references:
   - name: ', '
     fullName: ', '
   - uid: System.Globalization.CultureInfo
-    name: Globalization.CultureInfo
+    name: CultureInfo
     fullName: System.Globalization.CultureInfo
     isExternal: true
   - name: ', '
@@ -1881,3 +2160,22 @@ references:
     isExternal: true
   - name: )
     fullName: )
+- uid: System.FormatException
+  parent: System
+  isExternal: false
+  name: FormatException
+  fullName: System.FormatException
+- uid: System.NotSupportedException
+  parent: System
+  isExternal: false
+  name: NotSupportedException
+  fullName: System.NotSupportedException
+- uid: System.ArgumentNullException
+  isExternal: false
+  name: ArgumentNullException
+  fullName: System.ArgumentNullException
+- uid: System.ArgumentException
+  parent: System
+  isExternal: false
+  name: ArgumentException
+  fullName: System.ArgumentException

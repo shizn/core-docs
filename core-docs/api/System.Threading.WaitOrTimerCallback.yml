@@ -12,12 +12,12 @@ items:
   type: Delegate
   source:
     remote:
-      path: src/System.Threading.ThreadPool/ref/System.Threading.ThreadPool.cs
+      path: src/mscorlib/src/System/Threading/ThreadPool.cs
       branch: master
-      repo: https://github.com/dotnet/corefx.git
+      repo: https://github.com/dotnet/coreclr.git
     id: WaitOrTimerCallback
-    path: src/System.Threading.ThreadPool/ref/System.Threading.ThreadPool.cs
-    startLine: 28
+    path: src/mscorlib/src/System/Threading/ThreadPool.cs
+    startLine: 1133
   assemblies:
   - System.Threading.ThreadPool
   namespace: System.Threading
@@ -26,15 +26,19 @@ items:
   example:
   - "\n<p>The following example shows how to use the <xref href=\"System.Threading.WaitOrTimerCallback\" data-throw-if-not-resolved=\"false\"></xref> delegate to represent a callback method that is executed when a wait handle is signaled.</p>\n<p>The example also shows how to use the <xref href=\"System.Threading.ThreadPool.RegisterWaitForSingleObject(System.Threading.WaitHandle,System.Threading.WaitOrTimerCallback,System.Object,System.UInt32,System.Boolean)\" data-throw-if-not-resolved=\"false\"></xref> method to execute a specified callback method when a specified wait handle is signaled. In this example, the callback method is <code>WaitProc</code> and the wait handle is an <xref href=\"System.Threading.AutoResetEvent\" data-throw-if-not-resolved=\"false\"></xref>.</p>\n<p>The example defines a <code>TaskInfo</code> class to hold the information that is passed to the callback when it executes. The example creates a <code>TaskInfo</code> object and assigns it some string data. The <xref href=\"System.Threading.RegisteredWaitHandle\" data-throw-if-not-resolved=\"false\"></xref> that is returned by the <xref href=\"System.Threading.ThreadPool.RegisterWaitForSingleObject(System.Threading.WaitHandle,System.Threading.WaitOrTimerCallback,System.Object,System.UInt32,System.Boolean)\" data-throw-if-not-resolved=\"false\"></xref> method is assigned to the <code>Handle</code> field of the <code>TaskInfo</code> object, so that the callback method has access to the <xref href=\"System.Threading.RegisteredWaitHandle\" data-throw-if-not-resolved=\"false\"></xref>. </p>\n<p>In addition to the <code>TaskInfo</code> object, the call to the <xref href=\"System.Threading.ThreadPool.RegisterWaitForSingleObject(System.Threading.WaitHandle,System.Threading.WaitOrTimerCallback,System.Object,System.UInt32,System.Boolean)\" data-throw-if-not-resolved=\"false\"></xref> method specifies the <xref href=\"System.Threading.AutoResetEvent\" data-throw-if-not-resolved=\"false\"></xref> the task waits on, a <xref href=\"System.Threading.WaitOrTimerCallback\" data-throw-if-not-resolved=\"false\"></xref> delegate that represents the <code>WaitProc</code> callback method, a one-second timeout interval, and multiple callbacks. </p>\n<p>When the main thread signals the <xref href=\"System.Threading.AutoResetEvent\" data-throw-if-not-resolved=\"false\"></xref> by calling its <xref href=\"System.Threading.EventWaitHandle.Set\" data-throw-if-not-resolved=\"false\"></xref> method, the <xref href=\"System.Threading.WaitOrTimerCallback\" data-throw-if-not-resolved=\"false\"></xref> delegate is invoked. The <code>WaitProc</code> method tests <xref href=\"System.Threading.RegisteredWaitHandle\" data-throw-if-not-resolved=\"false\"></xref> to determine whether a timeout occurred. If the callback was invoked because the wait handle was signaled, the <code>WaitProc</code> method unregisters the <xref href=\"System.Threading.RegisteredWaitHandle\" data-throw-if-not-resolved=\"false\"></xref>, stopping further callbacks. In the case of a timeout, the task continues waiting. The <code>WaitProc</code> method ends by printing a message to the console.</p>System.Threading.ThreadPool RegisterWaitForSingleObject0#1"
   syntax:
-    content: public delegate void WaitOrTimerCallback(object state, bool timedOut);
-    content.vb: Public Delegate Sub WaitOrTimerCallback(state As Object, timedOut As Boolean)
+    content: >-
+      [ComVisible(true)]
+
+      public delegate void WaitOrTimerCallback(object state, bool timedOut);
+    content.vb: >-
+      <ComVisible(True)>
+
+      Public Delegate Sub WaitOrTimerCallback(state As Object, timedOut As Boolean)
     parameters:
     - id: state
       type: System.Object
-      description: "\n<p>An object containing information to be used by the callback method each time it executes. </p>\n"
     - id: timedOut
       type: System.Boolean
-      description: "\n<p>\n<strong>true</strong> if the <xref href=\"System.Threading.WaitHandle\" data-throw-if-not-resolved=\"false\"></xref> timed out; <strong>false</strong> if it was signaled. </p>\n"
   modifiers.csharp:
   - public
   - delegate

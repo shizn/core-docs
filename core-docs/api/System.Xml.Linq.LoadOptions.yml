@@ -25,9 +25,26 @@ items:
   assemblies:
   - System.Xml.XDocument
   namespace: System.Xml.Linq
+  summary: "\n<p>Specifies load options when parsing XML. </p>\n"
+  remarks: "\n<p>If you preserve white space when loading, all insignificant white space in the XML tree is materialized in the XML tree as is. If you do not preserve white space, then all insignificant white space is discarded.</p>\n<p>There is a performance penalty if you set the <xref href=\"System.Xml.Linq.LoadOptions.SetBaseUri\" data-throw-if-not-resolved=\"false\"></xref> and the <xref href=\"System.Xml.Linq.LoadOptions.SetLineInfo\" data-throw-if-not-resolved=\"false\"></xref> flags.</p>\n<p>The base URI and the line information are accurate immediately after loading the XML document. If you modify the XML tree after loading the document, the base URI and line information may become meaningless.</p>\n<p>If the underlying <xref href=\"System.Xml.XmlReader\" data-throw-if-not-resolved=\"false\"></xref> does not have base URI or line information, setting the <xref href=\"System.Xml.Linq.LoadOptions.SetBaseUri\" data-throw-if-not-resolved=\"false\"></xref> and the <xref href=\"System.Xml.Linq.LoadOptions.SetLineInfo\" data-throw-if-not-resolved=\"false\"></xref> flags will have no effect.</p>\n<p>This type allows you to control how LINQ to XML handles white space when loading or parsing. For more information, see Preserving White Space while Loading or Parsing XML and Preserving White Space While Serializing.</p>\n"
+  example:
+  - "\n<p>This example loads a small XML tree from a file, setting the options to set base URI and retain line information. It then adds another element that does not have line information. It then prints the line information for each element in the tree.</p>\n<pre><code class=\"c#\">string markup = @\"<Root>\n<Child1 />\n<Child2 />\n<Child4 />\n</Root>\";\n\nFile.WriteAllText(\"Test.xml\", markup);\n\nXElement po = XElement.Load(\"Test.xml\",\nLoadOptions.SetBaseUri | LoadOptions.SetLineInfo);\n\n// add a node to the tree.\n// the newly added node will not have line information.\npo.Element(\"Child2\").AddAfterSelf(new XElement(\"Child3\"));\n\nstring[] splitUri = po.BaseUri.Split('/');\nConsole.WriteLine(\"BaseUri: {0}\", splitUri[splitUri.Length - 1]);\nConsole.WriteLine();\nConsole.WriteLine(\"{0}{1}{2}\",\n\"Element Name\".PadRight(20),\n\"Line\".PadRight(5),\n\"Position\");\nConsole.WriteLine(\"{0}{1}{2}\",\n\"------------\".PadRight(20),\n\"----\".PadRight(5),\n\"--------\");\nforeach (XElement e in po.DescendantsAndSelf())\nConsole.WriteLine(\"{0}{1}{2}\",\n(\"\".PadRight(e.Ancestors().Count() * 2) + e.Name).PadRight(20),\n((IXmlLineInfo)e).HasLineInfo() ?\n    ((IXmlLineInfo)e).LineNumber.ToString().PadRight(5) :\n    \"\",\n((IXmlLineInfo)e).HasLineInfo() ?\n    ((IXmlLineInfo)e).LinePosition.ToString() :\n    \"No Line Information\");</code></pre>\n<pre><code class=\"vb\">Dim markup As String = _\n\"<Root>\" + Environment.NewLine & _\n\"    <Child1 />\" + Environment.NewLine & _\n\"    <Child2 />\" + Environment.NewLine & _\n\"    <Child4 />\" + Environment.NewLine & _\n\"</Root>\"\n\nFile.WriteAllText(\"Test.xml\", markup)\n\nDim po As XElement = XElement.Load(\"Test.xml\", LoadOptions.SetBaseUri Or LoadOptions.SetLineInfo)\n\n' add a node to the tree.\n' the newly added node will not have line information.\npo.Element(\"Child2\").AddAfterSelf(New XElement(\"Child3\"))\n\nDim splitUri() As String = po.BaseUri.Split(\"/\"c)\nConsole.WriteLine(\"BaseUri: {0}\", splitUri(splitUri.Length - 1))\nConsole.WriteLine()\nConsole.WriteLine(\"{0}{1}{2}\", _\n\"Element Name\".PadRight(20), _\n\"Line\".PadRight(5), _\n\"Position\")\nConsole.WriteLine(\"{0}{1}{2}\", _\n\"------------\".PadRight(20), _\n\"----\".PadRight(5), _\n\"--------\")\nFor Each e As XElement In po.DescendantsAndSelf()\nConsole.WriteLine(\"{0}{1}{2}\", _\n(\"\".PadRight(e.Ancestors().Count() * 2) & e.Name.ToString).PadRight(20), _\nIIf(DirectCast(e, IXmlLineInfo).HasLineInfo(), _\n    DirectCast(e, IXmlLineInfo).LineNumber.ToString().PadRight(5), _\n    \"\"), _\nIIf(DirectCast(e, IXmlLineInfo).HasLineInfo(), _\n    DirectCast(e, IXmlLineInfo).LinePosition.ToString(), _\n    \"No Line Information\"))\nNext</code></pre>\n<p>This example produces the following output:</p>\n<pre><code>BaseUri: Test.xml\n\nElement Name        Line Position\n------------        ---- --------\nRoot                1    2\nChild1            2    6\nChild2            3    6\nChild3            No Line Information\nChild4            4    6</code></pre>\n"
   syntax:
-    content: 'public enum LoadOptions : int'
-    content.vb: Public Enum LoadOptions As Integer
+    content: >-
+      [Flags]
+
+      public enum LoadOptions
+    content.vb: >-
+      <Flags>
+
+      Public Enum LoadOptions
+  seealso:
+  - type: System.Xml.Linq.SaveOptions
+    commentId: T:System.Xml.Linq.SaveOptions
+  attributes:
+  - type: System.FlagsAttribute
+    ctor: System.FlagsAttribute.#ctor
+    arguments: []
   modifiers.csharp:
   - public
   - enum
@@ -55,9 +72,9 @@ items:
   assemblies:
   - System.Xml.XDocument
   namespace: System.Xml.Linq
+  summary: "\n<p>Does not preserve insignificant white space or load base URI and line information.</p>\n"
   syntax:
-    content: None = null
-    content.vb: None = Nothing
+    content: None = 0
     return:
       type: System.Xml.Linq.LoadOptions
   modifiers.csharp:
@@ -87,9 +104,9 @@ items:
   assemblies:
   - System.Xml.XDocument
   namespace: System.Xml.Linq
+  summary: "\n<p>Preserves insignificant white space while parsing.</p>\n"
   syntax:
-    content: PreserveWhitespace = null
-    content.vb: PreserveWhitespace = Nothing
+    content: PreserveWhitespace = 1
     return:
       type: System.Xml.Linq.LoadOptions
   modifiers.csharp:
@@ -119,9 +136,9 @@ items:
   assemblies:
   - System.Xml.XDocument
   namespace: System.Xml.Linq
+  summary: "\n<p>Requests the base URI information from the <xref href=\"System.Xml.XmlReader\" data-throw-if-not-resolved=\"false\"></xref>, and makes it available via the <xref href=\"System.Xml.Linq.XObject.BaseUri\" data-throw-if-not-resolved=\"false\"></xref> property.</p>\n"
   syntax:
-    content: SetBaseUri = null
-    content.vb: SetBaseUri = Nothing
+    content: SetBaseUri = 2
     return:
       type: System.Xml.Linq.LoadOptions
   modifiers.csharp:
@@ -151,9 +168,9 @@ items:
   assemblies:
   - System.Xml.XDocument
   namespace: System.Xml.Linq
+  summary: "\n<p>Requests the line information from the <xref href=\"System.Xml.XmlReader\" data-throw-if-not-resolved=\"false\"></xref> and makes it available via properties on <xref href=\"System.Xml.Linq.XObject\" data-throw-if-not-resolved=\"false\"></xref>.</p>\n"
   syntax:
-    content: SetLineInfo = null
-    content.vb: SetLineInfo = Nothing
+    content: SetLineInfo = 4
     return:
       type: System.Xml.Linq.LoadOptions
   modifiers.csharp:

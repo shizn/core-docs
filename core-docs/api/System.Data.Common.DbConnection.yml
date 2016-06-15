@@ -45,17 +45,25 @@ items:
   assemblies:
   - System.Data.Common
   namespace: System.Data.Common
+  summary: "\n<p>Represents a connection to a database. </p>\n"
   syntax:
-    content: 'public abstract class DbConnection : object, IDbConnection, IDisposable'
+    content: 'public abstract class DbConnection : IDbConnection, IDisposable'
     content.vb: >-
       Public MustInherit Class DbConnection
-          Inherits Object
           Implements IDbConnection, IDisposable
   inheritance:
   - System.Object
   implements:
   - System.Data.IDbConnection
   - System.IDisposable
+  inheritedMembers:
+  - System.Object.ToString
+  - System.Object.Equals(System.Object)
+  - System.Object.Equals(System.Object,System.Object)
+  - System.Object.ReferenceEquals(System.Object,System.Object)
+  - System.Object.GetHashCode
+  - System.Object.GetType
+  - System.Object.MemberwiseClone
   modifiers.csharp:
   - public
   - abstract
@@ -85,6 +93,7 @@ items:
   assemblies:
   - System.Data.Common
   namespace: System.Data.Common
+  summary: "\n<p>Initializes a new instance of the <xref href=\"System.Data.Common.DbConnection\" data-throw-if-not-resolved=\"false\"></xref> class.</p>\n"
   syntax:
     content: protected DbConnection()
     content.vb: Protected Sub New
@@ -113,6 +122,8 @@ items:
   assemblies:
   - System.Data.Common
   namespace: System.Data.Common
+  summary: "\n<p>Gets or sets the string used to open the connection.</p>\n"
+  remarks: "\n<p>The exact contents of the connection string depend on the specific data source for this connection. To determine which settings are valid, see the documentation for the specific type of connection that you are using.</p>\n"
   syntax:
     content: public abstract string ConnectionString { get; set; }
     content.vb: Public MustOverride Property ConnectionString As String
@@ -150,6 +161,7 @@ items:
   assemblies:
   - System.Data.Common
   namespace: System.Data.Common
+  summary: "\n<p>Gets the time to wait while establishing a connection before terminating the attempt and generating an error.</p>\n"
   syntax:
     content: public virtual int ConnectionTimeout { get; }
     content.vb: Public Overridable ReadOnly Property ConnectionTimeout As Integer
@@ -187,6 +199,8 @@ items:
   assemblies:
   - System.Data.Common
   namespace: System.Data.Common
+  summary: "\n<p>Gets the name of the current database after a connection is opened, or the database name specified in the connection string before the connection is opened.</p>\n"
+  remarks: "\n<p>A connection typically updates this property dynamically when the current database changes.</p>\n"
   syntax:
     content: public abstract string Database { get; }
     content.vb: Public MustOverride ReadOnly Property Database As String
@@ -224,6 +238,8 @@ items:
   assemblies:
   - System.Data.Common
   namespace: System.Data.Common
+  summary: "\n<p>Gets the name of the database server to which to connect.</p>\n"
+  remarks: "\n<p>If the connection to the database is closed, the <xref href=\"System.Data.Common.DbConnection.DataSource\" data-throw-if-not-resolved=\"false\"></xref> returns whatever is contained in the <xref href=\"System.Data.Common.DbConnection.ConnectionString\" data-throw-if-not-resolved=\"false\"></xref> for the <strong>DataSource</strong> keyword. If the connection is open and the <xref href=\"System.Data.Common.DbConnection.ConnectionString\" data-throw-if-not-resolved=\"false\"></xref> data source keyword's value starts with \"|<strong>datadirectory</strong>|\", the property returns whatever is contained in the <xref href=\"System.Data.Common.DbConnection.ConnectionString\" data-throw-if-not-resolved=\"false\"></xref> for the <strong>DataSource</strong> keyword only. If the connection to the database is open, the property returns what the native provider returns for the <strong>DBPROP_INIT_DATASOURCE</strong>, and if that is empty, the native provider's <strong>DBPROP_DATASOURCENAME</strong> is returned. </p>\n"
   syntax:
     content: public abstract string DataSource { get; }
     content.vb: Public MustOverride ReadOnly Property DataSource As String
@@ -259,12 +275,17 @@ items:
   assemblies:
   - System.Data.Common
   namespace: System.Data.Common
+  summary: "\n<p>Gets a string that represents the version of the server to which the object is connected.</p>\n"
   syntax:
     content: public abstract string ServerVersion { get; }
     content.vb: Public MustOverride ReadOnly Property ServerVersion As String
     parameters: []
     return:
       type: System.String
+  exceptions:
+  - type: System.InvalidOperationException
+    commentId: T:System.InvalidOperationException
+    description: "\n<p>\n<xref href=\"System.Data.Common.DbConnection.ServerVersion\" data-throw-if-not-resolved=\"false\"></xref> was called while the returned Task was not completed and the connection was not opened after a call to <see cref=\"Overload:System.Data.Common.DbConnection.OpenAsync\"></see>.</p>\n"
   modifiers.csharp:
   - public
   - abstract
@@ -294,6 +315,7 @@ items:
   assemblies:
   - System.Data.Common
   namespace: System.Data.Common
+  summary: "\n<p>Gets a string that describes the state of the connection.</p>\n"
   syntax:
     content: public abstract ConnectionState State { get; }
     content.vb: Public MustOverride ReadOnly Property State As ConnectionState
@@ -331,6 +353,8 @@ items:
   assemblies:
   - System.Data.Common
   namespace: System.Data.Common
+  summary: "\n<p>Occurs when the state of the event changes.</p>\n"
+  remarks: "\n<p>The <xref href=\"System.Data.Common.DbConnection.StateChange\" data-throw-if-not-resolved=\"false\"></xref> event occurs when the state of the event changes from closed to opened, or opened to closed.</p>\n"
   syntax:
     content: public virtual event StateChangeEventHandler StateChange
     content.vb: Public Overridable Event StateChange As StateChangeEventHandler
@@ -363,6 +387,8 @@ items:
   assemblies:
   - System.Data.Common
   namespace: System.Data.Common
+  summary: "\n<p>Starts a database transaction.</p>\n"
+  remarks: "\n<p>If you are creating your own connection type, override this method to implement the code necessary to begin a transaction.</p>\n"
   syntax:
     content: protected abstract DbTransaction BeginDbTransaction(IsolationLevel isolationLevel)
     content.vb: Protected MustOverride Function BeginDbTransaction(isolationLevel As IsolationLevel) As DbTransaction
@@ -398,6 +424,8 @@ items:
   assemblies:
   - System.Data.Common
   namespace: System.Data.Common
+  summary: "\n<p>Starts a database transaction.</p>\n"
+  remarks: "\n<p>If you do not specify an isolation level, the default isolation level for the specific type of connection is used.</p>\n"
   syntax:
     content: public DbTransaction BeginTransaction()
     content.vb: Public Function BeginTransaction As DbTransaction
@@ -428,6 +456,7 @@ items:
   assemblies:
   - System.Data.Common
   namespace: System.Data.Common
+  summary: "\n<p>Starts a database transaction with the specified isolation level.</p>\n"
   syntax:
     content: public DbTransaction BeginTransaction(IsolationLevel isolationLevel)
     content.vb: Public Function BeginTransaction(isolationLevel As IsolationLevel) As DbTransaction
@@ -461,6 +490,8 @@ items:
   assemblies:
   - System.Data.Common
   namespace: System.Data.Common
+  summary: "\n<p>Changes the current database for an open connection.</p>\n"
+  remarks: "\n<p>The value supplied in the <em>databaseName</em> parameter must be a valid database name for the current instance. </p>\n"
   syntax:
     content: public abstract void ChangeDatabase(string databaseName)
     content.vb: Public MustOverride Sub ChangeDatabase(databaseName As String)
@@ -496,9 +527,18 @@ items:
   assemblies:
   - System.Data.Common
   namespace: System.Data.Common
+  summary: "\n<p>Closes the connection to the database. This is the preferred method of closing any open connection.</p>\n"
+  remarks: "\n<p>The <xref href=\"System.Data.Common.DbConnection.Close\" data-throw-if-not-resolved=\"false\"></xref> method rolls back any pending transactions. It then releases the connection to the connection pool, or closes the connection if connection pooling is disabled.</p>\n<p>An application can call <xref href=\"System.Data.Common.DbConnection.Close\" data-throw-if-not-resolved=\"false\"></xref> more than one time. No exception is generated.</p>\n<p>If the <xref href=\"System.Data.Common.DbConnection\" data-throw-if-not-resolved=\"false\"></xref> goes out of scope, it is not closed. Therefore, you must explicitly close the connection by calling <strong>Close</strong> or <strong>Dispose</strong>, which are functionally equivalent. If the connection pooling value <strong>Pooling</strong> is set to <strong>true</strong> or <strong>yes</strong>, this also releases the physical connection.</p>\n<p>Do not call <strong>Close</strong> or <strong>Dispose</strong> on a <strong>Connection</strong>, a <strong>DataReader</strong>, or any other managed object in the <strong>Finalize</strong> method of your class. In a finalizer, you should only release unmanaged resources that your class owns directly. If your class does not own any unmanaged resources, do not include a <strong>Finalize</strong> method in your class definition. For more information, see Garbage Collection.</p>\n"
   syntax:
     content: public abstract void Close()
     content.vb: Public MustOverride Sub Close
+  exceptions:
+  - type: System.Data.Common.DbException
+    commentId: T:System.Data.Common.DbException
+    description: "\n<p>The connection-level error that occurred while opening the connection. </p>\n"
+  seealso:
+  - type: System.Data.Common.DbConnection.Open
+    commentId: M:System.Data.Common.DbConnection.Open
   implements:
   - System.Data.IDbConnection.Close
   modifiers.csharp:
@@ -528,6 +568,7 @@ items:
   assemblies:
   - System.Data.Common
   namespace: System.Data.Common
+  summary: "\n<p>Creates and returns a <xref href=\"System.Data.Common.DbCommand\" data-throw-if-not-resolved=\"false\"></xref> object associated with the current connection.</p>\n"
   syntax:
     content: public DbCommand CreateCommand()
     content.vb: Public Function CreateCommand As DbCommand
@@ -558,6 +599,8 @@ items:
   assemblies:
   - System.Data.Common
   namespace: System.Data.Common
+  summary: "\n<p>Creates and returns a <xref href=\"System.Data.Common.DbCommand\" data-throw-if-not-resolved=\"false\"></xref> object associated with the current connection.</p>\n"
+  remarks: "\n<p>If you are implementing your own connection, override this method to implement the code necessary to create and return a <xref href=\"System.Data.Common.DbCommand\" data-throw-if-not-resolved=\"false\"></xref> object.</p>\n"
   syntax:
     content: protected abstract DbCommand CreateDbCommand()
     content.vb: Protected MustOverride Function CreateDbCommand As DbCommand
@@ -590,6 +633,8 @@ items:
   assemblies:
   - System.Data.Common
   namespace: System.Data.Common
+  summary: "\n<p>Raises the <xref href=\"System.Data.Common.DbConnection.StateChange\" data-throw-if-not-resolved=\"false\"></xref> event.</p>\n"
+  remarks: "\n<p>Raising an event invokes the event handler through a delegate. For an overview, see NIB: Raising an Event. </p>\n"
   syntax:
     content: protected virtual void OnStateChange(StateChangeEventArgs stateChange)
     content.vb: Protected Overridable Sub OnStateChange(stateChange As StateChangeEventArgs)
@@ -623,6 +668,8 @@ items:
   assemblies:
   - System.Data.Common
   namespace: System.Data.Common
+  summary: "\n<p>Opens a database connection with the settings specified by the <xref href=\"System.Data.Common.DbConnection.ConnectionString\" data-throw-if-not-resolved=\"false\"></xref>.</p>\n"
+  remarks: "\n<p>This method must be overridden with user-defined behavior. <xref href=\"System.Data.SqlClient.SqlConnection.Open\" data-throw-if-not-resolved=\"false\"></xref> will throw an exception if called again without first being closed.</p>\n"
   syntax:
     content: public abstract void Open()
     content.vb: Public MustOverride Sub Open
@@ -655,11 +702,13 @@ items:
   assemblies:
   - System.Data.Common
   namespace: System.Data.Common
+  summary: "\n<p>An asynchronous version of <xref href=\"System.Data.Common.DbConnection.Open\" data-throw-if-not-resolved=\"false\"></xref>, which opens a database connection with the settings specified by the <xref href=\"System.Data.Common.DbConnection.ConnectionString\" data-throw-if-not-resolved=\"false\"></xref>. This method invokes the virtual method <xref href=\"System.Data.Common.DbConnection.OpenAsync(System.Threading.CancellationToken)\" data-throw-if-not-resolved=\"false\"></xref> with CancellationToken.None.</p>\n"
+  remarks: "\n<p>After calling <see cref=\"Overload:System.Data.Common.DbConnection.OpenAsync\"></see>, <xref href=\"System.Data.Common.DbConnection.State\" data-throw-if-not-resolved=\"false\"></xref> must return <xref href=\"System.Data.ConnectionState.Connecting\" data-throw-if-not-resolved=\"false\"></xref> until the returned <xref href=\"System.Threading.Tasks.Task\" data-throw-if-not-resolved=\"false\"></xref> is completed. Then, if the connection was successful, <xref href=\"System.Data.Common.DbConnection.State\" data-throw-if-not-resolved=\"false\"></xref> must return <xref href=\"System.Data.ConnectionState.Open\" data-throw-if-not-resolved=\"false\"></xref>. If the connection fails, <xref href=\"System.Data.Common.DbConnection.State\" data-throw-if-not-resolved=\"false\"></xref> must return <xref href=\"System.Data.ConnectionState.Closed\" data-throw-if-not-resolved=\"false\"></xref>.</p>\n<p>A call to <xref href=\"System.Data.Common.DbConnection.Close\" data-throw-if-not-resolved=\"false\"></xref> will attempt to cancel or close the corresponding <see cref=\"Overload:System.Data.Common.DbConnection.OpenAsync\"></see> call.</p>\n<p>For more information about asynchronous programming in the .NET Framework Data Provider for SQL Server, see Asynchronous Programming.</p>\n"
   syntax:
     content: public Task OpenAsync()
     content.vb: Public Function OpenAsync As Task
     return:
-      type: Task
+      type: System.Threading.Tasks.Task
   modifiers.csharp:
   - public
   modifiers.vb:
@@ -671,23 +720,25 @@ items:
   langs:
   - csharp
   - vb
-  name: OpenAsync(Threading.CancellationToken)
+  name: OpenAsync(CancellationToken)
   fullName: System.Data.Common.DbConnection.OpenAsync(System.Threading.CancellationToken)
   type: Method
   source:
     remote:
-      path: src/System.Data.Common/ref/System.Data.Common.cs
+      path: src/System.Data.Common/src/System/Data/Common/DbConnection.cs
       branch: master
       repo: https://github.com/dotnet/corefx.git
     id: OpenAsync
-    path: src/System.Data.Common/ref/System.Data.Common.cs
-    startLine: 276
+    path: src/System.Data.Common/src/System/Data/Common/DbConnection.cs
+    startLine: 122
   assemblies:
   - System.Data.Common
   namespace: System.Data.Common
+  summary: "\n<p>This is the asynchronous version of <xref href=\"System.Data.Common.DbConnection.Open\" data-throw-if-not-resolved=\"false\"></xref>. Providers should override with an appropriate implementation. The cancellation token can optionally be honored.</p>\n<p>The default implementation invokes the synchronous <xref href=\"System.Data.Common.DbConnection.Open\" data-throw-if-not-resolved=\"false\"></xref> call and returns a completed task. The default implementation will return a cancelled task if passed an already cancelled cancellationToken. Exceptions thrown by Open will be communicated via the returned Task Exception property.</p>\n<p>Do not invoke other methods and properties of the <strong>DbConnection</strong> object until the returned Task is complete.</p>\n"
+  remarks: "\n<p>After calling <see cref=\"Overload:System.Data.Common.DbConnection.OpenAsync\"></see>, <xref href=\"System.Data.Common.DbConnection.State\" data-throw-if-not-resolved=\"false\"></xref> must return <xref href=\"System.Data.ConnectionState.Connecting\" data-throw-if-not-resolved=\"false\"></xref> until the returned <xref href=\"System.Threading.Tasks.Task\" data-throw-if-not-resolved=\"false\"></xref> is completed. Then, if the connection was successful, <xref href=\"System.Data.Common.DbConnection.State\" data-throw-if-not-resolved=\"false\"></xref> must return <xref href=\"System.Data.ConnectionState.Open\" data-throw-if-not-resolved=\"false\"></xref>. If the connection fails, <xref href=\"System.Data.Common.DbConnection.State\" data-throw-if-not-resolved=\"false\"></xref> must return <xref href=\"System.Data.ConnectionState.Closed\" data-throw-if-not-resolved=\"false\"></xref>.</p>\n<p>A call to <xref href=\"System.Data.Common.DbConnection.Close\" data-throw-if-not-resolved=\"false\"></xref> will attempt to cancel or close the corresponding <see cref=\"Overload:System.Data.Common.DbConnection.OpenAsync\"></see> call.</p>\n<p>For more information about asynchronous programming in the .NET Framework Data Provider for SQL Server, see Asynchronous Programming.</p>\n"
   syntax:
-    content: public virtual Threading.Tasks.Task OpenAsync(Threading.CancellationToken cancellationToken)
-    content.vb: Public Overridable Function OpenAsync(cancellationToken As Threading.CancellationToken) As Threading.Tasks.Task
+    content: public virtual Task OpenAsync(CancellationToken cancellationToken)
+    content.vb: Public Overridable Function OpenAsync(cancellationToken As CancellationToken) As Task
     parameters:
     - id: cancellationToken
       type: System.Threading.CancellationToken
@@ -721,6 +772,10 @@ items:
   assemblies:
   - System.Data.Common
   namespace: System.Data.Common
+  summary: "\n<p>Begins a database transaction.</p>\n"
+  remarks: "\n<p>This member is an explicit interface member implementation. It can be used only when the <xref href=\"System.Data.Common.DbConnection\" data-throw-if-not-resolved=\"false\"></xref> instance is cast to an <xref href=\"System.Data.IDbConnection\" data-throw-if-not-resolved=\"false\"></xref> interface.</p>\n<p>For more information, see <xref href=\"System.Data.IDbConnection.BeginTransaction\" data-throw-if-not-resolved=\"false\"></xref>.</p>\n"
+  example:
+  - 
   syntax:
     content: IDbTransaction IDbConnection.BeginTransaction()
     content.vb: Function System.Data.IDbConnection.BeginTransaction As IDbTransaction Implements IDbConnection.BeginTransaction
@@ -751,6 +806,10 @@ items:
   assemblies:
   - System.Data.Common
   namespace: System.Data.Common
+  summary: "\n<p>Begins a database transaction with the specified <xref href=\"System.Data.IsolationLevel\" data-throw-if-not-resolved=\"false\"></xref> value.</p>\n"
+  remarks: "\n<p>For more information, see <xref href=\"System.Data.IDbConnection.BeginTransaction(System.Data.IsolationLevel)\" data-throw-if-not-resolved=\"false\"></xref>.</p>\n"
+  example:
+  - 
   syntax:
     content: IDbTransaction IDbConnection.BeginTransaction(IsolationLevel isolationLevel)
     content.vb: Function System.Data.IDbConnection.BeginTransaction(isolationLevel As IsolationLevel) As IDbTransaction Implements IDbConnection.BeginTransaction
@@ -784,6 +843,10 @@ items:
   assemblies:
   - System.Data.Common
   namespace: System.Data.Common
+  summary: "\n<p>Creates and returns a <xref href=\"System.Data.Common.DbCommand\" data-throw-if-not-resolved=\"false\"></xref> object that is associated with the current connection.</p>\n"
+  remarks: "\n<p>For more information, see Commands and Parameters and <xref href=\"System.Data.IDbConnection.CreateCommand\" data-throw-if-not-resolved=\"false\"></xref>.</p>\n"
+  example:
+  - 
   syntax:
     content: IDbCommand IDbConnection.CreateCommand()
     content.vb: Function System.Data.IDbConnection.CreateCommand As IDbCommand Implements IDbConnection.CreateCommand
@@ -816,6 +879,8 @@ items:
   syntax:
     content: public void Dispose()
     content.vb: Public Sub Dispose
+  implements:
+  - System.IDisposable.Dispose
   modifiers.csharp:
   - public
   modifiers.vb:
@@ -873,6 +938,215 @@ references:
   isExternal: false
   name: IDisposable
   fullName: System.IDisposable
+- uid: System.Object.ToString
+  parent: System.Object
+  isExternal: true
+  name: ToString()
+  fullName: System.Object.ToString()
+  spec.csharp:
+  - uid: System.Object.ToString
+    name: ToString
+    fullName: System.Object.ToString
+    isExternal: true
+  - name: (
+    fullName: (
+  - name: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.ToString
+    name: ToString
+    fullName: System.Object.ToString
+    isExternal: true
+  - name: (
+    fullName: (
+  - name: )
+    fullName: )
+- uid: System.Object.Equals(System.Object)
+  parent: System.Object
+  isExternal: true
+  name: Equals(Object)
+  fullName: System.Object.Equals(System.Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    fullName: )
+- uid: System.Object.Equals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  name: Equals(Object, Object)
+  fullName: System.Object.Equals(System.Object, System.Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    fullName: )
+- uid: System.Object.ReferenceEquals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  name: ReferenceEquals(Object, Object)
+  fullName: System.Object.ReferenceEquals(System.Object, System.Object)
+  spec.csharp:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    fullName: System.Object.ReferenceEquals
+    isExternal: true
+  - name: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    fullName: System.Object.ReferenceEquals
+    isExternal: true
+  - name: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    fullName: )
+- uid: System.Object.GetHashCode
+  parent: System.Object
+  isExternal: true
+  name: GetHashCode()
+  fullName: System.Object.GetHashCode()
+  spec.csharp:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    fullName: System.Object.GetHashCode
+    isExternal: true
+  - name: (
+    fullName: (
+  - name: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    fullName: System.Object.GetHashCode
+    isExternal: true
+  - name: (
+    fullName: (
+  - name: )
+    fullName: )
+- uid: System.Object.GetType
+  parent: System.Object
+  isExternal: true
+  name: GetType()
+  fullName: System.Object.GetType()
+  spec.csharp:
+  - uid: System.Object.GetType
+    name: GetType
+    fullName: System.Object.GetType
+    isExternal: true
+  - name: (
+    fullName: (
+  - name: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.GetType
+    name: GetType
+    fullName: System.Object.GetType
+    isExternal: true
+  - name: (
+    fullName: (
+  - name: )
+    fullName: )
+- uid: System.Object.MemberwiseClone
+  parent: System.Object
+  isExternal: true
+  name: MemberwiseClone()
+  fullName: System.Object.MemberwiseClone()
+  spec.csharp:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    fullName: System.Object.MemberwiseClone
+    isExternal: true
+  - name: (
+    fullName: (
+  - name: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    fullName: System.Object.MemberwiseClone
+    isExternal: true
+  - name: (
+    fullName: (
+  - name: )
+    fullName: )
 - uid: System
   isExternal: false
   name: System
@@ -1015,7 +1289,7 @@ references:
 - uid: System.Threading.Tasks.Task
   parent: System.Threading.Tasks
   isExternal: false
-  name: Threading.Tasks.Task
+  name: Task
   fullName: System.Threading.Tasks.Task
 - uid: System.Threading.Tasks
   isExternal: false
@@ -1024,7 +1298,7 @@ references:
 - uid: System.Threading.CancellationToken
   parent: System.Threading
   isExternal: false
-  name: Threading.CancellationToken
+  name: CancellationToken
   fullName: System.Threading.CancellationToken
 - uid: System.Threading
   isExternal: false
@@ -1109,8 +1383,38 @@ references:
   isExternal: false
   name: IDbCommand
   fullName: System.Data.IDbCommand
+- uid: System.IDisposable.Dispose
+  parent: System.IDisposable
+  isExternal: false
+  name: Dispose()
+  fullName: System.IDisposable.Dispose()
+  spec.csharp:
+  - uid: System.IDisposable.Dispose
+    name: Dispose
+    fullName: System.IDisposable.Dispose
+  - name: (
+    fullName: (
+  - name: )
+    fullName: )
+  spec.vb:
+  - uid: System.IDisposable.Dispose
+    name: Dispose
+    fullName: System.IDisposable.Dispose
+  - name: (
+    fullName: (
+  - name: )
+    fullName: )
 - uid: System.Boolean
   parent: System
   isExternal: false
   name: Boolean
   fullName: System.Boolean
+- uid: System.InvalidOperationException
+  parent: System
+  isExternal: false
+  name: InvalidOperationException
+  fullName: System.InvalidOperationException
+- uid: System.Data.Common.DbException
+  isExternal: false
+  name: DbException
+  fullName: System.Data.Common.DbException

@@ -17,24 +17,30 @@ items:
   type: Class
   source:
     remote:
-      path: src/System.AppContext/ref/System.AppContext.cs
+      path: src/mscorlib/src/System/AppContext/AppContext.cs
       branch: master
-      repo: https://github.com/dotnet/corefx.git
+      repo: https://github.com/dotnet/coreclr.git
     id: AppContext
-    path: src/System.AppContext/ref/System.AppContext.cs
-    startLine: 10
+    path: src/mscorlib/src/System/AppContext/AppContext.cs
+    startLine: 9
   assemblies:
   - System.AppContext
   namespace: System
   summary: "\n<p>Provides members for setting and retrieving data about an application's context. </p>\n"
   remarks: "\n<p>The <xref href=\"System.AppContext\" data-throw-if-not-resolved=\"false\"></xref> class enables library writers to provide a uniform opt-out mechanism for new functionality for their users. It establishes a loosely-coupled contract between components in order to communicate an opt-out request. This capability is typically important when a change is made to existing functionality. Conversely, there is already an implicit opt-in for new functionality. </p>\n<p>With <xref href=\"System.AppContext\" data-throw-if-not-resolved=\"false\"></xref>, libraries define and expose compatibility switches, while code that depends on them can set those switches to affect the library behavior. By default, libraries provide the new functionality, and they only alter it (that is, they provide the previous functionality) if the switch is set. </p>\n<p>An application (or a library) can declare the value of a switch (which is always a <xref href=\"System.Boolean\" data-throw-if-not-resolved=\"false\"></xref> value) that a dependent library defines. The switch is always implicitly <strong>false</strong>, which provides the new behavior. Setting the switch to <strong>true</strong> enables it, which provides the legacy behavior. Explicitly setting the switch to <strong>false</strong> also provides the new behavior. </p>\n<p>For example, the following line of code sets a switch named <strong>Switch.AmazingLib.ThrowOnException</strong> to <strong>true</strong>, which enables a legacy behavior. </p>System.AppContext.Class#1<p>The library must then check if a consumer has declared the value of the switch and then act appropriately on it, as the following example illustrates. </p>System.AppContext.Class#2<p>It's beneficial to use a consistent format for switch names, since they are a formal contract exposed by a library. The following are two obvious formats.</p><ul><li><p>Switch.namespace.switchname</p></li><li><p>Switch.library.switchname</p></li></ul>"
   syntax:
-    content: 'public class AppContext : object'
-    content.vb: >-
-      Public Class AppContext
-          Inherits Object
+    content: public class AppContext
+    content.vb: Public Class AppContext
   inheritance:
   - System.Object
+  inheritedMembers:
+  - System.Object.ToString
+  - System.Object.Equals(System.Object)
+  - System.Object.Equals(System.Object,System.Object)
+  - System.Object.ReferenceEquals(System.Object,System.Object)
+  - System.Object.GetHashCode
+  - System.Object.GetType
+  - System.Object.MemberwiseClone
   modifiers.csharp:
   - public
   - class
@@ -53,24 +59,29 @@ items:
   type: Property
   source:
     remote:
-      path: src/System.AppContext/ref/System.AppContext.cs
+      path: src/mscorlib/src/System/AppContext/AppContext.cs
       branch: master
-      repo: https://github.com/dotnet/corefx.git
+      repo: https://github.com/dotnet/coreclr.git
     id: BaseDirectory
-    path: src/System.AppContext/ref/System.AppContext.cs
-    startLine: 12
+    path: src/mscorlib/src/System/AppContext/AppContext.cs
+    startLine: 21
   assemblies:
   - System.AppContext
   namespace: System
   summary: "\n<p>Gets the pathname of the base directory that the assembly resolver uses to probe for assemblies. </p>\n"
   remarks: "\n<p>This is a per application domain property. Its value corresponds to the <xref href=\"System.AppDomain.BaseDirectory\" data-throw-if-not-resolved=\"false\"></xref> property of the current application domain. </p>\n"
   syntax:
-    content: public static string BaseDirectory { get; }
+    content: >-
+      public static string BaseDirectory
+
+      {
+          [SecuritySafeCritical]
+          get;
+      }
     content.vb: Public Shared ReadOnly Property BaseDirectory As String
     parameters: []
     return:
       type: System.String
-      description: "\n<p>the pathname of the base directory that the assembly resolver uses to probe for assemblies. </p>\n"
   modifiers.csharp:
   - public
   - static
@@ -91,12 +102,12 @@ items:
   type: Method
   source:
     remote:
-      path: src/System.AppContext/ref/System.AppContext.cs
+      path: src/mscorlib/src/System/AppContext/AppContext.cs
       branch: master
-      repo: https://github.com/dotnet/corefx.git
+      repo: https://github.com/dotnet/coreclr.git
     id: SetSwitch
-    path: src/System.AppContext/ref/System.AppContext.cs
-    startLine: 13
+    path: src/mscorlib/src/System/AppContext/AppContext.cs
+    startLine: 160
   assemblies:
   - System.AppContext
   namespace: System
@@ -110,10 +121,10 @@ items:
     parameters:
     - id: switchName
       type: System.String
-      description: "\n<p>The name of the switch. </p>\n"
+      description: The name of the switch
     - id: isEnabled
       type: System.Boolean
-      description: "\n<p>The value of the switch. </p>\n"
+      description: The value to assign
   exceptions:
   - type: System.ArgumentNullException
     commentId: T:System.ArgumentNullException
@@ -142,12 +153,12 @@ items:
   type: Method
   source:
     remote:
-      path: src/System.AppContext/ref/System.AppContext.cs
+      path: src/mscorlib/src/System/AppContext/AppContext.cs
       branch: master
-      repo: https://github.com/dotnet/corefx.git
+      repo: https://github.com/dotnet/coreclr.git
     id: TryGetSwitch
-    path: src/System.AppContext/ref/System.AppContext.cs
-    startLine: 14
+    path: src/mscorlib/src/System/AppContext/AppContext.cs
+    startLine: 64
   assemblies:
   - System.AppContext
   namespace: System
@@ -161,13 +172,13 @@ items:
     parameters:
     - id: switchName
       type: System.String
-      description: "\n<p>The name of the switch. </p>\n"
+      description: The name of the switch
     - id: isEnabled
       type: System.Boolean
-      description: "\n<p>When this method returns, contains the value of <em>switchName</em> if <em>switchName</em> was found, or <strong>false</strong> if <em>switchName</em> was not found. This parameter is passed uninitialized. </p>\n"
+      description: A variable where to place the value of the switch
     return:
       type: System.Boolean
-      description: "\n<p>\n<strong>true</strong> if <em>switchName</em> was set and the <em>isEnabled</em> argument contains the value of the switch; otherwise, <strong>false</strong>. </p>\n"
+      description: A return value of true represents that the switch was set and <em>isEnabled</em> contains the value of the switch
   exceptions:
   - type: System.ArgumentNullException
     commentId: T:System.ArgumentNullException
@@ -198,12 +209,12 @@ items:
   type: Property
   source:
     remote:
-      path: src/System.AppContext/ref/System.AppContext.cs
+      path: src/mscorlib/src/System/AppContext/AppContext.cs
       branch: master
-      repo: https://github.com/dotnet/corefx.git
+      repo: https://github.com/dotnet/coreclr.git
     id: TargetFrameworkName
-    path: src/System.AppContext/ref/System.AppContext.cs
-    startLine: 15
+    path: src/mscorlib/src/System/AppContext/AppContext.cs
+    startLine: 34
   assemblies:
   - System.AppContext
   namespace: System
@@ -233,18 +244,24 @@ items:
   type: Method
   source:
     remote:
-      path: src/System.AppContext/ref/System.AppContext.cs
+      path: src/mscorlib/src/System/AppContext/AppContext.cs
       branch: master
-      repo: https://github.com/dotnet/corefx.git
+      repo: https://github.com/dotnet/coreclr.git
     id: GetData
-    path: src/System.AppContext/ref/System.AppContext.cs
-    startLine: 16
+    path: src/mscorlib/src/System/AppContext/AppContext.cs
+    startLine: 44
   assemblies:
   - System.AppContext
   namespace: System
   syntax:
-    content: public static object GetData(string name)
-    content.vb: Public Shared Function GetData(name As String) As Object
+    content: >-
+      [SecuritySafeCritical]
+
+      public static object GetData(string name)
+    content.vb: >-
+      <SecuritySafeCritical>
+
+      Public Shared Function GetData(name As String) As Object
     parameters:
     - id: name
       type: System.String
@@ -266,6 +283,215 @@ references:
   isExternal: false
   name: Object
   fullName: System.Object
+- uid: System.Object.ToString
+  parent: System.Object
+  isExternal: true
+  name: ToString()
+  fullName: System.Object.ToString()
+  spec.csharp:
+  - uid: System.Object.ToString
+    name: ToString
+    fullName: System.Object.ToString
+    isExternal: true
+  - name: (
+    fullName: (
+  - name: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.ToString
+    name: ToString
+    fullName: System.Object.ToString
+    isExternal: true
+  - name: (
+    fullName: (
+  - name: )
+    fullName: )
+- uid: System.Object.Equals(System.Object)
+  parent: System.Object
+  isExternal: true
+  name: Equals(Object)
+  fullName: System.Object.Equals(System.Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    fullName: )
+- uid: System.Object.Equals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  name: Equals(Object, Object)
+  fullName: System.Object.Equals(System.Object, System.Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    fullName: )
+- uid: System.Object.ReferenceEquals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  name: ReferenceEquals(Object, Object)
+  fullName: System.Object.ReferenceEquals(System.Object, System.Object)
+  spec.csharp:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    fullName: System.Object.ReferenceEquals
+    isExternal: true
+  - name: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    fullName: System.Object.ReferenceEquals
+    isExternal: true
+  - name: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    fullName: )
+- uid: System.Object.GetHashCode
+  parent: System.Object
+  isExternal: true
+  name: GetHashCode()
+  fullName: System.Object.GetHashCode()
+  spec.csharp:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    fullName: System.Object.GetHashCode
+    isExternal: true
+  - name: (
+    fullName: (
+  - name: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    fullName: System.Object.GetHashCode
+    isExternal: true
+  - name: (
+    fullName: (
+  - name: )
+    fullName: )
+- uid: System.Object.GetType
+  parent: System.Object
+  isExternal: true
+  name: GetType()
+  fullName: System.Object.GetType()
+  spec.csharp:
+  - uid: System.Object.GetType
+    name: GetType
+    fullName: System.Object.GetType
+    isExternal: true
+  - name: (
+    fullName: (
+  - name: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.GetType
+    name: GetType
+    fullName: System.Object.GetType
+    isExternal: true
+  - name: (
+    fullName: (
+  - name: )
+    fullName: )
+- uid: System.Object.MemberwiseClone
+  parent: System.Object
+  isExternal: true
+  name: MemberwiseClone()
+  fullName: System.Object.MemberwiseClone()
+  spec.csharp:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    fullName: System.Object.MemberwiseClone
+    isExternal: true
+  - name: (
+    fullName: (
+  - name: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    fullName: System.Object.MemberwiseClone
+    isExternal: true
+  - name: (
+    fullName: (
+  - name: )
+    fullName: )
 - uid: System.String
   parent: System
   isExternal: false

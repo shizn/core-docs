@@ -24,12 +24,12 @@ items:
   type: Class
   source:
     remote:
-      path: src/System.Runtime.InteropServices/ref/System.Runtime.InteropServices.cs
+      path: src/mscorlib/src/System/Runtime/InteropServices/SafeBuffer.cs
       branch: master
-      repo: https://github.com/dotnet/corefx.git
+      repo: https://github.com/dotnet/coreclr.git
     id: SafeBuffer
-    path: src/System.Runtime.InteropServices/ref/System.Runtime.InteropServices.cs
-    startLine: 699
+    path: src/mscorlib/src/System/Runtime/InteropServices/SafeBuffer.cs
+    startLine: 80
   assemblies:
   - System.Runtime.InteropServices
   namespace: System.Runtime.InteropServices
@@ -38,15 +38,48 @@ items:
   example:
   - 
   syntax:
-    content: 'public abstract class SafeBuffer : SafeHandle'
+    content: >-
+      [SecurityCritical]
+
+      public abstract class SafeBuffer : SafeHandleZeroOrMinusOneIsInvalid, IDisposable
     content.vb: >-
+      <SecurityCritical>
+
       Public MustInherit Class SafeBuffer
-          Inherits SafeHandle
+          Inherits SafeHandleZeroOrMinusOneIsInvalid
+          Implements IDisposable
   see:
   - type: System.Security.SecurityCriticalAttribute
     commentId: T:System.Security.SecurityCriticalAttribute
   inheritance:
   - System.Object
+  - System.Runtime.ConstrainedExecution.CriticalFinalizerObject
+  - System.Runtime.InteropServices.SafeHandle
+  implements:
+  - System.IDisposable
+  inheritedMembers:
+  - System.Runtime.InteropServices.SafeHandle.handle
+  - System.Runtime.InteropServices.SafeHandle.SetHandle(System.IntPtr)
+  - System.Runtime.InteropServices.SafeHandle.DangerousGetHandle
+  - System.Runtime.InteropServices.SafeHandle.Close
+  - System.Runtime.InteropServices.SafeHandle.Dispose
+  - System.Runtime.InteropServices.SafeHandle.Dispose(System.Boolean)
+  - System.Runtime.InteropServices.SafeHandle.SetHandleAsInvalid
+  - System.Runtime.InteropServices.SafeHandle.ReleaseHandle
+  - System.Runtime.InteropServices.SafeHandle.DangerousAddRef(System.Boolean@)
+  - System.Runtime.InteropServices.SafeHandle.DangerousRelease
+  - System.Runtime.InteropServices.SafeHandle.IsClosed
+  - System.Object.ToString
+  - System.Object.Equals(System.Object)
+  - System.Object.Equals(System.Object,System.Object)
+  - System.Object.ReferenceEquals(System.Object,System.Object)
+  - System.Object.GetHashCode
+  - System.Object.GetType
+  - System.Object.MemberwiseClone
+  attributes:
+  - type: System.Security.SecurityCriticalAttribute
+    ctor: System.Security.SecurityCriticalAttribute.#ctor
+    arguments: []
   modifiers.csharp:
   - public
   - abstract
@@ -67,12 +100,12 @@ items:
   type: Constructor
   source:
     remote:
-      path: src/System.Runtime.InteropServices/ref/System.Runtime.InteropServices.cs
+      path: src/mscorlib/src/System/Runtime/InteropServices/SafeBuffer.cs
       branch: master
-      repo: https://github.com/dotnet/corefx.git
+      repo: https://github.com/dotnet/coreclr.git
     id: .ctor
-    path: src/System.Runtime.InteropServices/ref/System.Runtime.InteropServices.cs
-    startLine: 702
+    path: src/mscorlib/src/System/Runtime/InteropServices/SafeBuffer.cs
+    startLine: 89
   assemblies:
   - System.Runtime.InteropServices
   namespace: System.Runtime.InteropServices
@@ -85,7 +118,6 @@ items:
     parameters:
     - id: ownsHandle
       type: System.Boolean
-      description: "\n<p>\n<strong>true</strong> to reliably release the handle during the finalization phase; <strong>false</strong> to prevent reliable release (not recommended).</p>\n"
   see:
   - type: System.Security.SecurityCriticalAttribute
     commentId: T:System.Security.SecurityCriticalAttribute
@@ -120,6 +152,7 @@ items:
     parameters: []
     return:
       type: System.Boolean
+  overridden: System.Runtime.InteropServices.SafeHandle.IsInvalid
   modifiers.csharp:
   - public
   - override
@@ -140,12 +173,12 @@ items:
   type: Property
   source:
     remote:
-      path: src/System.Runtime.InteropServices/ref/System.Runtime.InteropServices.cs
+      path: src/mscorlib/src/System/Runtime/InteropServices/SafeBuffer.cs
       branch: master
-      repo: https://github.com/dotnet/corefx.git
+      repo: https://github.com/dotnet/coreclr.git
     id: ByteLength
-    path: src/System.Runtime.InteropServices/ref/System.Runtime.InteropServices.cs
-    startLine: 705
+    path: src/mscorlib/src/System/Runtime/InteropServices/SafeBuffer.cs
+    startLine: 355
   assemblies:
   - System.Runtime.InteropServices
   namespace: System.Runtime.InteropServices
@@ -153,16 +186,32 @@ items:
   example:
   - 
   syntax:
-    content: public ulong ByteLength { get; }
-    content.vb: Public ReadOnly Property ByteLength As ULong
+    content: >-
+      [CLSCompliant(false)]
+
+      public ulong ByteLength
+
+      {
+          [ReliabilityContract(Consistency.WillNotCorruptState, Cer.Success)]
+          get;
+      }
+    content.vb: >-
+      <CLSCompliant(False)>
+
+      Public ReadOnly Property ByteLength As ULong
     parameters: []
     return:
       type: System.UInt64
-      description: "\n<p>The number of bytes in the memory buffer.</p>\n"
   exceptions:
   - type: System.InvalidOperationException
     commentId: T:System.InvalidOperationException
     description: "\n<p>The <see cref=\"Overload:System.Runtime.InteropServices.SafeBuffer.Initialize\"></see> method has not been called.</p>\n"
+  attributes:
+  - type: System.CLSCompliantAttribute
+    ctor: System.CLSCompliantAttribute.#ctor(System.Boolean)
+    arguments:
+    - type: System.Boolean
+      value: false
   modifiers.csharp:
   - public
   - get
@@ -181,12 +230,12 @@ items:
   type: Method
   source:
     remote:
-      path: src/System.Runtime.InteropServices/ref/System.Runtime.InteropServices.cs
+      path: src/mscorlib/src/System/Runtime/InteropServices/SafeBuffer.cs
       branch: master
-      repo: https://github.com/dotnet/corefx.git
+      repo: https://github.com/dotnet/coreclr.git
     id: AcquirePointer
-    path: src/System.Runtime.InteropServices/ref/System.Runtime.InteropServices.cs
-    startLine: 707
+    path: src/mscorlib/src/System/Runtime/InteropServices/SafeBuffer.cs
+    startLine: 176
   assemblies:
   - System.Runtime.InteropServices
   namespace: System.Runtime.InteropServices
@@ -195,16 +244,37 @@ items:
   example:
   - 
   syntax:
-    content: public void AcquirePointer(ref byte *pointer)
-    content.vb: Public Sub AcquirePointer(ByRef pointer As Byte *)
+    content: >-
+      [CLSCompliant(false)]
+
+      [ReliabilityContract(Consistency.WillNotCorruptState, Cer.MayFail)]
+
+      public void AcquirePointer(ref byte *pointer)
+    content.vb: >-
+      <CLSCompliant(False)>
+
+      <ReliabilityContract(Consistency.WillNotCorruptState, Cer.MayFail)>
+
+      Public Sub AcquirePointer(ByRef pointer As Byte *)
     parameters:
     - id: pointer
       type: System.Byte*
-      description: "\n<p>A byte pointer, passed by reference, to receive the pointer from within the <xref href=\"System.Runtime.InteropServices.SafeBuffer\" data-throw-if-not-resolved=\"false\"></xref> object. You must set this pointer to <strong>null</strong> before you call this method.</p>\n"
+      description: >-
+        A byte*, passed by reference, to receive
+
+        the pointer from within the SafeBuffer.  You must set
+
+        pointer to null before calling this method.
   exceptions:
   - type: System.InvalidOperationException
     commentId: T:System.InvalidOperationException
     description: "\n<p>The <see cref=\"Overload:System.Runtime.InteropServices.SafeBuffer.Initialize\"></see> method has not been called.</p>\n"
+  attributes:
+  - type: System.CLSCompliantAttribute
+    ctor: System.CLSCompliantAttribute.#ctor(System.Boolean)
+    arguments:
+    - type: System.Boolean
+      value: false
   modifiers.csharp:
   - public
   modifiers.vb:
@@ -223,12 +293,12 @@ items:
   type: Method
   source:
     remote:
-      path: src/System.Runtime.InteropServices/ref/System.Runtime.InteropServices.cs
+      path: src/mscorlib/src/System/Runtime/InteropServices/SafeBuffer.cs
       branch: master
-      repo: https://github.com/dotnet/corefx.git
+      repo: https://github.com/dotnet/coreclr.git
     id: Initialize
-    path: src/System.Runtime.InteropServices/ref/System.Runtime.InteropServices.cs
-    startLine: 709
+    path: src/mscorlib/src/System/Runtime/InteropServices/SafeBuffer.cs
+    startLine: 118
   assemblies:
   - System.Runtime.InteropServices
   namespace: System.Runtime.InteropServices
@@ -237,19 +307,29 @@ items:
   example:
   - 
   syntax:
-    content: public void Initialize(uint numElements, uint sizeOfEachElement)
-    content.vb: Public Sub Initialize(numElements As UInteger, sizeOfEachElement As UInteger)
+    content: >-
+      [CLSCompliant(false)]
+
+      public void Initialize(uint numElements, uint sizeOfEachElement)
+    content.vb: >-
+      <CLSCompliant(False)>
+
+      Public Sub Initialize(numElements As UInteger, sizeOfEachElement As UInteger)
     parameters:
     - id: numElements
       type: System.UInt32
-      description: "\n<p>The number of elements in the buffer.</p>\n"
     - id: sizeOfEachElement
       type: System.UInt32
-      description: "\n<p>The size of each element in the buffer.</p>\n"
   exceptions:
   - type: System.ArgumentOutOfRangeException
     commentId: T:System.ArgumentOutOfRangeException
     description: "\n<p>\n<em>numElements</em> is less than zero. </p>\n<p>-or-</p>\n<p>\n<em>sizeOfEachElement</em> is less than zero.</p>\n<p>-or-</p>\n<p>\n<em>numElements</em> multiplied by <em>sizeOfEachElement</em> is greater than the available address space.</p>\n"
+  attributes:
+  - type: System.CLSCompliantAttribute
+    ctor: System.CLSCompliantAttribute.#ctor(System.Boolean)
+    arguments:
+    - type: System.Boolean
+      value: false
   modifiers.csharp:
   - public
   modifiers.vb:
@@ -266,12 +346,12 @@ items:
   type: Method
   source:
     remote:
-      path: src/System.Runtime.InteropServices/ref/System.Runtime.InteropServices.cs
+      path: src/mscorlib/src/System/Runtime/InteropServices/SafeBuffer.cs
       branch: master
-      repo: https://github.com/dotnet/corefx.git
+      repo: https://github.com/dotnet/coreclr.git
     id: Initialize
-    path: src/System.Runtime.InteropServices/ref/System.Runtime.InteropServices.cs
-    startLine: 711
+    path: src/mscorlib/src/System/Runtime/InteropServices/SafeBuffer.cs
+    startLine: 99
   assemblies:
   - System.Runtime.InteropServices
   namespace: System.Runtime.InteropServices
@@ -279,16 +359,28 @@ items:
   example:
   - 
   syntax:
-    content: public void Initialize(ulong numBytes)
-    content.vb: Public Sub Initialize(numBytes As ULong)
+    content: >-
+      [CLSCompliant(false)]
+
+      public void Initialize(ulong numBytes)
+    content.vb: >-
+      <CLSCompliant(False)>
+
+      Public Sub Initialize(numBytes As ULong)
     parameters:
     - id: numBytes
       type: System.UInt64
-      description: "\n<p>The number of bytes in the buffer.</p>\n"
+      description: Number of valid bytes in memory.
   exceptions:
   - type: System.ArgumentOutOfRangeException
     commentId: T:System.ArgumentOutOfRangeException
     description: "\n<p>\n<em>numBytes</em> is less than zero.</p>\n<p>-or-</p>\n<p>\n<em>numBytes</em> is greater than the available address space.</p>\n"
+  attributes:
+  - type: System.CLSCompliantAttribute
+    ctor: System.CLSCompliantAttribute.#ctor(System.Boolean)
+    arguments:
+    - type: System.Boolean
+      value: false
   modifiers.csharp:
   - public
   modifiers.vb:
@@ -305,12 +397,12 @@ items:
   type: Method
   source:
     remote:
-      path: src/System.Runtime.InteropServices/ref/System.Runtime.InteropServices.cs
+      path: src/mscorlib/src/System/Runtime/InteropServices/SafeBuffer.cs
       branch: master
-      repo: https://github.com/dotnet/corefx.git
+      repo: https://github.com/dotnet/coreclr.git
     id: Initialize
-    path: src/System.Runtime.InteropServices/ref/System.Runtime.InteropServices.cs
-    startLine: 713
+    path: src/mscorlib/src/System/Runtime/InteropServices/SafeBuffer.cs
+    startLine: 140
   assemblies:
   - System.Runtime.InteropServices
   namespace: System.Runtime.InteropServices
@@ -318,19 +410,29 @@ items:
   example:
   - 
   syntax:
-    content: 'public void Initialize<T>(uint numElements)where T : struct'
-    content.vb: Public Sub Initialize(Of T As Structure)(numElements As UInteger)
+    content: >-
+      [CLSCompliant(false)]
+
+      public void Initialize<T>(uint numElements)where T : struct
+    content.vb: >-
+      <CLSCompliant(False)>
+
+      Public Sub Initialize(Of T As Structure)(numElements As UInteger)
     parameters:
     - id: numElements
       type: System.UInt32
-      description: "\n<p>The number of elements of the value type to allocate memory for.</p>\n"
     typeParameters:
     - id: T
-      description: "\n<p>The value type to allocate memory for.</p>\n"
   exceptions:
   - type: System.ArgumentOutOfRangeException
     commentId: T:System.ArgumentOutOfRangeException
     description: "\n<p>\n<em>numElements</em> is less than zero.</p>\n<p>-or-</p>\n<p>\n<em>numElements</em> multiplied by the size of each element is greater than the available address space.</p>\n"
+  attributes:
+  - type: System.CLSCompliantAttribute
+    ctor: System.CLSCompliantAttribute.#ctor(System.Boolean)
+    arguments:
+    - type: System.Boolean
+      value: false
   modifiers.csharp:
   - public
   modifiers.vb:
@@ -349,12 +451,12 @@ items:
   type: Method
   source:
     remote:
-      path: src/System.Runtime.InteropServices/ref/System.Runtime.InteropServices.cs
+      path: src/mscorlib/src/System/Runtime/InteropServices/SafeBuffer.cs
       branch: master
-      repo: https://github.com/dotnet/corefx.git
+      repo: https://github.com/dotnet/coreclr.git
     id: Read
-    path: src/System.Runtime.InteropServices/ref/System.Runtime.InteropServices.cs
-    startLine: 715
+    path: src/mscorlib/src/System/Runtime/InteropServices/SafeBuffer.cs
+    startLine: 213
   assemblies:
   - System.Runtime.InteropServices
   namespace: System.Runtime.InteropServices
@@ -362,18 +464,28 @@ items:
   example:
   - 
   syntax:
-    content: 'public T Read<T>(ulong byteOffset)where T : struct'
-    content.vb: Public Function Read(Of T As Structure)(byteOffset As ULong) As T
+    content: >-
+      [CLSCompliant(false)]
+
+      [ReliabilityContract(Consistency.WillNotCorruptState, Cer.MayFail)]
+
+      public T Read<T>(ulong byteOffset)where T : struct
+    content.vb: >-
+      <CLSCompliant(False)>
+
+      <ReliabilityContract(Consistency.WillNotCorruptState, Cer.MayFail)>
+
+      Public Function Read(Of T As Structure)(byteOffset As ULong) As T
     parameters:
     - id: byteOffset
       type: System.UInt64
-      description: "\n<p>The location from which to read the value type. You may have to consider alignment issues.</p>\n"
+      description: "Where to start reading from memory.  You \nmay have to consider alignment."
     typeParameters:
     - id: T
-      description: "\n<p>The value type to read.</p>\n"
+      description: The value type to read
     return:
       type: '{T}'
-      description: "\n<p>The value type that was read from memory.</p>\n"
+      description: An instance of T read from memory.
   exceptions:
   - type: System.InvalidOperationException
     commentId: T:System.InvalidOperationException
@@ -381,6 +493,12 @@ items:
   seealso:
   - type: System.Runtime.InteropServices.SafeBuffer.Write``1(System.UInt64,``0)
     commentId: M:System.Runtime.InteropServices.SafeBuffer.Write``1(System.UInt64,``0)
+  attributes:
+  - type: System.CLSCompliantAttribute
+    ctor: System.CLSCompliantAttribute.#ctor(System.Boolean)
+    arguments:
+    - type: System.Boolean
+      value: false
   modifiers.csharp:
   - public
   modifiers.vb:
@@ -399,12 +517,12 @@ items:
   type: Method
   source:
     remote:
-      path: src/System.Runtime.InteropServices/ref/System.Runtime.InteropServices.cs
+      path: src/mscorlib/src/System/Runtime/InteropServices/SafeBuffer.cs
       branch: master
-      repo: https://github.com/dotnet/corefx.git
+      repo: https://github.com/dotnet/coreclr.git
     id: ReadArray
-    path: src/System.Runtime.InteropServices/ref/System.Runtime.InteropServices.cs
-    startLine: 717
+    path: src/mscorlib/src/System/Runtime/InteropServices/SafeBuffer.cs
+    startLine: 241
   assemblies:
   - System.Runtime.InteropServices
   namespace: System.Runtime.InteropServices
@@ -412,24 +530,29 @@ items:
   example:
   - 
   syntax:
-    content: 'public void ReadArray<T>(ulong byteOffset, T[] array, int index, int count)where T : struct'
-    content.vb: Public Sub ReadArray(Of T As Structure)(byteOffset As ULong, array As T(), index As Integer, count As Integer)
+    content: >-
+      [CLSCompliant(false)]
+
+      [ReliabilityContract(Consistency.WillNotCorruptState, Cer.MayFail)]
+
+      public void ReadArray<T>(ulong byteOffset, T[] array, int index, int count)where T : struct
+    content.vb: >-
+      <CLSCompliant(False)>
+
+      <ReliabilityContract(Consistency.WillNotCorruptState, Cer.MayFail)>
+
+      Public Sub ReadArray(Of T As Structure)(byteOffset As ULong, array As T(), index As Integer, count As Integer)
     parameters:
     - id: byteOffset
       type: System.UInt64
-      description: "\n<p>The location from which to start reading.</p>\n"
     - id: array
       type: '{T}[]'
-      description: "\n<p>The output array to write to.</p>\n"
     - id: index
       type: System.Int32
-      description: "\n<p>The location in the output array to begin writing to.</p>\n"
     - id: count
       type: System.Int32
-      description: "\n<p>The number of value types to read from the input array and to write to the output array.</p>\n"
     typeParameters:
     - id: T
-      description: "\n<p>The value type to read.</p>\n"
   exceptions:
   - type: System.ArgumentOutOfRangeException
     commentId: T:System.ArgumentOutOfRangeException
@@ -446,6 +569,12 @@ items:
   seealso:
   - type: System.Runtime.InteropServices.SafeBuffer.WriteArray``1(System.UInt64,``0[],System.Int32,System.Int32)
     commentId: M:System.Runtime.InteropServices.SafeBuffer.WriteArray``1(System.UInt64,``0[],System.Int32,System.Int32)
+  attributes:
+  - type: System.CLSCompliantAttribute
+    ctor: System.CLSCompliantAttribute.#ctor(System.Boolean)
+    arguments:
+    - type: System.Boolean
+      value: false
   modifiers.csharp:
   - public
   modifiers.vb:
@@ -464,12 +593,12 @@ items:
   type: Method
   source:
     remote:
-      path: src/System.Runtime.InteropServices/ref/System.Runtime.InteropServices.cs
+      path: src/mscorlib/src/System/Runtime/InteropServices/SafeBuffer.cs
       branch: master
-      repo: https://github.com/dotnet/corefx.git
+      repo: https://github.com/dotnet/coreclr.git
     id: ReleasePointer
-    path: src/System.Runtime.InteropServices/ref/System.Runtime.InteropServices.cs
-    startLine: 719
+    path: src/mscorlib/src/System/Runtime/InteropServices/SafeBuffer.cs
+    startLine: 196
   assemblies:
   - System.Runtime.InteropServices
   namespace: System.Runtime.InteropServices
@@ -478,8 +607,14 @@ items:
   example:
   - 
   syntax:
-    content: public void ReleasePointer()
-    content.vb: Public Sub ReleasePointer
+    content: >-
+      [ReliabilityContract(Consistency.WillNotCorruptState, Cer.Success)]
+
+      public void ReleasePointer()
+    content.vb: >-
+      <ReliabilityContract(Consistency.WillNotCorruptState, Cer.Success)>
+
+      Public Sub ReleasePointer
   exceptions:
   - type: System.InvalidOperationException
     commentId: T:System.InvalidOperationException
@@ -500,12 +635,12 @@ items:
   type: Method
   source:
     remote:
-      path: src/System.Runtime.InteropServices/ref/System.Runtime.InteropServices.cs
+      path: src/mscorlib/src/System/Runtime/InteropServices/SafeBuffer.cs
       branch: master
-      repo: https://github.com/dotnet/corefx.git
+      repo: https://github.com/dotnet/coreclr.git
     id: Write
-    path: src/System.Runtime.InteropServices/ref/System.Runtime.InteropServices.cs
-    startLine: 720
+    path: src/mscorlib/src/System/Runtime/InteropServices/SafeBuffer.cs
+    startLine: 288
   assemblies:
   - System.Runtime.InteropServices
   namespace: System.Runtime.InteropServices
@@ -514,18 +649,28 @@ items:
   example:
   - 
   syntax:
-    content: 'public void Write<T>(ulong byteOffset, T value)where T : struct'
-    content.vb: Public Sub Write(Of T As Structure)(byteOffset As ULong, value As T)
+    content: >-
+      [CLSCompliant(false)]
+
+      [ReliabilityContract(Consistency.WillNotCorruptState, Cer.MayFail)]
+
+      public void Write<T>(ulong byteOffset, T value)where T : struct
+    content.vb: >-
+      <CLSCompliant(False)>
+
+      <ReliabilityContract(Consistency.WillNotCorruptState, Cer.MayFail)>
+
+      Public Sub Write(Of T As Structure)(byteOffset As ULong, value As T)
     parameters:
     - id: byteOffset
       type: System.UInt64
-      description: "\n<p>The location at which to start writing. You may have to consider alignment issues.</p>\n"
+      description: "The location in memory to write to.  You \nmay have to consider alignment."
     - id: value
       type: '{T}'
-      description: "\n<p>The value to write.</p>\n"
+      description: The value type to write to memory.
     typeParameters:
     - id: T
-      description: "\n<p>The value type to write.</p>\n"
+      description: The type of the value type to write to memory.
   exceptions:
   - type: System.InvalidOperationException
     commentId: T:System.InvalidOperationException
@@ -533,6 +678,12 @@ items:
   seealso:
   - type: System.Runtime.InteropServices.SafeBuffer.Read``1(System.UInt64)
     commentId: M:System.Runtime.InteropServices.SafeBuffer.Read``1(System.UInt64)
+  attributes:
+  - type: System.CLSCompliantAttribute
+    ctor: System.CLSCompliantAttribute.#ctor(System.Boolean)
+    arguments:
+    - type: System.Boolean
+      value: false
   modifiers.csharp:
   - public
   modifiers.vb:
@@ -551,12 +702,12 @@ items:
   type: Method
   source:
     remote:
-      path: src/System.Runtime.InteropServices/ref/System.Runtime.InteropServices.cs
+      path: src/mscorlib/src/System/Runtime/InteropServices/SafeBuffer.cs
       branch: master
-      repo: https://github.com/dotnet/corefx.git
+      repo: https://github.com/dotnet/coreclr.git
     id: WriteArray
-    path: src/System.Runtime.InteropServices/ref/System.Runtime.InteropServices.cs
-    startLine: 722
+    path: src/mscorlib/src/System/Runtime/InteropServices/SafeBuffer.cs
+    startLine: 313
   assemblies:
   - System.Runtime.InteropServices
   namespace: System.Runtime.InteropServices
@@ -565,24 +716,29 @@ items:
   example:
   - 
   syntax:
-    content: 'public void WriteArray<T>(ulong byteOffset, T[] array, int index, int count)where T : struct'
-    content.vb: Public Sub WriteArray(Of T As Structure)(byteOffset As ULong, array As T(), index As Integer, count As Integer)
+    content: >-
+      [CLSCompliant(false)]
+
+      [ReliabilityContract(Consistency.WillNotCorruptState, Cer.MayFail)]
+
+      public void WriteArray<T>(ulong byteOffset, T[] array, int index, int count)where T : struct
+    content.vb: >-
+      <CLSCompliant(False)>
+
+      <ReliabilityContract(Consistency.WillNotCorruptState, Cer.MayFail)>
+
+      Public Sub WriteArray(Of T As Structure)(byteOffset As ULong, array As T(), index As Integer, count As Integer)
     parameters:
     - id: byteOffset
       type: System.UInt64
-      description: "\n<p>The location in memory to write to.</p>\n"
     - id: array
       type: '{T}[]'
-      description: "\n<p>The input array.</p>\n"
     - id: index
       type: System.Int32
-      description: "\n<p>The offset in the array to start reading from.</p>\n"
     - id: count
       type: System.Int32
-      description: "\n<p>The number of value types to write.</p>\n"
     typeParameters:
     - id: T
-      description: "\n<p>The value type to write.</p>\n"
   exceptions:
   - type: System.ArgumentNullException
     commentId: T:System.ArgumentNullException
@@ -599,6 +755,12 @@ items:
   seealso:
   - type: System.Runtime.InteropServices.SafeBuffer.ReadArray``1(System.UInt64,``0[],System.Int32,System.Int32)
     commentId: M:System.Runtime.InteropServices.SafeBuffer.ReadArray``1(System.UInt64,``0[],System.Int32,System.Int32)
+  attributes:
+  - type: System.CLSCompliantAttribute
+    ctor: System.CLSCompliantAttribute.#ctor(System.Boolean)
+    arguments:
+    - type: System.Boolean
+      value: false
   modifiers.csharp:
   - public
   modifiers.vb:
@@ -615,15 +777,473 @@ references:
   isExternal: false
   name: Object
   fullName: System.Object
+- uid: System.Runtime.ConstrainedExecution.CriticalFinalizerObject
+  parent: System.Runtime.ConstrainedExecution
+  isExternal: true
+  name: CriticalFinalizerObject
+  fullName: System.Runtime.ConstrainedExecution.CriticalFinalizerObject
+- uid: System.Runtime.InteropServices.SafeHandle
+  parent: System.Runtime.InteropServices
+  isExternal: false
+  name: SafeHandle
+  fullName: System.Runtime.InteropServices.SafeHandle
+- uid: System.IDisposable
+  parent: System
+  isExternal: false
+  name: IDisposable
+  fullName: System.IDisposable
+- uid: System.Runtime.InteropServices.SafeHandle.handle
+  parent: System.Runtime.InteropServices.SafeHandle
+  isExternal: false
+  name: handle
+  fullName: System.Runtime.InteropServices.SafeHandle.handle
+- uid: System.Runtime.InteropServices.SafeHandle.SetHandle(System.IntPtr)
+  parent: System.Runtime.InteropServices.SafeHandle
+  isExternal: true
+  name: SetHandle(IntPtr)
+  fullName: System.Runtime.InteropServices.SafeHandle.SetHandle(System.IntPtr)
+  spec.csharp:
+  - uid: System.Runtime.InteropServices.SafeHandle.SetHandle(System.IntPtr)
+    name: SetHandle
+    fullName: System.Runtime.InteropServices.SafeHandle.SetHandle
+  - name: (
+    fullName: (
+  - uid: System.IntPtr
+    name: IntPtr
+    fullName: System.IntPtr
+    isExternal: true
+  - name: )
+    fullName: )
+  spec.vb:
+  - uid: System.Runtime.InteropServices.SafeHandle.SetHandle(System.IntPtr)
+    name: SetHandle
+    fullName: System.Runtime.InteropServices.SafeHandle.SetHandle
+  - name: (
+    fullName: (
+  - uid: System.IntPtr
+    name: IntPtr
+    fullName: System.IntPtr
+    isExternal: true
+  - name: )
+    fullName: )
+- uid: System.Runtime.InteropServices.SafeHandle.DangerousGetHandle
+  parent: System.Runtime.InteropServices.SafeHandle
+  isExternal: false
+  name: DangerousGetHandle()
+  fullName: System.Runtime.InteropServices.SafeHandle.DangerousGetHandle()
+  spec.csharp:
+  - uid: System.Runtime.InteropServices.SafeHandle.DangerousGetHandle
+    name: DangerousGetHandle
+    fullName: System.Runtime.InteropServices.SafeHandle.DangerousGetHandle
+  - name: (
+    fullName: (
+  - name: )
+    fullName: )
+  spec.vb:
+  - uid: System.Runtime.InteropServices.SafeHandle.DangerousGetHandle
+    name: DangerousGetHandle
+    fullName: System.Runtime.InteropServices.SafeHandle.DangerousGetHandle
+  - name: (
+    fullName: (
+  - name: )
+    fullName: )
+- uid: System.Runtime.InteropServices.SafeHandle.Close
+  parent: System.Runtime.InteropServices.SafeHandle
+  isExternal: true
+  name: Close()
+  fullName: System.Runtime.InteropServices.SafeHandle.Close()
+  spec.csharp:
+  - uid: System.Runtime.InteropServices.SafeHandle.Close
+    name: Close
+    fullName: System.Runtime.InteropServices.SafeHandle.Close
+    isExternal: true
+  - name: (
+    fullName: (
+  - name: )
+    fullName: )
+  spec.vb:
+  - uid: System.Runtime.InteropServices.SafeHandle.Close
+    name: Close
+    fullName: System.Runtime.InteropServices.SafeHandle.Close
+    isExternal: true
+  - name: (
+    fullName: (
+  - name: )
+    fullName: )
+- uid: System.Runtime.InteropServices.SafeHandle.Dispose
+  parent: System.Runtime.InteropServices.SafeHandle
+  isExternal: false
+  name: Dispose()
+  fullName: System.Runtime.InteropServices.SafeHandle.Dispose()
+  spec.csharp:
+  - uid: System.Runtime.InteropServices.SafeHandle.Dispose
+    name: Dispose
+    fullName: System.Runtime.InteropServices.SafeHandle.Dispose
+  - name: (
+    fullName: (
+  - name: )
+    fullName: )
+  spec.vb:
+  - uid: System.Runtime.InteropServices.SafeHandle.Dispose
+    name: Dispose
+    fullName: System.Runtime.InteropServices.SafeHandle.Dispose
+  - name: (
+    fullName: (
+  - name: )
+    fullName: )
+- uid: System.Runtime.InteropServices.SafeHandle.Dispose(System.Boolean)
+  parent: System.Runtime.InteropServices.SafeHandle
+  isExternal: true
+  name: Dispose(Boolean)
+  fullName: System.Runtime.InteropServices.SafeHandle.Dispose(System.Boolean)
+  spec.csharp:
+  - uid: System.Runtime.InteropServices.SafeHandle.Dispose(System.Boolean)
+    name: Dispose
+    fullName: System.Runtime.InteropServices.SafeHandle.Dispose
+  - name: (
+    fullName: (
+  - uid: System.Boolean
+    name: Boolean
+    fullName: System.Boolean
+    isExternal: true
+  - name: )
+    fullName: )
+  spec.vb:
+  - uid: System.Runtime.InteropServices.SafeHandle.Dispose(System.Boolean)
+    name: Dispose
+    fullName: System.Runtime.InteropServices.SafeHandle.Dispose
+  - name: (
+    fullName: (
+  - uid: System.Boolean
+    name: Boolean
+    fullName: System.Boolean
+    isExternal: true
+  - name: )
+    fullName: )
+- uid: System.Runtime.InteropServices.SafeHandle.SetHandleAsInvalid
+  parent: System.Runtime.InteropServices.SafeHandle
+  isExternal: false
+  name: SetHandleAsInvalid()
+  fullName: System.Runtime.InteropServices.SafeHandle.SetHandleAsInvalid()
+  spec.csharp:
+  - uid: System.Runtime.InteropServices.SafeHandle.SetHandleAsInvalid
+    name: SetHandleAsInvalid
+    fullName: System.Runtime.InteropServices.SafeHandle.SetHandleAsInvalid
+  - name: (
+    fullName: (
+  - name: )
+    fullName: )
+  spec.vb:
+  - uid: System.Runtime.InteropServices.SafeHandle.SetHandleAsInvalid
+    name: SetHandleAsInvalid
+    fullName: System.Runtime.InteropServices.SafeHandle.SetHandleAsInvalid
+  - name: (
+    fullName: (
+  - name: )
+    fullName: )
+- uid: System.Runtime.InteropServices.SafeHandle.ReleaseHandle
+  parent: System.Runtime.InteropServices.SafeHandle
+  isExternal: false
+  name: ReleaseHandle()
+  fullName: System.Runtime.InteropServices.SafeHandle.ReleaseHandle()
+  spec.csharp:
+  - uid: System.Runtime.InteropServices.SafeHandle.ReleaseHandle
+    name: ReleaseHandle
+    fullName: System.Runtime.InteropServices.SafeHandle.ReleaseHandle
+  - name: (
+    fullName: (
+  - name: )
+    fullName: )
+  spec.vb:
+  - uid: System.Runtime.InteropServices.SafeHandle.ReleaseHandle
+    name: ReleaseHandle
+    fullName: System.Runtime.InteropServices.SafeHandle.ReleaseHandle
+  - name: (
+    fullName: (
+  - name: )
+    fullName: )
+- uid: System.Runtime.InteropServices.SafeHandle.DangerousAddRef(System.Boolean@)
+  parent: System.Runtime.InteropServices.SafeHandle
+  isExternal: true
+  name: DangerousAddRef(Boolean)
+  fullName: System.Runtime.InteropServices.SafeHandle.DangerousAddRef(System.Boolean)
+  spec.csharp:
+  - uid: System.Runtime.InteropServices.SafeHandle.DangerousAddRef(System.Boolean@)
+    name: DangerousAddRef
+    fullName: System.Runtime.InteropServices.SafeHandle.DangerousAddRef
+  - name: (
+    fullName: (
+  - uid: System.Boolean
+    name: Boolean
+    fullName: System.Boolean
+    isExternal: true
+  - name: )
+    fullName: )
+  spec.vb:
+  - uid: System.Runtime.InteropServices.SafeHandle.DangerousAddRef(System.Boolean@)
+    name: DangerousAddRef
+    fullName: System.Runtime.InteropServices.SafeHandle.DangerousAddRef
+  - name: (
+    fullName: (
+  - uid: System.Boolean
+    name: Boolean
+    fullName: System.Boolean
+    isExternal: true
+  - name: )
+    fullName: )
+- uid: System.Runtime.InteropServices.SafeHandle.DangerousRelease
+  parent: System.Runtime.InteropServices.SafeHandle
+  isExternal: false
+  name: DangerousRelease()
+  fullName: System.Runtime.InteropServices.SafeHandle.DangerousRelease()
+  spec.csharp:
+  - uid: System.Runtime.InteropServices.SafeHandle.DangerousRelease
+    name: DangerousRelease
+    fullName: System.Runtime.InteropServices.SafeHandle.DangerousRelease
+  - name: (
+    fullName: (
+  - name: )
+    fullName: )
+  spec.vb:
+  - uid: System.Runtime.InteropServices.SafeHandle.DangerousRelease
+    name: DangerousRelease
+    fullName: System.Runtime.InteropServices.SafeHandle.DangerousRelease
+  - name: (
+    fullName: (
+  - name: )
+    fullName: )
+- uid: System.Runtime.InteropServices.SafeHandle.IsClosed
+  parent: System.Runtime.InteropServices.SafeHandle
+  isExternal: false
+  name: IsClosed
+  fullName: System.Runtime.InteropServices.SafeHandle.IsClosed
+- uid: System.Object.ToString
+  parent: System.Object
+  isExternal: true
+  name: ToString()
+  fullName: System.Object.ToString()
+  spec.csharp:
+  - uid: System.Object.ToString
+    name: ToString
+    fullName: System.Object.ToString
+    isExternal: true
+  - name: (
+    fullName: (
+  - name: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.ToString
+    name: ToString
+    fullName: System.Object.ToString
+    isExternal: true
+  - name: (
+    fullName: (
+  - name: )
+    fullName: )
+- uid: System.Object.Equals(System.Object)
+  parent: System.Object
+  isExternal: true
+  name: Equals(Object)
+  fullName: System.Object.Equals(System.Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    fullName: )
+- uid: System.Object.Equals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  name: Equals(Object, Object)
+  fullName: System.Object.Equals(System.Object, System.Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    fullName: )
+- uid: System.Object.ReferenceEquals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  name: ReferenceEquals(Object, Object)
+  fullName: System.Object.ReferenceEquals(System.Object, System.Object)
+  spec.csharp:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    fullName: System.Object.ReferenceEquals
+    isExternal: true
+  - name: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    fullName: System.Object.ReferenceEquals
+    isExternal: true
+  - name: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    fullName: )
+- uid: System.Object.GetHashCode
+  parent: System.Object
+  isExternal: true
+  name: GetHashCode()
+  fullName: System.Object.GetHashCode()
+  spec.csharp:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    fullName: System.Object.GetHashCode
+    isExternal: true
+  - name: (
+    fullName: (
+  - name: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    fullName: System.Object.GetHashCode
+    isExternal: true
+  - name: (
+    fullName: (
+  - name: )
+    fullName: )
+- uid: System.Object.GetType
+  parent: System.Object
+  isExternal: true
+  name: GetType()
+  fullName: System.Object.GetType()
+  spec.csharp:
+  - uid: System.Object.GetType
+    name: GetType
+    fullName: System.Object.GetType
+    isExternal: true
+  - name: (
+    fullName: (
+  - name: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.GetType
+    name: GetType
+    fullName: System.Object.GetType
+    isExternal: true
+  - name: (
+    fullName: (
+  - name: )
+    fullName: )
+- uid: System.Object.MemberwiseClone
+  parent: System.Object
+  isExternal: true
+  name: MemberwiseClone()
+  fullName: System.Object.MemberwiseClone()
+  spec.csharp:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    fullName: System.Object.MemberwiseClone
+    isExternal: true
+  - name: (
+    fullName: (
+  - name: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    fullName: System.Object.MemberwiseClone
+    isExternal: true
+  - name: (
+    fullName: (
+  - name: )
+    fullName: )
 - uid: System
   isExternal: false
   name: System
   fullName: System
+- uid: System.Runtime.ConstrainedExecution
+  isExternal: false
+  name: System.Runtime.ConstrainedExecution
+  fullName: System.Runtime.ConstrainedExecution
 - uid: System.Boolean
   parent: System
   isExternal: false
   name: Boolean
   fullName: System.Boolean
+- uid: System.Runtime.InteropServices.SafeHandle.IsInvalid
+  parent: System.Runtime.InteropServices.SafeHandle
+  isExternal: false
+  name: IsInvalid
+  fullName: System.Runtime.InteropServices.SafeHandle.IsInvalid
 - uid: System.UInt64
   parent: System
   isExternal: false

@@ -18,12 +18,12 @@ items:
   type: Class
   source:
     remote:
-      path: src/System.Runtime/ref/System.Runtime.cs
+      path: src/mscorlib/src/System/Runtime/CompilerServices/RuntimeHelpers.cs
       branch: master
-      repo: https://github.com/dotnet/corefx.git
+      repo: https://github.com/dotnet/coreclr.git
     id: RuntimeHelpers
-    path: src/System.Runtime/ref/System.Runtime.cs
-    startLine: 2966
+    path: src/mscorlib/src/System/Runtime/CompilerServices/RuntimeHelpers.cs
+    startLine: 25
   assemblies:
   - System.Runtime
   namespace: System.Runtime.CompilerServices
@@ -36,13 +36,13 @@ items:
   inheritance:
   - System.Object
   inheritedMembers:
+  - System.Object.ToString
   - System.Object.Equals(System.Object)
   - System.Object.Equals(System.Object,System.Object)
+  - System.Object.ReferenceEquals(System.Object,System.Object)
   - System.Object.GetHashCode
   - System.Object.GetType
   - System.Object.MemberwiseClone
-  - System.Object.ReferenceEquals(System.Object,System.Object)
-  - System.Object.ToString
   modifiers.csharp:
   - public
   - class
@@ -61,24 +61,29 @@ items:
   type: Property
   source:
     remote:
-      path: src/System.Runtime/ref/System.Runtime.cs
+      path: src/mscorlib/src/System/Runtime/CompilerServices/RuntimeHelpers.cs
       branch: master
-      repo: https://github.com/dotnet/corefx.git
+      repo: https://github.com/dotnet/coreclr.git
     id: OffsetToStringData
-    path: src/System.Runtime/ref/System.Runtime.cs
-    startLine: 2968
+    path: src/mscorlib/src/System/Runtime/CompilerServices/RuntimeHelpers.cs
+    startLine: 160
   assemblies:
   - System.Runtime
   namespace: System.Runtime.CompilerServices
   summary: "\n<p>Gets the offset, in bytes, to the data in the given string.</p>\n"
   remarks: "\n<p>Compilers use this property for unsafe, but efficient, pointer operations on the characters in a managed string. Compilers should pin the string against movement by the garbage collector before use. Note that common language runtime strings are immutable; that is, their contents can be read but not changed.</p>\n"
   syntax:
-    content: public static int OffsetToStringData { get; }
+    content: >-
+      public static int OffsetToStringData
+
+      {
+          [NonVersionable]
+          get;
+      }
     content.vb: Public Shared ReadOnly Property OffsetToStringData As Integer
     parameters: []
     return:
       type: System.Int32
-      description: "\n<p>The byte offset, from the start of the <xref href=\"System.String\" data-throw-if-not-resolved=\"false\"></xref> object to the first character in the string.</p>\n"
   modifiers.csharp:
   - public
   - static
@@ -98,13 +103,8 @@ items:
   fullName: System.Runtime.CompilerServices.RuntimeHelpers.EnsureSufficientExecutionStack()
   type: Method
   source:
-    remote:
-      path: src/System.Runtime/ref/System.Runtime.cs
-      branch: master
-      repo: https://github.com/dotnet/corefx.git
-    id: EnsureSufficientExecutionStack
-    path: src/System.Runtime/ref/System.Runtime.cs
-    startLine: 2969
+    path: System.Private.CoreLib
+    isExternal: true
   assemblies:
   - System.Runtime
   namespace: System.Runtime.CompilerServices
@@ -113,8 +113,22 @@ items:
   example:
   - 
   syntax:
-    content: public static void EnsureSufficientExecutionStack()
-    content.vb: Public Shared Sub EnsureSufficientExecutionStack
+    content: >-
+      [SecuritySafeCritical]
+
+      [MethodImpl(MethodImplOptions.InternalCall)]
+
+      [ReliabilityContract(Consistency.WillNotCorruptState, Cer.Success)]
+
+      public static void EnsureSufficientExecutionStack()
+    content.vb: >-
+      <SecuritySafeCritical>
+
+      <MethodImpl(MethodImplOptions.InternalCall)>
+
+      <ReliabilityContract(Consistency.WillNotCorruptState, Cer.Success)>
+
+      Public Shared Sub EnsureSufficientExecutionStack
   exceptions:
   - type: System.InsufficientExecutionStackException
     commentId: T:System.InsufficientExecutionStackException
@@ -136,13 +150,8 @@ items:
   fullName: System.Runtime.CompilerServices.RuntimeHelpers.GetHashCode(System.Object)
   type: Method
   source:
-    remote:
-      path: src/System.Runtime/ref/System.Runtime.cs
-      branch: master
-      repo: https://github.com/dotnet/corefx.git
-    id: GetHashCode
-    path: src/System.Runtime/ref/System.Runtime.cs
-    startLine: 2970
+    path: System.Private.CoreLib
+    isExternal: true
   assemblies:
   - System.Runtime
   namespace: System.Runtime.CompilerServices
@@ -176,15 +185,23 @@ items:
 
     </ul>System.Runtime.CompilerServices.RuntimeHelpers.GetHashCode#1
   syntax:
-    content: public static int GetHashCode(object o)
-    content.vb: Public Shared Function GetHashCode(o As Object) As Integer
+    content: >-
+      [SecuritySafeCritical]
+
+      [MethodImpl(MethodImplOptions.InternalCall)]
+
+      public static int GetHashCode(object o)
+    content.vb: >-
+      <SecuritySafeCritical>
+
+      <MethodImpl(MethodImplOptions.InternalCall)>
+
+      Public Shared Function GetHashCode(o As Object) As Integer
     parameters:
     - id: o
       type: System.Object
-      description: "\n<p>An object to retrieve the hash code for. </p>\n"
     return:
       type: System.Int32
-      description: "\n<p>A hash code for the object identified by the <em>o</em> parameter.</p>\n"
   seealso:
   - type: System.Object.GetHashCode
     commentId: M:System.Object.GetHashCode
@@ -205,13 +222,8 @@ items:
   fullName: System.Runtime.CompilerServices.RuntimeHelpers.GetObjectValue(System.Object)
   type: Method
   source:
-    remote:
-      path: src/System.Runtime/ref/System.Runtime.cs
-      branch: master
-      repo: https://github.com/dotnet/corefx.git
-    id: GetObjectValue
-    path: src/System.Runtime/ref/System.Runtime.cs
-    startLine: 2971
+    path: System.Private.CoreLib
+    isExternal: true
   assemblies:
   - System.Runtime
   namespace: System.Runtime.CompilerServices
@@ -220,15 +232,23 @@ items:
   example:
   - "\n<p>The following example demonstrates how to box a value class by using the <xref href=\"System.Runtime.CompilerServices.RuntimeHelpers.GetObjectValue(System.Object)\" data-throw-if-not-resolved=\"false\"></xref> method.</p>Runtime.CompilerServices.RuntimeHelpers.GetObjectValue#1"
   syntax:
-    content: public static object GetObjectValue(object obj)
-    content.vb: Public Shared Function GetObjectValue(obj As Object) As Object
+    content: >-
+      [SecuritySafeCritical]
+
+      [MethodImpl(MethodImplOptions.InternalCall)]
+
+      public static object GetObjectValue(object obj)
+    content.vb: >-
+      <SecuritySafeCritical>
+
+      <MethodImpl(MethodImplOptions.InternalCall)>
+
+      Public Shared Function GetObjectValue(obj As Object) As Object
     parameters:
     - id: obj
       type: System.Object
-      description: "\n<p>The value type to be boxed. </p>\n"
     return:
       type: System.Object
-      description: "\n<p>A boxed copy of <em>obj</em> if it is a value class; otherwise, <em>obj</em> itself.</p>\n"
   modifiers.csharp:
   - public
   - static
@@ -246,28 +266,31 @@ items:
   fullName: System.Runtime.CompilerServices.RuntimeHelpers.InitializeArray(System.Array, System.RuntimeFieldHandle)
   type: Method
   source:
-    remote:
-      path: src/System.Runtime/ref/System.Runtime.cs
-      branch: master
-      repo: https://github.com/dotnet/corefx.git
-    id: InitializeArray
-    path: src/System.Runtime/ref/System.Runtime.cs
-    startLine: 2972
+    path: System.Private.CoreLib
+    isExternal: true
   assemblies:
   - System.Runtime
   namespace: System.Runtime.CompilerServices
   summary: "\n<p>Provides a fast way to initialize an array from data that is stored in a module.</p>\n"
   remarks: "\n<p>This method is used by compilers.</p>\n"
   syntax:
-    content: public static void InitializeArray(Array array, RuntimeFieldHandle fldHandle)
-    content.vb: Public Shared Sub InitializeArray(array As Array, fldHandle As RuntimeFieldHandle)
+    content: >-
+      [SecuritySafeCritical]
+
+      [MethodImpl(MethodImplOptions.InternalCall)]
+
+      public static void InitializeArray(Array array, RuntimeFieldHandle fldHandle)
+    content.vb: >-
+      <SecuritySafeCritical>
+
+      <MethodImpl(MethodImplOptions.InternalCall)>
+
+      Public Shared Sub InitializeArray(array As Array, fldHandle As RuntimeFieldHandle)
     parameters:
     - id: array
       type: System.Array
-      description: "\n<p>The array to be initialized. </p>\n"
     - id: fldHandle
       type: System.RuntimeFieldHandle
-      description: "\n<p>A field handle that specifies the location of the data used to initialize the array. </p>\n"
   modifiers.csharp:
   - public
   - static
@@ -286,12 +309,12 @@ items:
   type: Method
   source:
     remote:
-      path: src/System.Runtime/ref/System.Runtime.cs
+      path: src/mscorlib/src/System/Runtime/CompilerServices/RuntimeHelpers.cs
       branch: master
-      repo: https://github.com/dotnet/corefx.git
+      repo: https://github.com/dotnet/coreclr.git
     id: RunClassConstructor
-    path: src/System.Runtime/ref/System.Runtime.cs
-    startLine: 2973
+    path: src/mscorlib/src/System/Runtime/CompilerServices/RuntimeHelpers.cs
+    startLine: 69
   assemblies:
   - System.Runtime
   namespace: System.Runtime.CompilerServices
@@ -303,7 +326,6 @@ items:
     parameters:
     - id: type
       type: System.RuntimeTypeHandle
-      description: "\n<p>A type handle that specifies the class constructor method to run. </p>\n"
   exceptions:
   - type: System.TypeInitializationException
     commentId: T:System.TypeInitializationException
@@ -324,179 +346,16 @@ references:
   isExternal: false
   name: Object
   fullName: System.Object
-- uid: System.Object.Equals(System.Object)
-  parent: System.Object
-  isExternal: false
-  name: Equals(Object)
-  fullName: System.Object.Equals(System.Object)
-  spec.csharp:
-  - uid: System.Object.Equals(System.Object)
-    name: Equals
-    fullName: System.Object.Equals
-  - name: (
-    fullName: (
-  - uid: System.Object
-    name: Object
-    fullName: System.Object
-  - name: )
-    fullName: )
-  spec.vb:
-  - uid: System.Object.Equals(System.Object)
-    name: Equals
-    fullName: System.Object.Equals
-  - name: (
-    fullName: (
-  - uid: System.Object
-    name: Object
-    fullName: System.Object
-  - name: )
-    fullName: )
-- uid: System.Object.Equals(System.Object,System.Object)
-  parent: System.Object
-  isExternal: false
-  name: Equals(Object, Object)
-  fullName: System.Object.Equals(System.Object, System.Object)
-  spec.csharp:
-  - uid: System.Object.Equals(System.Object,System.Object)
-    name: Equals
-    fullName: System.Object.Equals
-  - name: (
-    fullName: (
-  - uid: System.Object
-    name: Object
-    fullName: System.Object
-  - name: ', '
-    fullName: ', '
-  - uid: System.Object
-    name: Object
-    fullName: System.Object
-  - name: )
-    fullName: )
-  spec.vb:
-  - uid: System.Object.Equals(System.Object,System.Object)
-    name: Equals
-    fullName: System.Object.Equals
-  - name: (
-    fullName: (
-  - uid: System.Object
-    name: Object
-    fullName: System.Object
-  - name: ', '
-    fullName: ', '
-  - uid: System.Object
-    name: Object
-    fullName: System.Object
-  - name: )
-    fullName: )
-- uid: System.Object.GetHashCode
-  parent: System.Object
-  isExternal: false
-  name: GetHashCode()
-  fullName: System.Object.GetHashCode()
-  spec.csharp:
-  - uid: System.Object.GetHashCode
-    name: GetHashCode
-    fullName: System.Object.GetHashCode
-  - name: (
-    fullName: (
-  - name: )
-    fullName: )
-  spec.vb:
-  - uid: System.Object.GetHashCode
-    name: GetHashCode
-    fullName: System.Object.GetHashCode
-  - name: (
-    fullName: (
-  - name: )
-    fullName: )
-- uid: System.Object.GetType
-  parent: System.Object
-  isExternal: false
-  name: GetType()
-  fullName: System.Object.GetType()
-  spec.csharp:
-  - uid: System.Object.GetType
-    name: GetType
-    fullName: System.Object.GetType
-  - name: (
-    fullName: (
-  - name: )
-    fullName: )
-  spec.vb:
-  - uid: System.Object.GetType
-    name: GetType
-    fullName: System.Object.GetType
-  - name: (
-    fullName: (
-  - name: )
-    fullName: )
-- uid: System.Object.MemberwiseClone
-  parent: System.Object
-  isExternal: false
-  name: MemberwiseClone()
-  fullName: System.Object.MemberwiseClone()
-  spec.csharp:
-  - uid: System.Object.MemberwiseClone
-    name: MemberwiseClone
-    fullName: System.Object.MemberwiseClone
-  - name: (
-    fullName: (
-  - name: )
-    fullName: )
-  spec.vb:
-  - uid: System.Object.MemberwiseClone
-    name: MemberwiseClone
-    fullName: System.Object.MemberwiseClone
-  - name: (
-    fullName: (
-  - name: )
-    fullName: )
-- uid: System.Object.ReferenceEquals(System.Object,System.Object)
-  parent: System.Object
-  isExternal: false
-  name: ReferenceEquals(Object, Object)
-  fullName: System.Object.ReferenceEquals(System.Object, System.Object)
-  spec.csharp:
-  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
-    name: ReferenceEquals
-    fullName: System.Object.ReferenceEquals
-  - name: (
-    fullName: (
-  - uid: System.Object
-    name: Object
-    fullName: System.Object
-  - name: ', '
-    fullName: ', '
-  - uid: System.Object
-    name: Object
-    fullName: System.Object
-  - name: )
-    fullName: )
-  spec.vb:
-  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
-    name: ReferenceEquals
-    fullName: System.Object.ReferenceEquals
-  - name: (
-    fullName: (
-  - uid: System.Object
-    name: Object
-    fullName: System.Object
-  - name: ', '
-    fullName: ', '
-  - uid: System.Object
-    name: Object
-    fullName: System.Object
-  - name: )
-    fullName: )
 - uid: System.Object.ToString
   parent: System.Object
-  isExternal: false
+  isExternal: true
   name: ToString()
   fullName: System.Object.ToString()
   spec.csharp:
   - uid: System.Object.ToString
     name: ToString
     fullName: System.Object.ToString
+    isExternal: true
   - name: (
     fullName: (
   - name: )
@@ -505,6 +364,193 @@ references:
   - uid: System.Object.ToString
     name: ToString
     fullName: System.Object.ToString
+    isExternal: true
+  - name: (
+    fullName: (
+  - name: )
+    fullName: )
+- uid: System.Object.Equals(System.Object)
+  parent: System.Object
+  isExternal: true
+  name: Equals(Object)
+  fullName: System.Object.Equals(System.Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    fullName: )
+- uid: System.Object.Equals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  name: Equals(Object, Object)
+  fullName: System.Object.Equals(System.Object, System.Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    fullName: )
+- uid: System.Object.ReferenceEquals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  name: ReferenceEquals(Object, Object)
+  fullName: System.Object.ReferenceEquals(System.Object, System.Object)
+  spec.csharp:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    fullName: System.Object.ReferenceEquals
+    isExternal: true
+  - name: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    fullName: System.Object.ReferenceEquals
+    isExternal: true
+  - name: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    fullName: )
+- uid: System.Object.GetHashCode
+  parent: System.Object
+  isExternal: true
+  name: GetHashCode()
+  fullName: System.Object.GetHashCode()
+  spec.csharp:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    fullName: System.Object.GetHashCode
+    isExternal: true
+  - name: (
+    fullName: (
+  - name: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    fullName: System.Object.GetHashCode
+    isExternal: true
+  - name: (
+    fullName: (
+  - name: )
+    fullName: )
+- uid: System.Object.GetType
+  parent: System.Object
+  isExternal: true
+  name: GetType()
+  fullName: System.Object.GetType()
+  spec.csharp:
+  - uid: System.Object.GetType
+    name: GetType
+    fullName: System.Object.GetType
+    isExternal: true
+  - name: (
+    fullName: (
+  - name: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.GetType
+    name: GetType
+    fullName: System.Object.GetType
+    isExternal: true
+  - name: (
+    fullName: (
+  - name: )
+    fullName: )
+- uid: System.Object.MemberwiseClone
+  parent: System.Object
+  isExternal: true
+  name: MemberwiseClone()
+  fullName: System.Object.MemberwiseClone()
+  spec.csharp:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    fullName: System.Object.MemberwiseClone
+    isExternal: true
+  - name: (
+    fullName: (
+  - name: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    fullName: System.Object.MemberwiseClone
+    isExternal: true
   - name: (
     fullName: (
   - name: )

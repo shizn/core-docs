@@ -29,12 +29,12 @@ items:
   type: Class
   source:
     remote:
-      path: src/System.Reflection/ref/4.0/System.Reflection.cs
+      path: src/mscorlib/src/System/Reflection/Assembly.cs
       branch: master
-      repo: https://github.com/dotnet/corefx.git
+      repo: https://github.com/dotnet/coreclr.git
     id: Assembly
-    path: src/System.Reflection/ref/4.0/System.Reflection.cs
-    startLine: 16
+    path: src/mscorlib/src/System/Reflection/Assembly.cs
+    startLine: 49
   assemblies:
   - System.Reflection
   namespace: System.Reflection
@@ -43,10 +43,31 @@ items:
   example:
   - "\n<p>The following code example shows how to obtain the currently executing assembly, create an instance of a type contained in that assembly, and invoke one of the type's methods with late binding. For this purpose, the code example defines a class named <code>Example</code>, with a method named <code>SampleMethod</code>. The constructor of the class accepts an integer, which is used to compute the return value of the method.</p>\n<p>The code example also demonstrates the use of the <xref href=\"System.Reflection.Assembly.GetName\" data-throw-if-not-resolved=\"false\"></xref> method to obtain an <xref href=\"System.Reflection.AssemblyName\" data-throw-if-not-resolved=\"false\"></xref> object that can be used to parse the full name of the assembly. The example displays the version number of the assembly, the <xref href=\"System.Reflection.Assembly.CodeBase\" data-throw-if-not-resolved=\"false\"></xref> property, and the <xref href=\"System.Reflection.Assembly.EntryPoint\" data-throw-if-not-resolved=\"false\"></xref> property. </p>AssemblyClass#1"
   syntax:
-    content: 'public abstract class Assembly : object'
+    content: >-
+      [Serializable]
+
+      [ClassInterface(ClassInterfaceType.None)]
+
+      [ComDefaultInterface(typeof (_Assembly))]
+
+      [ComVisible(true)]
+
+      [PermissionSet(SecurityAction.InheritanceDemand, Unrestricted = true)]
+
+      public abstract class Assembly : _Assembly, IEvidenceFactory, ICustomAttributeProvider, ISerializable
     content.vb: >-
+      <Serializable>
+
+      <ClassInterface(ClassInterfaceType.None)>
+
+      <ComDefaultInterface(GetType(_Assembly))>
+
+      <ComVisible(True)>
+
+      <PermissionSet(SecurityAction.InheritanceDemand, Unrestricted:=True)>
+
       Public MustInherit Class Assembly
-          Inherits Object
+          Implements _Assembly, IEvidenceFactory, ICustomAttributeProvider, ISerializable
   seealso:
   - type: System.AppDomain
     commentId: T:System.AppDomain
@@ -57,6 +78,11 @@ items:
     commentId: F:System.Security.Permissions.SecurityAction.InheritanceDemand
   inheritance:
   - System.Object
+  inheritedMembers:
+  - System.Object.Equals(System.Object,System.Object)
+  - System.Object.ReferenceEquals(System.Object,System.Object)
+  - System.Object.GetType
+  - System.Object.MemberwiseClone
   modifiers.csharp:
   - public
   - abstract
@@ -77,23 +103,22 @@ items:
   type: Property
   source:
     remote:
-      path: src/System.Reflection/ref/4.0/System.Reflection.cs
+      path: src/mscorlib/src/System/Reflection/Assembly.cs
       branch: master
-      repo: https://github.com/dotnet/corefx.git
+      repo: https://github.com/dotnet/coreclr.git
     id: CustomAttributes
-    path: src/System.Reflection/ref/4.0/System.Reflection.cs
-    startLine: 19
+    path: src/mscorlib/src/System/Reflection/Assembly.cs
+    startLine: 833
   assemblies:
   - System.Reflection
   namespace: System.Reflection
   summary: "\n<p>Gets a collection that contains this assembly's custom attributes.</p>\n"
   syntax:
-    content: public virtual Collections.Generic.IEnumerable<CustomAttributeData> CustomAttributes { get; }
-    content.vb: Public Overridable ReadOnly Property CustomAttributes As Collections.Generic.IEnumerable(Of CustomAttributeData)
+    content: public virtual IEnumerable<CustomAttributeData> CustomAttributes { get; }
+    content.vb: Public Overridable ReadOnly Property CustomAttributes As IEnumerable(Of CustomAttributeData)
     parameters: []
     return:
       type: System.Collections.Generic.IEnumerable{System.Reflection.CustomAttributeData}
-      description: "\n<p>A collection that contains this assembly's custom attributes.</p>\n"
   modifiers.csharp:
   - public
   - virtual
@@ -114,24 +139,23 @@ items:
   type: Property
   source:
     remote:
-      path: src/System.Reflection/ref/4.0/System.Reflection.cs
+      path: src/mscorlib/src/System/Reflection/Assembly.cs
       branch: master
-      repo: https://github.com/dotnet/corefx.git
+      repo: https://github.com/dotnet/coreclr.git
     id: DefinedTypes
-    path: src/System.Reflection/ref/4.0/System.Reflection.cs
-    startLine: 20
+    path: src/mscorlib/src/System/Reflection/Assembly.cs
+    startLine: 702
   assemblies:
   - System.Reflection
   namespace: System.Reflection
   summary: "\n<p>Gets a collection of the types defined in this assembly.</p>\n"
   remarks: "\n<p>The <xref href=\"System.Reflection.Assembly.DefinedTypes\" data-throw-if-not-resolved=\"false\"></xref> property is comparable to the <xref href=\"System.Reflection.Assembly.GetTypes\" data-throw-if-not-resolved=\"false\"></xref> method, except that the <xref href=\"System.Reflection.Assembly.DefinedTypes\" data-throw-if-not-resolved=\"false\"></xref> property returns a collection of <xref href=\"System.Reflection.TypeInfo\" data-throw-if-not-resolved=\"false\"></xref> objects, and the <xref href=\"System.Reflection.Assembly.GetTypes\" data-throw-if-not-resolved=\"false\"></xref> method returns an array of <xref href=\"System.Type\" data-throw-if-not-resolved=\"false\"></xref> objects.  </p>\n<p>The returned array includes nested types. </p>\n"
   syntax:
-    content: public abstract Collections.Generic.IEnumerable<TypeInfo> DefinedTypes { get; }
-    content.vb: Public MustOverride ReadOnly Property DefinedTypes As Collections.Generic.IEnumerable(Of TypeInfo)
+    content: public virtual IEnumerable<TypeInfo> DefinedTypes { get; }
+    content.vb: Public Overridable ReadOnly Property DefinedTypes As IEnumerable(Of TypeInfo)
     parameters: []
     return:
       type: System.Collections.Generic.IEnumerable{System.Reflection.TypeInfo}
-      description: "\n<p>A collection of the types defined in this assembly.</p>\n"
   seealso:
   - type: System.Reflection.Assembly.GetTypes
     commentId: M:System.Reflection.Assembly.GetTypes
@@ -155,23 +179,22 @@ items:
   type: Property
   source:
     remote:
-      path: src/System.Reflection/ref/4.0/System.Reflection.cs
+      path: src/mscorlib/src/System/Reflection/Assembly.cs
       branch: master
-      repo: https://github.com/dotnet/corefx.git
+      repo: https://github.com/dotnet/coreclr.git
     id: ExportedTypes
-    path: src/System.Reflection/ref/4.0/System.Reflection.cs
-    startLine: 21
+    path: src/mscorlib/src/System/Reflection/Assembly.cs
+    startLine: 689
   assemblies:
   - System.Reflection
   namespace: System.Reflection
   summary: "\n<p>Gets a collection of the public types defined in this assembly that are visible outside the assembly.</p>\n"
   syntax:
-    content: public virtual Collections.Generic.IEnumerable<Type> ExportedTypes { get; }
-    content.vb: Public Overridable ReadOnly Property ExportedTypes As Collections.Generic.IEnumerable(Of Type)
+    content: public virtual IEnumerable<Type> ExportedTypes { get; }
+    content.vb: Public Overridable ReadOnly Property ExportedTypes As IEnumerable(Of Type)
     parameters: []
     return:
       type: System.Collections.Generic.IEnumerable{System.Type}
-      description: "\n<p>A collection of the public types defined in this assembly that are visible outside the assembly.</p>\n"
   modifiers.csharp:
   - public
   - virtual
@@ -192,12 +215,12 @@ items:
   type: Property
   source:
     remote:
-      path: src/System.Reflection/ref/4.0/System.Reflection.cs
+      path: src/mscorlib/src/System/Reflection/Assembly.cs
       branch: master
-      repo: https://github.com/dotnet/corefx.git
+      repo: https://github.com/dotnet/coreclr.git
     id: FullName
-    path: src/System.Reflection/ref/4.0/System.Reflection.cs
-    startLine: 22
+    path: src/mscorlib/src/System/Reflection/Assembly.cs
+    startLine: 651
   assemblies:
   - System.Reflection
   namespace: System.Reflection
@@ -211,7 +234,6 @@ items:
     parameters: []
     return:
       type: System.String
-      description: "\n<p>The display name of the assembly.</p>\n"
   modifiers.csharp:
   - public
   - virtual
@@ -232,12 +254,12 @@ items:
   type: Property
   source:
     remote:
-      path: src/System.Reflection/ref/4.0/System.Reflection.cs
+      path: src/mscorlib/src/System/Reflection/Assembly.cs
       branch: master
-      repo: https://github.com/dotnet/corefx.git
+      repo: https://github.com/dotnet/coreclr.git
     id: IsDynamic
-    path: src/System.Reflection/ref/4.0/System.Reflection.cs
-    startLine: 23
+    path: src/mscorlib/src/System/Reflection/Assembly.cs
+    startLine: 1064
   assemblies:
   - System.Reflection
   namespace: System.Reflection
@@ -249,7 +271,6 @@ items:
     parameters: []
     return:
       type: System.Boolean
-      description: "\n<p>\n<strong>true</strong> if the current assembly was generated dynamically in the current process; otherwise, <strong>false</strong>.</p>\n"
   modifiers.csharp:
   - public
   - virtual
@@ -270,23 +291,25 @@ items:
   type: Property
   source:
     remote:
-      path: src/System.Reflection/ref/4.0/System.Reflection.cs
+      path: src/mscorlib/src/System/Reflection/Assembly.cs
       branch: master
-      repo: https://github.com/dotnet/corefx.git
+      repo: https://github.com/dotnet/coreclr.git
     id: ManifestModule
-    path: src/System.Reflection/ref/4.0/System.Reflection.cs
-    startLine: 24
+    path: src/mscorlib/src/System/Reflection/Assembly.cs
+    startLine: 817
   assemblies:
   - System.Reflection
   namespace: System.Reflection
   summary: "\n<p>Gets the module that contains the manifest for the current assembly. </p>\n"
   syntax:
-    content: public virtual Module ManifestModule { get; }
-    content.vb: 'Public Overridable ReadOnly Property ManifestModule As '
+    content: >-
+      [ComVisible(false)]
+
+      public virtual Module ManifestModule { get; }
+    content.vb: "<ComVisible(False)>\nPublic Overridable ReadOnly Property ManifestModule As "
     parameters: []
     return:
       type: System.Reflection.Module
-      description: "\n<p>The module that contains the manifest for the assembly. </p>\n"
   modifiers.csharp:
   - public
   - virtual
@@ -307,23 +330,22 @@ items:
   type: Property
   source:
     remote:
-      path: src/System.Reflection/ref/4.0/System.Reflection.cs
+      path: src/mscorlib/src/System/Reflection/Assembly.cs
       branch: master
-      repo: https://github.com/dotnet/corefx.git
+      repo: https://github.com/dotnet/coreclr.git
     id: Modules
-    path: src/System.Reflection/ref/4.0/System.Reflection.cs
-    startLine: 25
+    path: src/mscorlib/src/System/Reflection/Assembly.cs
+    startLine: 934
   assemblies:
   - System.Reflection
   namespace: System.Reflection
   summary: "\n<p>Gets a collection that contains the modules in this assembly.</p>\n"
   syntax:
-    content: public abstract Collections.Generic.IEnumerable<Module> Modules { get; }
-    content.vb: Public MustOverride ReadOnly Property Modules As Collections.Generic.IEnumerable(Of  Module)
+    content: public virtual IEnumerable<Module> Modules { get; }
+    content.vb: Public Overridable ReadOnly Property Modules As IEnumerable(Of  Module)
     parameters: []
     return:
       type: System.Collections.Generic.IEnumerable{System.Reflection.Module}
-      description: "\n<p>A collection that contains the modules in this assembly.</p>\n"
   modifiers.csharp:
   - public
   - abstract
@@ -344,12 +366,12 @@ items:
   type: Method
   source:
     remote:
-      path: src/System.Reflection/ref/4.0/System.Reflection.cs
+      path: src/mscorlib/src/System/Reflection/Assembly.cs
       branch: master
-      repo: https://github.com/dotnet/corefx.git
+      repo: https://github.com/dotnet/coreclr.git
     id: Equals
-    path: src/System.Reflection/ref/4.0/System.Reflection.cs
-    startLine: 26
+    path: src/mscorlib/src/System/Reflection/Assembly.cs
+    startLine: 102
   assemblies:
   - System.Reflection
   namespace: System.Reflection
@@ -361,10 +383,9 @@ items:
     parameters:
     - id: o
       type: System.Object
-      description: "\n<p>The object to compare with this instance. </p>\n"
     return:
       type: System.Boolean
-      description: "\n<p>\n<strong>true</strong> if <em>o</em> is equal to this instance; otherwise, <strong>false</strong>.</p>\n"
+  overridden: System.Object.Equals(System.Object)
   modifiers.csharp:
   - public
   - override
@@ -383,12 +404,12 @@ items:
   type: Method
   source:
     remote:
-      path: src/System.Reflection/ref/4.0/System.Reflection.cs
+      path: src/mscorlib/src/System/Reflection/Assembly.cs
       branch: master
-      repo: https://github.com/dotnet/corefx.git
+      repo: https://github.com/dotnet/coreclr.git
     id: GetHashCode
-    path: src/System.Reflection/ref/4.0/System.Reflection.cs
-    startLine: 27
+    path: src/mscorlib/src/System/Reflection/Assembly.cs
+    startLine: 107
   assemblies:
   - System.Reflection
   namespace: System.Reflection
@@ -398,7 +419,7 @@ items:
     content.vb: Public Overrides Function GetHashCode As Integer
     return:
       type: System.Int32
-      description: "\n<p>A 32-bit signed integer hash code.</p>\n"
+  overridden: System.Object.GetHashCode
   modifiers.csharp:
   - public
   - override
@@ -417,12 +438,12 @@ items:
   type: Method
   source:
     remote:
-      path: src/System.Reflection/ref/4.0/System.Reflection.cs
+      path: src/mscorlib/src/System/Reflection/Assembly.cs
       branch: master
-      repo: https://github.com/dotnet/corefx.git
+      repo: https://github.com/dotnet/coreclr.git
     id: GetManifestResourceInfo
-    path: src/System.Reflection/ref/4.0/System.Reflection.cs
-    startLine: 28
+    path: src/mscorlib/src/System/Reflection/Assembly.cs
+    startLine: 1001
   assemblies:
   - System.Reflection
   namespace: System.Reflection
@@ -434,10 +455,8 @@ items:
     parameters:
     - id: resourceName
       type: System.String
-      description: "\n<p>The case-sensitive name of the resource. </p>\n"
     return:
       type: System.Reflection.ManifestResourceInfo
-      description: "\n<p>An object that is populated with information about the resource's topology, or <strong>null</strong> if the resource is not found.</p>\n"
   exceptions:
   - type: System.ArgumentNullException
     commentId: T:System.ArgumentNullException
@@ -469,12 +488,12 @@ items:
   type: Method
   source:
     remote:
-      path: src/System.Reflection/ref/4.0/System.Reflection.cs
+      path: src/mscorlib/src/System/Reflection/Assembly.cs
       branch: master
-      repo: https://github.com/dotnet/corefx.git
+      repo: https://github.com/dotnet/coreclr.git
     id: GetManifestResourceNames
-    path: src/System.Reflection/ref/4.0/System.Reflection.cs
-    startLine: 29
+    path: src/mscorlib/src/System/Reflection/Assembly.cs
+    startLine: 991
   assemblies:
   - System.Reflection
   namespace: System.Reflection
@@ -485,7 +504,6 @@ items:
     content.vb: Public Overridable Function GetManifestResourceNames As String()
     return:
       type: System.String[]
-      description: "\n<p>An array that contains the names of all the resources.</p>\n"
   seealso:
   - type: System.Reflection.Assembly.GetManifestResourceStream(System.String)
     commentId: M:System.Reflection.Assembly.GetManifestResourceStream(System.String)
@@ -510,27 +528,25 @@ items:
   type: Method
   source:
     remote:
-      path: src/System.Reflection/ref/4.0/System.Reflection.cs
+      path: src/mscorlib/src/System/Reflection/Assembly.cs
       branch: master
-      repo: https://github.com/dotnet/corefx.git
+      repo: https://github.com/dotnet/coreclr.git
     id: GetManifestResourceStream
-    path: src/System.Reflection/ref/4.0/System.Reflection.cs
-    startLine: 30
+    path: src/mscorlib/src/System/Reflection/Assembly.cs
+    startLine: 756
   assemblies:
   - System.Reflection
   namespace: System.Reflection
   summary: "\n<p>Loads the specified manifest resource from this assembly.</p>\n"
   remarks: "\n<p>A manifest resource is a resource (such as an image file) that is embedded in the assembly at compile time. For more information about manifest resources, see <see href=\"http://go.microsoft.com/fwlink/?LinkId=204554\">Microsoft .NET Framework Resource Basics</see> in the MSDN Library.</p>\n<p>Resource information is returned only if the resource is visible to the caller, or the caller has <xref href=\"System.Security.Permissions.ReflectionPermission\" data-throw-if-not-resolved=\"false\"></xref>.</p>\n<p>This method returns <strong>null</strong> if a private resource in another assembly is accessed and the caller does not have <xref href=\"System.Security.Permissions.ReflectionPermission\" data-throw-if-not-resolved=\"false\"></xref> with the <xref href=\"System.Security.Permissions.ReflectionPermissionFlag.MemberAccess\" data-throw-if-not-resolved=\"false\"></xref> flag.</p>\n<p>If the assembly manifest lists a resource file, <xref href=\"System.Reflection.Assembly.GetManifestResourceStream(System.String)\" data-throw-if-not-resolved=\"false\"></xref> returns a <xref href=\"System.IO.Stream\" data-throw-if-not-resolved=\"false\"></xref> object even if the resource file cannot be found on disk at the time. If the resource file is not found, passing the resulting <xref href=\"System.IO.Stream\" data-throw-if-not-resolved=\"false\"></xref> object to the <xref href=\"System.Resources.ResourceReader\" data-throw-if-not-resolved=\"false\"></xref> constructor causes an <xref href=\"System.ArgumentException\" data-throw-if-not-resolved=\"false\"></xref>. </p>\n"
   syntax:
-    content: public virtual IO.Stream GetManifestResourceStream(string name)
-    content.vb: Public Overridable Function GetManifestResourceStream(name As String) As IO.Stream
+    content: public virtual Stream GetManifestResourceStream(string name)
+    content.vb: Public Overridable Function GetManifestResourceStream(name As String) As Stream
     parameters:
     - id: name
       type: System.String
-      description: "\n<p>The case-sensitive name of the manifest resource being requested. </p>\n"
     return:
       type: System.IO.Stream
-      description: "\n<p>The manifest resource; or <strong>null</strong> if no resources were specified during compilation or if the resource is not visible to the caller.</p>\n"
   exceptions:
   - type: System.ArgumentNullException
     commentId: T:System.ArgumentNullException
@@ -576,22 +592,27 @@ items:
   type: Method
   source:
     remote:
-      path: src/System.Reflection/ref/4.0/System.Reflection.cs
+      path: src/mscorlib/src/System/Reflection/Assembly.cs
       branch: master
-      repo: https://github.com/dotnet/corefx.git
+      repo: https://github.com/dotnet/coreclr.git
     id: GetName
-    path: src/System.Reflection/ref/4.0/System.Reflection.cs
-    startLine: 31
+    path: src/mscorlib/src/System/Reflection/Assembly.cs
+    startLine: 636
   assemblies:
   - System.Reflection
   namespace: System.Reflection
   summary: "\n<p>Gets an <xref href=\"System.Reflection.AssemblyName\" data-throw-if-not-resolved=\"false\"></xref> for this assembly.</p>\n"
   syntax:
-    content: public virtual AssemblyName GetName()
-    content.vb: Public Overridable Function GetName As AssemblyName
+    content: >-
+      [SecurityCritical]
+
+      public virtual AssemblyName GetName()
+    content.vb: >-
+      <SecurityCritical>
+
+      Public Overridable Function GetName As AssemblyName
     return:
       type: System.Reflection.AssemblyName
-      description: "\n<p>An object that contains the fully parsed display name for this assembly.</p>\n"
   see:
   - type: System.Security.Permissions.FileIOPermission
     commentId: T:System.Security.Permissions.FileIOPermission
@@ -613,12 +634,12 @@ items:
   type: Method
   source:
     remote:
-      path: src/System.Reflection/ref/4.0/System.Reflection.cs
+      path: src/mscorlib/src/System/Reflection/Assembly.cs
       branch: master
-      repo: https://github.com/dotnet/corefx.git
+      repo: https://github.com/dotnet/coreclr.git
     id: GetType
-    path: src/System.Reflection/ref/4.0/System.Reflection.cs
-    startLine: 32
+    path: src/mscorlib/src/System/Reflection/Assembly.cs
+    startLine: 674
   assemblies:
   - System.Reflection
   namespace: System.Reflection
@@ -632,10 +653,8 @@ items:
     parameters:
     - id: name
       type: System.String
-      description: "\n<p>The full name of the type. </p>\n"
     return:
       type: System.Type
-      description: "\n<p>An object that represents the specified class, or <strong>null</strong> if the class is not found.</p>\n"
   exceptions:
   - type: System.ArgumentException
     commentId: T:System.ArgumentException
@@ -670,12 +689,12 @@ items:
   type: Method
   source:
     remote:
-      path: src/System.Reflection/ref/4.0/System.Reflection.cs
+      path: src/mscorlib/src/System/Reflection/Assembly.cs
       branch: master
-      repo: https://github.com/dotnet/corefx.git
+      repo: https://github.com/dotnet/coreclr.git
     id: GetType
-    path: src/System.Reflection/ref/4.0/System.Reflection.cs
-    startLine: 33
+    path: src/mscorlib/src/System/Reflection/Assembly.cs
+    startLine: 684
   assemblies:
   - System.Reflection
   namespace: System.Reflection
@@ -687,16 +706,12 @@ items:
     parameters:
     - id: name
       type: System.String
-      description: "\n<p>The full name of the type. </p>\n"
     - id: throwOnError
       type: System.Boolean
-      description: "\n<p>\n<strong>true</strong> to throw an exception if the type is not found; <strong>false</strong> to return <strong>null</strong>. </p>\n"
     - id: ignoreCase
       type: System.Boolean
-      description: "\n<p>\n<strong>true</strong> to ignore the case of the type name; otherwise, <strong>false</strong>. </p>\n"
     return:
       type: System.Type
-      description: "\n<p>An object that represents the specified class.</p>\n"
   exceptions:
   - type: System.ArgumentException
     commentId: T:System.ArgumentException
@@ -734,12 +749,12 @@ items:
   type: Method
   source:
     remote:
-      path: src/System.Reflection/ref/4.0/System.Reflection.cs
+      path: src/mscorlib/src/System/Reflection/Assembly.cs
       branch: master
-      repo: https://github.com/dotnet/corefx.git
+      repo: https://github.com/dotnet/coreclr.git
     id: Load
-    path: src/System.Reflection/ref/4.0/System.Reflection.cs
-    startLine: 34
+    path: src/mscorlib/src/System/Reflection/Assembly.cs
+    startLine: 315
   assemblies:
   - System.Reflection
   namespace: System.Reflection
@@ -748,15 +763,23 @@ items:
   example:
   - "\n<p>The following example instantiates an <xref href=\"System.Reflection.AssemblyName\" data-throw-if-not-resolved=\"false\"></xref> object and uses it to load the <strong>sysglobal.dll</strong> assembly. The example then displays the full name of the assembly's public types. </p>System.Reflection.Assembly.Load#2"
   syntax:
-    content: public static Assembly Load(AssemblyName assemblyRef)
-    content.vb: Public Shared Function Load(assemblyRef As AssemblyName) As Assembly
+    content: >-
+      [SecurityCritical]
+
+      [MethodImpl(MethodImplOptions.NoInlining)]
+
+      public static Assembly Load(AssemblyName assemblyRef)
+    content.vb: >-
+      <SecurityCritical>
+
+      <MethodImpl(MethodImplOptions.NoInlining)>
+
+      Public Shared Function Load(assemblyRef As AssemblyName) As Assembly
     parameters:
     - id: assemblyRef
       type: System.Reflection.AssemblyName
-      description: "\n<p>The object that describes the assembly to be loaded. </p>\n"
     return:
       type: System.Reflection.Assembly
-      description: "\n<p>The loaded assembly.</p>\n"
   exceptions:
   - type: System.ArgumentNullException
     commentId: T:System.ArgumentNullException
@@ -798,12 +821,12 @@ items:
   type: Method
   source:
     remote:
-      path: src/System.Reflection/ref/4.0/System.Reflection.cs
+      path: src/mscorlib/src/System/Reflection/Assembly.cs
       branch: master
-      repo: https://github.com/dotnet/corefx.git
+      repo: https://github.com/dotnet/coreclr.git
     id: ToString
-    path: src/System.Reflection/ref/4.0/System.Reflection.cs
-    startLine: 35
+    path: src/mscorlib/src/System/Reflection/Assembly.cs
+    startLine: 1006
   assemblies:
   - System.Reflection
   namespace: System.Reflection
@@ -813,7 +836,7 @@ items:
     content.vb: Public Overrides Function ToString As String
     return:
       type: System.String
-      description: "\n<p>The full name of the assembly, or the class name if the full name of the assembly cannot be determined.</p>\n"
+  overridden: System.Object.ToString
   modifiers.csharp:
   - public
   - override
@@ -830,19 +853,152 @@ references:
   isExternal: false
   name: Object
   fullName: System.Object
+- uid: System.Object.Equals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  name: Equals(Object, Object)
+  fullName: System.Object.Equals(System.Object, System.Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    fullName: )
+- uid: System.Object.ReferenceEquals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  name: ReferenceEquals(Object, Object)
+  fullName: System.Object.ReferenceEquals(System.Object, System.Object)
+  spec.csharp:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    fullName: System.Object.ReferenceEquals
+    isExternal: true
+  - name: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    fullName: System.Object.ReferenceEquals
+    isExternal: true
+  - name: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    fullName: )
+- uid: System.Object.GetType
+  parent: System.Object
+  isExternal: true
+  name: GetType()
+  fullName: System.Object.GetType()
+  spec.csharp:
+  - uid: System.Object.GetType
+    name: GetType
+    fullName: System.Object.GetType
+    isExternal: true
+  - name: (
+    fullName: (
+  - name: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.GetType
+    name: GetType
+    fullName: System.Object.GetType
+    isExternal: true
+  - name: (
+    fullName: (
+  - name: )
+    fullName: )
+- uid: System.Object.MemberwiseClone
+  parent: System.Object
+  isExternal: true
+  name: MemberwiseClone()
+  fullName: System.Object.MemberwiseClone()
+  spec.csharp:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    fullName: System.Object.MemberwiseClone
+    isExternal: true
+  - name: (
+    fullName: (
+  - name: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    fullName: System.Object.MemberwiseClone
+    isExternal: true
+  - name: (
+    fullName: (
+  - name: )
+    fullName: )
 - uid: System
   isExternal: false
   name: System
   fullName: System
 - uid: System.Collections.Generic.IEnumerable{System.Reflection.CustomAttributeData}
+  parent: System.Collections.Generic
   definition: System.Collections.Generic.IEnumerable`1
-  name: Collections.Generic.IEnumerable<CustomAttributeData>
+  name: IEnumerable<CustomAttributeData>
   fullName: System.Collections.Generic.IEnumerable<System.Reflection.CustomAttributeData>
   fullname.vb: System.Collections.Generic.IEnumerable(Of System.Reflection.CustomAttributeData)
-  name.vb: Collections.Generic.IEnumerable(Of CustomAttributeData)
+  name.vb: IEnumerable(Of CustomAttributeData)
   spec.csharp:
   - uid: System.Collections.Generic.IEnumerable`1
-    name: Collections.Generic.IEnumerable
+    name: IEnumerable
     fullName: System.Collections.Generic.IEnumerable
     isExternal: true
   - name: <
@@ -854,7 +1010,7 @@ references:
     fullName: '>'
   spec.vb:
   - uid: System.Collections.Generic.IEnumerable`1
-    name: Collections.Generic.IEnumerable
+    name: IEnumerable
     fullName: System.Collections.Generic.IEnumerable
     isExternal: true
   - name: '(Of '
@@ -867,26 +1023,28 @@ references:
 - uid: System.Collections.Generic.IEnumerable`1
   parent: System.Collections.Generic
   isExternal: false
-  name: Collections.Generic.IEnumerable<>
-  fullName: System.Collections.Generic.IEnumerable<>
-  fullname.vb: System.Collections.Generic.IEnumerable(Of )
-  name.vb: Collections.Generic.IEnumerable(Of )
+  name: IEnumerable<T>
+  fullName: System.Collections.Generic.IEnumerable<T>
+  fullname.vb: System.Collections.Generic.IEnumerable(Of T)
+  name.vb: IEnumerable(Of T)
   spec.csharp:
   - uid: System.Collections.Generic.IEnumerable`1
-    name: Collections.Generic.IEnumerable
+    name: IEnumerable
     fullName: System.Collections.Generic.IEnumerable
   - name: <
     fullName: <
-  - {}
+  - name: T
+    fullName: T
   - name: '>'
     fullName: '>'
   spec.vb:
   - uid: System.Collections.Generic.IEnumerable`1
-    name: Collections.Generic.IEnumerable
+    name: IEnumerable
     fullName: System.Collections.Generic.IEnumerable
   - name: '(Of '
     fullName: '(Of '
-  - {}
+  - name: T
+    fullName: T
   - name: )
     fullName: )
 - uid: System.Collections.Generic
@@ -894,14 +1052,15 @@ references:
   name: System.Collections.Generic
   fullName: System.Collections.Generic
 - uid: System.Collections.Generic.IEnumerable{System.Reflection.TypeInfo}
+  parent: System.Collections.Generic
   definition: System.Collections.Generic.IEnumerable`1
-  name: Collections.Generic.IEnumerable<TypeInfo>
+  name: IEnumerable<TypeInfo>
   fullName: System.Collections.Generic.IEnumerable<System.Reflection.TypeInfo>
   fullname.vb: System.Collections.Generic.IEnumerable(Of System.Reflection.TypeInfo)
-  name.vb: Collections.Generic.IEnumerable(Of TypeInfo)
+  name.vb: IEnumerable(Of TypeInfo)
   spec.csharp:
   - uid: System.Collections.Generic.IEnumerable`1
-    name: Collections.Generic.IEnumerable
+    name: IEnumerable
     fullName: System.Collections.Generic.IEnumerable
     isExternal: true
   - name: <
@@ -913,7 +1072,7 @@ references:
     fullName: '>'
   spec.vb:
   - uid: System.Collections.Generic.IEnumerable`1
-    name: Collections.Generic.IEnumerable
+    name: IEnumerable
     fullName: System.Collections.Generic.IEnumerable
     isExternal: true
   - name: '(Of '
@@ -924,14 +1083,15 @@ references:
   - name: )
     fullName: )
 - uid: System.Collections.Generic.IEnumerable{System.Type}
+  parent: System.Collections.Generic
   definition: System.Collections.Generic.IEnumerable`1
-  name: Collections.Generic.IEnumerable<Type>
+  name: IEnumerable<Type>
   fullName: System.Collections.Generic.IEnumerable<System.Type>
   fullname.vb: System.Collections.Generic.IEnumerable(Of System.Type)
-  name.vb: Collections.Generic.IEnumerable(Of Type)
+  name.vb: IEnumerable(Of Type)
   spec.csharp:
   - uid: System.Collections.Generic.IEnumerable`1
-    name: Collections.Generic.IEnumerable
+    name: IEnumerable
     fullName: System.Collections.Generic.IEnumerable
     isExternal: true
   - name: <
@@ -944,7 +1104,7 @@ references:
     fullName: '>'
   spec.vb:
   - uid: System.Collections.Generic.IEnumerable`1
-    name: Collections.Generic.IEnumerable
+    name: IEnumerable
     fullName: System.Collections.Generic.IEnumerable
     isExternal: true
   - name: '(Of '
@@ -971,14 +1131,15 @@ references:
   name: Module
   fullName: System.Reflection.Module
 - uid: System.Collections.Generic.IEnumerable{System.Reflection.Module}
+  parent: System.Collections.Generic
   definition: System.Collections.Generic.IEnumerable`1
-  name: Collections.Generic.IEnumerable<Module>
+  name: IEnumerable<Module>
   fullName: System.Collections.Generic.IEnumerable<System.Reflection.Module>
   fullname.vb: System.Collections.Generic.IEnumerable(Of System.Reflection.Module)
-  name.vb: Collections.Generic.IEnumerable(Of Module)
+  name.vb: IEnumerable(Of Module)
   spec.csharp:
   - uid: System.Collections.Generic.IEnumerable`1
-    name: Collections.Generic.IEnumerable
+    name: IEnumerable
     fullName: System.Collections.Generic.IEnumerable
     isExternal: true
   - name: <
@@ -990,7 +1151,7 @@ references:
     fullName: '>'
   spec.vb:
   - uid: System.Collections.Generic.IEnumerable`1
-    name: Collections.Generic.IEnumerable
+    name: IEnumerable
     fullName: System.Collections.Generic.IEnumerable
     isExternal: true
   - name: '(Of '
@@ -998,6 +1159,60 @@ references:
   - uid: System.Reflection.Module
     name: Module
     fullName: System.Reflection.Module
+  - name: )
+    fullName: )
+- uid: System.Object.Equals(System.Object)
+  parent: System.Object
+  isExternal: true
+  name: Equals(Object)
+  fullName: System.Object.Equals(System.Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    fullName: )
+- uid: System.Object.GetHashCode
+  parent: System.Object
+  isExternal: true
+  name: GetHashCode()
+  fullName: System.Object.GetHashCode()
+  spec.csharp:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    fullName: System.Object.GetHashCode
+    isExternal: true
+  - name: (
+    fullName: (
+  - name: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    fullName: System.Object.GetHashCode
+    isExternal: true
+  - name: (
+    fullName: (
   - name: )
     fullName: )
 - uid: System.Int32
@@ -1011,7 +1226,7 @@ references:
   name: ManifestResourceInfo
   fullName: System.Reflection.ManifestResourceInfo
 - uid: System.String[]
-  isExternal: false
+  isExternal: true
   name: String[]
   fullName: System.String[]
   fullname.vb: System.String()
@@ -1020,18 +1235,20 @@ references:
   - uid: System.String
     name: String
     fullName: System.String
+    isExternal: true
   - name: '[]'
     fullName: '[]'
   spec.vb:
   - uid: System.String
     name: String
     fullName: System.String
+    isExternal: true
   - name: ()
     fullName: ()
 - uid: System.IO.Stream
   parent: System.IO
   isExternal: false
-  name: IO.Stream
+  name: Stream
   fullName: System.IO.Stream
 - uid: System.IO
   isExternal: false
@@ -1052,6 +1269,29 @@ references:
   isExternal: false
   name: Assembly
   fullName: System.Reflection.Assembly
+- uid: System.Object.ToString
+  parent: System.Object
+  isExternal: true
+  name: ToString()
+  fullName: System.Object.ToString()
+  spec.csharp:
+  - uid: System.Object.ToString
+    name: ToString
+    fullName: System.Object.ToString
+    isExternal: true
+  - name: (
+    fullName: (
+  - name: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.ToString
+    name: ToString
+    fullName: System.Object.ToString
+    isExternal: true
+  - name: (
+    fullName: (
+  - name: )
+    fullName: )
 - uid: System.ArgumentNullException
   isExternal: false
   name: ArgumentNullException

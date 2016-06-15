@@ -14,23 +14,29 @@ items:
   type: Class
   source:
     remote:
-      path: src/System.Diagnostics.Contracts/ref/System.Diagnostics.Contracts.cs
+      path: src/mscorlib/src/System/Diagnostics/Contracts/ContractsBCL.cs
       branch: master
-      repo: https://github.com/dotnet/corefx.git
+      repo: https://github.com/dotnet/coreclr.git
     id: ContractHelper
-    path: src/System.Diagnostics.Contracts/ref/System.Diagnostics.Contracts.cs
-    startLine: 154
+    path: src/mscorlib/src/System/Diagnostics/Contracts/ContractsBCL.cs
+    startLine: 270
   assemblies:
   - System.Diagnostics.Contracts
   namespace: System.Runtime.CompilerServices
   summary: "\n<p>Provides methods that the binary rewriter uses to handle contract failures.</p>\n"
   syntax:
-    content: 'public class ContractHelper : object'
-    content.vb: >-
-      Public Class ContractHelper
-          Inherits Object
+    content: public class ContractHelper
+    content.vb: Public Class ContractHelper
   inheritance:
   - System.Object
+  inheritedMembers:
+  - System.Object.ToString
+  - System.Object.Equals(System.Object)
+  - System.Object.Equals(System.Object,System.Object)
+  - System.Object.ReferenceEquals(System.Object,System.Object)
+  - System.Object.GetHashCode
+  - System.Object.GetType
+  - System.Object.MemberwiseClone
   modifiers.csharp:
   - public
   - class
@@ -49,36 +55,48 @@ items:
   type: Method
   source:
     remote:
-      path: src/System.Diagnostics.Contracts/ref/System.Diagnostics.Contracts.cs
+      path: src/mscorlib/src/System/Diagnostics/Contracts/Contracts.cs
       branch: master
-      repo: https://github.com/dotnet/corefx.git
+      repo: https://github.com/dotnet/coreclr.git
     id: RaiseContractFailedEvent
-    path: src/System.Diagnostics.Contracts/ref/System.Diagnostics.Contracts.cs
-    startLine: 156
+    path: src/mscorlib/src/System/Diagnostics/Contracts/Contracts.cs
+    startLine: 968
   assemblies:
   - System.Diagnostics.Contracts
   namespace: System.Runtime.CompilerServices
   summary: "\n<p>Used by the binary rewriter to activate the default failure behavior.</p>\n"
   remarks: "\n<p>The binary rewriter calls this method to notify listeners about a contract failure. The <xref href=\"System.Runtime.CompilerServices.ContractHelper.RaiseContractFailedEvent(System.Diagnostics.Contracts.ContractFailureKind,System.String,System.String,System.Exception)\" data-throw-if-not-resolved=\"false\"></xref> method does not perform the failure behavior (an assert or throw) itself. If the failure is handled by the listeners, the method returns <strong>null</strong>. If the failure is not handled by the listeners, a localized failure message is returned.</p>\n"
   syntax:
-    content: public static string RaiseContractFailedEvent(ContractFailureKind failureKind, string userMessage, string conditionText, Exception innerException)
-    content.vb: Public Shared Function RaiseContractFailedEvent(failureKind As ContractFailureKind, userMessage As String, conditionText As String, innerException As Exception) As String
+    content: >-
+      [SuppressMessage("Microsoft.Design", "CA1030:UseEventsWhereAppropriate")]
+
+      [DebuggerNonUserCode]
+
+      [ReliabilityContract(Consistency.WillNotCorruptState, Cer.MayFail)]
+
+      public static string RaiseContractFailedEvent(ContractFailureKind failureKind, string userMessage, string conditionText, Exception innerException)
+    content.vb: >-
+      <SuppressMessage("Microsoft.Design", "CA1030:UseEventsWhereAppropriate")>
+
+      <DebuggerNonUserCode>
+
+      <ReliabilityContract(Consistency.WillNotCorruptState, Cer.MayFail)>
+
+      Public Shared Function RaiseContractFailedEvent(failureKind As ContractFailureKind, userMessage As String, conditionText As String, innerException As Exception) As String
     parameters:
     - id: failureKind
       type: System.Diagnostics.Contracts.ContractFailureKind
-      description: "\n<p>One of the enumeration values that specifies the type of failure.</p>\n"
     - id: userMessage
       type: System.String
-      description: "\n<p>Additional user information.</p>\n"
     - id: conditionText
       type: System.String
-      description: "\n<p>The description of the condition that caused the failure.</p>\n"
     - id: innerException
       type: System.Exception
-      description: "\n<p>The inner exception that caused the current exception.</p>\n"
     return:
       type: System.String
-      description: "\n<p>A null reference (<strong>Nothing</strong> in Visual Basic) if the event was handled and should not trigger a failure; otherwise, returns the localized failure message.</p>\n"
+      description: >-
+        null if the event was handled and should not trigger a failure.
+                 Otherwise, returns the localized failure message
   exceptions:
   - type: System.ArgumentException
     commentId: T:System.ArgumentException
@@ -101,36 +119,41 @@ items:
   type: Method
   source:
     remote:
-      path: src/System.Diagnostics.Contracts/ref/System.Diagnostics.Contracts.cs
+      path: src/mscorlib/src/System/Diagnostics/Contracts/Contracts.cs
       branch: master
-      repo: https://github.com/dotnet/corefx.git
+      repo: https://github.com/dotnet/coreclr.git
     id: TriggerFailure
-    path: src/System.Diagnostics.Contracts/ref/System.Diagnostics.Contracts.cs
-    startLine: 157
+    path: src/mscorlib/src/System/Diagnostics/Contracts/Contracts.cs
+    startLine: 984
   assemblies:
   - System.Diagnostics.Contracts
   namespace: System.Runtime.CompilerServices
   summary: "\n<p>Triggers the default failure behavior.</p>\n"
   remarks: "\n<p>The default failure behavior is to raise an <xref href=\"System.Diagnostics.Debug.Assert(System.Boolean)\" data-throw-if-not-resolved=\"false\"></xref>, which causes the Assert dialog box to be displayed. You can change that behavior to throw an exception instead of displaying the dialog box. </p>\n"
   syntax:
-    content: public static void TriggerFailure(ContractFailureKind kind, string displayMessage, string userMessage, string conditionText, Exception innerException)
-    content.vb: Public Shared Sub TriggerFailure(kind As ContractFailureKind, displayMessage As String, userMessage As String, conditionText As String, innerException As Exception)
+    content: >-
+      [DebuggerNonUserCode]
+
+      [ReliabilityContract(Consistency.WillNotCorruptState, Cer.Success)]
+
+      public static void TriggerFailure(ContractFailureKind kind, string displayMessage, string userMessage, string conditionText, Exception innerException)
+    content.vb: >-
+      <DebuggerNonUserCode>
+
+      <ReliabilityContract(Consistency.WillNotCorruptState, Cer.Success)>
+
+      Public Shared Sub TriggerFailure(kind As ContractFailureKind, displayMessage As String, userMessage As String, conditionText As String, innerException As Exception)
     parameters:
     - id: kind
       type: System.Diagnostics.Contracts.ContractFailureKind
-      description: "\n<p>One of the enumeration values that specifies the type of failure.</p>\n"
     - id: displayMessage
       type: System.String
-      description: "\n<p>The message to display.</p>\n"
     - id: userMessage
       type: System.String
-      description: "\n<p>Additional user information.</p>\n"
     - id: conditionText
       type: System.String
-      description: "\n<p>The description of the condition that caused the failure.</p>\n"
     - id: innerException
       type: System.Exception
-      description: "\n<p>The inner exception that caused the current exception.</p>\n"
   modifiers.csharp:
   - public
   - static
@@ -147,6 +170,215 @@ references:
   isExternal: false
   name: Object
   fullName: System.Object
+- uid: System.Object.ToString
+  parent: System.Object
+  isExternal: true
+  name: ToString()
+  fullName: System.Object.ToString()
+  spec.csharp:
+  - uid: System.Object.ToString
+    name: ToString
+    fullName: System.Object.ToString
+    isExternal: true
+  - name: (
+    fullName: (
+  - name: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.ToString
+    name: ToString
+    fullName: System.Object.ToString
+    isExternal: true
+  - name: (
+    fullName: (
+  - name: )
+    fullName: )
+- uid: System.Object.Equals(System.Object)
+  parent: System.Object
+  isExternal: true
+  name: Equals(Object)
+  fullName: System.Object.Equals(System.Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    fullName: )
+- uid: System.Object.Equals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  name: Equals(Object, Object)
+  fullName: System.Object.Equals(System.Object, System.Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    fullName: )
+- uid: System.Object.ReferenceEquals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  name: ReferenceEquals(Object, Object)
+  fullName: System.Object.ReferenceEquals(System.Object, System.Object)
+  spec.csharp:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    fullName: System.Object.ReferenceEquals
+    isExternal: true
+  - name: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    fullName: System.Object.ReferenceEquals
+    isExternal: true
+  - name: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    fullName: )
+- uid: System.Object.GetHashCode
+  parent: System.Object
+  isExternal: true
+  name: GetHashCode()
+  fullName: System.Object.GetHashCode()
+  spec.csharp:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    fullName: System.Object.GetHashCode
+    isExternal: true
+  - name: (
+    fullName: (
+  - name: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    fullName: System.Object.GetHashCode
+    isExternal: true
+  - name: (
+    fullName: (
+  - name: )
+    fullName: )
+- uid: System.Object.GetType
+  parent: System.Object
+  isExternal: true
+  name: GetType()
+  fullName: System.Object.GetType()
+  spec.csharp:
+  - uid: System.Object.GetType
+    name: GetType
+    fullName: System.Object.GetType
+    isExternal: true
+  - name: (
+    fullName: (
+  - name: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.GetType
+    name: GetType
+    fullName: System.Object.GetType
+    isExternal: true
+  - name: (
+    fullName: (
+  - name: )
+    fullName: )
+- uid: System.Object.MemberwiseClone
+  parent: System.Object
+  isExternal: true
+  name: MemberwiseClone()
+  fullName: System.Object.MemberwiseClone()
+  spec.csharp:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    fullName: System.Object.MemberwiseClone
+    isExternal: true
+  - name: (
+    fullName: (
+  - name: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    fullName: System.Object.MemberwiseClone
+    isExternal: true
+  - name: (
+    fullName: (
+  - name: )
+    fullName: )
 - uid: System
   isExternal: false
   name: System

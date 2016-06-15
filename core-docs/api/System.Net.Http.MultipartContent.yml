@@ -11,6 +11,7 @@ items:
   - System.Net.Http.MultipartContent.Dispose(System.Boolean)
   - System.Net.Http.MultipartContent.GetEnumerator
   - System.Net.Http.MultipartContent.SerializeToStreamAsync(System.IO.Stream,System.Net.TransportContext)
+  - System.Net.Http.MultipartContent.System#Collections#IEnumerable#GetEnumerator
   - System.Net.Http.MultipartContent.TryComputeLength(System.Int64@)
   langs:
   - csharp
@@ -20,25 +21,27 @@ items:
   type: Class
   source:
     remote:
-      path: src/System.Net.Http/src/System/Net/Http/MultipartContent.cs
+      path: src/System.Net.Http/ref/System.Net.Http.cs
       branch: master
       repo: https://github.com/dotnet/corefx.git
     id: MultipartContent
-    path: src/System.Net.Http/src/System/Net/Http/MultipartContent.cs
-    startLine: 15
+    path: src/System.Net.Http/ref/System.Net.Http.cs
+    startLine: 206
   assemblies:
   - System.Net.Http
   namespace: System.Net.Http
+  summary: "\n<p>Provides a collection of <xref href=\"System.Net.Http.HttpContent\" data-throw-if-not-resolved=\"false\"></xref> objects that get serialized using the multipart/* content type specification.</p>\n"
   syntax:
-    content: 'public class MultipartContent : HttpContent, IEnumerable<HttpContent>'
+    content: 'public class MultipartContent : HttpContent, IDisposable, IEnumerable<HttpContent>, IEnumerable'
     content.vb: >-
       Public Class MultipartContent
           Inherits HttpContent
-          Implements IEnumerable(Of HttpContent)
+          Implements IDisposable, IEnumerable(Of HttpContent), IEnumerable
   inheritance:
   - System.Object
   - System.Net.Http.HttpContent
   implements:
+  - System.IDisposable
   - System.Collections.Generic.IEnumerable{System.Net.Http.HttpContent}
   - System.Collections.IEnumerable
   inheritedMembers:
@@ -52,6 +55,13 @@ items:
   - System.Net.Http.HttpContent.ReadAsByteArrayAsync
   - System.Net.Http.HttpContent.ReadAsStreamAsync
   - System.Net.Http.HttpContent.ReadAsStringAsync
+  - System.Object.ToString
+  - System.Object.Equals(System.Object)
+  - System.Object.Equals(System.Object,System.Object)
+  - System.Object.ReferenceEquals(System.Object,System.Object)
+  - System.Object.GetHashCode
+  - System.Object.GetType
+  - System.Object.MemberwiseClone
   modifiers.csharp:
   - public
   - class
@@ -70,15 +80,16 @@ items:
   type: Constructor
   source:
     remote:
-      path: src/System.Net.Http/src/System/Net/Http/MultipartContent.cs
+      path: src/System.Net.Http/ref/System.Net.Http.cs
       branch: master
       repo: https://github.com/dotnet/corefx.git
     id: .ctor
-    path: src/System.Net.Http/src/System/Net/Http/MultipartContent.cs
-    startLine: 36
+    path: src/System.Net.Http/ref/System.Net.Http.cs
+    startLine: 208
   assemblies:
   - System.Net.Http
   namespace: System.Net.Http
+  summary: "\n<p>Creates a new instance of the <xref href=\"System.Net.Http.MultipartContent\" data-throw-if-not-resolved=\"false\"></xref> class.</p>\n"
   syntax:
     content: public MultipartContent()
     content.vb: Public Sub New
@@ -98,21 +109,27 @@ items:
   type: Constructor
   source:
     remote:
-      path: src/System.Net.Http/src/System/Net/Http/MultipartContent.cs
+      path: src/System.Net.Http/ref/System.Net.Http.cs
       branch: master
       repo: https://github.com/dotnet/corefx.git
     id: .ctor
-    path: src/System.Net.Http/src/System/Net/Http/MultipartContent.cs
-    startLine: 40
+    path: src/System.Net.Http/ref/System.Net.Http.cs
+    startLine: 209
   assemblies:
   - System.Net.Http
   namespace: System.Net.Http
+  summary: "\n<p>Creates a new instance of the <xref href=\"System.Net.Http.MultipartContent\" data-throw-if-not-resolved=\"false\"></xref> class.</p>\n"
   syntax:
     content: public MultipartContent(string subtype)
     content.vb: Public Sub New(subtype As String)
     parameters:
     - id: subtype
       type: System.String
+      description: "\n<p>The subtype of the multipart content.</p>\n"
+  exceptions:
+  - type: System.ArgumentException
+    commentId: T:System.ArgumentException
+    description: "\n<p>The <em>subtype</em> was <strong>null</strong> or contains only white space characters.</p>\n"
   modifiers.csharp:
   - public
   modifiers.vb:
@@ -129,23 +146,33 @@ items:
   type: Constructor
   source:
     remote:
-      path: src/System.Net.Http/src/System/Net/Http/MultipartContent.cs
+      path: src/System.Net.Http/ref/System.Net.Http.cs
       branch: master
       repo: https://github.com/dotnet/corefx.git
     id: .ctor
-    path: src/System.Net.Http/src/System/Net/Http/MultipartContent.cs
-    startLine: 44
+    path: src/System.Net.Http/ref/System.Net.Http.cs
+    startLine: 210
   assemblies:
   - System.Net.Http
   namespace: System.Net.Http
+  summary: "\n<p>Creates a new instance of the <xref href=\"System.Net.Http.MultipartContent\" data-throw-if-not-resolved=\"false\"></xref> class.</p>\n"
   syntax:
     content: public MultipartContent(string subtype, string boundary)
     content.vb: Public Sub New(subtype As String, boundary As String)
     parameters:
     - id: subtype
       type: System.String
+      description: "\n<p>The subtype of the multipart content.</p>\n"
     - id: boundary
       type: System.String
+      description: "\n<p>The boundary string for the multipart content.</p>\n"
+  exceptions:
+  - type: System.ArgumentException
+    commentId: T:System.ArgumentException
+    description: "\n<p>The <em>subtype</em> was <strong>null</strong> or an empty string.</p>\n<p>The <em>boundary</em> was <strong>null</strong> or contains only white space characters.</p>\n<p>-or-</p>\n<p>The <em>boundary</em> ends with a space character.</p>\n"
+  - type: System.ArgumentOutOfRangeException
+    commentId: T:System.ArgumentOutOfRangeException
+    description: "\n<p>The length of the <em>boundary</em> was greater than 70.</p>\n"
   modifiers.csharp:
   - public
   modifiers.vb:
@@ -162,21 +189,27 @@ items:
   type: Method
   source:
     remote:
-      path: src/System.Net.Http/src/System/Net/Http/MultipartContent.cs
+      path: src/System.Net.Http/ref/System.Net.Http.cs
       branch: master
       repo: https://github.com/dotnet/corefx.git
     id: Add
-    path: src/System.Net.Http/src/System/Net/Http/MultipartContent.cs
-    startLine: 116
+    path: src/System.Net.Http/ref/System.Net.Http.cs
+    startLine: 211
   assemblies:
   - System.Net.Http
   namespace: System.Net.Http
+  summary: "\n<p>Add multipart HTTP content to a collection of <xref href=\"System.Net.Http.HttpContent\" data-throw-if-not-resolved=\"false\"></xref> objects that get serialized using the multipart/* content type specification.</p>\n"
   syntax:
     content: public virtual void Add(HttpContent content)
     content.vb: Public Overridable Sub Add(content As HttpContent)
     parameters:
     - id: content
       type: System.Net.Http.HttpContent
+      description: "\n<p>The HTTP content to add to the collection.</p>\n"
+  exceptions:
+  - type: System.ArgumentNullException
+    commentId: T:System.ArgumentNullException
+    description: "\n<p>The <em>content</em> was <strong>null</strong>.</p>\n"
   modifiers.csharp:
   - public
   - virtual
@@ -195,21 +228,24 @@ items:
   type: Method
   source:
     remote:
-      path: src/System.Net.Http/src/System/Net/Http/MultipartContent.cs
+      path: src/System.Net.Http/ref/System.Net.Http.cs
       branch: master
       repo: https://github.com/dotnet/corefx.git
     id: Dispose
-    path: src/System.Net.Http/src/System/Net/Http/MultipartContent.cs
-    startLine: 131
+    path: src/System.Net.Http/ref/System.Net.Http.cs
+    startLine: 212
   assemblies:
   - System.Net.Http
   namespace: System.Net.Http
+  summary: "\n<p>Releases the unmanaged resources used by the <xref href=\"System.Net.Http.MultipartContent\" data-throw-if-not-resolved=\"false\"></xref> and optionally disposes of the managed resources.</p>\n"
+  remarks: "\n<p>This method is called by the public <strong>Dispose()</strong> method and the <xref href=\"System.Object.Finalize\" data-throw-if-not-resolved=\"false\"></xref> method. <strong>Dispose()</strong> invokes the protected <strong>Dispose(Boolean)</strong> method with the <em>disposing</em> parameter set to <strong>true</strong>. <xref href=\"System.Object.Finalize\" data-throw-if-not-resolved=\"false\"></xref> invokes <strong>Dispose</strong> with <em>disposing</em> set to <strong>false</strong>.When the <em>disposing</em> parameter is <strong>true</strong>, this method releases all resources held by any managed objects that this <xref href=\"System.Net.Http.MultipartContent\" data-throw-if-not-resolved=\"false\"></xref> references. This method invokes the <strong>Dispose()</strong> method of each referenced object.</p>\n"
   syntax:
     content: protected override void Dispose(bool disposing)
     content.vb: Protected Overrides Sub Dispose(disposing As Boolean)
     parameters:
     - id: disposing
       type: System.Boolean
+      description: "\n<p>\n<strong>true</strong> to release both managed and unmanaged resources; <strong>false</strong> to releases only unmanaged resources.</p>\n"
   overridden: System.Net.Http.HttpContent.Dispose(System.Boolean)
   modifiers.csharp:
   - protected
@@ -229,20 +265,25 @@ items:
   type: Method
   source:
     remote:
-      path: src/System.Net.Http/src/System/Net/Http/MultipartContent.cs
+      path: src/System.Net.Http/ref/System.Net.Http.cs
       branch: master
       repo: https://github.com/dotnet/corefx.git
     id: GetEnumerator
-    path: src/System.Net.Http/src/System/Net/Http/MultipartContent.cs
-    startLine: 148
+    path: src/System.Net.Http/ref/System.Net.Http.cs
+    startLine: 213
   assemblies:
   - System.Net.Http
   namespace: System.Net.Http
+  summary: "\n<p>Returns an enumerator that iterates through the collection of <xref href=\"System.Net.Http.HttpContent\" data-throw-if-not-resolved=\"false\"></xref> objects that get serialized using the multipart/* content type specification..</p>\n"
+  remarks: "\n<p>The foreach statement of the C# language (For Each in Visual Basic) hides the complexity of the enumerators. Therefore, using foreach is recommended, instead of directly manipulating the enumerator.</p>\n<p>Enumerators can be used to read the data in the collection, but they cannot be used to modify the underlying collection.</p>\n<p>Initially, the enumerator is positioned before the first element in the collection.</p>\n"
   syntax:
     content: public IEnumerator<HttpContent> GetEnumerator()
     content.vb: Public Function GetEnumerator As IEnumerator(Of HttpContent)
     return:
-      type: IEnumerator{System.Net.Http.HttpContent}
+      type: System.Collections.Generic.IEnumerator{System.Net.Http.HttpContent}
+      description: "\n<p>Returns <xref href=\"System.Collections.Generic.IEnumerator`1\" data-throw-if-not-resolved=\"false\"></xref>.</p>\n<p>An object that can be used to iterate through the collection.</p>\n"
+  implements:
+  - System.Collections.Generic.IEnumerable{System.Net.Http.HttpContent}.GetEnumerator
   modifiers.csharp:
   - public
   modifiers.vb:
@@ -254,7 +295,7 @@ items:
   langs:
   - csharp
   - vb
-  name: SerializeToStreamAsync(IO.Stream, TransportContext)
+  name: SerializeToStreamAsync(Stream, TransportContext)
   fullName: System.Net.Http.MultipartContent.SerializeToStreamAsync(System.IO.Stream, System.Net.TransportContext)
   type: Method
   source:
@@ -268,16 +309,21 @@ items:
   assemblies:
   - System.Net.Http
   namespace: System.Net.Http
+  summary: "\n<p>Serialize the multipart HTTP content to a stream as an asynchronous operation.</p>\n"
+  remarks: "\n<p>This operation will not block. The returned <xref href=\"System.Threading.Tasks.Task`1\" data-throw-if-not-resolved=\"false\"></xref> object will complete after all of the content has been serialized to the target stream.</p>\n"
   syntax:
-    content: protected override Threading.Tasks.Task SerializeToStreamAsync(IO.Stream stream, TransportContext context)
-    content.vb: Protected Overrides Function SerializeToStreamAsync(stream As IO.Stream, context As TransportContext) As Threading.Tasks.Task
+    content: protected override Task SerializeToStreamAsync(Stream stream, TransportContext context)
+    content.vb: Protected Overrides Function SerializeToStreamAsync(stream As Stream, context As TransportContext) As Task
     parameters:
     - id: stream
       type: System.IO.Stream
+      description: "\n<p>The target stream.</p>\n"
     - id: context
       type: System.Net.TransportContext
+      description: "\n<p>Information about the transport (channel binding token, for example). This parameter may be <strong>null</strong>.</p>\n"
     return:
       type: System.Threading.Tasks.Task
+      description: "\n<p>Returns <xref href=\"System.Threading.Tasks.Task\" data-throw-if-not-resolved=\"false\"></xref>.</p>\n<p>The task object representing the asynchronous operation.</p>\n"
   overridden: System.Net.Http.HttpContent.SerializeToStreamAsync(System.IO.Stream,System.Net.TransportContext)
   modifiers.csharp:
   - protected
@@ -285,6 +331,38 @@ items:
   modifiers.vb:
   - Protected
   - Overrides
+- uid: System.Net.Http.MultipartContent.System#Collections#IEnumerable#GetEnumerator
+  commentId: M:System.Net.Http.MultipartContent.System#Collections#IEnumerable#GetEnumerator
+  id: System#Collections#IEnumerable#GetEnumerator
+  isEii: true
+  parent: System.Net.Http.MultipartContent
+  langs:
+  - csharp
+  - vb
+  name: IEnumerable.GetEnumerator()
+  fullName: System.Net.Http.MultipartContent.System.Collections.IEnumerable.GetEnumerator()
+  type: Method
+  source:
+    remote:
+      path: src/System.Net.Http/ref/System.Net.Http.cs
+      branch: master
+      repo: https://github.com/dotnet/corefx.git
+    id: System.Collections.IEnumerable.GetEnumerator
+    path: src/System.Net.Http/ref/System.Net.Http.cs
+    startLine: 215
+  assemblies:
+  - System.Net.Http
+  namespace: System.Net.Http
+  summary: "\n<p>The explicit implementation of the <xref href=\"System.Net.Http.MultipartContent.GetEnumerator\" data-throw-if-not-resolved=\"false\"></xref> method.</p>\n"
+  syntax:
+    content: IEnumerator IEnumerable.GetEnumerator()
+    content.vb: Function System.Collections.IEnumerable.GetEnumerator As IEnumerator Implements IEnumerable.GetEnumerator
+    return:
+      type: System.Collections.IEnumerator
+      description: "\n<p>Returns <xref href=\"System.Collections.IEnumerator\" data-throw-if-not-resolved=\"false\"></xref>.</p>\n<p>An object that can be used to iterate through the collection.</p>\n"
+  implements:
+  - System.Collections.IEnumerable.GetEnumerator
+  name.vb: System.Collections.IEnumerable.GetEnumerator()
 - uid: System.Net.Http.MultipartContent.TryComputeLength(System.Int64@)
   commentId: M:System.Net.Http.MultipartContent.TryComputeLength(System.Int64@)
   id: TryComputeLength(System.Int64@)
@@ -297,23 +375,27 @@ items:
   type: Method
   source:
     remote:
-      path: src/System.Net.Http/src/System/Net/Http/MultipartContent.cs
+      path: src/System.Net.Http/ref/System.Net.Http.cs
       branch: master
       repo: https://github.com/dotnet/corefx.git
     id: TryComputeLength
-    path: src/System.Net.Http/src/System/Net/Http/MultipartContent.cs
-    startLine: 237
+    path: src/System.Net.Http/ref/System.Net.Http.cs
+    startLine: 216
   assemblies:
   - System.Net.Http
   namespace: System.Net.Http
+  summary: "\n<p>Determines whether the HTTP multipart content has a valid length in bytes.</p>\n"
+  remarks: "\n<p>The <xref href=\"System.Net.Http.MultipartContent.TryComputeLength(System.Int64@)\" data-throw-if-not-resolved=\"false\"></xref> method gives HTTP multipart content the ability to calculate the content length. This is useful for content types which are able to easily calculate the content length. If computing the content length is not possible or expensive (would require the system to buffer the whole content where the serialization would be expensive or require the system to allocate a lot of memory), this method can return <strong>false</strong>. If this method returns <strong>false</strong>, this implies that either chunked transfer is needed or the content must get buffered before being sent to the server.</p>\n"
   syntax:
     content: protected override bool TryComputeLength(out long length)
     content.vb: Protected Overrides Function TryComputeLength(ByRef length As Long) As Boolean
     parameters:
     - id: length
       type: System.Int64
+      description: "\n<p>The length in bytes of the HHTP content.</p>\n"
     return:
       type: System.Boolean
+      description: "\n<p>Returns <xref href=\"System.Boolean\" data-throw-if-not-resolved=\"false\"></xref>.</p>\n<p>\n<strong>true</strong> if <em>length</em> is a valid length; otherwise, <strong>false</strong>.</p>\n"
   overridden: System.Net.Http.HttpContent.TryComputeLength(System.Int64@)
   modifiers.csharp:
   - protected
@@ -338,15 +420,21 @@ references:
   isExternal: false
   name: HttpContent
   fullName: System.Net.Http.HttpContent
+- uid: System.IDisposable
+  parent: System
+  isExternal: false
+  name: IDisposable
+  fullName: System.IDisposable
 - uid: System.Collections.Generic.IEnumerable{System.Net.Http.HttpContent}
+  parent: System.Collections.Generic
   definition: System.Collections.Generic.IEnumerable`1
-  name: Collections.Generic.IEnumerable<HttpContent>
+  name: IEnumerable<HttpContent>
   fullName: System.Collections.Generic.IEnumerable<System.Net.Http.HttpContent>
   fullname.vb: System.Collections.Generic.IEnumerable(Of System.Net.Http.HttpContent)
-  name.vb: Collections.Generic.IEnumerable(Of HttpContent)
+  name.vb: IEnumerable(Of HttpContent)
   spec.csharp:
   - uid: System.Collections.Generic.IEnumerable`1
-    name: Collections.Generic.IEnumerable
+    name: IEnumerable
     fullName: System.Collections.Generic.IEnumerable
     isExternal: true
   - name: <
@@ -358,7 +446,7 @@ references:
     fullName: '>'
   spec.vb:
   - uid: System.Collections.Generic.IEnumerable`1
-    name: Collections.Generic.IEnumerable
+    name: IEnumerable
     fullName: System.Collections.Generic.IEnumerable
     isExternal: true
   - name: '(Of '
@@ -371,7 +459,7 @@ references:
 - uid: System.Collections.IEnumerable
   parent: System.Collections
   isExternal: false
-  name: Collections.IEnumerable
+  name: IEnumerable
   fullName: System.Collections.IEnumerable
 - uid: System.Net.Http.HttpContent.Headers
   parent: System.Net.Http.HttpContent
@@ -381,7 +469,7 @@ references:
 - uid: System.Net.Http.HttpContent.CopyToAsync(System.IO.Stream)
   parent: System.Net.Http.HttpContent
   isExternal: true
-  name: CopyToAsync(IO.Stream)
+  name: CopyToAsync(Stream)
   fullName: System.Net.Http.HttpContent.CopyToAsync(System.IO.Stream)
   spec.csharp:
   - uid: System.Net.Http.HttpContent.CopyToAsync(System.IO.Stream)
@@ -390,7 +478,7 @@ references:
   - name: (
     fullName: (
   - uid: System.IO.Stream
-    name: IO.Stream
+    name: Stream
     fullName: System.IO.Stream
     isExternal: true
   - name: )
@@ -402,7 +490,7 @@ references:
   - name: (
     fullName: (
   - uid: System.IO.Stream
-    name: IO.Stream
+    name: Stream
     fullName: System.IO.Stream
     isExternal: true
   - name: )
@@ -410,7 +498,7 @@ references:
 - uid: System.Net.Http.HttpContent.CopyToAsync(System.IO.Stream,System.Net.TransportContext)
   parent: System.Net.Http.HttpContent
   isExternal: true
-  name: CopyToAsync(IO.Stream, TransportContext)
+  name: CopyToAsync(Stream, TransportContext)
   fullName: System.Net.Http.HttpContent.CopyToAsync(System.IO.Stream, System.Net.TransportContext)
   spec.csharp:
   - uid: System.Net.Http.HttpContent.CopyToAsync(System.IO.Stream,System.Net.TransportContext)
@@ -419,7 +507,7 @@ references:
   - name: (
     fullName: (
   - uid: System.IO.Stream
-    name: IO.Stream
+    name: Stream
     fullName: System.IO.Stream
     isExternal: true
   - name: ', '
@@ -437,7 +525,7 @@ references:
   - name: (
     fullName: (
   - uid: System.IO.Stream
-    name: IO.Stream
+    name: Stream
     fullName: System.IO.Stream
     isExternal: true
   - name: ', '
@@ -603,6 +691,215 @@ references:
     fullName: (
   - name: )
     fullName: )
+- uid: System.Object.ToString
+  parent: System.Object
+  isExternal: true
+  name: ToString()
+  fullName: System.Object.ToString()
+  spec.csharp:
+  - uid: System.Object.ToString
+    name: ToString
+    fullName: System.Object.ToString
+    isExternal: true
+  - name: (
+    fullName: (
+  - name: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.ToString
+    name: ToString
+    fullName: System.Object.ToString
+    isExternal: true
+  - name: (
+    fullName: (
+  - name: )
+    fullName: )
+- uid: System.Object.Equals(System.Object)
+  parent: System.Object
+  isExternal: true
+  name: Equals(Object)
+  fullName: System.Object.Equals(System.Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    fullName: )
+- uid: System.Object.Equals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  name: Equals(Object, Object)
+  fullName: System.Object.Equals(System.Object, System.Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    fullName: )
+- uid: System.Object.ReferenceEquals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  name: ReferenceEquals(Object, Object)
+  fullName: System.Object.ReferenceEquals(System.Object, System.Object)
+  spec.csharp:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    fullName: System.Object.ReferenceEquals
+    isExternal: true
+  - name: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    fullName: System.Object.ReferenceEquals
+    isExternal: true
+  - name: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    fullName: )
+- uid: System.Object.GetHashCode
+  parent: System.Object
+  isExternal: true
+  name: GetHashCode()
+  fullName: System.Object.GetHashCode()
+  spec.csharp:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    fullName: System.Object.GetHashCode
+    isExternal: true
+  - name: (
+    fullName: (
+  - name: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    fullName: System.Object.GetHashCode
+    isExternal: true
+  - name: (
+    fullName: (
+  - name: )
+    fullName: )
+- uid: System.Object.GetType
+  parent: System.Object
+  isExternal: true
+  name: GetType()
+  fullName: System.Object.GetType()
+  spec.csharp:
+  - uid: System.Object.GetType
+    name: GetType
+    fullName: System.Object.GetType
+    isExternal: true
+  - name: (
+    fullName: (
+  - name: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.GetType
+    name: GetType
+    fullName: System.Object.GetType
+    isExternal: true
+  - name: (
+    fullName: (
+  - name: )
+    fullName: )
+- uid: System.Object.MemberwiseClone
+  parent: System.Object
+  isExternal: true
+  name: MemberwiseClone()
+  fullName: System.Object.MemberwiseClone()
+  spec.csharp:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    fullName: System.Object.MemberwiseClone
+    isExternal: true
+  - name: (
+    fullName: (
+  - name: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    fullName: System.Object.MemberwiseClone
+    isExternal: true
+  - name: (
+    fullName: (
+  - name: )
+    fullName: )
 - uid: System
   isExternal: false
   name: System
@@ -610,36 +907,38 @@ references:
 - uid: System.Collections.Generic.IEnumerable`1
   parent: System.Collections.Generic
   isExternal: false
-  name: Collections.Generic.IEnumerable<>
-  fullName: System.Collections.Generic.IEnumerable<>
-  fullname.vb: System.Collections.Generic.IEnumerable(Of )
-  name.vb: Collections.Generic.IEnumerable(Of )
+  name: IEnumerable<T>
+  fullName: System.Collections.Generic.IEnumerable<T>
+  fullname.vb: System.Collections.Generic.IEnumerable(Of T)
+  name.vb: IEnumerable(Of T)
   spec.csharp:
   - uid: System.Collections.Generic.IEnumerable`1
-    name: Collections.Generic.IEnumerable
+    name: IEnumerable
     fullName: System.Collections.Generic.IEnumerable
   - name: <
     fullName: <
-  - {}
+  - name: T
+    fullName: T
   - name: '>'
     fullName: '>'
   spec.vb:
   - uid: System.Collections.Generic.IEnumerable`1
-    name: Collections.Generic.IEnumerable
+    name: IEnumerable
     fullName: System.Collections.Generic.IEnumerable
   - name: '(Of '
     fullName: '(Of '
-  - {}
+  - name: T
+    fullName: T
   - name: )
     fullName: )
-- uid: System.Collections
-  isExternal: false
-  name: System.Collections
-  fullName: System.Collections
 - uid: System.Collections.Generic
   isExternal: false
   name: System.Collections.Generic
   fullName: System.Collections.Generic
+- uid: System.Collections
+  isExternal: false
+  name: System.Collections
+  fullName: System.Collections
 - uid: System.String
   parent: System
   isExternal: false
@@ -679,15 +978,40 @@ references:
   isExternal: false
   name: Boolean
   fullName: System.Boolean
+- uid: System.Collections.Generic.IEnumerable{System.Net.Http.HttpContent}.GetEnumerator
+  parent: System.Collections.Generic.IEnumerable{System.Net.Http.HttpContent}
+  definition: System.Collections.Generic.IEnumerable`1.GetEnumerator
+  name: GetEnumerator()
+  fullName: System.Collections.Generic.IEnumerable<System.Net.Http.HttpContent>.GetEnumerator()
+  fullname.vb: System.Collections.Generic.IEnumerable(Of System.Net.Http.HttpContent).GetEnumerator()
+  spec.csharp:
+  - uid: System.Collections.Generic.IEnumerable`1.GetEnumerator
+    name: GetEnumerator
+    fullName: System.Collections.Generic.IEnumerable<System.Net.Http.HttpContent>.GetEnumerator
+    isExternal: true
+  - name: (
+    fullName: (
+  - name: )
+    fullName: )
+  spec.vb:
+  - uid: System.Collections.Generic.IEnumerable`1.GetEnumerator
+    name: GetEnumerator
+    fullName: System.Collections.Generic.IEnumerable(Of System.Net.Http.HttpContent).GetEnumerator
+    isExternal: true
+  - name: (
+    fullName: (
+  - name: )
+    fullName: )
 - uid: System.Collections.Generic.IEnumerator{System.Net.Http.HttpContent}
+  parent: System.Collections.Generic
   definition: System.Collections.Generic.IEnumerator`1
-  name: Collections.Generic.IEnumerator<HttpContent>
+  name: IEnumerator<HttpContent>
   fullName: System.Collections.Generic.IEnumerator<System.Net.Http.HttpContent>
   fullname.vb: System.Collections.Generic.IEnumerator(Of System.Net.Http.HttpContent)
-  name.vb: Collections.Generic.IEnumerator(Of HttpContent)
+  name.vb: IEnumerator(Of HttpContent)
   spec.csharp:
   - uid: System.Collections.Generic.IEnumerator`1
-    name: Collections.Generic.IEnumerator
+    name: IEnumerator
     fullName: System.Collections.Generic.IEnumerator
     isExternal: true
   - name: <
@@ -699,7 +1023,7 @@ references:
     fullName: '>'
   spec.vb:
   - uid: System.Collections.Generic.IEnumerator`1
-    name: Collections.Generic.IEnumerator
+    name: IEnumerator
     fullName: System.Collections.Generic.IEnumerator
     isExternal: true
   - name: '(Of '
@@ -707,37 +1031,61 @@ references:
   - uid: System.Net.Http.HttpContent
     name: HttpContent
     fullName: System.Net.Http.HttpContent
+  - name: )
+    fullName: )
+- uid: System.Collections.Generic.IEnumerable`1.GetEnumerator
+  parent: System.Collections.Generic.IEnumerable`1
+  isExternal: false
+  name: GetEnumerator()
+  fullName: System.Collections.Generic.IEnumerable<T>.GetEnumerator()
+  fullname.vb: System.Collections.Generic.IEnumerable(Of T).GetEnumerator()
+  spec.csharp:
+  - uid: System.Collections.Generic.IEnumerable`1.GetEnumerator
+    name: GetEnumerator
+    fullName: System.Collections.Generic.IEnumerable<T>.GetEnumerator
+  - name: (
+    fullName: (
+  - name: )
+    fullName: )
+  spec.vb:
+  - uid: System.Collections.Generic.IEnumerable`1.GetEnumerator
+    name: GetEnumerator
+    fullName: System.Collections.Generic.IEnumerable(Of T).GetEnumerator
+  - name: (
+    fullName: (
   - name: )
     fullName: )
 - uid: System.Collections.Generic.IEnumerator`1
   parent: System.Collections.Generic
   isExternal: false
-  name: Collections.Generic.IEnumerator<>
-  fullName: System.Collections.Generic.IEnumerator<>
-  fullname.vb: System.Collections.Generic.IEnumerator(Of )
-  name.vb: Collections.Generic.IEnumerator(Of )
+  name: IEnumerator<T>
+  fullName: System.Collections.Generic.IEnumerator<T>
+  fullname.vb: System.Collections.Generic.IEnumerator(Of T)
+  name.vb: IEnumerator(Of T)
   spec.csharp:
   - uid: System.Collections.Generic.IEnumerator`1
-    name: Collections.Generic.IEnumerator
+    name: IEnumerator
     fullName: System.Collections.Generic.IEnumerator
   - name: <
     fullName: <
-  - {}
+  - name: T
+    fullName: T
   - name: '>'
     fullName: '>'
   spec.vb:
   - uid: System.Collections.Generic.IEnumerator`1
-    name: Collections.Generic.IEnumerator
+    name: IEnumerator
     fullName: System.Collections.Generic.IEnumerator
   - name: '(Of '
     fullName: '(Of '
-  - {}
+  - name: T
+    fullName: T
   - name: )
     fullName: )
 - uid: System.Net.Http.HttpContent.SerializeToStreamAsync(System.IO.Stream,System.Net.TransportContext)
   parent: System.Net.Http.HttpContent
   isExternal: true
-  name: SerializeToStreamAsync(IO.Stream, TransportContext)
+  name: SerializeToStreamAsync(Stream, TransportContext)
   fullName: System.Net.Http.HttpContent.SerializeToStreamAsync(System.IO.Stream, System.Net.TransportContext)
   spec.csharp:
   - uid: System.Net.Http.HttpContent.SerializeToStreamAsync(System.IO.Stream,System.Net.TransportContext)
@@ -746,7 +1094,7 @@ references:
   - name: (
     fullName: (
   - uid: System.IO.Stream
-    name: IO.Stream
+    name: Stream
     fullName: System.IO.Stream
     isExternal: true
   - name: ', '
@@ -764,7 +1112,7 @@ references:
   - name: (
     fullName: (
   - uid: System.IO.Stream
-    name: IO.Stream
+    name: Stream
     fullName: System.IO.Stream
     isExternal: true
   - name: ', '
@@ -778,7 +1126,7 @@ references:
 - uid: System.IO.Stream
   parent: System.IO
   isExternal: false
-  name: IO.Stream
+  name: Stream
   fullName: System.IO.Stream
 - uid: System.Net.TransportContext
   isExternal: false
@@ -787,7 +1135,7 @@ references:
 - uid: System.Threading.Tasks.Task
   parent: System.Threading.Tasks
   isExternal: false
-  name: Threading.Tasks.Task
+  name: Task
   fullName: System.Threading.Tasks.Task
 - uid: System.IO
   isExternal: false
@@ -797,6 +1145,32 @@ references:
   isExternal: false
   name: System.Threading.Tasks
   fullName: System.Threading.Tasks
+- uid: System.Collections.IEnumerable.GetEnumerator
+  parent: System.Collections.IEnumerable
+  isExternal: false
+  name: GetEnumerator()
+  fullName: System.Collections.IEnumerable.GetEnumerator()
+  spec.csharp:
+  - uid: System.Collections.IEnumerable.GetEnumerator
+    name: GetEnumerator
+    fullName: System.Collections.IEnumerable.GetEnumerator
+  - name: (
+    fullName: (
+  - name: )
+    fullName: )
+  spec.vb:
+  - uid: System.Collections.IEnumerable.GetEnumerator
+    name: GetEnumerator
+    fullName: System.Collections.IEnumerable.GetEnumerator
+  - name: (
+    fullName: (
+  - name: )
+    fullName: )
+- uid: System.Collections.IEnumerator
+  parent: System.Collections
+  isExternal: false
+  name: IEnumerator
+  fullName: System.Collections.IEnumerator
 - uid: System.Net.Http.HttpContent.TryComputeLength(System.Int64@)
   parent: System.Net.Http.HttpContent
   isExternal: true
@@ -831,3 +1205,16 @@ references:
   isExternal: false
   name: Int64
   fullName: System.Int64
+- uid: System.ArgumentException
+  parent: System
+  isExternal: false
+  name: ArgumentException
+  fullName: System.ArgumentException
+- uid: System.ArgumentOutOfRangeException
+  isExternal: false
+  name: ArgumentOutOfRangeException
+  fullName: System.ArgumentOutOfRangeException
+- uid: System.ArgumentNullException
+  isExternal: false
+  name: ArgumentNullException
+  fullName: System.ArgumentNullException

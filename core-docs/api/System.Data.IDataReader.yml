@@ -28,6 +28,10 @@ items:
   assemblies:
   - System.Data.Common
   namespace: System.Data
+  summary: "\n<p>Provides a means of reading one or more forward-only streams of result sets obtained by executing a command at a data source, and is implemented by .NET Framework data providers that access relational databases.</p>\n"
+  remarks: "\n<p>The <xref href=\"System.Data.IDataReader\" data-throw-if-not-resolved=\"false\"></xref> and <xref href=\"System.Data.IDataRecord\" data-throw-if-not-resolved=\"false\"></xref> interfaces allow an inheriting class to implement a <strong>DataReader</strong> class, which provides a means of reading one or more forward-only streams of result sets. For more information about <strong>DataReader</strong> classes, see Retrieving Data Using a DataReader. </p>\n<p>An application does not create an instance of the <xref href=\"System.Data.IDataReader\" data-throw-if-not-resolved=\"false\"></xref> interface directly, but creates an instance of a class that inherits <xref href=\"System.Data.IDataReader\" data-throw-if-not-resolved=\"false\"></xref>.</p>\n<p>Classes that inherit <xref href=\"System.Data.IDataReader\" data-throw-if-not-resolved=\"false\"></xref> must implement the inherited members, and typically define additional members to add provider-specific functionality.</p>\n<p>Changes made to a result set by another process or thread while data is being read may be visible to the user of a class that implements an <strong>IDataReader</strong>. However, the precise behavior is both provider and timing dependent.</p>\n"
+  example:
+  - "\n<p>The following example creates instances of the derived classes, <xref href=\"System.Data.SqlClient.SqlConnection\" data-throw-if-not-resolved=\"false\"></xref>, <xref href=\"System.Data.SqlClient.SqlCommand\" data-throw-if-not-resolved=\"false\"></xref>, and <xref href=\"System.Data.SqlClient.SqlDataReader\" data-throw-if-not-resolved=\"false\"></xref>. The example reads through the data, writing it out to the console. Finally, the example closes the <xref href=\"System.Data.SqlClient.SqlDataReader\" data-throw-if-not-resolved=\"false\"></xref>, then the <xref href=\"System.Data.SqlClient.SqlConnection\" data-throw-if-not-resolved=\"false\"></xref>.</p>Classic WebData SqlDataReader.Read Example#1"
   syntax:
     content: 'public interface IDataReader : IDisposable, IDataRecord'
     content.vb: >-
@@ -59,6 +63,7 @@ items:
   - System.Data.IDataRecord.GetValue(System.Int32)
   - System.Data.IDataRecord.GetValues(System.Object[])
   - System.Data.IDataRecord.IsDBNull(System.Int32)
+  - System.IDisposable.Dispose
   modifiers.csharp:
   - public
   - interface
@@ -86,6 +91,8 @@ items:
   assemblies:
   - System.Data.Common
   namespace: System.Data
+  summary: "\n<p>Gets a value indicating the depth of nesting for the current row.</p>\n"
+  remarks: "\n<p>The outermost table has a depth of zero.</p>\n"
   syntax:
     content: int Depth { get; }
     content.vb: ReadOnly Property Depth As Integer
@@ -117,6 +124,8 @@ items:
   assemblies:
   - System.Data.Common
   namespace: System.Data
+  summary: "\n<p>Gets a value indicating whether the data reader is closed.</p>\n"
+  remarks: "\n<p>\n<xref href=\"System.Data.IDataReader.IsClosed\" data-throw-if-not-resolved=\"false\"></xref> and <xref href=\"System.Data.IDataReader.RecordsAffected\" data-throw-if-not-resolved=\"false\"></xref> are the only properties that you can call after the <xref href=\"System.Data.IDataReader\" data-throw-if-not-resolved=\"false\"></xref> is closed.</p>\n"
   syntax:
     content: bool IsClosed { get; }
     content.vb: ReadOnly Property IsClosed As Boolean
@@ -148,6 +157,8 @@ items:
   assemblies:
   - System.Data.Common
   namespace: System.Data
+  summary: "\n<p>Gets the number of rows changed, inserted, or deleted by execution of the SQL statement.</p>\n"
+  remarks: "\n<p>The <xref href=\"System.Data.IDataReader.RecordsAffected\" data-throw-if-not-resolved=\"false\"></xref> property is not set until all rows are read and you close the <xref href=\"System.Data.IDataReader\" data-throw-if-not-resolved=\"false\"></xref>.</p>\n<p>\n<xref href=\"System.Data.IDataReader.IsClosed\" data-throw-if-not-resolved=\"false\"></xref> and <xref href=\"System.Data.IDataReader.RecordsAffected\" data-throw-if-not-resolved=\"false\"></xref> are the only properties that you can call after the <xref href=\"System.Data.IDataReader\" data-throw-if-not-resolved=\"false\"></xref> is closed.</p>\n"
   syntax:
     content: int RecordsAffected { get; }
     content.vb: ReadOnly Property RecordsAffected As Integer
@@ -179,6 +190,8 @@ items:
   assemblies:
   - System.Data.Common
   namespace: System.Data
+  summary: "\n<p>Closes the <xref href=\"System.Data.IDataReader\" data-throw-if-not-resolved=\"false\"></xref> Object.</p>\n"
+  remarks: "\n<p>You must explicitly call the <xref href=\"System.Data.IDataReader.Close\" data-throw-if-not-resolved=\"false\"></xref> method when you are through using the <xref href=\"System.Data.IDataReader\" data-throw-if-not-resolved=\"false\"></xref> to use the associated <xref href=\"System.Data.IDbConnection\" data-throw-if-not-resolved=\"false\"></xref> for any other purpose.</p>\n"
   syntax:
     content: void Close()
     content.vb: Sub Close
@@ -203,11 +216,17 @@ items:
   assemblies:
   - System.Data.Common
   namespace: System.Data
+  summary: "\n<p>Returns a <xref href=\"System.Data.DataTable\" data-throw-if-not-resolved=\"false\"></xref> that describes the column metadata of the <xref href=\"System.Data.IDataReader\" data-throw-if-not-resolved=\"false\"></xref>.</p>\n"
+  remarks: "\n<p>The implementation of <xref href=\"System.Data.IDataReader.GetSchemaTable\" data-throw-if-not-resolved=\"false\"></xref> method for the .NET Framework Data Provider for OLE DB maps to the OLE DB IColumnsRowset::GetColumnsRowset method, while implementations for other .NET Framework data providers do not use an OLE DB provider layer. The order in which <xref href=\"System.Data.IDataReader.GetSchemaTable\" data-throw-if-not-resolved=\"false\"></xref> returns metadata about each column in a table, and the DataReader columns that are returned, vary depending on which data provider you use. The following table lists data providers and members that implement <xref href=\"System.Data.IDataReader.GetSchemaTable\" data-throw-if-not-resolved=\"false\"></xref>.</p>\n<p>Data Provider </p>\n<p>Member </p>\n<table><tbody><tr><td>\n<p>.NET Data Provider for ODBC </p>\n</td><td>\n<p>\n<xref href=\"System.Data.Odbc.OdbcDataReader.GetSchemaTable\" data-throw-if-not-resolved=\"false\"></xref>. </p>\n</td></tr><tr><td>\n<p>.NET Data Provider for OLE DB </p>\n</td><td>\n<p>\n<xref href=\"System.Data.OleDb.OleDbDataReader.GetSchemaTable\" data-throw-if-not-resolved=\"false\"></xref>. </p>\n</td></tr><tr><td>\n<p>.NET Data Provider for Oracle </p>\n</td><td>\n<p>\n<xref href=\"System.Data.OracleClient.OracleDataReader.GetSchemaTable\" data-throw-if-not-resolved=\"false\"></xref>. </p>\n</td></tr><tr><td>\n<p>.NET Data Provider for SQL Server </p>\n</td><td>\n<p>\n<xref href=\"System.Data.SqlClient.SqlDataReader.GetSchemaTable\" data-throw-if-not-resolved=\"false\"></xref>. </p>\n</td></tr></tbody></table>\n"
   syntax:
     content: DataTable GetSchemaTable()
     content.vb: Function GetSchemaTable As DataTable
     return:
       type: System.Data.DataTable
+  exceptions:
+  - type: System.InvalidOperationException
+    commentId: T:System.InvalidOperationException
+    description: "\n<p>The <xref href=\"System.Data.IDataReader\" data-throw-if-not-resolved=\"false\"></xref> is closed. </p>\n"
 - uid: System.Data.IDataReader.NextResult
   commentId: M:System.Data.IDataReader.NextResult
   id: NextResult
@@ -229,6 +248,8 @@ items:
   assemblies:
   - System.Data.Common
   namespace: System.Data
+  summary: "\n<p>Advances the data reader to the next result, when reading the results of batch SQL statements.</p>\n"
+  remarks: "\n<p>Used to process multiple results, which can be obtained by executing batch SQL statements.</p>\n<p>By default, the data reader is positioned on the first result.</p>IDataReader_NextResult#1"
   syntax:
     content: bool NextResult()
     content.vb: Function NextResult As Boolean
@@ -255,6 +276,10 @@ items:
   assemblies:
   - System.Data.Common
   namespace: System.Data
+  summary: "\n<p>Advances the <xref href=\"System.Data.IDataReader\" data-throw-if-not-resolved=\"false\"></xref> to the next record.</p>\n"
+  remarks: "\n<p>The default position of the <xref href=\"System.Data.IDataReader\" data-throw-if-not-resolved=\"false\"></xref> is prior to the first record. Therefore you must call <xref href=\"System.Data.IDataReader.Read\" data-throw-if-not-resolved=\"false\"></xref> to begin accessing any data.</p>\n<p>While the data reader is in use, the associated connection is busy serving the <xref href=\"System.Data.IDataReader\" data-throw-if-not-resolved=\"false\"></xref>. This is the case until <xref href=\"System.Data.IDataReader.Close\" data-throw-if-not-resolved=\"false\"></xref> is called.</p>\n"
+  example:
+  - "\n<p>The following example creates instances of three derived classes <xref href=\"System.Data.OleDb.OleDbConnection\" data-throw-if-not-resolved=\"false\"></xref>, an <xref href=\"System.Data.OleDb.OleDbCommand\" data-throw-if-not-resolved=\"false\"></xref>, and an <xref href=\"System.Data.OleDb.OleDbDataReader\" data-throw-if-not-resolved=\"false\"></xref>. The example reads through the data, writing it out to the console. Finally, the example closes the <xref href=\"System.Data.OleDb.OleDbDataReader\" data-throw-if-not-resolved=\"false\"></xref>, then the <xref href=\"System.Data.OleDb.OleDbConnection\" data-throw-if-not-resolved=\"false\"></xref>.</p>Classic WebData IDataReader.Read Example#1"
   syntax:
     content: bool Read()
     content.vb: Function Read As Boolean
@@ -1084,20 +1109,46 @@ references:
     isExternal: true
   - name: )
     fullName: )
+- uid: System.IDisposable.Dispose
+  parent: System.IDisposable
+  isExternal: false
+  name: Dispose()
+  fullName: System.IDisposable.Dispose()
+  spec.csharp:
+  - uid: System.IDisposable.Dispose
+    name: Dispose
+    fullName: System.IDisposable.Dispose
+  - name: (
+    fullName: (
+  - name: )
+    fullName: )
+  spec.vb:
+  - uid: System.IDisposable.Dispose
+    name: Dispose
+    fullName: System.IDisposable.Dispose
+  - name: (
+    fullName: (
+  - name: )
+    fullName: )
 - uid: System.Data.IDataRecord
   parent: System.Data
   isExternal: false
   name: IDataRecord
   fullName: System.Data.IDataRecord
+- uid: System.IDisposable
+  parent: System
+  isExternal: false
+  name: IDisposable
+  fullName: System.IDisposable
+- uid: System
+  isExternal: false
+  name: System
+  fullName: System
 - uid: System.Int32
   parent: System
   isExternal: false
   name: Int32
   fullName: System.Int32
-- uid: System
-  isExternal: false
-  name: System
-  fullName: System
 - uid: System.Boolean
   parent: System
   isExternal: false
@@ -1108,3 +1159,8 @@ references:
   isExternal: false
   name: DataTable
   fullName: System.Data.DataTable
+- uid: System.InvalidOperationException
+  parent: System
+  isExternal: false
+  name: InvalidOperationException
+  fullName: System.InvalidOperationException

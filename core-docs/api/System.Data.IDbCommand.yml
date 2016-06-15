@@ -35,11 +35,26 @@ items:
   assemblies:
   - System.Data.Common
   namespace: System.Data
+  summary: "\n<p>Represents an SQL statement that is executed while connected to a data source, and is implemented by .NET Framework data providers that access relational databases.</p>\n"
+  remarks: "\n<p>The <xref href=\"System.Data.IDbCommand\" data-throw-if-not-resolved=\"false\"></xref> interface enables an inheriting class to implement a Command class, which represents an SQL statement that is executed at a data source. For more information about Command classes, see Executing a Command. </p>\n<p>An application does not create an instance of the <xref href=\"System.Data.IDbCommand\" data-throw-if-not-resolved=\"false\"></xref> interface directly, but creates an instance of a class that inherits <xref href=\"System.Data.IDbCommand\" data-throw-if-not-resolved=\"false\"></xref>.</p>\n<p>Classes that inherit <xref href=\"System.Data.IDbCommand\" data-throw-if-not-resolved=\"false\"></xref> must implement all inherited members, and typically define additional members to add provider-specific functionality. For example, the <xref href=\"System.Data.IDbCommand\" data-throw-if-not-resolved=\"false\"></xref> interface defines the <xref href=\"System.Data.IDbCommand.ExecuteNonQuery\" data-throw-if-not-resolved=\"false\"></xref> method. In turn, the <xref href=\"System.Data.SqlClient.SqlCommand\" data-throw-if-not-resolved=\"false\"></xref> class inherits this method, and also defines the <xref href=\"System.Data.SqlClient.SqlCommand.ExecuteXmlReader\" data-throw-if-not-resolved=\"false\"></xref> method.</p>\n"
+  example:
+  - "\n<p>The following example creates instances of the derived classes, <xref href=\"System.Data.SqlClient.SqlConnection\" data-throw-if-not-resolved=\"false\"></xref>, <xref href=\"System.Data.SqlClient.SqlCommand\" data-throw-if-not-resolved=\"false\"></xref>, and <xref href=\"System.Data.SqlClient.SqlDataReader\" data-throw-if-not-resolved=\"false\"></xref>. The example reads through the data, writing it to the console. Finally, the example closes the <xref href=\"System.Data.SqlClient.SqlDataReader\" data-throw-if-not-resolved=\"false\"></xref>, then the <xref href=\"System.Data.SqlClient.SqlConnection\" data-throw-if-not-resolved=\"false\"></xref>.</p>Classic WebData SqlCommand Example#1"
   syntax:
     content: 'public interface IDbCommand : IDisposable'
     content.vb: >-
       Public Interface IDbCommand
           Inherits IDisposable
+  seealso:
+  - type: System.Data.Common.DbDataAdapter
+    commentId: T:System.Data.Common.DbDataAdapter
+  - type: System.Data.IDbConnection
+    commentId: T:System.Data.IDbConnection
+  - type: System.Data.OleDb.OleDbCommand
+    commentId: T:System.Data.OleDb.OleDbCommand
+  - type: System.Data.SqlClient.SqlCommand
+    commentId: T:System.Data.SqlClient.SqlCommand
+  inheritedMembers:
+  - System.IDisposable.Dispose
   modifiers.csharp:
   - public
   - interface
@@ -67,12 +82,21 @@ items:
   assemblies:
   - System.Data.Common
   namespace: System.Data
+  summary: "\n<p>Gets or sets the text command to run against the data source.</p>\n"
+  remarks: "\n<p>When the <xref href=\"System.Data.IDbCommand.CommandType\" data-throw-if-not-resolved=\"false\"></xref> property is set to <strong>StoredProcedure</strong>, set the <xref href=\"System.Data.IDbCommand.CommandText\" data-throw-if-not-resolved=\"false\"></xref> property to the name of the stored procedure. The user may be required to use escape character syntax if the stored procedure name contains any special characters. The command will call this stored procedure when you call one of the Execute methods.</p>\n"
+  example:
+  - "\n<p>The following example creates an instance of a derived class, <xref href=\"System.Data.OleDb.OleDbCommand\" data-throw-if-not-resolved=\"false\"></xref> and sets some of its properties.</p>Classic WebData IDbCommand.CommandText Example#1"
   syntax:
     content: string CommandText { get; set; }
     content.vb: Property CommandText As String
     parameters: []
     return:
       type: System.String
+  seealso:
+  - type: System.Data.IDbCommand.CommandType
+    commentId: P:System.Data.IDbCommand.CommandType
+  - type: System.Data.IDbCommand.UpdatedRowSource
+    commentId: P:System.Data.IDbCommand.UpdatedRowSource
   modifiers.csharp:
   - get
   - set
@@ -97,12 +121,26 @@ items:
   assemblies:
   - System.Data.Common
   namespace: System.Data
+  summary: "\n<p>Gets or sets the wait time before terminating the attempt to execute a command and generating an error.</p>\n"
+  example:
+  - "\n<p>The following example creates an instance of a derived class, <xref href=\"System.Data.SqlClient.SqlCommand\" data-throw-if-not-resolved=\"false\"></xref> and sets some of its properties.</p>Classic WebData IDbCommand.CommandTimeout Example#1"
   syntax:
     content: int CommandTimeout { get; set; }
     content.vb: Property CommandTimeout As Integer
     parameters: []
     return:
       type: System.Int32
+  exceptions:
+  - type: System.ArgumentException
+    commentId: T:System.ArgumentException
+    description: "\n<p>The property value assigned is less than 0. </p>\n"
+  seealso:
+  - type: System.Data.IDbCommand.CommandText
+    commentId: P:System.Data.IDbCommand.CommandText
+  - type: System.Data.IDbCommand.Connection
+    commentId: P:System.Data.IDbCommand.Connection
+  - type: System.Data.IDbCommand.CommandType
+    commentId: P:System.Data.IDbCommand.CommandType
   modifiers.csharp:
   - get
   - set
@@ -127,6 +165,8 @@ items:
   assemblies:
   - System.Data.Common
   namespace: System.Data
+  summary: "\n<p>Indicates or specifies how the <xref href=\"System.Data.IDbCommand.CommandText\" data-throw-if-not-resolved=\"false\"></xref> property is interpreted.</p>\n"
+  remarks: "\n<p>When you set the <xref href=\"System.Data.IDbCommand.CommandType\" data-throw-if-not-resolved=\"false\"></xref> property to <strong>StoredProcedure</strong>, you should set the <xref href=\"System.Data.IDbCommand.CommandText\" data-throw-if-not-resolved=\"false\"></xref> property to the name of the stored procedure. The command executes this stored procedure when you call one of the Execute methods.</p>\n"
   syntax:
     content: CommandType CommandType { get; set; }
     content.vb: Property CommandType As CommandType
@@ -157,6 +197,7 @@ items:
   assemblies:
   - System.Data.Common
   namespace: System.Data
+  summary: "\n<p>Gets or sets the <xref href=\"System.Data.IDbConnection\" data-throw-if-not-resolved=\"false\"></xref> used by this instance of the <xref href=\"System.Data.IDbCommand\" data-throw-if-not-resolved=\"false\"></xref>.</p>\n"
   syntax:
     content: IDbConnection Connection { get; set; }
     content.vb: Property Connection As IDbConnection
@@ -187,12 +228,18 @@ items:
   assemblies:
   - System.Data.Common
   namespace: System.Data
+  summary: "\n<p>Gets the <xref href=\"System.Data.IDataParameterCollection\" data-throw-if-not-resolved=\"false\"></xref>.</p>\n"
+  example:
+  - "\n<p>The following example creates an instance of the derived class, <xref href=\"System.Data.SqlClient.SqlCommand\" data-throw-if-not-resolved=\"false\"></xref>, and displays its parameters. In the example, the application passes a <xref href=\"System.Data.SqlClient.SqlConnection\" data-throw-if-not-resolved=\"false\"></xref>, a query string that is a Transact-SQL SELECT statement, and an array of <xref href=\"System.Data.SqlClient.SqlParameter\" data-throw-if-not-resolved=\"false\"></xref> objects.</p>Classic WebData IDbCommand.Parameters Example#1"
   syntax:
     content: IDataParameterCollection Parameters { get; }
     content.vb: ReadOnly Property Parameters As IDataParameterCollection
     parameters: []
     return:
       type: System.Data.IDataParameterCollection
+  seealso:
+  - type: System.Data.IDataParameter
+    commentId: T:System.Data.IDataParameter
   modifiers.csharp:
   - get
   modifiers.vb:
@@ -218,6 +265,7 @@ items:
   assemblies:
   - System.Data.Common
   namespace: System.Data
+  summary: "\n<p>Gets or sets the transaction within which the <strong>Command</strong> object of a .NET Framework data provider executes.</p>\n"
   syntax:
     content: IDbTransaction Transaction { get; set; }
     content.vb: Property Transaction As IDbTransaction
@@ -248,12 +296,17 @@ items:
   assemblies:
   - System.Data.Common
   namespace: System.Data
+  summary: "\n<p>Gets or sets how command results are applied to the <xref href=\"System.Data.DataRow\" data-throw-if-not-resolved=\"false\"></xref> when used by the <xref href=\"System.Data.IDataAdapter.Update(System.Data.DataSet)\" data-throw-if-not-resolved=\"false\"></xref> method of a <xref href=\"System.Data.Common.DbDataAdapter\" data-throw-if-not-resolved=\"false\"></xref>.</p>\n"
   syntax:
     content: UpdateRowSource UpdatedRowSource { get; set; }
     content.vb: Property UpdatedRowSource As UpdateRowSource
     parameters: []
     return:
       type: System.Data.UpdateRowSource
+  exceptions:
+  - type: System.ArgumentException
+    commentId: T:System.ArgumentException
+    description: "\n<p>The value entered was not one of the <xref href=\"System.Data.UpdateRowSource\" data-throw-if-not-resolved=\"false\"></xref> values. </p>\n"
   modifiers.csharp:
   - get
   - set
@@ -278,6 +331,8 @@ items:
   assemblies:
   - System.Data.Common
   namespace: System.Data
+  summary: "\n<p>Attempts to cancels the execution of an <xref href=\"System.Data.IDbCommand\" data-throw-if-not-resolved=\"false\"></xref>.</p>\n"
+  remarks: "\n<p>If there is nothing to cancel, nothing happens. However, if there is a command in process, and the attempt to cancel fails, no exception is generated.</p>\n"
   syntax:
     content: void Cancel()
     content.vb: Sub Cancel
@@ -302,6 +357,8 @@ items:
   assemblies:
   - System.Data.Common
   namespace: System.Data
+  summary: "\n<p>Creates a new instance of an <xref href=\"System.Data.IDbDataParameter\" data-throw-if-not-resolved=\"false\"></xref> object.</p>\n"
+  remarks: "\n<p>When inheriting from <xref href=\"System.Data.IDbCommand\" data-throw-if-not-resolved=\"false\"></xref>, a .NET Framework data provider implements a strongly-typed version of <xref href=\"System.Data.IDbCommand.CreateParameter\" data-throw-if-not-resolved=\"false\"></xref>.</p>\n"
   syntax:
     content: IDbDataParameter CreateParameter()
     content.vb: Function CreateParameter As IDbDataParameter
@@ -328,11 +385,19 @@ items:
   assemblies:
   - System.Data.Common
   namespace: System.Data
+  summary: "\n<p>Executes an SQL statement against the <strong>Connection</strong> object of a .NET Framework data provider, and returns the number of rows affected.</p>\n"
+  remarks: "\n<p>You can use the <xref href=\"System.Data.IDbCommand.ExecuteNonQuery\" data-throw-if-not-resolved=\"false\"></xref> to perform catalog operations (for example, querying the structure of a database or creating database objects such as tables), or to change the data in a database without using a <xref href=\"System.Data.DataSet\" data-throw-if-not-resolved=\"false\"></xref> by executing UPDATE, INSERT, or DELETE statements.</p>\n<p>Although the <xref href=\"System.Data.IDbCommand.ExecuteNonQuery\" data-throw-if-not-resolved=\"false\"></xref> does not return any rows, any output parameters or return values mapped to parameters are populated with data.</p>\n<p>For UPDATE, INSERT, and DELETE statements, the return value is the number of rows affected by the command. For all other types of statements, the return value is -1.</p>\n"
+  example:
+  - "\n<p>The following example creates an instance of the derived class, <xref href=\"System.Data.OleDb.OleDbCommand\" data-throw-if-not-resolved=\"false\"></xref>, and then executes it. To accomplish this, the method is passed a string that is a SQL SELECT statement and a string to use to connect to the data source.</p>Classic WebData OleDbCommand.ExecuteNonQuery Example#1"
   syntax:
     content: int ExecuteNonQuery()
     content.vb: Function ExecuteNonQuery As Integer
     return:
       type: System.Int32
+  exceptions:
+  - type: System.InvalidOperationException
+    commentId: T:System.InvalidOperationException
+    description: "\n<p>The connection does not exist.</p>\n<p>-or- </p>\n<p>The connection is not open. </p>\n"
 - uid: System.Data.IDbCommand.ExecuteReader
   commentId: M:System.Data.IDbCommand.ExecuteReader
   id: ExecuteReader
@@ -354,6 +419,7 @@ items:
   assemblies:
   - System.Data.Common
   namespace: System.Data
+  summary: "\n<p>Executes the <xref href=\"System.Data.IDbCommand.CommandText\" data-throw-if-not-resolved=\"false\"></xref> against the <xref href=\"System.Data.IDbCommand.Connection\" data-throw-if-not-resolved=\"false\"></xref> and builds an <xref href=\"System.Data.IDataReader\" data-throw-if-not-resolved=\"false\"></xref>.</p>\n"
   syntax:
     content: IDataReader ExecuteReader()
     content.vb: Function ExecuteReader As IDataReader
@@ -380,6 +446,8 @@ items:
   assemblies:
   - System.Data.Common
   namespace: System.Data
+  summary: "\n<p>Executes the <xref href=\"System.Data.IDbCommand.CommandText\" data-throw-if-not-resolved=\"false\"></xref> against the <xref href=\"System.Data.IDbCommand.Connection\" data-throw-if-not-resolved=\"false\"></xref>, and builds an <xref href=\"System.Data.IDataReader\" data-throw-if-not-resolved=\"false\"></xref> using one of the <xref href=\"System.Data.CommandBehavior\" data-throw-if-not-resolved=\"false\"></xref> values.</p>\n"
+  remarks: "\n<p>The caller must call the <xref href=\"System.Data.IDbConnection.Open\" data-throw-if-not-resolved=\"false\"></xref> method of the <xref href=\"System.Data.IDbCommand.Connection\" data-throw-if-not-resolved=\"false\"></xref> property.</p>\n<p>When the <xref href=\"System.Data.IDbCommand.CommandType\" data-throw-if-not-resolved=\"false\"></xref> property is set to <strong>StoredProcedure</strong>, the <xref href=\"System.Data.IDbCommand.CommandText\" data-throw-if-not-resolved=\"false\"></xref> property should be set to the name of the stored procedure. The command executes this stored procedure when you call <xref href=\"System.Data.IDbCommand.ExecuteReader\" data-throw-if-not-resolved=\"false\"></xref>.</p>\n<p>Use <xref href=\"System.Data.CommandBehavior.SequentialAccess\" data-throw-if-not-resolved=\"false\"></xref> to retrieve large values and binary data. Otherwise, an <xref href=\"System.OutOfMemoryException\" data-throw-if-not-resolved=\"false\"></xref> might occur and the connection will be closed.</p>\n<p>While the <xref href=\"System.Data.IDataReader\" data-throw-if-not-resolved=\"false\"></xref> is in use, the associated <xref href=\"System.Data.IDbConnection\" data-throw-if-not-resolved=\"false\"></xref> is busy serving the <xref href=\"System.Data.IDataReader\" data-throw-if-not-resolved=\"false\"></xref>. While in this state, no other operations can be performed on the <xref href=\"System.Data.IDbConnection\" data-throw-if-not-resolved=\"false\"></xref> other than closing it. This is the case until the <xref href=\"System.Data.IDataReader.Close\" data-throw-if-not-resolved=\"false\"></xref> method of the DataReader is called. If the DataReader is created with <xref href=\"System.Data.CommandBehavior\" data-throw-if-not-resolved=\"false\"></xref> set to <strong>CloseConnection</strong>, closing the DataReader closes the connection automatically.</p>\n"
   syntax:
     content: IDataReader ExecuteReader(CommandBehavior behavior)
     content.vb: Function ExecuteReader(behavior As CommandBehavior) As IDataReader
@@ -409,6 +477,10 @@ items:
   assemblies:
   - System.Data.Common
   namespace: System.Data
+  summary: "\n<p>Executes the query, and returns the first column of the first row in the resultset returned by the query. Extra columns or rows are ignored.</p>\n"
+  remarks: "\n<p>Use the <xref href=\"System.Data.IDbCommand.ExecuteScalar\" data-throw-if-not-resolved=\"false\"></xref> method to retrieve a single value (for example, an aggregate value) from a database. This requires less code than using the <xref href=\"System.Data.IDbCommand.ExecuteReader\" data-throw-if-not-resolved=\"false\"></xref> method, and then performing the operations necessary to generate the single value using the data returned by an <xref href=\"System.Data.IDataReader\" data-throw-if-not-resolved=\"false\"></xref>.</p>\n<p>A typical <xref href=\"System.Data.IDbCommand.ExecuteScalar\" data-throw-if-not-resolved=\"false\"></xref> query can be formatted as in the following C# example: </p>\n<pre><code> CommandText = \"select count(*) as NumberOfRegions from region\";\nInt32 count = (int) ExecuteScalar();</code></pre>\n<p>If the first column of the first row in the result set is not found, a null reference (<strong>Nothing</strong> in Visual Basic) is returned. If the value in the database is <strong>null</strong>, the query returns <strong>DBNull.Value</strong>.</p>\n"
+  example:
+  - "\n<p>The following example creates an instance of the derived class, <xref href=\"System.Data.SqlClient.SqlCommand\" data-throw-if-not-resolved=\"false\"></xref>, and then executes it using <xref href=\"System.Data.SqlClient.SqlCommand.ExecuteScalar\" data-throw-if-not-resolved=\"false\"></xref>. The example is passed a string that is a Transact-SQL statement that returns an aggregate result, and a string to use to connect to the data source.</p>Classic WebData SqlCommand.ExecuteScalar#1"
   syntax:
     content: object ExecuteScalar()
     content.vb: Function ExecuteScalar As Object
@@ -435,23 +507,57 @@ items:
   assemblies:
   - System.Data.Common
   namespace: System.Data
+  summary: "\n<p>Creates a prepared (or compiled) version of the command on the data source.</p>\n"
+  remarks: "\n<p>If the <xref href=\"System.Data.IDbCommand.CommandType\" data-throw-if-not-resolved=\"false\"></xref> property is set to <strong>TableDirect</strong>, <xref href=\"System.Data.IDbCommand.Prepare\" data-throw-if-not-resolved=\"false\"></xref> does nothing. If <xref href=\"System.Data.IDbCommand.CommandType\" data-throw-if-not-resolved=\"false\"></xref> is set to <strong>StoredProcedure</strong>, the call to <xref href=\"System.Data.IDbCommand.Prepare\" data-throw-if-not-resolved=\"false\"></xref> should succeed, although it may result in a no-op. The server automatically caches plans for reuse as necessary; therefore, there is no need to call this method directly in your client application.</p>\n"
+  example:
+  - "\n<p>The following example creates an instance of the derived class, <xref href=\"System.Data.OleDb.OleDbCommand\" data-throw-if-not-resolved=\"false\"></xref>, and opens the connection. The example then prepares a stored procedure on the data source by passing a string that is a SQL Select statement and a string to use to connect to the data source.</p>Classic WebData OleDbCommand.Prepare Example#1"
   syntax:
     content: void Prepare()
     content.vb: Sub Prepare
+  exceptions:
+  - type: System.InvalidOperationException
+    commentId: T:System.InvalidOperationException
+    description: "\n<p>The <xref href=\"System.Data.OleDb.OleDbCommand.Connection\" data-throw-if-not-resolved=\"false\"></xref> is not set.</p>\n<p>-or- </p>\n<p>The <xref href=\"System.Data.OleDb.OleDbCommand.Connection\" data-throw-if-not-resolved=\"false\"></xref> is not <xref href=\"System.Data.OleDb.OleDbConnection.Open\" data-throw-if-not-resolved=\"false\"></xref>. </p>\n"
 references:
 - uid: System.Data
   isExternal: false
   name: System.Data
   fullName: System.Data
+- uid: System.IDisposable.Dispose
+  parent: System.IDisposable
+  isExternal: false
+  name: Dispose()
+  fullName: System.IDisposable.Dispose()
+  spec.csharp:
+  - uid: System.IDisposable.Dispose
+    name: Dispose
+    fullName: System.IDisposable.Dispose
+  - name: (
+    fullName: (
+  - name: )
+    fullName: )
+  spec.vb:
+  - uid: System.IDisposable.Dispose
+    name: Dispose
+    fullName: System.IDisposable.Dispose
+  - name: (
+    fullName: (
+  - name: )
+    fullName: )
+- uid: System.IDisposable
+  parent: System
+  isExternal: false
+  name: IDisposable
+  fullName: System.IDisposable
+- uid: System
+  isExternal: false
+  name: System
+  fullName: System
 - uid: System.String
   parent: System
   isExternal: false
   name: String
   fullName: System.String
-- uid: System
-  isExternal: false
-  name: System
-  fullName: System
 - uid: System.Int32
   parent: System
   isExternal: false
@@ -502,3 +608,13 @@ references:
   isExternal: false
   name: Object
   fullName: System.Object
+- uid: System.ArgumentException
+  parent: System
+  isExternal: false
+  name: ArgumentException
+  fullName: System.ArgumentException
+- uid: System.InvalidOperationException
+  parent: System
+  isExternal: false
+  name: InvalidOperationException
+  fullName: System.InvalidOperationException

@@ -15,12 +15,12 @@ items:
   type: Class
   source:
     remote:
-      path: src/System.Diagnostics.StackTrace/ref/System.Diagnostics.StackTrace.cs
+      path: src/mscorlib/src/System/Diagnostics/Stacktrace.cs
       branch: master
-      repo: https://github.com/dotnet/corefx.git
+      repo: https://github.com/dotnet/coreclr.git
     id: StackTrace
-    path: src/System.Diagnostics.StackTrace/ref/System.Diagnostics.StackTrace.cs
-    startLine: 30
+    path: src/mscorlib/src/System/Diagnostics/Stacktrace.cs
+    startLine: 260
   assemblies:
   - System.Diagnostics.StackTrace
   namespace: System.Diagnostics
@@ -29,10 +29,18 @@ items:
   example:
   - "\n<p>The following console application demonstrates how to create a simple <xref href=\"System.Diagnostics.StackTrace\" data-throw-if-not-resolved=\"false\"></xref> and iterate through its frames to obtain debugging and diagnostic information.</p>StackTraceSample1#1"
   syntax:
-    content: 'public sealed class StackTrace : object'
+    content: >-
+      [Serializable]
+
+      [ComVisible(true)]
+
+      public class StackTrace
     content.vb: >-
-      Public NotInheritable Class StackTrace
-          Inherits Object
+      <Serializable>
+
+      <ComVisible(True)>
+
+      Public Class StackTrace
   seealso:
   - type: System.Exception.StackTrace
     commentId: P:System.Exception.StackTrace
@@ -45,6 +53,13 @@ items:
     commentId: F:System.Security.Permissions.SecurityAction.InheritanceDemand
   inheritance:
   - System.Object
+  inheritedMembers:
+  - System.Object.Equals(System.Object)
+  - System.Object.Equals(System.Object,System.Object)
+  - System.Object.ReferenceEquals(System.Object,System.Object)
+  - System.Object.GetHashCode
+  - System.Object.GetType
+  - System.Object.MemberwiseClone
   modifiers.csharp:
   - public
   - sealed
@@ -65,24 +80,30 @@ items:
   type: Constructor
   source:
     remote:
-      path: src/System.Diagnostics.StackTrace/ref/System.Diagnostics.StackTrace.cs
+      path: src/mscorlib/src/System/Diagnostics/Stacktrace.cs
       branch: master
-      repo: https://github.com/dotnet/corefx.git
+      repo: https://github.com/dotnet/coreclr.git
     id: .ctor
-    path: src/System.Diagnostics.StackTrace/ref/System.Diagnostics.StackTrace.cs
-    startLine: 32
+    path: src/mscorlib/src/System/Diagnostics/Stacktrace.cs
+    startLine: 348
   assemblies:
   - System.Diagnostics.StackTrace
   namespace: System.Diagnostics
   summary: "\n<p>Initializes a new instance of the <xref href=\"System.Diagnostics.StackTrace\" data-throw-if-not-resolved=\"false\"></xref> class, using the provided exception object and optionally capturing source information.</p>\n"
   remarks: "\n<p>The resulting stack trace describes the stack at the time of the exception.</p>\n"
   syntax:
-    content: public StackTrace(Exception exception, bool needFileInfo)
-    content.vb: Public Sub New(exception As Exception, needFileInfo As Boolean)
+    content: >-
+      [SecurityCritical]
+
+      public StackTrace(Exception e, bool fNeedFileInfo)
+    content.vb: >-
+      <SecurityCritical>
+
+      Public Sub New(e As Exception, fNeedFileInfo As Boolean)
     parameters:
-    - id: exception
+    - id: e
       type: System.Exception
-    - id: needFileInfo
+    - id: fNeedFileInfo
       type: System.Boolean
   exceptions:
   - type: System.ArgumentNullException
@@ -107,12 +128,12 @@ items:
   type: Method
   source:
     remote:
-      path: src/System.Diagnostics.StackTrace/ref/System.Diagnostics.StackTrace.cs
+      path: src/mscorlib/src/System/Diagnostics/Stacktrace.cs
       branch: master
-      repo: https://github.com/dotnet/corefx.git
+      repo: https://github.com/dotnet/coreclr.git
     id: GetFrames
-    path: src/System.Diagnostics.StackTrace/ref/System.Diagnostics.StackTrace.cs
-    startLine: 33
+    path: src/mscorlib/src/System/Diagnostics/Stacktrace.cs
+    startLine: 551
   assemblies:
   - System.Diagnostics.StackTrace
   namespace: System.Diagnostics
@@ -121,11 +142,16 @@ items:
   example:
   - "\n<p>The following code example demonstrates enumerating the frames in a <xref href=\"System.Diagnostics.StackTrace\" data-throw-if-not-resolved=\"false\"></xref>.</p>StackTraceSample2#3"
   syntax:
-    content: public StackFrame[] GetFrames()
-    content.vb: Public Function GetFrames As StackFrame()
+    content: >-
+      [ComVisible(false)]
+
+      public virtual StackFrame[] GetFrames()
+    content.vb: >-
+      <ComVisible(False)>
+
+      Public Overridable Function GetFrames As StackFrame()
     return:
       type: System.Diagnostics.StackFrame[]
-      description: "\n<p>An array of type <xref href=\"System.Diagnostics.StackFrame\" data-throw-if-not-resolved=\"false\"></xref> representing the function calls in the stack trace.</p>\n"
   seealso:
   - type: System.Diagnostics.StackFrame
     commentId: T:System.Diagnostics.StackFrame
@@ -147,12 +173,12 @@ items:
   type: Method
   source:
     remote:
-      path: src/System.Diagnostics.StackTrace/ref/System.Diagnostics.StackTrace.cs
+      path: src/mscorlib/src/System/Diagnostics/Stacktrace.cs
       branch: master
-      repo: https://github.com/dotnet/corefx.git
+      repo: https://github.com/dotnet/coreclr.git
     id: ToString
-    path: src/System.Diagnostics.StackTrace/ref/System.Diagnostics.StackTrace.cs
-    startLine: 34
+    path: src/mscorlib/src/System/Diagnostics/Stacktrace.cs
+    startLine: 567
   assemblies:
   - System.Diagnostics.StackTrace
   namespace: System.Diagnostics
@@ -160,11 +186,17 @@ items:
   example:
   - "\n<p>The following code example writes stack trace information to an event log entry.</p>StackTraceSample3#6"
   syntax:
-    content: public override string ToString()
-    content.vb: Public Overrides Function ToString As String
+    content: >-
+      [SecuritySafeCritical]
+
+      public override string ToString()
+    content.vb: >-
+      <SecuritySafeCritical>
+
+      Public Overrides Function ToString As String
     return:
       type: System.String
-      description: "\n<p>A readable representation of the stack trace.</p>\n"
+  overridden: System.Object.ToString
   modifiers.csharp:
   - public
   - override
@@ -181,6 +213,192 @@ references:
   isExternal: false
   name: Object
   fullName: System.Object
+- uid: System.Object.Equals(System.Object)
+  parent: System.Object
+  isExternal: true
+  name: Equals(Object)
+  fullName: System.Object.Equals(System.Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    fullName: )
+- uid: System.Object.Equals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  name: Equals(Object, Object)
+  fullName: System.Object.Equals(System.Object, System.Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    fullName: )
+- uid: System.Object.ReferenceEquals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  name: ReferenceEquals(Object, Object)
+  fullName: System.Object.ReferenceEquals(System.Object, System.Object)
+  spec.csharp:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    fullName: System.Object.ReferenceEquals
+    isExternal: true
+  - name: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    fullName: System.Object.ReferenceEquals
+    isExternal: true
+  - name: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    fullName: )
+- uid: System.Object.GetHashCode
+  parent: System.Object
+  isExternal: true
+  name: GetHashCode()
+  fullName: System.Object.GetHashCode()
+  spec.csharp:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    fullName: System.Object.GetHashCode
+    isExternal: true
+  - name: (
+    fullName: (
+  - name: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    fullName: System.Object.GetHashCode
+    isExternal: true
+  - name: (
+    fullName: (
+  - name: )
+    fullName: )
+- uid: System.Object.GetType
+  parent: System.Object
+  isExternal: true
+  name: GetType()
+  fullName: System.Object.GetType()
+  spec.csharp:
+  - uid: System.Object.GetType
+    name: GetType
+    fullName: System.Object.GetType
+    isExternal: true
+  - name: (
+    fullName: (
+  - name: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.GetType
+    name: GetType
+    fullName: System.Object.GetType
+    isExternal: true
+  - name: (
+    fullName: (
+  - name: )
+    fullName: )
+- uid: System.Object.MemberwiseClone
+  parent: System.Object
+  isExternal: true
+  name: MemberwiseClone()
+  fullName: System.Object.MemberwiseClone()
+  spec.csharp:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    fullName: System.Object.MemberwiseClone
+    isExternal: true
+  - name: (
+    fullName: (
+  - name: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    fullName: System.Object.MemberwiseClone
+    isExternal: true
+  - name: (
+    fullName: (
+  - name: )
+    fullName: )
 - uid: System
   isExternal: false
   name: System
@@ -213,6 +431,29 @@ references:
     fullName: System.Diagnostics.StackFrame
   - name: ()
     fullName: ()
+- uid: System.Object.ToString
+  parent: System.Object
+  isExternal: true
+  name: ToString()
+  fullName: System.Object.ToString()
+  spec.csharp:
+  - uid: System.Object.ToString
+    name: ToString
+    fullName: System.Object.ToString
+    isExternal: true
+  - name: (
+    fullName: (
+  - name: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.ToString
+    name: ToString
+    fullName: System.Object.ToString
+    isExternal: true
+  - name: (
+    fullName: (
+  - name: )
+    fullName: )
 - uid: System.String
   parent: System
   isExternal: false

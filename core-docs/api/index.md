@@ -564,3 +564,4 @@ The .NET Core class library includes the following namespaces:
 ## Improving the Documentation ##
 
 If you find an issue or an inconsistency, we would love to hear about it! Go to the [.NET Core docs repo](https://github.com/dotnet/core-docs/ ".NET Core docs repo") on Github, and open an issue to let us know.
+

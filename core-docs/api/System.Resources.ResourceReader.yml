@@ -15,24 +15,39 @@ items:
   type: Class
   source:
     remote:
-      path: src/System.Resources.Reader/src/System/Resources/ResourceReader.cs
+      path: src/mscorlib/src/System/Resources/ResourceReader.cs
       branch: master
-      repo: https://github.com/dotnet/corefx.git
+      repo: https://github.com/dotnet/coreclr.git
     id: ResourceReader
-    path: src/System.Resources.Reader/src/System/Resources/ResourceReader.cs
-    startLine: 10
+    path: src/mscorlib/src/System/Resources/ResourceReader.cs
+    startLine: 74
   assemblies:
   - System.Resources.Reader
   namespace: System.Resources
   summary: "\n<p>Enumerates the resources in a binary resources (.resources) file by reading sequential resource name/value pairs.</p>\n<p>\n<strong>Security Note</strong>: Calling methods in this class with untrusted data is a security risk. Call the methods in the class only with trusted data. For more information, see <see href=\"http://curah.microsoft.com/57301/security-some-apis-are-not-necessarily-appropriate-for-untrusted-input\">Untrusted Data Security Risks</see>.</p>\n"
   remarks: "\n<p>The <xref href=\"System.Resources.ResourceReader\" data-throw-if-not-resolved=\"false\"></xref> class provides a standard implementation of the <xref href=\"System.Resources.IResourceReader\" data-throw-if-not-resolved=\"false\"></xref> interface. A <xref href=\"System.Resources.ResourceReader\" data-throw-if-not-resolved=\"false\"></xref> instance represents either a standalone .resources file or a .resources file that is embedded in an assembly. It is used to enumerate the resources in a .resources file and retrieve its name/value pairs. It differs from the <xref href=\"System.Resources.ResourceManager\" data-throw-if-not-resolved=\"false\"></xref> class, which is used to retrieve specified named resources from a .resources file that is embedded in an assembly. The <xref href=\"System.Resources.ResourceManager\" data-throw-if-not-resolved=\"false\"></xref> class is used to retrieve resources whose names are known in advance, whereas the <xref href=\"System.Resources.ResourceReader\" data-throw-if-not-resolved=\"false\"></xref> class is useful for retrieving resources whose number or precise names are not known at compile time. For example, an application may use a resources file to store configuration information that is organized into sections and items in a section, where the number of sections or items in a section is not known in advance. Resources can then be named generically (such as <code>Section1</code>, <code>Section1Item1</code>, <code>Section1Item2</code>, and so on) and retrieved by using a <xref href=\"System.Resources.ResourceReader\" data-throw-if-not-resolved=\"false\"></xref> object.</p>\n<p>This type implements the <xref href=\"System.IDisposable\" data-throw-if-not-resolved=\"false\"></xref> interface. When you have finished using the type, you should dispose of it either directly or indirectly. To dispose of the type directly, call its <xref href=\"System.IDisposable.Dispose\" data-throw-if-not-resolved=\"false\"></xref> method in a <strong>try</strong>/<strong>catch</strong> block. To dispose of it indirectly, use a language construct such as <strong>using</strong> (in C#) or <strong>Using</strong> (in Visual Basic). For more information, see the “Using an Object that Implements IDisposable” section in the <xref href=\"System.IDisposable\" data-throw-if-not-resolved=\"false\"></xref> interface topic.</p>\n<p>For more information about using the <xref href=\"System.Resources.ResourceReader\" data-throw-if-not-resolved=\"false\"></xref> class, see the following sections:</p>\n<ul><li>\n<p>Instantiating a ResourceReader object</p>\n</li><li>\n<p>Enumerating a ResourceReader object's resources</p>\n<ul><li>\n<p>Retrieving resources by using IDictionaryEnumerator properties</p>\n</li><li>\n<p>Retrieving resources by name with GetResourceData</p>\n</li></ul>\n</li></ul>\n"
   syntax:
-    content: 'public sealed class ResourceReader : IDisposable'
+    content: >-
+      [ComVisible(true)]
+
+      public sealed class ResourceReader : IResourceReader, IEnumerable, IDisposable
     content.vb: >-
+      <ComVisible(True)>
+
       Public NotInheritable Class ResourceReader
-          Inherits IDisposable
+          Implements IResourceReader, IEnumerable, IDisposable
   inheritance:
   - System.Object
+  implements:
+  - System.IDisposable
+  inheritedMembers:
+  - System.Object.ToString
+  - System.Object.Equals(System.Object)
+  - System.Object.Equals(System.Object,System.Object)
+  - System.Object.ReferenceEquals(System.Object,System.Object)
+  - System.Object.GetHashCode
+  - System.Object.GetType
+  - System.Object.MemberwiseClone
   modifiers.csharp:
   - public
   - sealed
@@ -48,17 +63,17 @@ items:
   langs:
   - csharp
   - vb
-  name: ResourceReader(IO.Stream)
+  name: ResourceReader(Stream)
   fullName: System.Resources.ResourceReader.ResourceReader(System.IO.Stream)
   type: Constructor
   source:
     remote:
-      path: src/System.Resources.Reader/ref/System.Resources.Reader.cs
+      path: src/mscorlib/src/System/Resources/ResourceReader.cs
       branch: master
-      repo: https://github.com/dotnet/corefx.git
+      repo: https://github.com/dotnet/coreclr.git
     id: .ctor
-    path: src/System.Resources.Reader/ref/System.Resources.Reader.cs
-    startLine: 12
+    path: src/mscorlib/src/System/Resources/ResourceReader.cs
+    startLine: 174
   assemblies:
   - System.Resources.Reader
   namespace: System.Resources
@@ -67,12 +82,17 @@ items:
   example:
   - "\n<p>The example in this section uses the following .txt file named <code>PatientForm.txt</code> to define the resources used by an application.</p>\n<pre><code>Title=\"Top Pet Animal Clinic\"\nLabel1=\"Patient Number:\"\nLabel2=\"Pet Name:\"\nLabel3=\"Species:\"\nLabel4=\"Breed:\"\nLabel5=\"Date of Birth:\"\nLabel6=\"Age:\"\nLabel7=\"Owner:\"\nLabel8=\"Address:\"\nLabel9=\"Home Phone:\"\nLabel10=\"Work Phone:\"\nLabel11=\"Mobile Phone:\"</code></pre>\n<p>You can compile the .txt file into a .resources file by issuing the following command:</p>\n<p>resgen PatientForm.txt</p>\n<p>The following example assumes that the resource file is embedded in the assembly that contains the application's executable code. It retrieves a resource file named <code>PatientForm.resources</code> from the currently executing assemblies and displays the name and value of each of its resources.</p>System.Resources.ResourceReader.Ctor#1<p>If the C# example is named <code>Example.cs</code>, you can compile it by using the following command:</p><p>csc Example.cs /res:PatientForm.resources</p><p>If the Visual Basic example is named <code>Example.vb</code>, you can compile it by using the following command:</p><p>vbc Example.vb /res:PatientForm.resources</p>"
   syntax:
-    content: public ResourceReader(IO.Stream stream)
-    content.vb: Public Sub New(stream As IO.Stream)
+    content: >-
+      [SecurityCritical]
+
+      public ResourceReader(Stream stream)
+    content.vb: >-
+      <SecurityCritical>
+
+      Public Sub New(stream As Stream)
     parameters:
     - id: stream
       type: System.IO.Stream
-      description: "\n<p>The input stream for reading resources. </p>\n"
   exceptions:
   - type: System.ArgumentException
     commentId: T:System.ArgumentException
@@ -91,6 +111,10 @@ items:
     commentId: T:System.Security.Permissions.SecurityPermission
   - type: System.Security.SecurityCriticalAttribute
     commentId: T:System.Security.SecurityCriticalAttribute
+  attributes:
+  - type: System.Security.SecurityCriticalAttribute
+    ctor: System.Security.SecurityCriticalAttribute.#ctor
+    arguments: []
   modifiers.csharp:
   - public
   modifiers.vb:
@@ -107,12 +131,12 @@ items:
   type: Method
   source:
     remote:
-      path: src/System.Resources.Reader/src/System/Resources/ResourceReader.cs
+      path: src/mscorlib/src/System/Resources/ResourceReader.cs
       branch: master
-      repo: https://github.com/dotnet/corefx.git
+      repo: https://github.com/dotnet/coreclr.git
     id: Dispose
-    path: src/System.Resources.Reader/src/System/Resources/ResourceReader.cs
-    startLine: 45
+    path: src/mscorlib/src/System/Resources/ResourceReader.cs
+    startLine: 218
   assemblies:
   - System.Resources.Reader
   namespace: System.Resources
@@ -121,6 +145,8 @@ items:
   syntax:
     content: public void Dispose()
     content.vb: Public Sub Dispose
+  implements:
+  - System.IDisposable.Dispose
   modifiers.csharp:
   - public
   modifiers.vb:
@@ -137,12 +163,12 @@ items:
   type: Method
   source:
     remote:
-      path: src/System.Resources.Reader/src/System/Resources/ResourceReader.cs
+      path: src/mscorlib/src/System/Resources/ResourceReader.cs
       branch: master
-      repo: https://github.com/dotnet/corefx.git
+      repo: https://github.com/dotnet/coreclr.git
     id: GetEnumerator
-    path: src/System.Resources.Reader/src/System/Resources/ResourceReader.cs
-    startLine: 88
+    path: src/mscorlib/src/System/Resources/ResourceReader.cs
+    startLine: 300
   assemblies:
   - System.Resources.Reader
   namespace: System.Resources
@@ -154,7 +180,7 @@ items:
     content: public IDictionaryEnumerator GetEnumerator()
     content.vb: Public Function GetEnumerator As IDictionaryEnumerator
     return:
-      type: IDictionaryEnumerator
+      type: System.Collections.IDictionaryEnumerator
   exceptions:
   - type: System.InvalidOperationException
     commentId: T:System.InvalidOperationException
@@ -178,6 +204,220 @@ references:
   isExternal: false
   name: Object
   fullName: System.Object
+- uid: System.IDisposable
+  parent: System
+  isExternal: false
+  name: IDisposable
+  fullName: System.IDisposable
+- uid: System.Object.ToString
+  parent: System.Object
+  isExternal: true
+  name: ToString()
+  fullName: System.Object.ToString()
+  spec.csharp:
+  - uid: System.Object.ToString
+    name: ToString
+    fullName: System.Object.ToString
+    isExternal: true
+  - name: (
+    fullName: (
+  - name: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.ToString
+    name: ToString
+    fullName: System.Object.ToString
+    isExternal: true
+  - name: (
+    fullName: (
+  - name: )
+    fullName: )
+- uid: System.Object.Equals(System.Object)
+  parent: System.Object
+  isExternal: true
+  name: Equals(Object)
+  fullName: System.Object.Equals(System.Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    fullName: )
+- uid: System.Object.Equals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  name: Equals(Object, Object)
+  fullName: System.Object.Equals(System.Object, System.Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    fullName: )
+- uid: System.Object.ReferenceEquals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  name: ReferenceEquals(Object, Object)
+  fullName: System.Object.ReferenceEquals(System.Object, System.Object)
+  spec.csharp:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    fullName: System.Object.ReferenceEquals
+    isExternal: true
+  - name: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    fullName: System.Object.ReferenceEquals
+    isExternal: true
+  - name: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    fullName: )
+- uid: System.Object.GetHashCode
+  parent: System.Object
+  isExternal: true
+  name: GetHashCode()
+  fullName: System.Object.GetHashCode()
+  spec.csharp:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    fullName: System.Object.GetHashCode
+    isExternal: true
+  - name: (
+    fullName: (
+  - name: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    fullName: System.Object.GetHashCode
+    isExternal: true
+  - name: (
+    fullName: (
+  - name: )
+    fullName: )
+- uid: System.Object.GetType
+  parent: System.Object
+  isExternal: true
+  name: GetType()
+  fullName: System.Object.GetType()
+  spec.csharp:
+  - uid: System.Object.GetType
+    name: GetType
+    fullName: System.Object.GetType
+    isExternal: true
+  - name: (
+    fullName: (
+  - name: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.GetType
+    name: GetType
+    fullName: System.Object.GetType
+    isExternal: true
+  - name: (
+    fullName: (
+  - name: )
+    fullName: )
+- uid: System.Object.MemberwiseClone
+  parent: System.Object
+  isExternal: true
+  name: MemberwiseClone()
+  fullName: System.Object.MemberwiseClone()
+  spec.csharp:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    fullName: System.Object.MemberwiseClone
+    isExternal: true
+  - name: (
+    fullName: (
+  - name: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    fullName: System.Object.MemberwiseClone
+    isExternal: true
+  - name: (
+    fullName: (
+  - name: )
+    fullName: )
 - uid: System
   isExternal: false
   name: System
@@ -185,16 +425,37 @@ references:
 - uid: System.IO.Stream
   parent: System.IO
   isExternal: false
-  name: IO.Stream
+  name: Stream
   fullName: System.IO.Stream
 - uid: System.IO
   isExternal: false
   name: System.IO
   fullName: System.IO
+- uid: System.IDisposable.Dispose
+  parent: System.IDisposable
+  isExternal: false
+  name: Dispose()
+  fullName: System.IDisposable.Dispose()
+  spec.csharp:
+  - uid: System.IDisposable.Dispose
+    name: Dispose
+    fullName: System.IDisposable.Dispose
+  - name: (
+    fullName: (
+  - name: )
+    fullName: )
+  spec.vb:
+  - uid: System.IDisposable.Dispose
+    name: Dispose
+    fullName: System.IDisposable.Dispose
+  - name: (
+    fullName: (
+  - name: )
+    fullName: )
 - uid: System.Collections.IDictionaryEnumerator
   parent: System.Collections
   isExternal: false
-  name: Collections.IDictionaryEnumerator
+  name: IDictionaryEnumerator
   fullName: System.Collections.IDictionaryEnumerator
 - uid: System.Collections
   isExternal: false

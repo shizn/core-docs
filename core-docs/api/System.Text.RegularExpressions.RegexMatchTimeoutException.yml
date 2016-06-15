@@ -19,22 +19,52 @@ items:
   type: Class
   source:
     remote:
-      path: src/System.Text.RegularExpressions/src/System/Text/RegularExpressions/RegexMatchTimeoutException.cs
+      path: src/System.Text.RegularExpressions/ref/System.Text.RegularExpressions.cs
       branch: master
       repo: https://github.com/dotnet/corefx.git
     id: RegexMatchTimeoutException
-    path: src/System.Text.RegularExpressions/src/System/Text/RegularExpressions/RegexMatchTimeoutException.cs
-    startLine: 12
+    path: src/System.Text.RegularExpressions/ref/System.Text.RegularExpressions.cs
+    startLine: 132
   assemblies:
   - System.Text.RegularExpressions
   namespace: System.Text.RegularExpressions
+  summary: "\n<p>The exception that is thrown when the execution time of a regular expression pattern-matching method exceeds its time-out interval.</p>\n"
+  remarks: "\n<p>The presence of a <xref href=\"System.Text.RegularExpressions.RegexMatchTimeoutException\" data-throw-if-not-resolved=\"false\"></xref> exception generally indicates one of the following conditions: </p>\n<ul><li>\n<p>The regular expression engine is backtracking excessively as it attempts to match the input text to the regular expression pattern.</p>\n</li><li>\n<p>The time-out interval has been set too low, especially given high machine load.</p>\n</li></ul>\n<p>The way in which an exception handler handles an exception depends on the cause of the exception:</p>\n<ul><li>\n<p>If the time-out results from excessive backtracking, your exception handler should abandon the attempt to match the input and inform the user that a time-out has occurred in the regular expression pattern-matching method. If possible, information about the regular expression pattern, which is available from the <xref href=\"System.Text.RegularExpressions.RegexMatchTimeoutException.Pattern\" data-throw-if-not-resolved=\"false\"></xref> property, and the input that caused excessive backtracking, which is available from the <xref href=\"System.Text.RegularExpressions.RegexMatchTimeoutException.Input\" data-throw-if-not-resolved=\"false\"></xref> property, should be logged so that the issue can be investigated and the regular expression pattern modified. Time-outs due to excessive backtracking are always reproducible.</p>\n</li><li>\n<p>If the time-out results from setting the time-out threshold too low, you can increase the time-out interval and retry the matching operation. The current time-out interval is available from the <xref href=\"System.Text.RegularExpressions.RegexMatchTimeoutException.MatchTimeout\" data-throw-if-not-resolved=\"false\"></xref> property. When a <xref href=\"System.Text.RegularExpressions.RegexMatchTimeoutException\" data-throw-if-not-resolved=\"false\"></xref> exception is thrown, the regular expression engine maintains its state so that any future invocations return the same result, as if the exception did not occur. The recommended pattern is to wait for a brief, random time interval after the exception is thrown before calling the matching method again. This can be repeated several times. However, the number of repetitions should be small in case the time-out is caused by excessive backtracking. </p>\n</li></ul>\n<p>The example in the next section illustrates both techniques for handling a <xref href=\"System.Text.RegularExpressions.RegexMatchTimeoutException\" data-throw-if-not-resolved=\"false\"></xref>.</p>\n"
+  example:
+  - "\n<p>The following example illustrates two possible approaches to handling the <xref href=\"System.Text.RegularExpressions.RegexMatchTimeoutException\" data-throw-if-not-resolved=\"false\"></xref> exception. A constant whose value is two seconds defines the maximum time-out interval. The <xref href=\"System.Text.RegularExpressions.Regex.IsMatch(System.String,System.String,System.Text.RegularExpressions.RegexOptions,System.TimeSpan)\" data-throw-if-not-resolved=\"false\"></xref> method is initially called with a time-out interval of one second. Each <xref href=\"System.Text.RegularExpressions.RegexMatchTimeoutException\" data-throw-if-not-resolved=\"false\"></xref> exception causes the time-out interval to be increased by one second and results in another call to the <xref href=\"System.Text.RegularExpressions.Regex.IsMatch(System.String,System.String,System.Text.RegularExpressions.RegexOptions,System.TimeSpan)\" data-throw-if-not-resolved=\"false\"></xref> method if the current time-out interval is less than the maximum time-out interval. However, if the current time-out interval exceeds the maximum time-out interval, the exception handler writes information to the event log and abandons the processing of the regular expression.</p>System.Text.RegularExpressions.RegexMatchTimeoutException#1"
   syntax:
-    content: 'public class RegexMatchTimeoutException : TimeoutException'
+    content: 'public class RegexMatchTimeoutException : TimeoutException, ISerializable, _Exception'
     content.vb: >-
       Public Class RegexMatchTimeoutException
           Inherits TimeoutException
+          Implements ISerializable, _Exception
   inheritance:
   - System.Object
+  - System.Exception
+  - System.SystemException
+  - System.TimeoutException
+  implements:
+  - System.Runtime.Serialization.ISerializable
+  - System.Runtime.InteropServices._Exception
+  inheritedMembers:
+  - System.Exception.GetBaseException
+  - System.Exception.ToString
+  - System.Exception.GetObjectData(System.Runtime.Serialization.SerializationInfo,System.Runtime.Serialization.StreamingContext)
+  - System.Exception.GetType
+  - System.Exception.Message
+  - System.Exception.Data
+  - System.Exception.InnerException
+  - System.Exception.TargetSite
+  - System.Exception.StackTrace
+  - System.Exception.HelpLink
+  - System.Exception.Source
+  - System.Exception.HResult
+  - System.Exception.SerializeObjectState
+  - System.Object.Equals(System.Object)
+  - System.Object.Equals(System.Object,System.Object)
+  - System.Object.ReferenceEquals(System.Object,System.Object)
+  - System.Object.GetHashCode
+  - System.Object.MemberwiseClone
   modifiers.csharp:
   - public
   - class
@@ -53,15 +83,17 @@ items:
   type: Constructor
   source:
     remote:
-      path: src/System.Text.RegularExpressions/src/System/Text/RegularExpressions/RegexMatchTimeoutException.cs
+      path: src/System.Text.RegularExpressions/ref/System.Text.RegularExpressions.cs
       branch: master
       repo: https://github.com/dotnet/corefx.git
     id: .ctor
-    path: src/System.Text.RegularExpressions/src/System/Text/RegularExpressions/RegexMatchTimeoutException.cs
-    startLine: 39
+    path: src/System.Text.RegularExpressions/ref/System.Text.RegularExpressions.cs
+    startLine: 134
   assemblies:
   - System.Text.RegularExpressions
   namespace: System.Text.RegularExpressions
+  summary: "\n<p>Initializes a new instance of the <xref href=\"System.Text.RegularExpressions.RegexMatchTimeoutException\" data-throw-if-not-resolved=\"false\"></xref> class with a system-supplied message.</p>\n"
+  remarks: "\n<p>This is the default constructor of the <xref href=\"System.Text.RegularExpressions.RegexMatchTimeoutException\" data-throw-if-not-resolved=\"false\"></xref> class. This constructor initializes the <xref href=\"System.Exception.Message\" data-throw-if-not-resolved=\"false\"></xref> property of the new instance to a system-supplied message that describes the error. This message is localized for the current system culture.</p>\n"
   syntax:
     content: public RegexMatchTimeoutException()
     content.vb: Public Sub New
@@ -81,22 +113,24 @@ items:
   type: Constructor
   source:
     remote:
-      path: src/System.Text.RegularExpressions/src/System/Text/RegularExpressions/RegexMatchTimeoutException.cs
+      path: src/System.Text.RegularExpressions/ref/System.Text.RegularExpressions.cs
       branch: master
       repo: https://github.com/dotnet/corefx.git
     id: .ctor
-    path: src/System.Text.RegularExpressions/src/System/Text/RegularExpressions/RegexMatchTimeoutException.cs
-    startLine: 52
+    path: src/System.Text.RegularExpressions/ref/System.Text.RegularExpressions.cs
+    startLine: 135
   assemblies:
   - System.Text.RegularExpressions
   namespace: System.Text.RegularExpressions
+  summary: "\n<p>Initializes a new instance of the <xref href=\"System.Text.RegularExpressions.RegexMatchTimeoutException\" data-throw-if-not-resolved=\"false\"></xref> class with the specified message string.</p>\n"
+  remarks: "\n<p>The <em>message</em> string is assigned to the <xref href=\"System.Exception.Message\" data-throw-if-not-resolved=\"false\"></xref> property. The string should be localized for the current culture.</p>\n"
   syntax:
     content: public RegexMatchTimeoutException(string message)
     content.vb: Public Sub New(message As String)
     parameters:
     - id: message
       type: System.String
-      description: The error message that explains the reason for the exception.
+      description: "\n<p>A string that describes the exception.</p>\n"
   modifiers.csharp:
   - public
   modifiers.vb:
@@ -122,14 +156,18 @@ items:
   assemblies:
   - System.Text.RegularExpressions
   namespace: System.Text.RegularExpressions
+  summary: "\n<p>Initializes a new instance of the <xref href=\"System.Text.RegularExpressions.RegexMatchTimeoutException\" data-throw-if-not-resolved=\"false\"></xref> class with a specified error message and a reference to the inner exception that is the cause of this exception.</p>\n"
+  remarks: "\n<p>Typically, you use this overload to handle an exception in a <strong>try/catch</strong> block. The <em>innerException</em> parameter should be a reference to the exception object handled in the <strong>catch</strong> block, or it can be <strong>null</strong>. This value is then assigned to the <xref href=\"System.Text.RegularExpressions.RegexMatchTimeoutException\" data-throw-if-not-resolved=\"false\"></xref> object's <xref href=\"System.Exception.InnerException\" data-throw-if-not-resolved=\"false\"></xref> property.</p>\n<p>The <em>message</em> string is assigned to the <xref href=\"System.Exception.Message\" data-throw-if-not-resolved=\"false\"></xref> property. The string should be localized for the current culture.</p>\n"
   syntax:
     content: public RegexMatchTimeoutException(string message, Exception inner)
     content.vb: Public Sub New(message As String, inner As Exception)
     parameters:
     - id: message
       type: System.String
+      description: "\n<p>A string that describes the exception.</p>\n"
     - id: inner
       type: System.Exception
+      description: "\n<p>The exception that is the cause of the current exception.</p>\n"
   modifiers.csharp:
   - public
   modifiers.vb:
@@ -155,16 +193,21 @@ items:
   assemblies:
   - System.Text.RegularExpressions
   namespace: System.Text.RegularExpressions
+  summary: "\n<p>Initializes a new instance of the <xref href=\"System.Text.RegularExpressions.RegexMatchTimeoutException\" data-throw-if-not-resolved=\"false\"></xref> class with information about the regular expression pattern, the input text, and the time-out interval.</p>\n"
+  remarks: "\n<p>The <em>regexInput</em>, <em>regexPattern</em>, and <em>matchTimeout</em> values are assigned to the <xref href=\"System.Text.RegularExpressions.RegexMatchTimeoutException.Input\" data-throw-if-not-resolved=\"false\"></xref>, <xref href=\"System.Text.RegularExpressions.RegexMatchTimeoutException.Pattern\" data-throw-if-not-resolved=\"false\"></xref>, and <xref href=\"System.Text.RegularExpressions.RegexMatchTimeoutException.MatchTimeout\" data-throw-if-not-resolved=\"false\"></xref> properties of the new <xref href=\"System.Text.RegularExpressions.RegexMatchTimeoutException\" data-throw-if-not-resolved=\"false\"></xref> object.</p>\n"
   syntax:
     content: public RegexMatchTimeoutException(string regexInput, string regexPattern, TimeSpan matchTimeout)
     content.vb: Public Sub New(regexInput As String, regexPattern As String, matchTimeout As TimeSpan)
     parameters:
     - id: regexInput
       type: System.String
+      description: "\n<p>The input text processed by the regular expression engine when the time-out occurred.</p>\n"
     - id: regexPattern
       type: System.String
+      description: "\n<p>The pattern used by the regular expression engine when the time-out occurred.</p>\n"
     - id: matchTimeout
       type: System.TimeSpan
+      description: "\n<p>The time-out interval.</p>\n"
   modifiers.csharp:
   - public
   modifiers.vb:
@@ -181,21 +224,24 @@ items:
   type: Property
   source:
     remote:
-      path: src/System.Text.RegularExpressions/src/System/Text/RegularExpressions/RegexMatchTimeoutException.cs
+      path: src/System.Text.RegularExpressions/ref/System.Text.RegularExpressions.cs
       branch: master
       repo: https://github.com/dotnet/corefx.git
     id: Input
-    path: src/System.Text.RegularExpressions/src/System/Text/RegularExpressions/RegexMatchTimeoutException.cs
-    startLine: 91
+    path: src/System.Text.RegularExpressions/ref/System.Text.RegularExpressions.cs
+    startLine: 138
   assemblies:
   - System.Text.RegularExpressions
   namespace: System.Text.RegularExpressions
+  summary: "\n<p>Gets the input text that the regular expression engine was processing when the time-out occurred.</p>\n"
+  remarks: "\n<p>This property reflects the value of the <em>regexInput</em>  parameter of the <xref href=\"System.Text.RegularExpressions.RegexMatchTimeoutException.#ctor(System.String,System.String,System.TimeSpan)\" data-throw-if-not-resolved=\"false\"></xref> constructor. If this parameter is not explicitly initialized in a constructor call, its value is <xref href=\"System.String.Empty\" data-throw-if-not-resolved=\"false\"></xref>.</p>\n<p>When the exception is thrown by the regular expression engine, the value of the <xref href=\"System.Text.RegularExpressions.RegexMatchTimeoutException.Input\" data-throw-if-not-resolved=\"false\"></xref> property reflects the entire input string passed to the regular expression engine. It does not reflect a partial string, such as the substring that the engine searches in the call to a method such as <xref href=\"System.Text.RegularExpressions.Regex.Match(System.String,System.Int32)\" data-throw-if-not-resolved=\"false\"></xref>.</p>\n"
   syntax:
     content: public string Input { get; }
     content.vb: Public ReadOnly Property Input As String
     parameters: []
     return:
       type: System.String
+      description: "\n<p>The regular expression input text.</p>\n"
   modifiers.csharp:
   - public
   - get
@@ -214,21 +260,24 @@ items:
   type: Property
   source:
     remote:
-      path: src/System.Text.RegularExpressions/src/System/Text/RegularExpressions/RegexMatchTimeoutException.cs
+      path: src/System.Text.RegularExpressions/ref/System.Text.RegularExpressions.cs
       branch: master
       repo: https://github.com/dotnet/corefx.git
     id: MatchTimeout
-    path: src/System.Text.RegularExpressions/src/System/Text/RegularExpressions/RegexMatchTimeoutException.cs
-    startLine: 99
+    path: src/System.Text.RegularExpressions/ref/System.Text.RegularExpressions.cs
+    startLine: 139
   assemblies:
   - System.Text.RegularExpressions
   namespace: System.Text.RegularExpressions
+  summary: "\n<p>Gets the time-out interval for a regular expression match.</p>\n"
+  remarks: "\n<p>This property reflects the value of the <em>matchTimeout</em> parameter of the <xref href=\"System.Text.RegularExpressions.RegexMatchTimeoutException.#ctor(System.String,System.String,System.TimeSpan)\" data-throw-if-not-resolved=\"false\"></xref> constructor. If the parameter is not properly initialized in a constructor call, its value is <strong>Timespan.FromTicks(-1)</strong>.</p>\n<p>The value of this property reflects the time-out interval set in the call to the <xref href=\"System.Text.RegularExpressions.Regex\" data-throw-if-not-resolved=\"false\"></xref> constructor or static method. It does not reflect the exact interval that has elapsed from the beginning of the method call to the time the exception is thrown.</p>\n"
   syntax:
     content: public TimeSpan MatchTimeout { get; }
     content.vb: Public ReadOnly Property MatchTimeout As TimeSpan
     parameters: []
     return:
-      type: TimeSpan
+      type: System.TimeSpan
+      description: "\n<p>The time-out interval.</p>\n"
   modifiers.csharp:
   - public
   - get
@@ -247,21 +296,24 @@ items:
   type: Property
   source:
     remote:
-      path: src/System.Text.RegularExpressions/src/System/Text/RegularExpressions/RegexMatchTimeoutException.cs
+      path: src/System.Text.RegularExpressions/ref/System.Text.RegularExpressions.cs
       branch: master
       repo: https://github.com/dotnet/corefx.git
     id: Pattern
-    path: src/System.Text.RegularExpressions/src/System/Text/RegularExpressions/RegexMatchTimeoutException.cs
-    startLine: 84
+    path: src/System.Text.RegularExpressions/ref/System.Text.RegularExpressions.cs
+    startLine: 140
   assemblies:
   - System.Text.RegularExpressions
   namespace: System.Text.RegularExpressions
+  summary: "\n<p>Gets the regular expression pattern that was used in the matching operation when the time-out occurred.</p>\n"
+  remarks: "\n<p>This property reflects the value of the <em>regexPattern</em>  parameter of the <xref href=\"System.Text.RegularExpressions.RegexMatchTimeoutException.#ctor(System.String,System.String,System.TimeSpan)\" data-throw-if-not-resolved=\"false\"></xref> constructor. If the parameter is not properly initialized in a constructor call, its value is <xref href=\"System.String.Empty\" data-throw-if-not-resolved=\"false\"></xref>.</p>\n"
   syntax:
     content: public string Pattern { get; }
     content.vb: Public ReadOnly Property Pattern As String
     parameters: []
     return:
       type: System.String
+      description: "\n<p>The regular expression pattern.</p>\n"
   modifiers.csharp:
   - public
   - get
@@ -278,20 +330,364 @@ references:
   isExternal: false
   name: Object
   fullName: System.Object
-- uid: System
-  isExternal: false
-  name: System
-  fullName: System
-- uid: System.String
-  parent: System
-  isExternal: false
-  name: String
-  fullName: System.String
 - uid: System.Exception
   parent: System
   isExternal: false
   name: Exception
   fullName: System.Exception
+- uid: System.SystemException
+  parent: System
+  isExternal: true
+  name: SystemException
+  fullName: System.SystemException
+- uid: System.TimeoutException
+  parent: System
+  isExternal: false
+  name: TimeoutException
+  fullName: System.TimeoutException
+- uid: System.Runtime.Serialization.ISerializable
+  parent: System.Runtime.Serialization
+  isExternal: false
+  name: ISerializable
+  fullName: System.Runtime.Serialization.ISerializable
+- uid: System.Runtime.InteropServices._Exception
+  parent: System.Runtime.InteropServices
+  isExternal: true
+  name: _Exception
+  fullName: System.Runtime.InteropServices._Exception
+- uid: System.Exception.GetBaseException
+  parent: System.Exception
+  isExternal: false
+  name: GetBaseException()
+  fullName: System.Exception.GetBaseException()
+  spec.csharp:
+  - uid: System.Exception.GetBaseException
+    name: GetBaseException
+    fullName: System.Exception.GetBaseException
+  - name: (
+    fullName: (
+  - name: )
+    fullName: )
+  spec.vb:
+  - uid: System.Exception.GetBaseException
+    name: GetBaseException
+    fullName: System.Exception.GetBaseException
+  - name: (
+    fullName: (
+  - name: )
+    fullName: )
+- uid: System.Exception.ToString
+  parent: System.Exception
+  isExternal: false
+  name: ToString()
+  fullName: System.Exception.ToString()
+  spec.csharp:
+  - uid: System.Exception.ToString
+    name: ToString
+    fullName: System.Exception.ToString
+  - name: (
+    fullName: (
+  - name: )
+    fullName: )
+  spec.vb:
+  - uid: System.Exception.ToString
+    name: ToString
+    fullName: System.Exception.ToString
+  - name: (
+    fullName: (
+  - name: )
+    fullName: )
+- uid: System.Exception.GetObjectData(System.Runtime.Serialization.SerializationInfo,System.Runtime.Serialization.StreamingContext)
+  parent: System.Exception
+  isExternal: true
+  name: GetObjectData(SerializationInfo, StreamingContext)
+  fullName: System.Exception.GetObjectData(System.Runtime.Serialization.SerializationInfo, System.Runtime.Serialization.StreamingContext)
+  spec.csharp:
+  - uid: System.Exception.GetObjectData(System.Runtime.Serialization.SerializationInfo,System.Runtime.Serialization.StreamingContext)
+    name: GetObjectData
+    fullName: System.Exception.GetObjectData
+    isExternal: true
+  - name: (
+    fullName: (
+  - uid: System.Runtime.Serialization.SerializationInfo
+    name: SerializationInfo
+    fullName: System.Runtime.Serialization.SerializationInfo
+    isExternal: true
+  - name: ', '
+    fullName: ', '
+  - uid: System.Runtime.Serialization.StreamingContext
+    name: StreamingContext
+    fullName: System.Runtime.Serialization.StreamingContext
+    isExternal: true
+  - name: )
+    fullName: )
+  spec.vb:
+  - uid: System.Exception.GetObjectData(System.Runtime.Serialization.SerializationInfo,System.Runtime.Serialization.StreamingContext)
+    name: GetObjectData
+    fullName: System.Exception.GetObjectData
+    isExternal: true
+  - name: (
+    fullName: (
+  - uid: System.Runtime.Serialization.SerializationInfo
+    name: SerializationInfo
+    fullName: System.Runtime.Serialization.SerializationInfo
+    isExternal: true
+  - name: ', '
+    fullName: ', '
+  - uid: System.Runtime.Serialization.StreamingContext
+    name: StreamingContext
+    fullName: System.Runtime.Serialization.StreamingContext
+    isExternal: true
+  - name: )
+    fullName: )
+- uid: System.Exception.GetType
+  parent: System.Exception
+  isExternal: true
+  name: GetType()
+  fullName: System.Exception.GetType()
+  spec.csharp:
+  - uid: System.Exception.GetType
+    name: GetType
+    fullName: System.Exception.GetType
+    isExternal: true
+  - name: (
+    fullName: (
+  - name: )
+    fullName: )
+  spec.vb:
+  - uid: System.Exception.GetType
+    name: GetType
+    fullName: System.Exception.GetType
+    isExternal: true
+  - name: (
+    fullName: (
+  - name: )
+    fullName: )
+- uid: System.Exception.Message
+  parent: System.Exception
+  isExternal: false
+  name: Message
+  fullName: System.Exception.Message
+- uid: System.Exception.Data
+  parent: System.Exception
+  isExternal: false
+  name: Data
+  fullName: System.Exception.Data
+- uid: System.Exception.InnerException
+  parent: System.Exception
+  isExternal: false
+  name: InnerException
+  fullName: System.Exception.InnerException
+- uid: System.Exception.TargetSite
+  parent: System.Exception
+  isExternal: true
+  name: TargetSite
+  fullName: System.Exception.TargetSite
+- uid: System.Exception.StackTrace
+  parent: System.Exception
+  isExternal: false
+  name: StackTrace
+  fullName: System.Exception.StackTrace
+- uid: System.Exception.HelpLink
+  parent: System.Exception
+  isExternal: false
+  name: HelpLink
+  fullName: System.Exception.HelpLink
+- uid: System.Exception.Source
+  parent: System.Exception
+  isExternal: false
+  name: Source
+  fullName: System.Exception.Source
+- uid: System.Exception.HResult
+  parent: System.Exception
+  isExternal: false
+  name: HResult
+  fullName: System.Exception.HResult
+- uid: System.Exception.SerializeObjectState
+  parent: System.Exception
+  isExternal: true
+  name: SerializeObjectState
+  fullName: System.Exception.SerializeObjectState
+- uid: System.Object.Equals(System.Object)
+  parent: System.Object
+  isExternal: true
+  name: Equals(Object)
+  fullName: System.Object.Equals(System.Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    fullName: )
+- uid: System.Object.Equals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  name: Equals(Object, Object)
+  fullName: System.Object.Equals(System.Object, System.Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    fullName: )
+- uid: System.Object.ReferenceEquals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  name: ReferenceEquals(Object, Object)
+  fullName: System.Object.ReferenceEquals(System.Object, System.Object)
+  spec.csharp:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    fullName: System.Object.ReferenceEquals
+    isExternal: true
+  - name: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    fullName: System.Object.ReferenceEquals
+    isExternal: true
+  - name: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    fullName: )
+- uid: System.Object.GetHashCode
+  parent: System.Object
+  isExternal: true
+  name: GetHashCode()
+  fullName: System.Object.GetHashCode()
+  spec.csharp:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    fullName: System.Object.GetHashCode
+    isExternal: true
+  - name: (
+    fullName: (
+  - name: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    fullName: System.Object.GetHashCode
+    isExternal: true
+  - name: (
+    fullName: (
+  - name: )
+    fullName: )
+- uid: System.Object.MemberwiseClone
+  parent: System.Object
+  isExternal: true
+  name: MemberwiseClone()
+  fullName: System.Object.MemberwiseClone()
+  spec.csharp:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    fullName: System.Object.MemberwiseClone
+    isExternal: true
+  - name: (
+    fullName: (
+  - name: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    fullName: System.Object.MemberwiseClone
+    isExternal: true
+  - name: (
+    fullName: (
+  - name: )
+    fullName: )
+- uid: System
+  isExternal: false
+  name: System
+  fullName: System
+- uid: System.Runtime.Serialization
+  isExternal: false
+  name: System.Runtime.Serialization
+  fullName: System.Runtime.Serialization
+- uid: System.Runtime.InteropServices
+  isExternal: false
+  name: System.Runtime.InteropServices
+  fullName: System.Runtime.InteropServices
+- uid: System.String
+  parent: System
+  isExternal: false
+  name: String
+  fullName: System.String
 - uid: System.TimeSpan
   parent: System
   isExternal: false

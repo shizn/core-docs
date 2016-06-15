@@ -60,13 +60,32 @@ items:
   assemblies:
   - System.ComponentModel.TypeConverter
   namespace: System.ComponentModel
+  summary: "\n<p>Provides a unified way of converting types of values to other types, as well as for accessing standard values and subproperties.</p>\n"
+  remarks: "\n<p>The most common type of converter is one that converts to and from a text representation. The type converter for a class is bound to the class with a <xref href=\"System.ComponentModel.TypeConverterAttribute\" data-throw-if-not-resolved=\"false\"></xref>. Unless this attribute is overridden, all classes that inherit from this class use the same type converter as the base class.</p>\n<p>For general type system purposes, do not access a type converter directly. Instead, access the appropriate converter by using <xref href=\"System.ComponentModel.TypeDescriptor\" data-throw-if-not-resolved=\"false\"></xref>. For more information, see the code examples provided.</p>\n<p>Note   For XAML purposes, a XAML processor searches for the <xref href=\"System.ComponentModel.TypeConverterAttribute\" data-throw-if-not-resolved=\"false\"></xref> directly, instead of going through <xref href=\"System.ComponentModel.TypeDescriptor\" data-throw-if-not-resolved=\"false\"></xref>. For cases where you do want a <xref href=\"System.ComponentModel.TypeDescriptor\" data-throw-if-not-resolved=\"false\"></xref> instance from code, or where you create a shared instance in WPF resources, it is acceptable to construct it directly without referencing <xref href=\"System.ComponentModel.TypeDescriptor\" data-throw-if-not-resolved=\"false\"></xref> or other reflection and type system support.</p>\n<p>Classes derived from <xref href=\"System.ComponentModel.TypeConverter\" data-throw-if-not-resolved=\"false\"></xref> are often referenced as part of how a XAML processor converts an attribute or initialization text value from markup (which is inherently a string) and generates an object for a run-time representation. Custom type authors that intend to support a type conversion behavior for XAML typically implement a <xref href=\"System.ComponentModel.TypeConverter\" data-throw-if-not-resolved=\"false\"></xref> class that supports their own unique <strong>ConvertFrom</strong> behavior from a string. This behavior enables type conversion from the string provided as a XAML attribute value and provides a XAML processor with the support needed to create an object from the string, so that the object can be produced in a parsed object graph. Custom types or members of custom types are indicated by applying <xref href=\"System.ComponentModel.TypeConverterAttribute\" data-throw-if-not-resolved=\"false\"></xref> to the definitions, with the attribute referencing the custom <xref href=\"System.ComponentModel.TypeConverter\" data-throw-if-not-resolved=\"false\"></xref> implementation. For more information, see Type Converters for XAML Overview.</p>\n"
+  example:
+  - "\n<p>The following code example shows how to create an instance of a type converter and bind it to a class. The class implementing the converter, <code>MyClassConverter</code>, must inherit from the <xref href=\"System.ComponentModel.TypeConverter\" data-throw-if-not-resolved=\"false\"></xref> class.</p>Classic TypeConverter Example#1<p>When you have a property that has an enumeration, check to see whether an enumeration value is valid before setting the property. The next code example requires that an enumeration called <code>MyPropertyEnum</code> has been declared.</p>Classic TypeConverter Example#2<p>Another common type converter usage is to convert an object to a string. The following code example prints out the name of the <xref href=\"System.Drawing.Color\" data-throw-if-not-resolved=\"false\"></xref> stored in the variable <code>c</code>.</p>Classic TypeConverter Example#3<p>You can also use a type converter to convert a value from its name, as shown in the next code example.</p>Classic TypeConverter Example#4<p>In the following code example, you can use a type converter to print out the set of standard values that the object supports.</p>Classic TypeConverter Example#5"
   syntax:
-    content: 'public class TypeConverter : object'
-    content.vb: >-
-      Public Class TypeConverter
-          Inherits Object
+    content: public class TypeConverter
+    content.vb: Public Class TypeConverter
+  seealso:
+  - type: System.ComponentModel.TypeConverterAttribute
+    commentId: T:System.ComponentModel.TypeConverterAttribute
+  - type: System.ComponentModel.PropertyDescriptorCollection
+    commentId: T:System.ComponentModel.PropertyDescriptorCollection
+  - type: System.ComponentModel.TypeConverter.SimplePropertyDescriptor
+    commentId: T:System.ComponentModel.TypeConverter.SimplePropertyDescriptor
+  - type: System.ComponentModel.TypeConverter.StandardValuesCollection
+    commentId: T:System.ComponentModel.TypeConverter.StandardValuesCollection
   inheritance:
   - System.Object
+  inheritedMembers:
+  - System.Object.ToString
+  - System.Object.Equals(System.Object)
+  - System.Object.Equals(System.Object,System.Object)
+  - System.Object.ReferenceEquals(System.Object,System.Object)
+  - System.Object.GetHashCode
+  - System.Object.GetType
+  - System.Object.MemberwiseClone
   modifiers.csharp:
   - public
   - class
@@ -94,6 +113,7 @@ items:
   assemblies:
   - System.ComponentModel.TypeConverter
   namespace: System.ComponentModel
+  summary: "\n<p>Initializes a new instance of the <xref href=\"System.ComponentModel.TypeConverter\" data-throw-if-not-resolved=\"false\"></xref> class. </p>\n"
   syntax:
     content: public TypeConverter()
     content.vb: Public Sub New
@@ -113,15 +133,17 @@ items:
   type: Method
   source:
     remote:
-      path: src/System.ComponentModel.TypeConverter/ref/System.ComponentModel.TypeConverter.cs
+      path: src/System.ComponentModel.TypeConverter/src/System/ComponentModel/TypeConverter.cs
       branch: master
       repo: https://github.com/dotnet/corefx.git
     id: CanConvertFrom
-    path: src/System.ComponentModel.TypeConverter/ref/System.ComponentModel.TypeConverter.cs
-    startLine: 462
+    path: src/System.ComponentModel.TypeConverter/src/System/ComponentModel/TypeConverter.cs
+    startLine: 29
   assemblies:
   - System.ComponentModel.TypeConverter
   namespace: System.ComponentModel
+  summary: "\n<p>Returns whether this converter can convert an object of the given type to the type of this converter, using the specified context.</p>\n"
+  remarks: "\n<p>As implemented in this class, this method returns <strong>false</strong>, unless <em>sourceType</em> is an <xref href=\"System.ComponentModel.Design.Serialization.InstanceDescriptor\" data-throw-if-not-resolved=\"false\"></xref>.</p>\n"
   syntax:
     content: public virtual bool CanConvertFrom(ITypeDescriptorContext context, Type sourceType)
     content.vb: Public Overridable Function CanConvertFrom(context As ITypeDescriptorContext, sourceType As Type) As Boolean
@@ -132,6 +154,9 @@ items:
       type: System.Type
     return:
       type: System.Boolean
+  seealso:
+  - type: System.ComponentModel.ITypeDescriptorContext
+    commentId: T:System.ComponentModel.ITypeDescriptorContext
   modifiers.csharp:
   - public
   - virtual
@@ -150,15 +175,17 @@ items:
   type: Method
   source:
     remote:
-      path: src/System.ComponentModel.TypeConverter/ref/System.ComponentModel.TypeConverter.cs
+      path: src/System.ComponentModel.TypeConverter/src/System/ComponentModel/TypeConverter.cs
       branch: master
       repo: https://github.com/dotnet/corefx.git
     id: CanConvertFrom
-    path: src/System.ComponentModel.TypeConverter/ref/System.ComponentModel.TypeConverter.cs
-    startLine: 463
+    path: src/System.ComponentModel.TypeConverter/src/System/ComponentModel/TypeConverter.cs
+    startLine: 19
   assemblies:
   - System.ComponentModel.TypeConverter
   namespace: System.ComponentModel
+  summary: "\n<p>Returns whether this converter can convert an object of the given type to the type of this converter.</p>\n"
+  remarks: "\n<p>As implemented in this class, this method always returns <strong>false</strong>. It never returns <strong>true</strong>.</p>\n"
   syntax:
     content: public bool CanConvertFrom(Type sourceType)
     content.vb: Public Function CanConvertFrom(sourceType As Type) As Boolean
@@ -183,15 +210,17 @@ items:
   type: Method
   source:
     remote:
-      path: src/System.ComponentModel.TypeConverter/ref/System.ComponentModel.TypeConverter.cs
+      path: src/System.ComponentModel.TypeConverter/src/System/ComponentModel/TypeConverter.cs
       branch: master
       repo: https://github.com/dotnet/corefx.git
     id: CanConvertTo
-    path: src/System.ComponentModel.TypeConverter/ref/System.ComponentModel.TypeConverter.cs
-    startLine: 464
+    path: src/System.ComponentModel.TypeConverter/src/System/ComponentModel/TypeConverter.cs
+    startLine: 47
   assemblies:
   - System.ComponentModel.TypeConverter
   namespace: System.ComponentModel
+  summary: "\n<p>Returns whether this converter can convert the object to the specified type, using the specified context.</p>\n"
+  remarks: "\n<p>Use the <em>context</em> parameter to extract additional information about the environment from which this converter is invoked. This parameter can be <strong>null</strong>, so always check it. Also, properties on the context object can return <strong>null</strong>.</p>\n<p>If <em>destinationType</em> is a string, the default implementation of <see cref=\"Overload:System.ComponentModel.TypeConverter.CanConvertTo\"></see> always returns <strong>true</strong>.</p>\n"
   syntax:
     content: public virtual bool CanConvertTo(ITypeDescriptorContext context, Type destinationType)
     content.vb: Public Overridable Function CanConvertTo(context As ITypeDescriptorContext, destinationType As Type) As Boolean
@@ -202,6 +231,9 @@ items:
       type: System.Type
     return:
       type: System.Boolean
+  seealso:
+  - type: System.ComponentModel.ITypeDescriptorContext
+    commentId: T:System.ComponentModel.ITypeDescriptorContext
   modifiers.csharp:
   - public
   - virtual
@@ -220,15 +252,17 @@ items:
   type: Method
   source:
     remote:
-      path: src/System.ComponentModel.TypeConverter/ref/System.ComponentModel.TypeConverter.cs
+      path: src/System.ComponentModel.TypeConverter/src/System/ComponentModel/TypeConverter.cs
       branch: master
       repo: https://github.com/dotnet/corefx.git
     id: CanConvertTo
-    path: src/System.ComponentModel.TypeConverter/ref/System.ComponentModel.TypeConverter.cs
-    startLine: 465
+    path: src/System.ComponentModel.TypeConverter/src/System/ComponentModel/TypeConverter.cs
+    startLine: 38
   assemblies:
   - System.ComponentModel.TypeConverter
   namespace: System.ComponentModel
+  summary: "\n<p>Returns whether this converter can convert the object to the specified type.</p>\n"
+  remarks: "\n<p>If <em>destinationType</em> is a string, the default implementation of <see cref=\"Overload:System.ComponentModel.TypeConverter.CanConvertTo\"></see> always returns <strong>true</strong>.</p>\n"
   syntax:
     content: public bool CanConvertTo(Type destinationType)
     content.vb: Public Function CanConvertTo(destinationType As Type) As Boolean
@@ -248,23 +282,25 @@ items:
   langs:
   - csharp
   - vb
-  name: ConvertFrom(ITypeDescriptorContext, Globalization.CultureInfo, Object)
+  name: ConvertFrom(ITypeDescriptorContext, CultureInfo, Object)
   fullName: System.ComponentModel.TypeConverter.ConvertFrom(System.ComponentModel.ITypeDescriptorContext, System.Globalization.CultureInfo, System.Object)
   type: Method
   source:
     remote:
-      path: src/System.ComponentModel.TypeConverter/ref/System.ComponentModel.TypeConverter.cs
+      path: src/System.ComponentModel.TypeConverter/src/System/ComponentModel/TypeConverter.cs
       branch: master
       repo: https://github.com/dotnet/corefx.git
     id: ConvertFrom
-    path: src/System.ComponentModel.TypeConverter/ref/System.ComponentModel.TypeConverter.cs
-    startLine: 466
+    path: src/System.ComponentModel.TypeConverter/src/System/ComponentModel/TypeConverter.cs
+    startLine: 64
   assemblies:
   - System.ComponentModel.TypeConverter
   namespace: System.ComponentModel
+  summary: "\n<p>Converts the given object to the type of this converter, using the specified context and culture information.</p>\n"
+  remarks: "\n<p>Custom type authors that intend to support a type conversion behavior for XAML typically implement a <xref href=\"System.ComponentModel.TypeConverter\" data-throw-if-not-resolved=\"false\"></xref> class that supports <xref href=\"System.ComponentModel.TypeConverter.ConvertFrom(System.ComponentModel.ITypeDescriptorContext,System.Globalization.CultureInfo,System.Object)\" data-throw-if-not-resolved=\"false\"></xref> behavior from a string. This behavior enables type conversion from the string provided as a XAML attribute value and provides a XAML processor with the support needed to create an object from the string, so that the object can be produced in a parsed object graph. Custom types or members of custom types are indicated by applying <xref href=\"System.ComponentModel.TypeConverterAttribute\" data-throw-if-not-resolved=\"false\"></xref> to the definitions, with the attribute referencing the custom <xref href=\"System.ComponentModel.TypeConverter\" data-throw-if-not-resolved=\"false\"></xref> implementation. </p>\n<p>For XAML purposes, you do not typically provide branching implementations based on <em>culture</em>. This is because XAML is precompiled in a development environment context, and culture-specific information for runtime XAML is not relevant for XAML type conversion. For more information, see Type Converters for XAML Overview.</p>\n"
   syntax:
-    content: public virtual object ConvertFrom(ITypeDescriptorContext context, Globalization.CultureInfo culture, object value)
-    content.vb: Public Overridable Function ConvertFrom(context As ITypeDescriptorContext, culture As Globalization.CultureInfo, value As Object) As Object
+    content: public virtual object ConvertFrom(ITypeDescriptorContext context, CultureInfo culture, object value)
+    content.vb: Public Overridable Function ConvertFrom(context As ITypeDescriptorContext, culture As CultureInfo, value As Object) As Object
     parameters:
     - id: context
       type: System.ComponentModel.ITypeDescriptorContext
@@ -274,6 +310,13 @@ items:
       type: System.Object
     return:
       type: System.Object
+  exceptions:
+  - type: System.NotSupportedException
+    commentId: T:System.NotSupportedException
+    description: "\n<p>The conversion cannot be performed. </p>\n"
+  seealso:
+  - type: System.ComponentModel.ITypeDescriptorContext
+    commentId: T:System.ComponentModel.ITypeDescriptorContext
   modifiers.csharp:
   - public
   - virtual
@@ -301,6 +344,7 @@ items:
   assemblies:
   - System.ComponentModel.TypeConverter
   namespace: System.ComponentModel
+  summary: "\n<p>Converts the given value to the type of this converter.</p>\n"
   syntax:
     content: public object ConvertFrom(object value)
     content.vb: Public Function ConvertFrom(value As Object) As Object
@@ -309,6 +353,10 @@ items:
       type: System.Object
     return:
       type: System.Object
+  exceptions:
+  - type: System.NotSupportedException
+    commentId: T:System.NotSupportedException
+    description: "\n<p>The conversion cannot be performed. </p>\n"
   modifiers.csharp:
   - public
   modifiers.vb:
@@ -334,6 +382,8 @@ items:
   assemblies:
   - System.ComponentModel.TypeConverter
   namespace: System.ComponentModel
+  summary: "\n<p>Converts the given string to the type of this converter, using the invariant culture and the specified context.</p>\n"
+  remarks: "\n<p>An exception is raised if the string cannot be converted into the appropriate object. The default implementation always returns <strong>null</strong>.</p>\n<p>Use the <em>context</em> parameter to extract additional information about the environment from which this converter is invoked. This parameter can be <strong>null</strong>, so always check it. Also, properties on the context object can return <strong>null</strong>.</p>\n"
   syntax:
     content: public object ConvertFromInvariantString(ITypeDescriptorContext context, string text)
     content.vb: Public Function ConvertFromInvariantString(context As ITypeDescriptorContext, text As String) As Object
@@ -344,6 +394,13 @@ items:
       type: System.String
     return:
       type: System.Object
+  exceptions:
+  - type: System.NotSupportedException
+    commentId: T:System.NotSupportedException
+    description: "\n<p>The conversion cannot be performed. </p>\n"
+  seealso:
+  - type: System.ComponentModel.ITypeDescriptorContext
+    commentId: T:System.ComponentModel.ITypeDescriptorContext
   modifiers.csharp:
   - public
   modifiers.vb:
@@ -369,6 +426,8 @@ items:
   assemblies:
   - System.ComponentModel.TypeConverter
   namespace: System.ComponentModel
+  summary: "\n<p>Converts the given string to the type of this converter, using the invariant culture.</p>\n"
+  remarks: "\n<p>The default implementation always returns <strong>null</strong>.</p>\n"
   syntax:
     content: public object ConvertFromInvariantString(string text)
     content.vb: Public Function ConvertFromInvariantString(text As String) As Object
@@ -377,6 +436,13 @@ items:
       type: System.String
     return:
       type: System.Object
+  exceptions:
+  - type: System.NotSupportedException
+    commentId: T:System.NotSupportedException
+    description: "\n<p>The conversion cannot be performed. </p>\n"
+  seealso:
+  - type: System.ComponentModel.ITypeDescriptorContext
+    commentId: T:System.ComponentModel.ITypeDescriptorContext
   modifiers.csharp:
   - public
   modifiers.vb:
@@ -388,23 +454,25 @@ items:
   langs:
   - csharp
   - vb
-  name: ConvertFromString(ITypeDescriptorContext, Globalization.CultureInfo, String)
+  name: ConvertFromString(ITypeDescriptorContext, CultureInfo, String)
   fullName: System.ComponentModel.TypeConverter.ConvertFromString(System.ComponentModel.ITypeDescriptorContext, System.Globalization.CultureInfo, System.String)
   type: Method
   source:
     remote:
-      path: src/System.ComponentModel.TypeConverter/ref/System.ComponentModel.TypeConverter.cs
+      path: src/System.ComponentModel.TypeConverter/src/System/ComponentModel/TypeConverter.cs
       branch: master
       repo: https://github.com/dotnet/corefx.git
     id: ConvertFromString
-    path: src/System.ComponentModel.TypeConverter/ref/System.ComponentModel.TypeConverter.cs
-    startLine: 470
+    path: src/System.ComponentModel.TypeConverter/src/System/ComponentModel/TypeConverter.cs
+    startLine: 104
   assemblies:
   - System.ComponentModel.TypeConverter
   namespace: System.ComponentModel
+  summary: "\n<p>Converts the given text to an object, using the specified context and culture information.</p>\n"
+  remarks: "\n<p>An exception is raised if the string cannot be converted into the appropriate object. The default implementation always returns <strong>null</strong>.</p>\n<p>Use the <em>context</em> parameter to extract additional information about the environment from which this converter is invoked. This parameter can be <strong>null</strong>, so always check it. Also, properties on the context object can return <strong>null</strong>.</p>\n"
   syntax:
-    content: public object ConvertFromString(ITypeDescriptorContext context, Globalization.CultureInfo culture, string text)
-    content.vb: Public Function ConvertFromString(context As ITypeDescriptorContext, culture As Globalization.CultureInfo, text As String) As Object
+    content: public object ConvertFromString(ITypeDescriptorContext context, CultureInfo culture, string text)
+    content.vb: Public Function ConvertFromString(context As ITypeDescriptorContext, culture As CultureInfo, text As String) As Object
     parameters:
     - id: context
       type: System.ComponentModel.ITypeDescriptorContext
@@ -414,6 +482,13 @@ items:
       type: System.String
     return:
       type: System.Object
+  exceptions:
+  - type: System.NotSupportedException
+    commentId: T:System.NotSupportedException
+    description: "\n<p>The conversion cannot be performed. </p>\n"
+  seealso:
+  - type: System.ComponentModel.ITypeDescriptorContext
+    commentId: T:System.ComponentModel.ITypeDescriptorContext
   modifiers.csharp:
   - public
   modifiers.vb:
@@ -439,6 +514,8 @@ items:
   assemblies:
   - System.ComponentModel.TypeConverter
   namespace: System.ComponentModel
+  summary: "\n<p>Converts the given text to an object, using the specified context.</p>\n"
+  remarks: "\n<p>An exception is raised if the string cannot be converted into the appropriate object. The default implementation always returns <strong>null</strong>.</p>\n<p>Use the <em>context</em> parameter to extract additional information about the environment from which this converter is invoked. This parameter can be <strong>null</strong>, so always check it. Also, properties on the context object can return <strong>null</strong>.</p>\n"
   syntax:
     content: public object ConvertFromString(ITypeDescriptorContext context, string text)
     content.vb: Public Function ConvertFromString(context As ITypeDescriptorContext, text As String) As Object
@@ -449,6 +526,13 @@ items:
       type: System.String
     return:
       type: System.Object
+  exceptions:
+  - type: System.NotSupportedException
+    commentId: T:System.NotSupportedException
+    description: "\n<p>The conversion cannot be performed. </p>\n"
+  seealso:
+  - type: System.ComponentModel.ITypeDescriptorContext
+    commentId: T:System.ComponentModel.ITypeDescriptorContext
   modifiers.csharp:
   - public
   modifiers.vb:
@@ -474,6 +558,10 @@ items:
   assemblies:
   - System.ComponentModel.TypeConverter
   namespace: System.ComponentModel
+  summary: "\n<p>Converts the specified text to an object.</p>\n"
+  remarks: "\n<p>The default implementation always returns <strong>null</strong>.</p>\n"
+  example:
+  - "\n<p>For an example of this function, see the <xref href=\"System.ComponentModel.TypeConverter\" data-throw-if-not-resolved=\"false\"></xref> class.</p>\n"
   syntax:
     content: public object ConvertFromString(string text)
     content.vb: Public Function ConvertFromString(text As String) As Object
@@ -482,6 +570,10 @@ items:
       type: System.String
     return:
       type: System.Object
+  exceptions:
+  - type: System.NotSupportedException
+    commentId: T:System.NotSupportedException
+    description: "\n<p>The string cannot be converted into the appropriate object. </p>\n"
   modifiers.csharp:
   - public
   modifiers.vb:
@@ -493,23 +585,25 @@ items:
   langs:
   - csharp
   - vb
-  name: ConvertTo(ITypeDescriptorContext, Globalization.CultureInfo, Object, Type)
+  name: ConvertTo(ITypeDescriptorContext, CultureInfo, Object, Type)
   fullName: System.ComponentModel.TypeConverter.ConvertTo(System.ComponentModel.ITypeDescriptorContext, System.Globalization.CultureInfo, System.Object, System.Type)
   type: Method
   source:
     remote:
-      path: src/System.ComponentModel.TypeConverter/ref/System.ComponentModel.TypeConverter.cs
+      path: src/System.ComponentModel.TypeConverter/src/System/ComponentModel/TypeConverter.cs
       branch: master
       repo: https://github.com/dotnet/corefx.git
     id: ConvertTo
-    path: src/System.ComponentModel.TypeConverter/ref/System.ComponentModel.TypeConverter.cs
-    startLine: 473
+    path: src/System.ComponentModel.TypeConverter/src/System/ComponentModel/TypeConverter.cs
+    startLine: 122
   assemblies:
   - System.ComponentModel.TypeConverter
   namespace: System.ComponentModel
+  summary: "\n<p>Converts the given value object to the specified type, using the specified context and culture information.</p>\n"
+  remarks: "\n<p>The most common types to convert are to and from a string object. This implementation calls <xref href=\"System.Object.ToString\" data-throw-if-not-resolved=\"false\"></xref> on the object if the object is valid and if the destination type is a string.</p>\n<p>Use the <em>context</em> parameter to extract additional information about the environment from which this converter is invoked. This parameter can be <strong>null</strong>, so always check it. Also, properties on the context object can return <strong>null</strong>.</p>\n<p>Custom type authors that intend to support a type conversion behavior for XAML typically implement a <xref href=\"System.ComponentModel.TypeConverter\" data-throw-if-not-resolved=\"false\"></xref> class that supports <xref href=\"System.ComponentModel.TypeConverter.ConvertFrom(System.ComponentModel.ITypeDescriptorContext,System.Globalization.CultureInfo,System.Object)\" data-throw-if-not-resolved=\"false\"></xref> behavior from a string. These type converters might also implement <xref href=\"System.ComponentModel.TypeConverter.ConvertTo(System.ComponentModel.ITypeDescriptorContext,System.Globalization.CultureInfo,System.Object,System.Type)\" data-throw-if-not-resolved=\"false\"></xref> to support serialization back to XAML.</p>\n<p>Some XAML serialization scenarios cannot be adequately addressed with <xref href=\"System.ComponentModel.TypeConverter\" data-throw-if-not-resolved=\"false\"></xref> alone. In these cases, it may be necessary to also define a <xref href=\"System.Windows.Markup.ValueSerializer\" data-throw-if-not-resolved=\"false\"></xref> that handles the serialization cases that would otherwise be handled by <xref href=\"System.ComponentModel.TypeConverter.ConvertTo(System.ComponentModel.ITypeDescriptorContext,System.Globalization.CultureInfo,System.Object,System.Type)\" data-throw-if-not-resolved=\"false\"></xref>. For more information, see <xref href=\"System.Windows.Markup.ValueSerializer\" data-throw-if-not-resolved=\"false\"></xref>.</p>\n"
   syntax:
-    content: public virtual object ConvertTo(ITypeDescriptorContext context, Globalization.CultureInfo culture, object value, Type destinationType)
-    content.vb: Public Overridable Function ConvertTo(context As ITypeDescriptorContext, culture As Globalization.CultureInfo, value As Object, destinationType As Type) As Object
+    content: public virtual object ConvertTo(ITypeDescriptorContext context, CultureInfo culture, object value, Type destinationType)
+    content.vb: Public Overridable Function ConvertTo(context As ITypeDescriptorContext, culture As CultureInfo, value As Object, destinationType As Type) As Object
     parameters:
     - id: context
       type: System.ComponentModel.ITypeDescriptorContext
@@ -521,6 +615,16 @@ items:
       type: System.Type
     return:
       type: System.Object
+  exceptions:
+  - type: System.ArgumentNullException
+    commentId: T:System.ArgumentNullException
+    description: "\n<p>The <em>destinationType</em> parameter is <strong>null</strong>. </p>\n"
+  - type: System.NotSupportedException
+    commentId: T:System.NotSupportedException
+    description: "\n<p>The conversion cannot be performed. </p>\n"
+  seealso:
+  - type: System.ComponentModel.ITypeDescriptorContext
+    commentId: T:System.ComponentModel.ITypeDescriptorContext
   modifiers.csharp:
   - public
   - virtual
@@ -539,15 +643,17 @@ items:
   type: Method
   source:
     remote:
-      path: src/System.ComponentModel.TypeConverter/ref/System.ComponentModel.TypeConverter.cs
+      path: src/System.ComponentModel.TypeConverter/src/System/ComponentModel/TypeConverter.cs
       branch: master
       repo: https://github.com/dotnet/corefx.git
     id: ConvertTo
-    path: src/System.ComponentModel.TypeConverter/ref/System.ComponentModel.TypeConverter.cs
-    startLine: 474
+    path: src/System.ComponentModel.TypeConverter/src/System/ComponentModel/TypeConverter.cs
+    startLine: 113
   assemblies:
   - System.ComponentModel.TypeConverter
   namespace: System.ComponentModel
+  summary: "\n<p>Converts the given value object to the specified type, using the arguments.</p>\n"
+  remarks: "\n<p>The most common type to convert to and from is a string object. This implementation calls <xref href=\"System.Object.ToString\" data-throw-if-not-resolved=\"false\"></xref> on the object, if the object is valid and if the destination type is a string.</p>\n"
   syntax:
     content: public object ConvertTo(object value, Type destinationType)
     content.vb: Public Function ConvertTo(value As Object, destinationType As Type) As Object
@@ -558,6 +664,13 @@ items:
       type: System.Type
     return:
       type: System.Object
+  exceptions:
+  - type: System.ArgumentNullException
+    commentId: T:System.ArgumentNullException
+    description: "\n<p>The <em>destinationType</em> parameter is <strong>null</strong>. </p>\n"
+  - type: System.NotSupportedException
+    commentId: T:System.NotSupportedException
+    description: "\n<p>The conversion cannot be performed. </p>\n"
   modifiers.csharp:
   - public
   modifiers.vb:
@@ -583,9 +696,17 @@ items:
   assemblies:
   - System.ComponentModel.TypeConverter
   namespace: System.ComponentModel
+  summary: "\n<p>Converts the specified value to a culture-invariant string representation, using the specified context.</p>\n"
+  remarks: "\n<p>Use the <em>context</em> parameter to extract additional information about the environment from which this converter is invoked. This parameter can be <strong>null</strong>, so always check it. Also, properties on the context object can return <strong>null</strong>.</p>\n<p>Depending on the implementation of the value formatter, it might be possible to pass the returned string back into the value formatter to re-create an instance of the object.</p>\n"
   syntax:
-    content: public string ConvertToInvariantString(ITypeDescriptorContext context, object value)
-    content.vb: Public Function ConvertToInvariantString(context As ITypeDescriptorContext, value As Object) As String
+    content: >-
+      [SuppressMessage("Microsoft.Security", "CA2122:DoNotIndirectlyExposeMethodsWithLinkDemands")]
+
+      public string ConvertToInvariantString(ITypeDescriptorContext context, object value)
+    content.vb: >-
+      <SuppressMessage("Microsoft.Security", "CA2122:DoNotIndirectlyExposeMethodsWithLinkDemands")>
+
+      Public Function ConvertToInvariantString(context As ITypeDescriptorContext, value As Object) As String
     parameters:
     - id: context
       type: System.ComponentModel.ITypeDescriptorContext
@@ -593,6 +714,13 @@ items:
       type: System.Object
     return:
       type: System.String
+  exceptions:
+  - type: System.NotSupportedException
+    commentId: T:System.NotSupportedException
+    description: "\n<p>The conversion cannot be performed. </p>\n"
+  seealso:
+  - type: System.ComponentModel.ITypeDescriptorContext
+    commentId: T:System.ComponentModel.ITypeDescriptorContext
   modifiers.csharp:
   - public
   modifiers.vb:
@@ -618,6 +746,8 @@ items:
   assemblies:
   - System.ComponentModel.TypeConverter
   namespace: System.ComponentModel
+  summary: "\n<p>Converts the specified value to a culture-invariant string representation.</p>\n"
+  remarks: "\n<p>The <em>context</em> parameter can be used to extract additional information about the environment from which this converter is being invoked. This can be <strong>null</strong>, so always check. Also, properties on the context object can return <strong>null</strong>.</p>\n<p>Depending on the implementation of the value formatter, it might be possible to pass the returned string back into the value formatter to re-create an instance of the object.</p>\n"
   syntax:
     content: public string ConvertToInvariantString(object value)
     content.vb: Public Function ConvertToInvariantString(value As Object) As String
@@ -626,6 +756,13 @@ items:
       type: System.Object
     return:
       type: System.String
+  exceptions:
+  - type: System.NotSupportedException
+    commentId: T:System.NotSupportedException
+    description: "\n<p>The conversion cannot be performed. </p>\n"
+  seealso:
+  - type: System.ComponentModel.ITypeDescriptorContext
+    commentId: T:System.ComponentModel.ITypeDescriptorContext
   modifiers.csharp:
   - public
   modifiers.vb:
@@ -637,23 +774,25 @@ items:
   langs:
   - csharp
   - vb
-  name: ConvertToString(ITypeDescriptorContext, Globalization.CultureInfo, Object)
+  name: ConvertToString(ITypeDescriptorContext, CultureInfo, Object)
   fullName: System.ComponentModel.TypeConverter.ConvertToString(System.ComponentModel.ITypeDescriptorContext, System.Globalization.CultureInfo, System.Object)
   type: Method
   source:
     remote:
-      path: src/System.ComponentModel.TypeConverter/ref/System.ComponentModel.TypeConverter.cs
+      path: src/System.ComponentModel.TypeConverter/src/System/ComponentModel/TypeConverter.cs
       branch: master
       repo: https://github.com/dotnet/corefx.git
     id: ConvertToString
-    path: src/System.ComponentModel.TypeConverter/ref/System.ComponentModel.TypeConverter.cs
-    startLine: 477
+    path: src/System.ComponentModel.TypeConverter/src/System/ComponentModel/TypeConverter.cs
+    startLine: 185
   assemblies:
   - System.ComponentModel.TypeConverter
   namespace: System.ComponentModel
+  summary: "\n<p>Converts the given value to a string representation, using the specified context and culture information.</p>\n"
+  remarks: "\n<p>Use the <em>context</em> parameter to extract additional information about the environment from which this converter is invoked. This parameter can be <strong>null</strong>, so always check it. Also, properties on the context object can return <strong>null</strong>.</p>\n<p>Depending on the implementation of the value formatter, it might be possible to pass the returned string back into the value formatter to re-create an instance of the object.</p>\n"
   syntax:
-    content: public string ConvertToString(ITypeDescriptorContext context, Globalization.CultureInfo culture, object value)
-    content.vb: Public Function ConvertToString(context As ITypeDescriptorContext, culture As Globalization.CultureInfo, value As Object) As String
+    content: public string ConvertToString(ITypeDescriptorContext context, CultureInfo culture, object value)
+    content.vb: Public Function ConvertToString(context As ITypeDescriptorContext, culture As CultureInfo, value As Object) As String
     parameters:
     - id: context
       type: System.ComponentModel.ITypeDescriptorContext
@@ -663,6 +802,13 @@ items:
       type: System.Object
     return:
       type: System.String
+  exceptions:
+  - type: System.NotSupportedException
+    commentId: T:System.NotSupportedException
+    description: "\n<p>The conversion cannot be performed. </p>\n"
+  seealso:
+  - type: System.ComponentModel.ITypeDescriptorContext
+    commentId: T:System.ComponentModel.ITypeDescriptorContext
   modifiers.csharp:
   - public
   modifiers.vb:
@@ -688,6 +834,8 @@ items:
   assemblies:
   - System.ComponentModel.TypeConverter
   namespace: System.ComponentModel
+  summary: "\n<p>Converts the given value to a string representation, using the given context.</p>\n"
+  remarks: "\n<p>Use the <em>context</em> parameter to extract additional information about the environment from which this converter is invoked. This parameter can be <strong>null</strong>, so always check it. Also, properties on the context object can return <strong>null</strong>.</p>\n<p>Depending on the implementation of the value formatter, it might be possible to pass the returned string back into the value formatter to re-create an instance of the object.</p>\n"
   syntax:
     content: public string ConvertToString(ITypeDescriptorContext context, object value)
     content.vb: Public Function ConvertToString(context As ITypeDescriptorContext, value As Object) As String
@@ -698,6 +846,13 @@ items:
       type: System.Object
     return:
       type: System.String
+  exceptions:
+  - type: System.NotSupportedException
+    commentId: T:System.NotSupportedException
+    description: "\n<p>The conversion cannot be performed. </p>\n"
+  seealso:
+  - type: System.ComponentModel.ITypeDescriptorContext
+    commentId: T:System.ComponentModel.ITypeDescriptorContext
   modifiers.csharp:
   - public
   modifiers.vb:
@@ -723,6 +878,10 @@ items:
   assemblies:
   - System.ComponentModel.TypeConverter
   namespace: System.ComponentModel
+  summary: "\n<p>Converts the specified value to a string representation.</p>\n"
+  remarks: "\n<p>Depending on the implementation of the value formatter, it might be possible to pass the returned string back into the value formatter to re-create an instance of the object.</p>\n"
+  example:
+  - "\n<p>For an example on this function, see the <xref href=\"System.ComponentModel.TypeConverter\" data-throw-if-not-resolved=\"false\"></xref> class.</p>\n"
   syntax:
     content: public string ConvertToString(object value)
     content.vb: Public Function ConvertToString(value As Object) As String
@@ -731,6 +890,10 @@ items:
       type: System.Object
     return:
       type: System.String
+  exceptions:
+  - type: System.NotSupportedException
+    commentId: T:System.NotSupportedException
+    description: "\n<p>The conversion cannot be performed. </p>\n"
   modifiers.csharp:
   - public
   modifiers.vb:
@@ -742,28 +905,33 @@ items:
   langs:
   - csharp
   - vb
-  name: CreateInstance(Collections.IDictionary)
+  name: CreateInstance(IDictionary)
   fullName: System.ComponentModel.TypeConverter.CreateInstance(System.Collections.IDictionary)
   type: Method
   source:
     remote:
-      path: src/System.ComponentModel.TypeConverter/ref/System.ComponentModel.TypeConverter.cs
+      path: src/System.ComponentModel.TypeConverter/src/System/ComponentModel/TypeConverter.cs
       branch: master
       repo: https://github.com/dotnet/corefx.git
     id: CreateInstance
-    path: src/System.ComponentModel.TypeConverter/ref/System.ComponentModel.TypeConverter.cs
-    startLine: 480
+    path: src/System.ComponentModel.TypeConverter/src/System/ComponentModel/TypeConverter.cs
+    startLine: 193
   assemblies:
   - System.ComponentModel.TypeConverter
   namespace: System.ComponentModel
+  summary: "\n<p>Re-creates an <xref href=\"System.Object\" data-throw-if-not-resolved=\"false\"></xref> given a set of property values for the object.</p>\n"
+  remarks: "\n<p>Use this method for objects that are immutable, but for which you want to provide changeable properties.</p>\n<p>The dictionary provided by the <em>propertyValues</em> parameter has a series of name/value pairs, one for each property returned from <xref href=\"System.ComponentModel.TypeConverter.GetProperties(System.Object)\" data-throw-if-not-resolved=\"false\"></xref>.</p>\n"
   syntax:
-    content: public object CreateInstance(Collections.IDictionary propertyValues)
-    content.vb: Public Function CreateInstance(propertyValues As Collections.IDictionary) As Object
+    content: public object CreateInstance(IDictionary propertyValues)
+    content.vb: Public Function CreateInstance(propertyValues As IDictionary) As Object
     parameters:
     - id: propertyValues
       type: System.Collections.IDictionary
     return:
       type: System.Object
+  seealso:
+  - type: System.Collections.IDictionary
+    commentId: T:System.Collections.IDictionary
   modifiers.csharp:
   - public
   modifiers.vb:
@@ -775,23 +943,25 @@ items:
   langs:
   - csharp
   - vb
-  name: CreateInstance(ITypeDescriptorContext, Collections.IDictionary)
+  name: CreateInstance(ITypeDescriptorContext, IDictionary)
   fullName: System.ComponentModel.TypeConverter.CreateInstance(System.ComponentModel.ITypeDescriptorContext, System.Collections.IDictionary)
   type: Method
   source:
     remote:
-      path: src/System.ComponentModel.TypeConverter/ref/System.ComponentModel.TypeConverter.cs
+      path: src/System.ComponentModel.TypeConverter/src/System/ComponentModel/TypeConverter.cs
       branch: master
       repo: https://github.com/dotnet/corefx.git
     id: CreateInstance
-    path: src/System.ComponentModel.TypeConverter/ref/System.ComponentModel.TypeConverter.cs
-    startLine: 481
+    path: src/System.ComponentModel.TypeConverter/src/System/ComponentModel/TypeConverter.cs
+    startLine: 201
   assemblies:
   - System.ComponentModel.TypeConverter
   namespace: System.ComponentModel
+  summary: "\n<p>Creates an instance of the type that this <xref href=\"System.ComponentModel.TypeConverter\" data-throw-if-not-resolved=\"false\"></xref> is associated with, using the specified context, given a set of property values for the object.</p>\n"
+  remarks: "\n<p>Use this method for objects that are immutable, but for which you want to provide changeable properties.</p>\n"
   syntax:
-    content: public virtual object CreateInstance(ITypeDescriptorContext context, Collections.IDictionary propertyValues)
-    content.vb: Public Overridable Function CreateInstance(context As ITypeDescriptorContext, propertyValues As Collections.IDictionary) As Object
+    content: public virtual object CreateInstance(ITypeDescriptorContext context, IDictionary propertyValues)
+    content.vb: Public Overridable Function CreateInstance(context As ITypeDescriptorContext, propertyValues As IDictionary) As Object
     parameters:
     - id: context
       type: System.ComponentModel.ITypeDescriptorContext
@@ -799,6 +969,11 @@ items:
       type: System.Collections.IDictionary
     return:
       type: System.Object
+  seealso:
+  - type: System.ComponentModel.ITypeDescriptorContext
+    commentId: T:System.ComponentModel.ITypeDescriptorContext
+  - type: System.Collections.IDictionary
+    commentId: T:System.Collections.IDictionary
   modifiers.csharp:
   - public
   - virtual
@@ -826,6 +1001,7 @@ items:
   assemblies:
   - System.ComponentModel.TypeConverter
   namespace: System.ComponentModel
+  summary: "\n<p>Returns an exception to throw when a conversion cannot be performed.</p>\n"
   syntax:
     content: protected Exception GetConvertFromException(object value)
     content.vb: Protected Function GetConvertFromException(value As Object) As Exception
@@ -833,7 +1009,11 @@ items:
     - id: value
       type: System.Object
     return:
-      type: Exception
+      type: System.Exception
+  exceptions:
+  - type: System.NotSupportedException
+    commentId: T:System.NotSupportedException
+    description: "\n<p>Automatically thrown by this method. </p>\n"
   modifiers.csharp:
   - protected
   modifiers.vb:
@@ -850,15 +1030,16 @@ items:
   type: Method
   source:
     remote:
-      path: src/System.ComponentModel.TypeConverter/ref/System.ComponentModel.TypeConverter.cs
+      path: src/System.ComponentModel.TypeConverter/src/System/ComponentModel/TypeConverter.cs
       branch: master
       repo: https://github.com/dotnet/corefx.git
     id: GetConvertToException
-    path: src/System.ComponentModel.TypeConverter/ref/System.ComponentModel.TypeConverter.cs
-    startLine: 483
+    path: src/System.ComponentModel.TypeConverter/src/System/ComponentModel/TypeConverter.cs
+    startLine: 229
   assemblies:
   - System.ComponentModel.TypeConverter
   namespace: System.ComponentModel
+  summary: "\n<p>Returns an exception to throw when a conversion cannot be performed.</p>\n"
   syntax:
     content: protected Exception GetConvertToException(object value, Type destinationType)
     content.vb: Protected Function GetConvertToException(value As Object, destinationType As Type) As Exception
@@ -869,6 +1050,10 @@ items:
       type: System.Type
     return:
       type: System.Exception
+  exceptions:
+  - type: System.NotSupportedException
+    commentId: T:System.NotSupportedException
+    description: "\n<p>Automatically thrown by this method. </p>\n"
   modifiers.csharp:
   - protected
   modifiers.vb:
@@ -894,6 +1079,7 @@ items:
   assemblies:
   - System.ComponentModel.TypeConverter
   namespace: System.ComponentModel
+  summary: "\n<p>Returns whether changing a value on this object requires a call to the <xref href=\"System.ComponentModel.TypeConverter.CreateInstance(System.Collections.IDictionary)\" data-throw-if-not-resolved=\"false\"></xref> method to create a new value.</p>\n"
   syntax:
     content: public bool GetCreateInstanceSupported()
     content.vb: Public Function GetCreateInstanceSupported As Boolean
@@ -924,6 +1110,8 @@ items:
   assemblies:
   - System.ComponentModel.TypeConverter
   namespace: System.ComponentModel
+  summary: "\n<p>Returns whether changing a value on this object requires a call to <xref href=\"System.ComponentModel.TypeConverter.CreateInstance(System.Collections.IDictionary)\" data-throw-if-not-resolved=\"false\"></xref> to create a new value, using the specified context.</p>\n"
+  remarks: "\n<p>As implemented in this class, this method always returns <strong>false</strong>.</p>\n"
   syntax:
     content: public virtual bool GetCreateInstanceSupported(ITypeDescriptorContext context)
     content.vb: Public Overridable Function GetCreateInstanceSupported(context As ITypeDescriptorContext) As Boolean
@@ -932,6 +1120,9 @@ items:
       type: System.ComponentModel.ITypeDescriptorContext
     return:
       type: System.Boolean
+  seealso:
+  - type: System.ComponentModel.ITypeDescriptorContext
+    commentId: T:System.ComponentModel.ITypeDescriptorContext
   modifiers.csharp:
   - public
   - virtual
@@ -959,6 +1150,8 @@ items:
   assemblies:
   - System.ComponentModel.TypeConverter
   namespace: System.ComponentModel
+  summary: "\n<p>Returns a collection of properties for the type of array specified by the value parameter, using the specified context.</p>\n"
+  remarks: "\n<p>Use the <em>context</em> parameter to extract additional information about the environment from which this converter is invoked. This parameter can be <strong>null</strong>, so always check it. Also, properties on the context object can return <strong>null</strong>.</p>\n<p>As implemented in this class, this method always returns <strong>null</strong>.</p>\n<p>By default, a type does not return properties. An easy implementation of this method can call <xref href=\"System.ComponentModel.TypeDescriptor.GetProperties(System.Type)\" data-throw-if-not-resolved=\"false\"></xref> for the correct data type.</p>\n"
   syntax:
     content: public PropertyDescriptorCollection GetProperties(ITypeDescriptorContext context, object value)
     content.vb: Public Function GetProperties(context As ITypeDescriptorContext, value As Object) As PropertyDescriptorCollection
@@ -969,6 +1162,9 @@ items:
       type: System.Object
     return:
       type: System.ComponentModel.PropertyDescriptorCollection
+  seealso:
+  - type: System.ComponentModel.ITypeDescriptorContext
+    commentId: T:System.ComponentModel.ITypeDescriptorContext
   modifiers.csharp:
   - public
   modifiers.vb:
@@ -985,15 +1181,17 @@ items:
   type: Method
   source:
     remote:
-      path: src/System.ComponentModel.TypeConverter/ref/System.ComponentModel.TypeConverter.cs
+      path: src/System.ComponentModel.TypeConverter/src/System/ComponentModel/TypeConverter.cs
       branch: master
       repo: https://github.com/dotnet/corefx.git
     id: GetProperties
-    path: src/System.ComponentModel.TypeConverter/ref/System.ComponentModel.TypeConverter.cs
-    startLine: 487
+    path: src/System.ComponentModel.TypeConverter/src/System/ComponentModel/TypeConverter.cs
+    startLine: 294
   assemblies:
   - System.ComponentModel.TypeConverter
   namespace: System.ComponentModel
+  summary: "\n<p>Returns a collection of properties for the type of array specified by the value parameter, using the specified context and attributes.</p>\n"
+  remarks: "\n<p>As implemented in this class, this method always returns <strong>null</strong>.</p>\n"
   syntax:
     content: public virtual PropertyDescriptorCollection GetProperties(ITypeDescriptorContext context, object value, Attribute[] attributes)
     content.vb: Public Overridable Function GetProperties(context As ITypeDescriptorContext, value As Object, attributes As Attribute()) As PropertyDescriptorCollection
@@ -1006,6 +1204,11 @@ items:
       type: System.Attribute[]
     return:
       type: System.ComponentModel.PropertyDescriptorCollection
+  seealso:
+  - type: System.ComponentModel.ITypeDescriptorContext
+    commentId: T:System.ComponentModel.ITypeDescriptorContext
+  - type: System.Attribute
+    commentId: T:System.Attribute
   modifiers.csharp:
   - public
   - virtual
@@ -1035,6 +1238,8 @@ items:
   assemblies:
   - System.ComponentModel.TypeConverter
   namespace: System.ComponentModel
+  summary: "\n<p>Returns a collection of properties for the type of array specified by the value parameter.</p>\n"
+  remarks: "\n<p>As implemented in this class, this method always returns <strong>null</strong>.</p>\n<p>By default, a type does not return properties. An easy implementation of this method can call <xref href=\"System.ComponentModel.TypeDescriptor.GetProperties(System.Type)\" data-throw-if-not-resolved=\"false\"></xref> for the correct data type.</p>\n"
   syntax:
     content: public PropertyDescriptorCollection GetProperties(object value)
     content.vb: Public Function GetProperties(value As Object) As PropertyDescriptorCollection
@@ -1068,6 +1273,8 @@ items:
   assemblies:
   - System.ComponentModel.TypeConverter
   namespace: System.ComponentModel
+  summary: "\n<p>Returns whether this object supports properties.</p>\n"
+  remarks: "\n<p>As implemented in this class, this method always returns <strong>false</strong>.</p>\n"
   syntax:
     content: public bool GetPropertiesSupported()
     content.vb: Public Function GetPropertiesSupported As Boolean
@@ -1098,6 +1305,8 @@ items:
   assemblies:
   - System.ComponentModel.TypeConverter
   namespace: System.ComponentModel
+  summary: "\n<p>Returns whether this object supports properties, using the specified context.</p>\n"
+  remarks: "\n<p>As implemented in this class, this method always returns <strong>false</strong>.</p>\n"
   syntax:
     content: public virtual bool GetPropertiesSupported(ITypeDescriptorContext context)
     content.vb: Public Overridable Function GetPropertiesSupported(context As ITypeDescriptorContext) As Boolean
@@ -1106,6 +1315,9 @@ items:
       type: System.ComponentModel.ITypeDescriptorContext
     return:
       type: System.Boolean
+  seealso:
+  - type: System.ComponentModel.ITypeDescriptorContext
+    commentId: T:System.ComponentModel.ITypeDescriptorContext
   modifiers.csharp:
   - public
   - virtual
@@ -1133,11 +1345,13 @@ items:
   assemblies:
   - System.ComponentModel.TypeConverter
   namespace: System.ComponentModel
+  summary: "\n<p>Returns a collection of standard values from the default context for the data type this type converter is designed for.</p>\n"
+  remarks: "\n<p>As implemented in this class, this method always returns <strong>null</strong>.</p>\n"
   syntax:
     content: public ICollection GetStandardValues()
     content.vb: Public Function GetStandardValues As ICollection
     return:
-      type: ICollection
+      type: System.Collections.ICollection
   modifiers.csharp:
   - public
   modifiers.vb:
@@ -1163,6 +1377,10 @@ items:
   assemblies:
   - System.ComponentModel.TypeConverter
   namespace: System.ComponentModel
+  summary: "\n<p>Returns a collection of standard values for the data type this type converter is designed for when provided with a format context.</p>\n"
+  remarks: "\n<p>As implemented in <xref href=\"System.ComponentModel.TypeConverter\" data-throw-if-not-resolved=\"false\"></xref>, this method always returns <strong>null</strong>.</p>\n"
+  example:
+  - "\n<p>For an example on this function, see the <xref href=\"System.ComponentModel.TypeConverter\" data-throw-if-not-resolved=\"false\"></xref> class.</p>\n"
   syntax:
     content: public virtual TypeConverter.StandardValuesCollection GetStandardValues(ITypeDescriptorContext context)
     content.vb: Public Overridable Function GetStandardValues(context As ITypeDescriptorContext) As TypeConverter.StandardValuesCollection
@@ -1171,6 +1389,9 @@ items:
       type: System.ComponentModel.ITypeDescriptorContext
     return:
       type: System.ComponentModel.TypeConverter.StandardValuesCollection
+  seealso:
+  - type: System.ComponentModel.ITypeDescriptorContext
+    commentId: T:System.ComponentModel.ITypeDescriptorContext
   modifiers.csharp:
   - public
   - virtual
@@ -1198,6 +1419,8 @@ items:
   assemblies:
   - System.ComponentModel.TypeConverter
   namespace: System.ComponentModel
+  summary: "\n<p>Returns whether the collection of standard values returned from <xref href=\"System.ComponentModel.TypeConverter.GetStandardValues\" data-throw-if-not-resolved=\"false\"></xref> is an exclusive list.</p>\n"
+  remarks: "\n<p>As implemented in this class, this method always returns <strong>false</strong>.</p>\n<p>If the list is exclusive, such as in an enumeration data type, then no other values are valid. If the list is not exclusive, then other valid values might exist in addition to the list of standard values that the <see cref=\"Overload:System.ComponentModel.TypeConverter.GetStandardValues\"></see> method provides. If the values are exclusive, the list returned by <see cref=\"Overload:System.ComponentModel.TypeConverter.GetStandardValues\"></see> should not allow these values to be edited.</p>\n"
   syntax:
     content: public bool GetStandardValuesExclusive()
     content.vb: Public Function GetStandardValuesExclusive As Boolean
@@ -1228,6 +1451,8 @@ items:
   assemblies:
   - System.ComponentModel.TypeConverter
   namespace: System.ComponentModel
+  summary: "\n<p>Returns whether the collection of standard values returned from <xref href=\"System.ComponentModel.TypeConverter.GetStandardValues\" data-throw-if-not-resolved=\"false\"></xref> is an exclusive list of possible values, using the specified context.</p>\n"
+  remarks: "\n<p>As implemented in this class, this method always returns <strong>false</strong>.</p>\n<p>If the list is exclusive, such as in an enumeration data type, then no other values are valid. If the list is not exclusive, then other valid values might exist in addition to the list of standard values that the <see cref=\"Overload:System.ComponentModel.TypeConverter.GetStandardValues\"></see> method provides. If the values are exclusive, the list returned by <see cref=\"Overload:System.ComponentModel.TypeConverter.GetStandardValues\"></see> should not allow these values to be edited.</p>\n"
   syntax:
     content: public virtual bool GetStandardValuesExclusive(ITypeDescriptorContext context)
     content.vb: Public Overridable Function GetStandardValuesExclusive(context As ITypeDescriptorContext) As Boolean
@@ -1236,6 +1461,9 @@ items:
       type: System.ComponentModel.ITypeDescriptorContext
     return:
       type: System.Boolean
+  seealso:
+  - type: System.ComponentModel.ITypeDescriptorContext
+    commentId: T:System.ComponentModel.ITypeDescriptorContext
   modifiers.csharp:
   - public
   - virtual
@@ -1263,6 +1491,7 @@ items:
   assemblies:
   - System.ComponentModel.TypeConverter
   namespace: System.ComponentModel
+  summary: "\n<p>Returns whether this object supports a standard set of values that can be picked from a list.</p>\n"
   syntax:
     content: public bool GetStandardValuesSupported()
     content.vb: Public Function GetStandardValuesSupported As Boolean
@@ -1293,6 +1522,8 @@ items:
   assemblies:
   - System.ComponentModel.TypeConverter
   namespace: System.ComponentModel
+  summary: "\n<p>Returns whether this object supports a standard set of values that can be picked from a list, using the specified context.</p>\n"
+  remarks: "\n<p>As implemented in this class, this method always returns <strong>false</strong>.</p>\n<p>Use the <em>context</em> parameter to extract additional information about the environment from which this converter is invoked. This parameter can be <strong>null</strong>, so always check it. Also, properties on the context object can return <strong>null</strong>.</p>\n"
   syntax:
     content: public virtual bool GetStandardValuesSupported(ITypeDescriptorContext context)
     content.vb: Public Overridable Function GetStandardValuesSupported(context As ITypeDescriptorContext) As Boolean
@@ -1301,6 +1532,9 @@ items:
       type: System.ComponentModel.ITypeDescriptorContext
     return:
       type: System.Boolean
+  seealso:
+  - type: System.ComponentModel.ITypeDescriptorContext
+    commentId: T:System.ComponentModel.ITypeDescriptorContext
   modifiers.csharp:
   - public
   - virtual
@@ -1328,6 +1562,10 @@ items:
   assemblies:
   - System.ComponentModel.TypeConverter
   namespace: System.ComponentModel
+  summary: "\n<p>Returns whether the given value object is valid for this type and for the specified context.</p>\n"
+  remarks: "\n<p>Use the <em>context</em> parameter to extract additional information about the environment from which this converter is invoked. This parameter can be <strong>null</strong>, so always check it. Also, properties on the context object can return <strong>null</strong>. </p>\n<p>Starting in .NET Framework 4, the <xref href=\"System.ComponentModel.TypeConverter.IsValid(System.ComponentModel.ITypeDescriptorContext,System.Object)\" data-throw-if-not-resolved=\"false\"></xref> method catches exceptions from the <see cref=\"Overload:System.ComponentModel.TypeConverter.CanConvertFrom\"></see> and <see cref=\"Overload:System.ComponentModel.TypeConverter.ConvertFrom\"></see> methods. If the input value type causes <see cref=\"Overload:System.ComponentModel.TypeConverter.CanConvertFrom\"></see> to return <strong>false</strong>, or if the input value causes <see cref=\"Overload:System.ComponentModel.TypeConverter.ConvertFrom\"></see> to raise an exception, the <xref href=\"System.ComponentModel.TypeConverter.IsValid(System.ComponentModel.ITypeDescriptorContext,System.Object)\" data-throw-if-not-resolved=\"false\"></xref> method returns <strong>false</strong>. </p>\n<p>To enable the legacy behavior, insert the following lines into the configuration file of the application, for example, application1.exe.config. </p>\n<pre><code class=\"xml\"><configuration>\n<appSettings>\n<add key=\"UseCompatibleTypeConverterBehavior\" value=\"true\" />\n</appSettings>\n</configuration></code></pre>\n<p></p>\n"
+  example:
+  - "\n<p>For an example of this function, see the <xref href=\"System.ComponentModel.TypeConverter\" data-throw-if-not-resolved=\"false\"></xref> class.</p>\n"
   syntax:
     content: public virtual bool IsValid(ITypeDescriptorContext context, object value)
     content.vb: Public Overridable Function IsValid(context As ITypeDescriptorContext, value As Object) As Boolean
@@ -1338,6 +1576,11 @@ items:
       type: System.Object
     return:
       type: System.Boolean
+  seealso:
+  - type: System.ComponentModel.ITypeDescriptorContext
+    commentId: T:System.ComponentModel.ITypeDescriptorContext
+  - type: System.ComponentModel.EnumConverter
+    commentId: T:System.ComponentModel.EnumConverter
   modifiers.csharp:
   - public
   - virtual
@@ -1365,6 +1608,8 @@ items:
   assemblies:
   - System.ComponentModel.TypeConverter
   namespace: System.ComponentModel
+  summary: "\n<p>Returns whether the given value object is valid for this type.</p>\n"
+  remarks: "\n<p>Starting in .NET Framework 4, the <xref href=\"System.ComponentModel.TypeConverter.IsValid(System.ComponentModel.ITypeDescriptorContext,System.Object)\" data-throw-if-not-resolved=\"false\"></xref> method catches exceptions from the <see cref=\"Overload:System.ComponentModel.TypeConverter.CanConvertFrom\"></see> and <see cref=\"Overload:System.ComponentModel.TypeConverter.ConvertFrom\"></see> methods. If the input value type causes <see cref=\"Overload:System.ComponentModel.TypeConverter.CanConvertFrom\"></see> to return <strong>false</strong>, or if the input value causes <see cref=\"Overload:System.ComponentModel.TypeConverter.ConvertFrom\"></see> to raise an exception, the <xref href=\"System.ComponentModel.TypeConverter.IsValid(System.ComponentModel.ITypeDescriptorContext,System.Object)\" data-throw-if-not-resolved=\"false\"></xref> method returns <strong>false</strong>. </p>\n<p>To enable the legacy behavior, insert the following lines into the configuration file of the application, for example, application1.exe.config. </p>\n<pre><code class=\"xml\"><configuration>\n<appSettings>\n<add key=\"UseCompatibleTypeConverterBehavior\" value=\"true\" />\n</appSettings>\n</configuration></code></pre>\n<p></p>\n"
   syntax:
     content: public bool IsValid(object value)
     content.vb: Public Function IsValid(value As Object) As Boolean
@@ -1373,6 +1618,9 @@ items:
       type: System.Object
     return:
       type: System.Boolean
+  seealso:
+  - type: System.ComponentModel.EnumConverter
+    commentId: T:System.ComponentModel.EnumConverter
   modifiers.csharp:
   - public
   modifiers.vb:
@@ -1398,6 +1646,8 @@ items:
   assemblies:
   - System.ComponentModel.TypeConverter
   namespace: System.ComponentModel
+  summary: "\n<p>Sorts a collection of properties.</p>\n"
+  remarks: "\n<p>All properties in the collection that are not already in the array of names are added alphabetically to the end. If the <em>names</em> parameter is an empty array or <strong>null</strong>, all the properties in the collection are sorted alphabetically.</p>\n"
   syntax:
     content: protected PropertyDescriptorCollection SortProperties(PropertyDescriptorCollection props, string[] names)
     content.vb: Protected Function SortProperties(props As PropertyDescriptorCollection, names As String()) As PropertyDescriptorCollection
@@ -1408,6 +1658,11 @@ items:
       type: System.String[]
     return:
       type: System.ComponentModel.PropertyDescriptorCollection
+  seealso:
+  - type: System.ComponentModel.PropertyDescriptorCollection
+    commentId: T:System.ComponentModel.PropertyDescriptorCollection
+  - type: System.ComponentModel.TypeConverter
+    commentId: T:System.ComponentModel.TypeConverter
   modifiers.csharp:
   - protected
   modifiers.vb:
@@ -1424,6 +1679,215 @@ references:
   isExternal: false
   name: Object
   fullName: System.Object
+- uid: System.Object.ToString
+  parent: System.Object
+  isExternal: true
+  name: ToString()
+  fullName: System.Object.ToString()
+  spec.csharp:
+  - uid: System.Object.ToString
+    name: ToString
+    fullName: System.Object.ToString
+    isExternal: true
+  - name: (
+    fullName: (
+  - name: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.ToString
+    name: ToString
+    fullName: System.Object.ToString
+    isExternal: true
+  - name: (
+    fullName: (
+  - name: )
+    fullName: )
+- uid: System.Object.Equals(System.Object)
+  parent: System.Object
+  isExternal: true
+  name: Equals(Object)
+  fullName: System.Object.Equals(System.Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    fullName: )
+- uid: System.Object.Equals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  name: Equals(Object, Object)
+  fullName: System.Object.Equals(System.Object, System.Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    fullName: )
+- uid: System.Object.ReferenceEquals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  name: ReferenceEquals(Object, Object)
+  fullName: System.Object.ReferenceEquals(System.Object, System.Object)
+  spec.csharp:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    fullName: System.Object.ReferenceEquals
+    isExternal: true
+  - name: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    fullName: System.Object.ReferenceEquals
+    isExternal: true
+  - name: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    fullName: )
+- uid: System.Object.GetHashCode
+  parent: System.Object
+  isExternal: true
+  name: GetHashCode()
+  fullName: System.Object.GetHashCode()
+  spec.csharp:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    fullName: System.Object.GetHashCode
+    isExternal: true
+  - name: (
+    fullName: (
+  - name: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    fullName: System.Object.GetHashCode
+    isExternal: true
+  - name: (
+    fullName: (
+  - name: )
+    fullName: )
+- uid: System.Object.GetType
+  parent: System.Object
+  isExternal: true
+  name: GetType()
+  fullName: System.Object.GetType()
+  spec.csharp:
+  - uid: System.Object.GetType
+    name: GetType
+    fullName: System.Object.GetType
+    isExternal: true
+  - name: (
+    fullName: (
+  - name: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.GetType
+    name: GetType
+    fullName: System.Object.GetType
+    isExternal: true
+  - name: (
+    fullName: (
+  - name: )
+    fullName: )
+- uid: System.Object.MemberwiseClone
+  parent: System.Object
+  isExternal: true
+  name: MemberwiseClone()
+  fullName: System.Object.MemberwiseClone()
+  spec.csharp:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    fullName: System.Object.MemberwiseClone
+    isExternal: true
+  - name: (
+    fullName: (
+  - name: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    fullName: System.Object.MemberwiseClone
+    isExternal: true
+  - name: (
+    fullName: (
+  - name: )
+    fullName: )
 - uid: System
   isExternal: false
   name: System
@@ -1499,7 +1963,7 @@ references:
 - uid: System.Collections.ICollection
   parent: System.Collections
   isExternal: false
-  name: Collections.ICollection
+  name: ICollection
   fullName: System.Collections.ICollection
 - uid: System.ComponentModel.TypeConverter.StandardValuesCollection
   parent: System.ComponentModel
@@ -1507,7 +1971,7 @@ references:
   name: TypeConverter.StandardValuesCollection
   fullName: System.ComponentModel.TypeConverter.StandardValuesCollection
 - uid: System.String[]
-  isExternal: false
+  isExternal: true
   name: String[]
   fullName: System.String[]
   fullname.vb: System.String()
@@ -1516,11 +1980,22 @@ references:
   - uid: System.String
     name: String
     fullName: System.String
+    isExternal: true
   - name: '[]'
     fullName: '[]'
   spec.vb:
   - uid: System.String
     name: String
     fullName: System.String
+    isExternal: true
   - name: ()
     fullName: ()
+- uid: System.NotSupportedException
+  parent: System
+  isExternal: false
+  name: NotSupportedException
+  fullName: System.NotSupportedException
+- uid: System.ArgumentNullException
+  isExternal: false
+  name: ArgumentNullException
+  fullName: System.ArgumentNullException

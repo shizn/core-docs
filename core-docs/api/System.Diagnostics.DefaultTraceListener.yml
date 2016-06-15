@@ -26,14 +26,32 @@ items:
   assemblies:
   - System.Diagnostics.TraceSource
   namespace: System.Diagnostics
+  summary: "\n<p>Provides the default output methods and behavior for tracing.</p>\n"
+  remarks: "\n<p>An instance of this class is automatically added to the <xref href=\"System.Diagnostics.Debug.Listeners\" data-throw-if-not-resolved=\"false\"></xref> and <xref href=\"System.Diagnostics.Trace.Listeners\" data-throw-if-not-resolved=\"false\"></xref> collections. Explicitly adding a second <xref href=\"System.Diagnostics.DefaultTraceListener\" data-throw-if-not-resolved=\"false\"></xref> causes duplicate messages in the debugger output window and duplicate message boxes for asserts.</p>\n<p>By default, the <xref href=\"System.Diagnostics.DefaultTraceListener.Write(System.String)\" data-throw-if-not-resolved=\"false\"></xref> and <xref href=\"System.Diagnostics.DefaultTraceListener.WriteLine(System.String)\" data-throw-if-not-resolved=\"false\"></xref> methods emit the message to the Win32 <strong>OutputDebugString</strong> function and to the <xref href=\"System.Diagnostics.Debugger.Log(System.Int32,System.String,System.String)\" data-throw-if-not-resolved=\"false\"></xref> method. For information about the <strong>OutputDebugString</strong> function, see the Platform SDK or MSDN.</p>\n<p>The <xref href=\"System.Diagnostics.DefaultTraceListener.Fail(System.String)\" data-throw-if-not-resolved=\"false\"></xref> method, by default, displays a message box when the application is running in a user interface mode; it also emits the message using <xref href=\"System.Diagnostics.DefaultTraceListener.WriteLine(System.String)\" data-throw-if-not-resolved=\"false\"></xref>.</p>\n<p>The display of the message box for <see cref=\"Overload:System.Diagnostics.Debug.Assert\"></see> and <see cref=\"Overload:System.Diagnostics.Debug.Fail\"></see> method calls depends on the presence of the <xref href=\"System.Diagnostics.DefaultTraceListener\" data-throw-if-not-resolved=\"false\"></xref>. If the <xref href=\"System.Diagnostics.DefaultTraceListener\" data-throw-if-not-resolved=\"false\"></xref> is not in the <xref href=\"System.Diagnostics.Trace.Listeners\" data-throw-if-not-resolved=\"false\"></xref> collection, the message box is not displayed. The <xref href=\"System.Diagnostics.DefaultTraceListener\" data-throw-if-not-resolved=\"false\"></xref> can be removed by the <clear> element, by the <remove> element, or by calling the <xref href=\"System.Diagnostics.TraceListenerCollection.Clear\" data-throw-if-not-resolved=\"false\"></xref> method on the <xref href=\"System.Diagnostics.Trace.Listeners\" data-throw-if-not-resolved=\"false\"></xref> property (<code>System.Diagnostics.Trace.Listeners.Clear()</code>).</p>\n<p>You must enable tracing or debugging to use a trace listener. The following syntax is compiler specific. If you use compilers other than C# or Visual Basic, refer to the documentation for your compiler.</p>\n<ul><li>\n<p>To enable debugging in C#, add the <strong>/d:DEBUG</strong> flag to the compiler command line when you compile your code, or add <strong>#define DEBUG</strong> to the top of your file. In Visual Basic, add the <strong>/d:DEBUG=True</strong> flag to the compiler command line.</p>\n</li><li>\n<p>To enable tracing in C#, add the <strong>/d:TRACE</strong> flag to the compiler command line when you compile your code, or add <strong>#define TRACE</strong> to the top of your file. In Visual Basic, add the <strong>/d:TRACE=True</strong> flag to the compiler command line.</p>\n</li></ul>\n<p>To add a trace listener, edit the configuration file that corresponds to the name of your application. Within this file, you can add a listener, set its type and set its parameters, remove a listener, or clear all the listeners previously set by the application. The configuration file should be formatted similar to the following example: </p>\n<pre><code><configuration>\n<system.diagnostics>\n<trace autoflush=\"false\" indentsize=\"4\">\n<listeners>\n<remove name=\"Default\" />\n<add name=\"myListener\"  type=\"System.Diagnostics.TextWriterTraceListener\"    initializeData=\"c:\\myListener.log\" />\n</listeners>\n</trace>\n</system.diagnostics>\n</configuration></code></pre>\n"
+  example:
+  - "\n<p>The following code example calculates binomial coefficients, which are values used in probability and statistics. This example uses a <xref href=\"System.Diagnostics.DefaultTraceListener\" data-throw-if-not-resolved=\"false\"></xref> to trace results and log errors. It creates a new <xref href=\"System.Diagnostics.DefaultTraceListener\" data-throw-if-not-resolved=\"false\"></xref>, adds it to the <xref href=\"System.Diagnostics.Trace.Listeners\" data-throw-if-not-resolved=\"false\"></xref> collection, and sets the <xref href=\"System.Diagnostics.DefaultTraceListener.LogFileName\" data-throw-if-not-resolved=\"false\"></xref> property to the log file specified in the command-line arguments.</p>\n<p>If an error is detected while processing the input parameter, or if the <code>CalcBinomial</code> function throws an exception, the <see cref=\"Overload:System.Diagnostics.DefaultTraceListener.Fail\"></see> method logs and displays an error message. If the <xref href=\"System.Diagnostics.DefaultTraceListener.AssertUiEnabled\" data-throw-if-not-resolved=\"false\"></xref> property is <strong>false</strong>, the error message is also written to the console. When the result is calculated successfully, the <xref href=\"System.Diagnostics.DefaultTraceListener.Write(System.String)\" data-throw-if-not-resolved=\"false\"></xref> and <xref href=\"System.Diagnostics.DefaultTraceListener.WriteLine(System.String)\" data-throw-if-not-resolved=\"false\"></xref> methods write the results to the log file.</p>\n<p>The <see cref=\"Overload:System.Diagnostics.DefaultTraceListener.Fail\"></see>, <see cref=\"Overload:System.Diagnostics.DefaultTraceListener.Write\"></see>, and <see cref=\"Overload:System.Diagnostics.DefaultTraceListener.WriteLine\"></see> methods cause trace information to be written only to the <xref href=\"System.Diagnostics.DefaultTraceListener\" data-throw-if-not-resolved=\"false\"></xref>. To write trace information to all listeners in the <xref href=\"System.Diagnostics.Trace.Listeners\" data-throw-if-not-resolved=\"false\"></xref> collection, use the <see cref=\"Overload:System.Diagnostics.Trace.Fail\"></see>, <see cref=\"Overload:System.Diagnostics.Trace.Write\"></see>, and <see cref=\"Overload:System.Diagnostics.Trace.WriteLine\"></see> methods of the <xref href=\"System.Diagnostics.Trace\" data-throw-if-not-resolved=\"false\"></xref> class.</p>System.Diagnostics.DefaultTraceListener#11"
   syntax:
-    content: 'public class DefaultTraceListener : TraceListener'
+    content: 'public class DefaultTraceListener : TraceListener, IDisposable'
     content.vb: >-
       Public Class DefaultTraceListener
           Inherits TraceListener
+          Implements IDisposable
+  seealso:
+  - type: System.Diagnostics.TraceListener
+    commentId: T:System.Diagnostics.TraceListener
+  - type: System.Diagnostics.TextWriterTraceListener
+    commentId: T:System.Diagnostics.TextWriterTraceListener
+  - type: System.Diagnostics.ConsoleTraceListener
+    commentId: T:System.Diagnostics.ConsoleTraceListener
+  - type: System.Diagnostics.Debug
+    commentId: T:System.Diagnostics.Debug
+  - type: System.Diagnostics.Trace
+    commentId: T:System.Diagnostics.Trace
   inheritance:
   - System.Object
   - System.Diagnostics.TraceListener
+  implements:
+  - System.IDisposable
   inheritedMembers:
   - System.Diagnostics.TraceListener.Filter
   - System.Diagnostics.TraceListener.IndentLevel
@@ -57,6 +75,13 @@ items:
   - System.Diagnostics.TraceListener.WriteLine(System.Object)
   - System.Diagnostics.TraceListener.WriteLine(System.Object,System.String)
   - System.Diagnostics.TraceListener.WriteLine(System.String,System.String)
+  - System.Object.ToString
+  - System.Object.Equals(System.Object)
+  - System.Object.Equals(System.Object,System.Object)
+  - System.Object.ReferenceEquals(System.Object,System.Object)
+  - System.Object.GetHashCode
+  - System.Object.GetType
+  - System.Object.MemberwiseClone
   modifiers.csharp:
   - public
   - class
@@ -84,9 +109,25 @@ items:
   assemblies:
   - System.Diagnostics.TraceSource
   namespace: System.Diagnostics
+  summary: "\n<p>Initializes a new instance of the <xref href=\"System.Diagnostics.DefaultTraceListener\" data-throw-if-not-resolved=\"false\"></xref> class with \"Default\" as its <xref href=\"System.Diagnostics.TraceListener.Name\" data-throw-if-not-resolved=\"false\"></xref> property value.</p>\n"
+  example:
+  - "\n<p>The following code example removes the <xref href=\"System.Diagnostics.DefaultTraceListener\" data-throw-if-not-resolved=\"false\"></xref> provided by the application from the <xref href=\"System.Diagnostics.Trace.Listeners\" data-throw-if-not-resolved=\"false\"></xref> collection and then creates a new <xref href=\"System.Diagnostics.DefaultTraceListener\" data-throw-if-not-resolved=\"false\"></xref> and adds it to the <xref href=\"System.Diagnostics.Trace.Listeners\" data-throw-if-not-resolved=\"false\"></xref> collection.</p>System.Diagnostics.DefaultTraceListener#3"
   syntax:
     content: public DefaultTraceListener()
     content.vb: Public Sub New
+  seealso:
+  - type: System.Diagnostics.TraceListener
+    commentId: T:System.Diagnostics.TraceListener
+  - type: System.Diagnostics.DefaultTraceListener
+    commentId: T:System.Diagnostics.DefaultTraceListener
+  - type: System.Diagnostics.ConsoleTraceListener
+    commentId: T:System.Diagnostics.ConsoleTraceListener
+  - type: System.Diagnostics.TextWriterTraceListener
+    commentId: T:System.Diagnostics.TextWriterTraceListener
+  - type: System.Diagnostics.Debug
+    commentId: T:System.Diagnostics.Debug
+  - type: System.Diagnostics.Trace
+    commentId: T:System.Diagnostics.Trace
   modifiers.csharp:
   - public
   modifiers.vb:
@@ -112,6 +153,10 @@ items:
   assemblies:
   - System.Diagnostics.TraceSource
   namespace: System.Diagnostics
+  summary: "\n<p>Emits or displays a message and a stack trace for an assertion that always fails.</p>\n"
+  remarks: "\n<p>By default, this method sends the <em>message</em> parameter and a stack trace to a message box (when the application runs in user-interface mode) and to the <xref href=\"System.Diagnostics.DefaultTraceListener\" data-throw-if-not-resolved=\"false\"></xref> instance.</p>\n"
+  example:
+  - "\n<p>The following code example writes an error message to a <xref href=\"System.Diagnostics.DefaultTraceListener\" data-throw-if-not-resolved=\"false\"></xref> using the <xref href=\"System.Diagnostics.DefaultTraceListener.Fail(System.String)\" data-throw-if-not-resolved=\"false\"></xref> method. The method also writes the message to the console if a user interface is not available.</p>System.Diagnostics.DefaultTraceListener#6"
   syntax:
     content: public override void Fail(string message)
     content.vb: Public Overrides Sub Fail(message As String)
@@ -119,6 +164,19 @@ items:
     - id: message
       type: System.String
   overridden: System.Diagnostics.TraceListener.Fail(System.String)
+  seealso:
+  - type: System.Diagnostics.TraceListener
+    commentId: T:System.Diagnostics.TraceListener
+  - type: System.Diagnostics.DefaultTraceListener
+    commentId: T:System.Diagnostics.DefaultTraceListener
+  - type: System.Diagnostics.ConsoleTraceListener
+    commentId: T:System.Diagnostics.ConsoleTraceListener
+  - type: System.Diagnostics.TextWriterTraceListener
+    commentId: T:System.Diagnostics.TextWriterTraceListener
+  - type: System.Diagnostics.Debug
+    commentId: T:System.Diagnostics.Debug
+  - type: System.Diagnostics.Trace
+    commentId: T:System.Diagnostics.Trace
   modifiers.csharp:
   - public
   - override
@@ -146,6 +204,10 @@ items:
   assemblies:
   - System.Diagnostics.TraceSource
   namespace: System.Diagnostics
+  summary: "\n<p>Emits or displays detailed messages and a stack trace for an assertion that always fails.</p>\n"
+  remarks: "\n<p>By default, this method sends the <em>message</em> parameter, the <em>detailMessage</em> parameter, and a stack trace to a message box (when the application runs in user-interface mode) and to the <xref href=\"System.Diagnostics.DefaultTraceListener\" data-throw-if-not-resolved=\"false\"></xref> instance.</p>\n"
+  example:
+  - "\n<p>The following code example calls a function that calls the <xref href=\"System.Diagnostics.DefaultTraceListener.Fail(System.String,System.String)\" data-throw-if-not-resolved=\"false\"></xref> method to log a detailed error message if the function throws an exception. The method writes the message to the console if a user interface is not available.</p>System.Diagnostics.DefaultTraceListener#8"
   syntax:
     content: public override void Fail(string message, string detailMessage)
     content.vb: Public Overrides Sub Fail(message As String, detailMessage As String)
@@ -155,6 +217,19 @@ items:
     - id: detailMessage
       type: System.String
   overridden: System.Diagnostics.TraceListener.Fail(System.String,System.String)
+  seealso:
+  - type: System.Diagnostics.TraceListener
+    commentId: T:System.Diagnostics.TraceListener
+  - type: System.Diagnostics.DefaultTraceListener
+    commentId: T:System.Diagnostics.DefaultTraceListener
+  - type: System.Diagnostics.ConsoleTraceListener
+    commentId: T:System.Diagnostics.ConsoleTraceListener
+  - type: System.Diagnostics.TextWriterTraceListener
+    commentId: T:System.Diagnostics.TextWriterTraceListener
+  - type: System.Diagnostics.Debug
+    commentId: T:System.Diagnostics.Debug
+  - type: System.Diagnostics.Trace
+    commentId: T:System.Diagnostics.Trace
   modifiers.csharp:
   - public
   - override
@@ -182,6 +257,10 @@ items:
   assemblies:
   - System.Diagnostics.TraceSource
   namespace: System.Diagnostics
+  summary: "\n<p>Writes the output to the <strong>OutputDebugString</strong> function and to the <xref href=\"System.Diagnostics.Debugger.Log(System.Int32,System.String,System.String)\" data-throw-if-not-resolved=\"false\"></xref> method.</p>\n"
+  remarks: "\n<p>For information about the Win32 <strong>OutputDebugString</strong> debugging function, see \"OutputDebugString\" in the Platform SDK or MSDN.</p>\n"
+  example:
+  - "\n<p>The following code example formats the results of a function and uses the <xref href=\"System.Diagnostics.DefaultTraceListener.Write(System.String)\" data-throw-if-not-resolved=\"false\"></xref> method to write the first part of the message to a <xref href=\"System.Diagnostics.DefaultTraceListener\" data-throw-if-not-resolved=\"false\"></xref>.</p>System.Diagnostics.DefaultTraceListener.WriteLine#4"
   syntax:
     content: public override void Write(string message)
     content.vb: Public Overrides Sub Write(message As String)
@@ -189,6 +268,19 @@ items:
     - id: message
       type: System.String
   overridden: System.Diagnostics.TraceListener.Write(System.String)
+  seealso:
+  - type: System.Diagnostics.TraceListener
+    commentId: T:System.Diagnostics.TraceListener
+  - type: System.Diagnostics.DefaultTraceListener
+    commentId: T:System.Diagnostics.DefaultTraceListener
+  - type: System.Diagnostics.ConsoleTraceListener
+    commentId: T:System.Diagnostics.ConsoleTraceListener
+  - type: System.Diagnostics.TextWriterTraceListener
+    commentId: T:System.Diagnostics.TextWriterTraceListener
+  - type: System.Diagnostics.Debug
+    commentId: T:System.Diagnostics.Debug
+  - type: System.Diagnostics.Trace
+    commentId: T:System.Diagnostics.Trace
   modifiers.csharp:
   - public
   - override
@@ -216,6 +308,10 @@ items:
   assemblies:
   - System.Diagnostics.TraceSource
   namespace: System.Diagnostics
+  summary: "\n<p>Writes the output to the <strong>OutputDebugString</strong> function and to the <xref href=\"System.Diagnostics.Debugger.Log(System.Int32,System.String,System.String)\" data-throw-if-not-resolved=\"false\"></xref> method, followed by a carriage return and line feed (\\r\\n).</p>\n"
+  remarks: "\n<p>The default line terminator is a carriage return followed by a line feed (\\r\\n).</p>\n<p>For information about the Win32 <strong>OutputDebugString</strong> debugging function, see the Platform SDK or MSDN.</p>\n<p>This method sets the <xref href=\"System.Diagnostics.TraceListener.NeedIndent\" data-throw-if-not-resolved=\"false\"></xref> property to <strong>true</strong>.</p>\n"
+  example:
+  - "\n<p>The following code example formats the results of a function and uses the <xref href=\"System.Diagnostics.DefaultTraceListener.WriteLine(System.String)\" data-throw-if-not-resolved=\"false\"></xref> method to write the last part of the message to a <xref href=\"System.Diagnostics.DefaultTraceListener\" data-throw-if-not-resolved=\"false\"></xref>.</p>System.Diagnostics.DefaultTraceListener.WriteLine#4"
   syntax:
     content: public override void WriteLine(string message)
     content.vb: Public Overrides Sub WriteLine(message As String)
@@ -223,6 +319,19 @@ items:
     - id: message
       type: System.String
   overridden: System.Diagnostics.TraceListener.WriteLine(System.String)
+  seealso:
+  - type: System.Diagnostics.TraceListener
+    commentId: T:System.Diagnostics.TraceListener
+  - type: System.Diagnostics.DefaultTraceListener
+    commentId: T:System.Diagnostics.DefaultTraceListener
+  - type: System.Diagnostics.ConsoleTraceListener
+    commentId: T:System.Diagnostics.ConsoleTraceListener
+  - type: System.Diagnostics.TextWriterTraceListener
+    commentId: T:System.Diagnostics.TextWriterTraceListener
+  - type: System.Diagnostics.Debug
+    commentId: T:System.Diagnostics.Debug
+  - type: System.Diagnostics.Trace
+    commentId: T:System.Diagnostics.Trace
   modifiers.csharp:
   - public
   - override
@@ -244,6 +353,11 @@ references:
   isExternal: false
   name: TraceListener
   fullName: System.Diagnostics.TraceListener
+- uid: System.IDisposable
+  parent: System
+  isExternal: false
+  name: IDisposable
+  fullName: System.IDisposable
 - uid: System.Diagnostics.TraceListener.Filter
   parent: System.Diagnostics.TraceListener
   isExternal: false
@@ -968,6 +1082,215 @@ references:
     name: String
     fullName: System.String
     isExternal: true
+  - name: )
+    fullName: )
+- uid: System.Object.ToString
+  parent: System.Object
+  isExternal: true
+  name: ToString()
+  fullName: System.Object.ToString()
+  spec.csharp:
+  - uid: System.Object.ToString
+    name: ToString
+    fullName: System.Object.ToString
+    isExternal: true
+  - name: (
+    fullName: (
+  - name: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.ToString
+    name: ToString
+    fullName: System.Object.ToString
+    isExternal: true
+  - name: (
+    fullName: (
+  - name: )
+    fullName: )
+- uid: System.Object.Equals(System.Object)
+  parent: System.Object
+  isExternal: true
+  name: Equals(Object)
+  fullName: System.Object.Equals(System.Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    fullName: )
+- uid: System.Object.Equals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  name: Equals(Object, Object)
+  fullName: System.Object.Equals(System.Object, System.Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    fullName: )
+- uid: System.Object.ReferenceEquals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  name: ReferenceEquals(Object, Object)
+  fullName: System.Object.ReferenceEquals(System.Object, System.Object)
+  spec.csharp:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    fullName: System.Object.ReferenceEquals
+    isExternal: true
+  - name: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    fullName: System.Object.ReferenceEquals
+    isExternal: true
+  - name: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    fullName: )
+- uid: System.Object.GetHashCode
+  parent: System.Object
+  isExternal: true
+  name: GetHashCode()
+  fullName: System.Object.GetHashCode()
+  spec.csharp:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    fullName: System.Object.GetHashCode
+    isExternal: true
+  - name: (
+    fullName: (
+  - name: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    fullName: System.Object.GetHashCode
+    isExternal: true
+  - name: (
+    fullName: (
+  - name: )
+    fullName: )
+- uid: System.Object.GetType
+  parent: System.Object
+  isExternal: true
+  name: GetType()
+  fullName: System.Object.GetType()
+  spec.csharp:
+  - uid: System.Object.GetType
+    name: GetType
+    fullName: System.Object.GetType
+    isExternal: true
+  - name: (
+    fullName: (
+  - name: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.GetType
+    name: GetType
+    fullName: System.Object.GetType
+    isExternal: true
+  - name: (
+    fullName: (
+  - name: )
+    fullName: )
+- uid: System.Object.MemberwiseClone
+  parent: System.Object
+  isExternal: true
+  name: MemberwiseClone()
+  fullName: System.Object.MemberwiseClone()
+  spec.csharp:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    fullName: System.Object.MemberwiseClone
+    isExternal: true
+  - name: (
+    fullName: (
+  - name: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    fullName: System.Object.MemberwiseClone
+    isExternal: true
+  - name: (
+    fullName: (
   - name: )
     fullName: )
 - uid: System

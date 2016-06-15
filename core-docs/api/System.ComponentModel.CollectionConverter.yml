@@ -25,6 +25,8 @@ items:
   assemblies:
   - System.ComponentModel.TypeConverter
   namespace: System.ComponentModel
+  summary: "\n<p>Provides a type converter to convert collection objects to and from various other representations.</p>\n"
+  remarks: "\n<p>The <see cref=\"Overload:System.ComponentModel.CollectionConverter.GetProperties\"></see> method for this type converter always returns <strong>null</strong>, and the <xref href=\"System.ComponentModel.TypeConverter.GetPropertiesSupported\" data-throw-if-not-resolved=\"false\"></xref> method always returns <strong>false</strong>.</p>\n<p>For more information about type converters, see the <xref href=\"System.ComponentModel.TypeConverter\" data-throw-if-not-resolved=\"false\"></xref> base class and How to: Implement a Type Converter.</p>\n<p>You should never create an instance of the <xref href=\"System.ComponentModel.CollectionConverter\" data-throw-if-not-resolved=\"false\"></xref> class. Instead, call the <xref href=\"System.ComponentModel.TypeDescriptor.GetConverter(System.Object)\" data-throw-if-not-resolved=\"false\"></xref> method of the <xref href=\"System.ComponentModel.TypeDescriptor\" data-throw-if-not-resolved=\"false\"></xref> class. For more information, see the examples in the <xref href=\"System.ComponentModel.TypeConverter\" data-throw-if-not-resolved=\"false\"></xref> base class.</p>\n"
   syntax:
     content: 'public class CollectionConverter : TypeConverter'
     content.vb: >-
@@ -69,6 +71,13 @@ items:
   - System.ComponentModel.TypeConverter.IsValid(System.ComponentModel.ITypeDescriptorContext,System.Object)
   - System.ComponentModel.TypeConverter.IsValid(System.Object)
   - System.ComponentModel.TypeConverter.SortProperties(System.ComponentModel.PropertyDescriptorCollection,System.String[])
+  - System.Object.ToString
+  - System.Object.Equals(System.Object)
+  - System.Object.Equals(System.Object,System.Object)
+  - System.Object.ReferenceEquals(System.Object,System.Object)
+  - System.Object.GetHashCode
+  - System.Object.GetType
+  - System.Object.MemberwiseClone
   modifiers.csharp:
   - public
   - class
@@ -96,6 +105,9 @@ items:
   assemblies:
   - System.ComponentModel.TypeConverter
   namespace: System.ComponentModel
+  summary: "\n<p>Initializes a new instance of the <xref href=\"System.ComponentModel.CollectionConverter\" data-throw-if-not-resolved=\"false\"></xref> class. </p>\n"
+  example:
+  - 
   syntax:
     content: public CollectionConverter()
     content.vb: Public Sub New
@@ -110,23 +122,25 @@ items:
   langs:
   - csharp
   - vb
-  name: ConvertTo(ITypeDescriptorContext, Globalization.CultureInfo, Object, Type)
+  name: ConvertTo(ITypeDescriptorContext, CultureInfo, Object, Type)
   fullName: System.ComponentModel.CollectionConverter.ConvertTo(System.ComponentModel.ITypeDescriptorContext, System.Globalization.CultureInfo, System.Object, System.Type)
   type: Method
   source:
     remote:
-      path: src/System.ComponentModel.TypeConverter/ref/System.ComponentModel.TypeConverter.cs
+      path: src/System.ComponentModel.TypeConverter/src/System/ComponentModel/CollectionConverter.cs
       branch: master
       repo: https://github.com/dotnet/corefx.git
     id: ConvertTo
-    path: src/System.ComponentModel.TypeConverter/ref/System.ComponentModel.TypeConverter.cs
-    startLine: 90
+    path: src/System.ComponentModel.TypeConverter/src/System/ComponentModel/CollectionConverter.cs
+    startLine: 20
   assemblies:
   - System.ComponentModel.TypeConverter
   namespace: System.ComponentModel
+  summary: "\n<p>Converts the given value object to the specified destination type.</p>\n"
+  remarks: "\n<p>The <em>context</em> parameter can be used to extract additional information about the environment this converter is being invoked from. This can be <strong>null</strong>, so always check. Also, properties on the context object can return <strong>null</strong>.</p>\n<p>The converted result will be shown in the property browser. For example, if you are converting a char collection into a string, it will be displayed as <code>char[] collection</code>.</p>\n"
   syntax:
-    content: public override object ConvertTo(ITypeDescriptorContext context, Globalization.CultureInfo culture, object value, Type destinationType)
-    content.vb: Public Overrides Function ConvertTo(context As ITypeDescriptorContext, culture As Globalization.CultureInfo, value As Object, destinationType As Type) As Object
+    content: public override object ConvertTo(ITypeDescriptorContext context, CultureInfo culture, object value, Type destinationType)
+    content.vb: Public Overrides Function ConvertTo(context As ITypeDescriptorContext, culture As CultureInfo, value As Object, destinationType As Type) As Object
     parameters:
     - id: context
       type: System.ComponentModel.ITypeDescriptorContext
@@ -139,6 +153,13 @@ items:
     return:
       type: System.Object
   overridden: System.ComponentModel.TypeConverter.ConvertTo(System.ComponentModel.ITypeDescriptorContext,System.Globalization.CultureInfo,System.Object,System.Type)
+  exceptions:
+  - type: System.ArgumentNullException
+    commentId: T:System.ArgumentNullException
+    description: "\n<p>\n<em>destinationType</em> is <strong>null</strong>. </p>\n"
+  - type: System.NotSupportedException
+    commentId: T:System.NotSupportedException
+    description: "\n<p>The conversion cannot be performed. </p>\n"
   modifiers.csharp:
   - public
   - override
@@ -157,15 +178,17 @@ items:
   type: Method
   source:
     remote:
-      path: src/System.ComponentModel.TypeConverter/ref/System.ComponentModel.TypeConverter.cs
+      path: src/System.ComponentModel.TypeConverter/src/System/ComponentModel/CollectionConverter.cs
       branch: master
       repo: https://github.com/dotnet/corefx.git
     id: GetProperties
-    path: src/System.ComponentModel.TypeConverter/ref/System.ComponentModel.TypeConverter.cs
-    startLine: 91
+    path: src/System.ComponentModel.TypeConverter/src/System/ComponentModel/CollectionConverter.cs
+    startLine: 42
   assemblies:
   - System.ComponentModel.TypeConverter
   namespace: System.ComponentModel
+  summary: "\n<p>Gets a collection of properties for the type of array specified by the value parameter using the specified context and attributes.</p>\n"
+  remarks: "\n<p>The <em>context</em> parameter can be used to extract additional information about the environment this converter is being invoked from. This can be <strong>null</strong>, so always check. Also, properties on the context object can return <strong>null</strong>.</p>\n<p>The attributes array that you pass in will be used to filter the array. The attributes can have a mix of <xref href=\"System.Type\" data-throw-if-not-resolved=\"false\"></xref> and <xref href=\"System.Attribute\" data-throw-if-not-resolved=\"false\"></xref> objects. Filtering is defined by the following rules: </p>\n<ul><li>\n<p>A <xref href=\"System.Type\" data-throw-if-not-resolved=\"false\"></xref> object will be treated as a wildcard; it will match any property that has the <xref href=\"System.Type\" data-throw-if-not-resolved=\"false\"></xref> in its set of attributes.</p>\n</li><li>\n<p>If a property does not have an <xref href=\"System.Attribute\" data-throw-if-not-resolved=\"false\"></xref> of the same class, the property will not be included in the returned array.</p>\n</li><li>\n<p>If the attribute is an instance of <xref href=\"System.Attribute\" data-throw-if-not-resolved=\"false\"></xref>, the property must be an exact match or it will not be included in the returned array.</p>\n</li><li>\n<p>If an <xref href=\"System.Attribute\" data-throw-if-not-resolved=\"false\"></xref> instance is specified and it is the default property, it will be included in the returned array even if there is no instance of the <xref href=\"System.Attribute\" data-throw-if-not-resolved=\"false\"></xref> in the property.</p>\n</li></ul>\n<p>Collections do not support properties; therefore, this method always returns <strong>null</strong>.</p>\n"
   syntax:
     content: public override PropertyDescriptorCollection GetProperties(ITypeDescriptorContext context, object value, Attribute[] attributes)
     content.vb: Public Overrides Function GetProperties(context As ITypeDescriptorContext, value As Object, attributes As Attribute()) As PropertyDescriptorCollection
@@ -179,6 +202,11 @@ items:
     return:
       type: System.ComponentModel.PropertyDescriptorCollection
   overridden: System.ComponentModel.TypeConverter.GetProperties(System.ComponentModel.ITypeDescriptorContext,System.Object,System.Attribute[])
+  seealso:
+  - type: System.ComponentModel.ITypeDescriptorContext
+    commentId: T:System.ComponentModel.ITypeDescriptorContext
+  - type: System.Attribute
+    commentId: T:System.Attribute
   modifiers.csharp:
   - public
   - override
@@ -208,6 +236,8 @@ items:
   assemblies:
   - System.ComponentModel.TypeConverter
   namespace: System.ComponentModel
+  summary: "\n<p>Gets a value indicating whether this object supports properties.</p>\n"
+  remarks: "\n<p>The <em>context</em> parameter can be used to extract additional information about the environment this converter is being invoked from. This can be <strong>null</strong>, so always check. Also, properties on the context object can return <strong>null</strong>.</p>\n<p>Collections do not support properties; therefore, this method always returns <strong>false</strong>.</p>\n"
   syntax:
     content: public override bool GetPropertiesSupported(ITypeDescriptorContext context)
     content.vb: Public Overrides Function GetPropertiesSupported(context As ITypeDescriptorContext) As Boolean
@@ -217,6 +247,9 @@ items:
     return:
       type: System.Boolean
   overridden: System.ComponentModel.TypeConverter.GetPropertiesSupported(System.ComponentModel.ITypeDescriptorContext)
+  seealso:
+  - type: System.ComponentModel.ITypeDescriptorContext
+    commentId: T:System.ComponentModel.ITypeDescriptorContext
   modifiers.csharp:
   - public
   - override
@@ -377,7 +410,7 @@ references:
 - uid: System.ComponentModel.TypeConverter.ConvertFrom(System.ComponentModel.ITypeDescriptorContext,System.Globalization.CultureInfo,System.Object)
   parent: System.ComponentModel.TypeConverter
   isExternal: true
-  name: ConvertFrom(ITypeDescriptorContext, Globalization.CultureInfo, Object)
+  name: ConvertFrom(ITypeDescriptorContext, CultureInfo, Object)
   fullName: System.ComponentModel.TypeConverter.ConvertFrom(System.ComponentModel.ITypeDescriptorContext, System.Globalization.CultureInfo, System.Object)
   spec.csharp:
   - uid: System.ComponentModel.TypeConverter.ConvertFrom(System.ComponentModel.ITypeDescriptorContext,System.Globalization.CultureInfo,System.Object)
@@ -391,7 +424,7 @@ references:
   - name: ', '
     fullName: ', '
   - uid: System.Globalization.CultureInfo
-    name: Globalization.CultureInfo
+    name: CultureInfo
     fullName: System.Globalization.CultureInfo
     isExternal: true
   - name: ', '
@@ -414,7 +447,7 @@ references:
   - name: ', '
     fullName: ', '
   - uid: System.Globalization.CultureInfo
-    name: Globalization.CultureInfo
+    name: CultureInfo
     fullName: System.Globalization.CultureInfo
     isExternal: true
   - name: ', '
@@ -525,7 +558,7 @@ references:
 - uid: System.ComponentModel.TypeConverter.ConvertFromString(System.ComponentModel.ITypeDescriptorContext,System.Globalization.CultureInfo,System.String)
   parent: System.ComponentModel.TypeConverter
   isExternal: true
-  name: ConvertFromString(ITypeDescriptorContext, Globalization.CultureInfo, String)
+  name: ConvertFromString(ITypeDescriptorContext, CultureInfo, String)
   fullName: System.ComponentModel.TypeConverter.ConvertFromString(System.ComponentModel.ITypeDescriptorContext, System.Globalization.CultureInfo, System.String)
   spec.csharp:
   - uid: System.ComponentModel.TypeConverter.ConvertFromString(System.ComponentModel.ITypeDescriptorContext,System.Globalization.CultureInfo,System.String)
@@ -539,7 +572,7 @@ references:
   - name: ', '
     fullName: ', '
   - uid: System.Globalization.CultureInfo
-    name: Globalization.CultureInfo
+    name: CultureInfo
     fullName: System.Globalization.CultureInfo
     isExternal: true
   - name: ', '
@@ -562,7 +595,7 @@ references:
   - name: ', '
     fullName: ', '
   - uid: System.Globalization.CultureInfo
-    name: Globalization.CultureInfo
+    name: CultureInfo
     fullName: System.Globalization.CultureInfo
     isExternal: true
   - name: ', '
@@ -753,7 +786,7 @@ references:
 - uid: System.ComponentModel.TypeConverter.ConvertToString(System.ComponentModel.ITypeDescriptorContext,System.Globalization.CultureInfo,System.Object)
   parent: System.ComponentModel.TypeConverter
   isExternal: true
-  name: ConvertToString(ITypeDescriptorContext, Globalization.CultureInfo, Object)
+  name: ConvertToString(ITypeDescriptorContext, CultureInfo, Object)
   fullName: System.ComponentModel.TypeConverter.ConvertToString(System.ComponentModel.ITypeDescriptorContext, System.Globalization.CultureInfo, System.Object)
   spec.csharp:
   - uid: System.ComponentModel.TypeConverter.ConvertToString(System.ComponentModel.ITypeDescriptorContext,System.Globalization.CultureInfo,System.Object)
@@ -767,7 +800,7 @@ references:
   - name: ', '
     fullName: ', '
   - uid: System.Globalization.CultureInfo
-    name: Globalization.CultureInfo
+    name: CultureInfo
     fullName: System.Globalization.CultureInfo
     isExternal: true
   - name: ', '
@@ -790,7 +823,7 @@ references:
   - name: ', '
     fullName: ', '
   - uid: System.Globalization.CultureInfo
-    name: Globalization.CultureInfo
+    name: CultureInfo
     fullName: System.Globalization.CultureInfo
     isExternal: true
   - name: ', '
@@ -872,7 +905,7 @@ references:
 - uid: System.ComponentModel.TypeConverter.CreateInstance(System.Collections.IDictionary)
   parent: System.ComponentModel.TypeConverter
   isExternal: true
-  name: CreateInstance(Collections.IDictionary)
+  name: CreateInstance(IDictionary)
   fullName: System.ComponentModel.TypeConverter.CreateInstance(System.Collections.IDictionary)
   spec.csharp:
   - uid: System.ComponentModel.TypeConverter.CreateInstance(System.Collections.IDictionary)
@@ -881,7 +914,7 @@ references:
   - name: (
     fullName: (
   - uid: System.Collections.IDictionary
-    name: Collections.IDictionary
+    name: IDictionary
     fullName: System.Collections.IDictionary
     isExternal: true
   - name: )
@@ -893,7 +926,7 @@ references:
   - name: (
     fullName: (
   - uid: System.Collections.IDictionary
-    name: Collections.IDictionary
+    name: IDictionary
     fullName: System.Collections.IDictionary
     isExternal: true
   - name: )
@@ -901,7 +934,7 @@ references:
 - uid: System.ComponentModel.TypeConverter.CreateInstance(System.ComponentModel.ITypeDescriptorContext,System.Collections.IDictionary)
   parent: System.ComponentModel.TypeConverter
   isExternal: true
-  name: CreateInstance(ITypeDescriptorContext, Collections.IDictionary)
+  name: CreateInstance(ITypeDescriptorContext, IDictionary)
   fullName: System.ComponentModel.TypeConverter.CreateInstance(System.ComponentModel.ITypeDescriptorContext, System.Collections.IDictionary)
   spec.csharp:
   - uid: System.ComponentModel.TypeConverter.CreateInstance(System.ComponentModel.ITypeDescriptorContext,System.Collections.IDictionary)
@@ -915,7 +948,7 @@ references:
   - name: ', '
     fullName: ', '
   - uid: System.Collections.IDictionary
-    name: Collections.IDictionary
+    name: IDictionary
     fullName: System.Collections.IDictionary
     isExternal: true
   - name: )
@@ -932,7 +965,7 @@ references:
   - name: ', '
     fullName: ', '
   - uid: System.Collections.IDictionary
-    name: Collections.IDictionary
+    name: IDictionary
     fullName: System.Collections.IDictionary
     isExternal: true
   - name: )
@@ -1401,6 +1434,215 @@ references:
     fullName: ()
   - name: )
     fullName: )
+- uid: System.Object.ToString
+  parent: System.Object
+  isExternal: true
+  name: ToString()
+  fullName: System.Object.ToString()
+  spec.csharp:
+  - uid: System.Object.ToString
+    name: ToString
+    fullName: System.Object.ToString
+    isExternal: true
+  - name: (
+    fullName: (
+  - name: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.ToString
+    name: ToString
+    fullName: System.Object.ToString
+    isExternal: true
+  - name: (
+    fullName: (
+  - name: )
+    fullName: )
+- uid: System.Object.Equals(System.Object)
+  parent: System.Object
+  isExternal: true
+  name: Equals(Object)
+  fullName: System.Object.Equals(System.Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    fullName: )
+- uid: System.Object.Equals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  name: Equals(Object, Object)
+  fullName: System.Object.Equals(System.Object, System.Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    fullName: )
+- uid: System.Object.ReferenceEquals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  name: ReferenceEquals(Object, Object)
+  fullName: System.Object.ReferenceEquals(System.Object, System.Object)
+  spec.csharp:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    fullName: System.Object.ReferenceEquals
+    isExternal: true
+  - name: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    fullName: System.Object.ReferenceEquals
+    isExternal: true
+  - name: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    fullName: )
+- uid: System.Object.GetHashCode
+  parent: System.Object
+  isExternal: true
+  name: GetHashCode()
+  fullName: System.Object.GetHashCode()
+  spec.csharp:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    fullName: System.Object.GetHashCode
+    isExternal: true
+  - name: (
+    fullName: (
+  - name: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    fullName: System.Object.GetHashCode
+    isExternal: true
+  - name: (
+    fullName: (
+  - name: )
+    fullName: )
+- uid: System.Object.GetType
+  parent: System.Object
+  isExternal: true
+  name: GetType()
+  fullName: System.Object.GetType()
+  spec.csharp:
+  - uid: System.Object.GetType
+    name: GetType
+    fullName: System.Object.GetType
+    isExternal: true
+  - name: (
+    fullName: (
+  - name: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.GetType
+    name: GetType
+    fullName: System.Object.GetType
+    isExternal: true
+  - name: (
+    fullName: (
+  - name: )
+    fullName: )
+- uid: System.Object.MemberwiseClone
+  parent: System.Object
+  isExternal: true
+  name: MemberwiseClone()
+  fullName: System.Object.MemberwiseClone()
+  spec.csharp:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    fullName: System.Object.MemberwiseClone
+    isExternal: true
+  - name: (
+    fullName: (
+  - name: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    fullName: System.Object.MemberwiseClone
+    isExternal: true
+  - name: (
+    fullName: (
+  - name: )
+    fullName: )
 - uid: System
   isExternal: false
   name: System
@@ -1408,7 +1650,7 @@ references:
 - uid: System.ComponentModel.TypeConverter.ConvertTo(System.ComponentModel.ITypeDescriptorContext,System.Globalization.CultureInfo,System.Object,System.Type)
   parent: System.ComponentModel.TypeConverter
   isExternal: true
-  name: ConvertTo(ITypeDescriptorContext, Globalization.CultureInfo, Object, Type)
+  name: ConvertTo(ITypeDescriptorContext, CultureInfo, Object, Type)
   fullName: System.ComponentModel.TypeConverter.ConvertTo(System.ComponentModel.ITypeDescriptorContext, System.Globalization.CultureInfo, System.Object, System.Type)
   spec.csharp:
   - uid: System.ComponentModel.TypeConverter.ConvertTo(System.ComponentModel.ITypeDescriptorContext,System.Globalization.CultureInfo,System.Object,System.Type)
@@ -1422,7 +1664,7 @@ references:
   - name: ', '
     fullName: ', '
   - uid: System.Globalization.CultureInfo
-    name: Globalization.CultureInfo
+    name: CultureInfo
     fullName: System.Globalization.CultureInfo
     isExternal: true
   - name: ', '
@@ -1451,7 +1693,7 @@ references:
   - name: ', '
     fullName: ', '
   - uid: System.Globalization.CultureInfo
-    name: Globalization.CultureInfo
+    name: CultureInfo
     fullName: System.Globalization.CultureInfo
     isExternal: true
   - name: ', '
@@ -1601,3 +1843,12 @@ references:
   isExternal: false
   name: Boolean
   fullName: System.Boolean
+- uid: System.ArgumentNullException
+  isExternal: false
+  name: ArgumentNullException
+  fullName: System.ArgumentNullException
+- uid: System.NotSupportedException
+  parent: System
+  isExternal: false
+  name: NotSupportedException
+  fullName: System.NotSupportedException

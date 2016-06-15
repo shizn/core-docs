@@ -29,13 +29,23 @@ items:
   assemblies:
   - System.Xml.XPath.XDocument
   namespace: System.Xml.XPath
+  summary: "\n<p>This class contains the LINQ to XML extension methods that enable you to evaluate XPath expressions.</p>\n"
+  remarks: "\n<p>There is some performance penalty for using these methods. Using LINQ to XML queries yields better performance.</p>\n<p>Although the ordering of returned collections is not specified in the XML XPath Language 1.0 Recommendation, this extension method returns nodes in document order.</p>\n<p>Note that nodes are returned in document order even when you use a reverse axis, such as <code>preceding-sibling</code> or <code>ancestor-or-self</code>.</p>\n"
+  example:
+  - 
   syntax:
-    content: 'public class Extensions : object'
-    content.vb: >-
-      Public Class Extensions
-          Inherits Object
+    content: public class Extensions
+    content.vb: Public Class Extensions
   inheritance:
   - System.Object
+  inheritedMembers:
+  - System.Object.ToString
+  - System.Object.Equals(System.Object)
+  - System.Object.Equals(System.Object,System.Object)
+  - System.Object.ReferenceEquals(System.Object,System.Object)
+  - System.Object.GetHashCode
+  - System.Object.GetType
+  - System.Object.MemberwiseClone
   modifiers.csharp:
   - public
   - class
@@ -64,6 +74,10 @@ items:
   assemblies:
   - System.Xml.XPath.XDocument
   namespace: System.Xml.XPath
+  summary: "\n<p>Creates an <xref href=\"System.Xml.XPath.XPathNavigator\" data-throw-if-not-resolved=\"false\"></xref> for an <xref href=\"System.Xml.Linq.XNode\" data-throw-if-not-resolved=\"false\"></xref>.</p>\n"
+  remarks: "\n<p>You cannot edit the XML tree by using the <xref href=\"System.Xml.XPath.XPathNavigator\" data-throw-if-not-resolved=\"false\"></xref> that is returned by this method. The <xref href=\"System.Xml.XPath.XPathNavigator.CanEdit\" data-throw-if-not-resolved=\"false\"></xref> property returns <strong>false</strong>.</p>\n<p>You cannot create an <xref href=\"System.Xml.XPath.XPathNavigator\" data-throw-if-not-resolved=\"false\"></xref> for a <xref href=\"System.Xml.Linq.XDocumentType\" data-throw-if-not-resolved=\"false\"></xref> node. Document types do not participate in the XPath data model.</p>\n<p>Namespace declarations are reported from left to right. In contrast, for <xref href=\"System.Xml.XmlDocument\" data-throw-if-not-resolved=\"false\"></xref> namespaces are reported from right to left. This is conformant behavior because namespace declarations are not ordered in the XPath data model.</p>\n<p>The method <xref href=\"System.Xml.XPath.XPathNavigator.MoveToId(System.String)\" data-throw-if-not-resolved=\"false\"></xref> is not supported for navigators that are returned by this method.</p>\n<p>You can use this method to perform an XSLT transformation. You can create an XML tree, create an <xref href=\"System.Xml.XPath.XPathNavigator\" data-throw-if-not-resolved=\"false\"></xref> from the XML tree, create a new document, and create a <xref href=\"System.Xml.XmlWriter\" data-throw-if-not-resolved=\"false\"></xref> that will write into the new document. Then, you can invoke the XSLT transformation, passing the <xref href=\"System.Xml.XPath.XPathNavigator\" data-throw-if-not-resolved=\"false\"></xref> and <xref href=\"System.Xml.XmlWriter\" data-throw-if-not-resolved=\"false\"></xref> to the transform. After the transformation successfully completes, the new XML tree is populated with the results of the transformation.</p>\n<p>To perform an XSLT transformation, you can use either an <xref href=\"System.Xml.XmlReader\" data-throw-if-not-resolved=\"false\"></xref> or an <xref href=\"System.Xml.XPath.XPathNavigator\" data-throw-if-not-resolved=\"false\"></xref>. The two approaches have different performance characteristics. Some transformations will execute faster when using an <xref href=\"System.Xml.XmlReader\" data-throw-if-not-resolved=\"false\"></xref>, and others will execute faster when using a <xref href=\"System.Xml.XPath.XPathNavigator\" data-throw-if-not-resolved=\"false\"></xref>. If performance is a concern, we recommend that you experiment with each approach to determine which will perform better in your circumstances.</p>\n"
+  example:
+  - "\n<pre><code class=\"c#\">string xslMarkup = @\"<?xml version='1.0'?>\n<xsl:stylesheet xmlns:xsl='http://www.w3.org/1999/XSL/Transform' version='1.0'>\n<xsl:template match='/Parent'>\n<Root>\n    <C1><xsl:value-of select='Child1'/></C1>\n    <C2><xsl:value-of select='Child2'/></C2>\n</Root>\n</xsl:template>\n</xsl:stylesheet>\";\n\nXDocument xmlTree = new XDocument(\nnew XElement(\"Parent\",\nnew XElement(\"Child1\", \"Child1 data\"),\nnew XElement(\"Child2\", \"Child2 data\")\n)\n);\n\nXDocument newTree = new XDocument();\nusing (XmlWriter writer = newTree.CreateWriter()) {\n// Load the style sheet.\nXslCompiledTransform xslt = new XslCompiledTransform();\nxslt.Load(XmlReader.Create(new StringReader(xslMarkup)));\n\n// Execute the transform and output the results to a writer.\nxslt.Transform(xmlTree.CreateNavigator(), writer);\n}\n\nConsole.WriteLine(newTree);</code></pre>\n<pre><code class=\"vb\">Dim xslMarkup As XDocument = _\n<?xml version='1.0'?>\n<xsl:stylesheet xmlns:xsl='http://www.w3.org/1999/XSL/Transform' version='1.0'>\n<xsl:template match='/Parent'>\n    <Root>\n        <C1><xsl:value-of select='Child1'/></C1>\n        <C2><xsl:value-of select='Child2'/></C2>\n    </Root>\n</xsl:template>\n</xsl:stylesheet>\n\nDim xmlTree As XDocument = _\n<?xml version='1.0'?>\n<Parent>\n<Child1>Child1 data</Child1>\n<Child2>Child2 data</Child2>\n</Parent>\n\nDim newTree As XDocument = New XDocument()\n\nUsing writer As XmlWriter = newTree.CreateWriter()\n' Load the style sheet.\nDim xslt As XslCompiledTransform = _\nNew XslCompiledTransform()\nxslt.Load(xslMarkup.CreateReader())\n\n' Execute the transform and output the results to a writer.\nxslt.Transform(xmlTree.CreateNavigator(), writer)\nEnd Using\n\nConsole.WriteLine(newTree)</code></pre>\n<p>This example produces the following output:</p>\n<pre><code class=\"xml\"><Root>\n<C1>Child1 data</C1>\n<C2>Child2 data</C2>\n</Root></code></pre>\n"
   syntax:
     content: public static XPathNavigator CreateNavigator(this Linq.XNode node)
     content.vb: >-
@@ -73,8 +87,10 @@ items:
     parameters:
     - id: node
       type: System.Xml.Linq.XNode
+      description: "\n<p>An <xref href=\"System.Xml.Linq.XNode\" data-throw-if-not-resolved=\"false\"></xref> that can process XPath queries.</p>\n"
     return:
       type: System.Xml.XPath.XPathNavigator
+      description: "\n<p>An <xref href=\"System.Xml.XPath.XPathNavigator\" data-throw-if-not-resolved=\"false\"></xref> that can process XPath queries.</p>\n"
   modifiers.csharp:
   - public
   - static
@@ -103,6 +119,10 @@ items:
   assemblies:
   - System.Xml.XPath.XDocument
   namespace: System.Xml.XPath
+  summary: "\n<p>Creates an <xref href=\"System.Xml.XPath.XPathNavigator\" data-throw-if-not-resolved=\"false\"></xref> for an <xref href=\"System.Xml.Linq.XNode\" data-throw-if-not-resolved=\"false\"></xref>. The <xref href=\"System.Xml.XmlNameTable\" data-throw-if-not-resolved=\"false\"></xref> enables more efficient XPath expression processing.</p>\n"
+  remarks: "\n<p>You cannot edit the XML tree using the <xref href=\"System.Xml.XPath.XPathNavigator\" data-throw-if-not-resolved=\"false\"></xref> that is returned by this method. The <xref href=\"System.Xml.XPath.XPathNavigator.CanEdit\" data-throw-if-not-resolved=\"false\"></xref> property returns <strong>false</strong>.</p>\n<p>You cannot create an <xref href=\"System.Xml.XPath.XPathNavigator\" data-throw-if-not-resolved=\"false\"></xref> for a <xref href=\"System.Xml.Linq.XDocumentType\" data-throw-if-not-resolved=\"false\"></xref> node. Document types do not participate in the XPath data model.</p>\n<p>Namespace declarations are reported from left to right. In contrast, for <xref href=\"System.Xml.XmlDocument\" data-throw-if-not-resolved=\"false\"></xref> namespaces are reported from right to left. This is conformant behavior because namespace declarations are not ordered in the XPath data model.</p>\n<p>The method <xref href=\"System.Xml.XPath.XPathNavigator.MoveToId(System.String)\" data-throw-if-not-resolved=\"false\"></xref> is not supported for navigators that are returned by this method.</p>\n<p>If you use an <xref href=\"System.Xml.XmlNameTable\" data-throw-if-not-resolved=\"false\"></xref> with this method to create the <xref href=\"System.Xml.XPath.XPathNavigator\" data-throw-if-not-resolved=\"false\"></xref>, you will get better performance when evaluating XPath expressions.</p>\n"
+  example:
+  - 
   syntax:
     content: public static XPathNavigator CreateNavigator(this Linq.XNode node, XmlNameTable nameTable)
     content.vb: >-
@@ -112,10 +132,13 @@ items:
     parameters:
     - id: node
       type: System.Xml.Linq.XNode
+      description: "\n<p>An <xref href=\"System.Xml.Linq.XNode\" data-throw-if-not-resolved=\"false\"></xref> that can process an XPath query.</p>\n"
     - id: nameTable
       type: System.Xml.XmlNameTable
+      description: "\n<p>A <xref href=\"System.Xml.XmlNameTable\" data-throw-if-not-resolved=\"false\"></xref> to be used by <xref href=\"System.Xml.XPath.XPathNavigator\" data-throw-if-not-resolved=\"false\"></xref>.</p>\n"
     return:
       type: System.Xml.XPath.XPathNavigator
+      description: "\n<p>An <xref href=\"System.Xml.XPath.XPathNavigator\" data-throw-if-not-resolved=\"false\"></xref> that can process XPath queries.</p>\n"
   modifiers.csharp:
   - public
   - static
@@ -144,6 +167,10 @@ items:
   assemblies:
   - System.Xml.XPath.XDocument
   namespace: System.Xml.XPath
+  summary: "\n<p>Evaluates an XPath expression.</p>\n"
+  remarks: "\n<p>If the collection is an enumeration of elements or attributes, you can use the <strong>Cast</strong> operator to get a collection of <xref href=\"System.Xml.Linq.XElement\" data-throw-if-not-resolved=\"false\"></xref> or <xref href=\"System.Xml.Linq.XAttribute\" data-throw-if-not-resolved=\"false\"></xref>.</p>\n<p>Although the ordering of returned collections is not specified in the XML XPath Language 1.0 Recommendation, this extension method returns nodes in document order.</p>\n<p>Note that nodes are returned in document order even when you use a reverse axis, such as <code>preceding-sibling</code> or <code>ancestor-or-self</code>.</p>\n"
+  example:
+  - "\n<p>The following example creates a small XML tree with an attribute, then uses the <see cref=\"Overload:System.Xml.XPath.Extensions.XPathEvaluate\"></see> method to retrieve the attribute.</p>\n<pre><code class=\"c#\">String xml = \"<root a='value'/>\";\nXDocument d = XDocument.Parse(xml);\nIEnumerable att = (IEnumerable)d.XPathEvaluate(\"/root/@a\");\nConsole.WriteLine(att.Cast<XAttribute>().FirstOrDefault());</code></pre>\n<pre><code class=\"vb\">Dim d As XDocument = _\n<?xml version='1.0'?>\n<root a='value'/>\nDim att As IEnumerable = CType(d.XPathEvaluate(\"/root/@a\"), IEnumerable)\nConsole.WriteLine(att.Cast(Of XAttribute)().FirstOrDefault())</code></pre>\n<p>This example produces the following output:</p>\n<pre><code>a=\"value\"</code></pre>\n"
   syntax:
     content: public static object XPathEvaluate(this Linq.XNode node, string expression)
     content.vb: >-
@@ -153,10 +180,13 @@ items:
     parameters:
     - id: node
       type: System.Xml.Linq.XNode
+      description: "\n<p>The <xref href=\"System.Xml.Linq.XNode\" data-throw-if-not-resolved=\"false\"></xref> on which to evaluate the XPath expression.</p>\n"
     - id: expression
       type: System.String
+      description: "\n<p>A <xref href=\"System.String\" data-throw-if-not-resolved=\"false\"></xref> that contains an XPath expression.</p>\n"
     return:
       type: System.Object
+      description: "\n<p>An object that can contain a <strong>bool</strong>, a <strong>double</strong>, a <strong>string</strong>, or an <xref href=\"System.Collections.Generic.IEnumerable`1\" data-throw-if-not-resolved=\"false\"></xref>. </p>\n"
   modifiers.csharp:
   - public
   - static
@@ -185,6 +215,10 @@ items:
   assemblies:
   - System.Xml.XPath.XDocument
   namespace: System.Xml.XPath
+  summary: "\n<p>Evaluates an XPath expression, resolving namespace prefixes using the specified <xref href=\"System.Xml.IXmlNamespaceResolver\" data-throw-if-not-resolved=\"false\"></xref>.</p>\n"
+  remarks: "\n<p>You can use this method to evaluate XPath expressions that contain namespace prefixes.</p>\n<p>Although the ordering of returned collections is not specified in the XML XPath Language 1.0 Recommendation, this extension method returns nodes in document order.</p>\n<p>Note that nodes are returned in document order even when you use a reverse axis, such as <code>preceding-sibling</code> or <code>ancestor-or-self</code>.</p>\n"
+  example:
+  - "\n<p>The following example creates an XML tree that contains a namespace. It uses an <xref href=\"System.Xml.XmlReader\" data-throw-if-not-resolved=\"false\"></xref> to read the XML document. It then gets an <xref href=\"System.Xml.XmlNameTable\" data-throw-if-not-resolved=\"false\"></xref> from the <xref href=\"System.Xml.XmlReader\" data-throw-if-not-resolved=\"false\"></xref>, and an <xref href=\"System.Xml.XmlNamespaceManager\" data-throw-if-not-resolved=\"false\"></xref> from the <xref href=\"System.Xml.XmlNameTable\" data-throw-if-not-resolved=\"false\"></xref>. It uses the <xref href=\"System.Xml.XmlNamespaceManager\" data-throw-if-not-resolved=\"false\"></xref> when selecting an element.</p>\n<pre><code class=\"c#\">string markup =\n@\"<aw:Root xmlns:aw='http://www.adventure-works.com'>\n<aw:Child1 aw:Att='attdata'>child one data 1</aw:Child1>\n</aw:Root>\";\nXmlReader reader = XmlReader.Create(new StringReader(markup));\nXElement root = XElement.Load(reader);\nXmlNameTable nameTable = reader.NameTable;\nXmlNamespaceManager namespaceManager = new XmlNamespaceManager(nameTable);\nnamespaceManager.AddNamespace(\"aw\", \"http://www.adventure-works.com\");\nIEnumerable atts = (IEnumerable)root.XPathEvaluate(\"./aw:Child1/@aw:Att\", namespaceManager);\nIEnumerable<XAttribute> attList = atts.Cast<XAttribute>();\nXAttribute att = attList.First();\nConsole.WriteLine(att);</code></pre>\n<pre><code class=\"vb\">Dim markup As XElement = _\n<aw:Root xmlns:aw='http://www.adventure-works.com'>\n<aw:Child1 aw:Att='attdata'>child one data 1</aw:Child1>\n</aw:Root>\nDim reader As XmlReader = markup.CreateReader\nDim nameTable As XmlNameTable = reader.NameTable\nDim namespaceManager As XmlNamespaceManager = New XmlNamespaceManager(nameTable)\nnamespaceManager.AddNamespace(\"aw\", \"http://www.adventure-works.com\")\nDim atts As IEnumerable = CType(markup.XPathEvaluate(\"./aw:Child1/@aw:Att\", namespaceManager), IEnumerable)\nDim attList As IEnumerable(Of XAttribute) = atts.Cast(Of XAttribute)()\nDim att As XAttribute = attList.First()\nConsole.WriteLine(att)</code></pre>\n<p>This example produces the following output:</p>\n<pre><code>aw:Att=\"attdata\"</code></pre>\n"
   syntax:
     content: public static object XPathEvaluate(this Linq.XNode node, string expression, IXmlNamespaceResolver resolver)
     content.vb: >-
@@ -194,12 +228,16 @@ items:
     parameters:
     - id: node
       type: System.Xml.Linq.XNode
+      description: "\n<p>The <xref href=\"System.Xml.Linq.XNode\" data-throw-if-not-resolved=\"false\"></xref> on which to evaluate the XPath expression.</p>\n"
     - id: expression
       type: System.String
+      description: "\n<p>A <xref href=\"System.String\" data-throw-if-not-resolved=\"false\"></xref> that contains an XPath expression.</p>\n"
     - id: resolver
       type: System.Xml.IXmlNamespaceResolver
+      description: "\n<p>A <xref href=\"System.Xml.IXmlNamespaceResolver\" data-throw-if-not-resolved=\"false\"></xref> for the namespace prefixes in the XPath expression.</p>\n"
     return:
       type: System.Object
+      description: "\n<p>An object that contains the result of evaluating the expression. The object can be a <strong>bool</strong>, a <strong>double</strong>, a <strong>string</strong>, or an <xref href=\"System.Collections.Generic.IEnumerable`1\" data-throw-if-not-resolved=\"false\"></xref>.</p>\n"
   modifiers.csharp:
   - public
   - static
@@ -228,6 +266,9 @@ items:
   assemblies:
   - System.Xml.XPath.XDocument
   namespace: System.Xml.XPath
+  summary: "\n<p>Selects an <xref href=\"System.Xml.Linq.XElement\" data-throw-if-not-resolved=\"false\"></xref> using a XPath expression.</p>\n"
+  example:
+  - "\n<p>The following example creates a small XML tree and uses <see cref=\"Overload:System.Xml.XPath.Extensions.XPathSelectElement\"></see> to select a single element.</p>\n<pre><code class=\"c#\">XElement root = new XElement(\"Root\",\nnew XElement(\"Child1\", 1),\nnew XElement(\"Child2\", 2),\nnew XElement(\"Child3\", 3),\nnew XElement(\"Child4\", 4),\nnew XElement(\"Child5\", 5),\nnew XElement(\"Child6\", 6)\n);\nXElement el = root.XPathSelectElement(\"./Child4\");\nConsole.WriteLine(el);</code></pre>\n<pre><code class=\"vb\">Dim root As XElement = _\n<Root>\n<Child1>1</Child1>\n<Child2>2</Child2>\n<Child3>3</Child3>\n<Child4>4</Child4>\n<Child5>5</Child5>\n<Child6>6</Child6>\n</Root>\nDim el As XElement = root.XPathSelectElement(\"./Child4\")\nConsole.WriteLine(el)</code></pre>\n<p>This example produces the following output:</p>\n<pre><code><Child4>4</Child4></code></pre>\n"
   syntax:
     content: public static Linq.XElement XPathSelectElement(this Linq.XNode node, string expression)
     content.vb: >-
@@ -237,10 +278,13 @@ items:
     parameters:
     - id: node
       type: System.Xml.Linq.XNode
+      description: "\n<p>The <xref href=\"System.Xml.Linq.XNode\" data-throw-if-not-resolved=\"false\"></xref> on which to evaluate the XPath expression.</p>\n"
     - id: expression
       type: System.String
+      description: "\n<p>A <xref href=\"System.String\" data-throw-if-not-resolved=\"false\"></xref> that contains an XPath expression.</p>\n"
     return:
       type: System.Xml.Linq.XElement
+      description: "\n<p>An <xref href=\"System.Xml.Linq.XElement\" data-throw-if-not-resolved=\"false\"></xref>, or null.</p>\n"
   modifiers.csharp:
   - public
   - static
@@ -269,6 +313,10 @@ items:
   assemblies:
   - System.Xml.XPath.XDocument
   namespace: System.Xml.XPath
+  summary: "\n<p>Selects an <xref href=\"System.Xml.Linq.XElement\" data-throw-if-not-resolved=\"false\"></xref> using a XPath expression, resolving namespace prefixes using the specified <xref href=\"System.Xml.IXmlNamespaceResolver\" data-throw-if-not-resolved=\"false\"></xref>.</p>\n"
+  remarks: "\n<p>You can use this method to evaluate XPath expressions that contain namespace prefixes.</p>\n"
+  example:
+  - "\n<p>The following example creates an XML tree that contains a namespace. It uses an <xref href=\"System.Xml.XmlReader\" data-throw-if-not-resolved=\"false\"></xref> to read the XML document. It then gets an <xref href=\"System.Xml.XmlNameTable\" data-throw-if-not-resolved=\"false\"></xref> from the <xref href=\"System.Xml.XmlReader\" data-throw-if-not-resolved=\"false\"></xref>, and an <xref href=\"System.Xml.XmlNamespaceManager\" data-throw-if-not-resolved=\"false\"></xref> from the <xref href=\"System.Xml.XmlNameTable\" data-throw-if-not-resolved=\"false\"></xref>. It uses the <xref href=\"System.Xml.XmlNamespaceManager\" data-throw-if-not-resolved=\"false\"></xref> when selecting an element.</p>\n<pre><code class=\"c#\">string markup = @\"\n<aw:Root xmlns:aw='http://www.adventure-works.com'>\n<aw:Child1>child one data</aw:Child1>\n<aw:Child2>child two data</aw:Child2>\n</aw:Root>\";\nXmlReader reader = XmlReader.Create(new StringReader(markup));\nXElement root = XElement.Load(reader);\nXmlNameTable nameTable = reader.NameTable;\nXmlNamespaceManager namespaceManager = new XmlNamespaceManager(nameTable);\nnamespaceManager.AddNamespace(\"aw\", \"http://www.adventure-works.com\");\nXElement child1 = root.XPathSelectElement(\"./aw:Child1\", namespaceManager);\nConsole.WriteLine(child1);</code></pre>\n<pre><code class=\"vb\">Dim markup As XElement = _\n<aw:Root xmlns:aw='http://www.adventure-works.com'>\n<aw:Child1>child one data</aw:Child1>\n<aw:Child2>child two data</aw:Child2>\n</aw:Root>\nDim reader As XmlReader = markup.CreateReader\nDim nameTable As XmlNameTable = reader.NameTable\nDim namespaceManager As XmlNamespaceManager = New XmlNamespaceManager(nameTable)\nnamespaceManager.AddNamespace(\"aw\", \"http://www.adventure-works.com\")\nDim child1 As XElement = markup.XPathSelectElement(\"./aw:Child1\", namespaceManager)\nConsole.WriteLine(child1)</code></pre>\n<p>This example produces the following output:</p>\n<pre><code><aw:Child1 xmlns:aw=\"http://www.adventure-works.com\">child one data</aw:Child1></code></pre>\n"
   syntax:
     content: public static Linq.XElement XPathSelectElement(this Linq.XNode node, string expression, IXmlNamespaceResolver resolver)
     content.vb: >-
@@ -278,12 +326,16 @@ items:
     parameters:
     - id: node
       type: System.Xml.Linq.XNode
+      description: "\n<p>The <xref href=\"System.Xml.Linq.XNode\" data-throw-if-not-resolved=\"false\"></xref> on which to evaluate the XPath expression.</p>\n"
     - id: expression
       type: System.String
+      description: "\n<p>A <xref href=\"System.String\" data-throw-if-not-resolved=\"false\"></xref> that contains an XPath expression.</p>\n"
     - id: resolver
       type: System.Xml.IXmlNamespaceResolver
+      description: "\n<p>An <xref href=\"System.Xml.IXmlNamespaceResolver\" data-throw-if-not-resolved=\"false\"></xref> for the namespace prefixes in the XPath expression.</p>\n"
     return:
       type: System.Xml.Linq.XElement
+      description: "\n<p>An <xref href=\"System.Xml.Linq.XElement\" data-throw-if-not-resolved=\"false\"></xref>, or null.</p>\n"
   modifiers.csharp:
   - public
   - static
@@ -312,19 +364,26 @@ items:
   assemblies:
   - System.Xml.XPath.XDocument
   namespace: System.Xml.XPath
+  summary: "\n<p>Selects a collection of elements using an XPath expression.</p>\n"
+  remarks: "\n<p>Although the ordering of returned collections is not specified in the XML XPath Language 1.0 Recommendation, this extension method returns nodes in document order.</p>\n<p>Note that nodes are returned in document order even when you use a reverse axis, such as <code>preceding-sibling</code> or <code>ancestor-or-self</code>.</p>\n"
+  example:
+  - "\n<p>The following example creates a small XML tree and uses <see cref=\"Overload:System.Xml.XPath.Extensions.XPathSelectElements\"></see> to select a set of elements.</p>\n<pre><code class=\"c#\">XElement root = new XElement(\"Root\",\nnew XElement(\"Child1\", 1),\nnew XElement(\"Child1\", 2),\nnew XElement(\"Child1\", 3),\nnew XElement(\"Child2\", 4),\nnew XElement(\"Child2\", 5),\nnew XElement(\"Child2\", 6)\n);\nIEnumerable<XElement> list = root.XPathSelectElements(\"./Child2\");\nforeach (XElement el in list)\nConsole.WriteLine(el);</code></pre>\n<pre><code class=\"vb\">Dim root As XElement = _\n<Root>\n<Child1>1</Child1>\n<Child1>2</Child1>\n<Child1>3</Child1>\n<Child2>4</Child2>\n<Child2>5</Child2>\n<Child2>6</Child2>\n</Root>\nDim list As IEnumerable(Of XElement) = root.XPathSelectElements(\"./Child2\")\nFor Each el As XElement In list\nConsole.WriteLine(el)\nNext</code></pre>\n<p>This example produces the following output:</p>\n<pre><code><Child2>4</Child2>\n<Child2>5</Child2>\n<Child2>6</Child2></code></pre>\n"
   syntax:
-    content: public static Collections.Generic.IEnumerable<Linq.XElement> XPathSelectElements(this Linq.XNode node, string expression)
+    content: public static IEnumerable<Linq.XElement> XPathSelectElements(this Linq.XNode node, string expression)
     content.vb: >-
       <ExtensionAttribute>
 
-      Public Shared Function XPathSelectElements(node As Linq.XNode, expression As String) As Collections.Generic.IEnumerable(Of Linq.XElement)
+      Public Shared Function XPathSelectElements(node As Linq.XNode, expression As String) As IEnumerable(Of Linq.XElement)
     parameters:
     - id: node
       type: System.Xml.Linq.XNode
+      description: "\n<p>The <xref href=\"System.Xml.Linq.XNode\" data-throw-if-not-resolved=\"false\"></xref> on which to evaluate the XPath expression.</p>\n"
     - id: expression
       type: System.String
+      description: "\n<p>A <xref href=\"System.String\" data-throw-if-not-resolved=\"false\"></xref> that contains an XPath expression.</p>\n"
     return:
       type: System.Collections.Generic.IEnumerable{System.Xml.Linq.XElement}
+      description: "\n<p>An <xref href=\"System.Collections.Generic.IEnumerable`1\" data-throw-if-not-resolved=\"false\"></xref> of <xref href=\"System.Xml.Linq.XElement\" data-throw-if-not-resolved=\"false\"></xref> that contains the selected elements.</p>\n"
   modifiers.csharp:
   - public
   - static
@@ -353,21 +412,29 @@ items:
   assemblies:
   - System.Xml.XPath.XDocument
   namespace: System.Xml.XPath
+  summary: "\n<p>Selects a collection of elements using an XPath expression, resolving namespace prefixes using the specified <xref href=\"System.Xml.IXmlNamespaceResolver\" data-throw-if-not-resolved=\"false\"></xref>.</p>\n"
+  remarks: "\n<p>You can use this method to evaluate XPath expressions that contain namespace prefixes.</p>\n<p>Although the ordering of returned collections is not specified in the XML XPath Language 1.0 Recommendation, this extension method returns nodes in document order.</p>\n<p>Note that nodes are returned in document order even when you use a reverse axis, such as <code>preceding-sibling</code> or <code>ancestor-or-self</code>.</p>\n"
+  example:
+  - "\n<p>This example creates an XML tree that contains a namespace. It uses an <xref href=\"System.Xml.XmlReader\" data-throw-if-not-resolved=\"false\"></xref> to read the XML document. It then gets an <xref href=\"System.Xml.XmlNameTable\" data-throw-if-not-resolved=\"false\"></xref> from the <xref href=\"System.Xml.XmlReader\" data-throw-if-not-resolved=\"false\"></xref>, and an <xref href=\"System.Xml.XmlNamespaceManager\" data-throw-if-not-resolved=\"false\"></xref> from the <xref href=\"System.Xml.XmlNameTable\" data-throw-if-not-resolved=\"false\"></xref>. It uses the <xref href=\"System.Xml.XmlNamespaceManager\" data-throw-if-not-resolved=\"false\"></xref> when selecting the list of elements.</p>\n<pre><code class=\"c#\">string markup = @\"\n<aw:Root xmlns:aw='http://www.adventure-works.com'>\n<aw:Child1>child one data 1</aw:Child1>\n<aw:Child1>child one data 2</aw:Child1>\n<aw:Child1>child one data 3</aw:Child1>\n<aw:Child2>child two data 4</aw:Child2>\n<aw:Child2>child two data 5</aw:Child2>\n<aw:Child2>child two data 6</aw:Child2>\n</aw:Root>\";\nXmlReader reader = XmlReader.Create(new StringReader(markup));\nXElement root = XElement.Load(reader);\nXmlNameTable nameTable = reader.NameTable;\nXmlNamespaceManager namespaceManager = new XmlNamespaceManager(nameTable);\nnamespaceManager.AddNamespace(\"aw\", \"http://www.adventure-works.com\");\nIEnumerable<XElement> elements = root.XPathSelectElements(\"./aw:Child1\", namespaceManager);\nforeach (XElement el in elements)\nConsole.WriteLine(el);</code></pre>\n<pre><code class=\"vb\">Dim markup As XElement = _\n<aw:Root xmlns:aw=\"http://www.adventure-works.com\">\n<aw:Child1>child one data 1</aw:Child1>\n<aw:Child1>child one data 2</aw:Child1>\n<aw:Child1>child one data 3</aw:Child1>\n<aw:Child2>child two data 4</aw:Child2>\n<aw:Child2>child two data 5</aw:Child2>\n<aw:Child2>child two data 6</aw:Child2>\n</aw:Root>\nDim reader As XmlReader = markup.CreateReader\nDim nameTable As XmlNameTable = reader.NameTable\nDim namespaceManager As XmlNamespaceManager = New XmlNamespaceManager(nameTable)\nnamespaceManager.AddNamespace(\"aw\", \"http://www.adventure-works.com\")\nDim elements As IEnumerable(Of XElement) = markup.XPathSelectElements(\"./aw:Child1\", namespaceManager)\nFor Each el As XElement In elements\nConsole.WriteLine(el)\nNext</code></pre>\n<p>This example produces the following output:</p>\n<pre><code><aw:Child1 xmlns:aw=\"http://www.adventure-works.com\">child one data 1</aw:Child1>\n<aw:Child1 xmlns:aw=\"http://www.adventure-works.com\">child one data 2</aw:Child1>\n<aw:Child1 xmlns:aw=\"http://www.adventure-works.com\">child one data 3</aw:Child1></code></pre>\n"
   syntax:
-    content: public static Collections.Generic.IEnumerable<Linq.XElement> XPathSelectElements(this Linq.XNode node, string expression, IXmlNamespaceResolver resolver)
+    content: public static IEnumerable<Linq.XElement> XPathSelectElements(this Linq.XNode node, string expression, IXmlNamespaceResolver resolver)
     content.vb: >-
       <ExtensionAttribute>
 
-      Public Shared Function XPathSelectElements(node As Linq.XNode, expression As String, resolver As IXmlNamespaceResolver) As Collections.Generic.IEnumerable(Of Linq.XElement)
+      Public Shared Function XPathSelectElements(node As Linq.XNode, expression As String, resolver As IXmlNamespaceResolver) As IEnumerable(Of Linq.XElement)
     parameters:
     - id: node
       type: System.Xml.Linq.XNode
+      description: "\n<p>The <xref href=\"System.Xml.Linq.XNode\" data-throw-if-not-resolved=\"false\"></xref> on which to evaluate the XPath expression.</p>\n"
     - id: expression
       type: System.String
+      description: "\n<p>A <xref href=\"System.String\" data-throw-if-not-resolved=\"false\"></xref> that contains an XPath expression.</p>\n"
     - id: resolver
       type: System.Xml.IXmlNamespaceResolver
+      description: "\n<p>A <xref href=\"System.Xml.IXmlNamespaceResolver\" data-throw-if-not-resolved=\"false\"></xref> for the namespace prefixes in the XPath expression.</p>\n"
     return:
       type: System.Collections.Generic.IEnumerable{System.Xml.Linq.XElement}
+      description: "\n<p>An <xref href=\"System.Collections.Generic.IEnumerable`1\" data-throw-if-not-resolved=\"false\"></xref> of <xref href=\"System.Xml.Linq.XElement\" data-throw-if-not-resolved=\"false\"></xref> that contains the selected elements.</p>\n"
   modifiers.csharp:
   - public
   - static
@@ -384,6 +451,215 @@ references:
   isExternal: false
   name: Object
   fullName: System.Object
+- uid: System.Object.ToString
+  parent: System.Object
+  isExternal: true
+  name: ToString()
+  fullName: System.Object.ToString()
+  spec.csharp:
+  - uid: System.Object.ToString
+    name: ToString
+    fullName: System.Object.ToString
+    isExternal: true
+  - name: (
+    fullName: (
+  - name: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.ToString
+    name: ToString
+    fullName: System.Object.ToString
+    isExternal: true
+  - name: (
+    fullName: (
+  - name: )
+    fullName: )
+- uid: System.Object.Equals(System.Object)
+  parent: System.Object
+  isExternal: true
+  name: Equals(Object)
+  fullName: System.Object.Equals(System.Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    fullName: )
+- uid: System.Object.Equals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  name: Equals(Object, Object)
+  fullName: System.Object.Equals(System.Object, System.Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    fullName: )
+- uid: System.Object.ReferenceEquals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  name: ReferenceEquals(Object, Object)
+  fullName: System.Object.ReferenceEquals(System.Object, System.Object)
+  spec.csharp:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    fullName: System.Object.ReferenceEquals
+    isExternal: true
+  - name: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    fullName: System.Object.ReferenceEquals
+    isExternal: true
+  - name: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    fullName: )
+- uid: System.Object.GetHashCode
+  parent: System.Object
+  isExternal: true
+  name: GetHashCode()
+  fullName: System.Object.GetHashCode()
+  spec.csharp:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    fullName: System.Object.GetHashCode
+    isExternal: true
+  - name: (
+    fullName: (
+  - name: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    fullName: System.Object.GetHashCode
+    isExternal: true
+  - name: (
+    fullName: (
+  - name: )
+    fullName: )
+- uid: System.Object.GetType
+  parent: System.Object
+  isExternal: true
+  name: GetType()
+  fullName: System.Object.GetType()
+  spec.csharp:
+  - uid: System.Object.GetType
+    name: GetType
+    fullName: System.Object.GetType
+    isExternal: true
+  - name: (
+    fullName: (
+  - name: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.GetType
+    name: GetType
+    fullName: System.Object.GetType
+    isExternal: true
+  - name: (
+    fullName: (
+  - name: )
+    fullName: )
+- uid: System.Object.MemberwiseClone
+  parent: System.Object
+  isExternal: true
+  name: MemberwiseClone()
+  fullName: System.Object.MemberwiseClone()
+  spec.csharp:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    fullName: System.Object.MemberwiseClone
+    isExternal: true
+  - name: (
+    fullName: (
+  - name: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    fullName: System.Object.MemberwiseClone
+    isExternal: true
+  - name: (
+    fullName: (
+  - name: )
+    fullName: )
 - uid: System
   isExternal: false
   name: System
@@ -427,14 +703,15 @@ references:
   name: XElement
   fullName: System.Xml.Linq.XElement
 - uid: System.Collections.Generic.IEnumerable{System.Xml.Linq.XElement}
+  parent: System.Collections.Generic
   definition: System.Collections.Generic.IEnumerable`1
-  name: Collections.Generic.IEnumerable<XElement>
+  name: IEnumerable<XElement>
   fullName: System.Collections.Generic.IEnumerable<System.Xml.Linq.XElement>
   fullname.vb: System.Collections.Generic.IEnumerable(Of System.Xml.Linq.XElement)
-  name.vb: Collections.Generic.IEnumerable(Of XElement)
+  name.vb: IEnumerable(Of XElement)
   spec.csharp:
   - uid: System.Collections.Generic.IEnumerable`1
-    name: Collections.Generic.IEnumerable
+    name: IEnumerable
     fullName: System.Collections.Generic.IEnumerable
     isExternal: true
   - name: <
@@ -446,7 +723,7 @@ references:
     fullName: '>'
   spec.vb:
   - uid: System.Collections.Generic.IEnumerable`1
-    name: Collections.Generic.IEnumerable
+    name: IEnumerable
     fullName: System.Collections.Generic.IEnumerable
     isExternal: true
   - name: '(Of '
@@ -459,28 +736,28 @@ references:
 - uid: System.Collections.Generic.IEnumerable`1
   parent: System.Collections.Generic
   isExternal: false
-  name: Collections.Generic.IEnumerable<>
-  fullName: System.Collections.Generic.IEnumerable<>
-  fullname.vb: System.Collections.Generic.IEnumerable(Of )
-  name.vb: Collections.Generic.IEnumerable(Of )
+  name: IEnumerable<T>
+  fullName: System.Collections.Generic.IEnumerable<T>
+  fullname.vb: System.Collections.Generic.IEnumerable(Of T)
+  name.vb: IEnumerable(Of T)
   spec.csharp:
   - uid: System.Collections.Generic.IEnumerable`1
-    name: Collections.Generic.IEnumerable
+    name: IEnumerable
     fullName: System.Collections.Generic.IEnumerable
   - name: <
     fullName: <
-  - name: 
-    fullName: 
+  - name: T
+    fullName: T
   - name: '>'
     fullName: '>'
   spec.vb:
   - uid: System.Collections.Generic.IEnumerable`1
-    name: Collections.Generic.IEnumerable
+    name: IEnumerable
     fullName: System.Collections.Generic.IEnumerable
   - name: '(Of '
     fullName: '(Of '
-  - name: 
-    fullName: 
+  - name: T
+    fullName: T
   - name: )
     fullName: )
 - uid: System.Collections.Generic

@@ -33,12 +33,12 @@ items:
   type: Class
   source:
     remote:
-      path: src/System.IO.FileSystem/src/System/IO/FileInfo.Windows.cs
+      path: src/mscorlib/src/System/IO/FileInfo.cs
       branch: master
-      repo: https://github.com/dotnet/corefx.git
+      repo: https://github.com/dotnet/coreclr.git
     id: FileInfo
-    path: src/System.IO.FileSystem/src/System/IO/FileInfo.Windows.cs
-    startLine: 9
+    path: src/mscorlib/src/System/IO/FileInfo.cs
+    startLine: 33
   assemblies:
   - System.IO.FileSystem
   namespace: System.IO
@@ -47,11 +47,20 @@ items:
   example:
   - "\n<p>The following example demonstrates some of the main members of the <strong>FileInfo</strong> class.</p>\n<p>When the properties are first retrieved, <xref href=\"System.IO.FileInfo\" data-throw-if-not-resolved=\"false\"></xref> calls the <xref href=\"System.IO.FileSystemInfo.Refresh\" data-throw-if-not-resolved=\"false\"></xref> method and caches information about the file. On subsequent calls, you must call <xref href=\"System.IO.FileSystemInfo.Refresh\" data-throw-if-not-resolved=\"false\"></xref> to get the latest copy of the information.</p>FInfo Class#1<p>This example produces output similar to the following.</p><pre><code>Hello\nAnd\nWelcome\nC:\\Users\\userName\\AppData\\Local\\Temp\\tmp70AB.tmp was copied to C:\\Users\\userName\\AppData\\Local\\Temp\\tmp70CB.tmp.\nC:\\Users\\userName\\AppData\\Local\\Temp\\tmp70CB.tmp was successfully deleted.</code></pre>"
   syntax:
-    content: 'public sealed class FileInfo : FileSystemInfo, IFileSystemObject'
+    content: >-
+      [Serializable]
+
+      [ComVisible(true)]
+
+      public sealed class FileInfo : FileSystemInfo, ISerializable
     content.vb: >-
+      <Serializable>
+
+      <ComVisible(True)>
+
       Public NotInheritable Class FileInfo
           Inherits FileSystemInfo
-          Implements IFileSystemObject
+          Implements ISerializable
   seealso:
   - type: System.IO.FileSystemWatcher
     commentId: T:System.IO.FileSystemWatcher
@@ -73,6 +82,12 @@ items:
   - System.IO.FileSystemInfo.LastWriteTime
   - System.IO.FileSystemInfo.LastWriteTimeUtc
   - System.IO.FileSystemInfo.Refresh
+  - System.Object.Equals(System.Object)
+  - System.Object.Equals(System.Object,System.Object)
+  - System.Object.ReferenceEquals(System.Object,System.Object)
+  - System.Object.GetHashCode
+  - System.Object.GetType
+  - System.Object.MemberwiseClone
   modifiers.csharp:
   - public
   - sealed
@@ -93,12 +108,12 @@ items:
   type: Constructor
   source:
     remote:
-      path: src/System.IO.FileSystem/ref/System.IO.FileSystem.cs
+      path: src/mscorlib/src/System/IO/FileInfo.cs
       branch: master
-      repo: https://github.com/dotnet/corefx.git
+      repo: https://github.com/dotnet/coreclr.git
     id: .ctor
-    path: src/System.IO.FileSystem/ref/System.IO.FileSystem.cs
-    startLine: 145
+    path: src/mscorlib/src/System/IO/FileInfo.cs
+    startLine: 61
   assemblies:
   - System.IO.FileSystem
   namespace: System.IO
@@ -107,12 +122,17 @@ items:
   example:
   - "\n<p>The following example uses this constructor to create two files, which are then written to, read from, copied, and deleted.</p>finfo ctor#1<p>The following example opens an existing file or creates a file, appends text to the file, and displays the results.</p>fileinfomain#1"
   syntax:
-    content: public FileInfo(string fileName)
-    content.vb: Public Sub New(fileName As String)
+    content: >-
+      [SecuritySafeCritical]
+
+      public FileInfo(string fileName)
+    content.vb: >-
+      <SecuritySafeCritical>
+
+      Public Sub New(fileName As String)
     parameters:
     - id: fileName
       type: System.String
-      description: "\n<p>The fully qualified name of the new file, or the relative file name. Do not end the path with the directory separator character.</p>\n"
   exceptions:
   - type: System.ArgumentNullException
     commentId: T:System.ArgumentNullException
@@ -151,12 +171,12 @@ items:
   type: Property
   source:
     remote:
-      path: src/System.IO.FileSystem/src/System/IO/FileInfo.cs
+      path: src/mscorlib/src/System/IO/FileInfo.cs
       branch: master
-      repo: https://github.com/dotnet/corefx.git
+      repo: https://github.com/dotnet/coreclr.git
     id: Directory
-    path: src/System.IO.FileSystem/src/System/IO/FileInfo.cs
-    startLine: 90
+    path: src/mscorlib/src/System/IO/FileInfo.cs
+    startLine: 166
   assemblies:
   - System.IO.FileSystem
   namespace: System.IO
@@ -198,12 +218,12 @@ items:
   type: Property
   source:
     remote:
-      path: src/System.IO.FileSystem/src/System/IO/FileInfo.cs
+      path: src/mscorlib/src/System/IO/FileInfo.cs
       branch: master
-      repo: https://github.com/dotnet/corefx.git
+      repo: https://github.com/dotnet/coreclr.git
     id: DirectoryName
-    path: src/System.IO.FileSystem/src/System/IO/FileInfo.cs
-    startLine: 80
+    path: src/mscorlib/src/System/IO/FileInfo.cs
+    startLine: 146
   assemblies:
   - System.IO.FileSystem
   namespace: System.IO
@@ -212,11 +232,17 @@ items:
   example:
   - "\n<p>The following example retrieves the full path of the specified file.</p>System.IO.FileInfo members#3"
   syntax:
-    content: public String DirectoryName { get; }
+    content: >-
+      public string DirectoryName
+
+      {
+          [SecuritySafeCritical]
+          get;
+      }
     content.vb: Public ReadOnly Property DirectoryName As String
     parameters: []
     return:
-      type: String
+      type: System.String
   exceptions:
   - type: System.ArgumentNullException
     commentId: T:System.ArgumentNullException
@@ -248,12 +274,12 @@ items:
   type: Property
   source:
     remote:
-      path: src/System.IO.FileSystem/src/System/IO/FileInfo.cs
+      path: src/mscorlib/src/System/IO/FileInfo.cs
       branch: master
-      repo: https://github.com/dotnet/corefx.git
+      repo: https://github.com/dotnet/coreclr.git
     id: Exists
-    path: src/System.IO.FileSystem/src/System/IO/FileInfo.cs
-    startLine: 205
+    path: src/mscorlib/src/System/IO/FileInfo.cs
+    startLine: 316
   assemblies:
   - System.IO.FileSystem
   namespace: System.IO
@@ -262,7 +288,13 @@ items:
   example:
   - "\n<p>The following code example uses the <xref href=\"System.IO.FileInfo.Exists\" data-throw-if-not-resolved=\"false\"></xref> property ensure a file exists before opening it.  You can use this technique to throw a custom exception when the file is not found. </p>IO.FileInfo.Exists#1"
   syntax:
-    content: public override bool Exists { get; }
+    content: >-
+      public override bool Exists
+
+      {
+          [SecuritySafeCritical]
+          get;
+      }
     content.vb: Public Overrides ReadOnly Property Exists As Boolean
     parameters: []
     return:
@@ -288,12 +320,12 @@ items:
   type: Property
   source:
     remote:
-      path: src/System.IO.FileSystem/src/System/IO/FileInfo.cs
+      path: src/mscorlib/src/System/IO/FileInfo.cs
       branch: master
-      repo: https://github.com/dotnet/corefx.git
+      repo: https://github.com/dotnet/coreclr.git
     id: IsReadOnly
-    path: src/System.IO.FileSystem/src/System/IO/FileInfo.cs
-    startLine: 101
+    path: src/mscorlib/src/System/IO/FileInfo.cs
+    startLine: 177
   assemblies:
   - System.IO.FileSystem
   namespace: System.IO
@@ -341,12 +373,12 @@ items:
   type: Property
   source:
     remote:
-      path: src/System.IO.FileSystem/src/System/IO/FileInfo.cs
+      path: src/mscorlib/src/System/IO/FileInfo.cs
       branch: master
-      repo: https://github.com/dotnet/corefx.git
+      repo: https://github.com/dotnet/coreclr.git
     id: Length
-    path: src/System.IO.FileSystem/src/System/IO/FileInfo.cs
-    startLine: 66
+    path: src/mscorlib/src/System/IO/FileInfo.cs
+    startLine: 129
   assemblies:
   - System.IO.FileSystem
   namespace: System.IO
@@ -355,7 +387,13 @@ items:
   example:
   - "\n<p>The following example displays the size of the specified files.</p>FileLength#1"
   syntax:
-    content: public long Length { get; }
+    content: >-
+      public long Length
+
+      {
+          [SecuritySafeCritical]
+          get;
+      }
     content.vb: Public ReadOnly Property Length As Long
     parameters: []
     return:
@@ -385,12 +423,12 @@ items:
   type: Property
   source:
     remote:
-      path: src/System.IO.FileSystem/src/System/IO/FileInfo.cs
+      path: src/mscorlib/src/System/IO/FileInfo.cs
       branch: master
-      repo: https://github.com/dotnet/corefx.git
+      repo: https://github.com/dotnet/coreclr.git
     id: Name
-    path: src/System.IO.FileSystem/src/System/IO/FileInfo.cs
-    startLine: 60
+    path: src/mscorlib/src/System/IO/FileInfo.cs
+    startLine: 124
   assemblies:
   - System.IO.FileSystem
   namespace: System.IO
@@ -399,11 +437,11 @@ items:
   example:
   - "\n<p>The following example uses the <strong>Name</strong> property to display the names of files in the current directory.</p>fileinfoname#1"
   syntax:
-    content: public override String Name { get; }
+    content: public override string Name { get; }
     content.vb: Public Overrides ReadOnly Property Name As String
     parameters: []
     return:
-      type: String
+      type: System.String
   overridden: System.IO.FileSystemInfo.Name
   modifiers.csharp:
   - public
@@ -425,12 +463,12 @@ items:
   type: Method
   source:
     remote:
-      path: src/System.IO.FileSystem/src/System/IO/FileInfo.cs
+      path: src/mscorlib/src/System/IO/FileInfo.cs
       branch: master
-      repo: https://github.com/dotnet/corefx.git
+      repo: https://github.com/dotnet/coreclr.git
     id: AppendText
-    path: src/System.IO.FileSystem/src/System/IO/FileInfo.cs
-    startLine: 129
+    path: src/mscorlib/src/System/IO/FileInfo.cs
+    startLine: 217
   assemblies:
   - System.IO.FileSystem
   namespace: System.IO
@@ -441,7 +479,7 @@ items:
     content: public StreamWriter AppendText()
     content.vb: Public Function AppendText As StreamWriter
     return:
-      type: StreamWriter
+      type: System.IO.StreamWriter
   seealso:
   - type: System.IO.StreamWriter
     commentId: T:System.IO.StreamWriter
@@ -464,12 +502,12 @@ items:
   type: Method
   source:
     remote:
-      path: src/System.IO.FileSystem/ref/System.IO.FileSystem.cs
+      path: src/mscorlib/src/System/IO/FileInfo.cs
       branch: master
-      repo: https://github.com/dotnet/corefx.git
+      repo: https://github.com/dotnet/coreclr.git
     id: CopyTo
-    path: src/System.IO.FileSystem/ref/System.IO.FileSystem.cs
-    startLine: 153
+    path: src/mscorlib/src/System/IO/FileInfo.cs
+    startLine: 232
   assemblies:
   - System.IO.FileSystem
   namespace: System.IO
@@ -483,10 +521,8 @@ items:
     parameters:
     - id: destFileName
       type: System.String
-      description: "\n<p>The name of the new file to copy to. </p>\n"
     return:
       type: System.IO.FileInfo
-      description: "\n<p>A new file with a fully qualified path.</p>\n"
   exceptions:
   - type: System.ArgumentException
     commentId: T:System.ArgumentException
@@ -531,12 +567,12 @@ items:
   type: Method
   source:
     remote:
-      path: src/System.IO.FileSystem/ref/System.IO.FileSystem.cs
+      path: src/mscorlib/src/System/IO/FileInfo.cs
       branch: master
-      repo: https://github.com/dotnet/corefx.git
+      repo: https://github.com/dotnet/coreclr.git
     id: CopyTo
-    path: src/System.IO.FileSystem/ref/System.IO.FileSystem.cs
-    startLine: 154
+    path: src/mscorlib/src/System/IO/FileInfo.cs
+    startLine: 253
   assemblies:
   - System.IO.FileSystem
   namespace: System.IO
@@ -550,13 +586,10 @@ items:
     parameters:
     - id: destFileName
       type: System.String
-      description: "\n<p>The name of the new file to copy to. </p>\n"
     - id: overwrite
       type: System.Boolean
-      description: "\n<p>\n<strong>true</strong> to allow an existing file to be overwritten; otherwise, <strong>false</strong>. </p>\n"
     return:
       type: System.IO.FileInfo
-      description: "\n<p>A new file, or an overwrite of an existing file if <em>overwrite</em> is <strong>true</strong>. If the file exists and <em>overwrite</em> is <strong>false</strong>, an <xref href=\"System.IO.IOException\" data-throw-if-not-resolved=\"false\"></xref> is thrown.</p>\n"
   exceptions:
   - type: System.ArgumentException
     commentId: T:System.ArgumentException
@@ -601,12 +634,12 @@ items:
   type: Method
   source:
     remote:
-      path: src/System.IO.FileSystem/src/System/IO/FileInfo.cs
+      path: src/mscorlib/src/System/IO/FileInfo.cs
       branch: master
-      repo: https://github.com/dotnet/corefx.git
+      repo: https://github.com/dotnet/coreclr.git
     id: Create
-    path: src/System.IO.FileSystem/src/System/IO/FileInfo.cs
-    startLine: 179
+    path: src/mscorlib/src/System/IO/FileInfo.cs
+    startLine: 264
   assemblies:
   - System.IO.FileSystem
   namespace: System.IO
@@ -638,12 +671,12 @@ items:
   type: Method
   source:
     remote:
-      path: src/System.IO.FileSystem/src/System/IO/FileInfo.cs
+      path: src/mscorlib/src/System/IO/FileInfo.cs
       branch: master
-      repo: https://github.com/dotnet/corefx.git
+      repo: https://github.com/dotnet/coreclr.git
     id: CreateText
-    path: src/System.IO.FileSystem/src/System/IO/FileInfo.cs
-    startLine: 123
+    path: src/mscorlib/src/System/IO/FileInfo.cs
+    startLine: 212
   assemblies:
   - System.IO.FileSystem
   namespace: System.IO
@@ -655,7 +688,7 @@ items:
     content: public StreamWriter CreateText()
     content.vb: Public Function CreateText As StreamWriter
     return:
-      type: StreamWriter
+      type: System.IO.StreamWriter
   exceptions:
   - type: System.UnauthorizedAccessException
     commentId: T:System.UnauthorizedAccessException
@@ -688,12 +721,12 @@ items:
   type: Method
   source:
     remote:
-      path: src/System.IO.FileSystem/src/System/IO/FileInfo.cs
+      path: src/mscorlib/src/System/IO/FileInfo.cs
       branch: master
-      repo: https://github.com/dotnet/corefx.git
+      repo: https://github.com/dotnet/coreclr.git
     id: Delete
-    path: src/System.IO.FileSystem/src/System/IO/FileInfo.cs
-    startLine: 194
+    path: src/mscorlib/src/System/IO/FileInfo.cs
+    startLine: 278
   assemblies:
   - System.IO.FileSystem
   namespace: System.IO
@@ -702,8 +735,14 @@ items:
   example:
   - "\n<p>The following example demonstrates the <strong>Delete</strong> method.</p>finfo delete#1<p>The following example creates, closes, and deletes a file.</p>fileinfodelete#1"
   syntax:
-    content: public override void Delete()
-    content.vb: Public Overrides Sub Delete
+    content: >-
+      [SecuritySafeCritical]
+
+      public override void Delete()
+    content.vb: >-
+      <SecuritySafeCritical>
+
+      Public Overrides Sub Delete
   overridden: System.IO.FileSystemInfo.Delete
   exceptions:
   - type: System.IO.IOException
@@ -736,12 +775,12 @@ items:
   type: Method
   source:
     remote:
-      path: src/System.IO.FileSystem/ref/System.IO.FileSystem.cs
+      path: src/mscorlib/src/System/IO/FileInfo.cs
       branch: master
-      repo: https://github.com/dotnet/corefx.git
+      repo: https://github.com/dotnet/coreclr.git
     id: MoveTo
-    path: src/System.IO.FileSystem/ref/System.IO.FileSystem.cs
-    startLine: 158
+    path: src/mscorlib/src/System/IO/FileInfo.cs
+    startLine: 382
   assemblies:
   - System.IO.FileSystem
   namespace: System.IO
@@ -750,12 +789,17 @@ items:
   example:
   - "\n<p>The following example demonstrates moving a file to a different location and renaming the file.</p>IO.FileInfo.MoveTo#1"
   syntax:
-    content: public void MoveTo(string destFileName)
-    content.vb: Public Sub MoveTo(destFileName As String)
+    content: >-
+      [SecuritySafeCritical]
+
+      public void MoveTo(string destFileName)
+    content.vb: >-
+      <SecuritySafeCritical>
+
+      Public Sub MoveTo(destFileName As String)
     parameters:
     - id: destFileName
       type: System.String
-      description: "\n<p>The path to move the file to, which can specify a different file name. </p>\n"
   exceptions:
   - type: System.IO.IOException
     commentId: T:System.IO.IOException
@@ -803,12 +847,12 @@ items:
   type: Method
   source:
     remote:
-      path: src/System.IO.FileSystem/ref/System.IO.FileSystem.cs
+      path: src/mscorlib/src/System/IO/FileInfo.cs
       branch: master
-      repo: https://github.com/dotnet/corefx.git
+      repo: https://github.com/dotnet/coreclr.git
     id: Open
-    path: src/System.IO.FileSystem/ref/System.IO.FileSystem.cs
-    startLine: 159
+    path: src/mscorlib/src/System/IO/FileInfo.cs
+    startLine: 341
   assemblies:
   - System.IO.FileSystem
   namespace: System.IO
@@ -821,10 +865,8 @@ items:
     parameters:
     - id: mode
       type: System.IO.FileMode
-      description: "\n<p>A <xref href=\"System.IO.FileMode\" data-throw-if-not-resolved=\"false\"></xref> constant specifying the mode (for example, <strong>Open</strong> or <strong>Append</strong>) in which to open the file. </p>\n"
     return:
       type: System.IO.FileStream
-      description: "\n<p>A file opened in the specified mode, with read/write access and unshared.</p>\n"
   exceptions:
   - type: System.IO.FileNotFoundException
     commentId: T:System.IO.FileNotFoundException
@@ -857,12 +899,12 @@ items:
   type: Method
   source:
     remote:
-      path: src/System.IO.FileSystem/ref/System.IO.FileSystem.cs
+      path: src/mscorlib/src/System/IO/FileInfo.cs
       branch: master
-      repo: https://github.com/dotnet/corefx.git
+      repo: https://github.com/dotnet/coreclr.git
     id: Open
-    path: src/System.IO.FileSystem/ref/System.IO.FileSystem.cs
-    startLine: 160
+    path: src/mscorlib/src/System/IO/FileInfo.cs
+    startLine: 345
   assemblies:
   - System.IO.FileSystem
   namespace: System.IO
@@ -875,13 +917,10 @@ items:
     parameters:
     - id: mode
       type: System.IO.FileMode
-      description: "\n<p>A <xref href=\"System.IO.FileMode\" data-throw-if-not-resolved=\"false\"></xref> constant specifying the mode (for example, <strong>Open</strong> or <strong>Append</strong>) in which to open the file. </p>\n"
     - id: access
       type: System.IO.FileAccess
-      description: "\n<p>A <xref href=\"System.IO.FileAccess\" data-throw-if-not-resolved=\"false\"></xref> constant specifying whether to open the file with <strong>Read</strong>, <strong>Write</strong>, or <strong>ReadWrite</strong> file access. </p>\n"
     return:
       type: System.IO.FileStream
-      description: "\n<p>A <xref href=\"System.IO.FileStream\" data-throw-if-not-resolved=\"false\"></xref> object opened in the specified mode and access, and unshared.</p>\n"
   exceptions:
   - type: System.Security.SecurityException
     commentId: T:System.Security.SecurityException
@@ -917,12 +956,12 @@ items:
   type: Method
   source:
     remote:
-      path: src/System.IO.FileSystem/ref/System.IO.FileSystem.cs
+      path: src/mscorlib/src/System/IO/FileInfo.cs
       branch: master
-      repo: https://github.com/dotnet/corefx.git
+      repo: https://github.com/dotnet/coreclr.git
     id: Open
-    path: src/System.IO.FileSystem/ref/System.IO.FileSystem.cs
-    startLine: 161
+    path: src/mscorlib/src/System/IO/FileInfo.cs
+    startLine: 349
   assemblies:
   - System.IO.FileSystem
   namespace: System.IO
@@ -935,16 +974,12 @@ items:
     parameters:
     - id: mode
       type: System.IO.FileMode
-      description: "\n<p>A <xref href=\"System.IO.FileMode\" data-throw-if-not-resolved=\"false\"></xref> constant specifying the mode (for example, <strong>Open</strong> or <strong>Append</strong>) in which to open the file. </p>\n"
     - id: access
       type: System.IO.FileAccess
-      description: "\n<p>A <xref href=\"System.IO.FileAccess\" data-throw-if-not-resolved=\"false\"></xref> constant specifying whether to open the file with <strong>Read</strong>, <strong>Write</strong>, or <strong>ReadWrite</strong> file access. </p>\n"
     - id: share
       type: System.IO.FileShare
-      description: "\n<p>A <xref href=\"System.IO.FileShare\" data-throw-if-not-resolved=\"false\"></xref> constant specifying the type of access other <strong>FileStream</strong> objects have to this file. </p>\n"
     return:
       type: System.IO.FileStream
-      description: "\n<p>A <xref href=\"System.IO.FileStream\" data-throw-if-not-resolved=\"false\"></xref> object opened with the specified mode, access, and sharing options.</p>\n"
   exceptions:
   - type: System.Security.SecurityException
     commentId: T:System.Security.SecurityException
@@ -980,12 +1015,12 @@ items:
   type: Method
   source:
     remote:
-      path: src/System.IO.FileSystem/src/System/IO/FileInfo.cs
+      path: src/mscorlib/src/System/IO/FileInfo.cs
       branch: master
-      repo: https://github.com/dotnet/corefx.git
+      repo: https://github.com/dotnet/coreclr.git
     id: OpenRead
-    path: src/System.IO.FileSystem/src/System/IO/FileInfo.cs
-    startLine: 238
+    path: src/mscorlib/src/System/IO/FileInfo.cs
+    startLine: 355
   assemblies:
   - System.IO.FileSystem
   namespace: System.IO
@@ -994,8 +1029,14 @@ items:
   example:
   - "\n<p>The following example opens a file as read-only and reads from it.</p>finfo openread#1"
   syntax:
-    content: public FileStream OpenRead()
-    content.vb: Public Function OpenRead As FileStream
+    content: >-
+      [SecuritySafeCritical]
+
+      public FileStream OpenRead()
+    content.vb: >-
+      <SecuritySafeCritical>
+
+      Public Function OpenRead As FileStream
     return:
       type: System.IO.FileStream
   exceptions:
@@ -1027,12 +1068,12 @@ items:
   type: Method
   source:
     remote:
-      path: src/System.IO.FileSystem/src/System/IO/FileInfo.cs
+      path: src/mscorlib/src/System/IO/FileInfo.cs
       branch: master
-      repo: https://github.com/dotnet/corefx.git
+      repo: https://github.com/dotnet/coreclr.git
     id: OpenText
-    path: src/System.IO.FileSystem/src/System/IO/FileInfo.cs
-    startLine: 116
+    path: src/mscorlib/src/System/IO/FileInfo.cs
+    startLine: 206
   assemblies:
   - System.IO.FileSystem
   namespace: System.IO
@@ -1040,10 +1081,16 @@ items:
   example:
   - "\n<p>The following example reads text from a file.</p>finfo opentext#1"
   syntax:
-    content: public StreamReader OpenText()
-    content.vb: Public Function OpenText As StreamReader
+    content: >-
+      [SecuritySafeCritical]
+
+      public StreamReader OpenText()
+    content.vb: >-
+      <SecuritySafeCritical>
+
+      Public Function OpenText As StreamReader
     return:
-      type: StreamReader
+      type: System.IO.StreamReader
   exceptions:
   - type: System.Security.SecurityException
     commentId: T:System.Security.SecurityException
@@ -1081,12 +1128,12 @@ items:
   type: Method
   source:
     remote:
-      path: src/System.IO.FileSystem/src/System/IO/FileInfo.cs
+      path: src/mscorlib/src/System/IO/FileInfo.cs
       branch: master
-      repo: https://github.com/dotnet/corefx.git
+      repo: https://github.com/dotnet/coreclr.git
     id: OpenWrite
-    path: src/System.IO.FileSystem/src/System/IO/FileInfo.cs
-    startLine: 246
+    path: src/mscorlib/src/System/IO/FileInfo.cs
+    startLine: 364
   assemblies:
   - System.IO.FileSystem
   namespace: System.IO
@@ -1125,22 +1172,23 @@ items:
   type: Method
   source:
     remote:
-      path: src/System.IO.FileSystem/src/System/IO/FileInfo.cs
+      path: src/mscorlib/src/System/IO/FileInfo.cs
       branch: master
-      repo: https://github.com/dotnet/corefx.git
+      repo: https://github.com/dotnet/coreclr.git
     id: ToString
-    path: src/System.IO.FileSystem/src/System/IO/FileInfo.cs
-    startLine: 294
+    path: src/mscorlib/src/System/IO/FileInfo.cs
+    startLine: 425
   assemblies:
   - System.IO.FileSystem
   namespace: System.IO
   summary: "\n<p>Returns the path as a string.</p>\n"
   remarks: "\n<p>The string returned by the <xref href=\"System.IO.FileInfo.ToString\" data-throw-if-not-resolved=\"false\"></xref> method represents path that was passed to the constructor.  When you create a <xref href=\"System.IO.FileInfo\" data-throw-if-not-resolved=\"false\"></xref> object using the constructors, the <xref href=\"System.IO.FileInfo.ToString\" data-throw-if-not-resolved=\"false\"></xref> method returns the fully qualified path.  However, there are cases where the string returned by the <xref href=\"System.IO.FileInfo.ToString\" data-throw-if-not-resolved=\"false\"></xref> method does not represent the fully qualified path.  For example, when you create a <xref href=\"System.IO.FileInfo\" data-throw-if-not-resolved=\"false\"></xref> object using the <see cref=\"Overload:System.IO.DirectoryInfo.GetFiles\"></see> method, the <xref href=\"System.IO.FileInfo.ToString\" data-throw-if-not-resolved=\"false\"></xref> method does not represent the fully qualified path.      </p>\n"
   syntax:
-    content: public override String ToString()
+    content: public override string ToString()
     content.vb: Public Overrides Function ToString As String
     return:
-      type: String
+      type: System.String
+  overridden: System.Object.ToString
   modifiers.csharp:
   - public
   - override
@@ -1238,6 +1286,192 @@ references:
     fullName: (
   - name: )
     fullName: )
+- uid: System.Object.Equals(System.Object)
+  parent: System.Object
+  isExternal: true
+  name: Equals(Object)
+  fullName: System.Object.Equals(System.Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    fullName: )
+- uid: System.Object.Equals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  name: Equals(Object, Object)
+  fullName: System.Object.Equals(System.Object, System.Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    fullName: )
+- uid: System.Object.ReferenceEquals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  name: ReferenceEquals(Object, Object)
+  fullName: System.Object.ReferenceEquals(System.Object, System.Object)
+  spec.csharp:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    fullName: System.Object.ReferenceEquals
+    isExternal: true
+  - name: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    fullName: System.Object.ReferenceEquals
+    isExternal: true
+  - name: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    fullName: )
+- uid: System.Object.GetHashCode
+  parent: System.Object
+  isExternal: true
+  name: GetHashCode()
+  fullName: System.Object.GetHashCode()
+  spec.csharp:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    fullName: System.Object.GetHashCode
+    isExternal: true
+  - name: (
+    fullName: (
+  - name: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    fullName: System.Object.GetHashCode
+    isExternal: true
+  - name: (
+    fullName: (
+  - name: )
+    fullName: )
+- uid: System.Object.GetType
+  parent: System.Object
+  isExternal: true
+  name: GetType()
+  fullName: System.Object.GetType()
+  spec.csharp:
+  - uid: System.Object.GetType
+    name: GetType
+    fullName: System.Object.GetType
+    isExternal: true
+  - name: (
+    fullName: (
+  - name: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.GetType
+    name: GetType
+    fullName: System.Object.GetType
+    isExternal: true
+  - name: (
+    fullName: (
+  - name: )
+    fullName: )
+- uid: System.Object.MemberwiseClone
+  parent: System.Object
+  isExternal: true
+  name: MemberwiseClone()
+  fullName: System.Object.MemberwiseClone()
+  spec.csharp:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    fullName: System.Object.MemberwiseClone
+    isExternal: true
+  - name: (
+    fullName: (
+  - name: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    fullName: System.Object.MemberwiseClone
+    isExternal: true
+  - name: (
+    fullName: (
+  - name: )
+    fullName: )
 - uid: System
   isExternal: false
   name: System
@@ -1328,6 +1562,29 @@ references:
   isExternal: false
   name: StreamReader
   fullName: System.IO.StreamReader
+- uid: System.Object.ToString
+  parent: System.Object
+  isExternal: true
+  name: ToString()
+  fullName: System.Object.ToString()
+  spec.csharp:
+  - uid: System.Object.ToString
+    name: ToString
+    fullName: System.Object.ToString
+    isExternal: true
+  - name: (
+    fullName: (
+  - name: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.ToString
+    name: ToString
+    fullName: System.Object.ToString
+    isExternal: true
+  - name: (
+    fullName: (
+  - name: )
+    fullName: )
 - uid: System.ArgumentNullException
   isExternal: false
   name: ArgumentNullException
@@ -1342,6 +1599,7 @@ references:
   name: ArgumentException
   fullName: System.ArgumentException
 - uid: System.UnauthorizedAccessException
+  parent: System
   isExternal: false
   name: UnauthorizedAccessException
   fullName: System.UnauthorizedAccessException

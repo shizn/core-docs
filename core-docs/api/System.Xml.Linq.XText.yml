@@ -26,6 +26,10 @@ items:
   assemblies:
   - System.Xml.XDocument
   namespace: System.Xml.Linq
+  summary: "\n<p>Represents a text node. </p>\n"
+  remarks: "\n<p>XML elements can contain text content. Sometimes the content is simple (the element only contains text content), and sometimes the content is mixed (the contents of the element contains both text and other elements). In either case, each chunk of text is represented as an <xref href=\"System.Xml.Linq.XText\" data-throw-if-not-resolved=\"false\"></xref> node.</p>\n<p>LINQ to XML developers will often have to write code to work with arbitrary LINQ to XML trees that they did not create. If you are writing code that has to work with LINQ to XML trees that you have no control over creating, you should be aware of certain behaviors of <xref href=\"System.Xml.Linq.XText\" data-throw-if-not-resolved=\"false\"></xref> nodes.</p>\n<p>When processing the contents of an XML tree at the node level, you should be prepared for multiple <xref href=\"System.Xml.Linq.XText\" data-throw-if-not-resolved=\"false\"></xref> nodes to be adjacent to each other. Further, you should be prepared for <xref href=\"System.Xml.Linq.XText\" data-throw-if-not-resolved=\"false\"></xref> nodes that contain no text. It is possible through LINQ to XML methods to remove the content of a text node. However, LINQ to XML does not automatically delete the node. The node has identity, and might have annotations, so LINQ to XML allows for zero-length nodes in the tree.</p>\n<p>For more information, see Programming with Nodes. </p>\n"
+  example:
+  - 
   syntax:
     content: 'public class XText : XNode'
     content.vb: >-
@@ -103,12 +107,17 @@ items:
   assemblies:
   - System.Xml.XDocument
   namespace: System.Xml.Linq
+  summary: "\n<p>Initializes a new instance of the <xref href=\"System.Xml.Linq.XText\" data-throw-if-not-resolved=\"false\"></xref> class. </p>\n"
+  remarks: "\n<p>You typically do not create text nodes by using the <xref href=\"System.Xml.Linq.XText\" data-throw-if-not-resolved=\"false\"></xref> constructors. When you pass text content when constructing an <xref href=\"System.Xml.Linq.XElement\" data-throw-if-not-resolved=\"false\"></xref>, text nodes are automatically created.</p>\n"
+  example:
+  - "\n<p>The following example creates an element that contains a text node.</p>\n<pre><code class=\"c#\">XElement root = new XElement(\"Root\", \"Some text\");\nConsole.WriteLine(root);</code></pre>\n<pre><code class=\"vb\">Dim root As XElement = <Root>Some text</Root>\nConsole.WriteLine(root)</code></pre>\n<p>This example produces the following output:</p>\n<pre><code class=\"xml\"><Root>Some text</Root></code></pre>\n"
   syntax:
     content: public XText(string value)
     content.vb: Public Sub New(value As String)
     parameters:
     - id: value
       type: System.String
+      description: "\n<p>The <xref href=\"System.String\" data-throw-if-not-resolved=\"false\"></xref> that contains the value of the <xref href=\"System.Xml.Linq.XText\" data-throw-if-not-resolved=\"false\"></xref> node.</p>\n"
   modifiers.csharp:
   - public
   modifiers.vb:
@@ -134,12 +143,15 @@ items:
   assemblies:
   - System.Xml.XDocument
   namespace: System.Xml.Linq
+  summary: "\n<p>Initializes a new instance of the <xref href=\"System.Xml.Linq.XText\" data-throw-if-not-resolved=\"false\"></xref> class from another <xref href=\"System.Xml.Linq.XText\" data-throw-if-not-resolved=\"false\"></xref> object.</p>\n"
+  remarks: "\n<p>This constructor is primarily used internally to make a deep copy of an XML tree.</p>\n"
   syntax:
     content: public XText(XText other)
     content.vb: Public Sub New(other As XText)
     parameters:
     - id: other
       type: System.Xml.Linq.XText
+      description: "\n<p>The <xref href=\"System.Xml.Linq.XText\" data-throw-if-not-resolved=\"false\"></xref> node to copy from.</p>\n"
   modifiers.csharp:
   - public
   modifiers.vb:
@@ -165,12 +177,17 @@ items:
   assemblies:
   - System.Xml.XDocument
   namespace: System.Xml.Linq
+  summary: "\n<p>Gets the node type for this node.</p>\n"
+  remarks: "\n<p>Because all classes that derive from <xref href=\"System.Xml.Linq.XObject\" data-throw-if-not-resolved=\"false\"></xref> contain a <xref href=\"System.Xml.Linq.XObject.NodeType\" data-throw-if-not-resolved=\"false\"></xref> property, you can write code that operates on collections of concrete subclass of <xref href=\"System.Xml.Linq.XObject\" data-throw-if-not-resolved=\"false\"></xref>. Your code can then test for the node type of each node in the collection.</p>\n"
+  example:
+  - "\n<p>The following example creates an XML tree that contains a number of types of nodes. It then iterates through the tree, outputting the node type of each node.</p>\n<p>Note that <code>Child2</code> contains an <xref href=\"System.Xml.Linq.XText\" data-throw-if-not-resolved=\"false\"></xref> node, implicitly converted from the string content.</p>\n<pre><code class=\"c#\">// Note that XNode uses XmlNodeType, which is in the System.Xml namespace.\nXDocument xmlTree = new XDocument(\nnew XComment(\"a comment\"),\nnew XProcessingInstruction(\"xml-stylesheet\", \"type=\\\"text/xsl\\\" href=\\\"hello.xsl\\\"\"),\nnew XElement(\"Root\",\nnew XAttribute(\"Att\", \"attContent\"),\nnew XElement(\"Child1\",\n    new XCData(\"CDATA content\")\n),\nnew XElement(\"Child2\", \"Text content\")\n)\n);\n\nforeach (XNode node in xmlTree.DescendantNodes())\n{\nConsole.WriteLine(node.NodeType);\nif (node.NodeType == XmlNodeType.Element)\n{\nforeach (XAttribute att in ((XElement)node).Attributes())\n    Console.WriteLine(att.NodeType);\n}\n}</code></pre>\n<pre><code class=\"vb\">' Note that XNode uses XmlNodeType, which is in the System.Xml namespace.\nDim xmlTree As XDocument = _\n<?xml version='1.0'?>\n<!-- a comment -->\n<?xml-stylesheet type='text/xsl' href='hello.xsl'?>\n<Root Att=\"attContent\">\n<Child1>\n    <![CDATA[CDATA content]]>\n</Child1>\n<Child2>Text content</Child2>\n</Root>\n\nFor Each node As XNode In xmlTree.DescendantNodes\nConsole.WriteLine(node.NodeType.ToString())\nIf node.NodeType = XmlNodeType.Element Then\nFor Each att In DirectCast(node, XElement).Attributes\n    Console.WriteLine(att.NodeType.ToString())\nNext\nEnd If\nNext</code></pre>\n<p>This example produces the following output:</p>\n<pre><code>Comment\nProcessingInstruction\nElement\nAttribute\nElement\nCDATA\nElement\nText</code></pre>\n"
   syntax:
     content: public override XmlNodeType NodeType { get; }
     content.vb: Public Overrides ReadOnly Property NodeType As XmlNodeType
     parameters: []
     return:
       type: System.Xml.XmlNodeType
+      description: "\n<p>The node type. For <xref href=\"System.Xml.Linq.XText\" data-throw-if-not-resolved=\"false\"></xref> objects, this value is <xref href=\"System.Xml.XmlNodeType.Text\" data-throw-if-not-resolved=\"false\"></xref>.</p>\n"
   overridden: System.Xml.Linq.XObject.NodeType
   modifiers.csharp:
   - public
@@ -201,12 +218,17 @@ items:
   assemblies:
   - System.Xml.XDocument
   namespace: System.Xml.Linq
+  summary: "\n<p>Gets or sets the value of this node.</p>\n"
+  remarks: "\n<p>Setting this property will raise the <xref href=\"System.Xml.Linq.XObject.Changed\" data-throw-if-not-resolved=\"false\"></xref> and the <xref href=\"System.Xml.Linq.XObject.Changing\" data-throw-if-not-resolved=\"false\"></xref> events.</p>\n"
+  example:
+  - "\n<p>The following example shows getting and setting this property.</p>\n<pre><code class=\"c#\">XElement root = new XElement(\"Root\", \"Some text\");\nXText txtNode = root.Nodes().OfType<XText>().First();\nConsole.WriteLine(txtNode.Value);\ntxtNode.Value = \"New text\";\nConsole.WriteLine(txtNode.Value);\n\nroot.Value = \"Newer text\";\ntxtNode = root.Nodes().OfType<XText>().First();\nConsole.WriteLine(txtNode.Value);</code></pre>\n<pre><code class=\"vb\">Dim root As XElement = <Root>Some text</Root>\nDim txtNode As XText = root.Nodes().OfType(Of XText).First()\nConsole.WriteLine(txtNode.Value)\ntxtNode.Value = \"New text\"\nConsole.WriteLine(txtNode.Value)\n\nroot.Value = \"Newer text\"\ntxtNode = root.Nodes().OfType(Of XText).First()\nConsole.WriteLine(txtNode.Value)</code></pre>\n<p>This example produces the following output:</p>\n<pre><code>Some text\nNew text\nNewer text</code></pre>\n"
   syntax:
     content: public string Value { get; set; }
     content.vb: Public Property Value As String
     parameters: []
     return:
       type: System.String
+      description: "\n<p>A <xref href=\"System.String\" data-throw-if-not-resolved=\"false\"></xref> that contains the value of this node.</p>\n"
   modifiers.csharp:
   - public
   - get
@@ -234,12 +256,15 @@ items:
   assemblies:
   - System.Xml.XDocument
   namespace: System.Xml.Linq
+  summary: "\n<p>Writes this node to an <xref href=\"System.Xml.XmlWriter\" data-throw-if-not-resolved=\"false\"></xref>.</p>\n"
+  remarks: "\n<p>This method is primarily used internally by the methods that write an XML tree to an <xref href=\"System.Xml.XmlWriter\" data-throw-if-not-resolved=\"false\"></xref>. </p>\n"
   syntax:
     content: public override void WriteTo(XmlWriter writer)
     content.vb: Public Overrides Sub WriteTo(writer As XmlWriter)
     parameters:
     - id: writer
       type: System.Xml.XmlWriter
+      description: "\n<p>An <xref href=\"System.Xml.XmlWriter\" data-throw-if-not-resolved=\"false\"></xref> into which this method will write.</p>\n"
   overridden: System.Xml.Linq.XNode.WriteTo(System.Xml.XmlWriter)
   modifiers.csharp:
   - public

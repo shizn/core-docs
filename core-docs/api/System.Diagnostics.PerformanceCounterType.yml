@@ -49,9 +49,16 @@ items:
   assemblies:
   - System.Diagnostics.PerformanceCounter
   namespace: System.Diagnostics
+  summary: "\n<p>Specifies the formula used to calculate the <xref href=\"System.Diagnostics.PerformanceCounter.NextValue\" data-throw-if-not-resolved=\"false\"></xref> method for a <xref href=\"System.Diagnostics.PerformanceCounter\" data-throw-if-not-resolved=\"false\"></xref> instance.</p>\n"
+  remarks: "\n<p>Some counter types represent raw data, while others represent calculated values that are based on one or more counter samples. The following categories classify the types of counters available.</p>\n<ul><li>\n<p>Average: measure a value over time and display the average of the last two measurements. Associated with each average counter is a base counter that tracks the number of samples involved.</p>\n</li><li>\n<p>Difference: subtract the last measurement from the previous one and display the difference, if it is positive; if negative, they display a zero.</p>\n</li><li>\n<p>Instantaneous: display the most recent measurement.</p>\n</li><li>\n<p>Percentage: display calculated values as a percentage.</p>\n</li><li>\n<p>Rate: sample an increasing count of events over time and divide the change in count values by the change in time to display a rate of activity.</p>\n</li></ul>\n<p>When sampling performance counter data, using a counter type that represents an average can make raw data values meaningful for your use. For example, the raw data counter <strong>NumberOfItems64</strong> can expose data that is fairly random from sample to sample. The formula for an average calculation of the values that the counter returns would be (X 0 +X 1 +…+X n)/n, where each X i is a raw counter sample.</p>\n<p>Rate counters are similar to average counters, but more useful for situations in which the rate increases as a resource is used. A formula that quickly calculates the average is ((X n -X 0)/(T n -T 0)) / frequency, where each X i is a counter sample and each T i is the time that the corresponding sample was taken. The result is the average usage per second.</p>\n<p>Unless otherwise indicated, the time base is seconds.</p>\n<p>When instrumenting applications (creating and writing custom performance counters), you might be working with performance counter types that rely on an accompanying base counter that is used in the calculations. The base counter must be immediately after its associated counter in the <xref href=\"System.Diagnostics.CounterCreationDataCollection\" data-throw-if-not-resolved=\"false\"></xref> collection your application uses. The following table lists the base counter types with their corresponding performance counter types.</p>\n<p>Base counter type </p>\n<p>Performance counter types </p>\n<table><tbody><tr><td>\n<p>\n<strong>AverageBase</strong>\n</p>\n</td><td>\n<p>\n<strong>AverageTimer32</strong>\n</p>\n<p>\n<strong>AverageCount64</strong>\n</p>\n</td></tr><tr><td>\n<p>\n<strong>CounterMultiBase</strong>\n</p>\n</td><td>\n<p>\n<strong>CounterMultiTimer</strong>\n</p>\n<p>\n<strong>CounterMultiTimerInverse</strong>\n</p>\n<p>\n<strong>CounterMultiTimer100Ns</strong>\n</p>\n<p>\n<strong>CounterMultiTimer100NsInverse</strong>\n</p>\n</td></tr><tr><td>\n<p>\n<strong>RawBase</strong>\n</p>\n</td><td>\n<p>\n<strong>RawFraction</strong>\n</p>\n</td></tr><tr><td>\n<p>\n<strong>SampleBase</strong>\n</p>\n</td><td>\n<p>\n<strong>SampleFraction</strong>\n</p>\n</td></tr></tbody></table>\n"
+  example:
+  - "\n<p>The following examples demonstrate several of the counter types in the <xref href=\"System.Diagnostics.PerformanceCounterType\" data-throw-if-not-resolved=\"false\"></xref> enumeration.</p>\n<p>\n<strong>AverageCount64</strong>\n</p>PerformanceCounterType.AverageCounter64#1<p><strong>AverageTimer32</strong></p>PerformanceCounterType.AverageTimer32#2<p><strong>ElapsedTime</strong></p>PerformanceCounterType.ElapsedTime#2<p><strong>NumberOfItems32</strong></p>PerformanceCounterType.NumberOfItems32#1<p><strong>NumberOfItems64</strong></p>PerformanceCounterType.NumberOfItems64#1<p><strong>SampleFraction</strong></p>PerformanceCounterType.SampleFraction#1<p><strong>RateOfCountsPerSecond32</strong></p>PerformanceCounterType.RateOfCountsPerSecond#1<p><strong>RateOfCountsPerSecond64</strong></p>PerformanceCounterType.RateOfCountsPerSecond64#1<p><strong>RawFraction</strong></p>PerformanceCounterType.RawFraction#1"
   syntax:
-    content: 'public enum PerformanceCounterType : int'
-    content.vb: Public Enum PerformanceCounterType As Integer
+    content: public enum PerformanceCounterType
+    content.vb: Public Enum PerformanceCounterType
+  seealso:
+  - type: System.Diagnostics.PerformanceCounter
+    commentId: T:System.Diagnostics.PerformanceCounter
   modifiers.csharp:
   - public
   - enum
@@ -79,9 +86,9 @@ items:
   assemblies:
   - System.Diagnostics.PerformanceCounter
   namespace: System.Diagnostics
+  summary: "\n<p>A base counter that is used in the calculation of time or count averages, such as <strong>AverageTimer32</strong> and <strong>AverageCount64</strong>. Stores the denominator for calculating a counter to present \"time per operation\" or \"count per operation\".</p>\n"
   syntax:
-    content: AverageBase = null
-    content.vb: AverageBase = Nothing
+    content: AverageBase = 1073939458
     return:
       type: System.Diagnostics.PerformanceCounterType
   modifiers.csharp:
@@ -111,9 +118,10 @@ items:
   assemblies:
   - System.Diagnostics.PerformanceCounter
   namespace: System.Diagnostics
+  summary: "\n<p>An average counter that shows how many items are processed, on average, during an operation. Counters of this type display a ratio of the items processed to the number of operations completed. The ratio is calculated by comparing the number of items processed during the last interval to the number of operations completed during the last interval.</p>\n"
+  remarks: "\n<p>Formula: (N 1 -N 0)/(B 1 -B 0), where N 1 and N 0 are performance counter readings, and the B 1 and B 0 are their corresponding <strong>AverageBase</strong> values. Thus, the numerator represents the numbers of items processed during the sample interval, and the denominator represents the number of operations completed during the sample interval.</p>\n<p>Counters of this type include PhysicalDisk\\ Avg. Disk Bytes/Transfer.</p>\n"
   syntax:
-    content: AverageCount64 = null
-    content.vb: AverageCount64 = Nothing
+    content: AverageCount64 = 1073874176
     return:
       type: System.Diagnostics.PerformanceCounterType
   modifiers.csharp:
@@ -143,9 +151,10 @@ items:
   assemblies:
   - System.Diagnostics.PerformanceCounter
   namespace: System.Diagnostics
+  summary: "\n<p>An average counter that measures the time it takes, on average, to complete a process or operation. Counters of this type display a ratio of the total elapsed time of the sample interval to the number of processes or operations completed during that time. This counter type measures time in ticks of the system clock.</p>\n"
+  remarks: "\n<p>Formula: ((N 1 -N 0)/F)/(B 1 -B 0), where N 1 and N 0 are performance counter readings, B 1 and B 0 are their corresponding <strong>AverageBase</strong> values, and F is the number of ticks per second. The value of F is factored into the equation so that the result can be displayed in seconds. Thus, the numerator represents the numbers of ticks counted during the last sample interval, F represents the frequency of the ticks, and the denominator represents the number of operations completed during the last sample interval.</p>\n<p>Counters of this type include PhysicalDisk\\ Avg. Disk sec/Transfer.</p>\n"
   syntax:
-    content: AverageTimer32 = null
-    content.vb: AverageTimer32 = Nothing
+    content: AverageTimer32 = 805438464
     return:
       type: System.Diagnostics.PerformanceCounterType
   modifiers.csharp:
@@ -175,9 +184,10 @@ items:
   assemblies:
   - System.Diagnostics.PerformanceCounter
   namespace: System.Diagnostics
+  summary: "\n<p>A difference counter that shows the change in the measured attribute between the two most recent sample intervals.</p>\n"
+  remarks: "\n<p>Formula: N 1 -N 0, where N 1 and N 0 are performance counter readings.</p>\n"
   syntax:
-    content: CounterDelta32 = null
-    content.vb: CounterDelta32 = Nothing
+    content: CounterDelta32 = 4195328
     return:
       type: System.Diagnostics.PerformanceCounterType
   modifiers.csharp:
@@ -207,9 +217,10 @@ items:
   assemblies:
   - System.Diagnostics.PerformanceCounter
   namespace: System.Diagnostics
+  summary: "\n<p>A difference counter that shows the change in the measured attribute between the two most recent sample intervals. It is the same as the <strong>CounterDelta32</strong> counter type except that is uses larger fields to accomodate larger values.</p>\n"
+  remarks: "\n<p>Formula: N 1 -N 0, where N 1 and N 0 are performance counter readings.</p>\n"
   syntax:
-    content: CounterDelta64 = null
-    content.vb: CounterDelta64 = Nothing
+    content: CounterDelta64 = 4195584
     return:
       type: System.Diagnostics.PerformanceCounterType
   modifiers.csharp:
@@ -239,9 +250,9 @@ items:
   assemblies:
   - System.Diagnostics.PerformanceCounter
   namespace: System.Diagnostics
+  summary: "\n<p>A base counter that indicates the number of items sampled. It is used as the denominator in the calculations to get an average among the items sampled when taking timings of multiple, but similar items. Used with <strong>CounterMultiTimer</strong>, <strong>CounterMultiTimerInverse</strong>, <strong>CounterMultiTimer100Ns</strong>, and <strong>CounterMultiTimer100NsInverse</strong>.</p>\n"
   syntax:
-    content: CounterMultiBase = null
-    content.vb: CounterMultiBase = Nothing
+    content: CounterMultiBase = 1107494144
     return:
       type: System.Diagnostics.PerformanceCounterType
   modifiers.csharp:
@@ -271,9 +282,10 @@ items:
   assemblies:
   - System.Diagnostics.PerformanceCounter
   namespace: System.Diagnostics
+  summary: "\n<p>A percentage counter that displays the active time of one or more components as a percentage of the total time of the sample interval. Because the numerator records the active time of components operating simultaneously, the resulting percentage can exceed 100 percent.</p>\n"
+  remarks: "\n<p>This counter is a multitimer. Multitimers collect data from more than one instance of a component, such as a processor or disk. This counter type differs from <strong>CounterMultiTimer100Ns</strong> in that it measures time in units of ticks of the system performance timer, rather than in 100 nanosecond units.</p>\n<p>Formula: ((N 1 - N 0) / (D 1 - D 0)) x 100 / B, where N 1 and N 0 are performance counter readings, D 1 and D 0 are their corresponding time readings in ticks of the system performance timer, and the variable B denotes the base count for the monitored components (using a base counter of type <strong>CounterMultiBase</strong>). Thus, the numerator represents the portions of the sample interval during which the monitored components were active, and the denominator represents the total elapsed time of the sample interval.</p>\n"
   syntax:
-    content: CounterMultiTimer = null
-    content.vb: CounterMultiTimer = Nothing
+    content: CounterMultiTimer = 574686464
     return:
       type: System.Diagnostics.PerformanceCounterType
   modifiers.csharp:
@@ -303,9 +315,10 @@ items:
   assemblies:
   - System.Diagnostics.PerformanceCounter
   namespace: System.Diagnostics
+  summary: "\n<p>A percentage counter that shows the active time of one or more components as a percentage of the total time of the sample interval. It measures time in 100 nanosecond (ns) units.</p>\n"
+  remarks: "\n<p>This counter type is a multitimer. Multitimers are designed to monitor more than one instance of a component, such as a processor or disk.</p>\n<p>Formula: ((N 1 - N 0) / (D 1 - D 0)) x 100 / B, where N 1 and N 0 are performance counter readings, D 1 and D 0 are their corresponding time readings in 100-nanosecond units, and the variable B denotes the base count for the monitored components (using a base counter of type <strong>CounterMultiBase</strong>). Thus, the numerator represents the portions of the sample interval during which the monitored components were active, and the denominator represents the total elapsed time of the sample interval.</p>\n"
   syntax:
-    content: CounterMultiTimer100Ns = null
-    content.vb: CounterMultiTimer100Ns = Nothing
+    content: CounterMultiTimer100Ns = 575735040
     return:
       type: System.Diagnostics.PerformanceCounterType
   modifiers.csharp:
@@ -335,9 +348,10 @@ items:
   assemblies:
   - System.Diagnostics.PerformanceCounter
   namespace: System.Diagnostics
+  summary: "\n<p>A percentage counter that shows the active time of one or more components as a percentage of the total time of the sample interval. Counters of this type measure time in 100 nanosecond (ns) units. They derive the active time by measuring the time that the components were not active and subtracting the result from multiplying 100 percent by the number of objects monitored.</p>\n"
+  remarks: "\n<p>This counter type is an inverse multitimer. Multitimers are designed to monitor more than one instance of a component, such as a processor or disk. Inverse counters measure the time that a component is not active and derive its active time from the measurement of inactive time </p>\n<p>Formula: (B - ((N 1 - N 0) / (D 1 - D 0))) x 100, where the denominator represents the total elapsed time of the sample interval, the numerator represents the time during the interval when monitored components were inactive, and B represents the number of components being monitored, using a base counter of type <strong>CounterMultiBase</strong>.</p>\n"
   syntax:
-    content: CounterMultiTimer100NsInverse = null
-    content.vb: CounterMultiTimer100NsInverse = Nothing
+    content: CounterMultiTimer100NsInverse = 592512256
     return:
       type: System.Diagnostics.PerformanceCounterType
   modifiers.csharp:
@@ -367,9 +381,10 @@ items:
   assemblies:
   - System.Diagnostics.PerformanceCounter
   namespace: System.Diagnostics
+  summary: "\n<p>A percentage counter that shows the active time of one or more components as a percentage of the total time of the sample interval. It derives the active time by measuring the time that the components were not active and subtracting the result from 100 percent by the number of objects monitored.</p>\n"
+  remarks: "\n<p>This counter type is an inverse multitimer. Multitimers monitor more than one instance of a component, such as a processor or disk. Inverse counters measure the time that a component is not active and derive its active time from that measurement.</p>\n<p>This counter differs from <strong>CounterMultiTimer100NsInverse</strong> in that it measures time in units of ticks of the system performance timer, rather than in 100 nanosecond units.</p>\n<p>Formula: (B- ((N 1 - N 0) / (D 1 - D 0))) x 100, where the denominator represents the total elapsed time of the sample interval, the numerator represents the time during the interval when monitored components were inactive, and B represents the number of components being monitored, using a base counter of type <strong>CounterMultiBase</strong>.</p>\n"
   syntax:
-    content: CounterMultiTimerInverse = null
-    content.vb: CounterMultiTimerInverse = Nothing
+    content: CounterMultiTimerInverse = 591463680
     return:
       type: System.Diagnostics.PerformanceCounterType
   modifiers.csharp:
@@ -399,9 +414,10 @@ items:
   assemblies:
   - System.Diagnostics.PerformanceCounter
   namespace: System.Diagnostics
+  summary: "\n<p>A percentage counter that shows the average time that a component is active as a percentage of the total sample time.</p>\n"
+  remarks: "\n<p>Formula: (N 1 - N 0) / (D 1 - D 0), where N 1 and N 0 are performance counter readings, and D 1 and D 0 are their corresponding time readings. Thus, the numerator represents the portions of the sample interval during which the monitored components were active, and the denominator represents the total elapsed time of the sample interval.</p>\n"
   syntax:
-    content: CounterTimer = null
-    content.vb: CounterTimer = Nothing
+    content: CounterTimer = 541132032
     return:
       type: System.Diagnostics.PerformanceCounterType
   modifiers.csharp:
@@ -431,9 +447,10 @@ items:
   assemblies:
   - System.Diagnostics.PerformanceCounter
   namespace: System.Diagnostics
+  summary: "\n<p>A percentage counter that displays the average percentage of active time observed during sample interval. The value of these counters is calculated by monitoring the percentage of time that the service was inactive and then subtracting that value from 100 percent.</p>\n"
+  remarks: "\n<p>This is an inverse counter type. Inverse counters measure the time that a component is note active and derive the active time from that measurement. This counter type is the same as <strong>CounterTimer100NsInv</strong> except that it measures time in units of ticks of the system performance timer rather than in 100 nanosecond units.</p>\n<p>Formula: (1- ((N 1 - N 0) / (D 1 - D 0))) x 100, where the numerator represents the time during the interval when the monitored components were inactive, and the denominator represents the total elapsed time of the sample interval.</p>\n"
   syntax:
-    content: CounterTimerInverse = null
-    content.vb: CounterTimerInverse = Nothing
+    content: CounterTimerInverse = 557909248
     return:
       type: System.Diagnostics.PerformanceCounterType
   modifiers.csharp:
@@ -463,9 +480,10 @@ items:
   assemblies:
   - System.Diagnostics.PerformanceCounter
   namespace: System.Diagnostics
+  summary: "\n<p>An average counter designed to monitor the average length of a queue to a resource over time. It shows the difference between the queue lengths observed during the last two sample intervals divided by the duration of the interval. This type of counter is typically used to track the number of items that are queued or waiting.</p>\n"
+  remarks: "\n<p>Formula: (N 1 - N 0) / (D 1 - D 0), where the numerator represents the number of items in the queue and the denominator represents the time elapsed during the last sample interval.</p>\n"
   syntax:
-    content: CountPerTimeInterval32 = null
-    content.vb: CountPerTimeInterval32 = Nothing
+    content: CountPerTimeInterval32 = 4523008
     return:
       type: System.Diagnostics.PerformanceCounterType
   modifiers.csharp:
@@ -495,9 +513,10 @@ items:
   assemblies:
   - System.Diagnostics.PerformanceCounter
   namespace: System.Diagnostics
+  summary: "\n<p>An average counter that monitors the average length of a queue to a resource over time. Counters of this type display the difference between the queue lengths observed during the last two sample intervals, divided by the duration of the interval. This counter type is the same as <strong>CountPerTimeInterval32</strong> except that it uses larger fields to accommodate larger values. This type of counter is typically used to track a high-volume or very large number of items that are queued or waiting.</p>\n"
+  remarks: "\n<p>Formula: (N 1 - N 0) / (D 1 - D 0), where the numerator represents the number of items in a queue and the denominator represents the time elapsed during the sample interval.</p>\n"
   syntax:
-    content: CountPerTimeInterval64 = null
-    content.vb: CountPerTimeInterval64 = Nothing
+    content: CountPerTimeInterval64 = 4523264
     return:
       type: System.Diagnostics.PerformanceCounterType
   modifiers.csharp:
@@ -527,9 +546,10 @@ items:
   assemblies:
   - System.Diagnostics.PerformanceCounter
   namespace: System.Diagnostics
+  summary: "\n<p>A difference timer that shows the total time between when the component or process started and the time when this value is calculated.</p>\n"
+  remarks: "\n<p>Formula: (D 0 - N 0) / F, where D 0 represents the current time, N 0 represents the time the object was started, and F represents the number of time units that elapse in one second. The value of F is factored into the equation so that the result can be displayed in seconds.</p>\n<p>Counters of this type include System\\ System Up Time.</p>\n"
   syntax:
-    content: ElapsedTime = null
-    content.vb: ElapsedTime = Nothing
+    content: ElapsedTime = 807666944
     return:
       type: System.Diagnostics.PerformanceCounterType
   modifiers.csharp:
@@ -559,9 +579,10 @@ items:
   assemblies:
   - System.Diagnostics.PerformanceCounter
   namespace: System.Diagnostics
+  summary: "\n<p>An instantaneous counter that shows the most recently observed value. Used, for example, to maintain a simple count of items or operations.</p>\n"
+  remarks: "\n<p>Formula: None. Does not display an average, but shows the raw data as it is collected.</p>\n<p>Counters of this type include Memory\\Available Bytes.</p>\n"
   syntax:
-    content: NumberOfItems32 = null
-    content.vb: NumberOfItems32 = Nothing
+    content: NumberOfItems32 = 65536
     return:
       type: System.Diagnostics.PerformanceCounterType
   modifiers.csharp:
@@ -591,9 +612,10 @@ items:
   assemblies:
   - System.Diagnostics.PerformanceCounter
   namespace: System.Diagnostics
+  summary: "\n<p>An instantaneous counter that shows the most recently observed value. Used, for example, to maintain a simple count of a very large number of items or operations. It is the same as <strong>NumberOfItems32</strong> except that it uses larger fields to accommodate larger values.</p>\n"
+  remarks: "\n<p>Formula: None. Does not display an average, but shows the raw data as it is collected.</p>\n"
   syntax:
-    content: NumberOfItems64 = null
-    content.vb: NumberOfItems64 = Nothing
+    content: NumberOfItems64 = 65792
     return:
       type: System.Diagnostics.PerformanceCounterType
   modifiers.csharp:
@@ -623,9 +645,10 @@ items:
   assemblies:
   - System.Diagnostics.PerformanceCounter
   namespace: System.Diagnostics
+  summary: "\n<p>An instantaneous counter that shows the most recently observed value in hexadecimal format. Used, for example, to maintain a simple count of items or operations.</p>\n"
+  remarks: "\n<p>Formula: None. Does not display an average, but shows the raw data as it is collected.</p>\n"
   syntax:
-    content: NumberOfItemsHEX32 = null
-    content.vb: NumberOfItemsHEX32 = Nothing
+    content: NumberOfItemsHEX32 = 0
     return:
       type: System.Diagnostics.PerformanceCounterType
   modifiers.csharp:
@@ -655,9 +678,10 @@ items:
   assemblies:
   - System.Diagnostics.PerformanceCounter
   namespace: System.Diagnostics
+  summary: "\n<p>An instantaneous counter that shows the most recently observed value. Used, for example, to maintain a simple count of a very large number of items or operations. It is the same as <strong>NumberOfItemsHEX32</strong> except that it uses larger fields to accommodate larger values.</p>\n"
+  remarks: "\n<p>Formula: None. Does not display an average, but shows the raw data as it is collected </p>\n"
   syntax:
-    content: NumberOfItemsHEX64 = null
-    content.vb: NumberOfItemsHEX64 = Nothing
+    content: NumberOfItemsHEX64 = 256
     return:
       type: System.Diagnostics.PerformanceCounterType
   modifiers.csharp:
@@ -687,9 +711,10 @@ items:
   assemblies:
   - System.Diagnostics.PerformanceCounter
   namespace: System.Diagnostics
+  summary: "\n<p>A difference counter that shows the average number of operations completed during each second of the sample interval. Counters of this type measure time in ticks of the system clock.</p>\n"
+  remarks: "\n<p>Formula: (N 1 - N 0) / ((D 1 -D 0) / F), where N 1 and N 0 are performance counter readings, D 1 and D 0 are their corresponding time readings, and F represents the number of ticks per second. Thus, the numerator represents the number of operations performed during the last sample interval, the denominator represents the number of ticks elapsed during the last sample interval, and F is the frequency of the ticks. The value of F is factored into the equation so that the result can be displayed in seconds.</p>\n<p>Counters of this type include System\\ File Read Operations/sec.</p>\n"
   syntax:
-    content: RateOfCountsPerSecond32 = null
-    content.vb: RateOfCountsPerSecond32 = Nothing
+    content: RateOfCountsPerSecond32 = 272696320
     return:
       type: System.Diagnostics.PerformanceCounterType
   modifiers.csharp:
@@ -719,9 +744,10 @@ items:
   assemblies:
   - System.Diagnostics.PerformanceCounter
   namespace: System.Diagnostics
+  summary: "\n<p>A difference counter that shows the average number of operations completed during each second of the sample interval. Counters of this type measure time in ticks of the system clock. This counter type is the same as the <strong>RateOfCountsPerSecond32</strong> type, but it uses larger fields to accommodate larger values to track a high-volume number of items or operations per second, such as a byte-transmission rate.</p>\n"
+  remarks: "\n<p>Formula: (N 1 - N 0) / ((D 1 -D 0) / F), where N 1 and N 0 are performance counter readings, D 1 and D 0 are their corresponding time readings, and F represents the number of ticks per second. Thus, the numerator represents the number of operations performed during the last sample interval, the denominator represents the number of ticks elapsed during the last sample interval, and F is the frequency of the ticks. The value of F is factored into the equation so that the result can be displayed in seconds.</p>\n<p>Counters of this type include System\\ File Read Bytes/sec.</p>\n"
   syntax:
-    content: RateOfCountsPerSecond64 = null
-    content.vb: RateOfCountsPerSecond64 = Nothing
+    content: RateOfCountsPerSecond64 = 272696576
     return:
       type: System.Diagnostics.PerformanceCounterType
   modifiers.csharp:
@@ -751,9 +777,9 @@ items:
   assemblies:
   - System.Diagnostics.PerformanceCounter
   namespace: System.Diagnostics
+  summary: "\n<p>A base counter that stores the denominator of a counter that presents a general arithmetic fraction. Check that this value is greater than zero before using it as the denominator in a <strong>RawFraction</strong> value calculation.</p>\n"
   syntax:
-    content: RawBase = null
-    content.vb: RawBase = Nothing
+    content: RawBase = 1073939459
     return:
       type: System.Diagnostics.PerformanceCounterType
   modifiers.csharp:
@@ -783,9 +809,10 @@ items:
   assemblies:
   - System.Diagnostics.PerformanceCounter
   namespace: System.Diagnostics
+  summary: "\n<p>An instantaneous percentage counter that shows the ratio of a subset to its set as a percentage. For example, it compares the number of bytes in use on a disk to the total number of bytes on the disk. Counters of this type display the current percentage only, not an average over time.</p>\n"
+  remarks: "\n<p>Formula: (N 0 / D 0) x 100, where D 0 represents a measured attribute (using a base counter of type <strong>RawBase</strong>) and N 0 represents one component of that attribute.</p>\n<p>Counters of this type include Paging File\\% Usage Peak.</p>\n"
   syntax:
-    content: RawFraction = null
-    content.vb: RawFraction = Nothing
+    content: RawFraction = 537003008
     return:
       type: System.Diagnostics.PerformanceCounterType
   modifiers.csharp:
@@ -815,9 +842,9 @@ items:
   assemblies:
   - System.Diagnostics.PerformanceCounter
   namespace: System.Diagnostics
+  summary: "\n<p>A base counter that stores the number of sampling interrupts taken and is used as a denominator in the sampling fraction. The sampling fraction is the number of samples that were 1 (or <strong>true</strong>) for a sample interrupt. Check that this value is greater than zero before using it as the denominator in a calculation of <strong>SampleFraction</strong>.</p>\n"
   syntax:
-    content: SampleBase = null
-    content.vb: SampleBase = Nothing
+    content: SampleBase = 1073939457
     return:
       type: System.Diagnostics.PerformanceCounterType
   modifiers.csharp:
@@ -847,9 +874,10 @@ items:
   assemblies:
   - System.Diagnostics.PerformanceCounter
   namespace: System.Diagnostics
+  summary: "\n<p>An average counter that shows the average number of operations completed in one second. When a counter of this type samples the data, each sampling interrupt returns one or zero. The counter data is the number of ones that were sampled. It measures time in units of ticks of the system performance timer.</p>\n"
+  remarks: "\n<p>Formula: (N 1 – N 0) / ((D 1 – D 0) / F), where the numerator (N) represents the number of operations completed, the denominator (D) represents elapsed time in units of ticks of the system performance timer, and F represents the number of ticks that elapse in one second. F is factored into the equation so that the result can be displayed in seconds.</p>\n"
   syntax:
-    content: SampleCounter = null
-    content.vb: SampleCounter = Nothing
+    content: SampleCounter = 4260864
     return:
       type: System.Diagnostics.PerformanceCounterType
   modifiers.csharp:
@@ -879,9 +907,10 @@ items:
   assemblies:
   - System.Diagnostics.PerformanceCounter
   namespace: System.Diagnostics
+  summary: "\n<p>A percentage counter that shows the average ratio of hits to all operations during the last two sample intervals.</p>\n"
+  remarks: "\n<p>Formula: ((N 1 - N 0) / (D 1 - D 0)) x 100, where the numerator represents the number of successful operations during the last sample interval, and the denominator represents the change in the number of all operations (of the type measured) completed during the sample interval, using counters of type <strong>SampleBase</strong>.</p>\n<p>Counters of this type include Cache\\Pin Read Hits %.</p>\n"
   syntax:
-    content: SampleFraction = null
-    content.vb: SampleFraction = Nothing
+    content: SampleFraction = 549585920
     return:
       type: System.Diagnostics.PerformanceCounterType
   modifiers.csharp:
@@ -911,9 +940,10 @@ items:
   assemblies:
   - System.Diagnostics.PerformanceCounter
   namespace: System.Diagnostics
+  summary: "\n<p>A percentage counter that shows the active time of a component as a percentage of the total elapsed time of the sample interval. It measures time in units of 100 nanoseconds (ns). Counters of this type are designed to measure the activity of one component at a time.</p>\n"
+  remarks: "\n<p>Formula: (N 1 - N 0) / (D 1 - D 0) x 100, where the numerator represents the portions of the sample interval during which the monitored components were active, and the denominator represents the total elapsed time of the sample interval.</p>\n<p>Counters of this type include Processor\\ % User Time.</p>\n"
   syntax:
-    content: Timer100Ns = null
-    content.vb: Timer100Ns = Nothing
+    content: Timer100Ns = 542180608
     return:
       type: System.Diagnostics.PerformanceCounterType
   modifiers.csharp:
@@ -943,9 +973,10 @@ items:
   assemblies:
   - System.Diagnostics.PerformanceCounter
   namespace: System.Diagnostics
+  summary: "\n<p>A percentage counter that shows the average percentage of active time observed during the sample interval.</p>\n"
+  remarks: "\n<p>This is an inverse counter. Counters of this type calculate active time by measuring the time that the service was inactive and then subtracting the percentage of active time from 100 percent.</p>\n<p>Formula: (1- ((N 1 - N 0) / (D 1 - D 0))) x 100, where the numerator represents the time during the interval when the monitored components were inactive, and the denominator represents the total elapsed time of the sample interval.</p>\n<p>Counters of this type include Processor\\ % Processor Time.</p>\n"
   syntax:
-    content: Timer100NsInverse = null
-    content.vb: Timer100NsInverse = Nothing
+    content: Timer100NsInverse = 558957824
     return:
       type: System.Diagnostics.PerformanceCounterType
   modifiers.csharp:

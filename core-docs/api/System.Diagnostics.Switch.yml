@@ -29,13 +29,32 @@ items:
   assemblies:
   - System.Diagnostics.TraceSource
   namespace: System.Diagnostics
+  summary: "\n<p>Provides an abstract base class to create new debugging and tracing switches.</p>\n"
+  remarks: "\n<p>A switch provides an efficient mechanism for controlling tracing and debugging output at run time using external settings. The <xref href=\"System.Diagnostics.Switch\" data-throw-if-not-resolved=\"false\"></xref> class implements default behavior for switches, allowing you to change the switch level at run time.</p>\n<p>This class is the base class for the <xref href=\"System.Diagnostics.BooleanSwitch\" data-throw-if-not-resolved=\"false\"></xref>, <xref href=\"System.Diagnostics.SourceSwitch\" data-throw-if-not-resolved=\"false\"></xref> and the <xref href=\"System.Diagnostics.TraceSwitch\" data-throw-if-not-resolved=\"false\"></xref> classes. These switches meet most debugging and tracing needs. For more information about trace switches, see Trace Switches.</p>\n<p>You must enable tracing or debugging to use a switch. The following syntax is compiler specific. If you use compilers other than C# or Visual Basic, refer to the documentation for your compiler.</p>\n<ul><li>\n<p>To enable debugging in C#, add the <strong>/d:DEBUG</strong> flag to the compiler command line when you compile your code, or you can add <strong>#define DEBUG</strong> to the top of your file. In Visual Basic, add the <strong>/d:DEBUG=True</strong> flag to the compiler command line.</p>\n</li><li>\n<p>To enable tracing using in C#, add the <strong>/d:TRACE</strong> flag to the compiler command line when you compile your code, or add <strong>#define TRACE</strong> to the top of your file. In Visual Basic, add the <strong>/d:TRACE=True</strong> flag to the compiler command line.</p>\n</li></ul>\n<p>To set the level of your switch, edit the configuration file that corresponds to the name of your application. Within this file, you can add a switch and set its value, remove a switch, or clear all the switches previously set by the application. The configuration file should be formatted like the following example: </p>\n<pre><code><configuration>\n<system.diagnostics>\n<switches>\n<add name=\"mySwitch\" value=\"true\" />\n</switches>\n</system.diagnostics>\n</configuration></code></pre>\n<p> This example configuration section defines a <xref href=\"System.Diagnostics.BooleanSwitch\" data-throw-if-not-resolved=\"false\"></xref> with the <xref href=\"System.Diagnostics.Switch.DisplayName\" data-throw-if-not-resolved=\"false\"></xref> property set to <code>mySwitch</code> and the <xref href=\"System.Diagnostics.BooleanSwitch.Enabled\" data-throw-if-not-resolved=\"false\"></xref> value set to <strong>true</strong>. Within your application, you can use the configured switch value by creating a <xref href=\"System.Diagnostics.BooleanSwitch\" data-throw-if-not-resolved=\"false\"></xref> with the same name, as shown in the following code example.</p>Classic Switch Example#4"
+  example:
+  - "\n<p>The following example shows how to define a new <xref href=\"System.Diagnostics.Switch\" data-throw-if-not-resolved=\"false\"></xref> class with four levels of tracing that can be used to trace a call stack. You can use the switch to instrument your application to log each time the method is entered or exited.</p>\n<p>The first example creates the enumeration used to set the level of the switch.</p>Classic Switch Example#1<p>The following example creates the new switch. The code implements a <code>Level</code> property to set the value of the new switch. <code>Level</code> calls the protected property <xref href=\"System.Diagnostics.Switch.SwitchSetting\" data-throw-if-not-resolved=\"false\"></xref> that assigns the value to the new switch. This example also implements two assessor properties to get the assigned value of the switch.</p>Classic Switch Example#2<p>The following example creates a new switch in <code>Main</code>. It creates a new switch and assigns it a value. Then, depending on the switch settings, it outputs debugging messages for entering and leaving the method.</p>Classic Switch Example#3"
   syntax:
-    content: 'public abstract class Switch : object'
-    content.vb: >-
-      Public MustInherit Class Switch
-          Inherits Object
+    content: public abstract class Switch
+    content.vb: Public MustInherit Class Switch
+  seealso:
+  - type: System.Diagnostics.BooleanSwitch
+    commentId: T:System.Diagnostics.BooleanSwitch
+  - type: System.Diagnostics.TraceSwitch
+    commentId: T:System.Diagnostics.TraceSwitch
+  - type: System.Diagnostics.Debug
+    commentId: T:System.Diagnostics.Debug
+  - type: System.Diagnostics.Trace
+    commentId: T:System.Diagnostics.Trace
   inheritance:
   - System.Object
+  inheritedMembers:
+  - System.Object.ToString
+  - System.Object.Equals(System.Object)
+  - System.Object.Equals(System.Object,System.Object)
+  - System.Object.ReferenceEquals(System.Object,System.Object)
+  - System.Object.GetHashCode
+  - System.Object.GetType
+  - System.Object.MemberwiseClone
   modifiers.csharp:
   - public
   - abstract
@@ -65,6 +84,8 @@ items:
   assemblies:
   - System.Diagnostics.TraceSource
   namespace: System.Diagnostics
+  summary: "\n<p>Initializes a new instance of the <xref href=\"System.Diagnostics.Switch\" data-throw-if-not-resolved=\"false\"></xref> class.</p>\n"
+  remarks: "\n<p>When you create a new <xref href=\"System.Diagnostics.Switch\" data-throw-if-not-resolved=\"false\"></xref> object, the value of the <em>displayName</em> parameter is used to find initial switch settings. The default value is an empty string (\"\").</p>\n<p>Within the XML configuration file, you can add a switch and set its value, remove a switch, or clear all the switches previously set by the application. Dynamic changes to the configuration file are not detected while the application is executing. You must stop and restart an application before changes to the configuration file take effect. The configuration file should be formatted like the following example: </p>\n<pre><code><configuration>\n<system.diagnostics>\n<switches>\n<add name=\"mySwitch\" value=\"10\" />\n<add name=\"myNewSwitch\" value=\"20\" />\n<remove name=\"mySwitch\" />\n<clear/>\n</switches>\n</system.diagnostics>\n</configuration></code></pre>\n"
   syntax:
     content: protected Switch(string displayName, string description)
     content.vb: Protected Sub New(displayName As String, description As String)
@@ -73,6 +94,19 @@ items:
       type: System.String
     - id: description
       type: System.String
+  seealso:
+  - type: System.Diagnostics.Switch
+    commentId: T:System.Diagnostics.Switch
+  - type: System.Diagnostics.BooleanSwitch
+    commentId: T:System.Diagnostics.BooleanSwitch
+  - type: System.Diagnostics.SourceSwitch
+    commentId: T:System.Diagnostics.SourceSwitch
+  - type: System.Diagnostics.TraceSwitch
+    commentId: T:System.Diagnostics.TraceSwitch
+  - type: System.Diagnostics.Debug
+    commentId: T:System.Diagnostics.Debug
+  - type: System.Diagnostics.Trace
+    commentId: T:System.Diagnostics.Trace
   modifiers.csharp:
   - protected
   modifiers.vb:
@@ -98,6 +132,8 @@ items:
   assemblies:
   - System.Diagnostics.TraceSource
   namespace: System.Diagnostics
+  summary: "\n<p>Initializes a new instance of the <xref href=\"System.Diagnostics.Switch\" data-throw-if-not-resolved=\"false\"></xref> class, specifying the display name, description, and default value for the switch. </p>\n"
+  remarks: "\n<p>The <em>displayName</em> parameter is used to set the value of the <xref href=\"System.Diagnostics.Switch.DisplayName\" data-throw-if-not-resolved=\"false\"></xref> property, and the <em>description</em> parameter is use to set the value of the <xref href=\"System.Diagnostics.Switch.Description\" data-throw-if-not-resolved=\"false\"></xref> property. The <em>defaultSwitchValue</em> parameter is the value for the switch if the <xref href=\"System.Diagnostics.Switch.Value\" data-throw-if-not-resolved=\"false\"></xref> property is not set by code or by the configuration file attribute. See the <xref href=\"System.Diagnostics.Switch.#ctor(System.String,System.String)\" data-throw-if-not-resolved=\"false\"></xref> overload for additional information.</p>\n"
   syntax:
     content: protected Switch(string displayName, string description, string defaultSwitchValue)
     content.vb: Protected Sub New(displayName As String, description As String, defaultSwitchValue As String)
@@ -133,12 +169,25 @@ items:
   assemblies:
   - System.Diagnostics.TraceSource
   namespace: System.Diagnostics
+  summary: "\n<p>Gets a description of the switch.</p>\n"
+  remarks: "\n<p>This property should indicate the function of the switch; for example, \"Enables tracing for a directory watcher component.\" The value is set by the <em>descriptor</em> parameter in the <xref href=\"System.Diagnostics.Switch.#ctor(System.String,System.String)\" data-throw-if-not-resolved=\"false\"></xref> constructor.</p>\n"
   syntax:
     content: public string Description { get; }
     content.vb: Public ReadOnly Property Description As String
     parameters: []
     return:
       type: System.String
+  seealso:
+  - type: System.Diagnostics.Switch
+    commentId: T:System.Diagnostics.Switch
+  - type: System.Diagnostics.BooleanSwitch
+    commentId: T:System.Diagnostics.BooleanSwitch
+  - type: System.Diagnostics.TraceSwitch
+    commentId: T:System.Diagnostics.TraceSwitch
+  - type: System.Diagnostics.Debug
+    commentId: T:System.Diagnostics.Debug
+  - type: System.Diagnostics.Trace
+    commentId: T:System.Diagnostics.Trace
   modifiers.csharp:
   - public
   - get
@@ -166,12 +215,27 @@ items:
   assemblies:
   - System.Diagnostics.TraceSource
   namespace: System.Diagnostics
+  summary: "\n<p>Gets a name used to identify the switch.</p>\n"
+  remarks: "\n<p>When you create a new <xref href=\"System.Diagnostics.Switch\" data-throw-if-not-resolved=\"false\"></xref> object, the <xref href=\"System.Diagnostics.Switch.DisplayName\" data-throw-if-not-resolved=\"false\"></xref> finds initial switch settings. For more information, see the <see cref=\"Overload:System.Diagnostics.Switch.#ctor\"></see> constructor and How to: Create, Initialize and Configure Trace Switches in the Visual Studio documentation.</p>\n"
+  example:
+  - "\n<p>The following code example displays the display name for the switch in use by a trace source.  This code example is part of a larger example that can be found in the <xref href=\"System.Diagnostics.TraceSource\" data-throw-if-not-resolved=\"false\"></xref> class summary.</p>System.Diagnostics.TraceSource#10"
   syntax:
     content: public string DisplayName { get; }
     content.vb: Public ReadOnly Property DisplayName As String
     parameters: []
     return:
       type: System.String
+  seealso:
+  - type: System.Diagnostics.Switch
+    commentId: T:System.Diagnostics.Switch
+  - type: System.Diagnostics.BooleanSwitch
+    commentId: T:System.Diagnostics.BooleanSwitch
+  - type: System.Diagnostics.TraceSwitch
+    commentId: T:System.Diagnostics.TraceSwitch
+  - type: System.Diagnostics.Debug
+    commentId: T:System.Diagnostics.Debug
+  - type: System.Diagnostics.Trace
+    commentId: T:System.Diagnostics.Trace
   modifiers.csharp:
   - public
   - get
@@ -199,12 +263,32 @@ items:
   assemblies:
   - System.Diagnostics.TraceSource
   namespace: System.Diagnostics
+  summary: "\n<p>Gets or sets the current setting for this switch.</p>\n"
   syntax:
-    content: protected int SwitchSetting { get; set; }
+    content: >-
+      protected int SwitchSetting
+
+      {
+          [SuppressMessage("Microsoft.Concurrency", "CA8001", Justification = "reviewed for thread-safety")]
+          get;
+          [SuppressMessage("Microsoft.Concurrency", "CA8001", Justification = "reviewed for thread-safety")]
+          set;
+      }
     content.vb: Protected Property SwitchSetting As Integer
     parameters: []
     return:
       type: System.Int32
+  seealso:
+  - type: System.Diagnostics.Switch
+    commentId: T:System.Diagnostics.Switch
+  - type: System.Diagnostics.BooleanSwitch
+    commentId: T:System.Diagnostics.BooleanSwitch
+  - type: System.Diagnostics.TraceSwitch
+    commentId: T:System.Diagnostics.TraceSwitch
+  - type: System.Diagnostics.Debug
+    commentId: T:System.Diagnostics.Debug
+  - type: System.Diagnostics.Trace
+    commentId: T:System.Diagnostics.Trace
   modifiers.csharp:
   - protected
   - get
@@ -232,12 +316,18 @@ items:
   assemblies:
   - System.Diagnostics.TraceSource
   namespace: System.Diagnostics
+  summary: "\n<p>Gets or sets the value of the switch.</p>\n"
+  remarks: "\n<p>The <xref href=\"System.Diagnostics.Switch.OnValueChanged\" data-throw-if-not-resolved=\"false\"></xref> method is called when the value of the <xref href=\"System.Diagnostics.Switch.Value\" data-throw-if-not-resolved=\"false\"></xref> property is changed. The <xref href=\"System.Diagnostics.Switch.OnValueChanged\" data-throw-if-not-resolved=\"false\"></xref> method parses the value of this property and converts it to an integer value, which is then used to set the <xref href=\"System.Diagnostics.Switch.SwitchSetting\" data-throw-if-not-resolved=\"false\"></xref> property.</p>\n"
   syntax:
     content: protected string Value { get; set; }
     content.vb: Protected Property Value As String
     parameters: []
     return:
       type: System.String
+  exceptions:
+  - type: System.Configuration.ConfigurationErrorsException
+    commentId: T:System.Configuration.ConfigurationErrorsException
+    description: "\n<p>The value is <strong>null</strong>.</p>\n<p>-or-</p>\n<p>The value does not consist solely of an optional negative sign followed by a sequence of digits ranging from 0 to 9.</p>\n<p>-or-</p>\n<p>The value represents a number less than <xref href=\"System.Int32.MinValue\" data-throw-if-not-resolved=\"false\"></xref> or greater than <xref href=\"System.Int32.MaxValue\" data-throw-if-not-resolved=\"false\"></xref>.</p>\n"
   modifiers.csharp:
   - protected
   - get
@@ -265,6 +355,8 @@ items:
   assemblies:
   - System.Diagnostics.TraceSource
   namespace: System.Diagnostics
+  summary: "\n<p>Invoked when the <xref href=\"System.Diagnostics.Switch.SwitchSetting\" data-throw-if-not-resolved=\"false\"></xref> property is changed.</p>\n"
+  remarks: "\n<p>\n<xref href=\"System.Diagnostics.Switch.OnSwitchSettingChanged\" data-throw-if-not-resolved=\"false\"></xref> is invoked the first time a switch reads the <xref href=\"System.Diagnostics.Switch.SwitchSetting\" data-throw-if-not-resolved=\"false\"></xref> value from the configuration file and is invoked again each time the switch's value is changed.</p>\n"
   syntax:
     content: protected virtual void OnSwitchSettingChanged()
     content.vb: Protected Overridable Sub OnSwitchSettingChanged
@@ -295,6 +387,8 @@ items:
   assemblies:
   - System.Diagnostics.TraceSource
   namespace: System.Diagnostics
+  summary: "\n<p>Invoked when the <xref href=\"System.Diagnostics.Switch.Value\" data-throw-if-not-resolved=\"false\"></xref> property is changed.</p>\n"
+  remarks: "\n<p>The default implementation parses the new value of the <xref href=\"System.Diagnostics.Switch.Value\" data-throw-if-not-resolved=\"false\"></xref> property to an integer value which it uses to set the <xref href=\"System.Diagnostics.Switch.SwitchSetting\" data-throw-if-not-resolved=\"false\"></xref> property.</p>\n"
   syntax:
     content: protected virtual void OnValueChanged()
     content.vb: Protected Overridable Sub OnValueChanged
@@ -314,6 +408,215 @@ references:
   isExternal: false
   name: Object
   fullName: System.Object
+- uid: System.Object.ToString
+  parent: System.Object
+  isExternal: true
+  name: ToString()
+  fullName: System.Object.ToString()
+  spec.csharp:
+  - uid: System.Object.ToString
+    name: ToString
+    fullName: System.Object.ToString
+    isExternal: true
+  - name: (
+    fullName: (
+  - name: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.ToString
+    name: ToString
+    fullName: System.Object.ToString
+    isExternal: true
+  - name: (
+    fullName: (
+  - name: )
+    fullName: )
+- uid: System.Object.Equals(System.Object)
+  parent: System.Object
+  isExternal: true
+  name: Equals(Object)
+  fullName: System.Object.Equals(System.Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    fullName: )
+- uid: System.Object.Equals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  name: Equals(Object, Object)
+  fullName: System.Object.Equals(System.Object, System.Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    fullName: )
+- uid: System.Object.ReferenceEquals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  name: ReferenceEquals(Object, Object)
+  fullName: System.Object.ReferenceEquals(System.Object, System.Object)
+  spec.csharp:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    fullName: System.Object.ReferenceEquals
+    isExternal: true
+  - name: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    fullName: System.Object.ReferenceEquals
+    isExternal: true
+  - name: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    fullName: )
+- uid: System.Object.GetHashCode
+  parent: System.Object
+  isExternal: true
+  name: GetHashCode()
+  fullName: System.Object.GetHashCode()
+  spec.csharp:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    fullName: System.Object.GetHashCode
+    isExternal: true
+  - name: (
+    fullName: (
+  - name: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    fullName: System.Object.GetHashCode
+    isExternal: true
+  - name: (
+    fullName: (
+  - name: )
+    fullName: )
+- uid: System.Object.GetType
+  parent: System.Object
+  isExternal: true
+  name: GetType()
+  fullName: System.Object.GetType()
+  spec.csharp:
+  - uid: System.Object.GetType
+    name: GetType
+    fullName: System.Object.GetType
+    isExternal: true
+  - name: (
+    fullName: (
+  - name: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.GetType
+    name: GetType
+    fullName: System.Object.GetType
+    isExternal: true
+  - name: (
+    fullName: (
+  - name: )
+    fullName: )
+- uid: System.Object.MemberwiseClone
+  parent: System.Object
+  isExternal: true
+  name: MemberwiseClone()
+  fullName: System.Object.MemberwiseClone()
+  spec.csharp:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    fullName: System.Object.MemberwiseClone
+    isExternal: true
+  - name: (
+    fullName: (
+  - name: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    fullName: System.Object.MemberwiseClone
+    isExternal: true
+  - name: (
+    fullName: (
+  - name: )
+    fullName: )
 - uid: System
   isExternal: false
   name: System
@@ -328,3 +631,4 @@ references:
   isExternal: false
   name: Int32
   fullName: System.Int32
+- uid: System.Configuration.ConfigurationErrorsException

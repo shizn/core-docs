@@ -58,6 +58,10 @@ items:
   assemblies:
   - System.Data.SqlClient
   namespace: System.Data.SqlClient
+  summary: "\n<p>Provides a simple way to create and manage the contents of connection strings used by the <xref href=\"System.Data.SqlClient.SqlConnection\" data-throw-if-not-resolved=\"false\"></xref> class. </p>\n"
+  remarks: "\n<p>The connection string builder lets developers programmatically create syntactically correct connection strings, and parse and rebuild existing connection strings, using properties and methods of the class. The connection string builder provides strongly typed properties corresponding to the known key/value pairs allowed by SQL Server. Developers needing to create connection strings as part of applications can use the <xref href=\"System.Data.SqlClient.SqlConnectionStringBuilder\" data-throw-if-not-resolved=\"false\"></xref> class to build and modify connection strings. The class also makes it easy to manage connection strings stored in an application configuration file.</p>\n<p>The <xref href=\"System.Data.SqlClient.SqlConnectionStringBuilder\" data-throw-if-not-resolved=\"false\"></xref> performs checks for valid key/value pairs. Therefore, you cannot use this class to create invalid connection strings; trying to add invalid pairs will throw an exception. The class maintains a fixed collection of synonyms and can translate from a synonym to the corresponding well-known key name. </p>\n<p>For example, when you use the <strong>Item</strong> property to retrieve a value, you can specify a string that contains any synonym for the key you need. For example, you can specify \"Network Address\", \"addr\", or any other acceptable synonym for this key within a connection string when you use any member that requires a string that contains the key name, such as the <strong>Item</strong> property or the <xref href=\"System.Data.SqlClient.SqlConnectionStringBuilder.Remove(System.String)\" data-throw-if-not-resolved=\"false\"></xref> method. See the <xref href=\"System.Data.SqlClient.SqlConnection.ConnectionString\" data-throw-if-not-resolved=\"false\"></xref> property for a full list of acceptable synonyms.</p>\n<p>The <strong>Item</strong> property handles tries to insert malicious entries. For example, the following code, using the default Item property (the indexer, in C#) correctly escapes the nested key/value pair:</p>\n<p>[Visual Basic]</p>\n<pre><code>Dim builder As New System.Data.SqlClient.SqlConnectionStringBuilder\nbuilder(\"Data Source\") = \"(local)\"\nbuilder(\"Integrated Security\") = True\nbuilder(\"Initial Catalog\") = \"AdventureWorks;NewValue=Bad\"\nConsole.WriteLine(builder.ConnectionString)</code></pre>\n<p>[C#]</p>\n<pre><code>System.Data.SqlClient.SqlConnectionStringBuilder builder =\nnew System.Data.SqlClient.SqlConnectionStringBuilder();\nbuilder[\"Data Source\"] = \"(local)\";\nbuilder[\"integrated Security\"] = true;\nbuilder[\"Initial Catalog\"] = \"AdventureWorks;NewValue=Bad\";\nConsole.WriteLine(builder.ConnectionString);</code></pre>\n<p>The result is the following connection string that handles the invalid value in a safe manner:</p>\n<pre><code>Source=(local);Initial Catalog=\"AdventureWorks;NewValue=Bad\";\nIntegrated Security=True</code></pre>\n"
+  example:
+  - "\n<p>The following console application builds connection strings for a SQL Server database. The code uses a <xref href=\"System.Data.SqlClient.SqlConnectionStringBuilder\" data-throw-if-not-resolved=\"false\"></xref> class to create the connection string, and then passes the <xref href=\"System.Data.Common.DbConnectionStringBuilder.ConnectionString\" data-throw-if-not-resolved=\"false\"></xref> property of the <xref href=\"System.Data.SqlClient.SqlConnectionStringBuilder\" data-throw-if-not-resolved=\"false\"></xref> instance to the constructor of the connection class. The example also parses an existing connection string and demonstrates various ways of manipulating the connection string's contents.</p>\n<p>This example includes a password to demonstrate how <xref href=\"System.Data.SqlClient.SqlConnectionStringBuilder\" data-throw-if-not-resolved=\"false\"></xref> works with connection strings. In your applications, we recommend that you use Windows Authentication. If you must use a password, do not include a hard-coded password in your application.</p>DataWorks SqlConnectionStringBuilder#1"
   syntax:
     content: 'public sealed class SqlConnectionStringBuilder : DbConnectionStringBuilder'
     content.vb: >-
@@ -94,6 +98,7 @@ items:
   assemblies:
   - System.Data.SqlClient
   namespace: System.Data.SqlClient
+  summary: "\n<p>Initializes a new instance of the <xref href=\"System.Data.SqlClient.SqlConnectionStringBuilder\" data-throw-if-not-resolved=\"false\"></xref> class.</p>\n"
   syntax:
     content: public SqlConnectionStringBuilder()
     content.vb: Public Sub New
@@ -122,12 +127,26 @@ items:
   assemblies:
   - System.Data.SqlClient
   namespace: System.Data.SqlClient
+  summary: "\n<p>Initializes a new instance of the <xref href=\"System.Data.SqlClient.SqlConnectionStringBuilder\" data-throw-if-not-resolved=\"false\"></xref> class. The provided connection string provides the data for the instance's internal connection information.</p>\n"
+  remarks: "\n<p>The <xref href=\"System.Data.SqlClient.SqlConnectionStringBuilder\" data-throw-if-not-resolved=\"false\"></xref> class provides a fixed internal collection of key/value pairs. Even if you supply only a small subset of the possible connection string values in the constructor, the object always provides default values for each key/value pair. When the <strong>ConnectionString</strong> property of the object is retrieved, the string contains only key/value pairs in which the value is not the default value for the item.</p>\n"
+  example:
+  - "\n<p>The following example supplies a simple SQL Server connection string in the <xref href=\"System.Data.SqlClient.SqlConnectionStringBuilder\" data-throw-if-not-resolved=\"false\"></xref> object's constructor, and then iterates through all the key/value pairs within the object. Note that the collection provides default values for each item. Also note that the <xref href=\"System.Data.SqlClient.SqlConnectionStringBuilder\" data-throw-if-not-resolved=\"false\"></xref> class converts synonyms for the well-known keys so that they are consistent with the well-known names.</p>\n<p>This example includes a password to demonstrate how <xref href=\"System.Data.SqlClient.SqlConnectionStringBuilder\" data-throw-if-not-resolved=\"false\"></xref> works with connection strings. In your applications, we recommend that you use Windows Authentication. If you must use a password, do not include a hard-coded password in your application.</p>DataWorks SqlConnectionStringBuilder.Password#1"
   syntax:
     content: public SqlConnectionStringBuilder(string connectionString)
     content.vb: Public Sub New(connectionString As String)
     parameters:
     - id: connectionString
       type: System.String
+  exceptions:
+  - type: System.Collections.Generic.KeyNotFoundException
+    commentId: T:System.Collections.Generic.KeyNotFoundException
+    description: "\n<p>Invalid key name within the connection string.</p>\n"
+  - type: System.FormatException
+    commentId: T:System.FormatException
+    description: "\n<p>Invalid value within the connection string (specifically, when a Boolean or numeric value was expected but not supplied).</p>\n"
+  - type: System.ArgumentException
+    commentId: T:System.ArgumentException
+    description: "\n<p>The supplied <em>connectionString</em> is not valid.</p>\n"
   modifiers.csharp:
   - public
   modifiers.vb:
@@ -153,6 +172,7 @@ items:
   assemblies:
   - System.Data.SqlClient
   namespace: System.Data.SqlClient
+  summary: "\n<p>Declares the application workload type when connecting to a database in an SQL Server Availability Group. You can set the value of this property with <xref href=\"System.Data.SqlClient.ApplicationIntent\" data-throw-if-not-resolved=\"false\"></xref>. For more information about SqlClient support for Always On Availability Groups, see SqlClient Support for High Availability, Disaster Recovery.</p>\n"
   syntax:
     content: public ApplicationIntent ApplicationIntent { get; set; }
     content.vb: Public Property ApplicationIntent As ApplicationIntent
@@ -186,12 +206,20 @@ items:
   assemblies:
   - System.Data.SqlClient
   namespace: System.Data.SqlClient
+  summary: "\n<p>Gets or sets the name of the application associated with the connection string.</p>\n"
+  remarks: "\n<p>This property corresponds to the \"Application Name\" and \"app\" keys within the connection string.</p>\n"
+  example:
+  - "\n<p>The following example creates a new <xref href=\"System.Data.SqlClient.SqlConnectionStringBuilder\" data-throw-if-not-resolved=\"false\"></xref> and assigns a connection string in the object's constructor. The code displays the parsed and recreated version of the connection string, and then modifies the <xref href=\"System.Data.SqlClient.SqlConnectionStringBuilder.ApplicationName\" data-throw-if-not-resolved=\"false\"></xref> property of the object. Finally, the code displays the new connection string, including the new key/value pair.</p>DataWorks SqlConnectionStringBuilder.ApplicationName#1<p>The sample displays the following text in the console window:</p><pre><code>Original: Data Source=(local);Initial Catalog=AdventureWorks;Integrated Security=True\nApplicationName=\".Net SqlClient Data Provider\"\nModified: Data Source=(local);Initial Catalog=AdventureWorks;Integrated Security=True;Application Name=\"My Application\"</code></pre>"
   syntax:
     content: public string ApplicationName { get; set; }
     content.vb: Public Property ApplicationName As String
     parameters: []
     return:
       type: System.String
+  exceptions:
+  - type: System.ArgumentNullException
+    commentId: T:System.ArgumentNullException
+    description: "\n<p>To set the value to null, use <xref href=\"System.DBNull.Value\" data-throw-if-not-resolved=\"false\"></xref>.</p>\n"
   modifiers.csharp:
   - public
   - get
@@ -219,12 +247,20 @@ items:
   assemblies:
   - System.Data.SqlClient
   namespace: System.Data.SqlClient
+  summary: "\n<p>Gets or sets a string that contains the name of the primary data file. This includes the full path name of an attachable database.</p>\n"
+  remarks: "\n<p>This property corresponds to the \"AttachDBFilename\", \"extended properties\", and \"initial file name\" keys within the connection string.</p>\n<p>\n<strong>AttachDBFilename</strong> is only supported for primary data files with an .mdf extension.</p>\n<p>An error will be generated if a log file exists in the same directory as the data file and the 'database' keyword is used when attaching the primary data file. In this case, remove the log file. Once the database is attached, a new log file will be automatically generated based on the physical path.</p>\n"
+  example:
+  - "\n<p>The following example creates a new <xref href=\"System.Data.SqlClient.SqlConnectionStringBuilder\" data-throw-if-not-resolved=\"false\"></xref> instance, and sets the <strong>AttachDBFilename</strong> property in order to specify the name of an attached data file.</p>DataWorks SqlConnectionStringBuilder.AttachDBFilename#1"
   syntax:
     content: public string AttachDBFilename { get; set; }
     content.vb: Public Property AttachDBFilename As String
     parameters: []
     return:
       type: System.String
+  exceptions:
+  - type: System.ArgumentNullException
+    commentId: T:System.ArgumentNullException
+    description: "\n<p>To set the value to null, use <xref href=\"System.DBNull.Value\" data-throw-if-not-resolved=\"false\"></xref>.</p>\n"
   modifiers.csharp:
   - public
   - get
@@ -252,6 +288,7 @@ items:
   assemblies:
   - System.Data.SqlClient
   namespace: System.Data.SqlClient
+  summary: "\n<p>[Supported in the .NET Framework 4.5.1 and later versions] </p>\n<p>The number of reconnections attempted after identifying that there was an idle connection failure. This must be an integer between 0 and 255. Default is 1. Set to 0 to disable reconnecting on idle connection failures. An <xref href=\"System.ArgumentException\" data-throw-if-not-resolved=\"false\"></xref> will be thrown if set to a value outside of the allowed range.</p>\n"
   syntax:
     content: public int ConnectRetryCount { get; set; }
     content.vb: Public Property ConnectRetryCount As Integer
@@ -285,6 +322,7 @@ items:
   assemblies:
   - System.Data.SqlClient
   namespace: System.Data.SqlClient
+  summary: "\n<p>[Supported in the .NET Framework 4.5.1 and later versions] </p>\n<p>Amount of time (in seconds) between each reconnection attempt after identifying that there was an idle connection failure. This must be an integer between 1 and 60. The default is 10 seconds. An <xref href=\"System.ArgumentException\" data-throw-if-not-resolved=\"false\"></xref> will be thrown if set to a value outside of the allowed range.</p>\n"
   syntax:
     content: public int ConnectRetryInterval { get; set; }
     content.vb: Public Property ConnectRetryInterval As Integer
@@ -318,6 +356,10 @@ items:
   assemblies:
   - System.Data.SqlClient
   namespace: System.Data.SqlClient
+  summary: "\n<p>Gets or sets the length of time (in seconds) to wait for a connection to the server before terminating the attempt and generating an error.</p>\n"
+  remarks: "\n<p>This property corresponds to the \"Connect Timeout\", \"connection timeout\", and \"timeout\" keys within the connection string.</p>\n<p>When opening a connection to a Azure SQL Database, set the connection timeout to 30 seconds.</p>\n"
+  example:
+  - "\n<p>The following example first displays the contents of a connection string that does not specify the \"Connect Timeout\" value, sets the <xref href=\"System.Data.SqlClient.SqlConnectionStringBuilder.ConnectTimeout\" data-throw-if-not-resolved=\"false\"></xref> property, and then displays the new connection string.</p>DataWorks SqlConnectionStringBuilder.ConnectTimeout#1"
   syntax:
     content: public int ConnectTimeout { get; set; }
     content.vb: Public Property ConnectTimeout As Integer
@@ -351,12 +393,18 @@ items:
   assemblies:
   - System.Data.SqlClient
   namespace: System.Data.SqlClient
+  summary: "\n<p>Gets or sets the SQL Server Language record name.</p>\n"
+  remarks: "\n<p>This property corresponds to the \"Current Language\" and \"language\" keys within the connection string.</p>\n"
   syntax:
     content: public string CurrentLanguage { get; set; }
     content.vb: Public Property CurrentLanguage As String
     parameters: []
     return:
       type: System.String
+  exceptions:
+  - type: System.ArgumentNullException
+    commentId: T:System.ArgumentNullException
+    description: "\n<p>To set the value to null, use <xref href=\"System.DBNull.Value\" data-throw-if-not-resolved=\"false\"></xref>.</p>\n"
   modifiers.csharp:
   - public
   - get
@@ -384,12 +432,20 @@ items:
   assemblies:
   - System.Data.SqlClient
   namespace: System.Data.SqlClient
+  summary: "\n<p>Gets or sets the name or network address of the instance of SQL Server to connect to.</p>\n"
+  remarks: "\n<p>This property corresponds to the \"Data Source\", \"server\", \"address\", \"addr\", and \"network address\" keys within the connection string. Regardless of which of these values has been supplied within the supplied connection string, the connection string created by the <strong>SqlConnectionStringBuilder</strong> will use the well-known \"Data Source\" key.</p>\n"
+  example:
+  - "\n<p>The following example demonstrates that the <xref href=\"System.Data.SqlClient.SqlConnectionStringBuilder\" data-throw-if-not-resolved=\"false\"></xref> class converts synonyms for the \"Data Source\" connection string key into the well-known key:</p>DataWorks SqlConnectionStringBuilder.DataSource#1"
   syntax:
     content: public string DataSource { get; set; }
     content.vb: Public Property DataSource As String
     parameters: []
     return:
       type: System.String
+  exceptions:
+  - type: System.ArgumentNullException
+    commentId: T:System.ArgumentNullException
+    description: "\n<p>To set the value to null, use <xref href=\"System.DBNull.Value\" data-throw-if-not-resolved=\"false\"></xref>.</p>\n"
   modifiers.csharp:
   - public
   - get
@@ -417,6 +473,8 @@ items:
   assemblies:
   - System.Data.SqlClient
   namespace: System.Data.SqlClient
+  summary: "\n<p>Gets or sets a Boolean value that indicates whether SQL Server uses SSL encryption for all data sent between the client and server if the server has a certificate installed.</p>\n"
+  remarks: "\n<p>This property corresponds to the \"Encrypt\" key within the connection string.</p>\n"
   syntax:
     content: public bool Encrypt { get; set; }
     content.vb: Public Property Encrypt As Boolean
@@ -450,12 +508,17 @@ items:
   assemblies:
   - System.Data.SqlClient
   namespace: System.Data.SqlClient
+  summary: "\n<p>Gets or sets the name or address of the partner server to connect to if the primary server is down.</p>\n"
   syntax:
     content: public string FailoverPartner { get; set; }
     content.vb: Public Property FailoverPartner As String
     parameters: []
     return:
       type: System.String
+  exceptions:
+  - type: System.ArgumentNullException
+    commentId: T:System.ArgumentNullException
+    description: "\n<p>To set the value to null, use <xref href=\"System.DBNull.Value\" data-throw-if-not-resolved=\"false\"></xref>.</p>\n"
   modifiers.csharp:
   - public
   - get
@@ -483,12 +546,20 @@ items:
   assemblies:
   - System.Data.SqlClient
   namespace: System.Data.SqlClient
+  summary: "\n<p>Gets or sets the name of the database associated with the connection.</p>\n"
+  remarks: "\n<p>This property corresponds to the \"Initial Catalog\" and \"database\" keys within the connection string.</p>\n"
+  example:
+  - "\n<p>The following example creates a simple connection string and then uses the <xref href=\"System.Data.SqlClient.SqlConnectionStringBuilder\" data-throw-if-not-resolved=\"false\"></xref> class to add the name of the database to the connection string. The code displays the contents of the <xref href=\"System.Data.SqlClient.SqlConnectionStringBuilder.InitialCatalog\" data-throw-if-not-resolved=\"false\"></xref> property, just to verify that the class was able to convert from the synonym (\"Database\") to the appropriate property value.</p>DataWorks SqlConnectionStringBuilder.InitialCatalog#1"
   syntax:
     content: public string InitialCatalog { get; set; }
     content.vb: Public Property InitialCatalog As String
     parameters: []
     return:
       type: System.String
+  exceptions:
+  - type: System.ArgumentNullException
+    commentId: T:System.ArgumentNullException
+    description: "\n<p>To set the value to null, use <xref href=\"System.DBNull.Value\" data-throw-if-not-resolved=\"false\"></xref>.</p>\n"
   modifiers.csharp:
   - public
   - get
@@ -516,6 +587,10 @@ items:
   assemblies:
   - System.Data.SqlClient
   namespace: System.Data.SqlClient
+  summary: "\n<p>Gets or sets a Boolean value that indicates whether User ID and Password are specified in the connection (when <strong>false</strong>) or whether the current Windows account credentials are used for authentication (when <strong>true</strong>).</p>\n"
+  remarks: "\n<p>This property corresponds to the \"Integrated Security\" and \"trusted_connection\" keys within the connection string.</p>\n"
+  example:
+  - "\n<p>The following example converts an existing connection string from using SQL Server Authentication to using integrated security. The example does its work by removing the user name and password from the connection string and then setting the <xref href=\"System.Data.SqlClient.SqlConnectionStringBuilder.IntegratedSecurity\" data-throw-if-not-resolved=\"false\"></xref> property of the <xref href=\"System.Data.SqlClient.SqlConnectionStringBuilder\" data-throw-if-not-resolved=\"false\"></xref> object.</p>\n<p>This example includes a password to demonstrate how <xref href=\"System.Data.SqlClient.SqlConnectionStringBuilder\" data-throw-if-not-resolved=\"false\"></xref> works with connection strings. In your applications, we recommend that you use Windows Authentication. If you must use a password, do not include a hard-coded password in your application.</p>DataWorks SqlConnectionStringBuilder.IntegratedSecurity#1"
   syntax:
     content: public bool IntegratedSecurity { get; set; }
     content.vb: Public Property IntegratedSecurity As Boolean
@@ -549,6 +624,10 @@ items:
   assemblies:
   - System.Data.SqlClient
   namespace: System.Data.SqlClient
+  summary: "\n<p>Gets or sets the value associated with the specified key. In C#, this property is the indexer.</p>\n"
+  remarks: "\n<p>Because the <xref href=\"System.Data.SqlClient.SqlConnectionStringBuilder\" data-throw-if-not-resolved=\"false\"></xref> contains a fixed-size dictionary, trying to add a key that does not exist within the dictionary throws a <xref href=\"System.Collections.Generic.KeyNotFoundException\" data-throw-if-not-resolved=\"false\"></xref>.</p>\n"
+  example:
+  - "\n<p>The following code, in a console application, creates a new <xref href=\"System.Data.SqlClient.SqlConnectionStringBuilder\" data-throw-if-not-resolved=\"false\"></xref> and adds key/value pairs to its connection string, using the <xref href=\"System.Data.SqlClient.SqlConnectionStringBuilder.Item(System.String)\" data-throw-if-not-resolved=\"false\"></xref> property.</p>DataWorks SqlConnectionStringBuilder.Item#1"
   syntax:
     content: public override object this[string keyword] { get; set; }
     content.vb: Public Overrides Property Item(keyword As String) As Object
@@ -557,6 +636,16 @@ items:
       type: System.String
     return:
       type: System.Object
+  exceptions:
+  - type: System.ArgumentNullException
+    commentId: T:System.ArgumentNullException
+    description: "\n<p>\n<em>keyword</em> is a null reference (<strong>Nothing</strong> in Visual Basic).</p>\n"
+  - type: System.Collections.Generic.KeyNotFoundException
+    commentId: T:System.Collections.Generic.KeyNotFoundException
+    description: "\n<p>Tried to add a key that does not exist within the available keys.</p>\n"
+  - type: System.FormatException
+    commentId: T:System.FormatException
+    description: "\n<p>Invalid value within the connection string (specifically, a Boolean or numeric value was expected but not supplied).</p>\n"
   modifiers.csharp:
   - public
   - override
@@ -588,12 +677,21 @@ items:
   assemblies:
   - System.Data.SqlClient
   namespace: System.Data.SqlClient
+  summary: "\n<p>Gets an <xref href=\"System.Collections.ICollection\" data-throw-if-not-resolved=\"false\"></xref> that contains the keys in the <xref href=\"System.Data.SqlClient.SqlConnectionStringBuilder\" data-throw-if-not-resolved=\"false\"></xref>.</p>\n"
+  remarks: "\n<p>The order of the values in the <xref href=\"System.Collections.ICollection\" data-throw-if-not-resolved=\"false\"></xref> is unspecified, but it is the same order as the associated values in the <xref href=\"System.Collections.ICollection\" data-throw-if-not-resolved=\"false\"></xref> returned by the <xref href=\"System.Data.SqlClient.SqlConnectionStringBuilder.Values\" data-throw-if-not-resolved=\"false\"></xref> property.</p>\n"
+  example:
+  - "\n<p>The following console application example creates a new <xref href=\"System.Data.SqlClient.SqlConnectionStringBuilder\" data-throw-if-not-resolved=\"false\"></xref>. The code loops through the <xref href=\"System.Collections.ICollection\" data-throw-if-not-resolved=\"false\"></xref> returned by the <xref href=\"System.Data.SqlClient.SqlConnectionStringBuilder.Keys\" data-throw-if-not-resolved=\"false\"></xref> property displaying the key/value pairs.</p>DataWorks SqlConnectionStringBuilder.Keys#1"
   syntax:
     content: public override ICollection Keys { get; }
     content.vb: Public Overrides ReadOnly Property Keys As ICollection
     parameters: []
     return:
-      type: ICollection
+      type: System.Collections.ICollection
+  seealso:
+  - type: System.Data.SqlClient.SqlConnectionStringBuilder.Values
+    commentId: P:System.Data.SqlClient.SqlConnectionStringBuilder.Values
+  - type: System.Data.SqlClient.SqlConnectionStringBuilder.Item(System.String)
+    commentId: P:System.Data.SqlClient.SqlConnectionStringBuilder.Item(System.String)
   modifiers.csharp:
   - public
   - override
@@ -623,6 +721,8 @@ items:
   assemblies:
   - System.Data.SqlClient
   namespace: System.Data.SqlClient
+  summary: "\n<p>Gets or sets the minimum time, in seconds, for the connection to live in the connection pool before being destroyed.</p>\n"
+  remarks: "\n<p>This property corresponds to the \"Load Balance Timeout\" and \"connection lifetime\" keys within the connection string.</p>\n"
   syntax:
     content: public int LoadBalanceTimeout { get; set; }
     content.vb: Public Property LoadBalanceTimeout As Integer
@@ -656,6 +756,8 @@ items:
   assemblies:
   - System.Data.SqlClient
   namespace: System.Data.SqlClient
+  summary: "\n<p>Gets or sets the maximum number of connections allowed in the connection pool for this specific connection string.</p>\n"
+  remarks: "\n<p>This property corresponds to the \"Max Pool Size\" key within the connection string.</p>\n"
   syntax:
     content: public int MaxPoolSize { get; set; }
     content.vb: Public Property MaxPoolSize As Integer
@@ -689,6 +791,8 @@ items:
   assemblies:
   - System.Data.SqlClient
   namespace: System.Data.SqlClient
+  summary: "\n<p>Gets or sets the minimum number of connections allowed in the connection pool for this specific connection string.</p>\n"
+  remarks: "\n<p>This property corresponds to the \"Min Pool Size\" key within the connection string.</p>\n"
   syntax:
     content: public int MinPoolSize { get; set; }
     content.vb: Public Property MinPoolSize As Integer
@@ -722,6 +826,10 @@ items:
   assemblies:
   - System.Data.SqlClient
   namespace: System.Data.SqlClient
+  summary: "\n<p>When true, an application can maintain multiple active result sets (MARS). When false, an application must process or cancel all result sets from one batch before it can execute any other batch on that connection.</p>\n<p>For more information, see <see href=\"http://msdn.microsoft.com//library/cfa084cz.aspx\">Multiple Active Result Sets (MARS)</see>.</p>\n"
+  remarks: "\n<p>This property corresponds to the \"MultipleActiveResultSets\" key within the connection string.</p>\n"
+  example:
+  - "\n<p>The following example explicitly disables the Multiple Active Result Sets feature.</p>DataWorks SqlConnectionStringBuilder.MARS#1"
   syntax:
     content: public bool MultipleActiveResultSets { get; set; }
     content.vb: Public Property MultipleActiveResultSets As Boolean
@@ -755,9 +863,16 @@ items:
   assemblies:
   - System.Data.SqlClient
   namespace: System.Data.SqlClient
+  summary: "\n<p>If your application is connecting to an AlwaysOn availability group (AG) on different subnets, setting MultiSubnetFailover=true provides faster detection of and connection to the (currently) active server. For more information about SqlClient support for Always On Availability Groups, see SqlClient Support for High Availability, Disaster Recovery.</p>\n"
   syntax:
-    content: public bool MultiSubnetFailover { get; set; }
-    content.vb: Public Property MultiSubnetFailover As Boolean
+    content: >-
+      [SuppressMessage("Microsoft.Naming", "CA1704:IdentifiersShouldBeSpelledCorrectly", Justification = "Reviewed and Approved by UE")]
+
+      public bool MultiSubnetFailover { get; set; }
+    content.vb: >-
+      <SuppressMessage("Microsoft.Naming", "CA1704:IdentifiersShouldBeSpelledCorrectly", Justification:="Reviewed and Approved by UE")>
+
+      Public Property MultiSubnetFailover As Boolean
     parameters: []
     return:
       type: System.Boolean
@@ -788,6 +903,8 @@ items:
   assemblies:
   - System.Data.SqlClient
   namespace: System.Data.SqlClient
+  summary: "\n<p>Gets or sets the size in bytes of the network packets used to communicate with an instance of SQL Server.</p>\n"
+  remarks: "\n<p>This property corresponds to the \"Packet Size\" key within the connection string.</p>\n"
   syntax:
     content: public int PacketSize { get; set; }
     content.vb: Public Property PacketSize As Integer
@@ -821,12 +938,20 @@ items:
   assemblies:
   - System.Data.SqlClient
   namespace: System.Data.SqlClient
+  summary: "\n<p>Gets or sets the password for the SQL Server account.</p>\n"
+  remarks: "\n<p>This property corresponds to the \"Password\" and \"pwd\" keys within the connection string.</p>\n<p>If <xref href=\"System.Data.SqlClient.SqlConnectionStringBuilder.Password\" data-throw-if-not-resolved=\"false\"></xref> has not been set and you retrieve the value, the return value is <xref href=\"System.String.Empty\" data-throw-if-not-resolved=\"false\"></xref>. To reset the password for the connection string, pass null to the Item property.</p>\n"
+  example:
+  - "\n<p>The following example shows how to set <xref href=\"System.Data.SqlClient.SqlConnectionStringBuilder.Password\" data-throw-if-not-resolved=\"false\"></xref>.</p>DataWorks SqlConnectionStringBuilder.Password.2#1"
   syntax:
     content: public string Password { get; set; }
     content.vb: Public Property Password As String
     parameters: []
     return:
       type: System.String
+  exceptions:
+  - type: System.ArgumentNullException
+    commentId: T:System.ArgumentNullException
+    description: "\n<p>The password was incorrectly set to null.  See code sample below.</p>\n"
   modifiers.csharp:
   - public
   - get
@@ -854,6 +979,8 @@ items:
   assemblies:
   - System.Data.SqlClient
   namespace: System.Data.SqlClient
+  summary: "\n<p>Gets or sets a Boolean value that indicates if security-sensitive information, such as the password, is not returned as part of the connection if the connection is open or has ever been in an open state.</p>\n"
+  remarks: "\n<p>This property corresponds to the \"Persist Security Info\" and \"persistsecurityinfo\" keys within the connection string.</p>\n"
   syntax:
     content: public bool PersistSecurityInfo { get; set; }
     content.vb: Public Property PersistSecurityInfo As Boolean
@@ -887,6 +1014,8 @@ items:
   assemblies:
   - System.Data.SqlClient
   namespace: System.Data.SqlClient
+  summary: "\n<p>Gets or sets a Boolean value that indicates whether the connection will be pooled or explicitly opened every time that the connection is requested.</p>\n"
+  remarks: "\n<p>This property corresponds to the \"Pooling\" key within the connection string.</p>\n"
   syntax:
     content: public bool Pooling { get; set; }
     content.vb: Public Property Pooling As Boolean
@@ -920,6 +1049,8 @@ items:
   assemblies:
   - System.Data.SqlClient
   namespace: System.Data.SqlClient
+  summary: "\n<p>Gets or sets a Boolean value that indicates whether replication is supported using the connection.</p>\n"
+  remarks: "\n<p>This property corresponds to the \"Replication\" key within the connection string.</p>\n"
   syntax:
     content: public bool Replication { get; set; }
     content.vb: Public Property Replication As Boolean
@@ -953,6 +1084,8 @@ items:
   assemblies:
   - System.Data.SqlClient
   namespace: System.Data.SqlClient
+  summary: "\n<p>Gets or sets a value that indicates whether the channel will be encrypted while bypassing walking the certificate chain to validate trust.</p>\n"
+  remarks: "\n<p>When <strong>TrustServerCertificate</strong> is set to <strong>true</strong>, the transport layer will use SSL to encrypt the channel and bypass walking the certificate chain to validate trust. If <strong>TrustServerCertificate</strong> is set to <strong>true</strong> and encryption is turned on, the encryption level specified on the server will be used even if <strong>Encrypt</strong> is set to <strong>false</strong>. The connection will fail otherwise.</p>\n<p>For more information, see \"Encryption Hierarchy\" and \"Using Encryption Without Validation\" in SQL Server Books Online.</p>\n"
   syntax:
     content: public bool TrustServerCertificate { get; set; }
     content.vb: Public Property TrustServerCertificate As Boolean
@@ -986,6 +1119,8 @@ items:
   assemblies:
   - System.Data.SqlClient
   namespace: System.Data.SqlClient
+  summary: "\n<p>Gets or sets a string value that indicates the type system the application expects.</p>\n"
+  remarks: "\n<p>The <strong>TypeSystemVersion</strong> property can be used to specify a down-level version of SQL Server for applications written against that version. This avoids possible problems with incompatible types in a newer version of SQL Server that may cause the application to break.</p>\n"
   syntax:
     content: public string TypeSystemVersion { get; set; }
     content.vb: Public Property TypeSystemVersion As String
@@ -1019,12 +1154,18 @@ items:
   assemblies:
   - System.Data.SqlClient
   namespace: System.Data.SqlClient
+  summary: "\n<p>Gets or sets the user ID to be used when connecting to SQL Server.</p>\n"
+  remarks: "\n<p>This property corresponds to the \"User ID\", \"user\", and \"uid\" keys within the connection string.</p>\n"
   syntax:
     content: public string UserID { get; set; }
     content.vb: Public Property UserID As String
     parameters: []
     return:
       type: System.String
+  exceptions:
+  - type: System.ArgumentNullException
+    commentId: T:System.ArgumentNullException
+    description: "\n<p>To set the value to null, use <xref href=\"System.DBNull.Value\" data-throw-if-not-resolved=\"false\"></xref>.</p>\n"
   modifiers.csharp:
   - public
   - get
@@ -1052,12 +1193,18 @@ items:
   assemblies:
   - System.Data.SqlClient
   namespace: System.Data.SqlClient
+  summary: "\n<p>Gets or sets a value that indicates whether to redirect the connection from the default SQL Server Express instance to a runtime-initiated instance running under the account of the caller.</p>\n"
+  remarks: "\n<p>This property corresponds to the \"User Instance\" key within the connection string.</p>\n<p>This feature is available only with the SQL Server Express Edition. For more information on user instances, see SQL Server Express User Instances and \"User Instances for Non-Administrators\" in SQL Server Books Online.</p>\n"
   syntax:
     content: public bool UserInstance { get; set; }
     content.vb: Public Property UserInstance As Boolean
     parameters: []
     return:
       type: System.Boolean
+  exceptions:
+  - type: System.ArgumentNullException
+    commentId: T:System.ArgumentNullException
+    description: "\n<p>To set the value to null, use <xref href=\"System.DBNull.Value\" data-throw-if-not-resolved=\"false\"></xref>.</p>\n"
   modifiers.csharp:
   - public
   - get
@@ -1085,12 +1232,19 @@ items:
   assemblies:
   - System.Data.SqlClient
   namespace: System.Data.SqlClient
+  summary: "\n<p>Gets an <xref href=\"System.Collections.ICollection\" data-throw-if-not-resolved=\"false\"></xref> that contains the values in the <xref href=\"System.Data.SqlClient.SqlConnectionStringBuilder\" data-throw-if-not-resolved=\"false\"></xref>.</p>\n"
+  remarks: "\n<p>The order of the values in the <xref href=\"System.Collections.ICollection\" data-throw-if-not-resolved=\"false\"></xref> is unspecified, but it is the same order as the associated keys in the <xref href=\"System.Collections.ICollection\" data-throw-if-not-resolved=\"false\"></xref> returned by the <xref href=\"System.Data.SqlClient.SqlConnectionStringBuilder.Keys\" data-throw-if-not-resolved=\"false\"></xref> property. Because each instance of the <xref href=\"System.Data.SqlClient.SqlConnectionStringBuilder\" data-throw-if-not-resolved=\"false\"></xref> always contains the same fixed set of keys, the <xref href=\"System.Data.SqlClient.SqlConnectionStringBuilder.Values\" data-throw-if-not-resolved=\"false\"></xref> property always returns the values corresponding to the fixed set of keys, in the same order as the keys.</p>\n"
+  example:
+  - "\n<p>The following example first creates a new <xref href=\"System.Data.SqlClient.SqlConnectionStringBuilder\" data-throw-if-not-resolved=\"false\"></xref>, and then iterates through all the values within the object.</p>DataWorks SqlConnectionStringBuilder.Values#1"
   syntax:
     content: public override ICollection Values { get; }
     content.vb: Public Overrides ReadOnly Property Values As ICollection
     parameters: []
     return:
-      type: ICollection
+      type: System.Collections.ICollection
+  seealso:
+  - type: System.Data.SqlClient.SqlConnectionStringBuilder.Keys
+    commentId: P:System.Data.SqlClient.SqlConnectionStringBuilder.Keys
   modifiers.csharp:
   - public
   - override
@@ -1120,12 +1274,18 @@ items:
   assemblies:
   - System.Data.SqlClient
   namespace: System.Data.SqlClient
+  summary: "\n<p>Gets or sets the name of the workstation connecting to SQL Server.</p>\n"
+  remarks: "\n<p>This property corresponds to the \"Workstation ID\" and \"wsid\" keys within the connection string.</p>\n"
   syntax:
     content: public string WorkstationID { get; set; }
     content.vb: Public Property WorkstationID As String
     parameters: []
     return:
       type: System.String
+  exceptions:
+  - type: System.ArgumentNullException
+    commentId: T:System.ArgumentNullException
+    description: "\n<p>To set the value to null, use <xref href=\"System.DBNull.Value\" data-throw-if-not-resolved=\"false\"></xref>.</p>\n"
   modifiers.csharp:
   - public
   - get
@@ -1153,6 +1313,10 @@ items:
   assemblies:
   - System.Data.SqlClient
   namespace: System.Data.SqlClient
+  summary: "\n<p>Clears the contents of the <xref href=\"System.Data.SqlClient.SqlConnectionStringBuilder\" data-throw-if-not-resolved=\"false\"></xref> instance.</p>\n"
+  remarks: "\n<p>The <xref href=\"System.Data.Common.DbConnectionStringBuilder.Clear\" data-throw-if-not-resolved=\"false\"></xref> method removes all key/value pairs from the <xref href=\"System.Data.SqlClient.SqlConnectionStringBuilder\" data-throw-if-not-resolved=\"false\"></xref>, and resets all corresponding properties. This includes setting the <xref href=\"System.Data.Common.DbConnectionStringBuilder.Count\" data-throw-if-not-resolved=\"false\"></xref> property to 0, and setting the <xref href=\"System.Data.Common.DbConnectionStringBuilder.ConnectionString\" data-throw-if-not-resolved=\"false\"></xref> property to an empty string.</p>\n"
+  example:
+  - "\n<p>The following example demonstrates calling the <xref href=\"System.Data.Common.DbConnectionStringBuilder.Clear\" data-throw-if-not-resolved=\"false\"></xref> method. This example populates the <xref href=\"System.Data.SqlClient.SqlConnectionStringBuilder\" data-throw-if-not-resolved=\"false\"></xref> with some key/value pairs, and then calls the <xref href=\"System.Data.Common.DbConnectionStringBuilder.Clear\" data-throw-if-not-resolved=\"false\"></xref> method and shows the results.</p>DataWorks SqlConnectionStringBuilder.Clear#1"
   syntax:
     content: public override void Clear()
     content.vb: Public Overrides Sub Clear
@@ -1183,6 +1347,10 @@ items:
   assemblies:
   - System.Data.SqlClient
   namespace: System.Data.SqlClient
+  summary: "\n<p>Determines whether the <xref href=\"System.Data.SqlClient.SqlConnectionStringBuilder\" data-throw-if-not-resolved=\"false\"></xref> contains a specific key.</p>\n"
+  remarks: "\n<p>Because the <xref href=\"System.Data.SqlClient.SqlConnectionStringBuilder\" data-throw-if-not-resolved=\"false\"></xref> contains a fixed-size collection of key/value pairs, the <xref href=\"System.Data.Common.DbConnectionStringBuilder.ContainsKey(System.String)\" data-throw-if-not-resolved=\"false\"></xref> method determines only if a particular key name is valid.</p>\n"
+  example:
+  - "\n<p>The following example creates a <xref href=\"System.Data.SqlClient.SqlConnectionStringBuilder\" data-throw-if-not-resolved=\"false\"></xref> instance, sets some of its properties, and then tries to determine whether various keys exist within the object by calling the <strong>ContainsKey</strong> method.</p>DataWorks SqlConnectionStringBuilder.ContainsKey#1<p>The example displays the following output in the console window:</p><pre><code>Connection string = Data Source=(local);Initial Catalog=AdventureWorks;Integrated Security=True\nTrue\nTrue\nTrue\nFalse</code></pre>"
   syntax:
     content: public override bool ContainsKey(string keyword)
     content.vb: Public Overrides Function ContainsKey(keyword As String) As Boolean
@@ -1191,6 +1359,10 @@ items:
       type: System.String
     return:
       type: System.Boolean
+  exceptions:
+  - type: System.ArgumentNullException
+    commentId: T:System.ArgumentNullException
+    description: "\n<p>\n<em>keyword</em> is null (<strong>Nothing</strong> in Visual Basic)</p>\n"
   modifiers.csharp:
   - public
   - override
@@ -1218,6 +1390,10 @@ items:
   assemblies:
   - System.Data.SqlClient
   namespace: System.Data.SqlClient
+  summary: "\n<p>Removes the entry with the specified key from the <xref href=\"System.Data.SqlClient.SqlConnectionStringBuilder\" data-throw-if-not-resolved=\"false\"></xref> instance.</p>\n"
+  remarks: "\n<p>Because the <strong>Remove</strong> method returns a value that indicates its success, it is not required to look for a key before trying to remove the key/value pair from the <xref href=\"System.Data.SqlClient.SqlConnectionStringBuilder\" data-throw-if-not-resolved=\"false\"></xref> instance. Because the <xref href=\"System.Data.SqlClient.SqlConnectionStringBuilder\" data-throw-if-not-resolved=\"false\"></xref> maintains a fixed-size collection of key/value pairs, calling the <xref href=\"System.Data.SqlClient.SqlConnectionStringBuilder.Remove(System.String)\" data-throw-if-not-resolved=\"false\"></xref> method simply resets the value of the key/value pair back to its default value.</p>\n<p>Because the collection of keys supported by the <xref href=\"System.Data.SqlClient.SqlConnectionStringBuilder\" data-throw-if-not-resolved=\"false\"></xref> is fixed, every item within the collection has a known default value. The following table lists the keys, and the value for each when the <xref href=\"System.Data.SqlClient.SqlConnectionStringBuilder\" data-throw-if-not-resolved=\"false\"></xref> is first initialized, or after the <xref href=\"System.Data.SqlClient.SqlConnectionStringBuilder.Remove(System.String)\" data-throw-if-not-resolved=\"false\"></xref> method has been called.</p>\n<p>Key</p>\n<p>Default value</p>\n<table><tbody><tr><td>\n<p>Application Name</p>\n</td><td>\n<p>\".Net SqlClient Data Provider\"</p>\n</td></tr><tr><td>\n<p>Asynchronous Processing</p>\n</td><td>\n<p>False</p>\n</td></tr><tr><td>\n<p>AttachDBFilename</p>\n</td><td>\n<p>Empty string</p>\n</td></tr><tr><td>\n<p>Connection Timeout</p>\n</td><td>\n<p>15</p>\n</td></tr><tr><td>\n<p>Context Connection</p>\n</td><td>\n<p>False</p>\n</td></tr><tr><td>\n<p>Current Language</p>\n</td><td>\n<p>Empty string</p>\n</td></tr><tr><td>\n<p>Data Source</p>\n</td><td>\n<p>Empty string</p>\n</td></tr><tr><td>\n<p>Encrypt</p>\n</td><td>\n<p>False</p>\n</td></tr><tr><td>\n<p>Enlist</p>\n</td><td>\n<p>True</p>\n</td></tr><tr><td>\n<p>Failover Partner</p>\n</td><td>\n<p>Empty string</p>\n</td></tr><tr><td>\n<p>Initial Catalog</p>\n</td><td>\n<p>Empty string</p>\n</td></tr><tr><td>\n<p>Integrated Security</p>\n</td><td>\n<p>False</p>\n</td></tr><tr><td>\n<p>Load Balance Timeout</p>\n</td><td>\n<p>0</p>\n</td></tr><tr><td>\n<p>Max Pool Size</p>\n</td><td>\n<p>100</p>\n</td></tr><tr><td>\n<p>Min Pool Size</p>\n</td><td>\n<p>0</p>\n</td></tr><tr><td>\n<p>MultipleActiveResultSets</p>\n</td><td>\n<p>False</p>\n</td></tr><tr><td>\n<p>Network Library</p>\n</td><td>\n<p>Empty string</p>\n</td></tr><tr><td>\n<p>Packet Size</p>\n</td><td>\n<p>8000</p>\n</td></tr><tr><td>\n<p>Password</p>\n</td><td>\n<p>Empty string</p>\n</td></tr><tr><td>\n<p>Persist Security Info</p>\n</td><td>\n<p>False</p>\n</td></tr><tr><td>\n<p>Pooling</p>\n</td><td>\n<p>True</p>\n</td></tr><tr><td>\n<p>Replication</p>\n</td><td>\n<p>False</p>\n</td></tr><tr><td>\n<p>Transaction Binding</p>\n</td><td>\n<p>Implicit Unbind</p>\n</td></tr><tr><td>\n<p>User ID</p>\n</td><td>\n<p>Empty string</p>\n</td></tr><tr><td>\n<p>User Instance</p>\n</td><td>\n<p>False</p>\n</td></tr><tr><td>\n<p>Workstation ID</p>\n</td><td>\n<p>Empty string</p>\n</td></tr></tbody></table>\n"
+  example:
+  - "\n<p>The following example converts an existing connection string from using Windows Authentication to using integrated security. The example works by removing the user name and password from the connection string, and then setting the <xref href=\"System.Data.SqlClient.SqlConnectionStringBuilder.IntegratedSecurity\" data-throw-if-not-resolved=\"false\"></xref> property of the <xref href=\"System.Data.SqlClient.SqlConnectionStringBuilder\" data-throw-if-not-resolved=\"false\"></xref> object.</p>\n<p>This example includes a password to demonstrate how <xref href=\"System.Data.SqlClient.SqlConnectionStringBuilder\" data-throw-if-not-resolved=\"false\"></xref> works with connection strings. In your applications, we recommend that you use Windows Authentication. If you must use a password, do not include a hard-coded password in your application.</p>DataWorks SqlConnectionStringBuilder.Remove#1<p>The example displays the following text in the console window:</p><pre><code>Original: Data Source=(local);Initial Catalog=AdventureWorks;User ID=ab;Password= a1Pass@@11\nModified: Data Source=(local);Initial Catalog=AdventureWorks;Integrated Security=True\nDatabase = AdventureWorks</code></pre>"
   syntax:
     content: public override bool Remove(string keyword)
     content.vb: Public Overrides Function Remove(keyword As String) As Boolean
@@ -1226,6 +1402,10 @@ items:
       type: System.String
     return:
       type: System.Boolean
+  exceptions:
+  - type: System.ArgumentNullException
+    commentId: T:System.ArgumentNullException
+    description: "\n<p>\n<em>keyword</em> is null (<strong>Nothing</strong> in Visual Basic)</p>\n"
   modifiers.csharp:
   - public
   - override
@@ -1253,6 +1433,8 @@ items:
   assemblies:
   - System.Data.SqlClient
   namespace: System.Data.SqlClient
+  summary: "\n<p>Indicates whether the specified key exists in this <xref href=\"System.Data.SqlClient.SqlConnectionStringBuilder\" data-throw-if-not-resolved=\"false\"></xref> instance.</p>\n"
+  remarks: "\n<p>This method behaves identically to the <xref href=\"System.Data.Common.DbConnectionStringBuilder.ContainsKey(System.String)\" data-throw-if-not-resolved=\"false\"></xref> method.</p>\n"
   syntax:
     content: public override bool ShouldSerialize(string keyword)
     content.vb: Public Overrides Function ShouldSerialize(keyword As String) As Boolean
@@ -1288,6 +1470,10 @@ items:
   assemblies:
   - System.Data.SqlClient
   namespace: System.Data.SqlClient
+  summary: "\n<p>Retrieves a value corresponding to the supplied key from this <xref href=\"System.Data.SqlClient.SqlConnectionStringBuilder\" data-throw-if-not-resolved=\"false\"></xref>.</p>\n"
+  remarks: "\n<p>The <xref href=\"System.Data.SqlClient.SqlConnectionStringBuilder.TryGetValue(System.String,System.Object@)\" data-throw-if-not-resolved=\"false\"></xref> method lets developers safely retrieve a value from a <xref href=\"System.Data.SqlClient.SqlConnectionStringBuilder\" data-throw-if-not-resolved=\"false\"></xref> without needing to verify that the supplied key name is a valid key name. Because <strong>TryGetValue</strong> does not raise an exception when you call it, passing in a nonexistent key, you do not have to look for a key before retrieving its value.  Calling <strong>TryGetValue</strong> with a nonexistent key will place the value null (<strong>Nothing</strong> in Visual Basic) in the <em>value</em> parameter. </p>\n"
+  example:
+  - "\n<p>The following example demonstrates the behavior of the <strong>TryGetValue</strong> method. </p>DataWorks SqlConnectionStringBuilder.TryGetValue#1<p>The sample displays the following results:</p><pre><code>Data Source=(local)\nTrusted_Connection=True\nUnable to retrieve value for 'InvalidKey'\nUnable to retrieve value for null key.</code></pre>"
   syntax:
     content: public override bool TryGetValue(string keyword, out object value)
     content.vb: Public Overrides Function TryGetValue(keyword As String, ByRef value As Object) As Boolean
@@ -1298,6 +1484,10 @@ items:
       type: System.Object
     return:
       type: System.Boolean
+  exceptions:
+  - type: System.ArgumentNullException
+    commentId: T:System.ArgumentNullException
+    description: "\n<p>\n<em>keyword</em> contains a null value (<strong>Nothing</strong> in Visual Basic).</p>\n"
   modifiers.csharp:
   - public
   - override
@@ -1343,9 +1533,27 @@ references:
 - uid: System.Collections.ICollection
   parent: System.Collections
   isExternal: false
-  name: Collections.ICollection
+  name: ICollection
   fullName: System.Collections.ICollection
 - uid: System.Collections
   isExternal: false
   name: System.Collections
   fullName: System.Collections
+- uid: System.Collections.Generic.KeyNotFoundException
+  isExternal: false
+  name: KeyNotFoundException
+  fullName: System.Collections.Generic.KeyNotFoundException
+- uid: System.FormatException
+  parent: System
+  isExternal: false
+  name: FormatException
+  fullName: System.FormatException
+- uid: System.ArgumentException
+  parent: System
+  isExternal: false
+  name: ArgumentException
+  fullName: System.ArgumentException
+- uid: System.ArgumentNullException
+  isExternal: false
+  name: ArgumentNullException
+  fullName: System.ArgumentNullException

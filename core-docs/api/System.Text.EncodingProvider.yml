@@ -17,27 +17,39 @@ items:
   type: Class
   source:
     remote:
-      path: src/System.Text.Encoding/ref/System.Text.Encoding.cs
+      path: src/mscorlib/src/System/Text/EncodingProvider.cs
       branch: master
-      repo: https://github.com/dotnet/corefx.git
+      repo: https://github.com/dotnet/coreclr.git
     id: EncodingProvider
-    path: src/System.Text.Encoding/ref/System.Text.Encoding.cs
-    startLine: 187
+    path: src/mscorlib/src/System/Text/EncodingProvider.cs
+    startLine: 10
   assemblies:
   - System.Text.Encoding
   namespace: System.Text
   summary: "\n<p>Provides the base class for an encoding provider, which supplies encodings that are unavailable on a particular platform. </p>\n"
   remarks: "\n<p>An encoding provider supplies encodings that are not otherwise available on a particular target platform. </p>\n<p>The .NET Framework on the Windows desktop supports a large number of character encodings and code pages. You can get a complete list of encodings available in the .NET Framework on the Windows desktop by calling the <xref href=\"System.Text.Encoding.GetEncodings\" data-throw-if-not-resolved=\"false\"></xref> method. .NET Core, on the other hand, by default supports only the following encodings: </p>\n<ul><li>\n<p>ASCII (code page 20127), which is returned by the <xref href=\"System.Text.Encoding.ASCII\" data-throw-if-not-resolved=\"false\"></xref> property. </p>\n</li><li>\n<p>ISO-8859-1 (code page 28591). </p>\n</li><li>\n<p>UTF-7 (code page 65000), which is returned by the <xref href=\"System.Text.Encoding.UTF7\" data-throw-if-not-resolved=\"false\"></xref> property. </p>\n</li><li>\n<p>UTF-8 (code page 65001), which is returned by the <xref href=\"System.Text.Encoding.UTF8\" data-throw-if-not-resolved=\"false\"></xref> property. </p>\n</li><li>\n<p>UTF-16 and UTF-16LE (code page 1200), which is returned by the <xref href=\"System.Text.Encoding.Unicode\" data-throw-if-not-resolved=\"false\"></xref> property. </p>\n</li><li>\n<p>UTF-16BE (code page 1201), which is instantiated by calling the <xref href=\"System.Text.UnicodeEncoding.#ctor(System.Boolean,System.Boolean)\" data-throw-if-not-resolved=\"false\"></xref> or <xref href=\"System.Text.UnicodeEncoding.#ctor(System.Boolean,System.Boolean)\" data-throw-if-not-resolved=\"false\"></xref> constructor with a <em>bigEndian</em> value of <strong>true</strong>. </p>\n</li><li>\n<p>UTF-32 and UTF-32LE (code page 12000), which is returned by the <xref href=\"System.Text.Encoding.UTF32\" data-throw-if-not-resolved=\"false\"></xref> property. </p>\n</li><li>\n<p>UTF-32BE (code page 12001), which is instantiated by calling an <xref href=\"System.Text.UTF32Encoding\" data-throw-if-not-resolved=\"false\"></xref> constructor that has a <em>bigEndian</em> parameter and providing a value of <strong>true</strong> in the method call. </p>\n</li></ul>\n<p>In .NET Framework 4.6, <xref href=\"System.Text.EncodingProvider\" data-throw-if-not-resolved=\"false\"></xref> is the base class that makes otherwise unavailable encodings available to the .NET Framework. This involves the following steps: </p>\n<ol><li>\n<p>Define a subclass of <xref href=\"System.Text.EncodingProvider\" data-throw-if-not-resolved=\"false\"></xref> that overrides the two abstract <xref href=\"System.Text.EncodingProvider.GetEncoding(System.Int32)\" data-throw-if-not-resolved=\"false\"></xref> overloads, <xref href=\"System.Text.EncodingProvider.GetEncoding(System.Int32)\" data-throw-if-not-resolved=\"false\"></xref> and <xref href=\"System.Text.EncodingProvider.GetEncoding(System.String)\" data-throw-if-not-resolved=\"false\"></xref>. These overloads return the otherwise unsupported encoding by code page identifier and by name. </p>\n</li><li>\n<p>Optionally, you can override the virtual <xref href=\"System.Text.EncodingProvider.GetEncoding(System.Int32,System.Text.EncoderFallback,System.Text.DecoderFallback)\" data-throw-if-not-resolved=\"false\"></xref> and <xref href=\"System.Text.EncodingProvider.GetEncoding(System.String,System.Text.EncoderFallback,System.Text.DecoderFallback)\" data-throw-if-not-resolved=\"false\"></xref> methods. In most cases, this is not necessary, since the base class provides a default implementation. </p>\n</li><li>\n<p>Pass the <xref href=\"System.Text.EncodingProvider\" data-throw-if-not-resolved=\"false\"></xref> instance to the <xref href=\"System.Text.Encoding.RegisterProvider(System.Text.EncodingProvider)\" data-throw-if-not-resolved=\"false\"></xref> method to make the encodings supplied by the <xref href=\"System.Text.EncodingProvider\" data-throw-if-not-resolved=\"false\"></xref> object available to the common language runtime. </p>\n</li><li>\n<p>Call an <xref href=\"System.Text.Encoding.GetEncoding(System.Int32)\" data-throw-if-not-resolved=\"false\"></xref> overload to retrieve the encoding. The <xref href=\"System.Text.Encoding.GetEncoding(System.Int32)\" data-throw-if-not-resolved=\"false\"></xref> method will call the corresponding <xref href=\"System.Text.EncodingProvider.GetEncoding(System.Int32)\" data-throw-if-not-resolved=\"false\"></xref> to determine whether it can supply the requested encoding. </p>\n</li></ol>\n<p>The .NET Framework Class Library provides one static property, <xref href=\"System.Text.CodePagesEncodingProvider.Instance\" data-throw-if-not-resolved=\"false\"></xref>, that returns an <xref href=\"System.Text.EncodingProvider\" data-throw-if-not-resolved=\"false\"></xref> object that makes the full set of encodings available on the desktop .NET Framework Class Library available to .NET Core applications. In addition, you can derive from the <xref href=\"System.Text.EncodingProvider\" data-throw-if-not-resolved=\"false\"></xref> class to make your own encodings available. </p>\n"
   syntax:
-    content: 'public abstract class EncodingProvider : object'
+    content: >-
+      [ComVisible(true)]
+
+      public abstract class EncodingProvider
     content.vb: >-
+      <ComVisible(True)>
+
       Public MustInherit Class EncodingProvider
-          Inherits Object
   seealso:
   - type: System.Text.Encoding.GetEncoding(System.String)
     commentId: M:System.Text.Encoding.GetEncoding(System.String)
   inheritance:
   - System.Object
+  inheritedMembers:
+  - System.Object.ToString
+  - System.Object.Equals(System.Object)
+  - System.Object.Equals(System.Object,System.Object)
+  - System.Object.ReferenceEquals(System.Object,System.Object)
+  - System.Object.GetHashCode
+  - System.Object.GetType
+  - System.Object.MemberwiseClone
   modifiers.csharp:
   - public
   - abstract
@@ -58,12 +70,12 @@ items:
   type: Constructor
   source:
     remote:
-      path: src/System.Text.Encoding/ref/System.Text.Encoding.cs
+      path: src/mscorlib/src/System/Text/EncodingProvider.cs
       branch: master
-      repo: https://github.com/dotnet/corefx.git
+      repo: https://github.com/dotnet/coreclr.git
     id: .ctor
-    path: src/System.Text.Encoding/ref/System.Text.Encoding.cs
-    startLine: 189
+    path: src/mscorlib/src/System/Text/EncodingProvider.cs
+    startLine: 13
   assemblies:
   - System.Text.Encoding
   namespace: System.Text
@@ -87,12 +99,12 @@ items:
   type: Method
   source:
     remote:
-      path: src/System.Text.Encoding/ref/System.Text.Encoding.cs
+      path: src/mscorlib/src/System/Text/EncodingProvider.cs
       branch: master
-      repo: https://github.com/dotnet/corefx.git
+      repo: https://github.com/dotnet/coreclr.git
     id: GetEncoding
-    path: src/System.Text.Encoding/ref/System.Text.Encoding.cs
-    startLine: 190
+    path: src/mscorlib/src/System/Text/EncodingProvider.cs
+    startLine: 15
   assemblies:
   - System.Text.Encoding
   namespace: System.Text
@@ -103,10 +115,8 @@ items:
     parameters:
     - id: codepage
       type: System.Int32
-      description: "\n<p>The code page identifier of the requested encoding. </p>\n"
     return:
       type: System.Text.Encoding
-      description: "\n<p>The encoding that is associated with the specified code page, or <strong>null</strong> if this <xref href=\"System.Text.EncodingProvider\" data-throw-if-not-resolved=\"false\"></xref> cannot return a valid encoding that corresponds to <em>codepage</em>. </p>\n"
   seealso:
   - type: System.Text.Encoding.GetEncoding(System.Int32)
     commentId: M:System.Text.Encoding.GetEncoding(System.Int32)
@@ -128,12 +138,12 @@ items:
   type: Method
   source:
     remote:
-      path: src/System.Text.Encoding/ref/System.Text.Encoding.cs
+      path: src/mscorlib/src/System/Text/EncodingProvider.cs
       branch: master
-      repo: https://github.com/dotnet/corefx.git
+      repo: https://github.com/dotnet/coreclr.git
     id: GetEncoding
-    path: src/System.Text.Encoding/ref/System.Text.Encoding.cs
-    startLine: 191
+    path: src/mscorlib/src/System/Text/EncodingProvider.cs
+    startLine: 31
   assemblies:
   - System.Text.Encoding
   namespace: System.Text
@@ -145,16 +155,12 @@ items:
     parameters:
     - id: codepage
       type: System.Int32
-      description: "\n<p>The code page identifier of the requested encoding. </p>\n"
     - id: encoderFallback
       type: System.Text.EncoderFallback
-      description: "\n<p>An object that provides an error-handling procedure when a character cannot be encoded with this encoding. </p>\n"
     - id: decoderFallback
       type: System.Text.DecoderFallback
-      description: "\n<p>An object that provides an error-handling procedure when a byte sequence cannot be decoded with this encoding. </p>\n"
     return:
       type: System.Text.Encoding
-      description: "\n<p>The encoding that is associated with the specified code page, or <strong>null</strong> if this <xref href=\"System.Text.EncodingProvider\" data-throw-if-not-resolved=\"false\"></xref> cannot return a valid encoding that corresponds to <em>codepage</em>. </p>\n"
   seealso:
   - type: System.Text.Encoding.GetEncoding(System.Int32,System.Text.EncoderFallback,System.Text.DecoderFallback)
     commentId: M:System.Text.Encoding.GetEncoding(System.Int32,System.Text.EncoderFallback,System.Text.DecoderFallback)
@@ -176,12 +182,12 @@ items:
   type: Method
   source:
     remote:
-      path: src/System.Text.Encoding/ref/System.Text.Encoding.cs
+      path: src/mscorlib/src/System/Text/EncodingProvider.cs
       branch: master
-      repo: https://github.com/dotnet/corefx.git
+      repo: https://github.com/dotnet/coreclr.git
     id: GetEncoding
-    path: src/System.Text.Encoding/ref/System.Text.Encoding.cs
-    startLine: 192
+    path: src/mscorlib/src/System/Text/EncodingProvider.cs
+    startLine: 14
   assemblies:
   - System.Text.Encoding
   namespace: System.Text
@@ -192,10 +198,8 @@ items:
     parameters:
     - id: name
       type: System.String
-      description: "\n<p>The name of the requested encoding. </p>\n"
     return:
       type: System.Text.Encoding
-      description: "\n<p>The encoding that is associated with the specified name, or <strong>null</strong> if this <xref href=\"System.Text.EncodingProvider\" data-throw-if-not-resolved=\"false\"></xref> cannot return a valid encoding that corresponds to <em>name</em>.</p>\n"
   seealso:
   - type: System.Text.Encoding.GetEncoding(System.String)
     commentId: M:System.Text.Encoding.GetEncoding(System.String)
@@ -217,12 +221,12 @@ items:
   type: Method
   source:
     remote:
-      path: src/System.Text.Encoding/ref/System.Text.Encoding.cs
+      path: src/mscorlib/src/System/Text/EncodingProvider.cs
       branch: master
-      repo: https://github.com/dotnet/corefx.git
+      repo: https://github.com/dotnet/coreclr.git
     id: GetEncoding
-    path: src/System.Text.Encoding/ref/System.Text.Encoding.cs
-    startLine: 193
+    path: src/mscorlib/src/System/Text/EncodingProvider.cs
+    startLine: 18
   assemblies:
   - System.Text.Encoding
   namespace: System.Text
@@ -234,16 +238,12 @@ items:
     parameters:
     - id: name
       type: System.String
-      description: "\n<p>The name of the preferred encoding. </p>\n"
     - id: encoderFallback
       type: System.Text.EncoderFallback
-      description: "\n<p>An object that provides an error-handling procedure when a character cannot be encoded with this encoding. </p>\n"
     - id: decoderFallback
       type: System.Text.DecoderFallback
-      description: "\n<p>An object that provides an error-handling procedure when a byte sequence cannot be decoded with the current encoding. </p>\n"
     return:
       type: System.Text.Encoding
-      description: "\n<p>The encoding that is associated with the specified name, or <strong>null</strong> if this <xref href=\"System.Text.EncodingProvider\" data-throw-if-not-resolved=\"false\"></xref> cannot return a valid encoding that corresponds to <em>name</em>. </p>\n"
   seealso:
   - type: System.Text.Encoding.GetEncoding(System.String,System.Text.EncoderFallback,System.Text.DecoderFallback)
     commentId: M:System.Text.Encoding.GetEncoding(System.String,System.Text.EncoderFallback,System.Text.DecoderFallback)
@@ -263,6 +263,215 @@ references:
   isExternal: false
   name: Object
   fullName: System.Object
+- uid: System.Object.ToString
+  parent: System.Object
+  isExternal: true
+  name: ToString()
+  fullName: System.Object.ToString()
+  spec.csharp:
+  - uid: System.Object.ToString
+    name: ToString
+    fullName: System.Object.ToString
+    isExternal: true
+  - name: (
+    fullName: (
+  - name: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.ToString
+    name: ToString
+    fullName: System.Object.ToString
+    isExternal: true
+  - name: (
+    fullName: (
+  - name: )
+    fullName: )
+- uid: System.Object.Equals(System.Object)
+  parent: System.Object
+  isExternal: true
+  name: Equals(Object)
+  fullName: System.Object.Equals(System.Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    fullName: )
+- uid: System.Object.Equals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  name: Equals(Object, Object)
+  fullName: System.Object.Equals(System.Object, System.Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    fullName: )
+- uid: System.Object.ReferenceEquals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  name: ReferenceEquals(Object, Object)
+  fullName: System.Object.ReferenceEquals(System.Object, System.Object)
+  spec.csharp:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    fullName: System.Object.ReferenceEquals
+    isExternal: true
+  - name: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    fullName: System.Object.ReferenceEquals
+    isExternal: true
+  - name: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    fullName: )
+- uid: System.Object.GetHashCode
+  parent: System.Object
+  isExternal: true
+  name: GetHashCode()
+  fullName: System.Object.GetHashCode()
+  spec.csharp:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    fullName: System.Object.GetHashCode
+    isExternal: true
+  - name: (
+    fullName: (
+  - name: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    fullName: System.Object.GetHashCode
+    isExternal: true
+  - name: (
+    fullName: (
+  - name: )
+    fullName: )
+- uid: System.Object.GetType
+  parent: System.Object
+  isExternal: true
+  name: GetType()
+  fullName: System.Object.GetType()
+  spec.csharp:
+  - uid: System.Object.GetType
+    name: GetType
+    fullName: System.Object.GetType
+    isExternal: true
+  - name: (
+    fullName: (
+  - name: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.GetType
+    name: GetType
+    fullName: System.Object.GetType
+    isExternal: true
+  - name: (
+    fullName: (
+  - name: )
+    fullName: )
+- uid: System.Object.MemberwiseClone
+  parent: System.Object
+  isExternal: true
+  name: MemberwiseClone()
+  fullName: System.Object.MemberwiseClone()
+  spec.csharp:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    fullName: System.Object.MemberwiseClone
+    isExternal: true
+  - name: (
+    fullName: (
+  - name: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    fullName: System.Object.MemberwiseClone
+    isExternal: true
+  - name: (
+    fullName: (
+  - name: )
+    fullName: )
 - uid: System
   isExternal: false
   name: System
@@ -275,7 +484,7 @@ references:
 - uid: System.Text.Encoding
   parent: System.Text
   isExternal: false
-  name: Text.Encoding
+  name: Encoding
   fullName: System.Text.Encoding
 - uid: System.Text.EncoderFallback
   parent: System.Text

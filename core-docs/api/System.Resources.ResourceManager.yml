@@ -16,12 +16,12 @@ items:
   type: Class
   source:
     remote:
-      path: src/System.Resources.ResourceManager/ref/System.Resources.ResourceManager.cs
+      path: src/mscorlib/src/System/Resources/ResourceManager.cs
       branch: master
-      repo: https://github.com/dotnet/corefx.git
+      repo: https://github.com/dotnet/coreclr.git
     id: ResourceManager
-    path: src/System.Resources.ResourceManager/ref/System.Resources.ResourceManager.cs
-    startLine: 24
+    path: src/mscorlib/src/System/Resources/ResourceManager.cs
+    startLine: 157
   assemblies:
   - System.Resources.ResourceManager
   namespace: System.Resources
@@ -137,10 +137,18 @@ items:
 
     </ol>ResourceManager_Class#1
   syntax:
-    content: 'public class ResourceManager : object'
+    content: >-
+      [Serializable]
+
+      [ComVisible(true)]
+
+      public class ResourceManager
     content.vb: >-
+      <Serializable>
+
+      <ComVisible(True)>
+
       Public Class ResourceManager
-          Inherits Object
   seealso:
   - type: System.Globalization.CultureInfo
     commentId: T:System.Globalization.CultureInfo
@@ -150,6 +158,14 @@ items:
     commentId: T:System.Resources.SatelliteContractVersionAttribute
   inheritance:
   - System.Object
+  inheritedMembers:
+  - System.Object.ToString
+  - System.Object.Equals(System.Object)
+  - System.Object.Equals(System.Object,System.Object)
+  - System.Object.ReferenceEquals(System.Object,System.Object)
+  - System.Object.GetHashCode
+  - System.Object.GetType
+  - System.Object.MemberwiseClone
   modifiers.csharp:
   - public
   - class
@@ -163,17 +179,17 @@ items:
   langs:
   - csharp
   - vb
-  name: ResourceManager(String, Reflection.Assembly)
+  name: ResourceManager(String, Assembly)
   fullName: System.Resources.ResourceManager.ResourceManager(System.String, System.Reflection.Assembly)
   type: Constructor
   source:
     remote:
-      path: src/System.Resources.ResourceManager/ref/System.Resources.ResourceManager.cs
+      path: src/mscorlib/src/System/Resources/ResourceManager.cs
       branch: master
-      repo: https://github.com/dotnet/corefx.git
+      repo: https://github.com/dotnet/coreclr.git
     id: .ctor
-    path: src/System.Resources.ResourceManager/ref/System.Resources.ResourceManager.cs
-    startLine: 27
+    path: src/mscorlib/src/System/Resources/ResourceManager.cs
+    startLine: 335
   assemblies:
   - System.Resources.ResourceManager
   namespace: System.Resources
@@ -198,15 +214,19 @@ items:
 
     <p>The following example provides the executable code that instantiates a <xref href="System.Resources.ResourceManager" data-throw-if-not-resolved="false"></xref> object, prompts the user to enter a name, and displays a greeting.</p>System.Resources.ResourceManager.ctor#1<p>It can be compiled by using the following command in Visual Basic:</p><pre><code>vbc Example.vb /resource:ExampleResources.resources</code></pre><p>or by using the following command in C#:</p><pre><code>csc Example.cs /resource:ExampleResources.resources</code></pre><p>Note that the example retrieves a reference to the assembly that contains the resource file by passing a type defined in that assembly to the <strong>typeof</strong> function (in C#) or the <strong>GetType</strong> function (in Visual Basic) and retrieving the value of its <xref href="System.Type.Assembly" data-throw-if-not-resolved="false"></xref> property. </p>
   syntax:
-    content: public ResourceManager(string baseName, Reflection.Assembly assembly)
-    content.vb: Public Sub New(baseName As String, assembly As Reflection.Assembly)
+    content: >-
+      [MethodImpl(MethodImplOptions.NoInlining)]
+
+      public ResourceManager(string baseName, Assembly assembly)
+    content.vb: >-
+      <MethodImpl(MethodImplOptions.NoInlining)>
+
+      Public Sub New(baseName As String, assembly As Assembly)
     parameters:
     - id: baseName
       type: System.String
-      description: "\n<p>The root name of the resource file without its extension but including any fully qualified namespace name. For example, the root name for the resource file named MyApplication.MyResource.en-US.resources is MyApplication.MyResource. </p>\n"
     - id: assembly
       type: System.Reflection.Assembly
-      description: "\n<p>The main assembly for the resources. </p>\n"
   exceptions:
   - type: System.ArgumentNullException
     commentId: T:System.ArgumentNullException
@@ -227,12 +247,12 @@ items:
   type: Constructor
   source:
     remote:
-      path: src/System.Resources.ResourceManager/ref/System.Resources.ResourceManager.cs
+      path: src/mscorlib/src/System/Resources/ResourceManager.cs
       branch: master
-      repo: https://github.com/dotnet/corefx.git
+      repo: https://github.com/dotnet/coreclr.git
     id: .ctor
-    path: src/System.Resources.ResourceManager/ref/System.Resources.ResourceManager.cs
-    startLine: 28
+    path: src/mscorlib/src/System/Resources/ResourceManager.cs
+    startLine: 402
   assemblies:
   - System.Resources.ResourceManager
   namespace: System.Resources
@@ -240,12 +260,17 @@ items:
   example:
   - "<p>The following example uses the <xref href=\"System.Resources.ResourceManager.#ctor(System.Type)\" data-throw-if-not-resolved=\"false\"></xref> constructor to instantiate a <xref href=\"System.Resources.ResourceManager\" data-throw-if-not-resolved=\"false\"></xref> object. It consists of resources compiled from .txt files for the English (en), French (France) (fr-FR), and Russian (Russia) (ru-RU) cultures. The example changes the current culture and current UI culture to English (United States), French (France), Russian (Russia), and Swedish (Sweden). It then calls the <xref href=\"System.Resources.ResourceManager.GetString(System.String)\" data-throw-if-not-resolved=\"false\"></xref> method to retrieve the localized string, which displays a greeting that depends on the time of day. </p>\n<p>The example requires three text-based resource files, as listed in the following table. Each file includes string resources named <code>Morning</code>, <code>Afternoon</code>, and <code>Evening</code>. </p>\n<p>Culture</p>\n<p>File name</p>\n<p>Resource name</p>\n<p>Resource value</p>\n<p>You can use the following batch file to compile the Visual Basic example and create an executable named Greet.exe. To compile with C#, change the compiler name from <code>vbc</code> to <code>csc</code> and the file extension from <code>.vb</code> to <code>.cs</code>.</p>\n<pre>\n<code>resgen GreetingResources.txt\nvbc Greet.vb /resource: GreetingResources.resources\n\nmd fr-FR\nresgen GreetingResources.fr-FR.txt\nal /out:fr-FR\\Greet.resources.dll /culture:fr-FR /embed: GreetingResources.fr-FR.resources \n\nmd ru-RU\nresgen GreetingResources.ru-RU.txt\nal /out:ru-RU\\Greet.resources.dll /culture:ru-RU /embed: GreetingResources.ru-RU.resources</code>\n</pre>\n<p>Here's the source code for the example (ShowDate.vb for the Visual Basic version or ShowDate.cs for the C# version of the code).</p>System.Resources.ResourceManager.Ctor#3<p>In addition to defining an app class named <code>Example</code>, the source code defines an internal class whose name, <code>GreetingResources</code>, is the same as the base name of the resource files. This makes it possible to successfully instantiate a <xref href=\"System.Resources.ResourceManager\" data-throw-if-not-resolved=\"false\"></xref> object by calling the <xref href=\"System.Resources.ResourceManager.#ctor(System.Type)\" data-throw-if-not-resolved=\"false\"></xref> constructor.</p><p>Notice that the output displays the appropriate localized string except when the current UI culture is Swedish (Sweden), in which case it uses English language resources. Because Swedish language resources are unavailable, the app uses the resources of the default culture, as defined by the <xref href=\"System.Resources.NeutralResourcesLanguageAttribute\" data-throw-if-not-resolved=\"false\"></xref> attribute, instead.</p>"
   syntax:
-    content: public ResourceManager(Type resourceSource)
-    content.vb: Public Sub New(resourceSource As Type)
+    content: >-
+      [MethodImpl(MethodImplOptions.NoInlining)]
+
+      public ResourceManager(Type resourceSource)
+    content.vb: >-
+      <MethodImpl(MethodImplOptions.NoInlining)>
+
+      Public Sub New(resourceSource As Type)
     parameters:
     - id: resourceSource
       type: System.Type
-      description: "\n<p>A type from which the resource manager derives all information for finding .resources files. </p>\n"
   exceptions:
   - type: System.ArgumentNullException
     commentId: T:System.ArgumentNullException
@@ -266,12 +291,12 @@ items:
   type: Method
   source:
     remote:
-      path: src/System.Resources.ResourceManager/ref/System.Resources.ResourceManager.cs
+      path: src/mscorlib/src/System/Resources/ResourceManager.cs
       branch: master
-      repo: https://github.com/dotnet/corefx.git
+      repo: https://github.com/dotnet/coreclr.git
     id: GetString
-    path: src/System.Resources.ResourceManager/ref/System.Resources.ResourceManager.cs
-    startLine: 29
+    path: src/mscorlib/src/System/Resources/ResourceManager.cs
+    startLine: 1217
   assemblies:
   - System.Resources.ResourceManager
   namespace: System.Resources
@@ -279,15 +304,13 @@ items:
   example:
   - "<p>The following example uses the <xref href=\"System.Resources.ResourceManager.GetString(System.String)\" data-throw-if-not-resolved=\"false\"></xref> method to retrieve culture-specific resources. It consists of resources compiled from .txt files for the English (en), French (France) (fr-FR), and Russian (Russia) (ru-RU) cultures. The example changes the current culture and current UI culture to English (United States), French (France), Russian (Russia), and Swedish (Sweden). It then calls the <xref href=\"System.Resources.ResourceManager.GetString(System.String)\" data-throw-if-not-resolved=\"false\"></xref> method to retrieve the localized string, which it displays along with the current day and month. Notice that the output displays the appropriate localized string except when the current UI culture is Swedish (Sweden). Because Swedish language resources are unavailable, the app instead uses the resources of the default culture, which is English. The example requires the text-based resource files listed in following table. Each has a single string resource named <code>DateStart</code>. </p>\n<p>Culture</p>\n<p>File name</p>\n<p>Resource name</p>\n<p>Resource value</p>\n<p>You can use the following batch file to compile the C# example. For Visual Basic, change <code>csc</code> to <code>vbc</code>, and change the extension of the source code file from <code>.cs</code> to <code>.vb</code>.</p>\n<pre>\n<code>resgen DateStrings.txt\ncsc showdate.cs /resource:DateStrings.resources\n\nmd fr-FR\nresgen DateStrings.fr-FR.txt\nal /out:fr-FR\\Showdate.resources.dll /culture:fr-FR /embed:DateStrings.fr-FR.resources \n\nmd ru-RU\nresgen DateStrings.ru-RU.txt\nal /out:ru-RU\\Showdate.resources.dll /culture:ru-RU /embed:DateStrings.ru-RU.resources</code>\n</pre>\n<p>Here's the source code for the example (ShowDate.vb for the Visual Basic version or ShowDate.cs for the C# version).</p>System.Resources.ResourceManager.Class#2"
   syntax:
-    content: public string GetString(string name)
-    content.vb: Public Function GetString(name As String) As String
+    content: public virtual string GetString(string name)
+    content.vb: Public Overridable Function GetString(name As String) As String
     parameters:
     - id: name
       type: System.String
-      description: "\n<p>The name of the resource to retrieve. </p>\n"
     return:
       type: System.String
-      description: "\n<p>The value of the resource localized for the caller's current UI culture, or <strong>null</strong> if <em>name</em> cannot be found in a resource set.</p>\n"
   exceptions:
   - type: System.ArgumentNullException
     commentId: T:System.ArgumentNullException
@@ -318,17 +341,17 @@ items:
   langs:
   - csharp
   - vb
-  name: GetString(String, Globalization.CultureInfo)
+  name: GetString(String, CultureInfo)
   fullName: System.Resources.ResourceManager.GetString(System.String, System.Globalization.CultureInfo)
   type: Method
   source:
     remote:
-      path: src/System.Resources.ResourceManager/ref/System.Resources.ResourceManager.cs
+      path: src/mscorlib/src/System/Resources/ResourceManager.cs
       branch: master
-      repo: https://github.com/dotnet/corefx.git
+      repo: https://github.com/dotnet/coreclr.git
     id: GetString
-    path: src/System.Resources.ResourceManager/ref/System.Resources.ResourceManager.cs
-    startLine: 30
+    path: src/mscorlib/src/System/Resources/ResourceManager.cs
+    startLine: 1225
   assemblies:
   - System.Resources.ResourceManager
   namespace: System.Resources
@@ -336,18 +359,15 @@ items:
   example:
   - "<p>The following example uses the <xref href=\"System.Resources.ResourceManager.GetString(System.String,System.Globalization.CultureInfo)\" data-throw-if-not-resolved=\"false\"></xref> method to retrieve culture-specific resources. The example's default culture is English (en), and it includes satellite assemblies for the French (France) (fr-FR) and Russian (Russia) (ru-RU) cultures. The example changes the current culture and current UI culture to Russian (Russia) before calling <xref href=\"System.Resources.ResourceManager.GetString(System.String,System.Globalization.CultureInfo)\" data-throw-if-not-resolved=\"false\"></xref>. It then calls the <xref href=\"System.Resources.ResourceManager.GetString(System.String)\" data-throw-if-not-resolved=\"false\"></xref> method and the <xref href=\"System.DateTime.ToString(System.String,System.IFormatProvider)\" data-throw-if-not-resolved=\"false\"></xref> method and passes <xref href=\"System.Globalization.CultureInfo\" data-throw-if-not-resolved=\"false\"></xref> objects that represent the French (France) and Swedish (Sweden) cultures to each method. In the output, the month and day of the month as well as the string that precedes them appear in French, because the <xref href=\"System.Resources.ResourceManager.GetString(System.String)\" data-throw-if-not-resolved=\"false\"></xref> method is able to retrieve the French language resource. However, when the Swedish (Sweden) culture is used, the month and day of the month appear in Swedish, although the string that precedes them is in English. This is because the resource manager cannot find localized Swedish language resources, so it returns a resource for the default English culture instead.</p>\n<p>The example requires the text-based resource files listed in following table. Each has a single string resource named <code>DateStart</code>. </p>\n<p>Culture</p>\n<p>File name</p>\n<p>Resource name</p>\n<p>Resource value</p>\n<p>You can use the following batch file to compile the Visual Basic example. To compile in C#, change <code>vbc</code> to <code>csc</code>, and change the extension of the source code file from <code>.vb</code> to <code>.cs</code>.</p>\n<pre>\n<code>resgen DateStrings.txt\nvbc showdate.vb /resource:DateStrings.resources\n\nmd fr-FR\nresgen DateStrings.fr-FR.txt\nal /out:fr-FR\\Showdate.resources.dll /culture:fr-FR /embed:DateStrings.fr-FR.resources \n\nmd ru-RU\nresgen DateStrings.ru-RU.txt\nal /out:ru-RU\\Showdate.resources.dll /culture:ru-RU /embed:DateStrings.ru-RU.resources</code>\n</pre>\n<p>Here's the source code for the example (ShowDate.vb for the Visual Basic version or ShowDate.cs for the C# version).</p>System.Resources.ResourceManager.Class#3"
   syntax:
-    content: public virtual string GetString(string name, Globalization.CultureInfo culture)
-    content.vb: Public Overridable Function GetString(name As String, culture As Globalization.CultureInfo) As String
+    content: public virtual string GetString(string name, CultureInfo culture)
+    content.vb: Public Overridable Function GetString(name As String, culture As CultureInfo) As String
     parameters:
     - id: name
       type: System.String
-      description: "\n<p>The name of the resource to retrieve. </p>\n"
     - id: culture
       type: System.Globalization.CultureInfo
-      description: "\n<p>An object that represents the culture for which the resource is localized. </p>\n"
     return:
       type: System.String
-      description: "\n<p>The value of the resource localized for the specified culture, or <strong>null</strong> if <em>name</em> cannot be found in a resource set.</p>\n"
   exceptions:
   - type: System.ArgumentNullException
     commentId: T:System.ArgumentNullException
@@ -383,6 +403,215 @@ references:
   isExternal: false
   name: Object
   fullName: System.Object
+- uid: System.Object.ToString
+  parent: System.Object
+  isExternal: true
+  name: ToString()
+  fullName: System.Object.ToString()
+  spec.csharp:
+  - uid: System.Object.ToString
+    name: ToString
+    fullName: System.Object.ToString
+    isExternal: true
+  - name: (
+    fullName: (
+  - name: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.ToString
+    name: ToString
+    fullName: System.Object.ToString
+    isExternal: true
+  - name: (
+    fullName: (
+  - name: )
+    fullName: )
+- uid: System.Object.Equals(System.Object)
+  parent: System.Object
+  isExternal: true
+  name: Equals(Object)
+  fullName: System.Object.Equals(System.Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    fullName: )
+- uid: System.Object.Equals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  name: Equals(Object, Object)
+  fullName: System.Object.Equals(System.Object, System.Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    fullName: )
+- uid: System.Object.ReferenceEquals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  name: ReferenceEquals(Object, Object)
+  fullName: System.Object.ReferenceEquals(System.Object, System.Object)
+  spec.csharp:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    fullName: System.Object.ReferenceEquals
+    isExternal: true
+  - name: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    fullName: System.Object.ReferenceEquals
+    isExternal: true
+  - name: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    fullName: )
+- uid: System.Object.GetHashCode
+  parent: System.Object
+  isExternal: true
+  name: GetHashCode()
+  fullName: System.Object.GetHashCode()
+  spec.csharp:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    fullName: System.Object.GetHashCode
+    isExternal: true
+  - name: (
+    fullName: (
+  - name: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    fullName: System.Object.GetHashCode
+    isExternal: true
+  - name: (
+    fullName: (
+  - name: )
+    fullName: )
+- uid: System.Object.GetType
+  parent: System.Object
+  isExternal: true
+  name: GetType()
+  fullName: System.Object.GetType()
+  spec.csharp:
+  - uid: System.Object.GetType
+    name: GetType
+    fullName: System.Object.GetType
+    isExternal: true
+  - name: (
+    fullName: (
+  - name: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.GetType
+    name: GetType
+    fullName: System.Object.GetType
+    isExternal: true
+  - name: (
+    fullName: (
+  - name: )
+    fullName: )
+- uid: System.Object.MemberwiseClone
+  parent: System.Object
+  isExternal: true
+  name: MemberwiseClone()
+  fullName: System.Object.MemberwiseClone()
+  spec.csharp:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    fullName: System.Object.MemberwiseClone
+    isExternal: true
+  - name: (
+    fullName: (
+  - name: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    fullName: System.Object.MemberwiseClone
+    isExternal: true
+  - name: (
+    fullName: (
+  - name: )
+    fullName: )
 - uid: System
   isExternal: false
   name: System

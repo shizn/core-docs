@@ -51,27 +51,79 @@ items:
   type: Class
   source:
     remote:
-      path: src/System.Net.Security/src/System/Net/SecureProtocols/SslStream.cs
+      path: src/System.Net.Security/ref/System.Net.Security.cs
       branch: master
       repo: https://github.com/dotnet/corefx.git
     id: SslStream
-    path: src/System.Net.Security/src/System/Net/SecureProtocols/SslStream.cs
-    startLine: 35
+    path: src/System.Net.Security/ref/System.Net.Security.cs
+    startLine: 70
   assemblies:
   - System.Net.Security
   namespace: System.Net.Security
+  summary: "\n<p>Provides a stream used for client-server communication that uses the Secure Socket Layer (SSL) security protocol to authenticate the server and optionally the client.</p>\n"
+  remarks: "\n<p>SSL protocols help to provide confidentiality and integrity checking for messages transmitted using an <xref href=\"System.Net.Security.SslStream\" data-throw-if-not-resolved=\"false\"></xref>. An SSL connection, such as that provided by <xref href=\"System.Net.Security.SslStream\" data-throw-if-not-resolved=\"false\"></xref>, should be used when communicating sensitive information between a client and a server. Using an <xref href=\"System.Net.Security.SslStream\" data-throw-if-not-resolved=\"false\"></xref> helps to prevent anyone from reading and tampering with information while it is in transit on the network. </p>\n<p>An <xref href=\"System.Net.Security.SslStream\" data-throw-if-not-resolved=\"false\"></xref> instance transmits data using a stream that you supply when creating the <xref href=\"System.Net.Security.SslStream\" data-throw-if-not-resolved=\"false\"></xref>. When you supply this underlying stream, you have the option to specify whether closing the <xref href=\"System.Net.Security.SslStream\" data-throw-if-not-resolved=\"false\"></xref> also closes the underlying stream. Typically, the <xref href=\"System.Net.Security.SslStream\" data-throw-if-not-resolved=\"false\"></xref> class is used with the <xref href=\"System.Net.Sockets.TcpClient\" data-throw-if-not-resolved=\"false\"></xref> and <xref href=\"System.Net.Sockets.TcpListener\" data-throw-if-not-resolved=\"false\"></xref> classes. The <xref href=\"System.Net.Sockets.TcpClient.GetStream\" data-throw-if-not-resolved=\"false\"></xref> method provides a <xref href=\"System.Net.Sockets.NetworkStream\" data-throw-if-not-resolved=\"false\"></xref> suitable for use with the <xref href=\"System.Net.Security.SslStream\" data-throw-if-not-resolved=\"false\"></xref> class.</p>\n<p>After creating an <xref href=\"System.Net.Security.SslStream\" data-throw-if-not-resolved=\"false\"></xref>, the server and optionally, the client must be authenticated. The server must provide an X509 certificate that establishes proof of its identity and can request that the client also do so. Authentication must be performed before transmitting information using an <xref href=\"System.Net.Security.SslStream\" data-throw-if-not-resolved=\"false\"></xref>. Clients initiate authentication using the synchronous <see cref=\"Overload:System.Net.Security.SslStream.AuthenticateAsClient\"></see> methods, which block until the authentication completes, or the asynchronous <see cref=\"Overload:System.Net.Security.SslStream.BeginAuthenticateAsClient\"></see> methods, which do not block waiting for the authentication to complete. Servers initiate authentication using the synchronous <see cref=\"Overload:System.Net.Security.SslStream.AuthenticateAsServer\"></see> or asynchronous <see cref=\"Overload:System.Net.Security.SslStream.BeginAuthenticateAsServer\"></see> methods. Both client and server must initiate the authentication. </p>\n<p>The authentication is handled by the Security Support Provider (SSPI) channel provider. The client is given an opportunity to control validation of the server's certificate by specifying a <xref href=\"System.Net.Security.RemoteCertificateValidationCallback\" data-throw-if-not-resolved=\"false\"></xref> delegate when creating an <xref href=\"System.Net.Security.SslStream\" data-throw-if-not-resolved=\"false\"></xref>. The server can also control validation by supplying a <xref href=\"System.Net.Security.RemoteCertificateValidationCallback\" data-throw-if-not-resolved=\"false\"></xref> delegate. The method referenced by the delegate includes the remote party's certificate and any errors SSPI encountered while validating the certificate. Note that if the server specifies a delegate, the delegate's method is invoked regardless of whether the server requested client authentication. If the server did not request client authentication, the server's delegate method receives a null certificate and an empty array of certificate errors. </p>\n<p>If the server requires client authentication, the client must specify one or more certificates for authentication. If the client has more than one certificate, the client can provide a <xref href=\"System.Net.Security.LocalCertificateSelectionCallback\" data-throw-if-not-resolved=\"false\"></xref> delegate to select the correct certificate for the server. The client's certificates must be located in the current user's \"My\" certificate store. Client authentication via certificates is not supported for the <xref href=\"System.Security.Authentication.SslProtocols.Ssl2\" data-throw-if-not-resolved=\"false\"></xref> (SSL version 2) protocol.</p>\n<p>If the authentication fails, you receive a <xref href=\"System.Security.Authentication.AuthenticationException\" data-throw-if-not-resolved=\"false\"></xref>, and the <xref href=\"System.Net.Security.SslStream\" data-throw-if-not-resolved=\"false\"></xref> is no longer useable. You should close this object and remove all references to it so that it can be collected by the garbage collector. </p>\n<p>When the authentication process, also known as the SSL handshake, succeeds, the identity of the server (and optionally, the client) is established and the <xref href=\"System.Net.Security.SslStream\" data-throw-if-not-resolved=\"false\"></xref> can be used by the client and server to exchange messages. Before sending or receiving information, the client and server should check the security services and levels provided by the <xref href=\"System.Net.Security.SslStream\" data-throw-if-not-resolved=\"false\"></xref> to determine whether the protocol, algorithms, and strengths selected meet their requirements for integrity and confidentiality. If the current settings are not sufficient, the stream should be closed. You can check the security services provided by the <xref href=\"System.Net.Security.SslStream\" data-throw-if-not-resolved=\"false\"></xref> using the <xref href=\"System.Net.Security.SslStream.IsEncrypted\" data-throw-if-not-resolved=\"false\"></xref> and <xref href=\"System.Net.Security.SslStream.IsSigned\" data-throw-if-not-resolved=\"false\"></xref> properties. The following table shows the elements that report the cryptographic settings used for authentication, encryption and data signing.</p>\n<p>Element </p>\n<p>Members </p>\n<table><tbody><tr><td>\n<p>The security protocol used to authenticate the server and, optionally, the client. </p>\n</td><td>\n<p>The <xref href=\"System.Net.Security.SslStream.SslProtocol\" data-throw-if-not-resolved=\"false\"></xref> property and the associated <xref href=\"System.Security.Authentication.SslProtocols\" data-throw-if-not-resolved=\"false\"></xref> enumeration. </p>\n</td></tr><tr><td>\n<p>The key exchange algorithm. </p>\n</td><td>\n<p>The <xref href=\"System.Net.Security.SslStream.KeyExchangeAlgorithm\" data-throw-if-not-resolved=\"false\"></xref> property and the associated <xref href=\"System.Security.Authentication.ExchangeAlgorithmType\" data-throw-if-not-resolved=\"false\"></xref>  enumeration. </p>\n</td></tr><tr><td>\n<p>The message integrity algorithm. </p>\n</td><td>\n<p>The <xref href=\"System.Net.Security.SslStream.HashAlgorithm\" data-throw-if-not-resolved=\"false\"></xref> property and the associated <xref href=\"System.Security.Authentication.HashAlgorithmType\" data-throw-if-not-resolved=\"false\"></xref> enumeration. </p>\n</td></tr><tr><td>\n<p>The message confidentiality algorithm. </p>\n</td><td>\n<p>The <xref href=\"System.Net.Security.SslStream.CipherAlgorithm\" data-throw-if-not-resolved=\"false\"></xref> property and the associated <xref href=\"System.Security.Authentication.CipherAlgorithmType\" data-throw-if-not-resolved=\"false\"></xref>  enumeration. </p>\n</td></tr><tr><td>\n<p>The strengths of the selected algorithms. </p>\n</td><td>\n<p>The <xref href=\"System.Net.Security.SslStream.KeyExchangeStrength\" data-throw-if-not-resolved=\"false\"></xref>, <xref href=\"System.Net.Security.SslStream.HashStrength\" data-throw-if-not-resolved=\"false\"></xref>, and <xref href=\"System.Net.Security.SslStream.CipherStrength\" data-throw-if-not-resolved=\"false\"></xref> properties. </p>\n</td></tr></tbody></table>\n<p>After a successful authentication, you can send data using the synchronous <see cref=\"Overload:System.Net.Security.SslStream.Write\"></see> or asynchronous <xref href=\"System.Net.Security.SslStream.BeginWrite(System.Byte[],System.Int32,System.Int32,System.AsyncCallback,System.Object)\" data-throw-if-not-resolved=\"false\"></xref> methods. You can receive data using the synchronous <xref href=\"System.Net.Security.SslStream.Read(System.Byte[],System.Int32,System.Int32)\" data-throw-if-not-resolved=\"false\"></xref> or asynchronous <xref href=\"System.Net.Security.SslStream.BeginRead(System.Byte[],System.Int32,System.Int32,System.AsyncCallback,System.Object)\" data-throw-if-not-resolved=\"false\"></xref> methods. </p>\n<p>If you specified to the <see cref=\"Overload:System.Net.Security.SslStream.#ctor\"></see> that the underlying stream should be left open, you are responsible for closing that stream when you are done using it.</p>\n<p>If the application that creates the <xref href=\"System.Net.Security.SslStream\" data-throw-if-not-resolved=\"false\"></xref> object runs with the credentials of a Normal user, the application will not be able to access certificates installed in the local machine store unless permission has been explicitly given to the user to do so.</p>\n<p>\n<xref href=\"System.Net.Security.SslStream\" data-throw-if-not-resolved=\"false\"></xref> assumes that a timeout along with any other <xref href=\"System.IO.IOException\" data-throw-if-not-resolved=\"false\"></xref> when one is thrown from the inner stream will be treated as fatal by its caller. Reusing a <xref href=\"System.Net.Security.SslStream\" data-throw-if-not-resolved=\"false\"></xref> instance after a timeout will return garbage. An application should <xref href=\"System.IO.Stream.Close\" data-throw-if-not-resolved=\"false\"></xref> the <xref href=\"System.Net.Security.SslStream\" data-throw-if-not-resolved=\"false\"></xref> and throw an exception in these cases.</p>\n<p>The .NET Framework 4.6 includes a new security feature that blocks insecure cipher and hashing algorithms for connections. Applications using TLS/SSL through APIs such as HttpClient, HttpWebRequest, FTPClient, SmtpClient, SslStream, etc. and targeting .NET Framework 4.6 get the more-secure behavior by default.</p>\n<p>Developers may want to opt out of this behavior in order to maintain interoperability with their existing SSL3 services OR TLS w/ RC4 services. <see href=\"https://support.microsoft.com/kb/3069494\">This article</see> explains how to modify your code so that the new behavior is disabled.</p>\n"
+  example:
+  - "\n<p>The following code example demonstrates creating an <xref href=\"System.Net.Sockets.TcpListener\" data-throw-if-not-resolved=\"false\"></xref> that uses the <xref href=\"System.Net.Security.SslStream\" data-throw-if-not-resolved=\"false\"></xref> class to communicate with clients.</p>NclSslServerSync#0<p>The following code example demonstrates creating a <xref href=\"System.Net.Sockets.TcpClient\" data-throw-if-not-resolved=\"false\"></xref> that uses the <xref href=\"System.Net.Security.SslStream\" data-throw-if-not-resolved=\"false\"></xref> class to communicate with a server.</p>NclSslClientSync#0"
   syntax:
-    content: 'public class SslStream : AuthenticatedStream'
+    content: 'public class SslStream : AuthenticatedStream, IDisposable'
     content.vb: >-
       Public Class SslStream
           Inherits AuthenticatedStream
+          Implements IDisposable
+  seealso:
+  - type: System.Net.Security.NegotiateStream
+    commentId: T:System.Net.Security.NegotiateStream
+  - type: System.Net.Security.AuthenticatedStream
+    commentId: T:System.Net.Security.AuthenticatedStream
+  - type: System.IO.IOException
+    commentId: T:System.IO.IOException
+  - type: System.IO.Stream
+    commentId: T:System.IO.Stream
   inheritance:
   - System.Object
+  - System.MarshalByRefObject
+  - System.IO.Stream
   - System.Net.Security.AuthenticatedStream
+  implements:
+  - System.IDisposable
   inheritedMembers:
   - System.Net.Security.AuthenticatedStream.LeaveInnerStreamOpen
   - System.Net.Security.AuthenticatedStream.InnerStream
   - System.Net.Security.AuthenticatedStream.Dispose(System.Boolean)
+  - System.IO.Stream.Null
+  - System.IO.Stream.CopyToAsync(System.IO.Stream)
+  - System.IO.Stream.CopyToAsync(System.IO.Stream,System.Int32)
+  - System.IO.Stream.CopyToAsync(System.IO.Stream,System.Int32,System.Threading.CancellationToken)
+  - System.IO.Stream.CopyTo(System.IO.Stream)
+  - System.IO.Stream.CopyTo(System.IO.Stream,System.Int32)
+  - System.IO.Stream.Close
+  - System.IO.Stream.Dispose
+  - System.IO.Stream.FlushAsync
+  - System.IO.Stream.FlushAsync(System.Threading.CancellationToken)
+  - System.IO.Stream.CreateWaitHandle
+  - System.IO.Stream.BeginRead(System.Byte[],System.Int32,System.Int32,System.AsyncCallback,System.Object)
+  - System.IO.Stream.EndRead(System.IAsyncResult)
+  - System.IO.Stream.ReadAsync(System.Byte[],System.Int32,System.Int32)
+  - System.IO.Stream.ReadAsync(System.Byte[],System.Int32,System.Int32,System.Threading.CancellationToken)
+  - System.IO.Stream.BeginWrite(System.Byte[],System.Int32,System.Int32,System.AsyncCallback,System.Object)
+  - System.IO.Stream.EndWrite(System.IAsyncResult)
+  - System.IO.Stream.WriteAsync(System.Byte[],System.Int32,System.Int32)
+  - System.IO.Stream.WriteAsync(System.Byte[],System.Int32,System.Int32,System.Threading.CancellationToken)
+  - System.IO.Stream.ReadByte
+  - System.IO.Stream.WriteByte(System.Byte)
+  - System.IO.Stream.Synchronized(System.IO.Stream)
+  - System.IO.Stream.ObjectInvariant
+  - System.MarshalByRefObject.MemberwiseClone(System.Boolean)
+  - System.MarshalByRefObject.GetLifetimeService
+  - System.MarshalByRefObject.InitializeLifetimeService
+  - System.MarshalByRefObject.CreateObjRef(System.Type)
+  - System.Object.ToString
+  - System.Object.Equals(System.Object)
+  - System.Object.Equals(System.Object,System.Object)
+  - System.Object.ReferenceEquals(System.Object,System.Object)
+  - System.Object.GetHashCode
+  - System.Object.GetType
+  - System.Object.MemberwiseClone
   modifiers.csharp:
   - public
   - class
@@ -85,7 +137,7 @@ items:
   langs:
   - csharp
   - vb
-  name: SslStream(IO.Stream)
+  name: SslStream(Stream)
   fullName: System.Net.Security.SslStream.SslStream(System.IO.Stream)
   type: Constructor
   source:
@@ -99,12 +151,22 @@ items:
   assemblies:
   - System.Net.Security
   namespace: System.Net.Security
+  summary: "\n<p>Initializes a new instance of the <xref href=\"System.Net.Security.SslStream\" data-throw-if-not-resolved=\"false\"></xref> class using the specified <xref href=\"System.IO.Stream\" data-throw-if-not-resolved=\"false\"></xref>.</p>\n"
+  remarks: "\n<p>If a value is not specified in the configuration file for encryptionpolicy, the <xref href=\"System.Net.Security.EncryptionPolicy\" data-throw-if-not-resolved=\"false\"></xref> defaults to <xref href=\"System.Net.Security.EncryptionPolicy.RequireEncryption\" data-throw-if-not-resolved=\"false\"></xref> for the <xref href=\"System.Net.Security.SslStream\" data-throw-if-not-resolved=\"false\"></xref> instance that is constructed.</p>\n<p>The use of the Null cipher is required when the encryption policy is set to <xref href=\"System.Net.Security.EncryptionPolicy.NoEncryption\" data-throw-if-not-resolved=\"false\"></xref>.</p>\n"
   syntax:
-    content: public SslStream(IO.Stream innerStream)
-    content.vb: Public Sub New(innerStream As IO.Stream)
+    content: public SslStream(Stream innerStream)
+    content.vb: Public Sub New(innerStream As Stream)
     parameters:
     - id: innerStream
       type: System.IO.Stream
+      description: "\n<p>A <xref href=\"System.IO.Stream\" data-throw-if-not-resolved=\"false\"></xref> object used by the <xref href=\"System.Net.Security.SslStream\" data-throw-if-not-resolved=\"false\"></xref> for sending and receiving data.</p>\n"
+  exceptions:
+  - type: System.ArgumentException
+    commentId: T:System.ArgumentException
+    description: "\n<p>\n<em>innerStream</em> is not readable.</p>\n<p>-or-</p>\n<p>\n<em>innerStream</em> is not writable.</p>\n"
+  - type: System.ArgumentNullException
+    commentId: T:System.ArgumentNullException
+    description: "\n<p>\n<em>innerStream</em> is <strong>null</strong>.</p>\n<p>-or-</p>\n<p>\n<em>innerStream</em> is equal to <xref href=\"System.IO.Stream.Null\" data-throw-if-not-resolved=\"false\"></xref>.</p>\n"
   modifiers.csharp:
   - public
   modifiers.vb:
@@ -116,7 +178,7 @@ items:
   langs:
   - csharp
   - vb
-  name: SslStream(IO.Stream, Boolean)
+  name: SslStream(Stream, Boolean)
   fullName: System.Net.Security.SslStream.SslStream(System.IO.Stream, System.Boolean)
   type: Constructor
   source:
@@ -130,14 +192,27 @@ items:
   assemblies:
   - System.Net.Security
   namespace: System.Net.Security
+  summary: "\n<p>Initializes a new instance of the <xref href=\"System.Net.Security.SslStream\" data-throw-if-not-resolved=\"false\"></xref> class using the specified <xref href=\"System.IO.Stream\" data-throw-if-not-resolved=\"false\"></xref> and stream closure behavior.</p>\n"
+  remarks: "\n<p>When you specify <strong>true</strong> for the <em>leaveStreamOpen</em> parameter, closing the <xref href=\"System.Net.Security.SslStream\" data-throw-if-not-resolved=\"false\"></xref> has no effect on the <em>innerStream</em> stream; you must explicitly close <em>innerStream</em> when you no longer need it.</p>\n<p>If a value is not specified in the configuration file for encryptionpolicy, the <xref href=\"System.Net.Security.EncryptionPolicy\" data-throw-if-not-resolved=\"false\"></xref> defaults to <xref href=\"System.Net.Security.EncryptionPolicy.RequireEncryption\" data-throw-if-not-resolved=\"false\"></xref> for the <xref href=\"System.Net.Security.SslStream\" data-throw-if-not-resolved=\"false\"></xref> instance that is constructed.</p>\n<p>The use of the Null cipher is required when the encryption policy is set to <xref href=\"System.Net.Security.EncryptionPolicy.NoEncryption\" data-throw-if-not-resolved=\"false\"></xref>.</p>\n"
+  example:
+  - "\n<p>The following code example demonstrates calling this constructor.</p>NclSslServerSync#1"
   syntax:
-    content: public SslStream(IO.Stream innerStream, bool leaveInnerStreamOpen)
-    content.vb: Public Sub New(innerStream As IO.Stream, leaveInnerStreamOpen As Boolean)
+    content: public SslStream(Stream innerStream, bool leaveInnerStreamOpen)
+    content.vb: Public Sub New(innerStream As Stream, leaveInnerStreamOpen As Boolean)
     parameters:
     - id: innerStream
       type: System.IO.Stream
+      description: "\n<p>A <xref href=\"System.IO.Stream\" data-throw-if-not-resolved=\"false\"></xref> object used by the <xref href=\"System.Net.Security.SslStream\" data-throw-if-not-resolved=\"false\"></xref> for sending and receiving data.</p>\n"
     - id: leaveInnerStreamOpen
       type: System.Boolean
+      description: "\n<p>A Boolean value that indicates the closure behavior of the <xref href=\"System.IO.Stream\" data-throw-if-not-resolved=\"false\"></xref> object used by the <xref href=\"System.Net.Security.SslStream\" data-throw-if-not-resolved=\"false\"></xref> for sending and receiving data. This parameter indicates if the inner stream is left open.</p>\n"
+  exceptions:
+  - type: System.ArgumentException
+    commentId: T:System.ArgumentException
+    description: "\n<p>\n<em>innerStream</em> is not readable.</p>\n<p>-or-</p>\n<p>\n<em>innerStream</em> is not writable.</p>\n"
+  - type: System.ArgumentNullException
+    commentId: T:System.ArgumentNullException
+    description: "\n<p>\n<em>innerStream</em> is <strong>null</strong>.</p>\n<p>-or-</p>\n<p>\n<em>innerStream</em> is equal to <xref href=\"System.IO.Stream.Null\" data-throw-if-not-resolved=\"false\"></xref>.</p>\n"
   modifiers.csharp:
   - public
   modifiers.vb:
@@ -149,7 +224,7 @@ items:
   langs:
   - csharp
   - vb
-  name: SslStream(IO.Stream, Boolean, RemoteCertificateValidationCallback)
+  name: SslStream(Stream, Boolean, RemoteCertificateValidationCallback)
   fullName: System.Net.Security.SslStream.SslStream(System.IO.Stream, System.Boolean, System.Net.Security.RemoteCertificateValidationCallback)
   type: Constructor
   source:
@@ -163,16 +238,30 @@ items:
   assemblies:
   - System.Net.Security
   namespace: System.Net.Security
+  summary: "\n<p>Initializes a new instance of the <xref href=\"System.Net.Security.SslStream\" data-throw-if-not-resolved=\"false\"></xref> class using the specified <xref href=\"System.IO.Stream\" data-throw-if-not-resolved=\"false\"></xref>, stream closure behavior and certificate validation delegate.</p>\n"
+  remarks: "\n<p>When you specify <strong>true</strong> for the <em>leaveStreamOpen</em> parameter, closing the <xref href=\"System.Net.Security.SslStream\" data-throw-if-not-resolved=\"false\"></xref> has no effect on the <em>innerStream</em> stream; you must explicitly close <em>innerStream</em> when you no longer need it.</p>\n<p>The <em>userCertificateValidationCallback</em> delegate's <em>certificateErrors</em> argument contains any Windows error codes returned by the channel Security Support Provider Interface (SSPI). The return value of the method invoked by the <em>userCertificateValidationCallback</em> delegate determines whether authentication succeeds.</p>\n<p>The security protocol and cryptographic algorithms are already selected when the <em>userCertificateValidationCallback</em> delegate's method is invoked. You can use the method to determine whether the selected cryptographic algorithms and strengths are sufficient for your application. If not, the method should return <strong>false</strong> to prevent the <xref href=\"System.Net.Security.SslStream\" data-throw-if-not-resolved=\"false\"></xref> from being created.</p>\n<p>If a value is not specified in the configuration file for encryptionpolicy, the <xref href=\"System.Net.Security.EncryptionPolicy\" data-throw-if-not-resolved=\"false\"></xref> defaults to <xref href=\"System.Net.Security.EncryptionPolicy.RequireEncryption\" data-throw-if-not-resolved=\"false\"></xref> for the <xref href=\"System.Net.Security.SslStream\" data-throw-if-not-resolved=\"false\"></xref> instance that is constructed.</p>\n<p>The use of the Null cipher is required when the encryption policy is set to <xref href=\"System.Net.Security.EncryptionPolicy.NoEncryption\" data-throw-if-not-resolved=\"false\"></xref>.</p>\n<p>The Framework caches SSL sessions as they are created and attempts to reuse a cached session for a new request, if possible. When attempting to reuse an SSL session, the Framework uses the first element of <xref href=\"System.Net.HttpWebRequest.ClientCertificates\" data-throw-if-not-resolved=\"false\"></xref> (if there is one), or tries to reuse an anonymous sessions if <xref href=\"System.Net.HttpWebRequest.ClientCertificates\" data-throw-if-not-resolved=\"false\"></xref> is empty.</p>\n<p>Client certificates are not supported in the SSL version 2 protocol.</p>\n"
+  example:
+  - "\n<p>The following code example creates an <xref href=\"System.Net.Security.SslStream\" data-throw-if-not-resolved=\"false\"></xref> and initiates the client portion of the authentication. </p>NclSslClientSync#4"
   syntax:
-    content: public SslStream(IO.Stream innerStream, bool leaveInnerStreamOpen, RemoteCertificateValidationCallback userCertificateValidationCallback)
-    content.vb: Public Sub New(innerStream As IO.Stream, leaveInnerStreamOpen As Boolean, userCertificateValidationCallback As RemoteCertificateValidationCallback)
+    content: public SslStream(Stream innerStream, bool leaveInnerStreamOpen, RemoteCertificateValidationCallback userCertificateValidationCallback)
+    content.vb: Public Sub New(innerStream As Stream, leaveInnerStreamOpen As Boolean, userCertificateValidationCallback As RemoteCertificateValidationCallback)
     parameters:
     - id: innerStream
       type: System.IO.Stream
+      description: "\n<p>A <xref href=\"System.IO.Stream\" data-throw-if-not-resolved=\"false\"></xref> object used by the <xref href=\"System.Net.Security.SslStream\" data-throw-if-not-resolved=\"false\"></xref> for sending and receiving data.</p>\n"
     - id: leaveInnerStreamOpen
       type: System.Boolean
+      description: "\n<p>A Boolean value that indicates the closure behavior of the <xref href=\"System.IO.Stream\" data-throw-if-not-resolved=\"false\"></xref> object used by the <xref href=\"System.Net.Security.SslStream\" data-throw-if-not-resolved=\"false\"></xref> for sending and receiving data. This parameter indicates if the inner stream is left open.</p>\n"
     - id: userCertificateValidationCallback
       type: System.Net.Security.RemoteCertificateValidationCallback
+      description: "\n<p>A <xref href=\"System.Net.Security.RemoteCertificateValidationCallback\" data-throw-if-not-resolved=\"false\"></xref> delegate responsible for validating the certificate supplied by the remote party.</p>\n"
+  exceptions:
+  - type: System.ArgumentException
+    commentId: T:System.ArgumentException
+    description: "\n<p>\n<em>innerStream</em> is not readable.</p>\n<p>-or-</p>\n<p>\n<em>innerStream</em> is not writable.</p>\n"
+  - type: System.ArgumentNullException
+    commentId: T:System.ArgumentNullException
+    description: "\n<p>\n<em>innerStream</em> is <strong>null</strong>.</p>\n<p>-or-</p>\n<p>\n<em>innerStream</em> is equal to <xref href=\"System.IO.Stream.Null\" data-throw-if-not-resolved=\"false\"></xref>.</p>\n"
   modifiers.csharp:
   - public
   modifiers.vb:
@@ -184,7 +273,7 @@ items:
   langs:
   - csharp
   - vb
-  name: SslStream(IO.Stream, Boolean, RemoteCertificateValidationCallback, LocalCertificateSelectionCallback)
+  name: SslStream(Stream, Boolean, RemoteCertificateValidationCallback, LocalCertificateSelectionCallback)
   fullName: System.Net.Security.SslStream.SslStream(System.IO.Stream, System.Boolean, System.Net.Security.RemoteCertificateValidationCallback, System.Net.Security.LocalCertificateSelectionCallback)
   type: Constructor
   source:
@@ -198,18 +287,33 @@ items:
   assemblies:
   - System.Net.Security
   namespace: System.Net.Security
+  summary: "\n<p>Initializes a new instance of the <xref href=\"System.Net.Security.SslStream\" data-throw-if-not-resolved=\"false\"></xref> class using the specified <xref href=\"System.IO.Stream\" data-throw-if-not-resolved=\"false\"></xref>, stream closure behavior, certificate validation delegate and certificate selection delegate.</p>\n"
+  remarks: "\n<p>When you specify <strong>true</strong> for the <em>leaveStreamOpen</em> parameter, closing the <xref href=\"System.Net.Security.SslStream\" data-throw-if-not-resolved=\"false\"></xref> has no effect on the <em>innerStream</em> stream; you must explicitly close <em>innerStream</em> when you no longer need it.</p>\n<p>The <em>userCertificateValidationCallback</em> delegate's <em>certificateErrors</em> argument contains any Windows error codes returned by the channel Security Support Provider Interface (SSPI). The return value of the method invoked by the <em>userCertificateValidationCallback</em> delegate determines whether authentication succeeds.</p>\n<p>The security protocol and cryptographic algorithms are already selected when the <em>userCertificateValidationCallback</em> delegate's method is invoked. You can use the method to determine whether the selected cryptographic algorithms and strengths are sufficient for your application. If not, the method should return <strong>false</strong> to prevent the <xref href=\"System.Net.Security.SslStream\" data-throw-if-not-resolved=\"false\"></xref> from being created.</p>\n<p>The <em>userCertificateSelectionCallback</em> delegate is useful when your application has multiple certificates and must dynamically choose a certificate. Certificates in the \"MY\" store are passed to the method invoked by the delegate. </p>\n<p>If a value is not specified in the configuration file for encryptionpolicy, the <xref href=\"System.Net.Security.EncryptionPolicy\" data-throw-if-not-resolved=\"false\"></xref> defaults to <xref href=\"System.Net.Security.EncryptionPolicy.RequireEncryption\" data-throw-if-not-resolved=\"false\"></xref> for the <xref href=\"System.Net.Security.SslStream\" data-throw-if-not-resolved=\"false\"></xref> instance that is constructed.</p>\n<p>The use of the Null cipher is required when the encryption policy is set to <xref href=\"System.Net.Security.EncryptionPolicy.NoEncryption\" data-throw-if-not-resolved=\"false\"></xref>.</p>\n<p>The Framework caches SSL sessions as they are created and attempts to reuse a cached session for a new request, if possible. When attempting to reuse an SSL session, the Framework uses the first element of P:System.Net.HttpWebRequest.ClientCertificates (if there is one), or tries to reuse an anonymous sessions if P:System.Net.HttpWebRequest.ClientCertificates is empty.</p>\n"
+  example:
+  - "\n<p>The following code example demonstrates calling this constructor. This example is part of a larger example provided for the <xref href=\"System.Net.Security.SslStream\" data-throw-if-not-resolved=\"false\"></xref> class.</p>NclSslClientAsync#6"
   syntax:
-    content: public SslStream(IO.Stream innerStream, bool leaveInnerStreamOpen, RemoteCertificateValidationCallback userCertificateValidationCallback, LocalCertificateSelectionCallback userCertificateSelectionCallback)
-    content.vb: Public Sub New(innerStream As IO.Stream, leaveInnerStreamOpen As Boolean, userCertificateValidationCallback As RemoteCertificateValidationCallback, userCertificateSelectionCallback As LocalCertificateSelectionCallback)
+    content: public SslStream(Stream innerStream, bool leaveInnerStreamOpen, RemoteCertificateValidationCallback userCertificateValidationCallback, LocalCertificateSelectionCallback userCertificateSelectionCallback)
+    content.vb: Public Sub New(innerStream As Stream, leaveInnerStreamOpen As Boolean, userCertificateValidationCallback As RemoteCertificateValidationCallback, userCertificateSelectionCallback As LocalCertificateSelectionCallback)
     parameters:
     - id: innerStream
       type: System.IO.Stream
+      description: "\n<p>A <xref href=\"System.IO.Stream\" data-throw-if-not-resolved=\"false\"></xref> object used by the <xref href=\"System.Net.Security.SslStream\" data-throw-if-not-resolved=\"false\"></xref> for sending and receiving data.</p>\n"
     - id: leaveInnerStreamOpen
       type: System.Boolean
+      description: "\n<p>A Boolean value that indicates the closure behavior of the <xref href=\"System.IO.Stream\" data-throw-if-not-resolved=\"false\"></xref> object used by the <xref href=\"System.Net.Security.SslStream\" data-throw-if-not-resolved=\"false\"></xref> for sending and receiving data. This parameter indicates if the inner stream is left open.</p>\n"
     - id: userCertificateValidationCallback
       type: System.Net.Security.RemoteCertificateValidationCallback
+      description: "\n<p>A <xref href=\"System.Net.Security.RemoteCertificateValidationCallback\" data-throw-if-not-resolved=\"false\"></xref> delegate responsible for validating the certificate supplied by the remote party.</p>\n"
     - id: userCertificateSelectionCallback
       type: System.Net.Security.LocalCertificateSelectionCallback
+      description: "\n<p>A <xref href=\"System.Net.Security.LocalCertificateSelectionCallback\" data-throw-if-not-resolved=\"false\"></xref> delegate responsible for selecting the certificate used for authentication.</p>\n"
+  exceptions:
+  - type: System.ArgumentException
+    commentId: T:System.ArgumentException
+    description: "\n<p>\n<em>innerStream</em> is not readable.</p>\n<p>-or-</p>\n<p>\n<em>innerStream</em> is not writable.</p>\n"
+  - type: System.ArgumentNullException
+    commentId: T:System.ArgumentNullException
+    description: "\n<p>\n<em>innerStream</em> is <strong>null</strong>.</p>\n<p>-or-</p>\n<p>\n<em>innerStream</em> is equal to <xref href=\"System.IO.Stream.Null\" data-throw-if-not-resolved=\"false\"></xref>.</p>\n"
   modifiers.csharp:
   - public
   modifiers.vb:
@@ -221,7 +325,7 @@ items:
   langs:
   - csharp
   - vb
-  name: SslStream(IO.Stream, Boolean, RemoteCertificateValidationCallback, LocalCertificateSelectionCallback, EncryptionPolicy)
+  name: SslStream(Stream, Boolean, RemoteCertificateValidationCallback, LocalCertificateSelectionCallback, EncryptionPolicy)
   fullName: System.Net.Security.SslStream.SslStream(System.IO.Stream, System.Boolean, System.Net.Security.RemoteCertificateValidationCallback, System.Net.Security.LocalCertificateSelectionCallback, System.Net.Security.EncryptionPolicy)
   type: Constructor
   source:
@@ -235,20 +339,36 @@ items:
   assemblies:
   - System.Net.Security
   namespace: System.Net.Security
+  summary: "\n<p>Initializes a new instance of the <xref href=\"System.Net.Security.SslStream\" data-throw-if-not-resolved=\"false\"></xref> class using the specified <xref href=\"System.IO.Stream\" data-throw-if-not-resolved=\"false\"></xref></p>\n"
+  remarks: "\n<p>The use of the Null cipher is required when the <em>encryptionPolicy</em> parameter is set to <xref href=\"System.Net.Security.EncryptionPolicy.NoEncryption\" data-throw-if-not-resolved=\"false\"></xref>.</p>\n"
+  example:
+  - 
   syntax:
-    content: public SslStream(IO.Stream innerStream, bool leaveInnerStreamOpen, RemoteCertificateValidationCallback userCertificateValidationCallback, LocalCertificateSelectionCallback userCertificateSelectionCallback, EncryptionPolicy encryptionPolicy)
-    content.vb: Public Sub New(innerStream As IO.Stream, leaveInnerStreamOpen As Boolean, userCertificateValidationCallback As RemoteCertificateValidationCallback, userCertificateSelectionCallback As LocalCertificateSelectionCallback, encryptionPolicy As EncryptionPolicy)
+    content: public SslStream(Stream innerStream, bool leaveInnerStreamOpen, RemoteCertificateValidationCallback userCertificateValidationCallback, LocalCertificateSelectionCallback userCertificateSelectionCallback, EncryptionPolicy encryptionPolicy)
+    content.vb: Public Sub New(innerStream As Stream, leaveInnerStreamOpen As Boolean, userCertificateValidationCallback As RemoteCertificateValidationCallback, userCertificateSelectionCallback As LocalCertificateSelectionCallback, encryptionPolicy As EncryptionPolicy)
     parameters:
     - id: innerStream
       type: System.IO.Stream
+      description: "\n<p>A <xref href=\"System.IO.Stream\" data-throw-if-not-resolved=\"false\"></xref> object used by the <xref href=\"System.Net.Security.SslStream\" data-throw-if-not-resolved=\"false\"></xref> for sending and receiving data.</p>\n"
     - id: leaveInnerStreamOpen
       type: System.Boolean
+      description: "\n<p>A Boolean value that indicates the closure behavior of the <xref href=\"System.IO.Stream\" data-throw-if-not-resolved=\"false\"></xref> object used by the <xref href=\"System.Net.Security.SslStream\" data-throw-if-not-resolved=\"false\"></xref> for sending and receiving data. This parameter indicates if the inner stream is left open.</p>\n"
     - id: userCertificateValidationCallback
       type: System.Net.Security.RemoteCertificateValidationCallback
+      description: "\n<p>A <xref href=\"System.Net.Security.RemoteCertificateValidationCallback\" data-throw-if-not-resolved=\"false\"></xref> delegate responsible for validating the certificate supplied by the remote party.</p>\n"
     - id: userCertificateSelectionCallback
       type: System.Net.Security.LocalCertificateSelectionCallback
+      description: "\n<p>A <xref href=\"System.Net.Security.LocalCertificateSelectionCallback\" data-throw-if-not-resolved=\"false\"></xref> delegate responsible for selecting the certificate used for authentication.</p>\n"
     - id: encryptionPolicy
       type: System.Net.Security.EncryptionPolicy
+      description: "\n<p>The <xref href=\"System.Net.Security.EncryptionPolicy\" data-throw-if-not-resolved=\"false\"></xref> to use.</p>\n"
+  exceptions:
+  - type: System.ArgumentException
+    commentId: T:System.ArgumentException
+    description: "\n<p>\n<em>innerStream</em> is not readable.</p>\n<p>-or-</p>\n<p>\n<em>innerStream</em> is not writable.</p>\n<p>-or-</p>\n<p>\n<em>encryptionPolicy</em> is not valid.</p>\n"
+  - type: System.ArgumentNullException
+    commentId: T:System.ArgumentNullException
+    description: "\n<p>\n<em>innerStream</em> is <strong>null</strong>.</p>\n<p>-or-</p>\n<p>\n<em>innerStream</em> is equal to <xref href=\"System.IO.Stream.Null\" data-throw-if-not-resolved=\"false\"></xref>.</p>\n"
   modifiers.csharp:
   - public
   modifiers.vb:
@@ -265,21 +385,27 @@ items:
   type: Property
   source:
     remote:
-      path: src/System.Net.Security/src/System/Net/SecureProtocols/SslStream.cs
+      path: src/System.Net.Security/ref/System.Net.Security.cs
       branch: master
       repo: https://github.com/dotnet/corefx.git
     id: CanRead
-    path: src/System.Net.Security/src/System/Net/SecureProtocols/SslStream.cs
-    startLine: 334
+    path: src/System.Net.Security/ref/System.Net.Security.cs
+    startLine: 77
   assemblies:
   - System.Net.Security
   namespace: System.Net.Security
+  summary: "\n<p>Gets a <xref href=\"System.Boolean\" data-throw-if-not-resolved=\"false\"></xref> value that indicates whether the underlying stream is readable.</p>\n"
+  remarks: "\n<p>If successful authentication has occurred, this property returns the value returned by invoking <xref href=\"System.IO.Stream.CanRead\" data-throw-if-not-resolved=\"false\"></xref> on the underlying stream.</p>\n<p>The underlying stream is specified when you create an instance of the <xref href=\"System.Net.Security.SslStream\" data-throw-if-not-resolved=\"false\"></xref> class.</p>\n"
+  example:
+  - "\n<p>The following code example demonstrates displaying the value of this property.</p>NclSslServerSync#5"
   syntax:
     content: public override bool CanRead { get; }
     content.vb: Public Overrides ReadOnly Property CanRead As Boolean
     parameters: []
     return:
       type: System.Boolean
+      description: "\n<p>\n<strong>true</strong> if authentication has occurred and the underlying stream is readable; otherwise <strong>false</strong>.</p>\n"
+  overridden: System.IO.Stream.CanRead
   modifiers.csharp:
   - public
   - override
@@ -300,21 +426,30 @@ items:
   type: Property
   source:
     remote:
-      path: src/System.Net.Security/src/System/Net/SecureProtocols/SslStream.cs
+      path: src/System.Net.Security/ref/System.Net.Security.cs
       branch: master
       repo: https://github.com/dotnet/corefx.git
     id: CanSeek
-    path: src/System.Net.Security/src/System/Net/SecureProtocols/SslStream.cs
-    startLine: 326
+    path: src/System.Net.Security/ref/System.Net.Security.cs
+    startLine: 78
   assemblies:
   - System.Net.Security
   namespace: System.Net.Security
+  summary: "\n<p>Gets a <xref href=\"System.Boolean\" data-throw-if-not-resolved=\"false\"></xref> value that indicates whether the underlying stream is seekable.</p>\n"
+  remarks: "\n<p>Do not attempt to set the position of the <xref href=\"System.Net.Security.SslStream\" data-throw-if-not-resolved=\"false\"></xref> object or its underlying stream.</p>\n<p>The underlying stream is specified when you create an instance of the <xref href=\"System.Net.Security.SslStream\" data-throw-if-not-resolved=\"false\"></xref> class.</p>\n"
   syntax:
     content: public override bool CanSeek { get; }
     content.vb: Public Overrides ReadOnly Property CanSeek As Boolean
     parameters: []
     return:
       type: System.Boolean
+      description: "\n<p>This property always returns <strong>false</strong>.</p>\n"
+  overridden: System.IO.Stream.CanSeek
+  seealso:
+  - type: System.IO.Stream.CanSeek
+    commentId: P:System.IO.Stream.CanSeek
+  - type: System.Net.Security.SslStream.Position
+    commentId: P:System.Net.Security.SslStream.Position
   modifiers.csharp:
   - public
   - override
@@ -335,21 +470,27 @@ items:
   type: Property
   source:
     remote:
-      path: src/System.Net.Security/src/System/Net/SecureProtocols/SslStream.cs
+      path: src/System.Net.Security/ref/System.Net.Security.cs
       branch: master
       repo: https://github.com/dotnet/corefx.git
     id: CanTimeout
-    path: src/System.Net.Security/src/System/Net/SecureProtocols/SslStream.cs
-    startLine: 342
+    path: src/System.Net.Security/ref/System.Net.Security.cs
+    startLine: 79
   assemblies:
   - System.Net.Security
   namespace: System.Net.Security
+  summary: "\n<p>Gets a <xref href=\"System.Boolean\" data-throw-if-not-resolved=\"false\"></xref> value that indicates whether the underlying stream supports time-outs.</p>\n"
+  remarks: "\n<p>This property returns the value returned by invoking <xref href=\"System.IO.Stream.CanTimeout\" data-throw-if-not-resolved=\"false\"></xref> on the underlying stream.</p>\n<p>The underlying stream is specified when you create an instance of the <xref href=\"System.Net.Security.SslStream\" data-throw-if-not-resolved=\"false\"></xref> class.</p>\n"
+  example:
+  - "\n<p>The following code example demonstrates displaying the value of this property.</p>NclSslServerSync#5"
   syntax:
     content: public override bool CanTimeout { get; }
     content.vb: Public Overrides ReadOnly Property CanTimeout As Boolean
     parameters: []
     return:
       type: System.Boolean
+      description: "\n<p>\n<strong>true</strong> if the underlying stream supports time-outs; otherwise, <strong>false</strong>.</p>\n"
+  overridden: System.IO.Stream.CanTimeout
   modifiers.csharp:
   - public
   - override
@@ -370,21 +511,27 @@ items:
   type: Property
   source:
     remote:
-      path: src/System.Net.Security/src/System/Net/SecureProtocols/SslStream.cs
+      path: src/System.Net.Security/ref/System.Net.Security.cs
       branch: master
       repo: https://github.com/dotnet/corefx.git
     id: CanWrite
-    path: src/System.Net.Security/src/System/Net/SecureProtocols/SslStream.cs
-    startLine: 350
+    path: src/System.Net.Security/ref/System.Net.Security.cs
+    startLine: 80
   assemblies:
   - System.Net.Security
   namespace: System.Net.Security
+  summary: "\n<p>Gets a <xref href=\"System.Boolean\" data-throw-if-not-resolved=\"false\"></xref> value that indicates whether the underlying stream is writable.</p>\n"
+  remarks: "\n<p>If successful authentication has occurred, this property returns the value returned by invoking <xref href=\"System.IO.Stream.CanWrite\" data-throw-if-not-resolved=\"false\"></xref> on the underlying stream.</p>\n<p>The underlying stream is specified when you create an instance of the <xref href=\"System.Net.Security.SslStream\" data-throw-if-not-resolved=\"false\"></xref> class.</p>\n"
+  example:
+  - "\n<p>The following code example demonstrates displaying the value of this property.</p>NclSslServerSync#5"
   syntax:
     content: public override bool CanWrite { get; }
     content.vb: Public Overrides ReadOnly Property CanWrite As Boolean
     parameters: []
     return:
       type: System.Boolean
+      description: "\n<p>\n<strong>true</strong> if authentication has occurred and the underlying stream is writable; otherwise <strong>false</strong>.</p>\n"
+  overridden: System.IO.Stream.CanWrite
   modifiers.csharp:
   - public
   - override
@@ -405,21 +552,26 @@ items:
   type: Property
   source:
     remote:
-      path: src/System.Net.Security/src/System/Net/SecureProtocols/SslStream.cs
+      path: src/System.Net.Security/ref/System.Net.Security.cs
       branch: master
       repo: https://github.com/dotnet/corefx.git
     id: CheckCertRevocationStatus
-    path: src/System.Net.Security/src/System/Net/SecureProtocols/SslStream.cs
-    startLine: 241
+    path: src/System.Net.Security/ref/System.Net.Security.cs
+    startLine: 81
   assemblies:
   - System.Net.Security
   namespace: System.Net.Security
+  summary: "\n<p>Gets a <xref href=\"System.Boolean\" data-throw-if-not-resolved=\"false\"></xref> value that indicates whether the certificate revocation list is checked during the certificate validation process.</p>\n"
+  remarks: "\n<p>The certificate revocation list contains certificates that have been revoked by the issuer. Checking the list negatively impacts performance but improves application security.</p>\n"
+  example:
+  - "\n<p>The following code example demonstrates displaying the value of this property.</p>NclSslServerSync#5"
   syntax:
     content: public virtual bool CheckCertRevocationStatus { get; }
     content.vb: Public Overridable ReadOnly Property CheckCertRevocationStatus As Boolean
     parameters: []
     return:
       type: System.Boolean
+      description: "\n<p>\n<strong>true</strong> if the certificate revocation list is checked; otherwise, <strong>false</strong>.</p>\n"
   modifiers.csharp:
   - public
   - virtual
@@ -440,21 +592,30 @@ items:
   type: Property
   source:
     remote:
-      path: src/System.Net.Security/src/System/Net/SecureProtocols/SslStream.cs
+      path: src/System.Net.Security/ref/System.Net.Security.cs
       branch: master
       repo: https://github.com/dotnet/corefx.git
     id: CipherAlgorithm
-    path: src/System.Net.Security/src/System/Net/SecureProtocols/SslStream.cs
-    startLine: 275
+    path: src/System.Net.Security/ref/System.Net.Security.cs
+    startLine: 82
   assemblies:
   - System.Net.Security
   namespace: System.Net.Security
+  summary: "\n<p>Gets a value that identifies the bulk encryption algorithm used by this <xref href=\"System.Net.Security.SslStream\" data-throw-if-not-resolved=\"false\"></xref>.</p>\n"
+  remarks: "\n<p>A value of <xref href=\"System.Security.Authentication.CipherAlgorithmType.Null\" data-throw-if-not-resolved=\"false\"></xref> is required for the <xref href=\"System.Net.Security.SslStream.CipherAlgorithm\" data-throw-if-not-resolved=\"false\"></xref> property when the <xref href=\"System.Net.Security.EncryptionPolicy.NoEncryption\" data-throw-if-not-resolved=\"false\"></xref> enumeration value is used to construct a <xref href=\"System.Net.Security.SslStream\" data-throw-if-not-resolved=\"false\"></xref> instance. </p>\n<p>Windows Server 2003 and Windows XP do not support the <xref href=\"System.Security.Authentication.CipherAlgorithmType.Null\" data-throw-if-not-resolved=\"false\"></xref> value. So even if the <xref href=\"System.Security.Authentication.CipherAlgorithmType.Null\" data-throw-if-not-resolved=\"false\"></xref> value is used to construct the <xref href=\"System.Net.Security.SslStream\" data-throw-if-not-resolved=\"false\"></xref> instance, the <xref href=\"System.Net.Security.EncryptionPolicy\" data-throw-if-not-resolved=\"false\"></xref> property will be <xref href=\"System.Security.Authentication.CipherAlgorithmType.None\" data-throw-if-not-resolved=\"false\"></xref>. The <xref href=\"System.Security.Authentication.CipherAlgorithmType.Null\" data-throw-if-not-resolved=\"false\"></xref> value is only returned on Windows Vista and later.</p>\n"
+  example:
+  - "\n<p>The following code example displays the cryptography settings for the specified stream.</p>NclSslServerSync#3"
   syntax:
     content: public virtual CipherAlgorithmType CipherAlgorithm { get; }
     content.vb: Public Overridable ReadOnly Property CipherAlgorithm As CipherAlgorithmType
     parameters: []
     return:
-      type: CipherAlgorithmType
+      type: System.Security.Authentication.CipherAlgorithmType
+      description: "\n<p>A <xref href=\"System.Security.Authentication.CipherAlgorithmType\" data-throw-if-not-resolved=\"false\"></xref> value.</p>\n"
+  exceptions:
+  - type: System.InvalidOperationException
+    commentId: T:System.InvalidOperationException
+    description: "\n<p>The <xref href=\"System.Net.Security.SslStream.CipherAlgorithm\" data-throw-if-not-resolved=\"false\"></xref> property was accessed before the completion of the authentication process or the authentication process failed.</p>\n"
   modifiers.csharp:
   - public
   - virtual
@@ -475,21 +636,26 @@ items:
   type: Property
   source:
     remote:
-      path: src/System.Net.Security/src/System/Net/SecureProtocols/SslStream.cs
+      path: src/System.Net.Security/ref/System.Net.Security.cs
       branch: master
       repo: https://github.com/dotnet/corefx.git
     id: CipherStrength
-    path: src/System.Net.Security/src/System/Net/SecureProtocols/SslStream.cs
-    startLine: 283
+    path: src/System.Net.Security/ref/System.Net.Security.cs
+    startLine: 83
   assemblies:
   - System.Net.Security
   namespace: System.Net.Security
+  summary: "\n<p>Gets a value that identifies the strength of the cipher algorithm used by this <xref href=\"System.Net.Security.SslStream\" data-throw-if-not-resolved=\"false\"></xref>.</p>\n"
+  remarks: "\n<p>The value of this property is zero until the authentication occurs.</p>\n<p>This property returns one of the following values: </p>\n<ul><li>\n<p>0 </p>\n</li><li>\n<p>40 </p>\n</li><li>\n<p>56 </p>\n</li><li>\n<p>80 </p>\n</li><li>\n<p>128 </p>\n</li><li>\n<p>168 </p>\n</li><li>\n<p>192 </p>\n</li><li>\n<p>256 </p>\n</li></ul>\n"
+  example:
+  - "\n<p>The following code example displays the cryptography settings for the specified stream.</p>NclSslServerSync#3"
   syntax:
     content: public virtual int CipherStrength { get; }
     content.vb: Public Overridable ReadOnly Property CipherStrength As Integer
     parameters: []
     return:
       type: System.Int32
+      description: "\n<p>An <xref href=\"System.Int32\" data-throw-if-not-resolved=\"false\"></xref> value that specifies the strength of the algorithm, in bits.</p>\n"
   modifiers.csharp:
   - public
   - virtual
@@ -510,21 +676,30 @@ items:
   type: Property
   source:
     remote:
-      path: src/System.Net.Security/src/System/Net/SecureProtocols/SslStream.cs
+      path: src/System.Net.Security/ref/System.Net.Security.cs
       branch: master
       repo: https://github.com/dotnet/corefx.git
     id: HashAlgorithm
-    path: src/System.Net.Security/src/System/Net/SecureProtocols/SslStream.cs
-    startLine: 291
+    path: src/System.Net.Security/ref/System.Net.Security.cs
+    startLine: 84
   assemblies:
   - System.Net.Security
   namespace: System.Net.Security
+  summary: "\n<p>Gets the algorithm used for generating message authentication codes (MACs).</p>\n"
+  remarks: "\n<p>Message authentication algorithms generate message hashes and signatures used to detect tampering and forgery.</p>\n"
+  example:
+  - "\n<p>The following code example displays the cryptography settings for the specified stream.</p>NclSslServerSync#3"
   syntax:
     content: public virtual HashAlgorithmType HashAlgorithm { get; }
     content.vb: Public Overridable ReadOnly Property HashAlgorithm As HashAlgorithmType
     parameters: []
     return:
-      type: HashAlgorithmType
+      type: System.Security.Authentication.HashAlgorithmType
+      description: "\n<p>A <xref href=\"System.Security.Authentication.HashAlgorithmType\" data-throw-if-not-resolved=\"false\"></xref> value.</p>\n"
+  exceptions:
+  - type: System.InvalidOperationException
+    commentId: T:System.InvalidOperationException
+    description: "\n<p>The <xref href=\"System.Net.Security.SslStream.HashAlgorithm\" data-throw-if-not-resolved=\"false\"></xref> property was accessed before the completion of the authentication process or the authentication process failed.</p>\n"
   modifiers.csharp:
   - public
   - virtual
@@ -545,21 +720,26 @@ items:
   type: Property
   source:
     remote:
-      path: src/System.Net.Security/src/System/Net/SecureProtocols/SslStream.cs
+      path: src/System.Net.Security/ref/System.Net.Security.cs
       branch: master
       repo: https://github.com/dotnet/corefx.git
     id: HashStrength
-    path: src/System.Net.Security/src/System/Net/SecureProtocols/SslStream.cs
-    startLine: 299
+    path: src/System.Net.Security/ref/System.Net.Security.cs
+    startLine: 85
   assemblies:
   - System.Net.Security
   namespace: System.Net.Security
+  summary: "\n<p>Gets a value that identifies the strength of the hash algorithm used by this instance.</p>\n"
+  remarks: "\n<p>The value of this property is zero until the authentication occurs.</p>\n"
+  example:
+  - "\n<p>The following code example displays the cryptography settings for the specified stream.</p>NclSslServerSync#3"
   syntax:
     content: public virtual int HashStrength { get; }
     content.vb: Public Overridable ReadOnly Property HashStrength As Integer
     parameters: []
     return:
       type: System.Int32
+      description: "\n<p>An <xref href=\"System.Int32\" data-throw-if-not-resolved=\"false\"></xref> value that specifies the strength of the <xref href=\"System.Security.Authentication.HashAlgorithmType\" data-throw-if-not-resolved=\"false\"></xref> algorithm, in bits. Valid values are 128 or 160.</p>\n"
   modifiers.csharp:
   - public
   - virtual
@@ -580,21 +760,26 @@ items:
   type: Property
   source:
     remote:
-      path: src/System.Net.Security/src/System/Net/SecureProtocols/SslStream.cs
+      path: src/System.Net.Security/ref/System.Net.Security.cs
       branch: master
       repo: https://github.com/dotnet/corefx.git
     id: IsAuthenticated
-    path: src/System.Net.Security/src/System/Net/SecureProtocols/SslStream.cs
-    startLine: 193
+    path: src/System.Net.Security/ref/System.Net.Security.cs
+    startLine: 86
   assemblies:
   - System.Net.Security
   namespace: System.Net.Security
+  summary: "\n<p>Gets a <xref href=\"System.Boolean\" data-throw-if-not-resolved=\"false\"></xref> value that indicates whether authentication was successful.</p>\n"
+  remarks: "\n<p>Clients authenticate by calling the <see cref=\"Overload:System.Net.Security.SslStream.AuthenticateAsClient\"></see> or <see cref=\"Overload:System.Net.Security.SslStream.BeginAuthenticateAsClient\"></see> methods. Servers authenticate by calling the <see cref=\"Overload:System.Net.Security.SslStream.AuthenticateAsServer\"></see> or <see cref=\"Overload:System.Net.Security.SslStream.BeginAuthenticateAsServer\"></see> methods.</p>\n"
+  example:
+  - "\n<p>The following code example demonstrates displaying the value of this property.</p>NclSslServerSync#4"
   syntax:
     content: public override bool IsAuthenticated { get; }
     content.vb: Public Overrides ReadOnly Property IsAuthenticated As Boolean
     parameters: []
     return:
       type: System.Boolean
+      description: "\n<p>\n<strong>true</strong> if successful authentication occurred; otherwise, <strong>false</strong>.</p>\n"
   overridden: System.Net.Security.AuthenticatedStream.IsAuthenticated
   modifiers.csharp:
   - public
@@ -616,21 +801,26 @@ items:
   type: Property
   source:
     remote:
-      path: src/System.Net.Security/src/System/Net/SecureProtocols/SslStream.cs
+      path: src/System.Net.Security/ref/System.Net.Security.cs
       branch: master
       repo: https://github.com/dotnet/corefx.git
     id: IsEncrypted
-    path: src/System.Net.Security/src/System/Net/SecureProtocols/SslStream.cs
-    startLine: 209
+    path: src/System.Net.Security/ref/System.Net.Security.cs
+    startLine: 87
   assemblies:
   - System.Net.Security
   namespace: System.Net.Security
+  summary: "\n<p>Gets a <xref href=\"System.Boolean\" data-throw-if-not-resolved=\"false\"></xref> value that indicates whether this <xref href=\"System.Net.Security.SslStream\" data-throw-if-not-resolved=\"false\"></xref> uses data encryption.</p>\n"
+  remarks: "\n<p>Encryption helps to protect the privacy of the data, namely it helps to ensure that while data is in transit, it cannot be deciphered by third parties. </p>\n"
+  example:
+  - "\n<p>The following code example demonstrates displaying the value of this property.</p>NclSslServerSync#4"
   syntax:
     content: public override bool IsEncrypted { get; }
     content.vb: Public Overrides ReadOnly Property IsEncrypted As Boolean
     parameters: []
     return:
       type: System.Boolean
+      description: "\n<p>\n<strong>true</strong> if data is encrypted before being transmitted over the network and decrypted when it reaches the remote endpoint; otherwise <strong>false</strong>.</p>\n"
   overridden: System.Net.Security.AuthenticatedStream.IsEncrypted
   modifiers.csharp:
   - public
@@ -652,21 +842,26 @@ items:
   type: Property
   source:
     remote:
-      path: src/System.Net.Security/src/System/Net/SecureProtocols/SslStream.cs
+      path: src/System.Net.Security/ref/System.Net.Security.cs
       branch: master
       repo: https://github.com/dotnet/corefx.git
     id: IsMutuallyAuthenticated
-    path: src/System.Net.Security/src/System/Net/SecureProtocols/SslStream.cs
-    startLine: 201
+    path: src/System.Net.Security/ref/System.Net.Security.cs
+    startLine: 88
   assemblies:
   - System.Net.Security
   namespace: System.Net.Security
+  summary: "\n<p>Gets a <xref href=\"System.Boolean\" data-throw-if-not-resolved=\"false\"></xref> value that indicates whether both server and client have been authenticated.</p>\n"
+  remarks: "\n<p>Mutual authentication is specified by the server when the server wants the client to provide a certificate for authentication. </p>\n"
+  example:
+  - "\n<p>The following code example demonstrates displaying the value of this property.</p>NclSslServerSync#4"
   syntax:
     content: public override bool IsMutuallyAuthenticated { get; }
     content.vb: Public Overrides ReadOnly Property IsMutuallyAuthenticated As Boolean
     parameters: []
     return:
       type: System.Boolean
+      description: "\n<p>\n<strong>true</strong> if the server has been authenticated; otherwise <strong>false</strong>.</p>\n"
   overridden: System.Net.Security.AuthenticatedStream.IsMutuallyAuthenticated
   modifiers.csharp:
   - public
@@ -688,21 +883,26 @@ items:
   type: Property
   source:
     remote:
-      path: src/System.Net.Security/src/System/Net/SecureProtocols/SslStream.cs
+      path: src/System.Net.Security/ref/System.Net.Security.cs
       branch: master
       repo: https://github.com/dotnet/corefx.git
     id: IsServer
-    path: src/System.Net.Security/src/System/Net/SecureProtocols/SslStream.cs
-    startLine: 225
+    path: src/System.Net.Security/ref/System.Net.Security.cs
+    startLine: 89
   assemblies:
   - System.Net.Security
   namespace: System.Net.Security
+  summary: "\n<p>Gets a <xref href=\"System.Boolean\" data-throw-if-not-resolved=\"false\"></xref> value that indicates whether the local side of the connection used by this <xref href=\"System.Net.Security.SslStream\" data-throw-if-not-resolved=\"false\"></xref> was authenticated as the server.</p>\n"
+  remarks: "\n<p>If authentication failed or did not occur, this property returns <strong>false</strong>.</p>\n<p>To authenticate as the server, call the <see cref=\"Overload:System.Net.Security.SslStream.AuthenticateAsServer\"></see> or <see cref=\"Overload:System.Net.Security.SslStream.BeginAuthenticateAsServer\"></see> methods.</p>\n"
+  example:
+  - "\n<p>The following code example demonstrates displaying the value of this property.</p>NclSslServerSync#4"
   syntax:
     content: public override bool IsServer { get; }
     content.vb: Public Overrides ReadOnly Property IsServer As Boolean
     parameters: []
     return:
       type: System.Boolean
+      description: "\n<p>\n<strong>true</strong> if the local endpoint was successfully authenticated as the server side of the authenticated connection; otherwise <strong>false</strong>.</p>\n"
   overridden: System.Net.Security.AuthenticatedStream.IsServer
   modifiers.csharp:
   - public
@@ -724,21 +924,26 @@ items:
   type: Property
   source:
     remote:
-      path: src/System.Net.Security/src/System/Net/SecureProtocols/SslStream.cs
+      path: src/System.Net.Security/ref/System.Net.Security.cs
       branch: master
       repo: https://github.com/dotnet/corefx.git
     id: IsSigned
-    path: src/System.Net.Security/src/System/Net/SecureProtocols/SslStream.cs
-    startLine: 217
+    path: src/System.Net.Security/ref/System.Net.Security.cs
+    startLine: 90
   assemblies:
   - System.Net.Security
   namespace: System.Net.Security
+  summary: "\n<p>Gets a <xref href=\"System.Boolean\" data-throw-if-not-resolved=\"false\"></xref> value that indicates whether the data sent using this stream is signed.</p>\n"
+  remarks: "\n<p>Data signing helps to protect the integrity of the data, namely it helps the recipient determine whether the data has been tampered with while in transit. </p>\n"
+  example:
+  - "\n<p>The following code example demonstrates displaying the value of this property.</p>NclSslServerSync#4"
   syntax:
     content: public override bool IsSigned { get; }
     content.vb: Public Overrides ReadOnly Property IsSigned As Boolean
     parameters: []
     return:
       type: System.Boolean
+      description: "\n<p>\n<strong>true</strong> if the data is signed before being transmitted; otherwise <strong>false</strong>.</p>\n"
   overridden: System.Net.Security.AuthenticatedStream.IsSigned
   modifiers.csharp:
   - public
@@ -760,21 +965,26 @@ items:
   type: Property
   source:
     remote:
-      path: src/System.Net.Security/src/System/Net/SecureProtocols/SslStream.cs
+      path: src/System.Net.Security/ref/System.Net.Security.cs
       branch: master
       repo: https://github.com/dotnet/corefx.git
     id: KeyExchangeAlgorithm
-    path: src/System.Net.Security/src/System/Net/SecureProtocols/SslStream.cs
-    startLine: 307
+    path: src/System.Net.Security/ref/System.Net.Security.cs
+    startLine: 91
   assemblies:
   - System.Net.Security
   namespace: System.Net.Security
+  summary: "\n<p>Gets the key exchange algorithm used by this <xref href=\"System.Net.Security.SslStream\" data-throw-if-not-resolved=\"false\"></xref>.</p>\n"
+  remarks: "\n<p>The value of this property is <xref href=\"System.Security.Authentication.ExchangeAlgorithmType.None\" data-throw-if-not-resolved=\"false\"></xref> until the authentication occurs.</p>\n<p>The key exchange algorithm protects information used to generate shared keys.</p>\n"
+  example:
+  - "\n<p>The following code example displays the cryptography settings for the specified stream.</p>NclSslServerSync#3"
   syntax:
     content: public virtual ExchangeAlgorithmType KeyExchangeAlgorithm { get; }
     content.vb: Public Overridable ReadOnly Property KeyExchangeAlgorithm As ExchangeAlgorithmType
     parameters: []
     return:
-      type: ExchangeAlgorithmType
+      type: System.Security.Authentication.ExchangeAlgorithmType
+      description: "\n<p>An <xref href=\"System.Security.Authentication.ExchangeAlgorithmType\" data-throw-if-not-resolved=\"false\"></xref> value.</p>\n"
   modifiers.csharp:
   - public
   - virtual
@@ -795,21 +1005,26 @@ items:
   type: Property
   source:
     remote:
-      path: src/System.Net.Security/src/System/Net/SecureProtocols/SslStream.cs
+      path: src/System.Net.Security/ref/System.Net.Security.cs
       branch: master
       repo: https://github.com/dotnet/corefx.git
     id: KeyExchangeStrength
-    path: src/System.Net.Security/src/System/Net/SecureProtocols/SslStream.cs
-    startLine: 315
+    path: src/System.Net.Security/ref/System.Net.Security.cs
+    startLine: 92
   assemblies:
   - System.Net.Security
   namespace: System.Net.Security
+  summary: "\n<p>Gets a value that identifies the strength of the key exchange algorithm used by this instance.</p>\n"
+  remarks: "\n<p>The value of this property is zero until the authentication occurs.</p>\n<p>In common scenarios, the value of this property is one of the following: </p>\n<ul><li>\n<p>512 </p>\n</li><li>\n<p>768 </p>\n</li><li>\n<p>1024 </p>\n</li><li>\n<p>2048 </p>\n</li></ul>\n"
+  example:
+  - "\n<p>The following code example displays the cryptography settings for the specified stream.</p>NclSslServerSync#3"
   syntax:
     content: public virtual int KeyExchangeStrength { get; }
     content.vb: Public Overridable ReadOnly Property KeyExchangeStrength As Integer
     parameters: []
     return:
       type: System.Int32
+      description: "\n<p>An <xref href=\"System.Int32\" data-throw-if-not-resolved=\"false\"></xref> value that specifies the strength of the <xref href=\"System.Security.Authentication.ExchangeAlgorithmType\" data-throw-if-not-resolved=\"false\"></xref> algorithm, in bits.</p>\n"
   modifiers.csharp:
   - public
   - virtual
@@ -830,21 +1045,29 @@ items:
   type: Property
   source:
     remote:
-      path: src/System.Net.Security/src/System/Net/SecureProtocols/SslStream.cs
+      path: src/System.Net.Security/ref/System.Net.Security.cs
       branch: master
       repo: https://github.com/dotnet/corefx.git
     id: Length
-    path: src/System.Net.Security/src/System/Net/SecureProtocols/SslStream.cs
-    startLine: 382
+    path: src/System.Net.Security/ref/System.Net.Security.cs
+    startLine: 93
   assemblies:
   - System.Net.Security
   namespace: System.Net.Security
+  summary: "\n<p>Gets the length of the underlying stream.</p>\n"
+  remarks: "\n<p>This property returns the value returned by invoking <xref href=\"System.IO.Stream.Length\" data-throw-if-not-resolved=\"false\"></xref> on the underlying stream. If the underlying stream is not seekable, this method typically throws an exception. The run-time type of the underlying stream determines the run-time type of the exception that is thrown.</p>\n"
   syntax:
     content: public override long Length { get; }
     content.vb: Public Overrides ReadOnly Property Length As Long
     parameters: []
     return:
       type: System.Int64
+      description: "\n<p>A <xref href=\"System.Int64\" data-throw-if-not-resolved=\"false\"></xref>.</p>\n<p>The length of the underlying stream.</p>\n"
+  overridden: System.IO.Stream.Length
+  exceptions:
+  - type: System.NotSupportedException
+    commentId: T:System.NotSupportedException
+    description: "\n<p>Getting the value of this property is not supported when the underlying stream is a <xref href=\"System.Net.Sockets.NetworkStream\" data-throw-if-not-resolved=\"false\"></xref>.</p>\n"
   modifiers.csharp:
   - public
   - override
@@ -865,21 +1088,29 @@ items:
   type: Property
   source:
     remote:
-      path: src/System.Net.Security/src/System/Net/SecureProtocols/SslStream.cs
+      path: src/System.Net.Security/ref/System.Net.Security.cs
       branch: master
       repo: https://github.com/dotnet/corefx.git
     id: LocalCertificate
-    path: src/System.Net.Security/src/System/Net/SecureProtocols/SslStream.cs
-    startLine: 249
+    path: src/System.Net.Security/ref/System.Net.Security.cs
+    startLine: 94
   assemblies:
   - System.Net.Security
   namespace: System.Net.Security
+  summary: "\n<p>Gets the certificate used to authenticate the local endpoint.</p>\n"
+  example:
+  - "\n<p>The following code example demonstrates displaying the certificate returned by this property.</p>NclSslServerSync#6"
   syntax:
     content: public virtual X509Certificate LocalCertificate { get; }
     content.vb: Public Overridable ReadOnly Property LocalCertificate As X509Certificate
     parameters: []
     return:
-      type: X509Certificate
+      type: System.Security.Cryptography.X509Certificates.X509Certificate
+      description: "\n<p>An X509Certificate object that represents the certificate supplied for authentication or <strong>null</strong> if no certificate was supplied.</p>\n"
+  exceptions:
+  - type: System.InvalidOperationException
+    commentId: T:System.InvalidOperationException
+    description: "\n<p>Authentication failed or has not occurred.</p>\n"
   modifiers.csharp:
   - public
   - virtual
@@ -900,21 +1131,29 @@ items:
   type: Property
   source:
     remote:
-      path: src/System.Net.Security/src/System/Net/SecureProtocols/SslStream.cs
+      path: src/System.Net.Security/ref/System.Net.Security.cs
       branch: master
       repo: https://github.com/dotnet/corefx.git
     id: Position
-    path: src/System.Net.Security/src/System/Net/SecureProtocols/SslStream.cs
-    startLine: 390
+    path: src/System.Net.Security/ref/System.Net.Security.cs
+    startLine: 95
   assemblies:
   - System.Net.Security
   namespace: System.Net.Security
+  summary: "\n<p>Gets or sets the current position in the underlying stream.</p>\n"
+  remarks: "\n<p>This property returns the value returned by invoking <xref href=\"System.IO.Stream.Position\" data-throw-if-not-resolved=\"false\"></xref> on the underlying stream. If the underlying stream is not seekable, this method typically throws an exception. The run-time type of the underlying stream determines the run-time type of the exception that is thrown.</p>\n"
   syntax:
     content: public override long Position { get; set; }
     content.vb: Public Overrides Property Position As Long
     parameters: []
     return:
       type: System.Int64
+      description: "\n<p>A <xref href=\"System.Int64\" data-throw-if-not-resolved=\"false\"></xref>.</p>\n<p>The current position in the underlying stream.</p>\n"
+  overridden: System.IO.Stream.Position
+  exceptions:
+  - type: System.NotSupportedException
+    commentId: T:System.NotSupportedException
+    description: "\n<p>Setting this property is not supported.</p>\n<p>-or-</p>\n<p>Getting the value of this property is not supported when the underlying stream is a <xref href=\"System.Net.Sockets.NetworkStream\" data-throw-if-not-resolved=\"false\"></xref>.</p>\n"
   modifiers.csharp:
   - public
   - override
@@ -935,21 +1174,27 @@ items:
   type: Property
   source:
     remote:
-      path: src/System.Net.Security/src/System/Net/SecureProtocols/SslStream.cs
+      path: src/System.Net.Security/ref/System.Net.Security.cs
       branch: master
       repo: https://github.com/dotnet/corefx.git
     id: ReadTimeout
-    path: src/System.Net.Security/src/System/Net/SecureProtocols/SslStream.cs
-    startLine: 358
+    path: src/System.Net.Security/ref/System.Net.Security.cs
+    startLine: 96
   assemblies:
   - System.Net.Security
   namespace: System.Net.Security
+  summary: "\n<p>Gets or sets the amount of time a read operation blocks waiting for data.</p>\n"
+  remarks: "\n<p>This property returns the value returned by invoking <xref href=\"System.IO.Stream.ReadTimeout\" data-throw-if-not-resolved=\"false\"></xref> on the underlying stream. When you set this property, the <xref href=\"System.IO.Stream.ReadTimeout\" data-throw-if-not-resolved=\"false\"></xref> value on the underlying stream is set to the specified value.</p>\n<p>If the underlying stream is a <xref href=\"System.Net.Sockets.NetworkStream\" data-throw-if-not-resolved=\"false\"></xref>, <xref href=\"System.Net.Security.SslStream.ReadTimeout\" data-throw-if-not-resolved=\"false\"></xref> is in milliseconds and is set to <xref href=\"System.Threading.Timeout.Infinite\" data-throw-if-not-resolved=\"false\"></xref> by default so that read operations do not timeout.</p>\n"
+  example:
+  - "\n<p>The following code example demonstrates setting the value of this property.</p>NclSslServerSync#1"
   syntax:
     content: public override int ReadTimeout { get; set; }
     content.vb: Public Overrides Property ReadTimeout As Integer
     parameters: []
     return:
       type: System.Int32
+      description: "\n<p>A <xref href=\"System.Int32\" data-throw-if-not-resolved=\"false\"></xref> that specifies the amount of time that elapses before a synchronous read operation fails.</p>\n"
+  overridden: System.IO.Stream.ReadTimeout
   modifiers.csharp:
   - public
   - override
@@ -970,21 +1215,29 @@ items:
   type: Property
   source:
     remote:
-      path: src/System.Net.Security/src/System/Net/SecureProtocols/SslStream.cs
+      path: src/System.Net.Security/ref/System.Net.Security.cs
       branch: master
       repo: https://github.com/dotnet/corefx.git
     id: RemoteCertificate
-    path: src/System.Net.Security/src/System/Net/SecureProtocols/SslStream.cs
-    startLine: 257
+    path: src/System.Net.Security/ref/System.Net.Security.cs
+    startLine: 97
   assemblies:
   - System.Net.Security
   namespace: System.Net.Security
+  summary: "\n<p>Gets the certificate used to authenticate the remote endpoint.</p>\n"
+  example:
+  - "\n<p>The following code example demonstrates displaying the certificate returned by this property.</p>NclSslServerSync#6"
   syntax:
     content: public virtual X509Certificate RemoteCertificate { get; }
     content.vb: Public Overridable ReadOnly Property RemoteCertificate As X509Certificate
     parameters: []
     return:
-      type: X509Certificate
+      type: System.Security.Cryptography.X509Certificates.X509Certificate
+      description: "\n<p>An X509Certificate object that represents the certificate supplied for authentication or <strong>null</strong> if no certificate was supplied.</p>\n"
+  exceptions:
+  - type: System.InvalidOperationException
+    commentId: T:System.InvalidOperationException
+    description: "\n<p>Authentication failed or has not occurred.</p>\n"
   modifiers.csharp:
   - public
   - virtual
@@ -1005,21 +1258,26 @@ items:
   type: Property
   source:
     remote:
-      path: src/System.Net.Security/src/System/Net/SecureProtocols/SslStream.cs
+      path: src/System.Net.Security/ref/System.Net.Security.cs
       branch: master
       repo: https://github.com/dotnet/corefx.git
     id: SslProtocol
-    path: src/System.Net.Security/src/System/Net/SecureProtocols/SslStream.cs
-    startLine: 233
+    path: src/System.Net.Security/ref/System.Net.Security.cs
+    startLine: 98
   assemblies:
   - System.Net.Security
   namespace: System.Net.Security
+  summary: "\n<p>Gets a value that indicates the security protocol used to authenticate this connection.</p>\n"
+  remarks: "\n<p>The supported security protocols are specified when the <xref href=\"System.Net.Security.SslStream\" data-throw-if-not-resolved=\"false\"></xref> is created. If no security protocol was passed to the constructor, the instance is created using <xref href=\"System.Security.Authentication.SslProtocols.Default\" data-throw-if-not-resolved=\"false\"></xref>. The actual protocol used for authentication is selected based on the protocols supported by the client and server.</p>\n"
+  example:
+  - "\n<p>The following example displays the security properties of the specified stream.</p>NclSslServerSync#3"
   syntax:
     content: public virtual SslProtocols SslProtocol { get; }
     content.vb: Public Overridable ReadOnly Property SslProtocol As SslProtocols
     parameters: []
     return:
-      type: SslProtocols
+      type: System.Security.Authentication.SslProtocols
+      description: "\n<p>The <xref href=\"System.Security.Authentication.SslProtocols\" data-throw-if-not-resolved=\"false\"></xref> value that represents the protocol used for authentication.</p>\n"
   modifiers.csharp:
   - public
   - virtual
@@ -1040,21 +1298,28 @@ items:
   type: Property
   source:
     remote:
-      path: src/System.Net.Security/src/System/Net/SecureProtocols/SslStream.cs
+      path: src/System.Net.Security/ref/System.Net.Security.cs
       branch: master
       repo: https://github.com/dotnet/corefx.git
     id: TransportContext
-    path: src/System.Net.Security/src/System/Net/SecureProtocols/SslStream.cs
-    startLine: 154
+    path: src/System.Net.Security/ref/System.Net.Security.cs
+    startLine: 99
   assemblies:
   - System.Net.Security
   namespace: System.Net.Security
+  summary: "\n<p>Gets the <xref href=\"System.Net.TransportContext\" data-throw-if-not-resolved=\"false\"></xref> used for authentication using extended protection.</p>\n"
+  example:
+  - 
   syntax:
     content: public TransportContext TransportContext { get; }
     content.vb: Public ReadOnly Property TransportContext As TransportContext
     parameters: []
     return:
-      type: TransportContext
+      type: System.Net.TransportContext
+      description: "\n<p>The <xref href=\"System.Net.TransportContext\" data-throw-if-not-resolved=\"false\"></xref> object that contains the channel binding token (CBT) used for extended protection.</p>\n"
+  seealso:
+  - type: System.Security.Authentication.ExtendedProtection.ChannelBinding
+    commentId: T:System.Security.Authentication.ExtendedProtection.ChannelBinding
   modifiers.csharp:
   - public
   - get
@@ -1073,21 +1338,27 @@ items:
   type: Property
   source:
     remote:
-      path: src/System.Net.Security/src/System/Net/SecureProtocols/SslStream.cs
+      path: src/System.Net.Security/ref/System.Net.Security.cs
       branch: master
       repo: https://github.com/dotnet/corefx.git
     id: WriteTimeout
-    path: src/System.Net.Security/src/System/Net/SecureProtocols/SslStream.cs
-    startLine: 370
+    path: src/System.Net.Security/ref/System.Net.Security.cs
+    startLine: 100
   assemblies:
   - System.Net.Security
   namespace: System.Net.Security
+  summary: "\n<p>Gets or sets the amount of time a write operation blocks waiting for data.</p>\n"
+  remarks: "\n<p>This property returns the value returned by invoking <xref href=\"System.IO.Stream.WriteTimeout\" data-throw-if-not-resolved=\"false\"></xref> on the underlying stream. For set operations, the specified value sets the <xref href=\"System.IO.Stream.WriteTimeout\" data-throw-if-not-resolved=\"false\"></xref> value on the underlying stream.</p>\n<p>If the underlying stream is a <xref href=\"System.Net.Sockets.NetworkStream\" data-throw-if-not-resolved=\"false\"></xref>, <xref href=\"System.Net.Security.SslStream.WriteTimeout\" data-throw-if-not-resolved=\"false\"></xref> is in milliseconds and is set to <xref href=\"System.Threading.Timeout.Infinite\" data-throw-if-not-resolved=\"false\"></xref> by default so that write operations do not timeout.</p>\n"
+  example:
+  - "\n<p>The following code example demonstrates setting the value of this property.</p>NclSslServerSync#1"
   syntax:
     content: public override int WriteTimeout { get; set; }
     content.vb: Public Overrides Property WriteTimeout As Integer
     parameters: []
     return:
       type: System.Int32
+      description: "\n<p>A <xref href=\"System.Int32\" data-throw-if-not-resolved=\"false\"></xref> that specifies the amount of time that elapses before a synchronous write operation fails. </p>\n"
+  overridden: System.IO.Stream.WriteTimeout
   modifiers.csharp:
   - public
   - override
@@ -1108,23 +1379,40 @@ items:
   type: Method
   source:
     remote:
-      path: src/System.Net.Security/src/System/Net/SecureProtocols/SslStream.cs
+      path: src/System.Net.Security/ref/System.Net.Security.cs
       branch: master
       repo: https://github.com/dotnet/corefx.git
     id: AuthenticateAsClientAsync
-    path: src/System.Net.Security/src/System/Net/SecureProtocols/SslStream.cs
-    startLine: 168
+    path: src/System.Net.Security/ref/System.Net.Security.cs
+    startLine: 101
   assemblies:
   - System.Net.Security
   namespace: System.Net.Security
+  summary: "\n<p>Called by clients to authenticate the server and optionally the client in a client-server connection as an asynchronous operation.</p>\n"
+  remarks: "\n<p>This method authenticates using <xref href=\"System.Security.Authentication.SslProtocols.Default\" data-throw-if-not-resolved=\"false\"></xref>. No client certificates are used in the authentication. The certificate revocation list is not checked during authentication. The value specified for <em>targetHost</em> must match the name on the server's certificate. </p>\n<p>When authentication succeeds, you must check the <xref href=\"System.Net.Security.SslStream.IsEncrypted\" data-throw-if-not-resolved=\"false\"></xref> and <xref href=\"System.Net.Security.SslStream.IsSigned\" data-throw-if-not-resolved=\"false\"></xref> properties to determine what security services are used by the <xref href=\"System.Net.Security.SslStream\" data-throw-if-not-resolved=\"false\"></xref>. Check the <xref href=\"System.Net.Security.SslStream.IsMutuallyAuthenticated\" data-throw-if-not-resolved=\"false\"></xref> property to determine whether mutual authentication occurred.</p>\n<p>If the authentication fails, you receive a <xref href=\"System.Security.Authentication.AuthenticationException\" data-throw-if-not-resolved=\"false\"></xref>, and this <xref href=\"System.Net.Security.SslStream\" data-throw-if-not-resolved=\"false\"></xref> is no longer useable. You should close this object and remove all references to it so that it can be collected by the garbage collector. </p>\n"
   syntax:
     content: public virtual Task AuthenticateAsClientAsync(string targetHost)
     content.vb: Public Overridable Function AuthenticateAsClientAsync(targetHost As String) As Task
     parameters:
     - id: targetHost
       type: System.String
+      description: "\n<p>The name of the server that shares this <xref href=\"System.Net.Security.SslStream\" data-throw-if-not-resolved=\"false\"></xref>.</p>\n"
     return:
-      type: Task
+      type: System.Threading.Tasks.Task
+      description: "\n<p>Returns <xref href=\"System.Threading.Tasks.Task\" data-throw-if-not-resolved=\"false\"></xref></p>\n<p>The task object representing the asynchronous operation.</p>\n"
+  exceptions:
+  - type: System.ArgumentNullException
+    commentId: T:System.ArgumentNullException
+    description: "\n<p>\n<em>targetHost</em> is <strong>null</strong>.</p>\n"
+  - type: System.Security.Authentication.AuthenticationException
+    commentId: T:System.Security.Authentication.AuthenticationException
+    description: "\n<p>The authentication failed and left this object in an unusable state.</p>\n"
+  - type: System.InvalidOperationException
+    commentId: T:System.InvalidOperationException
+    description: "\n<p>Authentication has already occurred.</p>\n<p>-or-</p>\n<p>Server authentication using this <xref href=\"System.Net.Security.SslStream\" data-throw-if-not-resolved=\"false\"></xref> was tried previously.</p>\n<p>-or- </p>\n<p>Authentication is already in progress.</p>\n"
+  - type: System.ObjectDisposedException
+    commentId: T:System.ObjectDisposedException
+    description: "\n<p>This object has been closed.</p>\n"
   modifiers.csharp:
   - public
   - virtual
@@ -1138,7 +1426,7 @@ items:
   langs:
   - csharp
   - vb
-  name: AuthenticateAsClientAsync(String, Cryptography.X509Certificates.X509CertificateCollection, SslProtocols, Boolean)
+  name: AuthenticateAsClientAsync(String, X509CertificateCollection, SslProtocols, Boolean)
   fullName: System.Net.Security.SslStream.AuthenticateAsClientAsync(System.String, System.Security.Cryptography.X509Certificates.X509CertificateCollection, System.Security.Authentication.SslProtocols, System.Boolean)
   type: Method
   source:
@@ -1152,20 +1440,27 @@ items:
   assemblies:
   - System.Net.Security
   namespace: System.Net.Security
+  summary: "\n<p>Called by clients to authenticate the server and optionally the client in a client-server connection as an asynchronous operation. The authentication process uses the specified certificate collection and SSL protocol.</p>\n"
+  remarks: "\n<p>When authentication succeeds, you must check the <xref href=\"System.Net.Security.SslStream.IsEncrypted\" data-throw-if-not-resolved=\"false\"></xref> and <xref href=\"System.Net.Security.SslStream.IsSigned\" data-throw-if-not-resolved=\"false\"></xref> properties to determine what security services are used by the <xref href=\"System.Net.Security.SslStream\" data-throw-if-not-resolved=\"false\"></xref>. Check the <xref href=\"System.Net.Security.SslStream.IsMutuallyAuthenticated\" data-throw-if-not-resolved=\"false\"></xref> property to determine whether mutual authentication occurred.</p>\n<p>If the authentication fails, you receive a <xref href=\"System.Security.Authentication.AuthenticationException\" data-throw-if-not-resolved=\"false\"></xref>, and this <xref href=\"System.Net.Security.SslStream\" data-throw-if-not-resolved=\"false\"></xref> is no longer useable. You should close this object and remove all references to it so that it can be collected by the garbage collector.</p>\n<p>Client certificates are not supported in the SSL version 2 protocol.</p>\n"
   syntax:
-    content: public virtual Threading.Tasks.Task AuthenticateAsClientAsync(string targetHost, Cryptography.X509Certificates.X509CertificateCollection clientCertificates, SslProtocols enabledSslProtocols, bool checkCertificateRevocation)
-    content.vb: Public Overridable Function AuthenticateAsClientAsync(targetHost As String, clientCertificates As Cryptography.X509Certificates.X509CertificateCollection, enabledSslProtocols As SslProtocols, checkCertificateRevocation As Boolean) As Threading.Tasks.Task
+    content: public virtual Task AuthenticateAsClientAsync(string targetHost, X509CertificateCollection clientCertificates, SslProtocols enabledSslProtocols, bool checkCertificateRevocation)
+    content.vb: Public Overridable Function AuthenticateAsClientAsync(targetHost As String, clientCertificates As X509CertificateCollection, enabledSslProtocols As SslProtocols, checkCertificateRevocation As Boolean) As Task
     parameters:
     - id: targetHost
       type: System.String
+      description: "\n<p>The name of the server that will share this <xref href=\"System.Net.Security.SslStream\" data-throw-if-not-resolved=\"false\"></xref>.</p>\n"
     - id: clientCertificates
       type: System.Security.Cryptography.X509Certificates.X509CertificateCollection
+      description: "\n<p>The <xref href=\"System.Security.Cryptography.X509Certificates.X509CertificateCollection\" data-throw-if-not-resolved=\"false\"></xref> that contains client certificates.</p>\n"
     - id: enabledSslProtocols
       type: System.Security.Authentication.SslProtocols
+      description: "\n<p>The <xref href=\"System.Security.Authentication.SslProtocols\" data-throw-if-not-resolved=\"false\"></xref> value that represents the protocol used for authentication.</p>\n"
     - id: checkCertificateRevocation
       type: System.Boolean
+      description: "\n<p>A <xref href=\"System.Boolean\" data-throw-if-not-resolved=\"false\"></xref> value that specifies whether the certificate revocation list is checked during authentication.</p>\n"
     return:
       type: System.Threading.Tasks.Task
+      description: "\n<p>Returns <xref href=\"System.Threading.Tasks.Task\" data-throw-if-not-resolved=\"false\"></xref></p>\n<p>The task object representing the asynchronous operation.</p>\n"
   modifiers.csharp:
   - public
   - virtual
@@ -1179,7 +1474,7 @@ items:
   langs:
   - csharp
   - vb
-  name: AuthenticateAsServerAsync(Cryptography.X509Certificates.X509Certificate)
+  name: AuthenticateAsServerAsync(X509Certificate)
   fullName: System.Net.Security.SslStream.AuthenticateAsServerAsync(System.Security.Cryptography.X509Certificates.X509Certificate)
   type: Method
   source:
@@ -1193,14 +1488,34 @@ items:
   assemblies:
   - System.Net.Security
   namespace: System.Net.Security
+  summary: "\n<p>Called by servers to authenticate the server and optionally the client in a client-server connection using the specified certificate as an asynchronous operation.</p>\n"
+  remarks: "\n<p>This method authenticates using <xref href=\"System.Security.Authentication.SslProtocols.Default\" data-throw-if-not-resolved=\"false\"></xref>. The certificate revocation list is not checked during authentication. The client is not required to provide a certificate for authentication.</p>\n<p>If the authentication fails, you receive a <xref href=\"System.Security.Authentication.AuthenticationException\" data-throw-if-not-resolved=\"false\"></xref>, and this <xref href=\"System.Net.Security.SslStream\" data-throw-if-not-resolved=\"false\"></xref> is no longer useable. You should close this object and remove all references to it so that it can be collected by the garbage collector. </p>\n"
   syntax:
-    content: public virtual Threading.Tasks.Task AuthenticateAsServerAsync(Cryptography.X509Certificates.X509Certificate serverCertificate)
-    content.vb: Public Overridable Function AuthenticateAsServerAsync(serverCertificate As Cryptography.X509Certificates.X509Certificate) As Threading.Tasks.Task
+    content: public virtual Task AuthenticateAsServerAsync(X509Certificate serverCertificate)
+    content.vb: Public Overridable Function AuthenticateAsServerAsync(serverCertificate As X509Certificate) As Task
     parameters:
     - id: serverCertificate
       type: System.Security.Cryptography.X509Certificates.X509Certificate
+      description: "\n<p>The certificate used to authenticate the server.</p>\n"
     return:
       type: System.Threading.Tasks.Task
+      description: "\n<p>Returns <xref href=\"System.Threading.Tasks.Task\" data-throw-if-not-resolved=\"false\"></xref></p>\n<p>The task object representing the asynchronous operation.</p>\n"
+  exceptions:
+  - type: System.ArgumentNullException
+    commentId: T:System.ArgumentNullException
+    description: "\n<p>\n<em>serverCertificate</em> is <strong>null</strong>.</p>\n"
+  - type: System.Security.Authentication.AuthenticationException
+    commentId: T:System.Security.Authentication.AuthenticationException
+    description: "\n<p>The authentication failed and left this object in an unusable state.</p>\n"
+  - type: System.InvalidOperationException
+    commentId: T:System.InvalidOperationException
+    description: "\n<p>Authentication has already occurred.</p>\n<p>-or-</p>\n<p>Client authentication using this <xref href=\"System.Net.Security.SslStream\" data-throw-if-not-resolved=\"false\"></xref> was tried previously.</p>\n<p>-or- </p>\n<p>Authentication is already in progress.</p>\n"
+  - type: System.ObjectDisposedException
+    commentId: T:System.ObjectDisposedException
+    description: "\n<p>This object has been closed.</p>\n"
+  - type: System.PlatformNotSupportedException
+    commentId: T:System.PlatformNotSupportedException
+    description: "\n<p>The <see cref=\"Overload:System.Net.Security.SslStream.AuthenticateAsServerAsync\"></see> method is not supported on Windows 95, Windows 98, or Windows Millennium.</p>\n"
   modifiers.csharp:
   - public
   - virtual
@@ -1214,7 +1529,7 @@ items:
   langs:
   - csharp
   - vb
-  name: AuthenticateAsServerAsync(Cryptography.X509Certificates.X509Certificate, Boolean, SslProtocols, Boolean)
+  name: AuthenticateAsServerAsync(X509Certificate, Boolean, SslProtocols, Boolean)
   fullName: System.Net.Security.SslStream.AuthenticateAsServerAsync(System.Security.Cryptography.X509Certificates.X509Certificate, System.Boolean, System.Security.Authentication.SslProtocols, System.Boolean)
   type: Method
   source:
@@ -1228,20 +1543,27 @@ items:
   assemblies:
   - System.Net.Security
   namespace: System.Net.Security
+  summary: "\n<p>Called by servers to authenticate the server and optionally the client in a client-server connection using the specified certificates, requirements and security protocol as an asynchronous operation.</p>\n"
+  remarks: "\n<p>If the authentication fails, you receive a <xref href=\"System.Security.Authentication.AuthenticationException\" data-throw-if-not-resolved=\"false\"></xref>, and this <xref href=\"System.Net.Security.SslStream\" data-throw-if-not-resolved=\"false\"></xref> is no longer useable. You should close this object and remove all references to it so that it can be collected by the garbage collector. </p>\n"
   syntax:
-    content: public virtual Threading.Tasks.Task AuthenticateAsServerAsync(Cryptography.X509Certificates.X509Certificate serverCertificate, bool clientCertificateRequired, SslProtocols enabledSslProtocols, bool checkCertificateRevocation)
-    content.vb: Public Overridable Function AuthenticateAsServerAsync(serverCertificate As Cryptography.X509Certificates.X509Certificate, clientCertificateRequired As Boolean, enabledSslProtocols As SslProtocols, checkCertificateRevocation As Boolean) As Threading.Tasks.Task
+    content: public virtual Task AuthenticateAsServerAsync(X509Certificate serverCertificate, bool clientCertificateRequired, SslProtocols enabledSslProtocols, bool checkCertificateRevocation)
+    content.vb: Public Overridable Function AuthenticateAsServerAsync(serverCertificate As X509Certificate, clientCertificateRequired As Boolean, enabledSslProtocols As SslProtocols, checkCertificateRevocation As Boolean) As Task
     parameters:
     - id: serverCertificate
       type: System.Security.Cryptography.X509Certificates.X509Certificate
+      description: "\n<p>The X509Certificate used to authenticate the server.</p>\n"
     - id: clientCertificateRequired
       type: System.Boolean
+      description: "\n<p>A <xref href=\"System.Boolean\" data-throw-if-not-resolved=\"false\"></xref> value that specifies whether the client is asked for a certificate for authentication. Note that this is only a request -- if no certificate is provided, the server still accepts the connection request.</p>\n"
     - id: enabledSslProtocols
       type: System.Security.Authentication.SslProtocols
+      description: "\n<p>The <xref href=\"System.Security.Authentication.SslProtocols\" data-throw-if-not-resolved=\"false\"></xref>  value that represents the protocol used for authentication.</p>\n"
     - id: checkCertificateRevocation
       type: System.Boolean
+      description: "\n<p>A <xref href=\"System.Boolean\" data-throw-if-not-resolved=\"false\"></xref> value that specifies whether the certificate revocation list is checked during authentication.</p>\n"
     return:
       type: System.Threading.Tasks.Task
+      description: "\n<p>Returns <xref href=\"System.Threading.Tasks.Task\" data-throw-if-not-resolved=\"false\"></xref></p>\n<p>The task object representing the asynchronous operation.</p>\n"
   modifiers.csharp:
   - public
   - virtual
@@ -1260,18 +1582,23 @@ items:
   type: Method
   source:
     remote:
-      path: src/System.Net.Security/src/System/Net/SecureProtocols/SslStream.cs
+      path: src/System.Net.Security/ref/System.Net.Security.cs
       branch: master
       repo: https://github.com/dotnet/corefx.git
     id: Flush
-    path: src/System.Net.Security/src/System/Net/SecureProtocols/SslStream.cs
-    startLine: 412
+    path: src/System.Net.Security/ref/System.Net.Security.cs
+    startLine: 105
   assemblies:
   - System.Net.Security
   namespace: System.Net.Security
+  summary: "\n<p>Causes any buffered data to be written to the underlying device.</p>\n"
+  remarks: "\n<p>This method invokes <xref href=\"System.IO.Stream.Flush\" data-throw-if-not-resolved=\"false\"></xref> on the underlying stream.</p>\n"
+  example:
+  - "\n<p>The following code example demonstrates calling this method.</p>NclSslClientSync#5"
   syntax:
     content: public override void Flush()
     content.vb: Public Overrides Sub Flush
+  overridden: System.IO.Stream.Flush
   modifiers.csharp:
   - public
   - override
@@ -1290,27 +1617,55 @@ items:
   type: Method
   source:
     remote:
-      path: src/System.Net.Security/src/System/Net/SecureProtocols/SslStream.cs
+      path: src/System.Net.Security/ref/System.Net.Security.cs
       branch: master
       repo: https://github.com/dotnet/corefx.git
     id: Read
-    path: src/System.Net.Security/src/System/Net/SecureProtocols/SslStream.cs
-    startLine: 434
+    path: src/System.Net.Security/ref/System.Net.Security.cs
+    startLine: 106
   assemblies:
   - System.Net.Security
   namespace: System.Net.Security
+  summary: "\n<p>Reads data from this stream and stores it in the specified array.</p>\n"
+  remarks: "\n<p>The method reads a maximum of <em>count</em> bytes from the stream and stores them in <em>buffer</em> beginning at <em>offset</em>. You cannot perform multiple simultaneous read operations.</p>\n<p>You cannot call this method until you have successfully authenticated. To authenticate call one of the <see cref=\"Overload:System.Net.Security.SslStream.AuthenticateAsClient\"></see>, or <see cref=\"Overload:System.Net.Security.SslStream.BeginAuthenticateAsClient\"></see>, <see cref=\"Overload:System.Net.Security.SslStream.AuthenticateAsServer\"></see>, <see cref=\"Overload:System.Net.Security.SslStream.BeginAuthenticateAsServer\"></see> methods.</p>\n<p>To perform this operation asynchronously, use the <xref href=\"System.Net.Security.SslStream.BeginRead(System.Byte[],System.Int32,System.Int32,System.AsyncCallback,System.Object)\" data-throw-if-not-resolved=\"false\"></xref> method. </p>\n"
+  example:
+  - "\n<p>The following code example demonstrates reading from an <xref href=\"System.Net.Security.SslStream\" data-throw-if-not-resolved=\"false\"></xref>.</p>NclSslClientSync#6"
   syntax:
     content: public override int Read(byte[] buffer, int offset, int count)
     content.vb: Public Overrides Function Read(buffer As Byte(), offset As Integer, count As Integer) As Integer
     parameters:
     - id: buffer
       type: System.Byte[]
+      description: "\n<p>A <xref href=\"System.Byte\" data-throw-if-not-resolved=\"false\"></xref> array that receives the bytes read from this stream.</p>\n"
     - id: offset
       type: System.Int32
+      description: "\n<p>A <xref href=\"System.Int32\" data-throw-if-not-resolved=\"false\"></xref> that contains the zero-based location in <em>buffer</em> at which to begin storing the data read from this stream.</p>\n"
     - id: count
       type: System.Int32
+      description: "\n<p>A <xref href=\"System.Int32\" data-throw-if-not-resolved=\"false\"></xref> that contains the maximum number of bytes to read from this stream.</p>\n"
     return:
       type: System.Int32
+      description: "\n<p>A <xref href=\"System.Int32\" data-throw-if-not-resolved=\"false\"></xref> value that specifies the number of bytes read. When there is no more data to be read, returns 0.</p>\n"
+  overridden: System.IO.Stream.Read(System.Byte[],System.Int32,System.Int32)
+  exceptions:
+  - type: System.ArgumentNullException
+    commentId: T:System.ArgumentNullException
+    description: "\n<p>\n<em>buffer</em> is <strong>null</strong>.</p>\n"
+  - type: System.ArgumentException
+    commentId: T:System.ArgumentException
+    description: "\n<p>\n<em>offset</em>\n<em><</em>\n<em>0</em>.</p>\n<p>\n<em>-or-</em>\n</p>\n<p>\n<em>offset</em> > the length of <em>buffer</em>.</p>\n<p>-or-</p>\n<p>\n<em>offset</em> + count > the length of <em>buffer</em>.</p>\n"
+  - type: System.IO.IOException
+    commentId: T:System.IO.IOException
+    description: "\n<p>The read operation failed. Check the inner exception, if present to determine the cause of the failure.</p>\n"
+  - type: System.NotSupportedException
+    commentId: T:System.NotSupportedException
+    description: "\n<p>There is already a read operation in progress.</p>\n"
+  - type: System.ObjectDisposedException
+    commentId: T:System.ObjectDisposedException
+    description: "\n<p>This object has been closed.</p>\n"
+  - type: System.InvalidOperationException
+    commentId: T:System.InvalidOperationException
+    description: "\n<p>Authentication has not occurred.</p>\n"
   modifiers.csharp:
   - public
   - override
@@ -1326,7 +1681,7 @@ items:
   langs:
   - csharp
   - vb
-  name: Seek(Int64, IO.SeekOrigin)
+  name: Seek(Int64, SeekOrigin)
   fullName: System.Net.Security.SslStream.Seek(System.Int64, System.IO.SeekOrigin)
   type: Method
   source:
@@ -1340,16 +1695,26 @@ items:
   assemblies:
   - System.Net.Security
   namespace: System.Net.Security
+  summary: "\n<p>Throws a <xref href=\"System.NotSupportedException\" data-throw-if-not-resolved=\"false\"></xref>.</p>\n"
+  remarks: "\n<p>Do not call this method. It is inherited, but is not supported by the <xref href=\"System.Net.Security.SslStream\" data-throw-if-not-resolved=\"false\"></xref> class.</p>\n"
   syntax:
-    content: public override long Seek(long offset, IO.SeekOrigin origin)
-    content.vb: Public Overrides Function Seek(offset As Long, origin As IO.SeekOrigin) As Long
+    content: public override long Seek(long offset, SeekOrigin origin)
+    content.vb: Public Overrides Function Seek(offset As Long, origin As SeekOrigin) As Long
     parameters:
     - id: offset
       type: System.Int64
+      description: "\n<p>This value is ignored.</p>\n"
     - id: origin
       type: System.IO.SeekOrigin
+      description: "\n<p>This value is ignored.</p>\n"
     return:
       type: System.Int64
+      description: "\n<p>Always throws a <xref href=\"System.NotSupportedException\" data-throw-if-not-resolved=\"false\"></xref>.</p>\n"
+  overridden: System.IO.Stream.Seek(System.Int64,System.IO.SeekOrigin)
+  exceptions:
+  - type: System.NotSupportedException
+    commentId: T:System.NotSupportedException
+    description: "\n<p>Seeking is not supported by <xref href=\"System.Net.Security.SslStream\" data-throw-if-not-resolved=\"false\"></xref> objects.</p>\n"
   modifiers.csharp:
   - public
   - override
@@ -1368,21 +1733,25 @@ items:
   type: Method
   source:
     remote:
-      path: src/System.Net.Security/src/System/Net/SecureProtocols/SslStream.cs
+      path: src/System.Net.Security/ref/System.Net.Security.cs
       branch: master
       repo: https://github.com/dotnet/corefx.git
     id: SetLength
-    path: src/System.Net.Security/src/System/Net/SecureProtocols/SslStream.cs
-    startLine: 402
+    path: src/System.Net.Security/ref/System.Net.Security.cs
+    startLine: 108
   assemblies:
   - System.Net.Security
   namespace: System.Net.Security
+  summary: "\n<p>Sets the length of the underlying stream.</p>\n"
+  remarks: "\n<p>This method invokes <xref href=\"System.IO.Stream.SetLength(System.Int64)\" data-throw-if-not-resolved=\"false\"></xref> on the underlying stream specified when this <xref href=\"System.Net.Security.SslStream\" data-throw-if-not-resolved=\"false\"></xref> was created.</p>\n"
   syntax:
     content: public override void SetLength(long value)
     content.vb: Public Overrides Sub SetLength(value As Long)
     parameters:
     - id: value
       type: System.Int64
+      description: "\n<p>An <xref href=\"System.Int64\" data-throw-if-not-resolved=\"false\"></xref> value that specifies the length of the stream.</p>\n"
+  overridden: System.IO.Stream.SetLength(System.Int64)
   modifiers.csharp:
   - public
   - override
@@ -1401,21 +1770,42 @@ items:
   type: Method
   source:
     remote:
-      path: src/System.Net.Security/src/System/Net/SecureProtocols/SslStream.cs
+      path: src/System.Net.Security/ref/System.Net.Security.cs
       branch: master
       repo: https://github.com/dotnet/corefx.git
     id: Write
-    path: src/System.Net.Security/src/System/Net/SecureProtocols/SslStream.cs
-    startLine: 439
+    path: src/System.Net.Security/ref/System.Net.Security.cs
+    startLine: 109
   assemblies:
   - System.Net.Security
   namespace: System.Net.Security
+  summary: "\n<p>Writes the specified data to this stream.</p>\n"
+  remarks: "\n<p>This method blocks while the operation completes. To prevent blocking while the operation completes, use the <xref href=\"System.Net.Security.SslStream.BeginWrite(System.Byte[],System.Int32,System.Int32,System.AsyncCallback,System.Object)\" data-throw-if-not-resolved=\"false\"></xref> method.</p>\n<p>You cannot call this method until you have successfully authenticated. To authenticate call one of the <see cref=\"Overload:System.Net.Security.SslStream.AuthenticateAsClient\"></see>, or <see cref=\"Overload:System.Net.Security.SslStream.BeginAuthenticateAsClient\"></see>, <see cref=\"Overload:System.Net.Security.SslStream.AuthenticateAsServer\"></see>, <see cref=\"Overload:System.Net.Security.SslStream.BeginAuthenticateAsServer\"></see> methods.</p>\n<p>The <xref href=\"System.Net.Security.SslStream\" data-throw-if-not-resolved=\"false\"></xref> class does not support multiple simultaneous write operations.</p>\n"
+  example:
+  - "\n<p>The following code example demonstrates writing to an authenticated <xref href=\"System.Net.Security.SslStream\" data-throw-if-not-resolved=\"false\"></xref>.</p>NclSslServerSync#1"
   syntax:
     content: public void Write(byte[] buffer)
     content.vb: Public Sub Write(buffer As Byte())
     parameters:
     - id: buffer
       type: System.Byte[]
+      description: "\n<p>A <xref href=\"System.Byte\" data-throw-if-not-resolved=\"false\"></xref> array that supplies the bytes written to the stream.</p>\n"
+  exceptions:
+  - type: System.ArgumentNullException
+    commentId: T:System.ArgumentNullException
+    description: "\n<p>\n<em>buffer</em> is <strong>null</strong>.</p>\n"
+  - type: System.IO.IOException
+    commentId: T:System.IO.IOException
+    description: "\n<p>The write operation failed.</p>\n"
+  - type: System.NotSupportedException
+    commentId: T:System.NotSupportedException
+    description: "\n<p>There is already a write operation in progress.</p>\n"
+  - type: System.ObjectDisposedException
+    commentId: T:System.ObjectDisposedException
+    description: "\n<p>This object has been closed.</p>\n"
+  - type: System.InvalidOperationException
+    commentId: T:System.InvalidOperationException
+    description: "\n<p>Authentication has not occurred.</p>\n"
   modifiers.csharp:
   - public
   modifiers.vb:
@@ -1434,25 +1824,50 @@ items:
   type: Method
   source:
     remote:
-      path: src/System.Net.Security/src/System/Net/SecureProtocols/SslStream.cs
+      path: src/System.Net.Security/ref/System.Net.Security.cs
       branch: master
       repo: https://github.com/dotnet/corefx.git
     id: Write
-    path: src/System.Net.Security/src/System/Net/SecureProtocols/SslStream.cs
-    startLine: 444
+    path: src/System.Net.Security/ref/System.Net.Security.cs
+    startLine: 110
   assemblies:
   - System.Net.Security
   namespace: System.Net.Security
+  summary: "\n<p>Write the specified number of <xref href=\"System.Byte\" data-throw-if-not-resolved=\"false\"></xref>s to the underlying stream using the specified buffer and offset.</p>\n"
+  remarks: "\n<p>This method blocks while the operation completes. To prevent blocking while the operation completes the operation completes, use the <xref href=\"System.Net.Security.SslStream.BeginWrite(System.Byte[],System.Int32,System.Int32,System.AsyncCallback,System.Object)\" data-throw-if-not-resolved=\"false\"></xref> method.</p>\n<p>You cannot call this method until you have successfully authenticated. To authenticate call one of the <see cref=\"Overload:System.Net.Security.SslStream.AuthenticateAsClient\"></see>, or <see cref=\"Overload:System.Net.Security.SslStream.BeginAuthenticateAsClient\"></see>, <see cref=\"Overload:System.Net.Security.SslStream.AuthenticateAsServer\"></see>, <see cref=\"Overload:System.Net.Security.SslStream.BeginAuthenticateAsServer\"></see> methods.</p>\n<p>The <xref href=\"System.Net.Security.SslStream\" data-throw-if-not-resolved=\"false\"></xref> class does not support multiple simultaneous write operations.</p>\n"
   syntax:
     content: public override void Write(byte[] buffer, int offset, int count)
     content.vb: Public Overrides Sub Write(buffer As Byte(), offset As Integer, count As Integer)
     parameters:
     - id: buffer
       type: System.Byte[]
+      description: "\n<p>A <xref href=\"System.Byte\" data-throw-if-not-resolved=\"false\"></xref> array that supplies the bytes written to the stream.</p>\n"
     - id: offset
       type: System.Int32
+      description: "\n<p>A <xref href=\"System.Int32\" data-throw-if-not-resolved=\"false\"></xref> that contains the zero-based location in <em>buffer</em> at which to begin reading bytes to be written to the stream.</p>\n"
     - id: count
       type: System.Int32
+      description: "\n<p>A <xref href=\"System.Int32\" data-throw-if-not-resolved=\"false\"></xref> that contains the number of bytes to read from <em>buffer</em>.</p>\n"
+  overridden: System.IO.Stream.Write(System.Byte[],System.Int32,System.Int32)
+  exceptions:
+  - type: System.ArgumentNullException
+    commentId: T:System.ArgumentNullException
+    description: "\n<p>\n<em>buffer</em> is <strong>null</strong>.</p>\n"
+  - type: System.ArgumentException
+    commentId: T:System.ArgumentException
+    description: "\n<p>\n<em>offset</em>\n<em><</em>\n<em>0</em>.</p>\n<p>\n<em>-or-</em>\n</p>\n<p>\n<em>offset</em> > the length of <em>buffer</em>.</p>\n<p>-or-</p>\n<p>\n<em>offset</em> + count > the length of <em>buffer</em>.</p>\n"
+  - type: System.IO.IOException
+    commentId: T:System.IO.IOException
+    description: "\n<p>The write operation failed.</p>\n"
+  - type: System.NotSupportedException
+    commentId: T:System.NotSupportedException
+    description: "\n<p>There is already a write operation in progress.</p>\n"
+  - type: System.ObjectDisposedException
+    commentId: T:System.ObjectDisposedException
+    description: "\n<p>This object has been closed.</p>\n"
+  - type: System.InvalidOperationException
+    commentId: T:System.InvalidOperationException
+    description: "\n<p>Authentication has not occurred.</p>\n"
   modifiers.csharp:
   - public
   - override
@@ -1471,11 +1886,26 @@ references:
   isExternal: false
   name: Object
   fullName: System.Object
+- uid: System.MarshalByRefObject
+  parent: System
+  isExternal: true
+  name: MarshalByRefObject
+  fullName: System.MarshalByRefObject
+- uid: System.IO.Stream
+  parent: System.IO
+  isExternal: false
+  name: Stream
+  fullName: System.IO.Stream
 - uid: System.Net.Security.AuthenticatedStream
   parent: System.Net.Security
   isExternal: false
   name: AuthenticatedStream
   fullName: System.Net.Security.AuthenticatedStream
+- uid: System.IDisposable
+  parent: System
+  isExternal: false
+  name: IDisposable
+  fullName: System.IDisposable
 - uid: System.Net.Security.AuthenticatedStream.LeaveInnerStreamOpen
   parent: System.Net.Security.AuthenticatedStream
   isExternal: false
@@ -1515,15 +1945,1227 @@ references:
     isExternal: true
   - name: )
     fullName: )
+- uid: System.IO.Stream.Null
+  parent: System.IO.Stream
+  isExternal: false
+  fullName: System.IO.Stream.Null
+- uid: System.IO.Stream.CopyToAsync(System.IO.Stream)
+  parent: System.IO.Stream
+  isExternal: false
+  name: CopyToAsync(Stream)
+  fullName: System.IO.Stream.CopyToAsync(System.IO.Stream)
+  spec.csharp:
+  - uid: System.IO.Stream.CopyToAsync(System.IO.Stream)
+    name: CopyToAsync
+    fullName: System.IO.Stream.CopyToAsync
+  - name: (
+    fullName: (
+  - uid: System.IO.Stream
+    name: Stream
+    fullName: System.IO.Stream
+  - name: )
+    fullName: )
+  spec.vb:
+  - uid: System.IO.Stream.CopyToAsync(System.IO.Stream)
+    name: CopyToAsync
+    fullName: System.IO.Stream.CopyToAsync
+  - name: (
+    fullName: (
+  - uid: System.IO.Stream
+    name: Stream
+    fullName: System.IO.Stream
+  - name: )
+    fullName: )
+- uid: System.IO.Stream.CopyToAsync(System.IO.Stream,System.Int32)
+  parent: System.IO.Stream
+  isExternal: true
+  name: CopyToAsync(Stream, Int32)
+  fullName: System.IO.Stream.CopyToAsync(System.IO.Stream, System.Int32)
+  spec.csharp:
+  - uid: System.IO.Stream.CopyToAsync(System.IO.Stream,System.Int32)
+    name: CopyToAsync
+    fullName: System.IO.Stream.CopyToAsync
+  - name: (
+    fullName: (
+  - uid: System.IO.Stream
+    name: Stream
+    fullName: System.IO.Stream
+  - name: ', '
+    fullName: ', '
+  - uid: System.Int32
+    name: Int32
+    fullName: System.Int32
+    isExternal: true
+  - name: )
+    fullName: )
+  spec.vb:
+  - uid: System.IO.Stream.CopyToAsync(System.IO.Stream,System.Int32)
+    name: CopyToAsync
+    fullName: System.IO.Stream.CopyToAsync
+  - name: (
+    fullName: (
+  - uid: System.IO.Stream
+    name: Stream
+    fullName: System.IO.Stream
+  - name: ', '
+    fullName: ', '
+  - uid: System.Int32
+    name: Int32
+    fullName: System.Int32
+    isExternal: true
+  - name: )
+    fullName: )
+- uid: System.IO.Stream.CopyToAsync(System.IO.Stream,System.Int32,System.Threading.CancellationToken)
+  parent: System.IO.Stream
+  isExternal: true
+  name: CopyToAsync(Stream, Int32, CancellationToken)
+  fullName: System.IO.Stream.CopyToAsync(System.IO.Stream, System.Int32, System.Threading.CancellationToken)
+  spec.csharp:
+  - uid: System.IO.Stream.CopyToAsync(System.IO.Stream,System.Int32,System.Threading.CancellationToken)
+    name: CopyToAsync
+    fullName: System.IO.Stream.CopyToAsync
+  - name: (
+    fullName: (
+  - uid: System.IO.Stream
+    name: Stream
+    fullName: System.IO.Stream
+  - name: ', '
+    fullName: ', '
+  - uid: System.Int32
+    name: Int32
+    fullName: System.Int32
+    isExternal: true
+  - name: ', '
+    fullName: ', '
+  - uid: System.Threading.CancellationToken
+    name: CancellationToken
+    fullName: System.Threading.CancellationToken
+    isExternal: true
+  - name: )
+    fullName: )
+  spec.vb:
+  - uid: System.IO.Stream.CopyToAsync(System.IO.Stream,System.Int32,System.Threading.CancellationToken)
+    name: CopyToAsync
+    fullName: System.IO.Stream.CopyToAsync
+  - name: (
+    fullName: (
+  - uid: System.IO.Stream
+    name: Stream
+    fullName: System.IO.Stream
+  - name: ', '
+    fullName: ', '
+  - uid: System.Int32
+    name: Int32
+    fullName: System.Int32
+    isExternal: true
+  - name: ', '
+    fullName: ', '
+  - uid: System.Threading.CancellationToken
+    name: CancellationToken
+    fullName: System.Threading.CancellationToken
+    isExternal: true
+  - name: )
+    fullName: )
+- uid: System.IO.Stream.CopyTo(System.IO.Stream)
+  parent: System.IO.Stream
+  isExternal: false
+  name: CopyTo(Stream)
+  fullName: System.IO.Stream.CopyTo(System.IO.Stream)
+  spec.csharp:
+  - uid: System.IO.Stream.CopyTo(System.IO.Stream)
+    name: CopyTo
+    fullName: System.IO.Stream.CopyTo
+  - name: (
+    fullName: (
+  - uid: System.IO.Stream
+    name: Stream
+    fullName: System.IO.Stream
+  - name: )
+    fullName: )
+  spec.vb:
+  - uid: System.IO.Stream.CopyTo(System.IO.Stream)
+    name: CopyTo
+    fullName: System.IO.Stream.CopyTo
+  - name: (
+    fullName: (
+  - uid: System.IO.Stream
+    name: Stream
+    fullName: System.IO.Stream
+  - name: )
+    fullName: )
+- uid: System.IO.Stream.CopyTo(System.IO.Stream,System.Int32)
+  parent: System.IO.Stream
+  isExternal: true
+  name: CopyTo(Stream, Int32)
+  fullName: System.IO.Stream.CopyTo(System.IO.Stream, System.Int32)
+  spec.csharp:
+  - uid: System.IO.Stream.CopyTo(System.IO.Stream,System.Int32)
+    name: CopyTo
+    fullName: System.IO.Stream.CopyTo
+  - name: (
+    fullName: (
+  - uid: System.IO.Stream
+    name: Stream
+    fullName: System.IO.Stream
+  - name: ', '
+    fullName: ', '
+  - uid: System.Int32
+    name: Int32
+    fullName: System.Int32
+    isExternal: true
+  - name: )
+    fullName: )
+  spec.vb:
+  - uid: System.IO.Stream.CopyTo(System.IO.Stream,System.Int32)
+    name: CopyTo
+    fullName: System.IO.Stream.CopyTo
+  - name: (
+    fullName: (
+  - uid: System.IO.Stream
+    name: Stream
+    fullName: System.IO.Stream
+  - name: ', '
+    fullName: ', '
+  - uid: System.Int32
+    name: Int32
+    fullName: System.Int32
+    isExternal: true
+  - name: )
+    fullName: )
+- uid: System.IO.Stream.Close
+  parent: System.IO.Stream
+  isExternal: true
+  name: Close()
+  fullName: System.IO.Stream.Close()
+  spec.csharp:
+  - uid: System.IO.Stream.Close
+    name: Close
+    fullName: System.IO.Stream.Close
+    isExternal: true
+  - name: (
+    fullName: (
+  - name: )
+    fullName: )
+  spec.vb:
+  - uid: System.IO.Stream.Close
+    name: Close
+    fullName: System.IO.Stream.Close
+    isExternal: true
+  - name: (
+    fullName: (
+  - name: )
+    fullName: )
+- uid: System.IO.Stream.Dispose
+  parent: System.IO.Stream
+  isExternal: false
+  name: Dispose()
+  fullName: System.IO.Stream.Dispose()
+  spec.csharp:
+  - uid: System.IO.Stream.Dispose
+    name: Dispose
+    fullName: System.IO.Stream.Dispose
+  - name: (
+    fullName: (
+  - name: )
+    fullName: )
+  spec.vb:
+  - uid: System.IO.Stream.Dispose
+    name: Dispose
+    fullName: System.IO.Stream.Dispose
+  - name: (
+    fullName: (
+  - name: )
+    fullName: )
+- uid: System.IO.Stream.FlushAsync
+  parent: System.IO.Stream
+  isExternal: false
+  name: FlushAsync()
+  fullName: System.IO.Stream.FlushAsync()
+  spec.csharp:
+  - uid: System.IO.Stream.FlushAsync
+    name: FlushAsync
+    fullName: System.IO.Stream.FlushAsync
+  - name: (
+    fullName: (
+  - name: )
+    fullName: )
+  spec.vb:
+  - uid: System.IO.Stream.FlushAsync
+    name: FlushAsync
+    fullName: System.IO.Stream.FlushAsync
+  - name: (
+    fullName: (
+  - name: )
+    fullName: )
+- uid: System.IO.Stream.FlushAsync(System.Threading.CancellationToken)
+  parent: System.IO.Stream
+  isExternal: true
+  name: FlushAsync(CancellationToken)
+  fullName: System.IO.Stream.FlushAsync(System.Threading.CancellationToken)
+  spec.csharp:
+  - uid: System.IO.Stream.FlushAsync(System.Threading.CancellationToken)
+    name: FlushAsync
+    fullName: System.IO.Stream.FlushAsync
+  - name: (
+    fullName: (
+  - uid: System.Threading.CancellationToken
+    name: CancellationToken
+    fullName: System.Threading.CancellationToken
+    isExternal: true
+  - name: )
+    fullName: )
+  spec.vb:
+  - uid: System.IO.Stream.FlushAsync(System.Threading.CancellationToken)
+    name: FlushAsync
+    fullName: System.IO.Stream.FlushAsync
+  - name: (
+    fullName: (
+  - uid: System.Threading.CancellationToken
+    name: CancellationToken
+    fullName: System.Threading.CancellationToken
+    isExternal: true
+  - name: )
+    fullName: )
+- uid: System.IO.Stream.CreateWaitHandle
+  parent: System.IO.Stream
+  isExternal: true
+  name: CreateWaitHandle()
+  fullName: System.IO.Stream.CreateWaitHandle()
+  spec.csharp:
+  - uid: System.IO.Stream.CreateWaitHandle
+    name: CreateWaitHandle
+    fullName: System.IO.Stream.CreateWaitHandle
+    isExternal: true
+  - name: (
+    fullName: (
+  - name: )
+    fullName: )
+  spec.vb:
+  - uid: System.IO.Stream.CreateWaitHandle
+    name: CreateWaitHandle
+    fullName: System.IO.Stream.CreateWaitHandle
+    isExternal: true
+  - name: (
+    fullName: (
+  - name: )
+    fullName: )
+- uid: System.IO.Stream.BeginRead(System.Byte[],System.Int32,System.Int32,System.AsyncCallback,System.Object)
+  parent: System.IO.Stream
+  isExternal: true
+  name: BeginRead(Byte[], Int32, Int32, AsyncCallback, Object)
+  fullName: System.IO.Stream.BeginRead(System.Byte[], System.Int32, System.Int32, System.AsyncCallback, System.Object)
+  fullname.vb: System.IO.Stream.BeginRead(System.Byte(), System.Int32, System.Int32, System.AsyncCallback, System.Object)
+  name.vb: BeginRead(Byte(), Int32, Int32, AsyncCallback, Object)
+  spec.csharp:
+  - uid: System.IO.Stream.BeginRead(System.Byte[],System.Int32,System.Int32,System.AsyncCallback,System.Object)
+    name: BeginRead
+    fullName: System.IO.Stream.BeginRead
+    isExternal: true
+  - name: (
+    fullName: (
+  - uid: System.Byte
+    name: Byte
+    fullName: System.Byte
+    isExternal: true
+  - name: '[]'
+    fullName: '[]'
+  - name: ', '
+    fullName: ', '
+  - uid: System.Int32
+    name: Int32
+    fullName: System.Int32
+    isExternal: true
+  - name: ', '
+    fullName: ', '
+  - uid: System.Int32
+    name: Int32
+    fullName: System.Int32
+    isExternal: true
+  - name: ', '
+    fullName: ', '
+  - uid: System.AsyncCallback
+    name: AsyncCallback
+    fullName: System.AsyncCallback
+    isExternal: true
+  - name: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    fullName: )
+  spec.vb:
+  - uid: System.IO.Stream.BeginRead(System.Byte[],System.Int32,System.Int32,System.AsyncCallback,System.Object)
+    name: BeginRead
+    fullName: System.IO.Stream.BeginRead
+    isExternal: true
+  - name: (
+    fullName: (
+  - uid: System.Byte
+    name: Byte
+    fullName: System.Byte
+    isExternal: true
+  - name: ()
+    fullName: ()
+  - name: ', '
+    fullName: ', '
+  - uid: System.Int32
+    name: Int32
+    fullName: System.Int32
+    isExternal: true
+  - name: ', '
+    fullName: ', '
+  - uid: System.Int32
+    name: Int32
+    fullName: System.Int32
+    isExternal: true
+  - name: ', '
+    fullName: ', '
+  - uid: System.AsyncCallback
+    name: AsyncCallback
+    fullName: System.AsyncCallback
+    isExternal: true
+  - name: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    fullName: )
+- uid: System.IO.Stream.EndRead(System.IAsyncResult)
+  parent: System.IO.Stream
+  isExternal: true
+  name: EndRead(IAsyncResult)
+  fullName: System.IO.Stream.EndRead(System.IAsyncResult)
+  spec.csharp:
+  - uid: System.IO.Stream.EndRead(System.IAsyncResult)
+    name: EndRead
+    fullName: System.IO.Stream.EndRead
+    isExternal: true
+  - name: (
+    fullName: (
+  - uid: System.IAsyncResult
+    name: IAsyncResult
+    fullName: System.IAsyncResult
+    isExternal: true
+  - name: )
+    fullName: )
+  spec.vb:
+  - uid: System.IO.Stream.EndRead(System.IAsyncResult)
+    name: EndRead
+    fullName: System.IO.Stream.EndRead
+    isExternal: true
+  - name: (
+    fullName: (
+  - uid: System.IAsyncResult
+    name: IAsyncResult
+    fullName: System.IAsyncResult
+    isExternal: true
+  - name: )
+    fullName: )
+- uid: System.IO.Stream.ReadAsync(System.Byte[],System.Int32,System.Int32)
+  parent: System.IO.Stream
+  isExternal: true
+  name: ReadAsync(Byte[], Int32, Int32)
+  fullName: System.IO.Stream.ReadAsync(System.Byte[], System.Int32, System.Int32)
+  fullname.vb: System.IO.Stream.ReadAsync(System.Byte(), System.Int32, System.Int32)
+  name.vb: ReadAsync(Byte(), Int32, Int32)
+  spec.csharp:
+  - uid: System.IO.Stream.ReadAsync(System.Byte[],System.Int32,System.Int32)
+    name: ReadAsync
+    fullName: System.IO.Stream.ReadAsync
+  - name: (
+    fullName: (
+  - uid: System.Byte
+    name: Byte
+    fullName: System.Byte
+    isExternal: true
+  - name: '[]'
+    fullName: '[]'
+  - name: ', '
+    fullName: ', '
+  - uid: System.Int32
+    name: Int32
+    fullName: System.Int32
+    isExternal: true
+  - name: ', '
+    fullName: ', '
+  - uid: System.Int32
+    name: Int32
+    fullName: System.Int32
+    isExternal: true
+  - name: )
+    fullName: )
+  spec.vb:
+  - uid: System.IO.Stream.ReadAsync(System.Byte[],System.Int32,System.Int32)
+    name: ReadAsync
+    fullName: System.IO.Stream.ReadAsync
+  - name: (
+    fullName: (
+  - uid: System.Byte
+    name: Byte
+    fullName: System.Byte
+    isExternal: true
+  - name: ()
+    fullName: ()
+  - name: ', '
+    fullName: ', '
+  - uid: System.Int32
+    name: Int32
+    fullName: System.Int32
+    isExternal: true
+  - name: ', '
+    fullName: ', '
+  - uid: System.Int32
+    name: Int32
+    fullName: System.Int32
+    isExternal: true
+  - name: )
+    fullName: )
+- uid: System.IO.Stream.ReadAsync(System.Byte[],System.Int32,System.Int32,System.Threading.CancellationToken)
+  parent: System.IO.Stream
+  isExternal: true
+  name: ReadAsync(Byte[], Int32, Int32, CancellationToken)
+  fullName: System.IO.Stream.ReadAsync(System.Byte[], System.Int32, System.Int32, System.Threading.CancellationToken)
+  fullname.vb: System.IO.Stream.ReadAsync(System.Byte(), System.Int32, System.Int32, System.Threading.CancellationToken)
+  name.vb: ReadAsync(Byte(), Int32, Int32, CancellationToken)
+  spec.csharp:
+  - uid: System.IO.Stream.ReadAsync(System.Byte[],System.Int32,System.Int32,System.Threading.CancellationToken)
+    name: ReadAsync
+    fullName: System.IO.Stream.ReadAsync
+  - name: (
+    fullName: (
+  - uid: System.Byte
+    name: Byte
+    fullName: System.Byte
+    isExternal: true
+  - name: '[]'
+    fullName: '[]'
+  - name: ', '
+    fullName: ', '
+  - uid: System.Int32
+    name: Int32
+    fullName: System.Int32
+    isExternal: true
+  - name: ', '
+    fullName: ', '
+  - uid: System.Int32
+    name: Int32
+    fullName: System.Int32
+    isExternal: true
+  - name: ', '
+    fullName: ', '
+  - uid: System.Threading.CancellationToken
+    name: CancellationToken
+    fullName: System.Threading.CancellationToken
+    isExternal: true
+  - name: )
+    fullName: )
+  spec.vb:
+  - uid: System.IO.Stream.ReadAsync(System.Byte[],System.Int32,System.Int32,System.Threading.CancellationToken)
+    name: ReadAsync
+    fullName: System.IO.Stream.ReadAsync
+  - name: (
+    fullName: (
+  - uid: System.Byte
+    name: Byte
+    fullName: System.Byte
+    isExternal: true
+  - name: ()
+    fullName: ()
+  - name: ', '
+    fullName: ', '
+  - uid: System.Int32
+    name: Int32
+    fullName: System.Int32
+    isExternal: true
+  - name: ', '
+    fullName: ', '
+  - uid: System.Int32
+    name: Int32
+    fullName: System.Int32
+    isExternal: true
+  - name: ', '
+    fullName: ', '
+  - uid: System.Threading.CancellationToken
+    name: CancellationToken
+    fullName: System.Threading.CancellationToken
+    isExternal: true
+  - name: )
+    fullName: )
+- uid: System.IO.Stream.BeginWrite(System.Byte[],System.Int32,System.Int32,System.AsyncCallback,System.Object)
+  parent: System.IO.Stream
+  isExternal: true
+  name: BeginWrite(Byte[], Int32, Int32, AsyncCallback, Object)
+  fullName: System.IO.Stream.BeginWrite(System.Byte[], System.Int32, System.Int32, System.AsyncCallback, System.Object)
+  fullname.vb: System.IO.Stream.BeginWrite(System.Byte(), System.Int32, System.Int32, System.AsyncCallback, System.Object)
+  name.vb: BeginWrite(Byte(), Int32, Int32, AsyncCallback, Object)
+  spec.csharp:
+  - uid: System.IO.Stream.BeginWrite(System.Byte[],System.Int32,System.Int32,System.AsyncCallback,System.Object)
+    name: BeginWrite
+    fullName: System.IO.Stream.BeginWrite
+    isExternal: true
+  - name: (
+    fullName: (
+  - uid: System.Byte
+    name: Byte
+    fullName: System.Byte
+    isExternal: true
+  - name: '[]'
+    fullName: '[]'
+  - name: ', '
+    fullName: ', '
+  - uid: System.Int32
+    name: Int32
+    fullName: System.Int32
+    isExternal: true
+  - name: ', '
+    fullName: ', '
+  - uid: System.Int32
+    name: Int32
+    fullName: System.Int32
+    isExternal: true
+  - name: ', '
+    fullName: ', '
+  - uid: System.AsyncCallback
+    name: AsyncCallback
+    fullName: System.AsyncCallback
+    isExternal: true
+  - name: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    fullName: )
+  spec.vb:
+  - uid: System.IO.Stream.BeginWrite(System.Byte[],System.Int32,System.Int32,System.AsyncCallback,System.Object)
+    name: BeginWrite
+    fullName: System.IO.Stream.BeginWrite
+    isExternal: true
+  - name: (
+    fullName: (
+  - uid: System.Byte
+    name: Byte
+    fullName: System.Byte
+    isExternal: true
+  - name: ()
+    fullName: ()
+  - name: ', '
+    fullName: ', '
+  - uid: System.Int32
+    name: Int32
+    fullName: System.Int32
+    isExternal: true
+  - name: ', '
+    fullName: ', '
+  - uid: System.Int32
+    name: Int32
+    fullName: System.Int32
+    isExternal: true
+  - name: ', '
+    fullName: ', '
+  - uid: System.AsyncCallback
+    name: AsyncCallback
+    fullName: System.AsyncCallback
+    isExternal: true
+  - name: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    fullName: )
+- uid: System.IO.Stream.EndWrite(System.IAsyncResult)
+  parent: System.IO.Stream
+  isExternal: true
+  name: EndWrite(IAsyncResult)
+  fullName: System.IO.Stream.EndWrite(System.IAsyncResult)
+  spec.csharp:
+  - uid: System.IO.Stream.EndWrite(System.IAsyncResult)
+    name: EndWrite
+    fullName: System.IO.Stream.EndWrite
+    isExternal: true
+  - name: (
+    fullName: (
+  - uid: System.IAsyncResult
+    name: IAsyncResult
+    fullName: System.IAsyncResult
+    isExternal: true
+  - name: )
+    fullName: )
+  spec.vb:
+  - uid: System.IO.Stream.EndWrite(System.IAsyncResult)
+    name: EndWrite
+    fullName: System.IO.Stream.EndWrite
+    isExternal: true
+  - name: (
+    fullName: (
+  - uid: System.IAsyncResult
+    name: IAsyncResult
+    fullName: System.IAsyncResult
+    isExternal: true
+  - name: )
+    fullName: )
+- uid: System.IO.Stream.WriteAsync(System.Byte[],System.Int32,System.Int32)
+  parent: System.IO.Stream
+  isExternal: true
+  name: WriteAsync(Byte[], Int32, Int32)
+  fullName: System.IO.Stream.WriteAsync(System.Byte[], System.Int32, System.Int32)
+  fullname.vb: System.IO.Stream.WriteAsync(System.Byte(), System.Int32, System.Int32)
+  name.vb: WriteAsync(Byte(), Int32, Int32)
+  spec.csharp:
+  - uid: System.IO.Stream.WriteAsync(System.Byte[],System.Int32,System.Int32)
+    name: WriteAsync
+    fullName: System.IO.Stream.WriteAsync
+  - name: (
+    fullName: (
+  - uid: System.Byte
+    name: Byte
+    fullName: System.Byte
+    isExternal: true
+  - name: '[]'
+    fullName: '[]'
+  - name: ', '
+    fullName: ', '
+  - uid: System.Int32
+    name: Int32
+    fullName: System.Int32
+    isExternal: true
+  - name: ', '
+    fullName: ', '
+  - uid: System.Int32
+    name: Int32
+    fullName: System.Int32
+    isExternal: true
+  - name: )
+    fullName: )
+  spec.vb:
+  - uid: System.IO.Stream.WriteAsync(System.Byte[],System.Int32,System.Int32)
+    name: WriteAsync
+    fullName: System.IO.Stream.WriteAsync
+  - name: (
+    fullName: (
+  - uid: System.Byte
+    name: Byte
+    fullName: System.Byte
+    isExternal: true
+  - name: ()
+    fullName: ()
+  - name: ', '
+    fullName: ', '
+  - uid: System.Int32
+    name: Int32
+    fullName: System.Int32
+    isExternal: true
+  - name: ', '
+    fullName: ', '
+  - uid: System.Int32
+    name: Int32
+    fullName: System.Int32
+    isExternal: true
+  - name: )
+    fullName: )
+- uid: System.IO.Stream.WriteAsync(System.Byte[],System.Int32,System.Int32,System.Threading.CancellationToken)
+  parent: System.IO.Stream
+  isExternal: true
+  name: WriteAsync(Byte[], Int32, Int32, CancellationToken)
+  fullName: System.IO.Stream.WriteAsync(System.Byte[], System.Int32, System.Int32, System.Threading.CancellationToken)
+  fullname.vb: System.IO.Stream.WriteAsync(System.Byte(), System.Int32, System.Int32, System.Threading.CancellationToken)
+  name.vb: WriteAsync(Byte(), Int32, Int32, CancellationToken)
+  spec.csharp:
+  - uid: System.IO.Stream.WriteAsync(System.Byte[],System.Int32,System.Int32,System.Threading.CancellationToken)
+    name: WriteAsync
+    fullName: System.IO.Stream.WriteAsync
+  - name: (
+    fullName: (
+  - uid: System.Byte
+    name: Byte
+    fullName: System.Byte
+    isExternal: true
+  - name: '[]'
+    fullName: '[]'
+  - name: ', '
+    fullName: ', '
+  - uid: System.Int32
+    name: Int32
+    fullName: System.Int32
+    isExternal: true
+  - name: ', '
+    fullName: ', '
+  - uid: System.Int32
+    name: Int32
+    fullName: System.Int32
+    isExternal: true
+  - name: ', '
+    fullName: ', '
+  - uid: System.Threading.CancellationToken
+    name: CancellationToken
+    fullName: System.Threading.CancellationToken
+    isExternal: true
+  - name: )
+    fullName: )
+  spec.vb:
+  - uid: System.IO.Stream.WriteAsync(System.Byte[],System.Int32,System.Int32,System.Threading.CancellationToken)
+    name: WriteAsync
+    fullName: System.IO.Stream.WriteAsync
+  - name: (
+    fullName: (
+  - uid: System.Byte
+    name: Byte
+    fullName: System.Byte
+    isExternal: true
+  - name: ()
+    fullName: ()
+  - name: ', '
+    fullName: ', '
+  - uid: System.Int32
+    name: Int32
+    fullName: System.Int32
+    isExternal: true
+  - name: ', '
+    fullName: ', '
+  - uid: System.Int32
+    name: Int32
+    fullName: System.Int32
+    isExternal: true
+  - name: ', '
+    fullName: ', '
+  - uid: System.Threading.CancellationToken
+    name: CancellationToken
+    fullName: System.Threading.CancellationToken
+    isExternal: true
+  - name: )
+    fullName: )
+- uid: System.IO.Stream.ReadByte
+  parent: System.IO.Stream
+  isExternal: false
+  name: ReadByte()
+  fullName: System.IO.Stream.ReadByte()
+  spec.csharp:
+  - uid: System.IO.Stream.ReadByte
+    name: ReadByte
+    fullName: System.IO.Stream.ReadByte
+  - name: (
+    fullName: (
+  - name: )
+    fullName: )
+  spec.vb:
+  - uid: System.IO.Stream.ReadByte
+    name: ReadByte
+    fullName: System.IO.Stream.ReadByte
+  - name: (
+    fullName: (
+  - name: )
+    fullName: )
+- uid: System.IO.Stream.WriteByte(System.Byte)
+  parent: System.IO.Stream
+  isExternal: true
+  name: WriteByte(Byte)
+  fullName: System.IO.Stream.WriteByte(System.Byte)
+  spec.csharp:
+  - uid: System.IO.Stream.WriteByte(System.Byte)
+    name: WriteByte
+    fullName: System.IO.Stream.WriteByte
+  - name: (
+    fullName: (
+  - uid: System.Byte
+    name: Byte
+    fullName: System.Byte
+    isExternal: true
+  - name: )
+    fullName: )
+  spec.vb:
+  - uid: System.IO.Stream.WriteByte(System.Byte)
+    name: WriteByte
+    fullName: System.IO.Stream.WriteByte
+  - name: (
+    fullName: (
+  - uid: System.Byte
+    name: Byte
+    fullName: System.Byte
+    isExternal: true
+  - name: )
+    fullName: )
+- uid: System.IO.Stream.Synchronized(System.IO.Stream)
+  parent: System.IO.Stream
+  isExternal: true
+  name: Synchronized(Stream)
+  fullName: System.IO.Stream.Synchronized(System.IO.Stream)
+  spec.csharp:
+  - uid: System.IO.Stream.Synchronized(System.IO.Stream)
+    name: Synchronized
+    fullName: System.IO.Stream.Synchronized
+    isExternal: true
+  - name: (
+    fullName: (
+  - uid: System.IO.Stream
+    name: Stream
+    fullName: System.IO.Stream
+    isExternal: true
+  - name: )
+    fullName: )
+  spec.vb:
+  - uid: System.IO.Stream.Synchronized(System.IO.Stream)
+    name: Synchronized
+    fullName: System.IO.Stream.Synchronized
+    isExternal: true
+  - name: (
+    fullName: (
+  - uid: System.IO.Stream
+    name: Stream
+    fullName: System.IO.Stream
+    isExternal: true
+  - name: )
+    fullName: )
+- uid: System.IO.Stream.ObjectInvariant
+  parent: System.IO.Stream
+  isExternal: true
+  name: ObjectInvariant()
+  fullName: System.IO.Stream.ObjectInvariant()
+  spec.csharp:
+  - uid: System.IO.Stream.ObjectInvariant
+    name: ObjectInvariant
+    fullName: System.IO.Stream.ObjectInvariant
+    isExternal: true
+  - name: (
+    fullName: (
+  - name: )
+    fullName: )
+  spec.vb:
+  - uid: System.IO.Stream.ObjectInvariant
+    name: ObjectInvariant
+    fullName: System.IO.Stream.ObjectInvariant
+    isExternal: true
+  - name: (
+    fullName: (
+  - name: )
+    fullName: )
+- uid: System.MarshalByRefObject.MemberwiseClone(System.Boolean)
+  parent: System.MarshalByRefObject
+  isExternal: true
+  name: MemberwiseClone(Boolean)
+  fullName: System.MarshalByRefObject.MemberwiseClone(System.Boolean)
+  spec.csharp:
+  - uid: System.MarshalByRefObject.MemberwiseClone(System.Boolean)
+    name: MemberwiseClone
+    fullName: System.MarshalByRefObject.MemberwiseClone
+    isExternal: true
+  - name: (
+    fullName: (
+  - uid: System.Boolean
+    name: Boolean
+    fullName: System.Boolean
+    isExternal: true
+  - name: )
+    fullName: )
+  spec.vb:
+  - uid: System.MarshalByRefObject.MemberwiseClone(System.Boolean)
+    name: MemberwiseClone
+    fullName: System.MarshalByRefObject.MemberwiseClone
+    isExternal: true
+  - name: (
+    fullName: (
+  - uid: System.Boolean
+    name: Boolean
+    fullName: System.Boolean
+    isExternal: true
+  - name: )
+    fullName: )
+- uid: System.MarshalByRefObject.GetLifetimeService
+  parent: System.MarshalByRefObject
+  isExternal: true
+  name: GetLifetimeService()
+  fullName: System.MarshalByRefObject.GetLifetimeService()
+  spec.csharp:
+  - uid: System.MarshalByRefObject.GetLifetimeService
+    name: GetLifetimeService
+    fullName: System.MarshalByRefObject.GetLifetimeService
+    isExternal: true
+  - name: (
+    fullName: (
+  - name: )
+    fullName: )
+  spec.vb:
+  - uid: System.MarshalByRefObject.GetLifetimeService
+    name: GetLifetimeService
+    fullName: System.MarshalByRefObject.GetLifetimeService
+    isExternal: true
+  - name: (
+    fullName: (
+  - name: )
+    fullName: )
+- uid: System.MarshalByRefObject.InitializeLifetimeService
+  parent: System.MarshalByRefObject
+  isExternal: true
+  name: InitializeLifetimeService()
+  fullName: System.MarshalByRefObject.InitializeLifetimeService()
+  spec.csharp:
+  - uid: System.MarshalByRefObject.InitializeLifetimeService
+    name: InitializeLifetimeService
+    fullName: System.MarshalByRefObject.InitializeLifetimeService
+    isExternal: true
+  - name: (
+    fullName: (
+  - name: )
+    fullName: )
+  spec.vb:
+  - uid: System.MarshalByRefObject.InitializeLifetimeService
+    name: InitializeLifetimeService
+    fullName: System.MarshalByRefObject.InitializeLifetimeService
+    isExternal: true
+  - name: (
+    fullName: (
+  - name: )
+    fullName: )
+- uid: System.MarshalByRefObject.CreateObjRef(System.Type)
+  parent: System.MarshalByRefObject
+  isExternal: true
+  name: CreateObjRef(Type)
+  fullName: System.MarshalByRefObject.CreateObjRef(System.Type)
+  spec.csharp:
+  - uid: System.MarshalByRefObject.CreateObjRef(System.Type)
+    name: CreateObjRef
+    fullName: System.MarshalByRefObject.CreateObjRef
+    isExternal: true
+  - name: (
+    fullName: (
+  - uid: System.Type
+    name: Type
+    fullName: System.Type
+    isExternal: true
+  - name: )
+    fullName: )
+  spec.vb:
+  - uid: System.MarshalByRefObject.CreateObjRef(System.Type)
+    name: CreateObjRef
+    fullName: System.MarshalByRefObject.CreateObjRef
+    isExternal: true
+  - name: (
+    fullName: (
+  - uid: System.Type
+    name: Type
+    fullName: System.Type
+    isExternal: true
+  - name: )
+    fullName: )
+- uid: System.Object.ToString
+  parent: System.Object
+  isExternal: true
+  name: ToString()
+  fullName: System.Object.ToString()
+  spec.csharp:
+  - uid: System.Object.ToString
+    name: ToString
+    fullName: System.Object.ToString
+    isExternal: true
+  - name: (
+    fullName: (
+  - name: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.ToString
+    name: ToString
+    fullName: System.Object.ToString
+    isExternal: true
+  - name: (
+    fullName: (
+  - name: )
+    fullName: )
+- uid: System.Object.Equals(System.Object)
+  parent: System.Object
+  isExternal: true
+  name: Equals(Object)
+  fullName: System.Object.Equals(System.Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    fullName: )
+- uid: System.Object.Equals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  name: Equals(Object, Object)
+  fullName: System.Object.Equals(System.Object, System.Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    fullName: )
+- uid: System.Object.ReferenceEquals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  name: ReferenceEquals(Object, Object)
+  fullName: System.Object.ReferenceEquals(System.Object, System.Object)
+  spec.csharp:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    fullName: System.Object.ReferenceEquals
+    isExternal: true
+  - name: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    fullName: System.Object.ReferenceEquals
+    isExternal: true
+  - name: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    fullName: )
+- uid: System.Object.GetHashCode
+  parent: System.Object
+  isExternal: true
+  name: GetHashCode()
+  fullName: System.Object.GetHashCode()
+  spec.csharp:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    fullName: System.Object.GetHashCode
+    isExternal: true
+  - name: (
+    fullName: (
+  - name: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    fullName: System.Object.GetHashCode
+    isExternal: true
+  - name: (
+    fullName: (
+  - name: )
+    fullName: )
+- uid: System.Object.GetType
+  parent: System.Object
+  isExternal: true
+  name: GetType()
+  fullName: System.Object.GetType()
+  spec.csharp:
+  - uid: System.Object.GetType
+    name: GetType
+    fullName: System.Object.GetType
+    isExternal: true
+  - name: (
+    fullName: (
+  - name: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.GetType
+    name: GetType
+    fullName: System.Object.GetType
+    isExternal: true
+  - name: (
+    fullName: (
+  - name: )
+    fullName: )
+- uid: System.Object.MemberwiseClone
+  parent: System.Object
+  isExternal: true
+  name: MemberwiseClone()
+  fullName: System.Object.MemberwiseClone()
+  spec.csharp:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    fullName: System.Object.MemberwiseClone
+    isExternal: true
+  - name: (
+    fullName: (
+  - name: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    fullName: System.Object.MemberwiseClone
+    isExternal: true
+  - name: (
+    fullName: (
+  - name: )
+    fullName: )
 - uid: System
   isExternal: false
   name: System
   fullName: System
-- uid: System.IO.Stream
-  parent: System.IO
-  isExternal: false
-  name: IO.Stream
-  fullName: System.IO.Stream
 - uid: System.IO
   isExternal: false
   name: System.IO
@@ -1548,6 +3190,26 @@ references:
   isExternal: false
   name: EncryptionPolicy
   fullName: System.Net.Security.EncryptionPolicy
+- uid: System.IO.Stream.CanRead
+  parent: System.IO.Stream
+  isExternal: false
+  name: CanRead
+  fullName: System.IO.Stream.CanRead
+- uid: System.IO.Stream.CanSeek
+  parent: System.IO.Stream
+  isExternal: false
+  name: CanSeek
+  fullName: System.IO.Stream.CanSeek
+- uid: System.IO.Stream.CanTimeout
+  parent: System.IO.Stream
+  isExternal: false
+  name: CanTimeout
+  fullName: System.IO.Stream.CanTimeout
+- uid: System.IO.Stream.CanWrite
+  parent: System.IO.Stream
+  isExternal: false
+  name: CanWrite
+  fullName: System.IO.Stream.CanWrite
 - uid: System.Security.Authentication.CipherAlgorithmType
   parent: System.Security.Authentication
   isExternal: false
@@ -1597,6 +3259,11 @@ references:
   isExternal: false
   name: ExchangeAlgorithmType
   fullName: System.Security.Authentication.ExchangeAlgorithmType
+- uid: System.IO.Stream.Length
+  parent: System.IO.Stream
+  isExternal: false
+  name: Length
+  fullName: System.IO.Stream.Length
 - uid: System.Int64
   parent: System
   isExternal: false
@@ -1611,6 +3278,16 @@ references:
   isExternal: false
   name: System.Security.Cryptography.X509Certificates
   fullName: System.Security.Cryptography.X509Certificates
+- uid: System.IO.Stream.Position
+  parent: System.IO.Stream
+  isExternal: false
+  name: Position
+  fullName: System.IO.Stream.Position
+- uid: System.IO.Stream.ReadTimeout
+  parent: System.IO.Stream
+  isExternal: false
+  name: ReadTimeout
+  fullName: System.IO.Stream.ReadTimeout
 - uid: System.Security.Authentication.SslProtocols
   parent: System.Security.Authentication
   isExternal: false
@@ -1620,6 +3297,11 @@ references:
   isExternal: false
   name: TransportContext
   fullName: System.Net.TransportContext
+- uid: System.IO.Stream.WriteTimeout
+  parent: System.IO.Stream
+  isExternal: false
+  name: WriteTimeout
+  fullName: System.IO.Stream.WriteTimeout
 - uid: System.String
   parent: System
   isExternal: false
@@ -1628,7 +3310,7 @@ references:
 - uid: System.Threading.Tasks.Task
   parent: System.Threading.Tasks
   isExternal: false
-  name: Threading.Tasks.Task
+  name: Task
   fullName: System.Threading.Tasks.Task
 - uid: System.Threading.Tasks
   isExternal: false
@@ -1637,10 +3319,90 @@ references:
 - uid: System.Security.Cryptography.X509Certificates.X509CertificateCollection
   parent: System.Security.Cryptography.X509Certificates
   isExternal: false
-  name: Security.Cryptography.X509Certificates.X509CertificateCollection
+  name: X509CertificateCollection
   fullName: System.Security.Cryptography.X509Certificates.X509CertificateCollection
-- uid: System.Byte[]
+- uid: System.IO.Stream.Flush
+  parent: System.IO.Stream
   isExternal: false
+  name: Flush()
+  fullName: System.IO.Stream.Flush()
+  spec.csharp:
+  - uid: System.IO.Stream.Flush
+    name: Flush
+    fullName: System.IO.Stream.Flush
+  - name: (
+    fullName: (
+  - name: )
+    fullName: )
+  spec.vb:
+  - uid: System.IO.Stream.Flush
+    name: Flush
+    fullName: System.IO.Stream.Flush
+  - name: (
+    fullName: (
+  - name: )
+    fullName: )
+- uid: System.IO.Stream.Read(System.Byte[],System.Int32,System.Int32)
+  parent: System.IO.Stream
+  isExternal: true
+  name: Read(Byte[], Int32, Int32)
+  fullName: System.IO.Stream.Read(System.Byte[], System.Int32, System.Int32)
+  fullname.vb: System.IO.Stream.Read(System.Byte(), System.Int32, System.Int32)
+  name.vb: Read(Byte(), Int32, Int32)
+  spec.csharp:
+  - uid: System.IO.Stream.Read(System.Byte[],System.Int32,System.Int32)
+    name: Read
+    fullName: System.IO.Stream.Read
+  - name: (
+    fullName: (
+  - uid: System.Byte
+    name: Byte
+    fullName: System.Byte
+    isExternal: true
+  - name: '[]'
+    fullName: '[]'
+  - name: ', '
+    fullName: ', '
+  - uid: System.Int32
+    name: Int32
+    fullName: System.Int32
+    isExternal: true
+  - name: ', '
+    fullName: ', '
+  - uid: System.Int32
+    name: Int32
+    fullName: System.Int32
+    isExternal: true
+  - name: )
+    fullName: )
+  spec.vb:
+  - uid: System.IO.Stream.Read(System.Byte[],System.Int32,System.Int32)
+    name: Read
+    fullName: System.IO.Stream.Read
+  - name: (
+    fullName: (
+  - uid: System.Byte
+    name: Byte
+    fullName: System.Byte
+    isExternal: true
+  - name: ()
+    fullName: ()
+  - name: ', '
+    fullName: ', '
+  - uid: System.Int32
+    name: Int32
+    fullName: System.Int32
+    isExternal: true
+  - name: ', '
+    fullName: ', '
+  - uid: System.Int32
+    name: Int32
+    fullName: System.Int32
+    isExternal: true
+  - name: )
+    fullName: )
+- uid: System.Byte[]
+  isExternal: true
   name: Byte[]
   fullName: System.Byte[]
   fullname.vb: System.Byte()
@@ -1649,16 +3411,182 @@ references:
   - uid: System.Byte
     name: Byte
     fullName: System.Byte
+    isExternal: true
   - name: '[]'
     fullName: '[]'
   spec.vb:
   - uid: System.Byte
     name: Byte
     fullName: System.Byte
+    isExternal: true
   - name: ()
     fullName: ()
+- uid: System.IO.Stream.Seek(System.Int64,System.IO.SeekOrigin)
+  parent: System.IO.Stream
+  isExternal: true
+  name: Seek(Int64, SeekOrigin)
+  fullName: System.IO.Stream.Seek(System.Int64, System.IO.SeekOrigin)
+  spec.csharp:
+  - uid: System.IO.Stream.Seek(System.Int64,System.IO.SeekOrigin)
+    name: Seek
+    fullName: System.IO.Stream.Seek
+  - name: (
+    fullName: (
+  - uid: System.Int64
+    name: Int64
+    fullName: System.Int64
+    isExternal: true
+  - name: ', '
+    fullName: ', '
+  - uid: System.IO.SeekOrigin
+    name: SeekOrigin
+    fullName: System.IO.SeekOrigin
+  - name: )
+    fullName: )
+  spec.vb:
+  - uid: System.IO.Stream.Seek(System.Int64,System.IO.SeekOrigin)
+    name: Seek
+    fullName: System.IO.Stream.Seek
+  - name: (
+    fullName: (
+  - uid: System.Int64
+    name: Int64
+    fullName: System.Int64
+    isExternal: true
+  - name: ', '
+    fullName: ', '
+  - uid: System.IO.SeekOrigin
+    name: SeekOrigin
+    fullName: System.IO.SeekOrigin
+  - name: )
+    fullName: )
 - uid: System.IO.SeekOrigin
   parent: System.IO
   isExternal: false
   name: SeekOrigin
   fullName: System.IO.SeekOrigin
+- uid: System.IO.Stream.SetLength(System.Int64)
+  parent: System.IO.Stream
+  isExternal: true
+  name: SetLength(Int64)
+  fullName: System.IO.Stream.SetLength(System.Int64)
+  spec.csharp:
+  - uid: System.IO.Stream.SetLength(System.Int64)
+    name: SetLength
+    fullName: System.IO.Stream.SetLength
+  - name: (
+    fullName: (
+  - uid: System.Int64
+    name: Int64
+    fullName: System.Int64
+    isExternal: true
+  - name: )
+    fullName: )
+  spec.vb:
+  - uid: System.IO.Stream.SetLength(System.Int64)
+    name: SetLength
+    fullName: System.IO.Stream.SetLength
+  - name: (
+    fullName: (
+  - uid: System.Int64
+    name: Int64
+    fullName: System.Int64
+    isExternal: true
+  - name: )
+    fullName: )
+- uid: System.IO.Stream.Write(System.Byte[],System.Int32,System.Int32)
+  parent: System.IO.Stream
+  isExternal: true
+  name: Write(Byte[], Int32, Int32)
+  fullName: System.IO.Stream.Write(System.Byte[], System.Int32, System.Int32)
+  fullname.vb: System.IO.Stream.Write(System.Byte(), System.Int32, System.Int32)
+  name.vb: Write(Byte(), Int32, Int32)
+  spec.csharp:
+  - uid: System.IO.Stream.Write(System.Byte[],System.Int32,System.Int32)
+    name: Write
+    fullName: System.IO.Stream.Write
+  - name: (
+    fullName: (
+  - uid: System.Byte
+    name: Byte
+    fullName: System.Byte
+    isExternal: true
+  - name: '[]'
+    fullName: '[]'
+  - name: ', '
+    fullName: ', '
+  - uid: System.Int32
+    name: Int32
+    fullName: System.Int32
+    isExternal: true
+  - name: ', '
+    fullName: ', '
+  - uid: System.Int32
+    name: Int32
+    fullName: System.Int32
+    isExternal: true
+  - name: )
+    fullName: )
+  spec.vb:
+  - uid: System.IO.Stream.Write(System.Byte[],System.Int32,System.Int32)
+    name: Write
+    fullName: System.IO.Stream.Write
+  - name: (
+    fullName: (
+  - uid: System.Byte
+    name: Byte
+    fullName: System.Byte
+    isExternal: true
+  - name: ()
+    fullName: ()
+  - name: ', '
+    fullName: ', '
+  - uid: System.Int32
+    name: Int32
+    fullName: System.Int32
+    isExternal: true
+  - name: ', '
+    fullName: ', '
+  - uid: System.Int32
+    name: Int32
+    fullName: System.Int32
+    isExternal: true
+  - name: )
+    fullName: )
+- uid: System.ArgumentException
+  parent: System
+  isExternal: false
+  name: ArgumentException
+  fullName: System.ArgumentException
+- uid: System.ArgumentNullException
+  isExternal: false
+  name: ArgumentNullException
+  fullName: System.ArgumentNullException
+- uid: System.InvalidOperationException
+  parent: System
+  isExternal: false
+  name: InvalidOperationException
+  fullName: System.InvalidOperationException
+- uid: System.NotSupportedException
+  parent: System
+  isExternal: false
+  name: NotSupportedException
+  fullName: System.NotSupportedException
+- uid: System.Security.Authentication.AuthenticationException
+  parent: System.Security.Authentication
+  isExternal: false
+  name: AuthenticationException
+  fullName: System.Security.Authentication.AuthenticationException
+- uid: System.ObjectDisposedException
+  isExternal: false
+  name: ObjectDisposedException
+  fullName: System.ObjectDisposedException
+- uid: System.PlatformNotSupportedException
+  isExternal: false
+  name: PlatformNotSupportedException
+  fullName: System.PlatformNotSupportedException
+- uid: System.IO.IOException
+  parent: System.IO
+  isExternal: false
+  name: IOException
+  fullName: System.IO.IOException

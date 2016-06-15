@@ -22,12 +22,12 @@ items:
   type: Class
   source:
     remote:
-      path: src/System.Runtime.Handles/ref/System.Runtime.Handles.Manual.cs
+      path: src/mscorlib/src/System/Runtime/InteropServices/CriticalHandle.cs
       branch: master
-      repo: https://github.com/dotnet/corefx.git
+      repo: https://github.com/dotnet/coreclr.git
     id: CriticalHandle
-    path: src/System.Runtime.Handles/ref/System.Runtime.Handles.Manual.cs
-    startLine: 19
+    path: src/mscorlib/src/System/Runtime/InteropServices/CriticalHandle.cs
+    startLine: 141
   assemblies:
   - System.Runtime.Handles
   namespace: System.Runtime.InteropServices
@@ -36,10 +36,16 @@ items:
   example:
   - 
   syntax:
-    content: 'public abstract class CriticalHandle : IDisposable'
+    content: >-
+      [SecurityCritical]
+
+      public abstract class CriticalHandle : CriticalFinalizerObject, IDisposable
     content.vb: >-
+      <SecurityCritical>
+
       Public MustInherit Class CriticalHandle
-          Inherits IDisposable
+          Inherits CriticalFinalizerObject
+          Implements IDisposable
   seealso:
   - type: System.Runtime.InteropServices.SafeHandle
     commentId: T:System.Runtime.InteropServices.SafeHandle
@@ -52,6 +58,20 @@ items:
     commentId: T:System.Security.SecurityCriticalAttribute
   inheritance:
   - System.Object
+  implements:
+  - System.IDisposable
+  inheritedMembers:
+  - System.Object.ToString
+  - System.Object.Equals(System.Object)
+  - System.Object.Equals(System.Object,System.Object)
+  - System.Object.ReferenceEquals(System.Object,System.Object)
+  - System.Object.GetHashCode
+  - System.Object.GetType
+  - System.Object.MemberwiseClone
+  attributes:
+  - type: System.Security.SecurityCriticalAttribute
+    ctor: System.Security.SecurityCriticalAttribute.#ctor
+    arguments: []
   modifiers.csharp:
   - public
   - abstract
@@ -72,12 +92,12 @@ items:
   type: Field
   source:
     remote:
-      path: src/System.Runtime.Handles/ref/System.Runtime.Handles.cs
+      path: src/mscorlib/src/System/Runtime/InteropServices/CriticalHandle.cs
       branch: master
-      repo: https://github.com/dotnet/corefx.git
+      repo: https://github.com/dotnet/coreclr.git
     id: handle
-    path: src/System.Runtime.Handles/ref/System.Runtime.Handles.cs
-    startLine: 31
+    path: src/mscorlib/src/System/Runtime/InteropServices/CriticalHandle.cs
+    startLine: 152
   assemblies:
   - System.Runtime.Handles
   namespace: System.Runtime.InteropServices
@@ -104,23 +124,28 @@ items:
   type: Constructor
   source:
     remote:
-      path: src/System.Runtime.Handles/ref/System.Runtime.Handles.cs
+      path: src/mscorlib/src/System/Runtime/InteropServices/CriticalHandle.cs
       branch: master
-      repo: https://github.com/dotnet/corefx.git
+      repo: https://github.com/dotnet/coreclr.git
     id: .ctor
-    path: src/System.Runtime.Handles/ref/System.Runtime.Handles.cs
-    startLine: 32
+    path: src/mscorlib/src/System/Runtime/InteropServices/CriticalHandle.cs
+    startLine: 156
   assemblies:
   - System.Runtime.Handles
   namespace: System.Runtime.InteropServices
   summary: "\n<p>Initializes a new instance of the <xref href=\"System.Runtime.InteropServices.CriticalHandle\" data-throw-if-not-resolved=\"false\"></xref> class with the specified invalid handle value.</p>\n"
   syntax:
-    content: protected CriticalHandle(IntPtr invalidHandleValue)
-    content.vb: Protected Sub New(invalidHandleValue As IntPtr)
+    content: >-
+      [ReliabilityContract(Consistency.WillNotCorruptState, Cer.MayFail)]
+
+      protected CriticalHandle(IntPtr invalidHandleValue)
+    content.vb: >-
+      <ReliabilityContract(Consistency.WillNotCorruptState, Cer.MayFail)>
+
+      Protected Sub New(invalidHandleValue As IntPtr)
     parameters:
     - id: invalidHandleValue
       type: System.IntPtr
-      description: "\n<p>The value of an invalid handle (usually 0 or -1).</p>\n"
   exceptions:
   - type: System.TypeLoadException
     commentId: T:System.TypeLoadException
@@ -149,24 +174,29 @@ items:
   type: Property
   source:
     remote:
-      path: src/System.Runtime.Handles/ref/System.Runtime.Handles.cs
+      path: src/mscorlib/src/System/Runtime/InteropServices/CriticalHandle.cs
       branch: master
-      repo: https://github.com/dotnet/corefx.git
+      repo: https://github.com/dotnet/coreclr.git
     id: IsClosed
-    path: src/System.Runtime.Handles/ref/System.Runtime.Handles.cs
-    startLine: 33
+    path: src/mscorlib/src/System/Runtime/InteropServices/CriticalHandle.cs
+    startLine: 217
   assemblies:
   - System.Runtime.Handles
   namespace: System.Runtime.InteropServices
   summary: "\n<p>Gets a value indicating whether the handle is closed.</p>\n"
   remarks: "\n<p>The <xref href=\"System.Runtime.InteropServices.CriticalHandle.IsClosed\" data-throw-if-not-resolved=\"false\"></xref> method returns a value indicating whether the <xref href=\"System.Runtime.InteropServices.CriticalHandle\" data-throw-if-not-resolved=\"false\"></xref> object's handle is no longer associated with a native resource. This differs from the definition of the <xref href=\"System.Runtime.InteropServices.CriticalHandle.IsInvalid\" data-throw-if-not-resolved=\"false\"></xref> property, which computes whether a given handle is always considered invalid. The <xref href=\"System.Runtime.InteropServices.CriticalHandle.IsClosed\" data-throw-if-not-resolved=\"false\"></xref> method returns a <strong>true</strong> value in the following cases:</p>\n<ul><li>\n<p>The <xref href=\"System.Runtime.InteropServices.CriticalHandle.SetHandleAsInvalid\" data-throw-if-not-resolved=\"false\"></xref> method was called.</p>\n</li><li>\n<p>The <xref href=\"System.Runtime.InteropServices.CriticalHandle.Dispose\" data-throw-if-not-resolved=\"false\"></xref> method or <xref href=\"System.Runtime.InteropServices.CriticalHandle.Close\" data-throw-if-not-resolved=\"false\"></xref> method was called and there are no references to the <xref href=\"System.Runtime.InteropServices.CriticalHandle\" data-throw-if-not-resolved=\"false\"></xref> object on other threads.</p>\n</li></ul>\n"
   syntax:
-    content: public bool IsClosed { get; }
+    content: >-
+      public bool IsClosed
+
+      {
+          [ReliabilityContract(Consistency.WillNotCorruptState, Cer.Success)]
+          get;
+      }
     content.vb: Public ReadOnly Property IsClosed As Boolean
     parameters: []
     return:
       type: System.Boolean
-      description: "\n<p>\n<strong>true</strong> if the handle is closed; otherwise, <strong>false</strong>.</p>\n"
   seealso:
   - type: System.Runtime.InteropServices.SafeHandle.IsInvalid
     commentId: P:System.Runtime.InteropServices.SafeHandle.IsInvalid
@@ -188,24 +218,29 @@ items:
   type: Property
   source:
     remote:
-      path: src/System.Runtime.Handles/ref/System.Runtime.Handles.cs
+      path: src/mscorlib/src/System/Runtime/InteropServices/CriticalHandle.cs
       branch: master
-      repo: https://github.com/dotnet/corefx.git
+      repo: https://github.com/dotnet/coreclr.git
     id: IsInvalid
-    path: src/System.Runtime.Handles/ref/System.Runtime.Handles.cs
-    startLine: 34
+    path: src/mscorlib/src/System/Runtime/InteropServices/CriticalHandle.cs
+    startLine: 226
   assemblies:
   - System.Runtime.Handles
   namespace: System.Runtime.InteropServices
   summary: "\n<p>When overridden in a derived class, gets a value indicating whether the handle value is invalid.</p>\n"
   remarks: "\n<p>Derived classes must implement the <xref href=\"System.Runtime.InteropServices.CriticalHandle.IsInvalid\" data-throw-if-not-resolved=\"false\"></xref> property so that the common language runtime can determine whether critical finalization is required. Derived classes must provide an implementation that suits the general type of handle they support (0 or -1 is invalid). These classes can then be further derived for specific safe handle types.</p>\n<p>Unlike the <xref href=\"System.Runtime.InteropServices.CriticalHandle.IsClosed\" data-throw-if-not-resolved=\"false\"></xref> property, which reports whether the <xref href=\"System.Runtime.InteropServices.CriticalHandle\" data-throw-if-not-resolved=\"false\"></xref> object has finished using the underlying handle, the <xref href=\"System.Runtime.InteropServices.CriticalHandle.IsInvalid\" data-throw-if-not-resolved=\"false\"></xref> property calculates whether the given handle value is always considered invalid. Therefore, the <xref href=\"System.Runtime.InteropServices.CriticalHandle.IsInvalid\" data-throw-if-not-resolved=\"false\"></xref> property always returns the same value for any one handle value.</p>\n"
   syntax:
-    content: public abstract bool IsInvalid { get; }
+    content: >-
+      public abstract bool IsInvalid
+
+      {
+          [ReliabilityContract(Consistency.WillNotCorruptState, Cer.Success)]
+          get;
+      }
     content.vb: Public MustOverride ReadOnly Property IsInvalid As Boolean
     parameters: []
     return:
       type: System.Boolean
-      description: "\n<p>\n<strong>true</strong> if the handle is valid; otherwise, <strong>false</strong>.</p>\n"
   seealso:
   - type: System.Runtime.InteropServices.SafeHandle.IsInvalid
     commentId: P:System.Runtime.InteropServices.SafeHandle.IsInvalid
@@ -229,20 +264,36 @@ items:
   type: Method
   source:
     remote:
-      path: src/System.Runtime.Handles/ref/System.Runtime.Handles.cs
+      path: src/mscorlib/src/System/Runtime/InteropServices/CriticalHandle.cs
       branch: master
-      repo: https://github.com/dotnet/corefx.git
+      repo: https://github.com/dotnet/coreclr.git
     id: Dispose
-    path: src/System.Runtime.Handles/ref/System.Runtime.Handles.cs
-    startLine: 35
+    path: src/mscorlib/src/System/Runtime/InteropServices/CriticalHandle.cs
+    startLine: 237
   assemblies:
   - System.Runtime.Handles
   namespace: System.Runtime.InteropServices
   summary: "\n<p>Releases all resources used by the <xref href=\"System.Runtime.InteropServices.CriticalHandle\" data-throw-if-not-resolved=\"false\"></xref>. </p>\n"
   remarks: "\n<p>Calling the <xref href=\"System.Runtime.InteropServices.CriticalHandle.Close\" data-throw-if-not-resolved=\"false\"></xref> or <xref href=\"System.Runtime.InteropServices.CriticalHandle.Dispose\" data-throw-if-not-resolved=\"false\"></xref> method allows the resources to be freed. Unlike the <xref href=\"System.Runtime.InteropServices.SafeHandle\" data-throw-if-not-resolved=\"false\"></xref> class, this will always happen immediately since there is no reference count to indicate that other threads are using this handle. Therefore, you must employ a synchronization mechanism to ensure it is safe to call the <xref href=\"System.Runtime.InteropServices.CriticalHandle.Dispose\" data-throw-if-not-resolved=\"false\"></xref> method. Although most classes that use the <xref href=\"System.Runtime.InteropServices.CriticalHandle\" data-throw-if-not-resolved=\"false\"></xref> class do not need to provide a finalizer, this is sometimes necessary (for example, to flush out file buffers or to write some data back into memory). In this case, the class can provide a finalizer that is guaranteed to run before the <xref href=\"System.Runtime.InteropServices.CriticalHandle\" data-throw-if-not-resolved=\"false\"></xref> critical finalizer runs.</p>\n<p>Call the <xref href=\"System.Runtime.InteropServices.CriticalHandle.Close\" data-throw-if-not-resolved=\"false\"></xref> or <xref href=\"System.Runtime.InteropServices.CriticalHandle.Dispose\" data-throw-if-not-resolved=\"false\"></xref> method when you are finished using the <xref href=\"System.Runtime.InteropServices.CriticalHandle\" data-throw-if-not-resolved=\"false\"></xref> object. The <xref href=\"System.Runtime.InteropServices.CriticalHandle.Close\" data-throw-if-not-resolved=\"false\"></xref> method leaves the <xref href=\"System.Runtime.InteropServices.CriticalHandle\" data-throw-if-not-resolved=\"false\"></xref> object in an unusable state.</p>\n<p>Note   Always call the <xref href=\"System.Runtime.InteropServices.CriticalHandle.Close\" data-throw-if-not-resolved=\"false\"></xref> or <xref href=\"System.Runtime.InteropServices.CriticalHandle.Dispose\" data-throw-if-not-resolved=\"false\"></xref> method before you release your last reference to the <xref href=\"System.Runtime.InteropServices.CriticalHandle\" data-throw-if-not-resolved=\"false\"></xref> object. Otherwise, the resources it is using will not be freed until the garbage collector calls the <xref href=\"System.Runtime.InteropServices.CriticalHandle\" data-throw-if-not-resolved=\"false\"></xref> object's <xref href=\"System.Runtime.InteropServices.CriticalHandle.Finalize\" data-throw-if-not-resolved=\"false\"></xref> method.</p>\n"
   syntax:
-    content: public void Dispose()
-    content.vb: Public Sub Dispose
+    content: >-
+      [SecuritySafeCritical]
+
+      [ReliabilityContract(Consistency.WillNotCorruptState, Cer.Success)]
+
+      public void Dispose()
+    content.vb: >-
+      <SecuritySafeCritical>
+
+      <ReliabilityContract(Consistency.WillNotCorruptState, Cer.Success)>
+
+      Public Sub Dispose
+  implements:
+  - System.IDisposable.Dispose
+  attributes:
+  - type: System.Security.SecuritySafeCriticalAttribute
+    ctor: System.Security.SecuritySafeCriticalAttribute.#ctor
+    arguments: []
   modifiers.csharp:
   - public
   modifiers.vb:
@@ -259,24 +310,37 @@ items:
   type: Method
   source:
     remote:
-      path: src/System.Runtime.Handles/ref/System.Runtime.Handles.cs
+      path: src/mscorlib/src/System/Runtime/InteropServices/CriticalHandle.cs
       branch: master
-      repo: https://github.com/dotnet/corefx.git
+      repo: https://github.com/dotnet/coreclr.git
     id: Dispose
-    path: src/System.Runtime.Handles/ref/System.Runtime.Handles.cs
-    startLine: 37
+    path: src/mscorlib/src/System/Runtime/InteropServices/CriticalHandle.cs
+    startLine: 244
   assemblies:
   - System.Runtime.Handles
   namespace: System.Runtime.InteropServices
   summary: "\n<p>Releases the unmanaged resources used by the <xref href=\"System.Runtime.InteropServices.CriticalHandle\" data-throw-if-not-resolved=\"false\"></xref> class specifying whether to perform a normal dispose operation.</p>\n"
   remarks: "\n<p>You should never explicitly call the <xref href=\"System.Runtime.InteropServices.CriticalHandle.Dispose(System.Boolean)\" data-throw-if-not-resolved=\"false\"></xref> method with the <em>disposing</em> parameter set to <strong>false</strong>.</p>\n"
   syntax:
-    content: protected virtual void Dispose(bool disposing)
-    content.vb: Protected Overridable Sub Dispose(disposing As Boolean)
+    content: >-
+      [SecurityCritical]
+
+      [ReliabilityContract(Consistency.WillNotCorruptState, Cer.Success)]
+
+      protected virtual void Dispose(bool disposing)
+    content.vb: >-
+      <SecurityCritical>
+
+      <ReliabilityContract(Consistency.WillNotCorruptState, Cer.Success)>
+
+      Protected Overridable Sub Dispose(disposing As Boolean)
     parameters:
     - id: disposing
       type: System.Boolean
-      description: "\n<p>\n<strong>true</strong> for a normal dispose operation; <strong>false</strong> to finalize the handle.</p>\n"
+  attributes:
+  - type: System.Security.SecurityCriticalAttribute
+    ctor: System.Security.SecurityCriticalAttribute.#ctor
+    arguments: []
   modifiers.csharp:
   - protected
   - virtual
@@ -295,23 +359,28 @@ items:
   type: Method
   source:
     remote:
-      path: src/System.Runtime.Handles/ref/System.Runtime.Handles.cs
+      path: src/mscorlib/src/System/Runtime/InteropServices/CriticalHandle.cs
       branch: master
-      repo: https://github.com/dotnet/corefx.git
+      repo: https://github.com/dotnet/coreclr.git
     id: ReleaseHandle
-    path: src/System.Runtime.Handles/ref/System.Runtime.Handles.cs
-    startLine: 39
+    path: src/mscorlib/src/System/Runtime/InteropServices/CriticalHandle.cs
+    startLine: 270
   assemblies:
   - System.Runtime.Handles
   namespace: System.Runtime.InteropServices
   summary: "\n<p>When overridden in a derived class, executes the code required to free the handle.</p>\n"
   remarks: "\n<p>The <xref href=\"System.Runtime.InteropServices.CriticalHandle.ReleaseHandle\" data-throw-if-not-resolved=\"false\"></xref> method is guaranteed to be called only once, provided that you employ proper synchronization mechanisms to ensure that only one call to the <xref href=\"System.Runtime.InteropServices.CriticalHandle.Close\" data-throw-if-not-resolved=\"false\"></xref> or <see cref=\"Overload:System.Runtime.InteropServices.CriticalHandle.Dispose\"></see> method is made. The <xref href=\"System.Runtime.InteropServices.CriticalHandle.ReleaseHandle\" data-throw-if-not-resolved=\"false\"></xref> method will not be called if the <xref href=\"System.Runtime.InteropServices.CriticalHandle.IsInvalid\" data-throw-if-not-resolved=\"false\"></xref> or <xref href=\"System.Runtime.InteropServices.CriticalHandle.IsClosed\" data-throw-if-not-resolved=\"false\"></xref> property is <strong>true</strong>. Implement this method in your <xref href=\"System.Runtime.InteropServices.CriticalHandle\" data-throw-if-not-resolved=\"false\"></xref> derived classes to execute any code that is required to free the handle. Because one of the functions of <xref href=\"System.Runtime.InteropServices.CriticalHandle\" data-throw-if-not-resolved=\"false\"></xref> is to guarantee prevention of resource leaks, the code in your implementation of <xref href=\"System.Runtime.InteropServices.CriticalHandle.ReleaseHandle\" data-throw-if-not-resolved=\"false\"></xref> must never fail. The garbage collector calls <xref href=\"System.Runtime.InteropServices.CriticalHandle.ReleaseHandle\" data-throw-if-not-resolved=\"false\"></xref> after normal finalizers have been run for objects that were garbage collected at the same time, and guarantees the resources to invoke it and that it will not be interrupted while it is in progress. This method will be prepared as a constrained execution region (CER) at instance construction time (along with all the methods in its statically determinable call graph). Although this prevents thread abort interrupts, you must still be careful not to introduce any fault paths in your overridden <xref href=\"System.Runtime.InteropServices.CriticalHandle.ReleaseHandle\" data-throw-if-not-resolved=\"false\"></xref> method. In particular, apply the <xref href=\"System.Runtime.ConstrainedExecution.ReliabilityContractAttribute\" data-throw-if-not-resolved=\"false\"></xref> attribute to any methods you call from <xref href=\"System.Runtime.InteropServices.CriticalHandle.ReleaseHandle\" data-throw-if-not-resolved=\"false\"></xref>. In most cases this code should be:</p>\n<p>\n<code>ReliabilityContract(Consistency.WillNotCorruptState, Cer.Success)</code>\n</p>\n<p>Additionally, for simple cleanup (for example, calling the Win32 API <strong>CloseHandle</strong> on a file handle) you can check the return value for the single platform invoke call. For complex cleanup, you may have a lot of program logic and many method calls, some of which might fail. You must ensure that your program logic has fallback code for each of those cases.</p>\n<p>If the <xref href=\"System.Runtime.InteropServices.CriticalHandle.ReleaseHandle\" data-throw-if-not-resolved=\"false\"></xref> method returns <strong>false</strong> for any reason, it generates a releaseHandleFailed MDA Managed Debugging Assistant.</p>\n"
   syntax:
-    content: protected abstract bool ReleaseHandle()
-    content.vb: Protected MustOverride Function ReleaseHandle As Boolean
+    content: >-
+      [ReliabilityContract(Consistency.WillNotCorruptState, Cer.Success)]
+
+      protected abstract bool ReleaseHandle()
+    content.vb: >-
+      <ReliabilityContract(Consistency.WillNotCorruptState, Cer.Success)>
+
+      Protected MustOverride Function ReleaseHandle As Boolean
     return:
       type: System.Boolean
-      description: "\n<p>\n<strong>true</strong> if the handle is released successfully; otherwise, in the event of a catastrophic failure,<strong> false</strong>. In this case, it generates a releaseHandleFailed MDA Managed Debugging Assistant.</p>\n"
   modifiers.csharp:
   - protected
   - abstract
@@ -330,24 +399,29 @@ items:
   type: Method
   source:
     remote:
-      path: src/System.Runtime.Handles/ref/System.Runtime.Handles.cs
+      path: src/mscorlib/src/System/Runtime/InteropServices/CriticalHandle.cs
       branch: master
-      repo: https://github.com/dotnet/corefx.git
+      repo: https://github.com/dotnet/coreclr.git
     id: SetHandle
-    path: src/System.Runtime.Handles/ref/System.Runtime.Handles.cs
-    startLine: 40
+    path: src/mscorlib/src/System/Runtime/InteropServices/CriticalHandle.cs
+    startLine: 210
   assemblies:
   - System.Runtime.Handles
   namespace: System.Runtime.InteropServices
   summary: "\n<p>Sets the handle to the specified pre-existing handle.</p>\n"
   remarks: "\n<p>Use the <xref href=\"System.Runtime.InteropServices.CriticalHandle.SetHandle(System.IntPtr)\" data-throw-if-not-resolved=\"false\"></xref> method only if you need to support a pre-existing handle (for example, if the handle is returned in a structure) because the .NET Framework COM interop infrastructure does not support marshaling handles in a structure.</p>\n"
   syntax:
-    content: protected void SetHandle(IntPtr handle)
-    content.vb: Protected Sub SetHandle(handle As IntPtr)
+    content: >-
+      [ReliabilityContract(Consistency.WillNotCorruptState, Cer.Success)]
+
+      protected void SetHandle(IntPtr handle)
+    content.vb: >-
+      <ReliabilityContract(Consistency.WillNotCorruptState, Cer.Success)>
+
+      Protected Sub SetHandle(handle As IntPtr)
     parameters:
     - id: handle
       type: System.IntPtr
-      description: "\n<p>The pre-existing handle to use.</p>\n"
   modifiers.csharp:
   - protected
   modifiers.vb:
@@ -364,20 +438,26 @@ items:
   type: Method
   source:
     remote:
-      path: src/System.Runtime.Handles/ref/System.Runtime.Handles.cs
+      path: src/mscorlib/src/System/Runtime/InteropServices/CriticalHandle.cs
       branch: master
-      repo: https://github.com/dotnet/corefx.git
+      repo: https://github.com/dotnet/coreclr.git
     id: SetHandleAsInvalid
-    path: src/System.Runtime.Handles/ref/System.Runtime.Handles.cs
-    startLine: 41
+    path: src/mscorlib/src/System/Runtime/InteropServices/CriticalHandle.cs
+    startLine: 255
   assemblies:
   - System.Runtime.Handles
   namespace: System.Runtime.InteropServices
   summary: "\n<p>Marks a handle as invalid.</p>\n"
   remarks: "\n<p>Call the <xref href=\"System.Runtime.InteropServices.CriticalHandle.SetHandleAsInvalid\" data-throw-if-not-resolved=\"false\"></xref> method only when you know that your handle is invalid and you want to mark it as such. Doing so does not change the value of the <xref href=\"System.Runtime.InteropServices.CriticalHandle.handle\" data-throw-if-not-resolved=\"false\"></xref> field; it only marks the handle as invalid. The handle might then contain a potentially stale value. The effect of this call is that no attempt is made to free the resources.</p>\n<p>As with the <xref href=\"System.Runtime.InteropServices.CriticalHandle.SetHandle(System.IntPtr)\" data-throw-if-not-resolved=\"false\"></xref> method, use <xref href=\"System.Runtime.InteropServices.CriticalHandle.SetHandleAsInvalid\" data-throw-if-not-resolved=\"false\"></xref> only if you need to support a pre-existing handle.</p>\n"
   syntax:
-    content: public void SetHandleAsInvalid()
-    content.vb: Public Sub SetHandleAsInvalid
+    content: >-
+      [ReliabilityContract(Consistency.WillNotCorruptState, Cer.Success)]
+
+      public void SetHandleAsInvalid()
+    content.vb: >-
+      <ReliabilityContract(Consistency.WillNotCorruptState, Cer.Success)>
+
+      Public Sub SetHandleAsInvalid
   modifiers.csharp:
   - public
   modifiers.vb:
@@ -394,20 +474,30 @@ items:
   type: Method
   source:
     remote:
-      path: src/System.Runtime.Handles/ref/System.Runtime.Handles.Manual.cs
+      path: src/mscorlib/src/System/Runtime/InteropServices/CriticalHandle.cs
       branch: master
-      repo: https://github.com/dotnet/corefx.git
+      repo: https://github.com/dotnet/coreclr.git
     id: Finalize
-    path: src/System.Runtime.Handles/ref/System.Runtime.Handles.Manual.cs
-    startLine: 22
+    path: src/mscorlib/src/System/Runtime/InteropServices/CriticalHandle.cs
+    startLine: 175
   assemblies:
   - System.Runtime.Handles
   namespace: System.Runtime.InteropServices
   summary: "\n<p>Frees all resources associated with the handle.</p>\n"
   remarks: "\n<p>The <xref href=\"System.Runtime.InteropServices.CriticalHandle.Finalize\" data-throw-if-not-resolved=\"false\"></xref> method is the destructor for the <xref href=\"System.Runtime.InteropServices.CriticalHandle\" data-throw-if-not-resolved=\"false\"></xref> class. Application code should not call this method directly.</p>\n"
   syntax:
-    content: protected void Finalize()
-    content.vb: Protected Sub Finalize
+    content: >-
+      [SecuritySafeCritical]
+
+      [ReliabilityContract(Consistency.WillNotCorruptState, Cer.Success)]
+
+      protected void Finalize()
+    content.vb: >-
+      <SecuritySafeCritical>
+
+      <ReliabilityContract(Consistency.WillNotCorruptState, Cer.Success)>
+
+      Protected Sub Finalize
   seealso:
   - type: System.Runtime.InteropServices.CriticalHandle.Dispose
     commentId: M:System.Runtime.InteropServices.CriticalHandle.Dispose
@@ -425,6 +515,220 @@ references:
   isExternal: false
   name: Object
   fullName: System.Object
+- uid: System.IDisposable
+  parent: System
+  isExternal: false
+  name: IDisposable
+  fullName: System.IDisposable
+- uid: System.Object.ToString
+  parent: System.Object
+  isExternal: true
+  name: ToString()
+  fullName: System.Object.ToString()
+  spec.csharp:
+  - uid: System.Object.ToString
+    name: ToString
+    fullName: System.Object.ToString
+    isExternal: true
+  - name: (
+    fullName: (
+  - name: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.ToString
+    name: ToString
+    fullName: System.Object.ToString
+    isExternal: true
+  - name: (
+    fullName: (
+  - name: )
+    fullName: )
+- uid: System.Object.Equals(System.Object)
+  parent: System.Object
+  isExternal: true
+  name: Equals(Object)
+  fullName: System.Object.Equals(System.Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    fullName: )
+- uid: System.Object.Equals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  name: Equals(Object, Object)
+  fullName: System.Object.Equals(System.Object, System.Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    fullName: )
+- uid: System.Object.ReferenceEquals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  name: ReferenceEquals(Object, Object)
+  fullName: System.Object.ReferenceEquals(System.Object, System.Object)
+  spec.csharp:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    fullName: System.Object.ReferenceEquals
+    isExternal: true
+  - name: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    fullName: System.Object.ReferenceEquals
+    isExternal: true
+  - name: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    fullName: )
+- uid: System.Object.GetHashCode
+  parent: System.Object
+  isExternal: true
+  name: GetHashCode()
+  fullName: System.Object.GetHashCode()
+  spec.csharp:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    fullName: System.Object.GetHashCode
+    isExternal: true
+  - name: (
+    fullName: (
+  - name: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    fullName: System.Object.GetHashCode
+    isExternal: true
+  - name: (
+    fullName: (
+  - name: )
+    fullName: )
+- uid: System.Object.GetType
+  parent: System.Object
+  isExternal: true
+  name: GetType()
+  fullName: System.Object.GetType()
+  spec.csharp:
+  - uid: System.Object.GetType
+    name: GetType
+    fullName: System.Object.GetType
+    isExternal: true
+  - name: (
+    fullName: (
+  - name: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.GetType
+    name: GetType
+    fullName: System.Object.GetType
+    isExternal: true
+  - name: (
+    fullName: (
+  - name: )
+    fullName: )
+- uid: System.Object.MemberwiseClone
+  parent: System.Object
+  isExternal: true
+  name: MemberwiseClone()
+  fullName: System.Object.MemberwiseClone()
+  spec.csharp:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    fullName: System.Object.MemberwiseClone
+    isExternal: true
+  - name: (
+    fullName: (
+  - name: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    fullName: System.Object.MemberwiseClone
+    isExternal: true
+  - name: (
+    fullName: (
+  - name: )
+    fullName: )
 - uid: System
   isExternal: false
   name: System
@@ -439,6 +743,27 @@ references:
   isExternal: false
   name: Boolean
   fullName: System.Boolean
+- uid: System.IDisposable.Dispose
+  parent: System.IDisposable
+  isExternal: false
+  name: Dispose()
+  fullName: System.IDisposable.Dispose()
+  spec.csharp:
+  - uid: System.IDisposable.Dispose
+    name: Dispose
+    fullName: System.IDisposable.Dispose
+  - name: (
+    fullName: (
+  - name: )
+    fullName: )
+  spec.vb:
+  - uid: System.IDisposable.Dispose
+    name: Dispose
+    fullName: System.IDisposable.Dispose
+  - name: (
+    fullName: (
+  - name: )
+    fullName: )
 - uid: System.TypeLoadException
   parent: System
   isExternal: false

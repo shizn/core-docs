@@ -26,12 +26,37 @@ items:
   summary: "\n<p>Represents a set of access rights to be audited for a user or group. This class cannot be inherited.</p>\n"
   remarks: "\n<p>The <xref href=\"System.Security.AccessControl.MutexAuditRule\" data-throw-if-not-resolved=\"false\"></xref> class is one of a set of classes that the .NET Framework provides for managing Windows access control security on named system mutexes. For an overview of these classes and their relationship to the underlying Windows access control structures, see <xref href=\"System.Security.AccessControl.MutexSecurity\" data-throw-if-not-resolved=\"false\"></xref>.</p>\n<p>Windows access control security is meaningful only for named system mutexes. If a <xref href=\"System.Threading.Mutex\" data-throw-if-not-resolved=\"false\"></xref> object represents a local mutex, access control is irrelevant.</p>\n<p>To get a list of the audit rules currently applied to a named mutex, use the <xref href=\"System.Threading.Mutex.GetAccessControl\" data-throw-if-not-resolved=\"false\"></xref> method to get a <xref href=\"System.Security.AccessControl.MutexSecurity\" data-throw-if-not-resolved=\"false\"></xref> object, and then use its <xref href=\"System.Security.AccessControl.CommonObjectSecurity.GetAuditRules(System.Boolean,System.Boolean,System.Type)\" data-throw-if-not-resolved=\"false\"></xref> method to obtain a collection of <xref href=\"System.Security.AccessControl.MutexAuditRule\" data-throw-if-not-resolved=\"false\"></xref> objects.</p>\n<p>\n<xref href=\"System.Security.AccessControl.MutexAuditRule\" data-throw-if-not-resolved=\"false\"></xref> objects do not map one-to-one with access control entries in the underlying discretionary access control list (DACL). When you get the set of all audit rules for a mutex, the set contains the minimum number of rules currently required to express all the access control entries. </p>\n<p>The underlying access control entries change as you apply and remove rules. The information in rules is merged if possible, to maintain the smallest number of access control entries. Thus, when you read the current list of rules, it might not look exactly like the list of all the rules you have added.</p>\n<p>Use <xref href=\"System.Security.AccessControl.MutexAuditRule\" data-throw-if-not-resolved=\"false\"></xref> objects to specify access rights to be audited for a user or group. To apply a rule to a named system mutex, use the <xref href=\"System.Threading.Mutex.SetAccessControl(System.Security.AccessControl.MutexSecurity)\" data-throw-if-not-resolved=\"false\"></xref> method to get the <xref href=\"System.Security.AccessControl.MutexSecurity\" data-throw-if-not-resolved=\"false\"></xref> object. Modify the <xref href=\"System.Security.AccessControl.MutexSecurity\" data-throw-if-not-resolved=\"false\"></xref> object by using its methods to add the rule, and then use the <xref href=\"System.Threading.Mutex.SetAccessControl(System.Security.AccessControl.MutexSecurity)\" data-throw-if-not-resolved=\"false\"></xref> method to reattach the security object.</p>\n<p>Changes you make to a <xref href=\"System.Security.AccessControl.MutexSecurity\" data-throw-if-not-resolved=\"false\"></xref> object do not affect the access levels of the named mutex until you call the <xref href=\"System.Threading.Mutex.SetAccessControl(System.Security.AccessControl.MutexSecurity)\" data-throw-if-not-resolved=\"false\"></xref> method to assign the altered security object to the named mutex.</p>\n<p>\n<xref href=\"System.Security.AccessControl.MutexAuditRule\" data-throw-if-not-resolved=\"false\"></xref> objects are immutable. Security for a mutex is modified using the methods of the <xref href=\"System.Security.AccessControl.MutexSecurity\" data-throw-if-not-resolved=\"false\"></xref> class to add or remove rules; as you do this, the underlying access control entries are modified. </p>\n<p>Security on synchronization objects is not supported for Windows 98 or Windows Millennium Edition.</p>\n"
   syntax:
-    content: 'public sealed class MutexAuditRule : AuditRule'
+    content: >-
+      [SecurityCritical]
+
+      public sealed class MutexAuditRule : AuditRule
     content.vb: >-
+      <SecurityCritical>
+
       Public NotInheritable Class MutexAuditRule
           Inherits AuditRule
   inheritance:
   - System.Object
+  - System.Security.AccessControl.AuthorizationRule
+  - System.Security.AccessControl.AuditRule
+  inheritedMembers:
+  - System.Security.AccessControl.AuditRule.AuditFlags
+  - System.Security.AccessControl.AuthorizationRule.IdentityReference
+  - System.Security.AccessControl.AuthorizationRule.AccessMask
+  - System.Security.AccessControl.AuthorizationRule.IsInherited
+  - System.Security.AccessControl.AuthorizationRule.InheritanceFlags
+  - System.Security.AccessControl.AuthorizationRule.PropagationFlags
+  - System.Object.ToString
+  - System.Object.Equals(System.Object)
+  - System.Object.Equals(System.Object,System.Object)
+  - System.Object.ReferenceEquals(System.Object,System.Object)
+  - System.Object.GetHashCode
+  - System.Object.GetType
+  - System.Object.MemberwiseClone
+  attributes:
+  - type: System.Security.SecurityCriticalAttribute
+    ctor: System.Security.SecurityCriticalAttribute.#ctor
+    arguments: []
   modifiers.csharp:
   - public
   - sealed
@@ -47,7 +72,7 @@ items:
   langs:
   - csharp
   - vb
-  name: MutexAuditRule(Principal.IdentityReference, MutexRights, AuditFlags)
+  name: MutexAuditRule(IdentityReference, MutexRights, AuditFlags)
   fullName: System.Security.AccessControl.MutexAuditRule.MutexAuditRule(System.Security.Principal.IdentityReference, System.Security.AccessControl.MutexRights, System.Security.AccessControl.AuditFlags)
   type: Constructor
   source:
@@ -64,8 +89,8 @@ items:
   summary: "\n<p>Initializes a new instance of the <xref href=\"System.Security.AccessControl.MutexAuditRule\" data-throw-if-not-resolved=\"false\"></xref> class, specifying the user or group to audit, the rights to audit, and whether to audit success, failure, or both.</p>\n"
   remarks: "\n<p>To create an <xref href=\"System.Security.Principal.NTAccount\" data-throw-if-not-resolved=\"false\"></xref> object from a string representing a user or group name, use the <xref href=\"System.Security.Principal.NTAccount.#ctor(System.String)\" data-throw-if-not-resolved=\"false\"></xref> constructor.</p>\n"
   syntax:
-    content: public MutexAuditRule(Principal.IdentityReference identity, MutexRights eventRights, AuditFlags flags)
-    content.vb: Public Sub New(identity As Principal.IdentityReference, eventRights As MutexRights, flags As AuditFlags)
+    content: public MutexAuditRule(IdentityReference identity, MutexRights eventRights, AuditFlags flags)
+    content.vb: Public Sub New(identity As IdentityReference, eventRights As MutexRights, flags As AuditFlags)
     parameters:
     - id: identity
       type: System.Security.Principal.IdentityReference
@@ -136,6 +161,255 @@ references:
   isExternal: false
   name: Object
   fullName: System.Object
+- uid: System.Security.AccessControl.AuthorizationRule
+  parent: System.Security.AccessControl
+  isExternal: false
+  name: AuthorizationRule
+  fullName: System.Security.AccessControl.AuthorizationRule
+- uid: System.Security.AccessControl.AuditRule
+  parent: System.Security.AccessControl
+  isExternal: false
+  name: AuditRule
+  fullName: System.Security.AccessControl.AuditRule
+- uid: System.Security.AccessControl.AuditRule.AuditFlags
+  parent: System.Security.AccessControl.AuditRule
+  isExternal: false
+  name: AuditFlags
+  fullName: System.Security.AccessControl.AuditRule.AuditFlags
+- uid: System.Security.AccessControl.AuthorizationRule.IdentityReference
+  parent: System.Security.AccessControl.AuthorizationRule
+  isExternal: false
+  name: IdentityReference
+  fullName: System.Security.AccessControl.AuthorizationRule.IdentityReference
+- uid: System.Security.AccessControl.AuthorizationRule.AccessMask
+  parent: System.Security.AccessControl.AuthorizationRule
+  isExternal: false
+  name: AccessMask
+  fullName: System.Security.AccessControl.AuthorizationRule.AccessMask
+- uid: System.Security.AccessControl.AuthorizationRule.IsInherited
+  parent: System.Security.AccessControl.AuthorizationRule
+  isExternal: false
+  name: IsInherited
+  fullName: System.Security.AccessControl.AuthorizationRule.IsInherited
+- uid: System.Security.AccessControl.AuthorizationRule.InheritanceFlags
+  parent: System.Security.AccessControl.AuthorizationRule
+  isExternal: false
+  name: InheritanceFlags
+  fullName: System.Security.AccessControl.AuthorizationRule.InheritanceFlags
+- uid: System.Security.AccessControl.AuthorizationRule.PropagationFlags
+  parent: System.Security.AccessControl.AuthorizationRule
+  isExternal: false
+  name: PropagationFlags
+  fullName: System.Security.AccessControl.AuthorizationRule.PropagationFlags
+- uid: System.Object.ToString
+  parent: System.Object
+  isExternal: true
+  name: ToString()
+  fullName: System.Object.ToString()
+  spec.csharp:
+  - uid: System.Object.ToString
+    name: ToString
+    fullName: System.Object.ToString
+    isExternal: true
+  - name: (
+    fullName: (
+  - name: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.ToString
+    name: ToString
+    fullName: System.Object.ToString
+    isExternal: true
+  - name: (
+    fullName: (
+  - name: )
+    fullName: )
+- uid: System.Object.Equals(System.Object)
+  parent: System.Object
+  isExternal: true
+  name: Equals(Object)
+  fullName: System.Object.Equals(System.Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    fullName: )
+- uid: System.Object.Equals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  name: Equals(Object, Object)
+  fullName: System.Object.Equals(System.Object, System.Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    fullName: )
+- uid: System.Object.ReferenceEquals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  name: ReferenceEquals(Object, Object)
+  fullName: System.Object.ReferenceEquals(System.Object, System.Object)
+  spec.csharp:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    fullName: System.Object.ReferenceEquals
+    isExternal: true
+  - name: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    fullName: System.Object.ReferenceEquals
+    isExternal: true
+  - name: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    fullName: )
+- uid: System.Object.GetHashCode
+  parent: System.Object
+  isExternal: true
+  name: GetHashCode()
+  fullName: System.Object.GetHashCode()
+  spec.csharp:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    fullName: System.Object.GetHashCode
+    isExternal: true
+  - name: (
+    fullName: (
+  - name: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    fullName: System.Object.GetHashCode
+    isExternal: true
+  - name: (
+    fullName: (
+  - name: )
+    fullName: )
+- uid: System.Object.GetType
+  parent: System.Object
+  isExternal: true
+  name: GetType()
+  fullName: System.Object.GetType()
+  spec.csharp:
+  - uid: System.Object.GetType
+    name: GetType
+    fullName: System.Object.GetType
+    isExternal: true
+  - name: (
+    fullName: (
+  - name: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.GetType
+    name: GetType
+    fullName: System.Object.GetType
+    isExternal: true
+  - name: (
+    fullName: (
+  - name: )
+    fullName: )
+- uid: System.Object.MemberwiseClone
+  parent: System.Object
+  isExternal: true
+  name: MemberwiseClone()
+  fullName: System.Object.MemberwiseClone()
+  spec.csharp:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    fullName: System.Object.MemberwiseClone
+    isExternal: true
+  - name: (
+    fullName: (
+  - name: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    fullName: System.Object.MemberwiseClone
+    isExternal: true
+  - name: (
+    fullName: (
+  - name: )
+    fullName: )
 - uid: System
   isExternal: false
   name: System
@@ -143,7 +417,7 @@ references:
 - uid: System.Security.Principal.IdentityReference
   parent: System.Security.Principal
   isExternal: false
-  name: Principal.IdentityReference
+  name: IdentityReference
   fullName: System.Security.Principal.IdentityReference
 - uid: System.Security.AccessControl.MutexRights
   parent: System.Security.AccessControl

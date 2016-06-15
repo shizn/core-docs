@@ -36,22 +36,36 @@ items:
   type: Class
   source:
     remote:
-      path: src/System.IO.MemoryMappedFiles/src/System/IO/MemoryMappedFiles/MemoryMappedFile.Windows.cs
+      path: src/System.IO.MemoryMappedFiles/ref/System.IO.MemoryMappedFiles.cs
       branch: master
       repo: https://github.com/dotnet/corefx.git
     id: MemoryMappedFile
-    path: src/System.IO.MemoryMappedFiles/src/System/IO/MemoryMappedFiles/MemoryMappedFile.Windows.cs
-    startLine: 12
+    path: src/System.IO.MemoryMappedFiles/ref/System.IO.MemoryMappedFiles.cs
+    startLine: 23
   assemblies:
   - System.IO.MemoryMappedFiles
   namespace: System.IO.MemoryMappedFiles
+  summary: "\n<p>Represents a memory-mapped file. </p>\n"
+  remarks: "\n<p>A memory-mapped file maps the contents of a file to an application’s logical address space. Memory-mapped files enable programmers to work with extremely large files because memory can be managed concurrently, and they allow complete, random access to a file without the need for seeking. Memory-mapped files can also be shared across multiple processes.</p>\n<p>The <see cref=\"Overload:System.IO.MemoryMappedFiles.MemoryMappedFile.CreateFromFile\"></see> methods create a memory-mapped file from a specified path or a <xref href=\"System.IO.FileStream\" data-throw-if-not-resolved=\"false\"></xref> of an existing file on disk. Changes are automatically propagated to disk when the file is unmapped. </p>\n<p>The <see cref=\"Overload:System.IO.MemoryMappedFiles.MemoryMappedFile.CreateNew\"></see> methods create a memory-mapped file that is not mapped to an existing file on disk; and are suitable for creating shared memory for interprocess communication (IPC).  </p>\n<p>A memory-mapped file is associated with a name. </p>\n<p>You can create multiple views of the memory-mapped file, including views of parts of the file. You can map the same part of a file to more than one address to create concurrent memory. For two views to remain concurrent, they have to be created from the same memory-mapped file. Creating two file mappings of the same file with two views does not provide concurrency.</p>\n"
+  example:
+  - "\n<p>The following example creates a memory-mapped view of a part of an extremely large file and manipulates a portion of it.</p>MemoryMappedFiles.MemoryMappedFile.CreateFromFile#1"
   syntax:
     content: 'public class MemoryMappedFile : IDisposable'
     content.vb: >-
       Public Class MemoryMappedFile
-          Inherits IDisposable
+          Implements IDisposable
   inheritance:
   - System.Object
+  implements:
+  - System.IDisposable
+  inheritedMembers:
+  - System.Object.ToString
+  - System.Object.Equals(System.Object)
+  - System.Object.Equals(System.Object,System.Object)
+  - System.Object.ReferenceEquals(System.Object,System.Object)
+  - System.Object.GetHashCode
+  - System.Object.GetType
+  - System.Object.MemberwiseClone
   modifiers.csharp:
   - public
   - class
@@ -70,21 +84,28 @@ items:
   type: Property
   source:
     remote:
-      path: src/System.IO.MemoryMappedFiles/src/System/IO/MemoryMappedFiles/MemoryMappedFile.cs
+      path: src/System.IO.MemoryMappedFiles/ref/System.IO.MemoryMappedFiles.cs
       branch: master
       repo: https://github.com/dotnet/corefx.git
     id: SafeMemoryMappedFileHandle
-    path: src/System.IO.MemoryMappedFiles/src/System/IO/MemoryMappedFiles/MemoryMappedFile.cs
-    startLine: 488
+    path: src/System.IO.MemoryMappedFiles/ref/System.IO.MemoryMappedFiles.cs
+    startLine: 26
   assemblies:
   - System.IO.MemoryMappedFiles
   namespace: System.IO.MemoryMappedFiles
+  summary: "\n<p>Gets the file handle of a memory-mapped file.</p>\n"
+  example:
+  - 
   syntax:
     content: public SafeMemoryMappedFileHandle SafeMemoryMappedFileHandle { get; }
     content.vb: Public ReadOnly Property SafeMemoryMappedFileHandle As SafeMemoryMappedFileHandle
     parameters: []
     return:
       type: Microsoft.Win32.SafeHandles.SafeMemoryMappedFileHandle
+      description: "\n<p>The handle to the memory-mapped file.</p>\n"
+  see:
+  - type: System.Security.Permissions.SecurityPermission
+    commentId: T:System.Security.Permissions.SecurityPermission
   modifiers.csharp:
   - public
   - get
@@ -112,24 +133,42 @@ items:
   assemblies:
   - System.IO.MemoryMappedFiles
   namespace: System.IO.MemoryMappedFiles
+  summary: "\n<p>Creates a memory-mapped file from an existing file with the specified access mode, name, inheritability, and capacity.</p>\n"
   syntax:
     content: public static MemoryMappedFile CreateFromFile(FileStream fileStream, string mapName, long capacity, MemoryMappedFileAccess access, HandleInheritability inheritability, bool leaveOpen)
     content.vb: Public Shared Function CreateFromFile(fileStream As FileStream, mapName As String, capacity As Long, access As MemoryMappedFileAccess, inheritability As HandleInheritability, leaveOpen As Boolean) As MemoryMappedFile
     parameters:
     - id: fileStream
       type: System.IO.FileStream
+      description: "\n<p>The file stream of the existing file.</p>\n"
     - id: mapName
       type: System.String
+      description: "\n<p>A name to assign to the memory-mapped file.</p>\n"
     - id: capacity
       type: System.Int64
+      description: "\n<p>The maximum size, in bytes, to allocate to the memory-mapped file. Specify 0 to set the capacity to the size of <em>filestream</em>.</p>\n"
     - id: access
       type: System.IO.MemoryMappedFiles.MemoryMappedFileAccess
+      description: "\n<p>One of the enumeration values that specifies the type of access allowed to the memory-mapped file. </p>\n<p>This parameter can’t be set to <xref href=\"System.IO.MemoryMappedFiles.MemoryMappedFileAccess.Write\" data-throw-if-not-resolved=\"false\"></xref>. </p>\n"
     - id: inheritability
       type: System.IO.HandleInheritability
+      description: "\n<p>One of the enumeration values that specifies whether a handle to the memory-mapped file can be inherited by a child process. The default is <xref href=\"System.IO.HandleInheritability.None\" data-throw-if-not-resolved=\"false\"></xref>.</p>\n"
     - id: leaveOpen
       type: System.Boolean
+      description: "\n<p>A value that indicates whether to close the source file stream when the <xref href=\"System.IO.MemoryMappedFiles.MemoryMappedFile\" data-throw-if-not-resolved=\"false\"></xref> is disposed. </p>\n"
     return:
       type: System.IO.MemoryMappedFiles.MemoryMappedFile
+      description: "\n<p>A memory-mapped file that has the specified characteristics.</p>\n"
+  exceptions:
+  - type: System.ArgumentException
+    commentId: T:System.ArgumentException
+    description: "\n<p>\n<em>mapName</em> is <strong>null</strong> or an empty string.</p>\n<p>-or-</p>\n<p>\n<em>capacity</em> and the length of the file are zero.</p>\n<p>-or-</p>\n<p>\n<em>access</em> is set to <xref href=\"System.IO.MemoryMappedFiles.MemoryMappedFileAccess.Write\" data-throw-if-not-resolved=\"false\"></xref> or <xref href=\"System.IO.MemoryMappedFiles.MemoryMappedFileAccess.Write\" data-throw-if-not-resolved=\"false\"></xref> enumeration value, which is not allowed.</p>\n<p>-or-</p>\n<p>\n<em>access</em> is set to <xref href=\"System.IO.MemoryMappedFiles.MemoryMappedFileAccess.Read\" data-throw-if-not-resolved=\"false\"></xref> and <em>capacity</em> is larger than the length of <strong>filestream</strong>.</p>\n"
+  - type: System.ArgumentNullException
+    commentId: T:System.ArgumentNullException
+    description: "\n<p>\n<em>fileStream</em>  is <strong>null</strong>.</p>\n"
+  - type: System.ArgumentOutOfRangeException
+    commentId: T:System.ArgumentOutOfRangeException
+    description: "\n<p>\n<em>capacity</em> is less than zero.</p>\n<p>-or-</p>\n<p>\n<em>capacity</em> is less than the file size.</p>\n<p>-or-</p>\n<p>\n<em>access</em> is not a valid <xref href=\"System.IO.MemoryMappedFiles.MemoryMappedFileAccess\" data-throw-if-not-resolved=\"false\"></xref> enumeration value.</p>\n<p>-or-</p>\n<p>\n<em>inheritability</em> is not a valid <xref href=\"System.IO.HandleInheritability\" data-throw-if-not-resolved=\"false\"></xref> enumeration value.</p>\n"
   modifiers.csharp:
   - public
   - static
@@ -148,23 +187,44 @@ items:
   type: Method
   source:
     remote:
-      path: src/System.IO.MemoryMappedFiles/src/System/IO/MemoryMappedFiles/MemoryMappedFile.cs
+      path: src/System.IO.MemoryMappedFiles/ref/System.IO.MemoryMappedFiles.cs
       branch: master
       repo: https://github.com/dotnet/corefx.git
     id: CreateFromFile
-    path: src/System.IO.MemoryMappedFiles/src/System/IO/MemoryMappedFiles/MemoryMappedFile.cs
-    startLine: 95
+    path: src/System.IO.MemoryMappedFiles/ref/System.IO.MemoryMappedFiles.cs
+    startLine: 28
   assemblies:
   - System.IO.MemoryMappedFiles
   namespace: System.IO.MemoryMappedFiles
+  summary: "\n<p>Creates a memory-mapped file from a file on disk.</p>\n"
+  example:
+  - "\n<p>The following example uses the <xref href=\"System.IO.MemoryMappedFiles.MemoryMappedFile.CreateFromFile(System.String)\" data-throw-if-not-resolved=\"false\"></xref> method to create a memory-mapped file, and then creates a memory-mapped view to a portion of an extremely large file.</p>MemoryMappedFiles.MemoryMappedFile.CreateFromFile#1"
   syntax:
     content: public static MemoryMappedFile CreateFromFile(string path)
     content.vb: Public Shared Function CreateFromFile(path As String) As MemoryMappedFile
     parameters:
     - id: path
       type: System.String
+      description: "\n<p>The path to file to map.</p>\n"
     return:
       type: System.IO.MemoryMappedFiles.MemoryMappedFile
+      description: "\n<p>A memory-mapped file.</p>\n"
+  exceptions:
+  - type: System.ArgumentException
+    commentId: T:System.ArgumentException
+    description: "\n<p>\n<em>path</em> is an empty string, contains only white space, or has one or more invalid characters, as defined by the <xref href=\"System.IO.Path.GetInvalidFileNameChars\" data-throw-if-not-resolved=\"false\"></xref> method. </p>\n<p>-or-</p>\n<p>\n<em>path</em> refers to an invalid device. </p>\n"
+  - type: System.ArgumentNullException
+    commentId: T:System.ArgumentNullException
+    description: "\n<p>\n<em>path</em> is <strong>null</strong>.</p>\n"
+  - type: System.IO.IOException
+    commentId: T:System.IO.IOException
+    description: "\n<p>An I/O error occurred.</p>\n"
+  - type: System.IO.PathTooLongException
+    commentId: T:System.IO.PathTooLongException
+    description: "\n<p>\n<em>path</em> exceeds the maximum length defined by the operating system. In Windows, paths must contain fewer than 248 characters, and file names must contain fewer than 260 characters.</p>\n"
+  - type: System.Security.SecurityException
+    commentId: T:System.Security.SecurityException
+    description: "\n<p>The caller does not have the required permissions for the file.</p>\n"
   modifiers.csharp:
   - public
   - static
@@ -192,16 +252,39 @@ items:
   assemblies:
   - System.IO.MemoryMappedFiles
   namespace: System.IO.MemoryMappedFiles
+  summary: "\n<p>Creates a memory-mapped file that has the specified access mode from a file on disk. </p>\n"
+  remarks: "\n<p>The <em>mode</em> parameter pertains to the source file on disk. You can use only the <xref href=\"System.IO.FileMode.Open\" data-throw-if-not-resolved=\"false\"></xref> enumeration value to create the memory-mapped file from the source file on disk.</p>\n"
+  example:
+  - 
   syntax:
     content: public static MemoryMappedFile CreateFromFile(string path, FileMode mode)
     content.vb: Public Shared Function CreateFromFile(path As String, mode As FileMode) As MemoryMappedFile
     parameters:
     - id: path
       type: System.String
+      description: "\n<p>The path to file to map.</p>\n"
     - id: mode
       type: System.IO.FileMode
+      description: "\n<p>Access mode; must be <xref href=\"System.IO.FileMode.Open\" data-throw-if-not-resolved=\"false\"></xref>.</p>\n"
     return:
       type: System.IO.MemoryMappedFiles.MemoryMappedFile
+      description: "\n<p>A memory-mapped file that has the specified access mode.</p>\n"
+  exceptions:
+  - type: System.ArgumentException
+    commentId: T:System.ArgumentException
+    description: "\n<p>\n<em>path</em> is an empty string, contains only white space, or has one or more invalid characters, as defined by the <xref href=\"System.IO.Path.GetInvalidFileNameChars\" data-throw-if-not-resolved=\"false\"></xref> method. </p>\n<p>-or-</p>\n<p>\n<em>path</em> refers to an invalid device.</p>\n<p>-or-</p>\n<p>\n<em>mode</em> is <xref href=\"System.IO.FileMode.Append\" data-throw-if-not-resolved=\"false\"></xref>.</p>\n"
+  - type: System.ArgumentNullException
+    commentId: T:System.ArgumentNullException
+    description: "\n<p>\n<em>path</em> is <strong>null</strong>.</p>\n"
+  - type: System.IO.IOException
+    commentId: T:System.IO.IOException
+    description: "\n<p>\n<em>mode</em> is <xref href=\"System.IO.FileMode.Create\" data-throw-if-not-resolved=\"false\"></xref>, <xref href=\"System.IO.FileMode.CreateNew\" data-throw-if-not-resolved=\"false\"></xref>, or <xref href=\"System.IO.FileMode.Truncate\" data-throw-if-not-resolved=\"false\"></xref>.</p>\n<p>-or-</p>\n<p>\n<em>mode</em> is <xref href=\"System.IO.FileMode.OpenOrCreate\" data-throw-if-not-resolved=\"false\"></xref> and the file on disk does not exist.</p>\n<p>-or-</p>\n<p>An I/O error occurred.</p>\n"
+  - type: System.IO.PathTooLongException
+    commentId: T:System.IO.PathTooLongException
+    description: "\n<p>\n<em>path</em> exceeds the maximum length defined by the operating system. In Windows, paths must contain fewer than 248 characters, and file names must contain fewer than 260 characters. </p>\n"
+  - type: System.Security.SecurityException
+    commentId: T:System.Security.SecurityException
+    description: "\n<p>The caller does not have the required permissions for the file.</p>\n"
   modifiers.csharp:
   - public
   - static
@@ -229,18 +312,42 @@ items:
   assemblies:
   - System.IO.MemoryMappedFiles
   namespace: System.IO.MemoryMappedFiles
+  summary: "\n<p>Creates a memory-mapped file that has the specified access mode and name from a file on disk.</p>\n"
+  remarks: "\n<p>The <em>mode</em> parameter pertains to the source file on disk. You can use only the <xref href=\"System.IO.FileMode.Open\" data-throw-if-not-resolved=\"false\"></xref> enumeration value to create the memory-mapped file from the source file on disk.</p>\n"
+  example:
+  - 
   syntax:
     content: public static MemoryMappedFile CreateFromFile(string path, FileMode mode, string mapName)
     content.vb: Public Shared Function CreateFromFile(path As String, mode As FileMode, mapName As String) As MemoryMappedFile
     parameters:
     - id: path
       type: System.String
+      description: "\n<p>The path to the file to map.</p>\n"
     - id: mode
       type: System.IO.FileMode
+      description: "\n<p>Access mode; must be <xref href=\"System.IO.FileMode.Open\" data-throw-if-not-resolved=\"false\"></xref>.</p>\n"
     - id: mapName
       type: System.String
+      description: "\n<p>A name to assign to the memory-mapped file. </p>\n"
     return:
       type: System.IO.MemoryMappedFiles.MemoryMappedFile
+      description: "\n<p>A memory-mapped file that has the specified name and access mode.</p>\n"
+  exceptions:
+  - type: System.ArgumentException
+    commentId: T:System.ArgumentException
+    description: "\n<p>\n<em>path</em> is an empty string, contains only white space, or has one or more invalid characters, as defined by the <xref href=\"System.IO.Path.GetInvalidFileNameChars\" data-throw-if-not-resolved=\"false\"></xref> method. </p>\n<p>-or-</p>\n<p>\n<em>path</em> refers to an invalid device.</p>\n<p>-or-</p>\n<p>\n<em>mapName</em> is an empty string.</p>\n<p>-or-</p>\n<p>\n<em>mode</em> is <xref href=\"System.IO.FileMode.Append\" data-throw-if-not-resolved=\"false\"></xref>.</p>\n"
+  - type: System.ArgumentNullException
+    commentId: T:System.ArgumentNullException
+    description: "\n<p>\n<em>path</em> or <em>mapName</em> is <strong>null</strong>.</p>\n"
+  - type: System.IO.IOException
+    commentId: T:System.IO.IOException
+    description: "\n<p>\n<em>mode</em> is <xref href=\"System.IO.FileMode.Create\" data-throw-if-not-resolved=\"false\"></xref>, <xref href=\"System.IO.FileMode.CreateNew\" data-throw-if-not-resolved=\"false\"></xref>, or <xref href=\"System.IO.FileMode.Truncate\" data-throw-if-not-resolved=\"false\"></xref>.</p>\n<p>-or-</p>\n<p>\n<em>mode</em> is <xref href=\"System.IO.FileMode.OpenOrCreate\" data-throw-if-not-resolved=\"false\"></xref> and the file on disk does not exist.</p>\n<p>-or-</p>\n<p>An I/O error occurred.</p>\n"
+  - type: System.IO.PathTooLongException
+    commentId: T:System.IO.PathTooLongException
+    description: "\n<p>\n<em>path</em> exceeds the maximum length defined by the operating system. In Windows, paths must contain fewer than 248 characters, and file names must contain fewer than 260 characters.</p>\n"
+  - type: System.Security.SecurityException
+    commentId: T:System.Security.SecurityException
+    description: "\n<p>The caller does not have the required permissions for the file.</p>\n"
   modifiers.csharp:
   - public
   - static
@@ -268,20 +375,48 @@ items:
   assemblies:
   - System.IO.MemoryMappedFiles
   namespace: System.IO.MemoryMappedFiles
+  summary: "\n<p>Creates a memory-mapped file that has the specified access mode, name, and capacity from a file on disk.</p>\n"
+  remarks: "\n<p>The <em>mode</em> parameter pertains to the source file on disk. </p>\n<p>If <em>capacity</em> is larger than the size of the file on disk, the file on disk is increased to match the specified capacity even if no data is written to the memory-mapped file. To prevent this from occurring, specify 0 (zero) for the default capacity, which will internally set <em>capacity</em> to the size of the file on disk.</p>\n"
+  example:
+  - 
   syntax:
     content: public static MemoryMappedFile CreateFromFile(string path, FileMode mode, string mapName, long capacity)
     content.vb: Public Shared Function CreateFromFile(path As String, mode As FileMode, mapName As String, capacity As Long) As MemoryMappedFile
     parameters:
     - id: path
       type: System.String
+      description: "\n<p>The path to the file to map.</p>\n"
     - id: mode
       type: System.IO.FileMode
+      description: "\n<p>Access mode; can be any of the <xref href=\"System.IO.FileMode\" data-throw-if-not-resolved=\"false\"></xref> enumeration values except <xref href=\"System.IO.FileMode.Append\" data-throw-if-not-resolved=\"false\"></xref>.</p>\n"
     - id: mapName
       type: System.String
+      description: "\n<p>A name to assign to the memory-mapped file. </p>\n"
     - id: capacity
       type: System.Int64
+      description: "\n<p>The maximum size, in bytes, to allocate to the memory-mapped file. Specify 0 to set the capacity to the size of the file on disk.</p>\n"
     return:
       type: System.IO.MemoryMappedFiles.MemoryMappedFile
+      description: "\n<p>A memory-mapped file that has the specified characteristics.</p>\n"
+  exceptions:
+  - type: System.ArgumentException
+    commentId: T:System.ArgumentException
+    description: "\n<p>\n<em>path</em> is an empty string, contains only white space, or has one or more invalid characters, as defined by the <xref href=\"System.IO.Path.GetInvalidFileNameChars\" data-throw-if-not-resolved=\"false\"></xref> method. </p>\n<p>-or-</p>\n<p>\n<em>path</em> refers to an invalid device.</p>\n<p>-or-</p>\n<p>\n<em>mapName</em> is an empty string.</p>\n<p>-or-</p>\n<p>\n<em>mode</em> is <xref href=\"System.IO.FileMode.Append\" data-throw-if-not-resolved=\"false\"></xref>.</p>\n"
+  - type: System.ArgumentNullException
+    commentId: T:System.ArgumentNullException
+    description: "\n<p>\n<em>path</em> or <em>mapName</em> is <strong>null</strong>.</p>\n"
+  - type: System.ArgumentOutOfRangeException
+    commentId: T:System.ArgumentOutOfRangeException
+    description: "\n<p>\n<em>capacity</em> is greater than the size of the logical address space.</p>\n<p>-or-</p>\n<p>\n<em>capacity</em> is less than zero.</p>\n<p>-or-</p>\n<p>\n<em>capacity</em> is less than the file size (but not zero).</p>\n<p>-or-</p>\n<p>\n<em>capacity</em> is zero, and the size of the file on disk is also zero.</p>\n"
+  - type: System.IO.IOException
+    commentId: T:System.IO.IOException
+    description: "\n<p>An I/O error occurred.</p>\n"
+  - type: System.IO.PathTooLongException
+    commentId: T:System.IO.PathTooLongException
+    description: "\n<p>\n<em>path</em> exceeds the maximum length defined by the operating system. In Windows, paths must contain fewer than 248 characters, and file names must contain fewer than 260 characters.</p>\n"
+  - type: System.Security.SecurityException
+    commentId: T:System.Security.SecurityException
+    description: "\n<p>The caller does not have the required permissions for the file.</p>\n"
   modifiers.csharp:
   - public
   - static
@@ -309,22 +444,54 @@ items:
   assemblies:
   - System.IO.MemoryMappedFiles
   namespace: System.IO.MemoryMappedFiles
+  summary: "\n<p>Creates a memory-mapped file that has the specified access mode, name, capacity, and access type from a file on disk.</p>\n"
+  remarks: "\n<p>The <em>mode</em> parameter pertains to the source file on disk. </p>\n<p>If <em>capacity</em> is larger than the size of the file on disk, the file on disk is increased to match the specified capacity even if no data is written to the memory-mapped file. To prevent this from occurring, specify 0 (zero) for the default capacity, which will internally set <em>capacity</em> to the size of the file on disk.</p>\n"
+  example:
+  - 
   syntax:
     content: public static MemoryMappedFile CreateFromFile(string path, FileMode mode, string mapName, long capacity, MemoryMappedFileAccess access)
     content.vb: Public Shared Function CreateFromFile(path As String, mode As FileMode, mapName As String, capacity As Long, access As MemoryMappedFileAccess) As MemoryMappedFile
     parameters:
     - id: path
       type: System.String
+      description: "\n<p>The path to the file to map.</p>\n"
     - id: mode
       type: System.IO.FileMode
+      description: "\n<p>Access mode; can be any of the <xref href=\"System.IO.FileMode\" data-throw-if-not-resolved=\"false\"></xref> enumeration values except <xref href=\"System.IO.FileMode.Append\" data-throw-if-not-resolved=\"false\"></xref>.</p>\n"
     - id: mapName
       type: System.String
+      description: "\n<p>A name to assign to the memory-mapped file. </p>\n"
     - id: capacity
       type: System.Int64
+      description: "\n<p>The maximum size, in bytes, to allocate to the memory-mapped file. Specify 0 to set the capacity to the size of the file on disk.</p>\n"
     - id: access
       type: System.IO.MemoryMappedFiles.MemoryMappedFileAccess
+      description: "\n<p>One of the enumeration values that specifies the type of access allowed to the memory-mapped file.</p>\n"
     return:
       type: System.IO.MemoryMappedFiles.MemoryMappedFile
+      description: "\n<p>A memory-mapped file that has the specified characteristics.</p>\n"
+  exceptions:
+  - type: System.ArgumentException
+    commentId: T:System.ArgumentException
+    description: "\n<p>\n<em>mapName</em> is an empty string.</p>\n<p>-or-</p>\n<p>\n<em>access</em> is not an allowed value.</p>\n<p>-or-</p>\n<p>\n<em>path</em> specifies an empty file.</p>\n<p>-or-</p>\n<p>\n<em>access</em> is specified as <xref href=\"System.IO.MemoryMappedFiles.MemoryMappedFileAccess.Read\" data-throw-if-not-resolved=\"false\"></xref> and capacity is greater than the size of the file indicated by <em>path</em>.</p>\n<p>-or-</p>\n<p>\n<em>mode</em> is <xref href=\"System.IO.FileMode.Append\" data-throw-if-not-resolved=\"false\"></xref>.</p>\n"
+  - type: System.ArgumentNullException
+    commentId: T:System.ArgumentNullException
+    description: "\n<p>\n<em>path</em> or <em>mapName</em> is <strong>null</strong>. </p>\n"
+  - type: System.ArgumentOutOfRangeException
+    commentId: T:System.ArgumentOutOfRangeException
+    description: "\n<p>\n<em>capacity</em> is greater than the size of the logical address space.</p>\n<p>-or-</p>\n<p>\n<em>capacity</em> is less than zero.</p>\n<p>-or-</p>\n<p>\n<em>capacity</em> is less than the file size (but not zero).</p>\n<p>-or-</p>\n<p>\n<em>capacity</em> is zero, and the size of the file on disk is also zero.</p>\n<p>-or-</p>\n<p>\n<em>access</em> is not a defined <xref href=\"System.IO.MemoryMappedFiles.MemoryMappedFileAccess\" data-throw-if-not-resolved=\"false\"></xref> value.</p>\n<p>-or-</p>\n<p>The size of the file indicated by <em>path</em> is greater than <em>capacity</em>.</p>\n"
+  - type: System.IO.IOException
+    commentId: T:System.IO.IOException
+    description: "\n<p>-or-</p>\n<p>An I/O error occurred.</p>\n"
+  - type: System.IO.PathTooLongException
+    commentId: T:System.IO.PathTooLongException
+    description: "\n<p>\n<em>path</em> exceeds the maximum length defined by the operating system. In Windows, paths must contain fewer than 248 characters, and file names must contain fewer than 260 characters.</p>\n"
+  - type: System.Security.SecurityException
+    commentId: T:System.Security.SecurityException
+    description: "\n<p>The caller does not have the required permissions for the file.</p>\n"
+  see:
+  - type: System.Security.Permissions.SecurityPermission
+    commentId: T:System.Security.Permissions.SecurityPermission
   modifiers.csharp:
   - public
   - static
@@ -343,25 +510,42 @@ items:
   type: Method
   source:
     remote:
-      path: src/System.IO.MemoryMappedFiles/src/System/IO/MemoryMappedFiles/MemoryMappedFile.cs
+      path: src/System.IO.MemoryMappedFiles/ref/System.IO.MemoryMappedFiles.cs
       branch: master
       repo: https://github.com/dotnet/corefx.git
     id: CreateNew
-    path: src/System.IO.MemoryMappedFiles/src/System/IO/MemoryMappedFiles/MemoryMappedFile.cs
-    startLine: 260
+    path: src/System.IO.MemoryMappedFiles/ref/System.IO.MemoryMappedFiles.cs
+    startLine: 33
   assemblies:
   - System.IO.MemoryMappedFiles
   namespace: System.IO.MemoryMappedFiles
+  summary: "\n<p>Creates a memory-mapped file that has the specified capacity in system memory. </p>\n"
+  remarks: "\n<p>Use this method to create a memory-mapped file that is not persisted (that is, not associated with a file on disk), which you can use to share data between processes.</p>\n"
+  example:
+  - "\n<p>The following example is composed of three separate processes (console applications) that write <strong>Boolean</strong> values to a memory-mapped file. The following sequence of actions occur:</p>\n<ol><li>\n<p>Process A creates the memory-mapped file and writes a value to it. </p>\n</li><li>\n<p>Process B opens the memory-mapped file and writes a value to it. </p>\n</li><li>\n<p>Process C opens the memory-mapped file and writes a value to it. </p>\n</li><li>\n<p>Process A reads and displays the values from the memory-mapped file. </p>\n</li><li>\n<p>After Process A is finished with the memory-mapped file, the file is immediately reclaimed by garbage collection.</p>\n</li></ol>\n<p>To run this example, do the following:</p>\n<ol><li>\n<p>Compile the applications and open three Command windows.</p>\n</li><li>\n<p>In the first Command window, run Process A.</p>\n</li><li>\n<p>In the second Command window, run Process B.</p>\n</li><li>\n<p>Return to Process A and press ENTER.</p>\n</li><li>\n<p>In the third Command window, run Process C.</p>\n</li><li>\n<p>Return to Process A and press ENTER.</p>\n</li></ol>\n<p>The output of Process A is as follows:</p>\n<pre><code>Start Process B and press ENTER to continue.\nStart Process C and press ENTER to continue.\nProcess A says: True\nProcess B says: False\nProcess C says: True</code></pre>\n<p>Process A</p>System.IO.MemoryMappedFiles_IPC_X#1<p>Process B</p>System.IO.MemoryMappedFiles_IPC_A#1<p>Process C</p>System.IO.MemoryMappedFiles_IPC_B#1"
   syntax:
     content: public static MemoryMappedFile CreateNew(string mapName, long capacity)
     content.vb: Public Shared Function CreateNew(mapName As String, capacity As Long) As MemoryMappedFile
     parameters:
     - id: mapName
       type: System.String
+      description: "\n<p>A name to assign to the memory-mapped file.</p>\n"
     - id: capacity
       type: System.Int64
+      description: "\n<p>The maximum size, in bytes, to allocate to the memory-mapped file.</p>\n"
     return:
       type: System.IO.MemoryMappedFiles.MemoryMappedFile
+      description: "\n<p>A memory-mapped file that has the specified name and capacity.</p>\n"
+  exceptions:
+  - type: System.ArgumentException
+    commentId: T:System.ArgumentException
+    description: "\n<p>\n<em>mapName</em> is an empty string. </p>\n"
+  - type: System.ArgumentNullException
+    commentId: T:System.ArgumentNullException
+    description: "\n<p>\n<em>mapName</em> is <strong>null</strong>.</p>\n"
+  - type: System.ArgumentOutOfRangeException
+    commentId: T:System.ArgumentOutOfRangeException
+    description: "\n<p>\n<em>capacity</em> is less than or equal to zero.</p>\n"
   modifiers.csharp:
   - public
   - static
@@ -380,27 +564,45 @@ items:
   type: Method
   source:
     remote:
-      path: src/System.IO.MemoryMappedFiles/src/System/IO/MemoryMappedFiles/MemoryMappedFile.cs
+      path: src/System.IO.MemoryMappedFiles/ref/System.IO.MemoryMappedFiles.cs
       branch: master
       repo: https://github.com/dotnet/corefx.git
     id: CreateNew
-    path: src/System.IO.MemoryMappedFiles/src/System/IO/MemoryMappedFiles/MemoryMappedFile.cs
-    startLine: 266
+    path: src/System.IO.MemoryMappedFiles/ref/System.IO.MemoryMappedFiles.cs
+    startLine: 34
   assemblies:
   - System.IO.MemoryMappedFiles
   namespace: System.IO.MemoryMappedFiles
+  summary: "\n<p>Creates a memory-mapped file that has the specified capacity and access type in system memory. </p>\n"
+  remarks: "\n<p>Use this method to create a memory-mapped file that is not persisted (that is, not associated with a file on disk), which you can use to share data between processes.</p>\n"
+  example:
+  - 
   syntax:
     content: public static MemoryMappedFile CreateNew(string mapName, long capacity, MemoryMappedFileAccess access)
     content.vb: Public Shared Function CreateNew(mapName As String, capacity As Long, access As MemoryMappedFileAccess) As MemoryMappedFile
     parameters:
     - id: mapName
       type: System.String
+      description: "\n<p>A name to assign to the memory-mapped file.</p>\n"
     - id: capacity
       type: System.Int64
+      description: "\n<p>The maximum size, in bytes, to allocate to the memory-mapped file.</p>\n"
     - id: access
       type: System.IO.MemoryMappedFiles.MemoryMappedFileAccess
+      description: "\n<p>One of the enumeration values that specifies the type of access allowed to the memory-mapped file. The default is <xref href=\"System.IO.MemoryMappedFiles.MemoryMappedFileAccess.ReadWrite\" data-throw-if-not-resolved=\"false\"></xref>. </p>\n"
     return:
       type: System.IO.MemoryMappedFiles.MemoryMappedFile
+      description: "\n<p>A memory-mapped file that has the specified characteristics.</p>\n"
+  exceptions:
+  - type: System.ArgumentException
+    commentId: T:System.ArgumentException
+    description: "\n<p>\n<em>mapName</em> is an empty string.</p>\n<p>-or-</p>\n<p>\n<em>access</em> is set to write-only with the <xref href=\"System.IO.MemoryMappedFiles.MemoryMappedFileAccess.Write\" data-throw-if-not-resolved=\"false\"></xref> enumeration value. </p>\n"
+  - type: System.ArgumentNullException
+    commentId: T:System.ArgumentNullException
+    description: "\n<p>\n<em>mapName</em> is <strong>null</strong>.</p>\n"
+  - type: System.ArgumentOutOfRangeException
+    commentId: T:System.ArgumentOutOfRangeException
+    description: "\n<p>\n<em>capacity</em> is less than or equal to zero.</p>\n<p>-or-</p>\n<p>\n<em>access</em> is not a valid <xref href=\"System.IO.MemoryMappedFiles.MemoryMappedFileAccess\" data-throw-if-not-resolved=\"false\"></xref> enumeration value.</p>\n"
   modifiers.csharp:
   - public
   - static
@@ -428,22 +630,39 @@ items:
   assemblies:
   - System.IO.MemoryMappedFiles
   namespace: System.IO.MemoryMappedFiles
+  summary: "\n<p>Creates a memory-mapped file that has the specified name, capacity, access type, memory allocation options and inheritability.</p>\n"
   syntax:
     content: public static MemoryMappedFile CreateNew(string mapName, long capacity, MemoryMappedFileAccess access, MemoryMappedFileOptions options, HandleInheritability inheritability)
     content.vb: Public Shared Function CreateNew(mapName As String, capacity As Long, access As MemoryMappedFileAccess, options As MemoryMappedFileOptions, inheritability As HandleInheritability) As MemoryMappedFile
     parameters:
     - id: mapName
       type: System.String
+      description: "\n<p>A name to assign to the memory-mapped file.</p>\n"
     - id: capacity
       type: System.Int64
+      description: "\n<p>The maximum size, in bytes, to allocate to the memory-mapped file.</p>\n"
     - id: access
       type: System.IO.MemoryMappedFiles.MemoryMappedFileAccess
+      description: "\n<p>One of the enumeration values that specifies the type of access allowed to the memory-mapped file. The default is <xref href=\"System.IO.MemoryMappedFiles.MemoryMappedFileAccess.ReadWrite\" data-throw-if-not-resolved=\"false\"></xref>.</p>\n"
     - id: options
       type: System.IO.MemoryMappedFiles.MemoryMappedFileOptions
+      description: "\n<p>A bitwise combination of enumeration values that specifies memory allocation options for the memory-mapped file.</p>\n"
     - id: inheritability
       type: System.IO.HandleInheritability
+      description: "\n<p>A value that specifies whether a handle to the memory-mapped file can be inherited by a child process. The default is <xref href=\"System.IO.HandleInheritability.None\" data-throw-if-not-resolved=\"false\"></xref>.</p>\n"
     return:
       type: System.IO.MemoryMappedFiles.MemoryMappedFile
+      description: "\n<p>A memory-mapped file that has the specified characteristics.</p>\n"
+  exceptions:
+  - type: System.ArgumentException
+    commentId: T:System.ArgumentException
+    description: "\n<p>\n<em>mapName</em> is an empty string.</p>\n<p>-or-</p>\n<p>\n<em>access</em> is set to write-only with the <xref href=\"System.IO.MemoryMappedFiles.MemoryMappedFileAccess.Write\" data-throw-if-not-resolved=\"false\"></xref> enumeration value. </p>\n"
+  - type: System.ArgumentNullException
+    commentId: T:System.ArgumentNullException
+    description: "\n<p>\n<em>mapName</em> is <strong>null</strong>.</p>\n"
+  - type: System.ArgumentOutOfRangeException
+    commentId: T:System.ArgumentOutOfRangeException
+    description: "\n<p>\n<em>capacity</em> is less than or equal to zero.</p>\n<p>-or-</p>\n<p>\n<em>access</em> is not a valid <xref href=\"System.IO.MemoryMappedFiles.MemoryMappedFileAccess\" data-throw-if-not-resolved=\"false\"></xref> enumeration value.</p>\n<p>-or-</p>\n<p>\n<em>inheritability</em> is not a valid <xref href=\"System.IO.HandleInheritability\" data-throw-if-not-resolved=\"false\"></xref> value.</p>\n"
   modifiers.csharp:
   - public
   - static
@@ -462,25 +681,42 @@ items:
   type: Method
   source:
     remote:
-      path: src/System.IO.MemoryMappedFiles/src/System/IO/MemoryMappedFiles/MemoryMappedFile.cs
+      path: src/System.IO.MemoryMappedFiles/ref/System.IO.MemoryMappedFiles.cs
       branch: master
       repo: https://github.com/dotnet/corefx.git
     id: CreateOrOpen
-    path: src/System.IO.MemoryMappedFiles/src/System/IO/MemoryMappedFiles/MemoryMappedFile.cs
-    startLine: 321
+    path: src/System.IO.MemoryMappedFiles/ref/System.IO.MemoryMappedFiles.cs
+    startLine: 36
   assemblies:
   - System.IO.MemoryMappedFiles
   namespace: System.IO.MemoryMappedFiles
+  summary: "\n<p>Creates or opens a memory-mapped file that has the specified capacity in system memory.</p>\n"
+  remarks: "\n<p>Use this method to create or open a memory-mapped file that is not persisted (that is, not associated with a file on disk), which you can use to share data between processes.</p>\n"
+  example:
+  - 
   syntax:
     content: public static MemoryMappedFile CreateOrOpen(string mapName, long capacity)
     content.vb: Public Shared Function CreateOrOpen(mapName As String, capacity As Long) As MemoryMappedFile
     parameters:
     - id: mapName
       type: System.String
+      description: "\n<p>A name to assign to the memory-mapped file.</p>\n"
     - id: capacity
       type: System.Int64
+      description: "\n<p>The maximum size, in bytes, to allocate to the memory-mapped file.</p>\n"
     return:
       type: System.IO.MemoryMappedFiles.MemoryMappedFile
+      description: "\n<p>A memory-mapped file that has the specified name and size.</p>\n"
+  exceptions:
+  - type: System.ArgumentException
+    commentId: T:System.ArgumentException
+    description: "\n<p>\n<em>mapName</em> is an empty string.</p>\n"
+  - type: System.ArgumentNullException
+    commentId: T:System.ArgumentNullException
+    description: "\n<p>\n<em>mapName</em> is <strong>null</strong>.</p>\n"
+  - type: System.ArgumentOutOfRangeException
+    commentId: T:System.ArgumentOutOfRangeException
+    description: "\n<p>\n<em>capacity</em> is greater than the size of the logical address space.</p>\n<p>-or-</p>\n<p>\n<em>capacity</em> is less than or equal to zero.</p>\n"
   modifiers.csharp:
   - public
   - static
@@ -499,27 +735,48 @@ items:
   type: Method
   source:
     remote:
-      path: src/System.IO.MemoryMappedFiles/src/System/IO/MemoryMappedFiles/MemoryMappedFile.cs
+      path: src/System.IO.MemoryMappedFiles/ref/System.IO.MemoryMappedFiles.cs
       branch: master
       repo: https://github.com/dotnet/corefx.git
     id: CreateOrOpen
-    path: src/System.IO.MemoryMappedFiles/src/System/IO/MemoryMappedFiles/MemoryMappedFile.cs
-    startLine: 327
+    path: src/System.IO.MemoryMappedFiles/ref/System.IO.MemoryMappedFiles.cs
+    startLine: 37
   assemblies:
   - System.IO.MemoryMappedFiles
   namespace: System.IO.MemoryMappedFiles
+  summary: "\n<p>Creates or opens a memory-mapped file that has the specified capacity and access type in system memory. </p>\n"
+  remarks: "\n<p>Use this method to create or open a memory-mapped file that is not persisted (that is, not associated with a file on disk), which you can use to share data between processes.</p>\n"
+  example:
+  - 
   syntax:
     content: public static MemoryMappedFile CreateOrOpen(string mapName, long capacity, MemoryMappedFileAccess access)
     content.vb: Public Shared Function CreateOrOpen(mapName As String, capacity As Long, access As MemoryMappedFileAccess) As MemoryMappedFile
     parameters:
     - id: mapName
       type: System.String
+      description: "\n<p>A name to assign to the memory-mapped file.</p>\n"
     - id: capacity
       type: System.Int64
+      description: "\n<p>The maximum size, in bytes, to allocate to the memory-mapped file.</p>\n"
     - id: access
       type: System.IO.MemoryMappedFiles.MemoryMappedFileAccess
+      description: "\n<p>One of the enumeration values that specifies the type of access allowed to the memory-mapped file. The default is <xref href=\"System.IO.MemoryMappedFiles.MemoryMappedFileAccess.ReadWrite\" data-throw-if-not-resolved=\"false\"></xref>. </p>\n"
     return:
       type: System.IO.MemoryMappedFiles.MemoryMappedFile
+      description: "\n<p>A memory-mapped file that has the specified characteristics.</p>\n"
+  exceptions:
+  - type: System.ArgumentException
+    commentId: T:System.ArgumentException
+    description: "\n<p>\n<em>mapName</em> is an empty string.</p>\n<p>-or-</p>\n<p>\n<em>access</em> is set to write-only with the <xref href=\"System.IO.MemoryMappedFiles.MemoryMappedFileAccess.Write\" data-throw-if-not-resolved=\"false\"></xref> enumeration value.</p>\n"
+  - type: System.ArgumentNullException
+    commentId: T:System.ArgumentNullException
+    description: "\n<p>\n<em>mapName</em> is <strong>null</strong>.</p>\n"
+  - type: System.ArgumentOutOfRangeException
+    commentId: T:System.ArgumentOutOfRangeException
+    description: "\n<p>\n<em>capacity</em> is greater than the size of the logical address space.</p>\n<p>-or-</p>\n<p>\n<em>capacity</em> is less than or equal to zero.</p>\n<p>-or-</p>\n<p>\n<em>access</em> is not a valid <xref href=\"System.IO.MemoryMappedFiles.MemoryMappedFileAccess\" data-throw-if-not-resolved=\"false\"></xref> enumeration value.</p>\n"
+  - type: System.UnauthorizedAccessException
+    commentId: T:System.UnauthorizedAccessException
+    description: "\n<p>The operating system denied the specified access to the file; for example, access is set to <xref href=\"System.IO.MemoryMappedFiles.MemoryMappedFileAccess.Write\" data-throw-if-not-resolved=\"false\"></xref> or <xref href=\"System.IO.MemoryMappedFiles.MemoryMappedFileAccess.ReadWrite\" data-throw-if-not-resolved=\"false\"></xref>, but the file or directory is read-only. </p>\n"
   modifiers.csharp:
   - public
   - static
@@ -547,22 +804,42 @@ items:
   assemblies:
   - System.IO.MemoryMappedFiles
   namespace: System.IO.MemoryMappedFiles
+  summary: "\n<p>Creates a new empty memory mapped file or opens an existing memory mapped file if one exists with the same name. If opening an existing file, the capacity, options, and memory arguments will be ignored. </p>\n"
   syntax:
     content: public static MemoryMappedFile CreateOrOpen(string mapName, long capacity, MemoryMappedFileAccess access, MemoryMappedFileOptions options, HandleInheritability inheritability)
     content.vb: Public Shared Function CreateOrOpen(mapName As String, capacity As Long, access As MemoryMappedFileAccess, options As MemoryMappedFileOptions, inheritability As HandleInheritability) As MemoryMappedFile
     parameters:
     - id: mapName
       type: System.String
+      description: "\n<p>A name to assign to the memory-mapped file.</p>\n"
     - id: capacity
       type: System.Int64
+      description: "\n<p>The maximum size, in bytes, to allocate to the memory-mapped file.</p>\n"
     - id: access
       type: System.IO.MemoryMappedFiles.MemoryMappedFileAccess
+      description: "\n<p>One of the enumeration values that specifies the type of access allowed to the memory-mapped file. The default is <xref href=\"System.IO.MemoryMappedFiles.MemoryMappedFileAccess.ReadWrite\" data-throw-if-not-resolved=\"false\"></xref>. </p>\n"
     - id: options
       type: System.IO.MemoryMappedFiles.MemoryMappedFileOptions
+      description: "\n<p>A bitwise combination of values that indicate the memory allocation options to apply to the file.</p>\n"
     - id: inheritability
       type: System.IO.HandleInheritability
+      description: "\n<p>A value that specifies whether a handle to the memory-mapped file can be inherited by a child process. The default is <xref href=\"System.IO.HandleInheritability.None\" data-throw-if-not-resolved=\"false\"></xref>.</p>\n"
     return:
       type: System.IO.MemoryMappedFiles.MemoryMappedFile
+      description: "\n<p>A memory-mapped file that has the specified characteristics.</p>\n"
+  exceptions:
+  - type: System.ArgumentException
+    commentId: T:System.ArgumentException
+    description: "\n<p>\n<em>mapName</em> is an empty string.</p>\n<p>-or-</p>\n<p>\n<em>access</em> is set to write-only with the <xref href=\"System.IO.MemoryMappedFiles.MemoryMappedFileAccess.Write\" data-throw-if-not-resolved=\"false\"></xref> enumeration value.</p>\n"
+  - type: System.ArgumentNullException
+    commentId: T:System.ArgumentNullException
+    description: "\n<p>\n<em>mapName</em> is <strong>null</strong>.</p>\n"
+  - type: System.ArgumentOutOfRangeException
+    commentId: T:System.ArgumentOutOfRangeException
+    description: "\n<p>\n<em>capacity</em> is greater than the size of the logical address space.</p>\n<p>-or-</p>\n<p>\n<em>capacity</em> is less than or equal to zero.</p>\n<p>-or-</p>\n<p>\n<em>access</em> is not a valid <xref href=\"System.IO.MemoryMappedFiles.MemoryMappedFileAccess\" data-throw-if-not-resolved=\"false\"></xref> enumeration value.</p>\n<p>-or-</p>\n<p>\n<em>inheritability</em> is not a valid <xref href=\"System.IO.HandleInheritability\" data-throw-if-not-resolved=\"false\"></xref> enumeration value.</p>\n"
+  - type: System.UnauthorizedAccessException
+    commentId: T:System.UnauthorizedAccessException
+    description: "\n<p>The operating system denied the specified access to the file; for example, access is set to <xref href=\"System.IO.MemoryMappedFiles.MemoryMappedFileAccess.Write\" data-throw-if-not-resolved=\"false\"></xref> or <xref href=\"System.IO.MemoryMappedFiles.MemoryMappedFileAccess.ReadWrite\" data-throw-if-not-resolved=\"false\"></xref>, but the file or directory is read-only. </p>\n"
   modifiers.csharp:
   - public
   - static
@@ -581,20 +858,27 @@ items:
   type: Method
   source:
     remote:
-      path: src/System.IO.MemoryMappedFiles/src/System/IO/MemoryMappedFiles/MemoryMappedFile.cs
+      path: src/System.IO.MemoryMappedFiles/ref/System.IO.MemoryMappedFiles.cs
       branch: master
       repo: https://github.com/dotnet/corefx.git
     id: CreateViewAccessor
-    path: src/System.IO.MemoryMappedFiles/src/System/IO/MemoryMappedFiles/MemoryMappedFile.cs
-    startLine: 426
+    path: src/System.IO.MemoryMappedFiles/ref/System.IO.MemoryMappedFiles.cs
+    startLine: 39
   assemblies:
   - System.IO.MemoryMappedFiles
   namespace: System.IO.MemoryMappedFiles
+  summary: "\n<p>Creates a <xref href=\"System.IO.MemoryMappedFiles.MemoryMappedViewAccessor\" data-throw-if-not-resolved=\"false\"></xref> that maps to a view of the memory-mapped file.</p>\n"
+  remarks: "\n<p>You can use the view returned by this method for random access to a memory-mapped file.</p>\n"
   syntax:
     content: public MemoryMappedViewAccessor CreateViewAccessor()
     content.vb: Public Function CreateViewAccessor As MemoryMappedViewAccessor
     return:
       type: System.IO.MemoryMappedFiles.MemoryMappedViewAccessor
+      description: "\n<p>A randomly accessible block of memory.</p>\n"
+  exceptions:
+  - type: System.UnauthorizedAccessException
+    commentId: T:System.UnauthorizedAccessException
+    description: "\n<p>Access to the memory-mapped file is unauthorized.</p>\n"
   modifiers.csharp:
   - public
   modifiers.vb:
@@ -611,25 +895,42 @@ items:
   type: Method
   source:
     remote:
-      path: src/System.IO.MemoryMappedFiles/src/System/IO/MemoryMappedFiles/MemoryMappedFile.cs
+      path: src/System.IO.MemoryMappedFiles/ref/System.IO.MemoryMappedFiles.cs
       branch: master
       repo: https://github.com/dotnet/corefx.git
     id: CreateViewAccessor
-    path: src/System.IO.MemoryMappedFiles/src/System/IO/MemoryMappedFiles/MemoryMappedFile.cs
-    startLine: 431
+    path: src/System.IO.MemoryMappedFiles/ref/System.IO.MemoryMappedFiles.cs
+    startLine: 40
   assemblies:
   - System.IO.MemoryMappedFiles
   namespace: System.IO.MemoryMappedFiles
+  summary: "\n<p>Creates a <xref href=\"System.IO.MemoryMappedFiles.MemoryMappedViewAccessor\" data-throw-if-not-resolved=\"false\"></xref> that maps to a view of the memory-mapped file, and that has the specified offset and size.</p>\n"
+  remarks: "\n<p>You can use the view returned by this method for random access to a memory-mapped file.</p>\n<p>To create a complete view of the memory-mapped file, specify 0 (zero) for the <em>size</em> parameter. If you do this, the size of the view might be smaller or larger than the size of the source file on disk. This is because views are provided in units of system pages, and the size of the view is rounded up to the next system page size.</p>\n"
+  example:
+  - "\n<p>The following example creates a view of a memory-mapped file and edits it. This code example is part of a larger example provided for the <xref href=\"System.IO.MemoryMappedFiles.MemoryMappedFile\" data-throw-if-not-resolved=\"false\"></xref> class.</p>MemoryMappedFiles.MemoryMappedFile.CreateFromFile#2"
   syntax:
     content: public MemoryMappedViewAccessor CreateViewAccessor(long offset, long size)
     content.vb: Public Function CreateViewAccessor(offset As Long, size As Long) As MemoryMappedViewAccessor
     parameters:
     - id: offset
       type: System.Int64
+      description: "\n<p>The byte at which to start the view.</p>\n"
     - id: size
       type: System.Int64
+      description: "\n<p>The size of the view. Specify 0 (zero) to create a view that starts at <em>offset</em> and ends approximately at the end of the memory-mapped file.</p>\n"
     return:
       type: System.IO.MemoryMappedFiles.MemoryMappedViewAccessor
+      description: "\n<p>A randomly accessible block of memory.</p>\n"
+  exceptions:
+  - type: System.ArgumentOutOfRangeException
+    commentId: T:System.ArgumentOutOfRangeException
+    description: "\n<p>\n<em>offset</em> or <em>size</em> is a negative value.</p>\n<p>-or-</p>\n<p>\n<em>size</em> is greater than the logical address space.</p>\n"
+  - type: System.UnauthorizedAccessException
+    commentId: T:System.UnauthorizedAccessException
+    description: "\n<p>Access to the memory-mapped file is unauthorized.</p>\n"
+  - type: System.IO.IOException
+    commentId: T:System.IO.IOException
+    description: "\n<p>An I/O error occurred.</p>\n"
   modifiers.csharp:
   - public
   modifiers.vb:
@@ -646,27 +947,48 @@ items:
   type: Method
   source:
     remote:
-      path: src/System.IO.MemoryMappedFiles/src/System/IO/MemoryMappedFiles/MemoryMappedFile.cs
+      path: src/System.IO.MemoryMappedFiles/ref/System.IO.MemoryMappedFiles.cs
       branch: master
       repo: https://github.com/dotnet/corefx.git
     id: CreateViewAccessor
-    path: src/System.IO.MemoryMappedFiles/src/System/IO/MemoryMappedFiles/MemoryMappedFile.cs
-    startLine: 436
+    path: src/System.IO.MemoryMappedFiles/ref/System.IO.MemoryMappedFiles.cs
+    startLine: 41
   assemblies:
   - System.IO.MemoryMappedFiles
   namespace: System.IO.MemoryMappedFiles
+  summary: "\n<p>Creates a <xref href=\"System.IO.MemoryMappedFiles.MemoryMappedViewAccessor\" data-throw-if-not-resolved=\"false\"></xref> that maps to a view of the memory-mapped file, and that has the specified offset, size, and access restrictions.</p>\n"
+  remarks: "\n<p>You can use the view returned by this method for random access to a memory-mapped file.</p>\n<p>To create a complete view of the memory-mapped file, specify 0 (zero) for the <em>size</em> parameter. If you do this, the size of the view might be smaller or larger than the size of the source file on disk. This is because views are provided in units of system pages, and the size of the view is rounded up to the next system page size.</p>\n"
+  example:
+  - 
   syntax:
     content: public MemoryMappedViewAccessor CreateViewAccessor(long offset, long size, MemoryMappedFileAccess access)
     content.vb: Public Function CreateViewAccessor(offset As Long, size As Long, access As MemoryMappedFileAccess) As MemoryMappedViewAccessor
     parameters:
     - id: offset
       type: System.Int64
+      description: "\n<p>The byte at which to start the view.</p>\n"
     - id: size
       type: System.Int64
+      description: "\n<p>The size of the view. Specify 0 (zero) to create a view that starts at <em>offset</em> and ends approximately at the end of the memory-mapped file.</p>\n"
     - id: access
       type: System.IO.MemoryMappedFiles.MemoryMappedFileAccess
+      description: "\n<p>One of the enumeration values that specifies the type of access allowed to the memory-mapped file. The default is <xref href=\"System.IO.MemoryMappedFiles.MemoryMappedFileAccess.ReadWrite\" data-throw-if-not-resolved=\"false\"></xref>.</p>\n"
     return:
       type: System.IO.MemoryMappedFiles.MemoryMappedViewAccessor
+      description: "\n<p>A randomly accessible block of memory.</p>\n"
+  exceptions:
+  - type: System.ArgumentOutOfRangeException
+    commentId: T:System.ArgumentOutOfRangeException
+    description: "\n<p>\n<em>offset</em> or <em>size</em> is a negative value.</p>\n<p>-or-</p>\n<p>\n<em>size</em> is greater than the logical address space.</p>\n"
+  - type: System.UnauthorizedAccessException
+    commentId: T:System.UnauthorizedAccessException
+    description: "\n<p>\n<em>access</em> is invalid for the memory-mapped file.</p>\n"
+  - type: System.IO.IOException
+    commentId: T:System.IO.IOException
+    description: "\n<p>An I/O error occurred.</p>\n"
+  see:
+  - type: System.Security.Permissions.SecurityPermission
+    commentId: T:System.Security.Permissions.SecurityPermission
   modifiers.csharp:
   - public
   modifiers.vb:
@@ -683,20 +1005,29 @@ items:
   type: Method
   source:
     remote:
-      path: src/System.IO.MemoryMappedFiles/src/System/IO/MemoryMappedFiles/MemoryMappedFile.cs
+      path: src/System.IO.MemoryMappedFiles/ref/System.IO.MemoryMappedFiles.cs
       branch: master
       repo: https://github.com/dotnet/corefx.git
     id: CreateViewStream
-    path: src/System.IO.MemoryMappedFiles/src/System/IO/MemoryMappedFiles/MemoryMappedFile.cs
-    startLine: 388
+    path: src/System.IO.MemoryMappedFiles/ref/System.IO.MemoryMappedFiles.cs
+    startLine: 42
   assemblies:
   - System.IO.MemoryMappedFiles
   namespace: System.IO.MemoryMappedFiles
+  summary: "\n<p>Creates a stream that maps to a view of the memory-mapped file.  </p>\n"
+  remarks: "\n<p>You can use the stream returned by this method for sequential access to a memory-mapped file, such as for inter-process communications. </p>\n"
+  example:
+  - "\n<p>The following example creates a stream and writes a value to it. This code example is part of a larger example provided for the <xref href=\"System.IO.MemoryMappedFiles.MemoryMappedFile.CreateNew(System.String,System.Int64)\" data-throw-if-not-resolved=\"false\"></xref> method.</p>System.IO.MemoryMappedFiles_IPC_X#2"
   syntax:
     content: public MemoryMappedViewStream CreateViewStream()
     content.vb: Public Function CreateViewStream As MemoryMappedViewStream
     return:
       type: System.IO.MemoryMappedFiles.MemoryMappedViewStream
+      description: "\n<p>A stream of memory.</p>\n"
+  exceptions:
+  - type: System.UnauthorizedAccessException
+    commentId: T:System.UnauthorizedAccessException
+    description: "\n<p>Access to the memory-mapped file is unauthorized.</p>\n"
   modifiers.csharp:
   - public
   modifiers.vb:
@@ -713,25 +1044,42 @@ items:
   type: Method
   source:
     remote:
-      path: src/System.IO.MemoryMappedFiles/src/System/IO/MemoryMappedFiles/MemoryMappedFile.cs
+      path: src/System.IO.MemoryMappedFiles/ref/System.IO.MemoryMappedFiles.cs
       branch: master
       repo: https://github.com/dotnet/corefx.git
     id: CreateViewStream
-    path: src/System.IO.MemoryMappedFiles/src/System/IO/MemoryMappedFiles/MemoryMappedFile.cs
-    startLine: 393
+    path: src/System.IO.MemoryMappedFiles/ref/System.IO.MemoryMappedFiles.cs
+    startLine: 43
   assemblies:
   - System.IO.MemoryMappedFiles
   namespace: System.IO.MemoryMappedFiles
+  summary: "\n<p>Creates a stream that maps to a view of the memory-mapped file, and that has the specified offset and size.</p>\n"
+  remarks: "\n<p>You can use the stream returned by this method for sequential access to a memory-mapped file, such as for inter-process communications.</p>\n<p>To create a complete view of the memory-mapped file, specify 0 (zero) for the <em>size</em> parameter. If you do this, the size of the view might be smaller or larger than the size of the source file on disk. This is because views are provided in units of system pages, and the size of the view is rounded up to the next system page size.</p>\n"
+  example:
+  - 
   syntax:
     content: public MemoryMappedViewStream CreateViewStream(long offset, long size)
     content.vb: Public Function CreateViewStream(offset As Long, size As Long) As MemoryMappedViewStream
     parameters:
     - id: offset
       type: System.Int64
+      description: "\n<p>The byte at which to start the view.</p>\n"
     - id: size
       type: System.Int64
+      description: "\n<p>The size of the view. Specify 0 (zero) to create a view that starts at <em>offset</em> and ends approximately at the end of the memory-mapped file.</p>\n"
     return:
       type: System.IO.MemoryMappedFiles.MemoryMappedViewStream
+      description: "\n<p>A stream of memory that has the specified offset and size.</p>\n"
+  exceptions:
+  - type: System.ArgumentOutOfRangeException
+    commentId: T:System.ArgumentOutOfRangeException
+    description: "\n<p>\n<em>offset</em> or <em>size</em> is a negative value.</p>\n<p>-or-</p>\n<p>\n<em>size</em> is greater than the logical address space.</p>\n"
+  - type: System.UnauthorizedAccessException
+    commentId: T:System.UnauthorizedAccessException
+    description: "\n<p>Access to the memory-mapped file is unauthorized.</p>\n"
+  - type: System.IO.IOException
+    commentId: T:System.IO.IOException
+    description: "\n<p>\n<em>size</em> is greater than the total virtual memory.</p>\n"
   modifiers.csharp:
   - public
   modifiers.vb:
@@ -748,27 +1096,48 @@ items:
   type: Method
   source:
     remote:
-      path: src/System.IO.MemoryMappedFiles/src/System/IO/MemoryMappedFiles/MemoryMappedFile.cs
+      path: src/System.IO.MemoryMappedFiles/ref/System.IO.MemoryMappedFiles.cs
       branch: master
       repo: https://github.com/dotnet/corefx.git
     id: CreateViewStream
-    path: src/System.IO.MemoryMappedFiles/src/System/IO/MemoryMappedFiles/MemoryMappedFile.cs
-    startLine: 398
+    path: src/System.IO.MemoryMappedFiles/ref/System.IO.MemoryMappedFiles.cs
+    startLine: 44
   assemblies:
   - System.IO.MemoryMappedFiles
   namespace: System.IO.MemoryMappedFiles
+  summary: "\n<p>Creates a stream that maps to a view of the memory-mapped file, and that has the specified offset, size, and access type.</p>\n"
+  remarks: "\n<p>You can use the stream returned by this method for sequential access to a memory-mapped file, such as for inter-process communications.</p>\n<p>To create a complete view of the memory-mapped file, specify 0 (zero) for the <em>size</em> parameter. If you do this, the size of the view might be smaller or larger than the size of the source file on disk. This is because views are provided in units of system pages, and the size of the view is rounded up to the next system page size.</p>\n"
+  example:
+  - 
   syntax:
     content: public MemoryMappedViewStream CreateViewStream(long offset, long size, MemoryMappedFileAccess access)
     content.vb: Public Function CreateViewStream(offset As Long, size As Long, access As MemoryMappedFileAccess) As MemoryMappedViewStream
     parameters:
     - id: offset
       type: System.Int64
+      description: "\n<p>The byte at which to start the view.</p>\n"
     - id: size
       type: System.Int64
+      description: "\n<p>The size of the view. Specify 0 (zero) to create a view that starts at <em>offset</em> and ends approximately at the end of the memory-mapped file.</p>\n"
     - id: access
       type: System.IO.MemoryMappedFiles.MemoryMappedFileAccess
+      description: "\n<p>One of the enumeration values that specifies the type of access allowed to the memory-mapped file. The default is <xref href=\"System.IO.MemoryMappedFiles.MemoryMappedFileAccess.ReadWrite\" data-throw-if-not-resolved=\"false\"></xref>.</p>\n"
     return:
       type: System.IO.MemoryMappedFiles.MemoryMappedViewStream
+      description: "\n<p>A stream of memory that has the specified characteristics.</p>\n"
+  exceptions:
+  - type: System.ArgumentOutOfRangeException
+    commentId: T:System.ArgumentOutOfRangeException
+    description: "\n<p>\n<em>offset</em> or <em>size</em> is a negative value.</p>\n<p>-or-</p>\n<p>\n<em>size</em> is greater than the logical address space.</p>\n<p>-or-</p>\n<p>\n<em>access </em>is not a valid <xref href=\"System.IO.MemoryMappedFiles.MemoryMappedFileAccess\" data-throw-if-not-resolved=\"false\"></xref> enumeration value.</p>\n"
+  - type: System.UnauthorizedAccessException
+    commentId: T:System.UnauthorizedAccessException
+    description: "\n<p>\n<em>access</em> is invalid for the memory-mapped file.</p>\n"
+  - type: System.IO.IOException
+    commentId: T:System.IO.IOException
+    description: "\n<p>\n<em>size</em> is greater than the total virtual memory.</p>\n<p>-or-</p>\n<p>\n<em>access</em> is invalid for the memory-mapped file.</p>\n"
+  see:
+  - type: System.Security.Permissions.SecurityPermission
+    commentId: T:System.Security.Permissions.SecurityPermission
   modifiers.csharp:
   - public
   modifiers.vb:
@@ -785,18 +1154,23 @@ items:
   type: Method
   source:
     remote:
-      path: src/System.IO.MemoryMappedFiles/src/System/IO/MemoryMappedFiles/MemoryMappedFile.cs
+      path: src/System.IO.MemoryMappedFiles/ref/System.IO.MemoryMappedFiles.cs
       branch: master
       repo: https://github.com/dotnet/corefx.git
     id: Dispose
-    path: src/System.IO.MemoryMappedFiles/src/System/IO/MemoryMappedFiles/MemoryMappedFile.cs
-    startLine: 463
+    path: src/System.IO.MemoryMappedFiles/ref/System.IO.MemoryMappedFiles.cs
+    startLine: 45
   assemblies:
   - System.IO.MemoryMappedFiles
   namespace: System.IO.MemoryMappedFiles
+  summary: "\n<p>Releases all resources used by the <xref href=\"System.IO.MemoryMappedFiles.MemoryMappedFile\" data-throw-if-not-resolved=\"false\"></xref>. </p>\n"
+  example:
+  - 
   syntax:
     content: public void Dispose()
     content.vb: Public Sub Dispose
+  implements:
+  - System.IDisposable.Dispose
   modifiers.csharp:
   - public
   modifiers.vb:
@@ -813,21 +1187,25 @@ items:
   type: Method
   source:
     remote:
-      path: src/System.IO.MemoryMappedFiles/src/System/IO/MemoryMappedFiles/MemoryMappedFile.cs
+      path: src/System.IO.MemoryMappedFiles/ref/System.IO.MemoryMappedFiles.cs
       branch: master
       repo: https://github.com/dotnet/corefx.git
     id: Dispose
-    path: src/System.IO.MemoryMappedFiles/src/System/IO/MemoryMappedFiles/MemoryMappedFile.cs
-    startLine: 469
+    path: src/System.IO.MemoryMappedFiles/ref/System.IO.MemoryMappedFiles.cs
+    startLine: 46
   assemblies:
   - System.IO.MemoryMappedFiles
   namespace: System.IO.MemoryMappedFiles
+  summary: "\n<p>Releases the unmanaged resources used by the <xref href=\"System.IO.MemoryMappedFiles.MemoryMappedFile\" data-throw-if-not-resolved=\"false\"></xref> and optionally releases the managed resources. </p>\n"
+  example:
+  - 
   syntax:
     content: protected virtual void Dispose(bool disposing)
     content.vb: Protected Overridable Sub Dispose(disposing As Boolean)
     parameters:
     - id: disposing
       type: System.Boolean
+      description: "\n<p>\n<strong>true</strong> to release both managed and unmanaged resources; <strong>false</strong> to release only unmanaged resources. </p>\n"
   modifiers.csharp:
   - protected
   - virtual
@@ -846,23 +1224,39 @@ items:
   type: Method
   source:
     remote:
-      path: src/System.IO.MemoryMappedFiles/src/System/IO/MemoryMappedFiles/MemoryMappedFile.cs
+      path: src/System.IO.MemoryMappedFiles/ref/System.IO.MemoryMappedFiles.cs
       branch: master
       repo: https://github.com/dotnet/corefx.git
     id: OpenExisting
-    path: src/System.IO.MemoryMappedFiles/src/System/IO/MemoryMappedFiles/MemoryMappedFile.cs
-    startLine: 49
+    path: src/System.IO.MemoryMappedFiles/ref/System.IO.MemoryMappedFiles.cs
+    startLine: 47
   assemblies:
   - System.IO.MemoryMappedFiles
   namespace: System.IO.MemoryMappedFiles
+  summary: "\n<p>Opens an existing memory-mapped file that has the specified name in system memory.</p>\n"
+  remarks: "\n<p>The memory-mapped file can be either a persisted memory-mapped file (associated with a file on disk) or non persisted.</p>\n"
+  example:
+  - "\n<p>Opening a Persisted Memory-Mapped File</p>\n<p>The following example opens a memory-mapped file named <code>ImgA</code> that has already been created from a file on disk (as shown in the example for the <xref href=\"System.IO.MemoryMappedFiles.MemoryMappedFile.CreateFromFile(System.String)\" data-throw-if-not-resolved=\"false\"></xref> method).</p>memorymappedfiles.memorymappedfile.openexisting#1<p></p><p>Opening a Non-Persisted Memory-Mapped File</p><p>The following example opens a memory-mapped file used for inter-process communication. This code example is part of a larger example provided for the <xref href=\"System.IO.MemoryMappedFiles.MemoryMappedFile.CreateNew(System.String,System.Int64)\" data-throw-if-not-resolved=\"false\"></xref> method.</p>"
   syntax:
     content: public static MemoryMappedFile OpenExisting(string mapName)
     content.vb: Public Shared Function OpenExisting(mapName As String) As MemoryMappedFile
     parameters:
     - id: mapName
       type: System.String
+      description: "\n<p>The name of the memory-mapped file to open.</p>\n"
     return:
       type: System.IO.MemoryMappedFiles.MemoryMappedFile
+      description: "\n<p>A memory-mapped file that has the specified name. </p>\n"
+  exceptions:
+  - type: System.ArgumentException
+    commentId: T:System.ArgumentException
+    description: "\n<p>\n<em>mapName</em> is an empty string.</p>\n"
+  - type: System.ArgumentNullException
+    commentId: T:System.ArgumentNullException
+    description: "\n<p>\n<em>mapName</em> is <strong>null</strong>.</p>\n"
+  - type: System.IO.FileNotFoundException
+    commentId: T:System.IO.FileNotFoundException
+    description: "\n<p>The file specified for <em>mapName</em> does not exist.</p>\n"
   modifiers.csharp:
   - public
   - static
@@ -881,25 +1275,44 @@ items:
   type: Method
   source:
     remote:
-      path: src/System.IO.MemoryMappedFiles/src/System/IO/MemoryMappedFiles/MemoryMappedFile.cs
+      path: src/System.IO.MemoryMappedFiles/ref/System.IO.MemoryMappedFiles.cs
       branch: master
       repo: https://github.com/dotnet/corefx.git
     id: OpenExisting
-    path: src/System.IO.MemoryMappedFiles/src/System/IO/MemoryMappedFiles/MemoryMappedFile.cs
-    startLine: 54
+    path: src/System.IO.MemoryMappedFiles/ref/System.IO.MemoryMappedFiles.cs
+    startLine: 48
   assemblies:
   - System.IO.MemoryMappedFiles
   namespace: System.IO.MemoryMappedFiles
+  summary: "\n<p>Opens an existing memory-mapped file that has the specified name and access rights in system memory.</p>\n"
+  example:
+  - 
   syntax:
     content: public static MemoryMappedFile OpenExisting(string mapName, MemoryMappedFileRights desiredAccessRights)
     content.vb: Public Shared Function OpenExisting(mapName As String, desiredAccessRights As MemoryMappedFileRights) As MemoryMappedFile
     parameters:
     - id: mapName
       type: System.String
+      description: "\n<p>The name of the memory-mapped file to open.</p>\n"
     - id: desiredAccessRights
       type: System.IO.MemoryMappedFiles.MemoryMappedFileRights
+      description: "\n<p>One of the enumeration values that specifies the access rights to apply to the memory-mapped file.</p>\n"
     return:
       type: System.IO.MemoryMappedFiles.MemoryMappedFile
+      description: "\n<p>A memory-mapped file that has the specified characteristics.</p>\n"
+  exceptions:
+  - type: System.ArgumentException
+    commentId: T:System.ArgumentException
+    description: "\n<p>\n<em>mapName</em> is an empty string.</p>\n"
+  - type: System.ArgumentNullException
+    commentId: T:System.ArgumentNullException
+    description: "\n<p>\n<em>mapName</em> is <strong>null</strong>.</p>\n"
+  - type: System.ArgumentOutOfRangeException
+    commentId: T:System.ArgumentOutOfRangeException
+    description: "\n<p>\n<em>desiredAccessRights</em> is not a valid <xref href=\"System.IO.MemoryMappedFiles.MemoryMappedFileRights\" data-throw-if-not-resolved=\"false\"></xref> enumeration value.</p>\n"
+  - type: System.IO.FileNotFoundException
+    commentId: T:System.IO.FileNotFoundException
+    description: "\n<p>The file specified for <em>mapName</em> does not exist.</p>\n"
   modifiers.csharp:
   - public
   - static
@@ -927,18 +1340,44 @@ items:
   assemblies:
   - System.IO.MemoryMappedFiles
   namespace: System.IO.MemoryMappedFiles
+  summary: "\n<p>Opens an existing memory-mapped file that has the specified name, access rights, and inheritability in system memory.</p>\n"
+  example:
+  - 
   syntax:
     content: public static MemoryMappedFile OpenExisting(string mapName, MemoryMappedFileRights desiredAccessRights, HandleInheritability inheritability)
     content.vb: Public Shared Function OpenExisting(mapName As String, desiredAccessRights As MemoryMappedFileRights, inheritability As HandleInheritability) As MemoryMappedFile
     parameters:
     - id: mapName
       type: System.String
+      description: "\n<p>The name of the memory-mapped file to open.</p>\n"
     - id: desiredAccessRights
       type: System.IO.MemoryMappedFiles.MemoryMappedFileRights
+      description: "\n<p>One of the enumeration values that specifies the access rights to apply to the memory-mapped file.</p>\n"
     - id: inheritability
       type: System.IO.HandleInheritability
+      description: "\n<p>One of the enumeration values that specifies whether a handle to the memory-mapped file can be inherited by a child process. The default is <xref href=\"System.IO.HandleInheritability.None\" data-throw-if-not-resolved=\"false\"></xref>.</p>\n"
     return:
       type: System.IO.MemoryMappedFiles.MemoryMappedFile
+      description: "\n<p>A memory-mapped file that has the specified characteristics.</p>\n"
+  exceptions:
+  - type: System.ArgumentException
+    commentId: T:System.ArgumentException
+    description: "\n<p>\n<em>mapName</em> is an empty string.</p>\n"
+  - type: System.ArgumentNullException
+    commentId: T:System.ArgumentNullException
+    description: "\n<p>\n<em>mapName</em> is <strong>null</strong>.</p>\n"
+  - type: System.ArgumentOutOfRangeException
+    commentId: T:System.ArgumentOutOfRangeException
+    description: "\n<p>\n<em>desiredAccessRights</em> is not a valid <xref href=\"System.IO.MemoryMappedFiles.MemoryMappedFileRights\" data-throw-if-not-resolved=\"false\"></xref> enumeration value.</p>\n<p>-or-</p>\n<p>\n<em>inheritability</em> is not a valid <xref href=\"System.IO.HandleInheritability\" data-throw-if-not-resolved=\"false\"></xref> enumeration value.</p>\n"
+  - type: System.UnauthorizedAccessException
+    commentId: T:System.UnauthorizedAccessException
+    description: "\n<p>The requested access is invalid for the memory-mapped file.</p>\n"
+  - type: System.IO.FileNotFoundException
+    commentId: T:System.IO.FileNotFoundException
+    description: "\n<p>The file specified for <em>mapName</em> does not exist.</p>\n"
+  see:
+  - type: System.Security.Permissions.SecurityPermission
+    commentId: T:System.Security.Permissions.SecurityPermission
   modifiers.csharp:
   - public
   - static
@@ -955,6 +1394,220 @@ references:
   isExternal: false
   name: Object
   fullName: System.Object
+- uid: System.IDisposable
+  parent: System
+  isExternal: false
+  name: IDisposable
+  fullName: System.IDisposable
+- uid: System.Object.ToString
+  parent: System.Object
+  isExternal: true
+  name: ToString()
+  fullName: System.Object.ToString()
+  spec.csharp:
+  - uid: System.Object.ToString
+    name: ToString
+    fullName: System.Object.ToString
+    isExternal: true
+  - name: (
+    fullName: (
+  - name: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.ToString
+    name: ToString
+    fullName: System.Object.ToString
+    isExternal: true
+  - name: (
+    fullName: (
+  - name: )
+    fullName: )
+- uid: System.Object.Equals(System.Object)
+  parent: System.Object
+  isExternal: true
+  name: Equals(Object)
+  fullName: System.Object.Equals(System.Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    fullName: )
+- uid: System.Object.Equals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  name: Equals(Object, Object)
+  fullName: System.Object.Equals(System.Object, System.Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    fullName: )
+- uid: System.Object.ReferenceEquals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  name: ReferenceEquals(Object, Object)
+  fullName: System.Object.ReferenceEquals(System.Object, System.Object)
+  spec.csharp:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    fullName: System.Object.ReferenceEquals
+    isExternal: true
+  - name: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    fullName: System.Object.ReferenceEquals
+    isExternal: true
+  - name: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    fullName: )
+- uid: System.Object.GetHashCode
+  parent: System.Object
+  isExternal: true
+  name: GetHashCode()
+  fullName: System.Object.GetHashCode()
+  spec.csharp:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    fullName: System.Object.GetHashCode
+    isExternal: true
+  - name: (
+    fullName: (
+  - name: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    fullName: System.Object.GetHashCode
+    isExternal: true
+  - name: (
+    fullName: (
+  - name: )
+    fullName: )
+- uid: System.Object.GetType
+  parent: System.Object
+  isExternal: true
+  name: GetType()
+  fullName: System.Object.GetType()
+  spec.csharp:
+  - uid: System.Object.GetType
+    name: GetType
+    fullName: System.Object.GetType
+    isExternal: true
+  - name: (
+    fullName: (
+  - name: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.GetType
+    name: GetType
+    fullName: System.Object.GetType
+    isExternal: true
+  - name: (
+    fullName: (
+  - name: )
+    fullName: )
+- uid: System.Object.MemberwiseClone
+  parent: System.Object
+  isExternal: true
+  name: MemberwiseClone()
+  fullName: System.Object.MemberwiseClone()
+  spec.csharp:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    fullName: System.Object.MemberwiseClone
+    isExternal: true
+  - name: (
+    fullName: (
+  - name: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    fullName: System.Object.MemberwiseClone
+    isExternal: true
+  - name: (
+    fullName: (
+  - name: )
+    fullName: )
 - uid: System
   isExternal: false
   name: System
@@ -1027,8 +1680,64 @@ references:
   isExternal: false
   name: MemoryMappedViewStream
   fullName: System.IO.MemoryMappedFiles.MemoryMappedViewStream
+- uid: System.IDisposable.Dispose
+  parent: System.IDisposable
+  isExternal: false
+  name: Dispose()
+  fullName: System.IDisposable.Dispose()
+  spec.csharp:
+  - uid: System.IDisposable.Dispose
+    name: Dispose
+    fullName: System.IDisposable.Dispose
+  - name: (
+    fullName: (
+  - name: )
+    fullName: )
+  spec.vb:
+  - uid: System.IDisposable.Dispose
+    name: Dispose
+    fullName: System.IDisposable.Dispose
+  - name: (
+    fullName: (
+  - name: )
+    fullName: )
 - uid: System.IO.MemoryMappedFiles.MemoryMappedFileRights
   parent: System.IO.MemoryMappedFiles
   isExternal: false
   name: MemoryMappedFileRights
   fullName: System.IO.MemoryMappedFiles.MemoryMappedFileRights
+- uid: System.ArgumentException
+  parent: System
+  isExternal: false
+  name: ArgumentException
+  fullName: System.ArgumentException
+- uid: System.ArgumentNullException
+  isExternal: false
+  name: ArgumentNullException
+  fullName: System.ArgumentNullException
+- uid: System.ArgumentOutOfRangeException
+  isExternal: false
+  name: ArgumentOutOfRangeException
+  fullName: System.ArgumentOutOfRangeException
+- uid: System.IO.IOException
+  parent: System.IO
+  isExternal: false
+  name: IOException
+  fullName: System.IO.IOException
+- uid: System.IO.PathTooLongException
+  isExternal: false
+  name: PathTooLongException
+  fullName: System.IO.PathTooLongException
+- uid: System.Security.SecurityException
+  isExternal: false
+  name: SecurityException
+  fullName: System.Security.SecurityException
+- uid: System.UnauthorizedAccessException
+  parent: System
+  isExternal: false
+  name: UnauthorizedAccessException
+  fullName: System.UnauthorizedAccessException
+- uid: System.IO.FileNotFoundException
+  isExternal: false
+  name: FileNotFoundException
+  fullName: System.IO.FileNotFoundException

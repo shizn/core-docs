@@ -15,12 +15,12 @@ items:
   type: Enum
   source:
     remote:
-      path: src/System.Runtime.InteropServices/ref/System.Runtime.InteropServices.cs
+      path: src/mscorlib/src/System/Runtime/InteropServices/Attributes.cs
       branch: master
-      repo: https://github.com/dotnet/corefx.git
+      repo: https://github.com/dotnet/coreclr.git
     id: ClassInterfaceType
-    path: src/System.Runtime.InteropServices/ref/System.Runtime.InteropServices.cs
-    startLine: 77
+    path: src/mscorlib/src/System/Runtime/InteropServices/Attributes.cs
+    startLine: 111
   assemblies:
   - System.Runtime.InteropServices
   namespace: System.Runtime.InteropServices
@@ -29,8 +29,18 @@ items:
   example:
   - "\n<p>This example shows how to apply the <xref href=\"System.Runtime.InteropServices.ClassInterfaceAttribute\" data-throw-if-not-resolved=\"false\"></xref> to a type, setting the <xref href=\"System.Runtime.InteropServices.ClassInterfaceType\" data-throw-if-not-resolved=\"false\"></xref>. Classes defined this way can be used from unmanaged COM.</p>ClassInterfaceType#1"
   syntax:
-    content: 'public enum ClassInterfaceType : int'
-    content.vb: Public Enum ClassInterfaceType As Integer
+    content: >-
+      [Serializable]
+
+      [ComVisible(true)]
+
+      public enum ClassInterfaceType
+    content.vb: >-
+      <Serializable>
+
+      <ComVisible(True)>
+
+      Public Enum ClassInterfaceType
   modifiers.csharp:
   - public
   - enum
@@ -49,22 +59,27 @@ items:
   type: Field
   source:
     remote:
-      path: src/System.Runtime.InteropServices/ref/System.Runtime.InteropServices.cs
+      path: src/mscorlib/src/System/Runtime/InteropServices/Attributes.cs
       branch: master
-      repo: https://github.com/dotnet/corefx.git
+      repo: https://github.com/dotnet/coreclr.git
     id: AutoDispatch
-    path: src/System.Runtime.InteropServices/ref/System.Runtime.InteropServices.cs
-    startLine: 79
+    path: src/mscorlib/src/System/Runtime/InteropServices/Attributes.cs
+    startLine: 116
   assemblies:
   - System.Runtime.InteropServices
   namespace: System.Runtime.InteropServices
   summary: "\n<p>Indicates that the class only supports late binding for COM clients. A <strong>dispinterface</strong> for the class is automatically exposed to COM clients on request. The type library produced by Tlbexp.exe (Type Library Exporter) does not contain type information for the <strong>dispinterface</strong> in order to prevent clients from caching the DISPIDs of the interface. The <strong>dispinterface</strong> does not exhibit the versioning problems described in <xref href=\"System.Runtime.InteropServices.ClassInterfaceAttribute\" data-throw-if-not-resolved=\"false\"></xref> because clients can only late-bind to the interface.</p>\n"
   remarks: "\n<p>This is the default setting for <xref href=\"System.Runtime.InteropServices.ClassInterfaceAttribute\" data-throw-if-not-resolved=\"false\"></xref>.</p>\n"
   syntax:
-    content: AutoDispatch = null
-    content.vb: AutoDispatch = Nothing
+    content: AutoDispatch = 1
     return:
       type: System.Runtime.InteropServices.ClassInterfaceType
+  attributes:
+  - type: System.ObsoleteAttribute
+    ctor: System.ObsoleteAttribute.#ctor(System.String)
+    arguments:
+    - type: System.String
+      value: Support for IDispatch may be unavailable in future releases.
   modifiers.csharp:
   - public
   - const
@@ -83,21 +98,26 @@ items:
   type: Field
   source:
     remote:
-      path: src/System.Runtime.InteropServices/ref/System.Runtime.InteropServices.cs
+      path: src/mscorlib/src/System/Runtime/InteropServices/Attributes.cs
       branch: master
-      repo: https://github.com/dotnet/corefx.git
+      repo: https://github.com/dotnet/coreclr.git
     id: AutoDual
-    path: src/System.Runtime.InteropServices/ref/System.Runtime.InteropServices.cs
-    startLine: 82
+    path: src/mscorlib/src/System/Runtime/InteropServices/Attributes.cs
+    startLine: 117
   assemblies:
   - System.Runtime.InteropServices
   namespace: System.Runtime.InteropServices
   summary: "\n<p>Indicates that a dual class interface is automatically generated for the class and exposed to COM. Type information is produced for the class interface and published in the type library. Using <strong>AutoDual</strong> is strongly discouraged because of the versioning limitations described in <xref href=\"System.Runtime.InteropServices.ClassInterfaceAttribute\" data-throw-if-not-resolved=\"false\"></xref>.</p>\n"
   syntax:
-    content: AutoDual = null
-    content.vb: AutoDual = Nothing
+    content: AutoDual = 2
     return:
       type: System.Runtime.InteropServices.ClassInterfaceType
+  attributes:
+  - type: System.ObsoleteAttribute
+    ctor: System.ObsoleteAttribute.#ctor(System.String)
+    arguments:
+    - type: System.String
+      value: Support for IDispatch may be unavailable in future releases.
   modifiers.csharp:
   - public
   - const
@@ -116,20 +136,19 @@ items:
   type: Field
   source:
     remote:
-      path: src/System.Runtime.InteropServices/ref/System.Runtime.InteropServices.cs
+      path: src/mscorlib/src/System/Runtime/InteropServices/Attributes.cs
       branch: master
-      repo: https://github.com/dotnet/corefx.git
+      repo: https://github.com/dotnet/coreclr.git
     id: None
-    path: src/System.Runtime.InteropServices/ref/System.Runtime.InteropServices.cs
-    startLine: 85
+    path: src/mscorlib/src/System/Runtime/InteropServices/Attributes.cs
+    startLine: 115
   assemblies:
   - System.Runtime.InteropServices
   namespace: System.Runtime.InteropServices
   summary: "\n<p>Indicates that no class interface is generated for the class. If no interfaces are implemented explicitly, the class can only provide late-bound access through the <strong>IDispatch</strong> interface. This is the recommended setting for <xref href=\"System.Runtime.InteropServices.ClassInterfaceAttribute\" data-throw-if-not-resolved=\"false\"></xref>. Using <strong>ClassInterfaceType.None</strong> is the only way to expose functionality through interfaces implemented explicitly by the class.</p>\n"
   remarks: "\n<p>Tlbexp.exe (Type Library Exporter) exposes the first public, COM-visible interface implemented by the class as the default interface of the coclass. Beginning with the .NET Framework version 2.0, you can specify the default interface exposed to COM by using the <xref href=\"System.Runtime.InteropServices.ComDefaultInterfaceAttribute\" data-throw-if-not-resolved=\"false\"></xref> attribute. If the class implements no interfaces, the first public, COM-visible interface implemented by a base class becomes the default interface (starting with the most recently derived base class and working backward). Tlbexp.exe exposes <strong>_Object</strong> as the default interface if neither the class nor its base classes implement interfaces.</p>\n"
   syntax:
-    content: None = null
-    content.vb: None = Nothing
+    content: None = 0
     return:
       type: System.Runtime.InteropServices.ClassInterfaceType
   modifiers.csharp:

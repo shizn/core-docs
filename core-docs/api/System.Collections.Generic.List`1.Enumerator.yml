@@ -7,6 +7,8 @@ items:
   - System.Collections.Generic.List`1.Enumerator.Current
   - System.Collections.Generic.List`1.Enumerator.Dispose
   - System.Collections.Generic.List`1.Enumerator.MoveNext
+  - System.Collections.Generic.List`1.Enumerator.System#Collections#IEnumerator#Current
+  - System.Collections.Generic.List`1.Enumerator.System#Collections#IEnumerator#Reset
   langs:
   - csharp
   - vb
@@ -15,22 +17,27 @@ items:
   type: Struct
   source:
     remote:
-      path: src/System.Collections/ref/System.Collections.cs
+      path: src/mscorlib/src/System/Collections/Generic/List.cs
       branch: master
-      repo: https://github.com/dotnet/corefx.git
+      repo: https://github.com/dotnet/coreclr.git
     id: Enumerator
-    path: src/System.Collections/ref/System.Collections.cs
-    startLine: 325
+    path: src/mscorlib/src/System/Collections/Generic/List.cs
+    startLine: 1053
   assemblies:
   - System.Collections
   namespace: System.Collections.Generic
   summary: "\n<p>Enumerates the elements of a <xref href=\"System.Collections.Generic.List`1\" data-throw-if-not-resolved=\"false\"></xref>.</p>\n"
   remarks: "\n<p>The <strong>foreach</strong> statement of the C# language (<strong>for each</strong> in C++, <strong>For Each</strong> in Visual Basic) hides the complexity of enumerators. Therefore, using <strong>foreach</strong> is recommended, instead of directly manipulating the enumerator.</p>\n<p>Enumerators can be used to read the data in the collection, but they cannot be used to modify the underlying collection.</p>\n<p>Initially, the enumerator is positioned before the first element in the collection. At this position, <xref href=\"System.Collections.Generic.List`1.Enumerator.Current\" data-throw-if-not-resolved=\"false\"></xref> is undefined. Therefore, you must call <xref href=\"System.Collections.Generic.List`1.Enumerator.MoveNext\" data-throw-if-not-resolved=\"false\"></xref> to advance the enumerator to the first element of the collection before reading the value of <xref href=\"System.Collections.Generic.List`1.Enumerator.Current\" data-throw-if-not-resolved=\"false\"></xref>.</p>\n<p>\n<xref href=\"System.Collections.Generic.List`1.Enumerator.Current\" data-throw-if-not-resolved=\"false\"></xref> returns the same object until <xref href=\"System.Collections.Generic.List`1.Enumerator.MoveNext\" data-throw-if-not-resolved=\"false\"></xref> is called. <xref href=\"System.Collections.Generic.List`1.Enumerator.MoveNext\" data-throw-if-not-resolved=\"false\"></xref> sets <xref href=\"System.Collections.Generic.List`1.Enumerator.Current\" data-throw-if-not-resolved=\"false\"></xref> to the next element.</p>\n<p>If <xref href=\"System.Collections.Generic.List`1.Enumerator.MoveNext\" data-throw-if-not-resolved=\"false\"></xref> passes the end of the collection, the enumerator is positioned after the last element in the collection and <xref href=\"System.Collections.Generic.List`1.Enumerator.MoveNext\" data-throw-if-not-resolved=\"false\"></xref> returns <strong>false</strong>. When the enumerator is at this position, subsequent calls to <xref href=\"System.Collections.Generic.List`1.Enumerator.MoveNext\" data-throw-if-not-resolved=\"false\"></xref> also return <strong>false</strong>. If the last call to <xref href=\"System.Collections.Generic.List`1.Enumerator.MoveNext\" data-throw-if-not-resolved=\"false\"></xref> returned <strong>false</strong>, <xref href=\"System.Collections.Generic.List`1.Enumerator.Current\" data-throw-if-not-resolved=\"false\"></xref> is undefined. You cannot set <xref href=\"System.Collections.Generic.List`1.Enumerator.Current\" data-throw-if-not-resolved=\"false\"></xref> to the first element of the collection again; you must create a new enumerator instance instead.</p>\n<p>An enumerator remains valid as long as the collection remains unchanged. If changes are made to the collection, such as adding, modifying, or deleting elements, the enumerator is irrecoverably invalidated and its behavior is undefined.</p>\n<p>The enumerator does not have exclusive access to the collection; therefore, enumerating through a collection is intrinsically not a thread-safe procedure. To guarantee thread safety during enumeration, you can lock the collection during the entire enumeration.  To allow the collection to be accessed by multiple threads for reading and writing, you must implement your own synchronization.</p>\n<p>Default implementations of collections in <xref href=\"System.Collections.Generic\" data-throw-if-not-resolved=\"false\"></xref> are not synchronized.</p>\n"
   syntax:
-    content: 'public struct Enumerator : IEnumerator<T>, IEnumerator, IDisposable'
+    content: >-
+      [Serializable]
+
+      public struct Enumerator : IEnumerator<T>, IDisposable, IEnumerator
     content.vb: >-
+      <Serializable>
+
       Public Structure Enumerator
-          Implements IEnumerator(Of T), IEnumerator, IDisposable
+          Implements IEnumerator(Of T), IDisposable, IEnumerator
   seealso:
   - type: System.Collections.Generic.IEnumerable`1
     commentId: T:System.Collections.Generic.IEnumerable`1
@@ -40,6 +47,19 @@ items:
   - System.Collections.Generic.IEnumerator{{T}}
   - System.Collections.IEnumerator
   - System.IDisposable
+  inheritedMembers:
+  - System.ValueType.Equals(System.Object)
+  - System.ValueType.GetHashCode
+  - System.ValueType.ToString
+  - System.Object.Equals(System.Object,System.Object)
+  - System.Object.ReferenceEquals(System.Object,System.Object)
+  - System.Object.GetType
+  attributes:
+  - type: System.Runtime.InteropServices.StructLayoutAttribute
+    ctor: System.Runtime.InteropServices.StructLayoutAttribute.#ctor(System.Runtime.InteropServices.LayoutKind)
+    arguments:
+    - type: System.Runtime.InteropServices.LayoutKind
+      value: 0
   modifiers.csharp:
   - public
   - struct
@@ -60,12 +80,12 @@ items:
   type: Property
   source:
     remote:
-      path: src/System.Collections/ref/System.Collections.cs
+      path: src/mscorlib/src/System/Collections/Generic/List.cs
       branch: master
-      repo: https://github.com/dotnet/corefx.git
+      repo: https://github.com/dotnet/coreclr.git
     id: Current
-    path: src/System.Collections/ref/System.Collections.cs
-    startLine: 328
+    path: src/mscorlib/src/System/Collections/Generic/List.cs
+    startLine: 1095
   assemblies:
   - System.Collections
   namespace: System.Collections.Generic
@@ -77,12 +97,13 @@ items:
     parameters: []
     return:
       type: '{T}'
-      description: "\n<p>The element in the <xref href=\"System.Collections.Generic.List`1\" data-throw-if-not-resolved=\"false\"></xref> at the current position of the enumerator.</p>\n"
   seealso:
   - type: System.Collections.Generic.List`1.Enumerator.MoveNext
     commentId: M:System.Collections.Generic.List`1.Enumerator.MoveNext
   - type: System.Collections.IEnumerator
     commentId: T:System.Collections.IEnumerator
+  implements:
+  - System.Collections.Generic.IEnumerator{{T}}.Current
   modifiers.csharp:
   - public
   - get
@@ -90,6 +111,55 @@ items:
   - Public
   - ReadOnly
   fullName.vb: System.Collections.Generic.List(Of T).Enumerator.Current
+- uid: System.Collections.Generic.List`1.Enumerator.System#Collections#IEnumerator#Current
+  commentId: P:System.Collections.Generic.List`1.Enumerator.System#Collections#IEnumerator#Current
+  id: System#Collections#IEnumerator#Current
+  isEii: true
+  parent: System.Collections.Generic.List`1.Enumerator
+  langs:
+  - csharp
+  - vb
+  name: IEnumerator.Current
+  fullName: System.Collections.Generic.List<T>.Enumerator.System.Collections.IEnumerator.Current
+  type: Property
+  source:
+    remote:
+      path: src/mscorlib/src/System/Collections/Generic/List.cs
+      branch: master
+      repo: https://github.com/dotnet/coreclr.git
+    id: System.Collections.IEnumerator.Current
+    path: src/mscorlib/src/System/Collections/Generic/List.cs
+    startLine: 1101
+  assemblies:
+  - System.Collections
+  namespace: System.Collections.Generic
+  summary: "\n<p>Gets the element at the current position of the enumerator.</p>\n"
+  remarks: "\n<p>\n<xref href=\"System.Collections.IEnumerator.Current\" data-throw-if-not-resolved=\"false\"></xref> is undefined under any of the following conditions:</p>\n<ul><li>\n<p>The enumerator is positioned before the first element in the collection, immediately after the enumerator is created or immediately after <xref href=\"System.Collections.IEnumerator.Reset\" data-throw-if-not-resolved=\"false\"></xref> is called. <xref href=\"System.Collections.IEnumerator.MoveNext\" data-throw-if-not-resolved=\"false\"></xref> must be called to advance the enumerator to the first element of the collection before reading the value of <xref href=\"System.Collections.IEnumerator.Current\" data-throw-if-not-resolved=\"false\"></xref>.</p>\n</li><li>\n<p>The last call to <xref href=\"System.Collections.IEnumerator.MoveNext\" data-throw-if-not-resolved=\"false\"></xref> returned <strong>false</strong>, which indicates the end of the collection.</p>\n</li></ul>\n<p>\n<xref href=\"System.Collections.IEnumerator.Current\" data-throw-if-not-resolved=\"false\"></xref> returns the same object until <xref href=\"System.Collections.IEnumerator.MoveNext\" data-throw-if-not-resolved=\"false\"></xref> or <xref href=\"System.Collections.IEnumerator.Reset\" data-throw-if-not-resolved=\"false\"></xref> is called. <xref href=\"System.Collections.IEnumerator.MoveNext\" data-throw-if-not-resolved=\"false\"></xref> sets <xref href=\"System.Collections.IEnumerator.Current\" data-throw-if-not-resolved=\"false\"></xref> to the next element. If the list is modified between <xref href=\"System.Collections.IEnumerator.MoveNext\" data-throw-if-not-resolved=\"false\"></xref> and <xref href=\"System.Collections.IEnumerator.Current\" data-throw-if-not-resolved=\"false\"></xref>, <xref href=\"System.Collections.IEnumerator.Current\" data-throw-if-not-resolved=\"false\"></xref> returns the element that it is set to, even though the enumerator is invalidated.</p>\n"
+  syntax:
+    content: object IEnumerator.Current { get; }
+    content.vb: ReadOnly WriteOnly Property System.Collections.IEnumerator.Current As Object Implements IEnumerator.Current
+    parameters: []
+    return:
+      type: System.Object
+  exceptions:
+  - type: System.InvalidOperationException
+    commentId: T:System.InvalidOperationException
+    description: "\n<p>The enumerator is positioned before the first element of the collection or after the last element. </p>\n"
+  seealso:
+  - type: System.Collections.IEnumerator.MoveNext
+    commentId: M:System.Collections.IEnumerator.MoveNext
+  - type: System.Collections.IEnumerator.Reset
+    commentId: M:System.Collections.IEnumerator.Reset
+  - type: System.Collections.IEnumerator
+    commentId: T:System.Collections.IEnumerator
+  implements:
+  - System.Collections.IEnumerator.Current
+  modifiers.csharp:
+  - get
+  modifiers.vb:
+  - ReadOnly
+  fullName.vb: System.Collections.Generic.List(Of T).Enumerator.System.Collections.IEnumerator.Current
+  name.vb: System.Collections.IEnumerator.Current
 - uid: System.Collections.Generic.List`1.Enumerator.Dispose
   commentId: M:System.Collections.Generic.List`1.Enumerator.Dispose
   id: Dispose
@@ -102,12 +172,12 @@ items:
   type: Method
   source:
     remote:
-      path: src/System.Collections/ref/System.Collections.cs
+      path: src/mscorlib/src/System/Collections/Generic/List.cs
       branch: master
-      repo: https://github.com/dotnet/corefx.git
+      repo: https://github.com/dotnet/coreclr.git
     id: Dispose
-    path: src/System.Collections/ref/System.Collections.cs
-    startLine: 330
+    path: src/mscorlib/src/System/Collections/Generic/List.cs
+    startLine: 1068
   assemblies:
   - System.Collections
   namespace: System.Collections.Generic
@@ -115,6 +185,8 @@ items:
   syntax:
     content: public void Dispose()
     content.vb: Public Sub Dispose
+  implements:
+  - System.IDisposable.Dispose
   modifiers.csharp:
   - public
   modifiers.vb:
@@ -132,12 +204,12 @@ items:
   type: Method
   source:
     remote:
-      path: src/System.Collections/ref/System.Collections.cs
+      path: src/mscorlib/src/System/Collections/Generic/List.cs
       branch: master
-      repo: https://github.com/dotnet/corefx.git
+      repo: https://github.com/dotnet/coreclr.git
     id: MoveNext
-    path: src/System.Collections/ref/System.Collections.cs
-    startLine: 331
+    path: src/mscorlib/src/System/Collections/Generic/List.cs
+    startLine: 1071
   assemblies:
   - System.Collections
   namespace: System.Collections.Generic
@@ -148,7 +220,6 @@ items:
     content.vb: Public Function MoveNext As Boolean
     return:
       type: System.Boolean
-      description: "\n<p>\n<strong>true</strong> if the enumerator was successfully advanced to the next element; <strong>false</strong> if the enumerator has passed the end of the collection.</p>\n"
   exceptions:
   - type: System.InvalidOperationException
     commentId: T:System.InvalidOperationException
@@ -156,11 +227,55 @@ items:
   seealso:
   - type: System.Collections.Generic.List`1.Enumerator.Current
     commentId: P:System.Collections.Generic.List`1.Enumerator.Current
+  implements:
+  - System.Collections.IEnumerator.MoveNext
   modifiers.csharp:
   - public
   modifiers.vb:
   - Public
   fullName.vb: System.Collections.Generic.List(Of T).Enumerator.MoveNext()
+- uid: System.Collections.Generic.List`1.Enumerator.System#Collections#IEnumerator#Reset
+  commentId: M:System.Collections.Generic.List`1.Enumerator.System#Collections#IEnumerator#Reset
+  id: System#Collections#IEnumerator#Reset
+  isEii: true
+  parent: System.Collections.Generic.List`1.Enumerator
+  langs:
+  - csharp
+  - vb
+  name: IEnumerator.Reset()
+  fullName: System.Collections.Generic.List<T>.Enumerator.System.Collections.IEnumerator.Reset()
+  type: Method
+  source:
+    remote:
+      path: src/mscorlib/src/System/Collections/Generic/List.cs
+      branch: master
+      repo: https://github.com/dotnet/coreclr.git
+    id: System.Collections.IEnumerator.Reset
+    path: src/mscorlib/src/System/Collections/Generic/List.cs
+    startLine: 1110
+  assemblies:
+  - System.Collections
+  namespace: System.Collections.Generic
+  summary: "\n<p>Sets the enumerator to its initial position, which is before the first element in the collection.</p>\n"
+  remarks: "\n<p>After calling <xref href=\"System.Collections.IEnumerator.Reset\" data-throw-if-not-resolved=\"false\"></xref>, you must call <xref href=\"System.Collections.IEnumerator.MoveNext\" data-throw-if-not-resolved=\"false\"></xref> to advance the enumerator to the first element of the collection before reading the value of <xref href=\"System.Collections.IEnumerator.Current\" data-throw-if-not-resolved=\"false\"></xref>.</p>\n<p>An enumerator remains valid as long as the collection remains unchanged. If changes are made to the collection, such as adding, modifying, or deleting elements, the enumerator is irrecoverably invalidated.</p>\n"
+  syntax:
+    content: void IEnumerator.Reset()
+    content.vb: Sub System.Collections.IEnumerator.Reset Implements IEnumerator.Reset
+  exceptions:
+  - type: System.InvalidOperationException
+    commentId: T:System.InvalidOperationException
+    description: "\n<p>The collection was modified after the enumerator was created. </p>\n"
+  seealso:
+  - type: System.Collections.IEnumerator.MoveNext
+    commentId: M:System.Collections.IEnumerator.MoveNext
+  - type: System.Collections.IEnumerator.Current
+    commentId: P:System.Collections.IEnumerator.Current
+  - type: System.Collections.IEnumerator
+    commentId: T:System.Collections.IEnumerator
+  implements:
+  - System.Collections.IEnumerator.Reset
+  fullName.vb: System.Collections.Generic.List(Of T).Enumerator.System.Collections.IEnumerator.Reset()
+  name.vb: System.Collections.IEnumerator.Reset()
 references:
 - uid: System.Collections.Generic
   isExternal: false
@@ -196,36 +311,218 @@ references:
 - uid: System.Collections.IEnumerator
   parent: System.Collections
   isExternal: false
-  name: Collections.IEnumerator
+  name: IEnumerator
   fullName: System.Collections.IEnumerator
 - uid: System.IDisposable
   parent: System
   isExternal: false
   name: IDisposable
   fullName: System.IDisposable
+- uid: System.ValueType.Equals(System.Object)
+  parent: System.ValueType
+  isExternal: true
+  name: Equals(Object)
+  fullName: System.ValueType.Equals(System.Object)
+  spec.csharp:
+  - uid: System.ValueType.Equals(System.Object)
+    name: Equals
+    fullName: System.ValueType.Equals
+  - name: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    fullName: )
+  spec.vb:
+  - uid: System.ValueType.Equals(System.Object)
+    name: Equals
+    fullName: System.ValueType.Equals
+  - name: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    fullName: )
+- uid: System.ValueType.GetHashCode
+  parent: System.ValueType
+  isExternal: false
+  name: GetHashCode()
+  fullName: System.ValueType.GetHashCode()
+  spec.csharp:
+  - uid: System.ValueType.GetHashCode
+    name: GetHashCode
+    fullName: System.ValueType.GetHashCode
+  - name: (
+    fullName: (
+  - name: )
+    fullName: )
+  spec.vb:
+  - uid: System.ValueType.GetHashCode
+    name: GetHashCode
+    fullName: System.ValueType.GetHashCode
+  - name: (
+    fullName: (
+  - name: )
+    fullName: )
+- uid: System.ValueType.ToString
+  parent: System.ValueType
+  isExternal: false
+  name: ToString()
+  fullName: System.ValueType.ToString()
+  spec.csharp:
+  - uid: System.ValueType.ToString
+    name: ToString
+    fullName: System.ValueType.ToString
+  - name: (
+    fullName: (
+  - name: )
+    fullName: )
+  spec.vb:
+  - uid: System.ValueType.ToString
+    name: ToString
+    fullName: System.ValueType.ToString
+  - name: (
+    fullName: (
+  - name: )
+    fullName: )
+- uid: System.Object.Equals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  name: Equals(Object, Object)
+  fullName: System.Object.Equals(System.Object, System.Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    fullName: )
+- uid: System.Object.ReferenceEquals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  name: ReferenceEquals(Object, Object)
+  fullName: System.Object.ReferenceEquals(System.Object, System.Object)
+  spec.csharp:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    fullName: System.Object.ReferenceEquals
+    isExternal: true
+  - name: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    fullName: System.Object.ReferenceEquals
+    isExternal: true
+  - name: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    fullName: )
+- uid: System.Object.GetType
+  parent: System.Object
+  isExternal: true
+  name: GetType()
+  fullName: System.Object.GetType()
+  spec.csharp:
+  - uid: System.Object.GetType
+    name: GetType
+    fullName: System.Object.GetType
+    isExternal: true
+  - name: (
+    fullName: (
+  - name: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.GetType
+    name: GetType
+    fullName: System.Object.GetType
+    isExternal: true
+  - name: (
+    fullName: (
+  - name: )
+    fullName: )
 - uid: System.Collections.Generic.IEnumerator`1
   parent: System.Collections.Generic
   isExternal: false
-  name: Collections.Generic.IEnumerator<>
-  fullName: System.Collections.Generic.IEnumerator<>
-  fullname.vb: System.Collections.Generic.IEnumerator(Of )
-  name.vb: Collections.Generic.IEnumerator(Of )
+  name: IEnumerator<T>
+  fullName: System.Collections.Generic.IEnumerator<T>
+  fullname.vb: System.Collections.Generic.IEnumerator(Of T)
+  name.vb: IEnumerator(Of T)
   spec.csharp:
   - uid: System.Collections.Generic.IEnumerator`1
-    name: Collections.Generic.IEnumerator
+    name: IEnumerator
     fullName: System.Collections.Generic.IEnumerator
   - name: <
     fullName: <
-  - {}
+  - name: T
+    fullName: T
   - name: '>'
     fullName: '>'
   spec.vb:
   - uid: System.Collections.Generic.IEnumerator`1
-    name: Collections.Generic.IEnumerator
+    name: IEnumerator
     fullName: System.Collections.Generic.IEnumerator
   - name: '(Of '
     fullName: '(Of '
-  - {}
+  - name: T
+    fullName: T
   - name: )
     fullName: )
 - uid: System.Collections
@@ -236,15 +533,105 @@ references:
   isExternal: false
   name: System
   fullName: System
+- uid: System.ValueType
+  parent: System
+  isExternal: false
+  name: ValueType
+  fullName: System.ValueType
+- uid: System.Object
+  parent: System
+  isExternal: false
+  name: Object
+  fullName: System.Object
+- uid: System.Collections.Generic.IEnumerator{{T}}.Current
+  parent: System.Collections.Generic.IEnumerator{{T}}
+  definition: System.Collections.Generic.IEnumerator`1.Current
+  name: Current
+  fullName: System.Collections.Generic.IEnumerator<T>.Current
+  fullname.vb: System.Collections.Generic.IEnumerator(Of T).Current
 - uid: '{T}'
   isExternal: false
   name: T
   fullName: T
+- uid: System.Collections.Generic.IEnumerator`1.Current
+  parent: System.Collections.Generic.IEnumerator`1
+  isExternal: true
+  name: Current
+  fullName: System.Collections.Generic.IEnumerator<T>.Current
+  fullname.vb: System.Collections.Generic.IEnumerator(Of T).Current
+- uid: System.Collections.IEnumerator.Current
+  parent: System.Collections.IEnumerator
+  isExternal: false
+  name: Current
+  fullName: System.Collections.IEnumerator.Current
+- uid: System.IDisposable.Dispose
+  parent: System.IDisposable
+  isExternal: false
+  name: Dispose()
+  fullName: System.IDisposable.Dispose()
+  spec.csharp:
+  - uid: System.IDisposable.Dispose
+    name: Dispose
+    fullName: System.IDisposable.Dispose
+  - name: (
+    fullName: (
+  - name: )
+    fullName: )
+  spec.vb:
+  - uid: System.IDisposable.Dispose
+    name: Dispose
+    fullName: System.IDisposable.Dispose
+  - name: (
+    fullName: (
+  - name: )
+    fullName: )
+- uid: System.Collections.IEnumerator.MoveNext
+  parent: System.Collections.IEnumerator
+  isExternal: false
+  name: MoveNext()
+  fullName: System.Collections.IEnumerator.MoveNext()
+  spec.csharp:
+  - uid: System.Collections.IEnumerator.MoveNext
+    name: MoveNext
+    fullName: System.Collections.IEnumerator.MoveNext
+  - name: (
+    fullName: (
+  - name: )
+    fullName: )
+  spec.vb:
+  - uid: System.Collections.IEnumerator.MoveNext
+    name: MoveNext
+    fullName: System.Collections.IEnumerator.MoveNext
+  - name: (
+    fullName: (
+  - name: )
+    fullName: )
 - uid: System.Boolean
   parent: System
   isExternal: false
   name: Boolean
   fullName: System.Boolean
+- uid: System.Collections.IEnumerator.Reset
+  parent: System.Collections.IEnumerator
+  isExternal: false
+  name: Reset()
+  fullName: System.Collections.IEnumerator.Reset()
+  spec.csharp:
+  - uid: System.Collections.IEnumerator.Reset
+    name: Reset
+    fullName: System.Collections.IEnumerator.Reset
+  - name: (
+    fullName: (
+  - name: )
+    fullName: )
+  spec.vb:
+  - uid: System.Collections.IEnumerator.Reset
+    name: Reset
+    fullName: System.Collections.IEnumerator.Reset
+  - name: (
+    fullName: (
+  - name: )
+    fullName: )
 - uid: System.InvalidOperationException
   parent: System
   isExternal: false

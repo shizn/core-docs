@@ -17,28 +17,40 @@ items:
   type: Class
   source:
     remote:
-      path: src/System.Net.Http/src/System/Net/Http/MessageProcessingHandler.cs
+      path: src/System.Net.Http/ref/System.Net.Http.cs
       branch: master
       repo: https://github.com/dotnet/corefx.git
     id: MessageProcessingHandler
-    path: src/System.Net.Http/src/System/Net/Http/MessageProcessingHandler.cs
-    startLine: 13
+    path: src/System.Net.Http/ref/System.Net.Http.cs
+    startLine: 198
   assemblies:
   - System.Net.Http
   namespace: System.Net.Http
+  summary: "\n<p>A base type for handlers which only do some small processing of request and/or response messages.</p>\n"
+  remarks: "\n<p>The actual creation of response messages is delegated to an inner handler. The <xref href=\"System.Net.Http.MessageProcessingHandler\" data-throw-if-not-resolved=\"false\"></xref> is useful if the handler doesn't require asynchronous operations, because operations on request and response messages are fast.</p>\n<p>The most common usage is to derive from this class and override the <xref href=\"System.Net.Http.MessageProcessingHandler.ProcessRequest(System.Net.Http.HttpRequestMessage,System.Threading.CancellationToken)\" data-throw-if-not-resolved=\"false\"></xref> and  <xref href=\"System.Net.Http.MessageProcessingHandler.ProcessResponse(System.Net.Http.HttpResponseMessage,System.Threading.CancellationToken)\" data-throw-if-not-resolved=\"false\"></xref>  methods. </p>\n"
   syntax:
-    content: 'public abstract class MessageProcessingHandler : DelegatingHandler'
+    content: 'public abstract class MessageProcessingHandler : DelegatingHandler, IDisposable'
     content.vb: >-
       Public MustInherit Class MessageProcessingHandler
           Inherits DelegatingHandler
+          Implements IDisposable
   inheritance:
   - System.Object
   - System.Net.Http.HttpMessageHandler
   - System.Net.Http.DelegatingHandler
+  implements:
+  - System.IDisposable
   inheritedMembers:
   - System.Net.Http.DelegatingHandler.InnerHandler
   - System.Net.Http.DelegatingHandler.Dispose(System.Boolean)
   - System.Net.Http.HttpMessageHandler.Dispose
+  - System.Object.ToString
+  - System.Object.Equals(System.Object)
+  - System.Object.Equals(System.Object,System.Object)
+  - System.Object.ReferenceEquals(System.Object,System.Object)
+  - System.Object.GetHashCode
+  - System.Object.GetType
+  - System.Object.MemberwiseClone
   modifiers.csharp:
   - public
   - abstract
@@ -59,15 +71,16 @@ items:
   type: Constructor
   source:
     remote:
-      path: src/System.Net.Http/src/System/Net/Http/MessageProcessingHandler.cs
+      path: src/System.Net.Http/ref/System.Net.Http.cs
       branch: master
       repo: https://github.com/dotnet/corefx.git
     id: .ctor
-    path: src/System.Net.Http/src/System/Net/Http/MessageProcessingHandler.cs
-    startLine: 15
+    path: src/System.Net.Http/ref/System.Net.Http.cs
+    startLine: 200
   assemblies:
   - System.Net.Http
   namespace: System.Net.Http
+  summary: "\n<p>Creates an instance of a <xref href=\"System.Net.Http.MessageProcessingHandler\" data-throw-if-not-resolved=\"false\"></xref> class.</p>\n"
   syntax:
     content: protected MessageProcessingHandler()
     content.vb: Protected Sub New
@@ -87,21 +100,23 @@ items:
   type: Constructor
   source:
     remote:
-      path: src/System.Net.Http/src/System/Net/Http/MessageProcessingHandler.cs
+      path: src/System.Net.Http/ref/System.Net.Http.cs
       branch: master
       repo: https://github.com/dotnet/corefx.git
     id: .ctor
-    path: src/System.Net.Http/src/System/Net/Http/MessageProcessingHandler.cs
-    startLine: 19
+    path: src/System.Net.Http/ref/System.Net.Http.cs
+    startLine: 201
   assemblies:
   - System.Net.Http
   namespace: System.Net.Http
+  summary: "\n<p>Creates an instance of a <xref href=\"System.Net.Http.MessageProcessingHandler\" data-throw-if-not-resolved=\"false\"></xref> class with a specific inner handler.</p>\n"
   syntax:
     content: protected MessageProcessingHandler(HttpMessageHandler innerHandler)
     content.vb: Protected Sub New(innerHandler As HttpMessageHandler)
     parameters:
     - id: innerHandler
       type: System.Net.Http.HttpMessageHandler
+      description: "\n<p>The inner handler which is responsible for processing the HTTP response messages.</p>\n"
   modifiers.csharp:
   - protected
   modifiers.vb:
@@ -113,7 +128,7 @@ items:
   langs:
   - csharp
   - vb
-  name: ProcessRequest(HttpRequestMessage, Threading.CancellationToken)
+  name: ProcessRequest(HttpRequestMessage, CancellationToken)
   fullName: System.Net.Http.MessageProcessingHandler.ProcessRequest(System.Net.Http.HttpRequestMessage, System.Threading.CancellationToken)
   type: Method
   source:
@@ -127,16 +142,21 @@ items:
   assemblies:
   - System.Net.Http
   namespace: System.Net.Http
+  summary: "\n<p>Performs processing on each request sent to the server.</p>\n"
+  remarks: "\n<p>An application would override this method to implement custom processing of the HTTP request message before it is sent to the server.</p>\n"
   syntax:
-    content: protected abstract HttpRequestMessage ProcessRequest(HttpRequestMessage request, Threading.CancellationToken cancellationToken)
-    content.vb: Protected MustOverride Function ProcessRequest(request As HttpRequestMessage, cancellationToken As Threading.CancellationToken) As HttpRequestMessage
+    content: protected abstract HttpRequestMessage ProcessRequest(HttpRequestMessage request, CancellationToken cancellationToken)
+    content.vb: Protected MustOverride Function ProcessRequest(request As HttpRequestMessage, cancellationToken As CancellationToken) As HttpRequestMessage
     parameters:
     - id: request
       type: System.Net.Http.HttpRequestMessage
+      description: "\n<p>The HTTP request message to process.</p>\n"
     - id: cancellationToken
       type: System.Threading.CancellationToken
+      description: "\n<p>A cancellation token that can be used by other objects or threads to receive notice of cancellation.</p>\n"
     return:
       type: System.Net.Http.HttpRequestMessage
+      description: "\n<p>Returns <xref href=\"System.Net.Http.HttpRequestMessage\" data-throw-if-not-resolved=\"false\"></xref>.</p>\n<p>The HTTP request message that was processed.</p>\n"
   modifiers.csharp:
   - protected
   - abstract
@@ -150,7 +170,7 @@ items:
   langs:
   - csharp
   - vb
-  name: ProcessResponse(HttpResponseMessage, Threading.CancellationToken)
+  name: ProcessResponse(HttpResponseMessage, CancellationToken)
   fullName: System.Net.Http.MessageProcessingHandler.ProcessResponse(System.Net.Http.HttpResponseMessage, System.Threading.CancellationToken)
   type: Method
   source:
@@ -164,16 +184,21 @@ items:
   assemblies:
   - System.Net.Http
   namespace: System.Net.Http
+  summary: "\n<p>Perform processing on each response from the server.</p>\n"
+  remarks: "\n<p>An application would override this method to implement custom processing of the HTTP response message after it is received from the server.</p>\n"
   syntax:
-    content: protected abstract HttpResponseMessage ProcessResponse(HttpResponseMessage response, Threading.CancellationToken cancellationToken)
-    content.vb: Protected MustOverride Function ProcessResponse(response As HttpResponseMessage, cancellationToken As Threading.CancellationToken) As HttpResponseMessage
+    content: protected abstract HttpResponseMessage ProcessResponse(HttpResponseMessage response, CancellationToken cancellationToken)
+    content.vb: Protected MustOverride Function ProcessResponse(response As HttpResponseMessage, cancellationToken As CancellationToken) As HttpResponseMessage
     parameters:
     - id: response
       type: System.Net.Http.HttpResponseMessage
+      description: "\n<p>The HTTP response message to process.</p>\n"
     - id: cancellationToken
       type: System.Threading.CancellationToken
+      description: "\n<p>A cancellation token that can be used by other objects or threads to receive notice of cancellation.</p>\n"
     return:
       type: System.Net.Http.HttpResponseMessage
+      description: "\n<p>Returns <xref href=\"System.Net.Http.HttpResponseMessage\" data-throw-if-not-resolved=\"false\"></xref>.</p>\n<p>The HTTP response message that was processed.</p>\n"
   modifiers.csharp:
   - protected
   - abstract
@@ -187,7 +212,7 @@ items:
   langs:
   - csharp
   - vb
-  name: SendAsync(HttpRequestMessage, Threading.CancellationToken)
+  name: SendAsync(HttpRequestMessage, CancellationToken)
   fullName: System.Net.Http.MessageProcessingHandler.SendAsync(System.Net.Http.HttpRequestMessage, System.Threading.CancellationToken)
   type: Method
   source:
@@ -201,17 +226,26 @@ items:
   assemblies:
   - System.Net.Http
   namespace: System.Net.Http
+  summary: "\n<p>Sends an HTTP request to the inner handler to send to the server as an asynchronous operation.</p>\n"
+  remarks: "\n<p>This operation does not block. This overridable implementation of <xref href=\"System.Net.Http.MessageProcessingHandler.SendAsync(System.Net.Http.HttpRequestMessage,System.Threading.CancellationToken)\" data-throw-if-not-resolved=\"false\"></xref> method forwards the HTTP request to the inner handler to send to the server as an asynchronous operation.</p>\n"
   syntax:
-    content: protected override sealed Threading.Tasks.Task<HttpResponseMessage> SendAsync(HttpRequestMessage request, Threading.CancellationToken cancellationToken)
-    content.vb: Protected NotOverridable Overrides Function SendAsync(request As HttpRequestMessage, cancellationToken As Threading.CancellationToken) As Threading.Tasks.Task(Of HttpResponseMessage)
+    content: protected override sealed Task<HttpResponseMessage> SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
+    content.vb: Protected NotOverridable Overrides Function SendAsync(request As HttpRequestMessage, cancellationToken As CancellationToken) As Task(Of HttpResponseMessage)
     parameters:
     - id: request
       type: System.Net.Http.HttpRequestMessage
+      description: "\n<p>The HTTP request message to send to the server.</p>\n"
     - id: cancellationToken
       type: System.Threading.CancellationToken
+      description: "\n<p>A cancellation token that can be used by other objects or threads to receive notice of cancellation.</p>\n"
     return:
       type: System.Threading.Tasks.Task{System.Net.Http.HttpResponseMessage}
+      description: "\n<p>Returns <xref href=\"System.Threading.Tasks.Task`1\" data-throw-if-not-resolved=\"false\"></xref>.</p>\n<p>The task object representing the asynchronous operation.</p>\n"
   overridden: System.Net.Http.DelegatingHandler.SendAsync(System.Net.Http.HttpRequestMessage,System.Threading.CancellationToken)
+  exceptions:
+  - type: System.ArgumentNullException
+    commentId: T:System.ArgumentNullException
+    description: "\n<p>The <em>request</em> was <strong>null</strong>.</p>\n"
   modifiers.csharp:
   - protected
   - override
@@ -240,6 +274,11 @@ references:
   isExternal: false
   name: DelegatingHandler
   fullName: System.Net.Http.DelegatingHandler
+- uid: System.IDisposable
+  parent: System
+  isExternal: false
+  name: IDisposable
+  fullName: System.IDisposable
 - uid: System.Net.Http.DelegatingHandler.InnerHandler
   parent: System.Net.Http.DelegatingHandler
   isExternal: false
@@ -295,6 +334,215 @@ references:
     fullName: (
   - name: )
     fullName: )
+- uid: System.Object.ToString
+  parent: System.Object
+  isExternal: true
+  name: ToString()
+  fullName: System.Object.ToString()
+  spec.csharp:
+  - uid: System.Object.ToString
+    name: ToString
+    fullName: System.Object.ToString
+    isExternal: true
+  - name: (
+    fullName: (
+  - name: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.ToString
+    name: ToString
+    fullName: System.Object.ToString
+    isExternal: true
+  - name: (
+    fullName: (
+  - name: )
+    fullName: )
+- uid: System.Object.Equals(System.Object)
+  parent: System.Object
+  isExternal: true
+  name: Equals(Object)
+  fullName: System.Object.Equals(System.Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    fullName: )
+- uid: System.Object.Equals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  name: Equals(Object, Object)
+  fullName: System.Object.Equals(System.Object, System.Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    fullName: )
+- uid: System.Object.ReferenceEquals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  name: ReferenceEquals(Object, Object)
+  fullName: System.Object.ReferenceEquals(System.Object, System.Object)
+  spec.csharp:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    fullName: System.Object.ReferenceEquals
+    isExternal: true
+  - name: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    fullName: System.Object.ReferenceEquals
+    isExternal: true
+  - name: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    fullName: )
+- uid: System.Object.GetHashCode
+  parent: System.Object
+  isExternal: true
+  name: GetHashCode()
+  fullName: System.Object.GetHashCode()
+  spec.csharp:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    fullName: System.Object.GetHashCode
+    isExternal: true
+  - name: (
+    fullName: (
+  - name: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    fullName: System.Object.GetHashCode
+    isExternal: true
+  - name: (
+    fullName: (
+  - name: )
+    fullName: )
+- uid: System.Object.GetType
+  parent: System.Object
+  isExternal: true
+  name: GetType()
+  fullName: System.Object.GetType()
+  spec.csharp:
+  - uid: System.Object.GetType
+    name: GetType
+    fullName: System.Object.GetType
+    isExternal: true
+  - name: (
+    fullName: (
+  - name: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.GetType
+    name: GetType
+    fullName: System.Object.GetType
+    isExternal: true
+  - name: (
+    fullName: (
+  - name: )
+    fullName: )
+- uid: System.Object.MemberwiseClone
+  parent: System.Object
+  isExternal: true
+  name: MemberwiseClone()
+  fullName: System.Object.MemberwiseClone()
+  spec.csharp:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    fullName: System.Object.MemberwiseClone
+    isExternal: true
+  - name: (
+    fullName: (
+  - name: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    fullName: System.Object.MemberwiseClone
+    isExternal: true
+  - name: (
+    fullName: (
+  - name: )
+    fullName: )
 - uid: System
   isExternal: false
   name: System
@@ -307,7 +555,7 @@ references:
 - uid: System.Threading.CancellationToken
   parent: System.Threading
   isExternal: false
-  name: Threading.CancellationToken
+  name: CancellationToken
   fullName: System.Threading.CancellationToken
 - uid: System.Threading
   isExternal: false
@@ -321,7 +569,7 @@ references:
 - uid: System.Net.Http.DelegatingHandler.SendAsync(System.Net.Http.HttpRequestMessage,System.Threading.CancellationToken)
   parent: System.Net.Http.DelegatingHandler
   isExternal: true
-  name: SendAsync(HttpRequestMessage, Threading.CancellationToken)
+  name: SendAsync(HttpRequestMessage, CancellationToken)
   fullName: System.Net.Http.DelegatingHandler.SendAsync(System.Net.Http.HttpRequestMessage, System.Threading.CancellationToken)
   spec.csharp:
   - uid: System.Net.Http.DelegatingHandler.SendAsync(System.Net.Http.HttpRequestMessage,System.Threading.CancellationToken)
@@ -335,7 +583,7 @@ references:
   - name: ', '
     fullName: ', '
   - uid: System.Threading.CancellationToken
-    name: Threading.CancellationToken
+    name: CancellationToken
     fullName: System.Threading.CancellationToken
     isExternal: true
   - name: )
@@ -352,20 +600,21 @@ references:
   - name: ', '
     fullName: ', '
   - uid: System.Threading.CancellationToken
-    name: Threading.CancellationToken
+    name: CancellationToken
     fullName: System.Threading.CancellationToken
     isExternal: true
   - name: )
     fullName: )
 - uid: System.Threading.Tasks.Task{System.Net.Http.HttpResponseMessage}
+  parent: System.Threading.Tasks
   definition: System.Threading.Tasks.Task`1
-  name: Threading.Tasks.Task<HttpResponseMessage>
+  name: Task<HttpResponseMessage>
   fullName: System.Threading.Tasks.Task<System.Net.Http.HttpResponseMessage>
   fullname.vb: System.Threading.Tasks.Task(Of System.Net.Http.HttpResponseMessage)
-  name.vb: Threading.Tasks.Task(Of HttpResponseMessage)
+  name.vb: Task(Of HttpResponseMessage)
   spec.csharp:
   - uid: System.Threading.Tasks.Task`1
-    name: Threading.Tasks.Task
+    name: Task
     fullName: System.Threading.Tasks.Task
     isExternal: true
   - name: <
@@ -377,7 +626,7 @@ references:
     fullName: '>'
   spec.vb:
   - uid: System.Threading.Tasks.Task`1
-    name: Threading.Tasks.Task
+    name: Task
     fullName: System.Threading.Tasks.Task
     isExternal: true
   - name: '(Of '
@@ -390,29 +639,35 @@ references:
 - uid: System.Threading.Tasks.Task`1
   parent: System.Threading.Tasks
   isExternal: false
-  name: Threading.Tasks.Task<>
-  fullName: System.Threading.Tasks.Task<>
-  fullname.vb: System.Threading.Tasks.Task(Of )
-  name.vb: Threading.Tasks.Task(Of )
+  name: Task<TResult>
+  fullName: System.Threading.Tasks.Task<TResult>
+  fullname.vb: System.Threading.Tasks.Task(Of TResult)
+  name.vb: Task(Of TResult)
   spec.csharp:
   - uid: System.Threading.Tasks.Task`1
-    name: Threading.Tasks.Task
+    name: Task
     fullName: System.Threading.Tasks.Task
   - name: <
     fullName: <
-  - {}
+  - name: TResult
+    fullName: TResult
   - name: '>'
     fullName: '>'
   spec.vb:
   - uid: System.Threading.Tasks.Task`1
-    name: Threading.Tasks.Task
+    name: Task
     fullName: System.Threading.Tasks.Task
   - name: '(Of '
     fullName: '(Of '
-  - {}
+  - name: TResult
+    fullName: TResult
   - name: )
     fullName: )
 - uid: System.Threading.Tasks
   isExternal: false
   name: System.Threading.Tasks
   fullName: System.Threading.Tasks
+- uid: System.ArgumentNullException
+  isExternal: false
+  name: ArgumentNullException
+  fullName: System.ArgumentNullException

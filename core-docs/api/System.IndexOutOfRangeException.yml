@@ -15,22 +15,32 @@ items:
   type: Class
   source:
     remote:
-      path: src/System.Runtime/ref/System.Runtime.cs
+      path: src/mscorlib/src/System/IndexOutOfRangeException.cs
       branch: master
-      repo: https://github.com/dotnet/corefx.git
+      repo: https://github.com/dotnet/coreclr.git
     id: IndexOutOfRangeException
-    path: src/System.Runtime/ref/System.Runtime.cs
-    startLine: 1005
+    path: src/mscorlib/src/System/IndexOutOfRangeException.cs
+    startLine: 17
   assemblies:
   - System.Runtime
   namespace: System
   summary: "\n<p>The exception that is thrown when an attempt is made to access an element of an array or collection with an index that is outside its bounds. </p>\n"
   remarks: "\n<p>An <xref href=\"System.IndexOutOfRangeException\" data-throw-if-not-resolved=\"false\"></xref> exception is thrown when an invalid index is used to access a member of an array or a collection, or to read or write from a particular location in a buffer. This exception  inherits from the <xref href=\"System.Exception\" data-throw-if-not-resolved=\"false\"></xref> class but adds no unique members. </p>\n<p>Typically, an <xref href=\"System.IndexOutOfRangeException\" data-throw-if-not-resolved=\"false\"></xref> exception is thrown as a result of developer error. Instead of handling the exception, you should diagnose the cause of the error and correct your code. The most common causes of the error are: </p>\n<ul><li>\n<p>Forgetting that the upper bound of a collection or a zero-based array is one less than its number of members or elements, as the following example illustrates. </p>System.IndexOutOfRangeException#3<p>To correct the error, you can use code like the following. </p>System.IndexOutOfRangeException#4<p>Alternately, instead of iterating all the elements in the array by their index, you can use the  (in C#) or the  (in Visual Basic). </p></li><li>\n<p>Attempting to assign an array element to another array that has not been adequately dimensioned and that has fewer elements than the original array. The following example attempts to assign the last element in the <code>value1</code> array to the same element in the <code>value2</code> array. However, the <code>value2</code> array has been incorrectly dimensioned to have six instead of seven elements. As a result, the assignment throws an <xref href=\"System.IndexOutOfRangeException\" data-throw-if-not-resolved=\"false\"></xref> exception.</p>System.IndexOutOfRangeException#10</li><li>\n<p>Using a value returned by a search method to iterate a portion of an array or collection starting at a particular index position. If you forget to check whether the search operation found a match, the runtime throws an <xref href=\"System.IndexOutOfRangeException\" data-throw-if-not-resolved=\"false\"></xref> exception, as shown in this example. </p>System.IndexOutOfRangeException#5<p>In this case, the <xref href=\"System.Collections.Generic.List`1.IndexOf(`0)\" data-throw-if-not-resolved=\"false\"></xref> method returns -1, which is an invalid index value, when it fails to find a match. To correct this error, check the search method's return value before iterating the array, as shown in this example. </p>System.IndexOutOfRangeException#6</li><li>\n<p>Trying to use or enumerate a result set, collection, or array returned by a query without testing whether the returned object has any valid data. </p>\n</li><li>\n<p>Using a computed value to define the starting index, the ending index, or the number of items to be iterated. If the result of the computation is unexpected, it might result in an <xref href=\"System.IndexOutOfRangeException\" data-throw-if-not-resolved=\"false\"></xref> exception. You should check your program's logic in calculating the index value and validate the value before iterating the array or collection. The following conditions must all be true; otherwise, an <xref href=\"System.IndexOutOfRangeException\" data-throw-if-not-resolved=\"false\"></xref> exception is thrown:</p>\n<ul><li>\n<p>The starting index must be greater than or equal to <xref href=\"System.Array.GetLowerBound(System.Int32)\" data-throw-if-not-resolved=\"false\"></xref> for the dimension of the array that you want to iterate, or greater than or equal to 0 for a collection. </p>\n</li><li>\n<p>The ending index cannot exceed <xref href=\"System.Array.GetUpperBound(System.Int32)\" data-throw-if-not-resolved=\"false\"></xref> for the dimension of the array that you want to iterate, or cannot be greater than or equal to the <strong>Count</strong> property of a collection. </p>\n</li><li>\n<p>The following equation must be true for the dimension of the array that you want to iterate: </p>\n<pre><code>start_index >= lower_bound And start_index + items_to_iterate – 1 <= upper_bound</code></pre>\n<p>For a collection, the following equation must be true: </p>\n<pre><code>start_index >= 0 And start_index + items_to_iterate <= Count</code></pre>\n<p>The starting index of an array or collection can never be a negative number. </p>\n</li></ul>\n</li><li>\n<p>Assuming that an array must be zero-based. Arrays that are not zero-based can be created by the <xref href=\"System.Array.CreateInstance(System.Type,System.Int32[],System.Int32[])\" data-throw-if-not-resolved=\"false\"></xref> method and can be returned by COM interop, although they aren’t CLS-compliant. The following example illustrates the <xref href=\"System.IndexOutOfRangeException\" data-throw-if-not-resolved=\"false\"></xref> that is thrown when you try to iterate a non-zero-based array created by the <xref href=\"System.Array.CreateInstance(System.Type,System.Int32[],System.Int32[])\" data-throw-if-not-resolved=\"false\"></xref> method. </p>System.IndexOutOfRangeException#1<p>To correct the error, as the following example does, you can call the <xref href=\"System.Array.GetLowerBound(System.Int32)\" data-throw-if-not-resolved=\"false\"></xref> method instead of making assumptions about the starting index of an array. </p>System.IndexOutOfRangeException#2<p>Note that when you call the <xref href=\"System.Array.GetLowerBound(System.Int32)\" data-throw-if-not-resolved=\"false\"></xref> method to get the starting index of an array, you should also call the <xref href=\"System.Array.GetUpperBound(System.Int32)\" data-throw-if-not-resolved=\"false\"></xref> method to get its ending index. </p></li><li>\n<p>Confusing an index and the value at that index in a numeric array or collection. This issue usually occurs when using the <strong>foreach</strong> statement (in C#) or the <strong>For Each</strong> statement (in Visual Basic). The following example illustrates the problem. </p>System.IndexOutOfRangeException#7<p>The iteration construct returns each value in an array or collection, not its index. To eliminate the exception, use this code. </p>System.IndexOutOfRangeException#8</li><li>\n<p>Providing an invalid column name to the <xref href=\"System.Data.DataView.Sort\" data-throw-if-not-resolved=\"false\"></xref> property. </p>\n</li><li>\n<p>Violating thread safety. Operations such as reading from the same <xref href=\"System.IO.StreamReader\" data-throw-if-not-resolved=\"false\"></xref> object, writing to the same <xref href=\"System.IO.StreamWriter\" data-throw-if-not-resolved=\"false\"></xref> object from multiple threads, or enumerating the objects in a <xref href=\"System.Collections.Hashtable\" data-throw-if-not-resolved=\"false\"></xref> from different threads can throw an <xref href=\"System.IndexOutOfRangeException\" data-throw-if-not-resolved=\"false\"></xref> if the object isn’t accessed in a thread-safe way. This exception is typically intermittent because it relies on a race condition. </p>\n</li></ul>\n<p>Using hard-coded index values to manipulate an array is likely to throw an exception if the index value is incorrect or invalid, or if the size of the array being manipulation is unexpected. To prevent an operation from throwing an  <xref href=\"System.IndexOutOfRangeException\" data-throw-if-not-resolved=\"false\"></xref> exception, you can do the following:</p>\n<ul><li>\n<p>Iterate the elements of the array using the <see href=\"https://msdn.microsoft.com/library/ttw7t8t6.aspx\">foreach</see> statement (in C#) or the <see href=\"https://msdn.microsoft.com/library/5ebk1751.aspx\">For Each...Next</see> construct (in Visual Basic)  instead of iterating elements by index.</p>\n</li><li>\n<p>Iterate the elements by index starting with the index returned by the <xref href=\"System.Array.GetLowerBound(System.Int32)\" data-throw-if-not-resolved=\"false\"></xref> method and ending with the index returned by the <xref href=\"System.Array.GetUpperBound(System.Int32)\" data-throw-if-not-resolved=\"false\"></xref> method. </p>\n</li><li>\n<p>If you are assigning elements in one array to another, ensure that  the target array has at least as many elements as the source array by comparing their <xref href=\"System.Array.Length\" data-throw-if-not-resolved=\"false\"></xref> properties.</p>\n</li></ul>\n<p>For a list of initial property values for an instance of <xref href=\"System.IndexOutOfRangeException\" data-throw-if-not-resolved=\"false\"></xref>, see the <xref href=\"System.IndexOutOfRangeException\" data-throw-if-not-resolved=\"false\"></xref> constructors.</p>\n<p>The following intermediate language (IL) instructions throw <xref href=\"System.IndexOutOfRangeException\" data-throw-if-not-resolved=\"false\"></xref>: </p>\n<ul><li>\n<p>ldelem.<type> </p>\n</li><li>\n<p>ldelema </p>\n</li><li>\n<p>stelem.<type> </p>\n</li></ul>\n<p>\n<xref href=\"System.IndexOutOfRangeException\" data-throw-if-not-resolved=\"false\"></xref> uses the HRESULT COR_E_INDEXOUTOFRANGE, which has the value 0x80131508.</p>\n"
   syntax:
-    content: 'public sealed class IndexOutOfRangeException : Exception'
+    content: >-
+      [ComVisible(true)]
+
+      [Serializable]
+
+      public sealed class IndexOutOfRangeException : SystemException, ISerializable, _Exception
     content.vb: >-
+      <ComVisible(True)>
+
+      <Serializable>
+
       Public NotInheritable Class IndexOutOfRangeException
-          Inherits Exception
+          Inherits SystemException
+          Implements ISerializable, _Exception
   seealso:
   - type: System.Exception
     commentId: T:System.Exception
@@ -49,10 +59,10 @@ items:
   - System.Exception.ToString
   - System.Object.Equals(System.Object)
   - System.Object.Equals(System.Object,System.Object)
+  - System.Object.ReferenceEquals(System.Object,System.Object)
   - System.Object.GetHashCode
   - System.Object.GetType
   - System.Object.MemberwiseClone
-  - System.Object.ReferenceEquals(System.Object,System.Object)
   modifiers.csharp:
   - public
   - sealed
@@ -73,12 +83,12 @@ items:
   type: Constructor
   source:
     remote:
-      path: src/System.Runtime/ref/System.Runtime.cs
+      path: src/mscorlib/src/System/IndexOutOfRangeException.cs
       branch: master
-      repo: https://github.com/dotnet/corefx.git
+      repo: https://github.com/dotnet/coreclr.git
     id: .ctor
-    path: src/System.Runtime/ref/System.Runtime.cs
-    startLine: 1007
+    path: src/mscorlib/src/System/IndexOutOfRangeException.cs
+    startLine: 20
   assemblies:
   - System.Runtime
   namespace: System
@@ -103,12 +113,12 @@ items:
   type: Constructor
   source:
     remote:
-      path: src/System.Runtime/ref/System.Runtime.cs
+      path: src/mscorlib/src/System/IndexOutOfRangeException.cs
       branch: master
-      repo: https://github.com/dotnet/corefx.git
+      repo: https://github.com/dotnet/coreclr.git
     id: .ctor
-    path: src/System.Runtime/ref/System.Runtime.cs
-    startLine: 1008
+    path: src/mscorlib/src/System/IndexOutOfRangeException.cs
+    startLine: 25
   assemblies:
   - System.Runtime
   namespace: System
@@ -120,7 +130,6 @@ items:
     parameters:
     - id: message
       type: System.String
-      description: "\n<p>The message that describes the error. </p>\n"
   modifiers.csharp:
   - public
   modifiers.vb:
@@ -137,12 +146,12 @@ items:
   type: Constructor
   source:
     remote:
-      path: src/System.Runtime/ref/System.Runtime.cs
+      path: src/mscorlib/src/System/IndexOutOfRangeException.cs
       branch: master
-      repo: https://github.com/dotnet/corefx.git
+      repo: https://github.com/dotnet/coreclr.git
     id: .ctor
-    path: src/System.Runtime/ref/System.Runtime.cs
-    startLine: 1009
+    path: src/mscorlib/src/System/IndexOutOfRangeException.cs
+    startLine: 30
   assemblies:
   - System.Runtime
   namespace: System
@@ -154,10 +163,8 @@ items:
     parameters:
     - id: message
       type: System.String
-      description: "\n<p>The error message that explains the reason for the exception. </p>\n"
     - id: innerException
       type: System.Exception
-      description: "\n<p>The exception that is the cause of the current exception. If the <em>innerException</em> parameter is not a null reference (<strong>Nothing</strong> in Visual Basic), the current exception is raised in a <strong>catch</strong> block that handles the inner exception. </p>\n"
   seealso:
   - type: System.Exception
     commentId: T:System.Exception
@@ -259,166 +266,188 @@ references:
     fullName: )
 - uid: System.Object.Equals(System.Object)
   parent: System.Object
-  isExternal: false
+  isExternal: true
   name: Equals(Object)
   fullName: System.Object.Equals(System.Object)
   spec.csharp:
   - uid: System.Object.Equals(System.Object)
     name: Equals
     fullName: System.Object.Equals
+    isExternal: true
   - name: (
     fullName: (
   - uid: System.Object
     name: Object
     fullName: System.Object
+    isExternal: true
   - name: )
     fullName: )
   spec.vb:
   - uid: System.Object.Equals(System.Object)
     name: Equals
     fullName: System.Object.Equals
+    isExternal: true
   - name: (
     fullName: (
   - uid: System.Object
     name: Object
     fullName: System.Object
+    isExternal: true
   - name: )
     fullName: )
 - uid: System.Object.Equals(System.Object,System.Object)
   parent: System.Object
-  isExternal: false
+  isExternal: true
   name: Equals(Object, Object)
   fullName: System.Object.Equals(System.Object, System.Object)
   spec.csharp:
   - uid: System.Object.Equals(System.Object,System.Object)
     name: Equals
     fullName: System.Object.Equals
+    isExternal: true
   - name: (
     fullName: (
   - uid: System.Object
     name: Object
     fullName: System.Object
+    isExternal: true
   - name: ', '
     fullName: ', '
   - uid: System.Object
     name: Object
     fullName: System.Object
+    isExternal: true
   - name: )
     fullName: )
   spec.vb:
   - uid: System.Object.Equals(System.Object,System.Object)
     name: Equals
     fullName: System.Object.Equals
+    isExternal: true
   - name: (
     fullName: (
   - uid: System.Object
     name: Object
     fullName: System.Object
+    isExternal: true
   - name: ', '
     fullName: ', '
   - uid: System.Object
     name: Object
     fullName: System.Object
-  - name: )
-    fullName: )
-- uid: System.Object.GetHashCode
-  parent: System.Object
-  isExternal: false
-  name: GetHashCode()
-  fullName: System.Object.GetHashCode()
-  spec.csharp:
-  - uid: System.Object.GetHashCode
-    name: GetHashCode
-    fullName: System.Object.GetHashCode
-  - name: (
-    fullName: (
-  - name: )
-    fullName: )
-  spec.vb:
-  - uid: System.Object.GetHashCode
-    name: GetHashCode
-    fullName: System.Object.GetHashCode
-  - name: (
-    fullName: (
-  - name: )
-    fullName: )
-- uid: System.Object.GetType
-  parent: System.Object
-  isExternal: false
-  name: GetType()
-  fullName: System.Object.GetType()
-  spec.csharp:
-  - uid: System.Object.GetType
-    name: GetType
-    fullName: System.Object.GetType
-  - name: (
-    fullName: (
-  - name: )
-    fullName: )
-  spec.vb:
-  - uid: System.Object.GetType
-    name: GetType
-    fullName: System.Object.GetType
-  - name: (
-    fullName: (
-  - name: )
-    fullName: )
-- uid: System.Object.MemberwiseClone
-  parent: System.Object
-  isExternal: false
-  name: MemberwiseClone()
-  fullName: System.Object.MemberwiseClone()
-  spec.csharp:
-  - uid: System.Object.MemberwiseClone
-    name: MemberwiseClone
-    fullName: System.Object.MemberwiseClone
-  - name: (
-    fullName: (
-  - name: )
-    fullName: )
-  spec.vb:
-  - uid: System.Object.MemberwiseClone
-    name: MemberwiseClone
-    fullName: System.Object.MemberwiseClone
-  - name: (
-    fullName: (
+    isExternal: true
   - name: )
     fullName: )
 - uid: System.Object.ReferenceEquals(System.Object,System.Object)
   parent: System.Object
-  isExternal: false
+  isExternal: true
   name: ReferenceEquals(Object, Object)
   fullName: System.Object.ReferenceEquals(System.Object, System.Object)
   spec.csharp:
   - uid: System.Object.ReferenceEquals(System.Object,System.Object)
     name: ReferenceEquals
     fullName: System.Object.ReferenceEquals
+    isExternal: true
   - name: (
     fullName: (
   - uid: System.Object
     name: Object
     fullName: System.Object
+    isExternal: true
   - name: ', '
     fullName: ', '
   - uid: System.Object
     name: Object
     fullName: System.Object
+    isExternal: true
   - name: )
     fullName: )
   spec.vb:
   - uid: System.Object.ReferenceEquals(System.Object,System.Object)
     name: ReferenceEquals
     fullName: System.Object.ReferenceEquals
+    isExternal: true
   - name: (
     fullName: (
   - uid: System.Object
     name: Object
     fullName: System.Object
+    isExternal: true
   - name: ', '
     fullName: ', '
   - uid: System.Object
     name: Object
     fullName: System.Object
+    isExternal: true
+  - name: )
+    fullName: )
+- uid: System.Object.GetHashCode
+  parent: System.Object
+  isExternal: true
+  name: GetHashCode()
+  fullName: System.Object.GetHashCode()
+  spec.csharp:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    fullName: System.Object.GetHashCode
+    isExternal: true
+  - name: (
+    fullName: (
+  - name: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    fullName: System.Object.GetHashCode
+    isExternal: true
+  - name: (
+    fullName: (
+  - name: )
+    fullName: )
+- uid: System.Object.GetType
+  parent: System.Object
+  isExternal: true
+  name: GetType()
+  fullName: System.Object.GetType()
+  spec.csharp:
+  - uid: System.Object.GetType
+    name: GetType
+    fullName: System.Object.GetType
+    isExternal: true
+  - name: (
+    fullName: (
+  - name: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.GetType
+    name: GetType
+    fullName: System.Object.GetType
+    isExternal: true
+  - name: (
+    fullName: (
+  - name: )
+    fullName: )
+- uid: System.Object.MemberwiseClone
+  parent: System.Object
+  isExternal: true
+  name: MemberwiseClone()
+  fullName: System.Object.MemberwiseClone()
+  spec.csharp:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    fullName: System.Object.MemberwiseClone
+    isExternal: true
+  - name: (
+    fullName: (
+  - name: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    fullName: System.Object.MemberwiseClone
+    isExternal: true
+  - name: (
+    fullName: (
   - name: )
     fullName: )
 - uid: System.String

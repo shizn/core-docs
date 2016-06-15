@@ -22,6 +22,11 @@ items:
   - System.Collections.Concurrent.BlockingCollection`1.GetConsumingEnumerable(System.Threading.CancellationToken)
   - System.Collections.Concurrent.BlockingCollection`1.IsAddingCompleted
   - System.Collections.Concurrent.BlockingCollection`1.IsCompleted
+  - System.Collections.Concurrent.BlockingCollection`1.System#Collections#Generic#IEnumerable{T}#GetEnumerator
+  - System.Collections.Concurrent.BlockingCollection`1.System#Collections#ICollection#CopyTo(System.Array,System.Int32)
+  - System.Collections.Concurrent.BlockingCollection`1.System#Collections#ICollection#IsSynchronized
+  - System.Collections.Concurrent.BlockingCollection`1.System#Collections#ICollection#SyncRoot
+  - System.Collections.Concurrent.BlockingCollection`1.System#Collections#IEnumerable#GetEnumerator
   - System.Collections.Concurrent.BlockingCollection`1.Take
   - System.Collections.Concurrent.BlockingCollection`1.Take(System.Threading.CancellationToken)
   - System.Collections.Concurrent.BlockingCollection`1.TakeFromAny(System.Collections.Concurrent.BlockingCollection{`0}[],`0@)
@@ -60,12 +65,24 @@ items:
   assemblies:
   - System.Collections.Concurrent
   namespace: System.Collections.Concurrent
+  summary: "\n<p>Provides blocking and bounding capabilities for thread-safe collections that implement <xref href=\"System.Collections.Concurrent.IProducerConsumerCollection`1\" data-throw-if-not-resolved=\"false\"></xref>.</p>\n"
+  remarks: "\n<p>\n<xref href=\"System.Collections.Concurrent.BlockingCollection`1\" data-throw-if-not-resolved=\"false\"></xref> is a thread-safe collection class that provides the following:</p>\n<ul><li>\n<p>An implementation of the producer/consumer pattern; <xref href=\"System.Collections.Concurrent.BlockingCollection`1\" data-throw-if-not-resolved=\"false\"></xref> is a wrapper for the <xref href=\"System.Collections.Concurrent.IProducerConsumerCollection`1\" data-throw-if-not-resolved=\"false\"></xref>  interface.</p>\n</li><li>\n<p>Concurrent addition and removal of items from multiple threads with the <xref href=\"System.Collections.Concurrent.BlockingCollection`1.Add(`0)\" data-throw-if-not-resolved=\"false\"></xref> and  <xref href=\"System.Collections.Concurrent.BlockingCollection`1.Take\" data-throw-if-not-resolved=\"false\"></xref> methods.</p>\n</li><li>\n<p>A bounded collection that blocks <xref href=\"System.Collections.Concurrent.BlockingCollection`1.Add(`0)\" data-throw-if-not-resolved=\"false\"></xref> and <xref href=\"System.Collections.Concurrent.BlockingCollection`1.Take\" data-throw-if-not-resolved=\"false\"></xref> operations when the collection is full or empty.</p>\n</li><li>\n<p>Cancellation of <xref href=\"System.Collections.Concurrent.BlockingCollection`1.Add(`0)\" data-throw-if-not-resolved=\"false\"></xref> or <xref href=\"System.Collections.Concurrent.BlockingCollection`1.Take\" data-throw-if-not-resolved=\"false\"></xref> operations by using a <xref href=\"System.Threading.CancellationToken\" data-throw-if-not-resolved=\"false\"></xref> object in the  <xref href=\"System.Collections.Concurrent.BlockingCollection`1.TryAdd(`0)\" data-throw-if-not-resolved=\"false\"></xref> or <xref href=\"System.Collections.Concurrent.BlockingCollection`1.TryTake(`0@)\" data-throw-if-not-resolved=\"false\"></xref> method.</p>\n</li></ul>\n<p>This type implements the <xref href=\"System.IDisposable\" data-throw-if-not-resolved=\"false\"></xref> interface. When you have finished using the type, you should dispose of it either directly or indirectly. To dispose of the type directly, call its <xref href=\"System.IDisposable.Dispose\" data-throw-if-not-resolved=\"false\"></xref> method in a <strong>try</strong>/<strong>catch</strong> block. To dispose of it indirectly, use a language construct such as <strong>using</strong> (in C#) or <strong>Using</strong> (in Visual Basic). For more information, see the “Using an Object that Implements IDisposable” section in the <xref href=\"System.IDisposable\" data-throw-if-not-resolved=\"false\"></xref> interface topic. Also, note that the <xref href=\"System.Collections.Concurrent.BlockingCollection`1.Dispose\" data-throw-if-not-resolved=\"false\"></xref> method is not thread-safe. All other public and protected members of <xref href=\"System.Collections.Concurrent.BlockingCollection`1\" data-throw-if-not-resolved=\"false\"></xref> are thread-safe and may be used concurrently from multiple threads.</p>\n<p>\n<xref href=\"System.Collections.Concurrent.IProducerConsumerCollection`1\" data-throw-if-not-resolved=\"false\"></xref> represents a collection that allows for thread-safe adding and removal of data. <xref href=\"System.Collections.Concurrent.BlockingCollection`1\" data-throw-if-not-resolved=\"false\"></xref> is used as a wrapper for an <xref href=\"System.Collections.Concurrent.IProducerConsumerCollection`1\" data-throw-if-not-resolved=\"false\"></xref> instance, and allows removal attempts from the collection to block until data is available to be removed. Similarly, you can create a <xref href=\"System.Collections.Concurrent.BlockingCollection`1\" data-throw-if-not-resolved=\"false\"></xref> to enforce an upper bound on the number of data elements allowed in the <xref href=\"System.Collections.Concurrent.IProducerConsumerCollection`1\" data-throw-if-not-resolved=\"false\"></xref>; addition attempts to the collection may then block until space is available to store the added items. In this manner, <xref href=\"System.Collections.Concurrent.BlockingCollection`1\" data-throw-if-not-resolved=\"false\"></xref> is similar to a traditional blocking queue data structure, except that the underlying data storage mechanism is abstracted away as an <xref href=\"System.Collections.Concurrent.IProducerConsumerCollection`1\" data-throw-if-not-resolved=\"false\"></xref>.</p>\n<p>\n<xref href=\"System.Collections.Concurrent.BlockingCollection`1\" data-throw-if-not-resolved=\"false\"></xref> supports bounding and blocking. Bounding means that you can set the maximum capacity of the collection. Bounding is important in certain scenarios because it enables you to control the maximum size of the collection in memory, and it prevents the producing threads from moving too far ahead of the consuming threads.Multiple threads or tasks can add items to the collection concurrently, and if the collection reaches its specified maximum capacity, the producing threads will block until an item is removed. Multiple consumers can remove items concurrently, and if the collection becomes empty, the consuming threads will block until a producer adds an item. A producing thread can call the <xref href=\"System.Collections.Concurrent.BlockingCollection`1.CompleteAdding\" data-throw-if-not-resolved=\"false\"></xref> method to indicate that no more items will be added. Consumers monitor the <xref href=\"System.Collections.Concurrent.BlockingCollection`1.IsCompleted\" data-throw-if-not-resolved=\"false\"></xref> property to know when the collection is empty and no more items will be added. </p>\n<p>\n<xref href=\"System.Collections.Concurrent.BlockingCollection`1.Add(`0)\" data-throw-if-not-resolved=\"false\"></xref> and <xref href=\"System.Collections.Concurrent.BlockingCollection`1.Take\" data-throw-if-not-resolved=\"false\"></xref> operations are typically performed in a loop. You can cancel a loop by passing in a <xref href=\"System.Threading.CancellationToken\" data-throw-if-not-resolved=\"false\"></xref> object to the <xref href=\"System.Collections.Concurrent.BlockingCollection`1.TryAdd(`0)\" data-throw-if-not-resolved=\"false\"></xref> or <xref href=\"System.Collections.Concurrent.BlockingCollection`1.TryTake(`0@)\" data-throw-if-not-resolved=\"false\"></xref> method, and then checking the value of the token's <xref href=\"System.Threading.CancellationToken.IsCancellationRequested\" data-throw-if-not-resolved=\"false\"></xref> property on each iteration. If the value is <strong>true</strong>, it is up to you to respond the cancellation request by cleaning up any resources and exiting the loop.</p>\n<p>When you create a <xref href=\"System.Collections.Concurrent.BlockingCollection`1\" data-throw-if-not-resolved=\"false\"></xref> object, you can specify not only the bounded capacity but also the type of collection to use. For example, you could specify a <xref href=\"System.Collections.Concurrent.ConcurrentQueue`1\" data-throw-if-not-resolved=\"false\"></xref> object for first in, first out (FIFO) behavior, or a <xref href=\"System.Collections.Concurrent.ConcurrentStack`1\" data-throw-if-not-resolved=\"false\"></xref> object for last in, first out (LIFO) behavior. You can use any collection class that implements the <xref href=\"System.Collections.Concurrent.IProducerConsumerCollection`1\" data-throw-if-not-resolved=\"false\"></xref> interface. The default collection type for <xref href=\"System.Collections.Concurrent.BlockingCollection`1\" data-throw-if-not-resolved=\"false\"></xref> is <xref href=\"System.Collections.Concurrent.ConcurrentQueue`1\" data-throw-if-not-resolved=\"false\"></xref>.</p>\n<p>Do not modify the underlying collection directly. Use <xref href=\"System.Collections.Concurrent.BlockingCollection`1\" data-throw-if-not-resolved=\"false\"></xref> methods to add or remove elements. The <xref href=\"System.Collections.Concurrent.BlockingCollection`1\" data-throw-if-not-resolved=\"false\"></xref> object can become corrupted if you change the underlying collection directly.</p>\n"
+  example:
+  - "\n<p>The following example shows how to add and take items concurrently from a blocking collection:</p>System.Collections.Concurrent.BlockingCollection#1"
   syntax:
-    content: 'public class BlockingCollection<T> : IEnumerable<T>, ICollection, IDisposable, IReadOnlyCollection<T>'
+    content: >-
+      [DebuggerTypeProxy(typeof (BlockingCollectionDebugView<>))]
+
+      [DebuggerDisplay("Count = {Count}, Type = {_collection}")]
+
+      public class BlockingCollection<T> : ICollection, IDisposable, IReadOnlyCollection<T>, IEnumerable<T>, IEnumerable
     content.vb: >-
+      <DebuggerTypeProxy(GetType(BlockingCollectionDebugView(Of )))>
+
+      <DebuggerDisplay("Count = {Count}, Type = {_collection}")>
+
       Public Class BlockingCollection(Of T)
-          Inherits IEnumerable(Of T)
-          Implements ICollection, IDisposable, IReadOnlyCollection(Of T)
+          Implements ICollection, IDisposable, IReadOnlyCollection(Of T), IEnumerable(Of T), IEnumerable
     typeParameters:
     - id: T
       description: Specifies the type of elements in the collection.
@@ -73,9 +90,18 @@ items:
   - System.Object
   implements:
   - System.Collections.Generic.IReadOnlyCollection{{T}}
+  - System.Collections.Generic.IEnumerable{{T}}
   - System.Collections.ICollection
   - System.Collections.IEnumerable
   - System.IDisposable
+  inheritedMembers:
+  - System.Object.ToString
+  - System.Object.Equals(System.Object)
+  - System.Object.Equals(System.Object,System.Object)
+  - System.Object.ReferenceEquals(System.Object,System.Object)
+  - System.Object.GetHashCode
+  - System.Object.GetType
+  - System.Object.MemberwiseClone
   modifiers.csharp:
   - public
   - class
@@ -105,6 +131,10 @@ items:
   assemblies:
   - System.Collections.Concurrent
   namespace: System.Collections.Concurrent
+  summary: "\n<p>Initializes a new instance of the <xref href=\"System.Collections.Concurrent.BlockingCollection`1\" data-throw-if-not-resolved=\"false\"></xref> class without an upper-bound.</p>\n"
+  remarks: "\n<p>The default underlying collection is a <xref href=\"System.Collections.Concurrent.ConcurrentQueue`1\" data-throw-if-not-resolved=\"false\"></xref> object, which provides first in, first out (FIFO) behavior.</p>\n"
+  example:
+  - 
   syntax:
     content: public BlockingCollection()
     content.vb: Public Sub New
@@ -134,6 +164,9 @@ items:
   assemblies:
   - System.Collections.Concurrent
   namespace: System.Collections.Concurrent
+  summary: "\n<p>Initializes a new instance of the <xref href=\"System.Collections.Concurrent.BlockingCollection`1\" data-throw-if-not-resolved=\"false\"></xref> class without an upper-bound and using the provided <xref href=\"System.Collections.Concurrent.IProducerConsumerCollection`1\" data-throw-if-not-resolved=\"false\"></xref> as its underlying data store.</p>\n"
+  example:
+  - 
   syntax:
     content: public BlockingCollection(IProducerConsumerCollection<T> collection)
     content.vb: Public Sub New(collection As IProducerConsumerCollection(Of T))
@@ -141,6 +174,10 @@ items:
     - id: collection
       type: System.Collections.Concurrent.IProducerConsumerCollection{{T}}
       description: The collection to use as the underlying data store.
+  exceptions:
+  - type: System.ArgumentNullException
+    commentId: T:System.ArgumentNullException
+    description: "\n<p>The <em>collection</em> argument is null.</p>\n"
   modifiers.csharp:
   - public
   modifiers.vb:
@@ -168,6 +205,9 @@ items:
   assemblies:
   - System.Collections.Concurrent
   namespace: System.Collections.Concurrent
+  summary: "\n<p>Initializes a new instance of the <xref href=\"System.Collections.Concurrent.BlockingCollection`1\" data-throw-if-not-resolved=\"false\"></xref> class with the specified upper-bound and using the provided <xref href=\"System.Collections.Concurrent.IProducerConsumerCollection`1\" data-throw-if-not-resolved=\"false\"></xref> as its underlying data store.</p>\n"
+  example:
+  - 
   syntax:
     content: public BlockingCollection(IProducerConsumerCollection<T> collection, int boundedCapacity)
     content.vb: Public Sub New(collection As IProducerConsumerCollection(Of T), boundedCapacity As Integer)
@@ -178,6 +218,16 @@ items:
     - id: boundedCapacity
       type: System.Int32
       description: The bounded size of the collection.
+  exceptions:
+  - type: System.ArgumentNullException
+    commentId: T:System.ArgumentNullException
+    description: "\n<p>The <em>collection</em> argument is null.</p>\n"
+  - type: System.ArgumentOutOfRangeException
+    commentId: T:System.ArgumentOutOfRangeException
+    description: "\n<p>The <em>boundedCapacity</em> is not a positive value.</p>\n"
+  - type: System.ArgumentException
+    commentId: T:System.ArgumentException
+    description: "\n<p>The supplied <em>collection</em> contains more values than is permitted by <em>boundedCapacity</em>.</p>\n"
   modifiers.csharp:
   - public
   modifiers.vb:
@@ -205,6 +255,10 @@ items:
   assemblies:
   - System.Collections.Concurrent
   namespace: System.Collections.Concurrent
+  summary: "\n<p>Initializes a new instance of the <xref href=\"System.Collections.Concurrent.BlockingCollection`1\" data-throw-if-not-resolved=\"false\"></xref> class with the specified upper-bound.</p>\n"
+  remarks: "\n<p>The default underlying collection is a <xref href=\"System.Collections.Concurrent.ConcurrentQueue`1\" data-throw-if-not-resolved=\"false\"></xref>.</p>\n"
+  example:
+  - 
   syntax:
     content: public BlockingCollection(int boundedCapacity)
     content.vb: Public Sub New(boundedCapacity As Integer)
@@ -212,6 +266,10 @@ items:
     - id: boundedCapacity
       type: System.Int32
       description: The bounded size of the collection.
+  exceptions:
+  - type: System.ArgumentOutOfRangeException
+    commentId: T:System.ArgumentOutOfRangeException
+    description: "\n<p>The <em>boundedCapacity</em> is not a positive value.</p>\n"
   modifiers.csharp:
   - public
   modifiers.vb:
@@ -238,6 +296,9 @@ items:
   assemblies:
   - System.Collections.Concurrent
   namespace: System.Collections.Concurrent
+  summary: "\n<p>Gets the bounded capacity of this <xref href=\"System.Collections.Concurrent.BlockingCollection`1\" data-throw-if-not-resolved=\"false\"></xref> instance.</p>\n"
+  example:
+  - 
   syntax:
     content: public int BoundedCapacity { get; }
     content.vb: Public ReadOnly Property BoundedCapacity As Integer
@@ -245,6 +306,10 @@ items:
     return:
       type: System.Int32
       description: The bounded capacity of this collection, or int.MaxValue if no bound was supplied.
+  exceptions:
+  - type: System.ObjectDisposedException
+    commentId: T:System.ObjectDisposedException
+    description: "\n<p>The <xref href=\"System.Collections.Concurrent.BlockingCollection`1\" data-throw-if-not-resolved=\"false\"></xref> has been disposed.</p>\n"
   modifiers.csharp:
   - public
   - get
@@ -273,6 +338,10 @@ items:
   assemblies:
   - System.Collections.Concurrent
   namespace: System.Collections.Concurrent
+  summary: "\n<p>Gets the number of items contained in the <xref href=\"System.Collections.Concurrent.BlockingCollection`1\" data-throw-if-not-resolved=\"false\"></xref>.</p>\n"
+  remarks: "\n<p>If any method in BlockingCollection is executing while the Count property is being accessd, the return value is approximate. Count may reflect a number that is either greater than or less than the actual number of items in the BlockingCollection.</p>\n"
+  example:
+  - 
   syntax:
     content: public int Count { get; }
     content.vb: Public ReadOnly Property Count As Integer
@@ -280,6 +349,13 @@ items:
     return:
       type: System.Int32
       description: The number of items contained in the <xref href="System.Collections.Concurrent.BlockingCollection{T}" data-throw-if-not-resolved="false"></xref>.
+  exceptions:
+  - type: System.ObjectDisposedException
+    commentId: T:System.ObjectDisposedException
+    description: "\n<p>The <xref href=\"System.Collections.Concurrent.BlockingCollection`1\" data-throw-if-not-resolved=\"false\"></xref> has been disposed.</p>\n"
+  implements:
+  - System.Collections.Generic.IReadOnlyCollection{{T}}.Count
+  - System.Collections.ICollection.Count
   modifiers.csharp:
   - public
   - get
@@ -308,6 +384,9 @@ items:
   assemblies:
   - System.Collections.Concurrent
   namespace: System.Collections.Concurrent
+  summary: "\n<p>Gets whether this <xref href=\"System.Collections.Concurrent.BlockingCollection`1\" data-throw-if-not-resolved=\"false\"></xref> has been marked as complete for adding.</p>\n"
+  example:
+  - 
   syntax:
     content: public bool IsAddingCompleted { get; }
     content.vb: Public ReadOnly Property IsAddingCompleted As Boolean
@@ -315,6 +394,10 @@ items:
     return:
       type: System.Boolean
       description: Whether this collection has been marked as complete for adding.
+  exceptions:
+  - type: System.ObjectDisposedException
+    commentId: T:System.ObjectDisposedException
+    description: "\n<p>The <xref href=\"System.Collections.Concurrent.BlockingCollection`1\" data-throw-if-not-resolved=\"false\"></xref> has been disposed.</p>\n"
   modifiers.csharp:
   - public
   - get
@@ -343,6 +426,9 @@ items:
   assemblies:
   - System.Collections.Concurrent
   namespace: System.Collections.Concurrent
+  summary: "\n<p>Gets whether this <xref href=\"System.Collections.Concurrent.BlockingCollection`1\" data-throw-if-not-resolved=\"false\"></xref> has been marked as complete for adding and is empty.</p>\n"
+  example:
+  - 
   syntax:
     content: public bool IsCompleted { get; }
     content.vb: Public ReadOnly Property IsCompleted As Boolean
@@ -350,6 +436,10 @@ items:
     return:
       type: System.Boolean
       description: Whether this collection has been marked as complete for adding and is empty.
+  exceptions:
+  - type: System.ObjectDisposedException
+    commentId: T:System.ObjectDisposedException
+    description: "\n<p>The <xref href=\"System.Collections.Concurrent.BlockingCollection`1\" data-throw-if-not-resolved=\"false\"></xref> has been disposed.</p>\n"
   modifiers.csharp:
   - public
   - get
@@ -357,6 +447,92 @@ items:
   - Public
   - ReadOnly
   fullName.vb: System.Collections.Concurrent.BlockingCollection(Of T).IsCompleted
+- uid: System.Collections.Concurrent.BlockingCollection`1.System#Collections#ICollection#IsSynchronized
+  commentId: P:System.Collections.Concurrent.BlockingCollection`1.System#Collections#ICollection#IsSynchronized
+  id: System#Collections#ICollection#IsSynchronized
+  isEii: true
+  parent: System.Collections.Concurrent.BlockingCollection`1
+  langs:
+  - csharp
+  - vb
+  name: ICollection.IsSynchronized
+  fullName: System.Collections.Concurrent.BlockingCollection<T>.System.Collections.ICollection.IsSynchronized
+  type: Property
+  source:
+    remote:
+      path: src/System.Collections.Concurrent/src/System/Collections/Concurrent/BlockingCollection.cs
+      branch: master
+      repo: https://github.com/dotnet/corefx.git
+    id: System.Collections.ICollection.IsSynchronized
+    path: src/System.Collections.Concurrent/src/System/Collections/Concurrent/BlockingCollection.cs
+    startLine: 113
+  assemblies:
+  - System.Collections.Concurrent
+  namespace: System.Collections.Concurrent
+  summary: "\n<p>Gets a value indicating whether access to the <xref href=\"System.Collections.ICollection\" data-throw-if-not-resolved=\"false\"></xref> is synchronized.</p>\n"
+  example:
+  - 
+  syntax:
+    content: bool ICollection.IsSynchronized { get; }
+    content.vb: ReadOnly WriteOnly Property System.Collections.ICollection.IsSynchronized As Boolean Implements ICollection.IsSynchronized
+    parameters: []
+    return:
+      type: System.Boolean
+  exceptions:
+  - type: System.ObjectDisposedException
+    commentId: T:System.ObjectDisposedException
+    description: "\n<p>The <xref href=\"System.Collections.Concurrent.BlockingCollection`1\" data-throw-if-not-resolved=\"false\"></xref> has been disposed.</p>\n"
+  implements:
+  - System.Collections.ICollection.IsSynchronized
+  modifiers.csharp:
+  - get
+  modifiers.vb:
+  - ReadOnly
+  fullName.vb: System.Collections.Concurrent.BlockingCollection(Of T).System.Collections.ICollection.IsSynchronized
+  name.vb: System.Collections.ICollection.IsSynchronized
+- uid: System.Collections.Concurrent.BlockingCollection`1.System#Collections#ICollection#SyncRoot
+  commentId: P:System.Collections.Concurrent.BlockingCollection`1.System#Collections#ICollection#SyncRoot
+  id: System#Collections#ICollection#SyncRoot
+  isEii: true
+  parent: System.Collections.Concurrent.BlockingCollection`1
+  langs:
+  - csharp
+  - vb
+  name: ICollection.SyncRoot
+  fullName: System.Collections.Concurrent.BlockingCollection<T>.System.Collections.ICollection.SyncRoot
+  type: Property
+  source:
+    remote:
+      path: src/System.Collections.Concurrent/src/System/Collections/Concurrent/BlockingCollection.cs
+      branch: master
+      repo: https://github.com/dotnet/corefx.git
+    id: System.Collections.ICollection.SyncRoot
+    path: src/System.Collections.Concurrent/src/System/Collections/Concurrent/BlockingCollection.cs
+    startLine: 127
+  assemblies:
+  - System.Collections.Concurrent
+  namespace: System.Collections.Concurrent
+  summary: "\n<p>Gets an object that can be used to synchronize access to the <xref href=\"System.Collections.ICollection\" data-throw-if-not-resolved=\"false\"></xref>. This property is not supported.</p>\n"
+  example:
+  - 
+  syntax:
+    content: object ICollection.SyncRoot { get; }
+    content.vb: ReadOnly WriteOnly Property System.Collections.ICollection.SyncRoot As Object Implements ICollection.SyncRoot
+    parameters: []
+    return:
+      type: System.Object
+  exceptions:
+  - type: System.NotSupportedException
+    commentId: T:System.NotSupportedException
+    description: "\n<p>The SyncRoot property is not supported.</p>\n"
+  implements:
+  - System.Collections.ICollection.SyncRoot
+  modifiers.csharp:
+  - get
+  modifiers.vb:
+  - ReadOnly
+  fullName.vb: System.Collections.Concurrent.BlockingCollection(Of T).System.Collections.ICollection.SyncRoot
+  name.vb: System.Collections.ICollection.SyncRoot
 - uid: System.Collections.Concurrent.BlockingCollection`1.Add(`0)
   commentId: M:System.Collections.Concurrent.BlockingCollection`1.Add(`0)
   id: Add(`0)
@@ -378,6 +554,10 @@ items:
   assemblies:
   - System.Collections.Concurrent
   namespace: System.Collections.Concurrent
+  summary: "\n<p>Adds the item to the <xref href=\"System.Collections.Concurrent.BlockingCollection`1\" data-throw-if-not-resolved=\"false\"></xref>.</p>\n"
+  remarks: "\n<p>If a bounded capacity was specified when this instance of <xref href=\"System.Collections.Concurrent.BlockingCollection`1\" data-throw-if-not-resolved=\"false\"></xref> was initialized, a call to Add may block until space is available to store the provided item.</p>\n"
+  example:
+  - 
   syntax:
     content: public void Add(T item)
     content.vb: Public Sub Add(item As T)
@@ -385,6 +565,13 @@ items:
     - id: item
       type: '{T}'
       description: The item to be added to the collection. The value can be a null reference.
+  exceptions:
+  - type: System.ObjectDisposedException
+    commentId: T:System.ObjectDisposedException
+    description: "\n<p>The <xref href=\"System.Collections.Concurrent.BlockingCollection`1\" data-throw-if-not-resolved=\"false\"></xref> has been disposed.</p>\n"
+  - type: System.InvalidOperationException
+    commentId: T:System.InvalidOperationException
+    description: "\n<p>The <xref href=\"System.Collections.Concurrent.BlockingCollection`1\" data-throw-if-not-resolved=\"false\"></xref> has been marked as complete with regards to additions.</p>\n<p>-or-</p>\n<p>The underlying collection didn't accept the item.</p>\n"
   modifiers.csharp:
   - public
   modifiers.vb:
@@ -397,28 +584,44 @@ items:
   langs:
   - csharp
   - vb
-  name: Add(T, Threading.CancellationToken)
+  name: Add(T, CancellationToken)
   fullName: System.Collections.Concurrent.BlockingCollection<T>.Add(T, System.Threading.CancellationToken)
   type: Method
   source:
     remote:
-      path: src/System.Collections.Concurrent/ref/System.Collections.Concurrent.cs
+      path: src/System.Collections.Concurrent/src/System/Collections/Concurrent/BlockingCollection.cs
       branch: master
       repo: https://github.com/dotnet/corefx.git
     id: Add
-    path: src/System.Collections.Concurrent/ref/System.Collections.Concurrent.cs
-    startLine: 23
+    path: src/System.Collections.Concurrent/src/System/Collections/Concurrent/BlockingCollection.cs
+    startLine: 283
   assemblies:
   - System.Collections.Concurrent
   namespace: System.Collections.Concurrent
+  summary: "\n<p>Adds the item to the <xref href=\"System.Collections.Concurrent.BlockingCollection`1\" data-throw-if-not-resolved=\"false\"></xref>.</p>\n"
+  remarks: "\n<p>If a bounded capacity was specified when this instance of <xref href=\"System.Collections.Concurrent.BlockingCollection`1\" data-throw-if-not-resolved=\"false\"></xref> was initialized, a call to <xref href=\"System.Collections.Concurrent.BlockingCollection`1.Add(`0,System.Threading.CancellationToken)\" data-throw-if-not-resolved=\"false\"></xref> may block until space is available to store the provided item.</p>\n<p>This method can return early with an <xref href=\"System.OperationCanceledException\" data-throw-if-not-resolved=\"false\"></xref> if the <em>cancellationToken</em> is canceled.</p>\n"
+  example:
+  - 
   syntax:
-    content: public void Add(T item, Threading.CancellationToken cancellationToken)
-    content.vb: Public Sub Add(item As T, cancellationToken As Threading.CancellationToken)
+    content: public void Add(T item, CancellationToken cancellationToken)
+    content.vb: Public Sub Add(item As T, cancellationToken As CancellationToken)
     parameters:
     - id: item
       type: '{T}'
+      description: The item to be added to the collection. The value can be a null reference.
     - id: cancellationToken
       type: System.Threading.CancellationToken
+      description: A cancellation token to observe.
+  exceptions:
+  - type: System.OperationCanceledException
+    commentId: T:System.OperationCanceledException
+    description: "\n<p>If the <xref href=\"System.Threading.CancellationToken\" data-throw-if-not-resolved=\"false\"></xref> is canceled.</p>\n"
+  - type: System.ObjectDisposedException
+    commentId: T:System.ObjectDisposedException
+    description: "\n<p>The <xref href=\"System.Collections.Concurrent.BlockingCollection`1\" data-throw-if-not-resolved=\"false\"></xref> has been disposed or the <xref href=\"System.Threading.CancellationTokenSource\" data-throw-if-not-resolved=\"false\"></xref> that owns <em>cancellationToken</em> has been disposed.</p>\n"
+  - type: System.InvalidOperationException
+    commentId: T:System.InvalidOperationException
+    description: "\n<p>The <xref href=\"System.Collections.Concurrent.BlockingCollection`1\" data-throw-if-not-resolved=\"false\"></xref> has been marked as complete with regards to additions.</p>\n<p>-or-</p>\n<p>The underlying collection didn't accept the item.</p>\n"
   modifiers.csharp:
   - public
   modifiers.vb:
@@ -445,6 +648,10 @@ items:
   assemblies:
   - System.Collections.Concurrent
   namespace: System.Collections.Concurrent
+  summary: "\n<p>Adds the specified item to any one of the specified <xref href=\"System.Collections.Concurrent.BlockingCollection`1\" data-throw-if-not-resolved=\"false\"></xref> instances.</p>\n"
+  remarks: "\n<p>If a bounded capacity was specified when all of the <xref href=\"System.Collections.Concurrent.BlockingCollection`1\" data-throw-if-not-resolved=\"false\"></xref> instances were initialized, a call to AddToAny may block until space is available in one of the collections to store the provided item.</p>\n"
+  example:
+  - 
   syntax:
     content: public static int AddToAny(BlockingCollection<T>[] collections, T item)
     content.vb: Public Shared Function AddToAny(collections As BlockingCollection(Of T)(), item As T) As Integer
@@ -458,6 +665,22 @@ items:
     return:
       type: System.Int32
       description: The index of the collection in the <em>collections</em> array to which the item was added.
+  exceptions:
+  - type: System.ObjectDisposedException
+    commentId: T:System.ObjectDisposedException
+    description: "\n<p>At least one of the <xref href=\"System.Collections.Concurrent.BlockingCollection`1\" data-throw-if-not-resolved=\"false\"></xref> instances has been disposed.</p>\n"
+  - type: System.ArgumentNullException
+    commentId: T:System.ArgumentNullException
+    description: "\n<p>The <em>collections</em> argument is null.</p>\n"
+  - type: System.ArgumentOutOfRangeException
+    commentId: T:System.ArgumentOutOfRangeException
+    description: "\n<p>The count of <em>collections</em> is greater than the maximum size of 62 for STA and 63 for MTA.</p>\n"
+  - type: System.ArgumentException
+    commentId: T:System.ArgumentException
+    description: "\n<p>The <em>collections</em> argument is a 0-length array or contains a null element, or at least one of collections has been marked as complete for adding.</p>\n"
+  - type: System.InvalidOperationException
+    commentId: T:System.InvalidOperationException
+    description: "\n<p>At least one underlying collection didn't accept the item.</p>\n"
   modifiers.csharp:
   - public
   - static
@@ -473,32 +696,59 @@ items:
   langs:
   - csharp
   - vb
-  name: AddToAny(BlockingCollection<T>[], T, Threading.CancellationToken)
+  name: AddToAny(BlockingCollection<T>[], T, CancellationToken)
   fullName: System.Collections.Concurrent.BlockingCollection<T>.AddToAny(System.Collections.Concurrent.BlockingCollection<T>[], T, System.Threading.CancellationToken)
   type: Method
   source:
     remote:
-      path: src/System.Collections.Concurrent/ref/System.Collections.Concurrent.cs
+      path: src/System.Collections.Concurrent/src/System/Collections/Concurrent/BlockingCollection.cs
       branch: master
       repo: https://github.com/dotnet/corefx.git
     id: AddToAny
-    path: src/System.Collections.Concurrent/ref/System.Collections.Concurrent.cs
-    startLine: 25
+    path: src/System.Collections.Concurrent/src/System/Collections/Concurrent/BlockingCollection.cs
+    startLine: 835
   assemblies:
   - System.Collections.Concurrent
   namespace: System.Collections.Concurrent
+  summary: "\n<p>Adds the specified item to any one of the specified <xref href=\"System.Collections.Concurrent.BlockingCollection`1\" data-throw-if-not-resolved=\"false\"></xref> instances.</p>\n"
+  remarks: "\n<p>If a bounded capacity was specified when all of the <xref href=\"System.Collections.Concurrent.BlockingCollection`1\" data-throw-if-not-resolved=\"false\"></xref> instances were initialized, a call to AddToAny may block until space is available in one of the collections to store the provided item. This method may return before the item is added to any collection if the <em>cancellationToken</em> is canceled before space is available.</p>\n"
+  example:
+  - 
   syntax:
-    content: public static int AddToAny(BlockingCollection<T>[] collections, T item, Threading.CancellationToken cancellationToken)
-    content.vb: Public Shared Function AddToAny(collections As BlockingCollection(Of T)(), item As T, cancellationToken As Threading.CancellationToken) As Integer
+    content: public static int AddToAny(BlockingCollection<T>[] collections, T item, CancellationToken cancellationToken)
+    content.vb: Public Shared Function AddToAny(collections As BlockingCollection(Of T)(), item As T, cancellationToken As CancellationToken) As Integer
     parameters:
     - id: collections
       type: System.Collections.Concurrent.BlockingCollection`1[]
+      description: The array of collections.
     - id: item
       type: '{T}'
+      description: The item to be added to one of the collections.
     - id: cancellationToken
       type: System.Threading.CancellationToken
+      description: A cancellation token to observe.
     return:
       type: System.Int32
+      description: The index of the collection in the <em>collections</em> array to which the item was added.
+  exceptions:
+  - type: System.OperationCanceledException
+    commentId: T:System.OperationCanceledException
+    description: "\n<p>If the <xref href=\"System.Threading.CancellationToken\" data-throw-if-not-resolved=\"false\"></xref> is canceled.</p>\n"
+  - type: System.InvalidOperationException
+    commentId: T:System.InvalidOperationException
+    description: "\n<p>At least one underlying collection didn't accept the item.</p>\n"
+  - type: System.ArgumentNullException
+    commentId: T:System.ArgumentNullException
+    description: "\n<p>The <em>collections</em> argument is null.</p>\n"
+  - type: System.ArgumentOutOfRangeException
+    commentId: T:System.ArgumentOutOfRangeException
+    description: "\n<p>The count of <em>collections</em> is greater than the maximum size of 62 for STA and 63 for MTA.</p>\n"
+  - type: System.ArgumentException
+    commentId: T:System.ArgumentException
+    description: "\n<p>The <em>collections</em> argument is a 0-length array or contains a null element, or at least one of collections has been marked as complete for adding.</p>\n"
+  - type: System.ObjectDisposedException
+    commentId: T:System.ObjectDisposedException
+    description: "\n<p>At least one of the <xref href=\"System.Collections.Concurrent.BlockingCollection`1\" data-throw-if-not-resolved=\"false\"></xref> instances has been disposed, or the <xref href=\"System.Threading.CancellationTokenSource\" data-throw-if-not-resolved=\"false\"></xref> that created <em>cancellationToken</em> has been disposed.</p>\n"
   modifiers.csharp:
   - public
   - static
@@ -506,7 +756,7 @@ items:
   - Public
   - Shared
   fullName.vb: System.Collections.Concurrent.BlockingCollection(Of T).AddToAny(System.Collections.Concurrent.BlockingCollection(Of T)(), T, System.Threading.CancellationToken)
-  name.vb: AddToAny(BlockingCollection(Of T)(), T, Threading.CancellationToken)
+  name.vb: AddToAny(BlockingCollection(Of T)(), T, CancellationToken)
 - uid: System.Collections.Concurrent.BlockingCollection`1.CompleteAdding
   commentId: M:System.Collections.Concurrent.BlockingCollection`1.CompleteAdding
   id: CompleteAdding
@@ -528,9 +778,17 @@ items:
   assemblies:
   - System.Collections.Concurrent
   namespace: System.Collections.Concurrent
+  summary: "\n<p>Marks the <xref href=\"System.Collections.Concurrent.BlockingCollection`1\" data-throw-if-not-resolved=\"false\"></xref> instances as not accepting any more additions.</p>\n"
+  remarks: "\n<p>After a collection has been marked as complete for adding, adding to the collection is not permitted and attempts to remove from the collection will not wait when the collection is empty.</p>\n"
+  example:
+  - 
   syntax:
     content: public void CompleteAdding()
     content.vb: Public Sub CompleteAdding
+  exceptions:
+  - type: System.ObjectDisposedException
+    commentId: T:System.ObjectDisposedException
+    description: "\n<p>The <xref href=\"System.Collections.Concurrent.BlockingCollection`1\" data-throw-if-not-resolved=\"false\"></xref> has been disposed.</p>\n"
   modifiers.csharp:
   - public
   modifiers.vb:
@@ -557,6 +815,10 @@ items:
   assemblies:
   - System.Collections.Concurrent
   namespace: System.Collections.Concurrent
+  summary: "\n<p>Copies all of the items in the <xref href=\"System.Collections.Concurrent.BlockingCollection`1\" data-throw-if-not-resolved=\"false\"></xref> instance to a compatible one-dimensional array, starting at the specified index of the target array.</p>\n"
+  remarks: "\n<p>CopyTo represents a snapshot of the collection at a precise point in time. If other threads are adding or removing items while CopyTo is executing, then the elements returned by CopyTo might not represent the state of the collection.</p>\n"
+  example:
+  - 
   syntax:
     content: public void CopyTo(T[] array, int index)
     content.vb: Public Sub CopyTo(array As T(), index As Integer)
@@ -567,6 +829,19 @@ items:
     - id: index
       type: System.Int32
       description: The zero-based index in <em>array</em> at which copying begins.
+  exceptions:
+  - type: System.ObjectDisposedException
+    commentId: T:System.ObjectDisposedException
+    description: "\n<p>The <xref href=\"System.Collections.Concurrent.BlockingCollection`1\" data-throw-if-not-resolved=\"false\"></xref> has been disposed.</p>\n"
+  - type: System.ArgumentNullException
+    commentId: T:System.ArgumentNullException
+    description: "\n<p>The <em>array</em> argument is null.</p>\n"
+  - type: System.ArgumentOutOfRangeException
+    commentId: T:System.ArgumentOutOfRangeException
+    description: "\n<p>The <em>index</em> argument is less than zero.</p>\n"
+  - type: System.ArgumentException
+    commentId: T:System.ArgumentException
+    description: "\n<p>The <em>index</em> argument is equal to or greater than the length of the <em>array</em>.</p>\n<p>The destination array is too small to hold all of the BlockingCcollection elements.</p>\n<p>The array rank doesn't match.</p>\n<p>The array type is incompatible with the type of the BlockingCollection elements.</p>\n"
   modifiers.csharp:
   - public
   modifiers.vb:
@@ -594,9 +869,13 @@ items:
   assemblies:
   - System.Collections.Concurrent
   namespace: System.Collections.Concurrent
+  summary: "\n<p>Releases all resources used by the current instance of the <xref href=\"System.Collections.Concurrent.BlockingCollection`1\" data-throw-if-not-resolved=\"false\"></xref> class.</p>\n"
+  remarks: "\n<p>The <strong>Dispose</strong> method is not thread-safe.</p>\n<p>Call <strong>Dispose</strong> when you are finished using the <xref href=\"System.Collections.Concurrent.BlockingCollection`1\" data-throw-if-not-resolved=\"false\"></xref>. The <strong>Dispose</strong> method leaves the <xref href=\"System.Collections.Concurrent.BlockingCollection`1\" data-throw-if-not-resolved=\"false\"></xref> in an unusable state. After calling <strong>Dispose</strong>, you must release all references to the <xref href=\"System.Collections.Concurrent.BlockingCollection`1\" data-throw-if-not-resolved=\"false\"></xref> so the garbage collector can reclaim the memory that the <xref href=\"System.Collections.Concurrent.BlockingCollection`1\" data-throw-if-not-resolved=\"false\"></xref> was occupying.</p>\n<p>For more information, see Cleaning Up Unmanaged Resources and Implementing a Dispose Method.</p>\n<p>Always call <strong>Dispose</strong> before you release your last reference to the <xref href=\"System.Collections.Concurrent.BlockingCollection`1\" data-throw-if-not-resolved=\"false\"></xref>. Otherwise, the resources it is using will not be freed until the garbage collector calls the <xref href=\"System.Collections.Concurrent.BlockingCollection`1\" data-throw-if-not-resolved=\"false\"></xref> object's <strong>Finalize</strong> method.</p>\n"
   syntax:
     content: public void Dispose()
     content.vb: Public Sub Dispose
+  implements:
+  - System.IDisposable.Dispose
   modifiers.csharp:
   - public
   modifiers.vb:
@@ -623,6 +902,9 @@ items:
   assemblies:
   - System.Collections.Concurrent
   namespace: System.Collections.Concurrent
+  summary: "\n<p>Releases resources used by the <xref href=\"System.Collections.Concurrent.BlockingCollection`1\" data-throw-if-not-resolved=\"false\"></xref> instance.</p>\n"
+  example:
+  - 
   syntax:
     content: protected virtual void Dispose(bool disposing)
     content.vb: Protected Overridable Sub Dispose(disposing As Boolean)
@@ -658,12 +940,19 @@ items:
   assemblies:
   - System.Collections.Concurrent
   namespace: System.Collections.Concurrent
+  summary: "\n<p>Provides a consuming <xref href=\"System.Collections.Generic.IEnumerator`1\" data-throw-if-not-resolved=\"false\"></xref> for items in the collection.</p>\n"
+  example:
+  - "\n<p>The following example shows how to use the <xref href=\"System.Collections.Concurrent.BlockingCollection`1.GetConsumingEnumerable\" data-throw-if-not-resolved=\"false\"></xref> method:</p>System.Collections.Concurrent.BlockingCollection#4"
   syntax:
     content: public IEnumerable<T> GetConsumingEnumerable()
     content.vb: Public Function GetConsumingEnumerable As IEnumerable(Of T)
     return:
-      type: IEnumerable{{T}}
+      type: System.Collections.Generic.IEnumerable{{T}}
       description: An <xref href="System.Collections.Generics.IEnumerable{T}" data-throw-if-not-resolved="false"></xref> that removes and returns items from the collection.
+  exceptions:
+  - type: System.ObjectDisposedException
+    commentId: T:System.ObjectDisposedException
+    description: "\n<p>The <xref href=\"System.Collections.Concurrent.BlockingCollection`1\" data-throw-if-not-resolved=\"false\"></xref> has been disposed.</p>\n"
   modifiers.csharp:
   - public
   modifiers.vb:
@@ -676,33 +965,177 @@ items:
   langs:
   - csharp
   - vb
-  name: GetConsumingEnumerable(Threading.CancellationToken)
+  name: GetConsumingEnumerable(CancellationToken)
   fullName: System.Collections.Concurrent.BlockingCollection<T>.GetConsumingEnumerable(System.Threading.CancellationToken)
   type: Method
   source:
     remote:
-      path: src/System.Collections.Concurrent/ref/System.Collections.Concurrent.cs
+      path: src/System.Collections.Concurrent/src/System/Collections/Concurrent/BlockingCollection.cs
       branch: master
       repo: https://github.com/dotnet/corefx.git
     id: GetConsumingEnumerable
-    path: src/System.Collections.Concurrent/ref/System.Collections.Concurrent.cs
-    startLine: 31
+    path: src/System.Collections.Concurrent/src/System/Collections/Concurrent/BlockingCollection.cs
+    startLine: 1653
   assemblies:
   - System.Collections.Concurrent
   namespace: System.Collections.Concurrent
+  summary: "\n<p>Provides a consuming <xref href=\"System.Collections.Generic.IEnumerable`1\" data-throw-if-not-resolved=\"false\"></xref> for items in the collection.</p>\n"
+  remarks: "\n<p>This method enables client code to remove items from the collection by using a foreach loop (For Each in Visual Basic), or <xref href=\"System.Threading.Tasks.Parallel.ForEach``1(System.Collections.Concurrent.Partitioner{``0},System.Action{``0})\" data-throw-if-not-resolved=\"false\"></xref> or a PLINQ query. The enumerator will continue to provide items (if any exist) until <xref href=\"System.Collections.Concurrent.BlockingCollection`1.IsCompleted\" data-throw-if-not-resolved=\"false\"></xref> returns true, and if <xref href=\"System.Collections.Concurrent.BlockingCollection`1.IsCompleted\" data-throw-if-not-resolved=\"false\"></xref> is false the loop blocks until an item becomes available or until the <xref href=\"System.Threading.CancellationToken\" data-throw-if-not-resolved=\"false\"></xref> is cancelled. </p>\n"
+  example:
+  - 
   syntax:
-    content: public Generic.IEnumerable<T> GetConsumingEnumerable(Threading.CancellationToken cancellationToken)
-    content.vb: Public Function GetConsumingEnumerable(cancellationToken As Threading.CancellationToken) As Generic.IEnumerable(Of T)
+    content: public IEnumerable<T> GetConsumingEnumerable(CancellationToken cancellationToken)
+    content.vb: Public Function GetConsumingEnumerable(cancellationToken As CancellationToken) As IEnumerable(Of T)
     parameters:
     - id: cancellationToken
       type: System.Threading.CancellationToken
+      description: A cancellation token to observe.
     return:
       type: System.Collections.Generic.IEnumerable{{T}}
+      description: An <xref href="System.Collections.Generics.IEnumerable{T}" data-throw-if-not-resolved="false"></xref> that removes and returns items from the collection.
+  exceptions:
+  - type: System.OperationCanceledException
+    commentId: T:System.OperationCanceledException
+    description: "\n<p>If the <xref href=\"System.Threading.CancellationToken\" data-throw-if-not-resolved=\"false\"></xref> is canceled.</p>\n"
+  - type: System.ObjectDisposedException
+    commentId: T:System.ObjectDisposedException
+    description: "\n<p>The <xref href=\"System.Collections.Concurrent.BlockingCollection`1\" data-throw-if-not-resolved=\"false\"></xref> has been disposed or the <xref href=\"System.Threading.CancellationTokenSource\" data-throw-if-not-resolved=\"false\"></xref> that created <em>cancellationToken</em> has been disposed</p>\n<p></p>\n"
   modifiers.csharp:
   - public
   modifiers.vb:
   - Public
   fullName.vb: System.Collections.Concurrent.BlockingCollection(Of T).GetConsumingEnumerable(System.Threading.CancellationToken)
+- uid: System.Collections.Concurrent.BlockingCollection`1.System#Collections#Generic#IEnumerable{T}#GetEnumerator
+  commentId: M:System.Collections.Concurrent.BlockingCollection`1.System#Collections#Generic#IEnumerable{T}#GetEnumerator
+  id: System#Collections#Generic#IEnumerable{T}#GetEnumerator
+  isEii: true
+  parent: System.Collections.Concurrent.BlockingCollection`1
+  langs:
+  - csharp
+  - vb
+  name: IEnumerable<T>.GetEnumerator()
+  fullName: System.Collections.Concurrent.BlockingCollection<T>.System.Collections.Generic.IEnumerable<T>.GetEnumerator()
+  type: Method
+  source:
+    remote:
+      path: src/System.Collections.Concurrent/src/System/Collections/Concurrent/BlockingCollection.cs
+      branch: master
+      repo: https://github.com/dotnet/corefx.git
+    id: System.Collections.Generic.IEnumerable<T>.GetEnumerator
+    path: src/System.Collections.Concurrent/src/System/Collections/Concurrent/BlockingCollection.cs
+    startLine: 1681
+  assemblies:
+  - System.Collections.Concurrent
+  namespace: System.Collections.Concurrent
+  summary: "\n<p>Provides an <xref href=\"System.Collections.Generic.IEnumerator`1\" data-throw-if-not-resolved=\"false\"></xref> for items in the collection.</p>\n"
+  remarks: "\n<p>Unlike <xref href=\"System.Collections.Concurrent.BlockingCollection`1.GetConsumingEnumerable\" data-throw-if-not-resolved=\"false\"></xref>, <xref href=\"System.Collections.Concurrent.BlockingCollection`1.System#Collections#Generic#IEnumerable{T}#GetEnumerator\" data-throw-if-not-resolved=\"false\"></xref> returns a standard enumerator that does not modify the underlying collection. If other threads are adding or removing elements concurrently when GetEnumerator is called, then the elements returned by the enumerator might not represent the current state of the collection.</p>\n"
+  example:
+  - 
+  syntax:
+    content: IEnumerator<T> IEnumerable<T>.GetEnumerator()
+    content.vb: Function System.Collections.Generic.IEnumerable<T>.GetEnumerator As IEnumerator(Of T) Implements IEnumerable(Of T).GetEnumerator
+    return:
+      type: System.Collections.Generic.IEnumerator{{T}}
+      description: An <xref href="System.Collections.Generics.IEnumerator{T}" data-throw-if-not-resolved="false"></xref> for the items in the collection.
+  exceptions:
+  - type: System.ObjectDisposedException
+    commentId: T:System.ObjectDisposedException
+    description: "\n<p>The <xref href=\"System.Collections.Concurrent.BlockingCollection`1\" data-throw-if-not-resolved=\"false\"></xref> has been disposed.</p>\n"
+  implements:
+  - System.Collections.Generic.IEnumerable{{T}}.GetEnumerator
+  fullName.vb: System.Collections.Concurrent.BlockingCollection(Of T).System.Collections.Generic.IEnumerable<T>.GetEnumerator()
+  name.vb: System.Collections.Generic.IEnumerable<T>.GetEnumerator()
+- uid: System.Collections.Concurrent.BlockingCollection`1.System#Collections#ICollection#CopyTo(System.Array,System.Int32)
+  commentId: M:System.Collections.Concurrent.BlockingCollection`1.System#Collections#ICollection#CopyTo(System.Array,System.Int32)
+  id: System#Collections#ICollection#CopyTo(System.Array,System.Int32)
+  isEii: true
+  parent: System.Collections.Concurrent.BlockingCollection`1
+  langs:
+  - csharp
+  - vb
+  name: ICollection.CopyTo(Array, Int32)
+  fullName: System.Collections.Concurrent.BlockingCollection<T>.System.Collections.ICollection.CopyTo(System.Array, System.Int32)
+  type: Method
+  source:
+    remote:
+      path: src/System.Collections.Concurrent/src/System/Collections/Concurrent/BlockingCollection.cs
+      branch: master
+      repo: https://github.com/dotnet/corefx.git
+    id: System.Collections.ICollection.CopyTo
+    path: src/System.Collections.Concurrent/src/System/Collections/Concurrent/BlockingCollection.cs
+    startLine: 1597
+  assemblies:
+  - System.Collections.Concurrent
+  namespace: System.Collections.Concurrent
+  summary: "\n<p>Copies all of the items in the <xref href=\"System.Collections.Concurrent.BlockingCollection`1\" data-throw-if-not-resolved=\"false\"></xref> instance to a compatible one-dimensional array, starting at the specified index of the target array.</p>\n"
+  example:
+  - 
+  syntax:
+    content: void ICollection.CopyTo(Array array, int index)
+    content.vb: Sub System.Collections.ICollection.CopyTo(array As Array, index As Integer) Implements ICollection.CopyTo
+    parameters:
+    - id: array
+      type: System.Array
+      description: "The one-dimensional array that is the destination of the elements copied from \nthe <xref href=\"System.Collections.Concurrent.BlockingCollection{T}\" data-throw-if-not-resolved=\"false\"></xref> instance. The array must have zero-based indexing."
+    - id: index
+      type: System.Int32
+      description: The zero-based index in <em>array</em> at which copying begins.
+  exceptions:
+  - type: System.ObjectDisposedException
+    commentId: T:System.ObjectDisposedException
+    description: "\n<p>The <xref href=\"System.Collections.Concurrent.BlockingCollection`1\" data-throw-if-not-resolved=\"false\"></xref> has been disposed.</p>\n"
+  - type: System.ArgumentNullException
+    commentId: T:System.ArgumentNullException
+    description: "\n<p>The <em>array</em> argument is null.</p>\n"
+  - type: System.ArgumentOutOfRangeException
+    commentId: T:System.ArgumentOutOfRangeException
+    description: "\n<p>The <em>index</em> argument is less than zero.</p>\n"
+  - type: System.ArgumentException
+    commentId: T:System.ArgumentException
+    description: "\n<p>The <em>index</em> argument is equal to or greater than the length of the <em>array</em>, the array is multidimensional, or the type parameter for the collection cannot be cast automatically to the type of the destination array.</p>\n"
+  implements:
+  - System.Collections.ICollection.CopyTo(System.Array,System.Int32)
+  fullName.vb: System.Collections.Concurrent.BlockingCollection(Of T).System.Collections.ICollection.CopyTo(System.Array, System.Int32)
+  name.vb: System.Collections.ICollection.CopyTo(Array, Int32)
+- uid: System.Collections.Concurrent.BlockingCollection`1.System#Collections#IEnumerable#GetEnumerator
+  commentId: M:System.Collections.Concurrent.BlockingCollection`1.System#Collections#IEnumerable#GetEnumerator
+  id: System#Collections#IEnumerable#GetEnumerator
+  isEii: true
+  parent: System.Collections.Concurrent.BlockingCollection`1
+  langs:
+  - csharp
+  - vb
+  name: IEnumerable.GetEnumerator()
+  fullName: System.Collections.Concurrent.BlockingCollection<T>.System.Collections.IEnumerable.GetEnumerator()
+  type: Method
+  source:
+    remote:
+      path: src/System.Collections.Concurrent/src/System/Collections/Concurrent/BlockingCollection.cs
+      branch: master
+      repo: https://github.com/dotnet/corefx.git
+    id: System.Collections.IEnumerable.GetEnumerator
+    path: src/System.Collections.Concurrent/src/System/Collections/Concurrent/BlockingCollection.cs
+    startLine: 1691
+  assemblies:
+  - System.Collections.Concurrent
+  namespace: System.Collections.Concurrent
+  summary: "\n<p>Provides an <xref href=\"System.Collections.IEnumerator\" data-throw-if-not-resolved=\"false\"></xref> for items in the collection.</p>\n"
+  example:
+  - 
+  syntax:
+    content: IEnumerator IEnumerable.GetEnumerator()
+    content.vb: Function System.Collections.IEnumerable.GetEnumerator As IEnumerator Implements IEnumerable.GetEnumerator
+    return:
+      type: System.Collections.IEnumerator
+      description: An <xref href="System.Collections.IEnumerator" data-throw-if-not-resolved="false"></xref> for the items in the collection.
+  exceptions:
+  - type: System.ObjectDisposedException
+    commentId: T:System.ObjectDisposedException
+    description: "\n<p>The <xref href=\"System.Collections.Concurrent.BlockingCollection`1\" data-throw-if-not-resolved=\"false\"></xref> has been disposed.</p>\n"
+  implements:
+  - System.Collections.IEnumerable.GetEnumerator
+  fullName.vb: System.Collections.Concurrent.BlockingCollection(Of T).System.Collections.IEnumerable.GetEnumerator()
+  name.vb: System.Collections.IEnumerable.GetEnumerator()
 - uid: System.Collections.Concurrent.BlockingCollection`1.Take
   commentId: M:System.Collections.Concurrent.BlockingCollection`1.Take
   id: Take
@@ -724,12 +1157,23 @@ items:
   assemblies:
   - System.Collections.Concurrent
   namespace: System.Collections.Concurrent
+  summary: "\n<p>Removes  an item from the <xref href=\"System.Collections.Concurrent.BlockingCollection`1\" data-throw-if-not-resolved=\"false\"></xref>.</p>\n"
+  remarks: "\n<p>A call to <xref href=\"System.Collections.Concurrent.BlockingCollection`1.Take\" data-throw-if-not-resolved=\"false\"></xref> may block until an item is available to be removed.</p>\n<p>The order in which an item is removed depends on the type of collection used to create the <xref href=\"System.Collections.Concurrent.BlockingCollection`1\" data-throw-if-not-resolved=\"false\"></xref> instance. When you create a <xref href=\"System.Collections.Concurrent.BlockingCollection`1\" data-throw-if-not-resolved=\"false\"></xref> object, you can specify the type of collection to use. For example, you could specify a <xref href=\"System.Collections.Concurrent.ConcurrentQueue`1\" data-throw-if-not-resolved=\"false\"></xref> object for first in, first out (FIFO) behavior, or a <xref href=\"System.Collections.Concurrent.ConcurrentStack`1\" data-throw-if-not-resolved=\"false\"></xref> object for last in, first out (LIFO) behavior. You can use any collection class that implements the <xref href=\"System.Collections.Concurrent.IProducerConsumerCollection`1\" data-throw-if-not-resolved=\"false\"></xref> interface. The default collection type for <xref href=\"System.Collections.Concurrent.BlockingCollection`1\" data-throw-if-not-resolved=\"false\"></xref> is <xref href=\"System.Collections.Concurrent.ConcurrentQueue`1\" data-throw-if-not-resolved=\"false\"></xref>.</p>\n"
+  example:
+  - 
   syntax:
     content: public T Take()
     content.vb: Public Function Take As T
     return:
       type: '{T}'
       description: The item removed from the collection.
+  exceptions:
+  - type: System.ObjectDisposedException
+    commentId: T:System.ObjectDisposedException
+    description: "\n<p>The <xref href=\"System.Collections.Concurrent.BlockingCollection`1\" data-throw-if-not-resolved=\"false\"></xref> has been disposed.</p>\n"
+  - type: System.InvalidOperationException
+    commentId: T:System.InvalidOperationException
+    description: "\n<p>The underlying collection was modified outside of this <xref href=\"System.Collections.Concurrent.BlockingCollection`1\" data-throw-if-not-resolved=\"false\"></xref> instance, or the <xref href=\"System.Collections.Concurrent.BlockingCollection`1\" data-throw-if-not-resolved=\"false\"></xref> is empty and the collection has been marked as complete for adding.</p>\n"
   modifiers.csharp:
   - public
   modifiers.vb:
@@ -742,28 +1186,43 @@ items:
   langs:
   - csharp
   - vb
-  name: Take(Threading.CancellationToken)
+  name: Take(CancellationToken)
   fullName: System.Collections.Concurrent.BlockingCollection<T>.Take(System.Threading.CancellationToken)
   type: Method
   source:
     remote:
-      path: src/System.Collections.Concurrent/ref/System.Collections.Concurrent.cs
+      path: src/System.Collections.Concurrent/src/System/Collections/Concurrent/BlockingCollection.cs
       branch: master
       repo: https://github.com/dotnet/corefx.git
     id: Take
-    path: src/System.Collections.Concurrent/ref/System.Collections.Concurrent.cs
-    startLine: 36
+    path: src/System.Collections.Concurrent/src/System/Collections/Concurrent/BlockingCollection.cs
+    startLine: 562
   assemblies:
   - System.Collections.Concurrent
   namespace: System.Collections.Concurrent
+  summary: "\n<p>Removes an item from the <xref href=\"System.Collections.Concurrent.BlockingCollection`1\" data-throw-if-not-resolved=\"false\"></xref>.</p>\n"
+  remarks: "\n<p>A call to <xref href=\"System.Collections.Concurrent.BlockingCollection`1.Take(System.Threading.CancellationToken)\" data-throw-if-not-resolved=\"false\"></xref> may block until an item is available to be removed or the token is canceled.</p>\n<p>The order in which an item is removed depends on the type of collection used to create the <xref href=\"System.Collections.Concurrent.BlockingCollection`1\" data-throw-if-not-resolved=\"false\"></xref> instance. When you create a <xref href=\"System.Collections.Concurrent.BlockingCollection`1\" data-throw-if-not-resolved=\"false\"></xref> object, you can specify the type of collection to use. For example, you could specify a <xref href=\"System.Collections.Concurrent.ConcurrentQueue`1\" data-throw-if-not-resolved=\"false\"></xref> object for first in, first out (FIFO) behavior, or a <xref href=\"System.Collections.Concurrent.ConcurrentStack`1\" data-throw-if-not-resolved=\"false\"></xref> object for last in, first out (LIFO) behavior. You can use any collection class that implements the <xref href=\"System.Collections.Concurrent.IProducerConsumerCollection`1\" data-throw-if-not-resolved=\"false\"></xref> interface. The default collection type for <xref href=\"System.Collections.Concurrent.BlockingCollection`1\" data-throw-if-not-resolved=\"false\"></xref> is <xref href=\"System.Collections.Concurrent.ConcurrentQueue`1\" data-throw-if-not-resolved=\"false\"></xref>.</p>\n"
+  example:
+  - 
   syntax:
-    content: public T Take(Threading.CancellationToken cancellationToken)
-    content.vb: Public Function Take(cancellationToken As Threading.CancellationToken) As T
+    content: public T Take(CancellationToken cancellationToken)
+    content.vb: Public Function Take(cancellationToken As CancellationToken) As T
     parameters:
     - id: cancellationToken
       type: System.Threading.CancellationToken
     return:
       type: '{T}'
+      description: The item removed from the collection.
+  exceptions:
+  - type: System.OperationCanceledException
+    commentId: T:System.OperationCanceledException
+    description: "\n<p>The <xref href=\"System.Threading.CancellationToken\" data-throw-if-not-resolved=\"false\"></xref> is canceled.</p>\n"
+  - type: System.ObjectDisposedException
+    commentId: T:System.ObjectDisposedException
+    description: "\n<p>The <xref href=\"System.Collections.Concurrent.BlockingCollection`1\" data-throw-if-not-resolved=\"false\"></xref> has been disposed or the <xref href=\"System.Threading.CancellationTokenSource\" data-throw-if-not-resolved=\"false\"></xref> that created the token was canceled.</p>\n"
+  - type: System.InvalidOperationException
+    commentId: T:System.InvalidOperationException
+    description: "\n<p>The underlying collection was modified outside of this <xref href=\"System.Collections.Concurrent.BlockingCollection`1\" data-throw-if-not-resolved=\"false\"></xref> instance or the BlockingCollection is marked as complete for adding, or the <xref href=\"System.Collections.Concurrent.BlockingCollection`1\" data-throw-if-not-resolved=\"false\"></xref> is empty.</p>\n"
   modifiers.csharp:
   - public
   modifiers.vb:
@@ -790,6 +1249,10 @@ items:
   assemblies:
   - System.Collections.Concurrent
   namespace: System.Collections.Concurrent
+  summary: "\n<p>Takes an item from any one of the specified <xref href=\"System.Collections.Concurrent.BlockingCollection`1\" data-throw-if-not-resolved=\"false\"></xref> instances.</p>\n"
+  remarks: "\n<p>A call to TakeFromAny may block until an item is available to be removed. </p>\n"
+  example:
+  - 
   syntax:
     content: public static int TakeFromAny(BlockingCollection<T>[] collections, out T item)
     content.vb: Public Shared Function TakeFromAny(collections As BlockingCollection(Of T)(), ByRef item As T) As Integer
@@ -803,6 +1266,22 @@ items:
     return:
       type: System.Int32
       description: "The index of the collection in the <em>collections</em> array from which \nthe item was removed, or -1 if an item could not be removed."
+  exceptions:
+  - type: System.ObjectDisposedException
+    commentId: T:System.ObjectDisposedException
+    description: "\n<p>At least one of the <xref href=\"System.Collections.Concurrent.BlockingCollection`1\" data-throw-if-not-resolved=\"false\"></xref> instances has been disposed.</p>\n"
+  - type: System.ArgumentNullException
+    commentId: T:System.ArgumentNullException
+    description: "\n<p>The <em>collections</em> argument is null.</p>\n"
+  - type: System.ArgumentOutOfRangeException
+    commentId: T:System.ArgumentOutOfRangeException
+    description: "\n<p>The count of <em>collections</em> is greater than the maximum size of 62 for STA and 63 for MTA.</p>\n"
+  - type: System.ArgumentException
+    commentId: T:System.ArgumentException
+    description: "\n<p>The <em>collections</em> argument is a 0-length array or contains a null element or <xref href=\"System.Collections.Concurrent.BlockingCollection`1.CompleteAdding\" data-throw-if-not-resolved=\"false\"></xref> has been called on the collection.</p>\n"
+  - type: System.InvalidOperationException
+    commentId: T:System.InvalidOperationException
+    description: "\n<p>At least one of the underlying collections was modified outside of its <xref href=\"System.Collections.Concurrent.BlockingCollection`1\" data-throw-if-not-resolved=\"false\"></xref> instance.</p>\n"
   modifiers.csharp:
   - public
   - static
@@ -818,32 +1297,59 @@ items:
   langs:
   - csharp
   - vb
-  name: TakeFromAny(BlockingCollection<T>[], out T, Threading.CancellationToken)
+  name: TakeFromAny(BlockingCollection<T>[], out T, CancellationToken)
   fullName: System.Collections.Concurrent.BlockingCollection<T>.TakeFromAny(System.Collections.Concurrent.BlockingCollection<T>[], out T, System.Threading.CancellationToken)
   type: Method
   source:
     remote:
-      path: src/System.Collections.Concurrent/ref/System.Collections.Concurrent.cs
+      path: src/System.Collections.Concurrent/src/System/Collections/Concurrent/BlockingCollection.cs
       branch: master
       repo: https://github.com/dotnet/corefx.git
     id: TakeFromAny
-    path: src/System.Collections.Concurrent/ref/System.Collections.Concurrent.cs
-    startLine: 38
+    path: src/System.Collections.Concurrent/src/System/Collections/Concurrent/BlockingCollection.cs
+    startLine: 1201
   assemblies:
   - System.Collections.Concurrent
   namespace: System.Collections.Concurrent
+  summary: "\n<p>Takes an item from any one of the specified <xref href=\"System.Collections.Concurrent.BlockingCollection`1\" data-throw-if-not-resolved=\"false\"></xref> instances while observing the specified cancellation token.</p>\n"
+  remarks: "\n<p>A call to TakeFromAny may block until an item is available to be removed. The method will return early with an OperationCanceledException if the token is canceled.</p>\n"
+  example:
+  - 
   syntax:
-    content: public static int TakeFromAny(BlockingCollection<T>[] collections, out T item, Threading.CancellationToken cancellationToken)
-    content.vb: Public Shared Function TakeFromAny(collections As BlockingCollection(Of T)(), ByRef item As T, cancellationToken As Threading.CancellationToken) As Integer
+    content: public static int TakeFromAny(BlockingCollection<T>[] collections, out T item, CancellationToken cancellationToken)
+    content.vb: Public Shared Function TakeFromAny(collections As BlockingCollection(Of T)(), ByRef item As T, cancellationToken As CancellationToken) As Integer
     parameters:
     - id: collections
       type: System.Collections.Concurrent.BlockingCollection`1[]
+      description: The array of collections.
     - id: item
       type: '{T}'
+      description: The item removed from one of the collections.
     - id: cancellationToken
       type: System.Threading.CancellationToken
+      description: A cancellation token to observe.
     return:
       type: System.Int32
+      description: "The index of the collection in the <em>collections</em> array from which \nthe item was removed, or -1 if an item could not be removed."
+  exceptions:
+  - type: System.OperationCanceledException
+    commentId: T:System.OperationCanceledException
+    description: "\n<p>If the <xref href=\"System.Threading.CancellationToken\" data-throw-if-not-resolved=\"false\"></xref> is canceled.</p>\n"
+  - type: System.InvalidOperationException
+    commentId: T:System.InvalidOperationException
+    description: "\n<p>At least one of the underlying collections was modified outside of its <xref href=\"System.Collections.Concurrent.BlockingCollection`1\" data-throw-if-not-resolved=\"false\"></xref> instance.</p>\n"
+  - type: System.ArgumentNullException
+    commentId: T:System.ArgumentNullException
+    description: "\n<p>The <em>collections</em> argument is null.</p>\n"
+  - type: System.ArgumentOutOfRangeException
+    commentId: T:System.ArgumentOutOfRangeException
+    description: "\n<p>The count of <em>collections</em> is greater than the maximum size of 62 for STA and 63 for MTA.</p>\n"
+  - type: System.ArgumentException
+    commentId: T:System.ArgumentException
+    description: "\n<p>The <em>collections</em> argument is a 0-length array or contains a null element, or <xref href=\"System.Collections.Concurrent.BlockingCollection`1.CompleteAdding\" data-throw-if-not-resolved=\"false\"></xref> has been called on the collection.</p>\n"
+  - type: System.ObjectDisposedException
+    commentId: T:System.ObjectDisposedException
+    description: "\n<p>At least one of the <xref href=\"System.Collections.Concurrent.BlockingCollection`1\" data-throw-if-not-resolved=\"false\"></xref> instances has been disposed.</p>\n"
   modifiers.csharp:
   - public
   - static
@@ -851,7 +1357,7 @@ items:
   - Public
   - Shared
   fullName.vb: System.Collections.Concurrent.BlockingCollection(Of T).TakeFromAny(System.Collections.Concurrent.BlockingCollection(Of T)(), ByRef T, System.Threading.CancellationToken)
-  name.vb: TakeFromAny(BlockingCollection(Of T)(), ByRef T, Threading.CancellationToken)
+  name.vb: TakeFromAny(BlockingCollection(Of T)(), ByRef T, CancellationToken)
 - uid: System.Collections.Concurrent.BlockingCollection`1.ToArray
   commentId: M:System.Collections.Concurrent.BlockingCollection`1.ToArray
   id: ToArray
@@ -873,12 +1379,20 @@ items:
   assemblies:
   - System.Collections.Concurrent
   namespace: System.Collections.Concurrent
+  summary: "\n<p>Copies the items from the <xref href=\"System.Collections.Concurrent.BlockingCollection`1\" data-throw-if-not-resolved=\"false\"></xref> instance into a new array.</p>\n"
+  remarks: "\n<p>The copied elements are not removed from the collection. </p>\n<p>If any method in BlockingCollection is executing while the ToArray method executes, the return value is approximate. ToArray  may include items that have already been removed, or exclude items that have already been inserted.</p>\n"
+  example:
+  - 
   syntax:
     content: public T[] ToArray()
     content.vb: Public Function ToArray As T()
     return:
       type: '{T}[]'
       description: An array containing copies of the elements of the collection.
+  exceptions:
+  - type: System.ObjectDisposedException
+    commentId: T:System.ObjectDisposedException
+    description: "\n<p>The <xref href=\"System.Collections.Concurrent.BlockingCollection`1\" data-throw-if-not-resolved=\"false\"></xref> has been disposed.</p>\n"
   modifiers.csharp:
   - public
   modifiers.vb:
@@ -905,6 +1419,10 @@ items:
   assemblies:
   - System.Collections.Concurrent
   namespace: System.Collections.Concurrent
+  summary: "\n<p>Tries to add the specified item to the <xref href=\"System.Collections.Concurrent.BlockingCollection`1\" data-throw-if-not-resolved=\"false\"></xref>.</p>\n"
+  remarks: "\n<p>If the collection is a bounded collection, and is full, this method immediately returns false without adding the item.</p>\n"
+  example:
+  - 
   syntax:
     content: public bool TryAdd(T item)
     content.vb: Public Function TryAdd(item As T) As Boolean
@@ -915,6 +1433,13 @@ items:
     return:
       type: System.Boolean
       description: true if the <em>item</em> could be added; otherwise, false.
+  exceptions:
+  - type: System.ObjectDisposedException
+    commentId: T:System.ObjectDisposedException
+    description: "\n<p>The <xref href=\"System.Collections.Concurrent.BlockingCollection`1\" data-throw-if-not-resolved=\"false\"></xref> has been disposed.</p>\n"
+  - type: System.InvalidOperationException
+    commentId: T:System.InvalidOperationException
+    description: "\n<p>The <xref href=\"System.Collections.Concurrent.BlockingCollection`1\" data-throw-if-not-resolved=\"false\"></xref> has been marked as complete with regards to additions.</p>\n<p>-or-</p>\n<p>The underlying collection didn't accept the item.</p>\n"
   modifiers.csharp:
   - public
   modifiers.vb:
@@ -941,6 +1466,9 @@ items:
   assemblies:
   - System.Collections.Concurrent
   namespace: System.Collections.Concurrent
+  summary: "\n<p>Tries to add the specified item to the <xref href=\"System.Collections.Concurrent.BlockingCollection`1\" data-throw-if-not-resolved=\"false\"></xref> within the specified time period.</p>\n"
+  example:
+  - 
   syntax:
     content: public bool TryAdd(T item, int millisecondsTimeout)
     content.vb: Public Function TryAdd(item As T, millisecondsTimeout As Integer) As Boolean
@@ -950,10 +1478,20 @@ items:
       description: The item to be added to the collection.
     - id: millisecondsTimeout
       type: System.Int32
-      description: The number of milliseconds to wait, or <see cref="!:System.Threading.Timeout.Infinite"></see> (-1) to wait indefinitely.
+      description: The number of milliseconds to wait, or <xref href="System.Threading.Timeout.Infinite" data-throw-if-not-resolved="false"></xref> (-1) to wait indefinitely.
     return:
       type: System.Boolean
       description: "true if the <em>item</em> could be added to the collection within \nthe alloted time; otherwise, false."
+  exceptions:
+  - type: System.ObjectDisposedException
+    commentId: T:System.ObjectDisposedException
+    description: "\n<p>The <xref href=\"System.Collections.Concurrent.BlockingCollection`1\" data-throw-if-not-resolved=\"false\"></xref> has been disposed.</p>\n"
+  - type: System.ArgumentOutOfRangeException
+    commentId: T:System.ArgumentOutOfRangeException
+    description: "\n<p>\n<em>millisecondsTimeout</em> is a negative number other than -1, which represents an infinite time-out.</p>\n"
+  - type: System.InvalidOperationException
+    commentId: T:System.InvalidOperationException
+    description: "\n<p>The <xref href=\"System.Collections.Concurrent.BlockingCollection`1\" data-throw-if-not-resolved=\"false\"></xref> has been marked as complete with regards to additions.</p>\n<p>-or-</p>\n<p>The underlying collection didn't accept the item.</p>\n"
   modifiers.csharp:
   - public
   modifiers.vb:
@@ -966,32 +1504,52 @@ items:
   langs:
   - csharp
   - vb
-  name: TryAdd(T, Int32, Threading.CancellationToken)
+  name: TryAdd(T, Int32, CancellationToken)
   fullName: System.Collections.Concurrent.BlockingCollection<T>.TryAdd(T, System.Int32, System.Threading.CancellationToken)
   type: Method
   source:
     remote:
-      path: src/System.Collections.Concurrent/ref/System.Collections.Concurrent.cs
+      path: src/System.Collections.Concurrent/src/System/Collections/Concurrent/BlockingCollection.cs
       branch: master
       repo: https://github.com/dotnet/corefx.git
     id: TryAdd
-    path: src/System.Collections.Concurrent/ref/System.Collections.Concurrent.cs
-    startLine: 42
+    path: src/System.Collections.Concurrent/src/System/Collections/Concurrent/BlockingCollection.cs
+    startLine: 376
   assemblies:
   - System.Collections.Concurrent
   namespace: System.Collections.Concurrent
+  summary: "\n<p>Tries to add the specified item to the <xref href=\"System.Collections.Concurrent.BlockingCollection`1\" data-throw-if-not-resolved=\"false\"></xref> within the specified time period, while observing a cancellation token.</p>\n"
+  example:
+  - 
   syntax:
-    content: public bool TryAdd(T item, int millisecondsTimeout, Threading.CancellationToken cancellationToken)
-    content.vb: Public Function TryAdd(item As T, millisecondsTimeout As Integer, cancellationToken As Threading.CancellationToken) As Boolean
+    content: public bool TryAdd(T item, int millisecondsTimeout, CancellationToken cancellationToken)
+    content.vb: Public Function TryAdd(item As T, millisecondsTimeout As Integer, cancellationToken As CancellationToken) As Boolean
     parameters:
     - id: item
       type: '{T}'
+      description: The item to be added to the collection.
     - id: millisecondsTimeout
       type: System.Int32
+      description: The number of milliseconds to wait, or <xref href="System.Threading.Timeout.Infinite" data-throw-if-not-resolved="false"></xref> (-1) to wait indefinitely.
     - id: cancellationToken
       type: System.Threading.CancellationToken
+      description: A cancellation token to observe.
     return:
       type: System.Boolean
+      description: "true if the <em>item</em> could be added to the collection within \nthe alloted time; otherwise, false."
+  exceptions:
+  - type: System.OperationCanceledException
+    commentId: T:System.OperationCanceledException
+    description: "\n<p>If the <xref href=\"System.Threading.CancellationToken\" data-throw-if-not-resolved=\"false\"></xref> is canceled.</p>\n"
+  - type: System.ObjectDisposedException
+    commentId: T:System.ObjectDisposedException
+    description: "\n<p>The <xref href=\"System.Collections.Concurrent.BlockingCollection`1\" data-throw-if-not-resolved=\"false\"></xref> has been disposed or the underlying <xref href=\"System.Threading.CancellationTokenSource\" data-throw-if-not-resolved=\"false\"></xref> has been disposed.</p>\n"
+  - type: System.ArgumentOutOfRangeException
+    commentId: T:System.ArgumentOutOfRangeException
+    description: "\n<p>\n<em>millisecondsTimeout</em> is a negative number other than -1, which represents an infinite time-out.</p>\n"
+  - type: System.InvalidOperationException
+    commentId: T:System.InvalidOperationException
+    description: "\n<p>The <xref href=\"System.Collections.Concurrent.BlockingCollection`1\" data-throw-if-not-resolved=\"false\"></xref> has been marked as complete with regards to additions.</p>\n<p>-or-</p>\n<p>The underlying collection didn't accept the item.</p>\n"
   modifiers.csharp:
   - public
   modifiers.vb:
@@ -1009,25 +1567,44 @@ items:
   type: Method
   source:
     remote:
-      path: src/System.Collections.Concurrent/ref/System.Collections.Concurrent.cs
+      path: src/System.Collections.Concurrent/src/System/Collections/Concurrent/BlockingCollection.cs
       branch: master
       repo: https://github.com/dotnet/corefx.git
     id: TryAdd
-    path: src/System.Collections.Concurrent/ref/System.Collections.Concurrent.cs
-    startLine: 43
+    path: src/System.Collections.Concurrent/src/System/Collections/Concurrent/BlockingCollection.cs
+    startLine: 328
   assemblies:
   - System.Collections.Concurrent
   namespace: System.Collections.Concurrent
+  summary: "\n<p>Tries to add the specified item to the <xref href=\"System.Collections.Concurrent.BlockingCollection`1\" data-throw-if-not-resolved=\"false\"></xref>.</p>\n"
+  example:
+  - 
   syntax:
     content: public bool TryAdd(T item, TimeSpan timeout)
     content.vb: Public Function TryAdd(item As T, timeout As TimeSpan) As Boolean
     parameters:
     - id: item
       type: '{T}'
+      description: The item to be added to the collection.
     - id: timeout
       type: System.TimeSpan
+      description: >
+        A <xref href="System.TimeSpan" data-throw-if-not-resolved="false"></xref> that represents the number of milliseconds
+
+        to wait, or a <xref href="System.TimeSpan" data-throw-if-not-resolved="false"></xref> that represents -1 milliseconds to wait indefinitely.
     return:
       type: System.Boolean
+      description: "true if the <em>item</em> could be added to the collection within \nthe alloted time; otherwise, false."
+  exceptions:
+  - type: System.ObjectDisposedException
+    commentId: T:System.ObjectDisposedException
+    description: "\n<p>The <xref href=\"System.Collections.Concurrent.BlockingCollection`1\" data-throw-if-not-resolved=\"false\"></xref> has been disposed.</p>\n"
+  - type: System.ArgumentOutOfRangeException
+    commentId: T:System.ArgumentOutOfRangeException
+    description: "\n<p>\n<em>timeout</em> is a negative number other than -1 milliseconds, which represents an infinite time-out -or- timeout is greater than <xref href=\"System.Int32.MaxValue\" data-throw-if-not-resolved=\"false\"></xref>.</p>\n"
+  - type: System.InvalidOperationException
+    commentId: T:System.InvalidOperationException
+    description: "\n<p>The <xref href=\"System.Collections.Concurrent.BlockingCollection`1\" data-throw-if-not-resolved=\"false\"></xref> has been marked as complete with regards to additions.</p>\n<p>-or-</p>\n<p>The underlying collection didn't accept the item.</p>\n"
   modifiers.csharp:
   - public
   modifiers.vb:
@@ -1054,6 +1631,9 @@ items:
   assemblies:
   - System.Collections.Concurrent
   namespace: System.Collections.Concurrent
+  summary: "\n<p>Tries to add the specified item to any one of the specified <xref href=\"System.Collections.Concurrent.BlockingCollection`1\" data-throw-if-not-resolved=\"false\"></xref> instances.</p>\n"
+  example:
+  - 
   syntax:
     content: public static int TryAddToAny(BlockingCollection<T>[] collections, T item)
     content.vb: Public Shared Function TryAddToAny(collections As BlockingCollection(Of T)(), item As T) As Integer
@@ -1067,6 +1647,22 @@ items:
     return:
       type: System.Int32
       description: "The index of the collection in the <em>collections</em> \narray to which the item was added, or -1 if the item could not be added."
+  exceptions:
+  - type: System.ObjectDisposedException
+    commentId: T:System.ObjectDisposedException
+    description: "\n<p>At least one of the <xref href=\"System.Collections.Concurrent.BlockingCollection`1\" data-throw-if-not-resolved=\"false\"></xref> instances has been disposed.</p>\n"
+  - type: System.ArgumentNullException
+    commentId: T:System.ArgumentNullException
+    description: "\n<p>The <em>collections</em> argument is null.</p>\n"
+  - type: System.ArgumentOutOfRangeException
+    commentId: T:System.ArgumentOutOfRangeException
+    description: "\n<p>The count of <em>collections</em> is greater than the maximum size of 62 for STA and 63 for MTA.</p>\n"
+  - type: System.ArgumentException
+    commentId: T:System.ArgumentException
+    description: "\n<p>The <em>collections</em> argument is a 0-length array or contains a null element, or at least one of collections has been marked as complete for adding.</p>\n"
+  - type: System.InvalidOperationException
+    commentId: T:System.InvalidOperationException
+    description: "\n<p>At least one underlying collection didn't accept the item.</p>\n"
   modifiers.csharp:
   - public
   - static
@@ -1096,6 +1692,9 @@ items:
   assemblies:
   - System.Collections.Concurrent
   namespace: System.Collections.Concurrent
+  summary: "\n<p>Tries to add the specified item to any one of the specified <xref href=\"System.Collections.Concurrent.BlockingCollection`1\" data-throw-if-not-resolved=\"false\"></xref> instances.</p>\n"
+  example:
+  - 
   syntax:
     content: public static int TryAddToAny(BlockingCollection<T>[] collections, T item, int millisecondsTimeout)
     content.vb: Public Shared Function TryAddToAny(collections As BlockingCollection(Of T)(), item As T, millisecondsTimeout As Integer) As Integer
@@ -1108,10 +1707,26 @@ items:
       description: The item to be added to one of the collections.
     - id: millisecondsTimeout
       type: System.Int32
-      description: The number of milliseconds to wait, or <see cref="!:System.Threading.Timeout.Infinite"></see> (-1) to wait indefinitely.
+      description: The number of milliseconds to wait, or <xref href="System.Threading.Timeout.Infinite" data-throw-if-not-resolved="false"></xref> (-1) to wait indefinitely.
     return:
       type: System.Int32
       description: "The index of the collection in the <em>collections</em> \narray to which the item was added, or -1 if the item could not be added."
+  exceptions:
+  - type: System.ObjectDisposedException
+    commentId: T:System.ObjectDisposedException
+    description: "\n<p>At least one of the <xref href=\"System.Collections.Concurrent.BlockingCollection`1\" data-throw-if-not-resolved=\"false\"></xref> instances has been disposed.</p>\n"
+  - type: System.ArgumentNullException
+    commentId: T:System.ArgumentNullException
+    description: "\n<p>The <em>collections</em> argument is null.</p>\n"
+  - type: System.ArgumentOutOfRangeException
+    commentId: T:System.ArgumentOutOfRangeException
+    description: "\n<p>\n<em>millisecondsTimeout</em> is a negative number other than -1, which represents an infinite time-out.</p>\n<p>-or-</p>\n<p>The count of <em>collections</em> is greater than the maximum size of 62 for STA and 63 for MTA.</p>\n"
+  - type: System.ArgumentException
+    commentId: T:System.ArgumentException
+    description: "\n<p>The <em>collections</em> argument is a 0-length array or contains a null element, or at least one of collections has been marked as complete for adding.</p>\n"
+  - type: System.InvalidOperationException
+    commentId: T:System.InvalidOperationException
+    description: "\n<p>At least one underlying collection didn't accept the item.</p>\n"
   modifiers.csharp:
   - public
   - static
@@ -1127,34 +1742,61 @@ items:
   langs:
   - csharp
   - vb
-  name: TryAddToAny(BlockingCollection<T>[], T, Int32, Threading.CancellationToken)
+  name: TryAddToAny(BlockingCollection<T>[], T, Int32, CancellationToken)
   fullName: System.Collections.Concurrent.BlockingCollection<T>.TryAddToAny(System.Collections.Concurrent.BlockingCollection<T>[], T, System.Int32, System.Threading.CancellationToken)
   type: Method
   source:
     remote:
-      path: src/System.Collections.Concurrent/ref/System.Collections.Concurrent.cs
+      path: src/System.Collections.Concurrent/src/System/Collections/Concurrent/BlockingCollection.cs
       branch: master
       repo: https://github.com/dotnet/corefx.git
     id: TryAddToAny
-    path: src/System.Collections.Concurrent/ref/System.Collections.Concurrent.cs
-    startLine: 46
+    path: src/System.Collections.Concurrent/src/System/Collections/Concurrent/BlockingCollection.cs
+    startLine: 956
   assemblies:
   - System.Collections.Concurrent
   namespace: System.Collections.Concurrent
+  summary: "\n<p>Tries to add the specified item to any one of the specified <xref href=\"System.Collections.Concurrent.BlockingCollection`1\" data-throw-if-not-resolved=\"false\"></xref> instances.</p>\n"
+  example:
+  - 
   syntax:
-    content: public static int TryAddToAny(BlockingCollection<T>[] collections, T item, int millisecondsTimeout, Threading.CancellationToken cancellationToken)
-    content.vb: Public Shared Function TryAddToAny(collections As BlockingCollection(Of T)(), item As T, millisecondsTimeout As Integer, cancellationToken As Threading.CancellationToken) As Integer
+    content: public static int TryAddToAny(BlockingCollection<T>[] collections, T item, int millisecondsTimeout, CancellationToken cancellationToken)
+    content.vb: Public Shared Function TryAddToAny(collections As BlockingCollection(Of T)(), item As T, millisecondsTimeout As Integer, cancellationToken As CancellationToken) As Integer
     parameters:
     - id: collections
       type: System.Collections.Concurrent.BlockingCollection`1[]
+      description: The array of collections.
     - id: item
       type: '{T}'
+      description: The item to be added to one of the collections.
     - id: millisecondsTimeout
       type: System.Int32
+      description: The number of milliseconds to wait, or <xref href="System.Threading.Timeout.Infinite" data-throw-if-not-resolved="false"></xref> (-1) to wait indefinitely.
     - id: cancellationToken
       type: System.Threading.CancellationToken
+      description: A cancellation token to observe.
     return:
       type: System.Int32
+      description: "The index of the collection in the <em>collections</em> \narray to which the item was added, or -1 if the item could not be added."
+  exceptions:
+  - type: System.OperationCanceledException
+    commentId: T:System.OperationCanceledException
+    description: "\n<p>If the <xref href=\"System.Threading.CancellationToken\" data-throw-if-not-resolved=\"false\"></xref> is canceled.</p>\n"
+  - type: System.InvalidOperationException
+    commentId: T:System.InvalidOperationException
+    description: "\n<p>At least one underlying collection didn't accept the item.</p>\n"
+  - type: System.ArgumentNullException
+    commentId: T:System.ArgumentNullException
+    description: "\n<p>The <em>collections</em> argument is null.</p>\n"
+  - type: System.ArgumentOutOfRangeException
+    commentId: T:System.ArgumentOutOfRangeException
+    description: "\n<p>\n<em>millisecondsTimeout</em> is a negative number other than -1, which represents an infinite time-out.</p>\n<p>-or-</p>\n<p>The count of <em>collections</em> is greater than the maximum size of 62 for STA and 63 for MTA.</p>\n"
+  - type: System.ArgumentException
+    commentId: T:System.ArgumentException
+    description: "\n<p>The <em>collections</em> argument is a 0-length array or contains a null element, or at least one of collections has been marked as complete for adding.</p>\n"
+  - type: System.ObjectDisposedException
+    commentId: T:System.ObjectDisposedException
+    description: "\n<p>At least one of the <xref href=\"System.Collections.Concurrent.BlockingCollection`1\" data-throw-if-not-resolved=\"false\"></xref> instances has been disposed.</p>\n"
   modifiers.csharp:
   - public
   - static
@@ -1162,7 +1804,7 @@ items:
   - Public
   - Shared
   fullName.vb: System.Collections.Concurrent.BlockingCollection(Of T).TryAddToAny(System.Collections.Concurrent.BlockingCollection(Of T)(), T, System.Int32, System.Threading.CancellationToken)
-  name.vb: TryAddToAny(BlockingCollection(Of T)(), T, Int32, Threading.CancellationToken)
+  name.vb: TryAddToAny(BlockingCollection(Of T)(), T, Int32, CancellationToken)
 - uid: System.Collections.Concurrent.BlockingCollection`1.TryAddToAny(System.Collections.Concurrent.BlockingCollection{`0}[],`0,System.TimeSpan)
   commentId: M:System.Collections.Concurrent.BlockingCollection`1.TryAddToAny(System.Collections.Concurrent.BlockingCollection{`0}[],`0,System.TimeSpan)
   id: TryAddToAny(System.Collections.Concurrent.BlockingCollection{`0}[],`0,System.TimeSpan)
@@ -1175,27 +1817,54 @@ items:
   type: Method
   source:
     remote:
-      path: src/System.Collections.Concurrent/ref/System.Collections.Concurrent.cs
+      path: src/System.Collections.Concurrent/src/System/Collections/Concurrent/BlockingCollection.cs
       branch: master
       repo: https://github.com/dotnet/corefx.git
     id: TryAddToAny
-    path: src/System.Collections.Concurrent/ref/System.Collections.Concurrent.cs
-    startLine: 47
+    path: src/System.Collections.Concurrent/src/System/Collections/Concurrent/BlockingCollection.cs
+    startLine: 897
   assemblies:
   - System.Collections.Concurrent
   namespace: System.Collections.Concurrent
+  summary: "\n<p>Tries to add the specified item to any one of the specified <xref href=\"System.Collections.Concurrent.BlockingCollection`1\" data-throw-if-not-resolved=\"false\"></xref> instances while observing the specified cancellation token.</p>\n"
+  remarks: "\n<p>This method can return early if the cancellationToken is cancelled before space was available for the Add operation.</p>\n"
+  example:
+  - 
   syntax:
     content: public static int TryAddToAny(BlockingCollection<T>[] collections, T item, TimeSpan timeout)
     content.vb: Public Shared Function TryAddToAny(collections As BlockingCollection(Of T)(), item As T, timeout As TimeSpan) As Integer
     parameters:
     - id: collections
       type: System.Collections.Concurrent.BlockingCollection`1[]
+      description: The array of collections.
     - id: item
       type: '{T}'
+      description: The item to be added to one of the collections.
     - id: timeout
       type: System.TimeSpan
+      description: >
+        A <xref href="System.TimeSpan" data-throw-if-not-resolved="false"></xref> that represents the number of milliseconds
+
+        to wait, or a <xref href="System.TimeSpan" data-throw-if-not-resolved="false"></xref> that represents -1 milliseconds to wait indefinitely.
     return:
       type: System.Int32
+      description: "The index of the collection in the <em>collections</em> \narray to which the item was added, or -1 if the item could not be added."
+  exceptions:
+  - type: System.ObjectDisposedException
+    commentId: T:System.ObjectDisposedException
+    description: "\n<p>At least one of the <xref href=\"System.Collections.Concurrent.BlockingCollection`1\" data-throw-if-not-resolved=\"false\"></xref> instances or the <xref href=\"System.Threading.CancellationTokenSource\" data-throw-if-not-resolved=\"false\"></xref> that created <em>cancellationToken</em> has been disposed.</p>\n"
+  - type: System.ArgumentNullException
+    commentId: T:System.ArgumentNullException
+    description: "\n<p>The <em>collections</em> argument is null.</p>\n"
+  - type: System.ArgumentOutOfRangeException
+    commentId: T:System.ArgumentOutOfRangeException
+    description: "\n<p>\n<em>timeout</em> is a negative number other than -1 milliseconds, which represents an infinite time-out -or- timeout is greater than <xref href=\"System.Int32.MaxValue\" data-throw-if-not-resolved=\"false\"></xref>.</p>\n<p>-or-</p>\n<p>The count of <em>collections</em> is greater than the maximum size of 62 for STA and 63 for MTA.</p>\n"
+  - type: System.ArgumentException
+    commentId: T:System.ArgumentException
+    description: "\n<p>The <em>collections</em> argument is a 0-length array or contains a null element, or at least one of collections has been marked as complete for adding.</p>\n"
+  - type: System.InvalidOperationException
+    commentId: T:System.InvalidOperationException
+    description: "\n<p>At least one underlying collection didn't accept the item.</p>\n"
   modifiers.csharp:
   - public
   - static
@@ -1225,6 +1894,10 @@ items:
   assemblies:
   - System.Collections.Concurrent
   namespace: System.Collections.Concurrent
+  summary: "\n<p>Tries to remove an item from the <xref href=\"System.Collections.Concurrent.BlockingCollection`1\" data-throw-if-not-resolved=\"false\"></xref>.</p>\n"
+  remarks: "\n<p>If the collection is empty, this method immediately returns false.</p>\n<p>The order in which an item is removed depends on the type of collection used to create the <xref href=\"System.Collections.Concurrent.BlockingCollection`1\" data-throw-if-not-resolved=\"false\"></xref> instance. When you create a <xref href=\"System.Collections.Concurrent.BlockingCollection`1\" data-throw-if-not-resolved=\"false\"></xref> object, you can specify the type of collection to use. For example, you could specify a <xref href=\"System.Collections.Concurrent.ConcurrentQueue`1\" data-throw-if-not-resolved=\"false\"></xref> object for first in, first out (FIFO) behavior, or a <xref href=\"System.Collections.Concurrent.ConcurrentStack`1\" data-throw-if-not-resolved=\"false\"></xref> object for last in, first out (LIFO) behavior. You can use any collection class that implements the <xref href=\"System.Collections.Concurrent.IProducerConsumerCollection`1\" data-throw-if-not-resolved=\"false\"></xref> interface. The default collection type for <xref href=\"System.Collections.Concurrent.BlockingCollection`1\" data-throw-if-not-resolved=\"false\"></xref> is <xref href=\"System.Collections.Concurrent.ConcurrentQueue`1\" data-throw-if-not-resolved=\"false\"></xref>.</p>\n"
+  example:
+  - 
   syntax:
     content: public bool TryTake(out T item)
     content.vb: Public Function TryTake(ByRef item As T) As Boolean
@@ -1235,6 +1908,13 @@ items:
     return:
       type: System.Boolean
       description: true if an item could be removed; otherwise, false.
+  exceptions:
+  - type: System.ObjectDisposedException
+    commentId: T:System.ObjectDisposedException
+    description: "\n<p>The <xref href=\"System.Collections.Concurrent.BlockingCollection`1\" data-throw-if-not-resolved=\"false\"></xref> has been disposed.</p>\n"
+  - type: System.InvalidOperationException
+    commentId: T:System.InvalidOperationException
+    description: "\n<p>The underlying collection was modified outside of this <xref href=\"System.Collections.Concurrent.BlockingCollection`1\" data-throw-if-not-resolved=\"false\"></xref> instance.</p>\n"
   modifiers.csharp:
   - public
   modifiers.vb:
@@ -1262,6 +1942,10 @@ items:
   assemblies:
   - System.Collections.Concurrent
   namespace: System.Collections.Concurrent
+  summary: "\n<p>Tries to remove an item from the <xref href=\"System.Collections.Concurrent.BlockingCollection`1\" data-throw-if-not-resolved=\"false\"></xref> in the specified time period.</p>\n"
+  remarks: "\n<p>The order in which an item is removed depends on the type of collection used to create the <xref href=\"System.Collections.Concurrent.BlockingCollection`1\" data-throw-if-not-resolved=\"false\"></xref> instance. When you create a <xref href=\"System.Collections.Concurrent.BlockingCollection`1\" data-throw-if-not-resolved=\"false\"></xref>, you can specify the type of collection to use. For example, you could specify a <xref href=\"System.Collections.Concurrent.ConcurrentQueue`1\" data-throw-if-not-resolved=\"false\"></xref> object for first in, first out (FIFO) behavior, or a <xref href=\"System.Collections.Concurrent.ConcurrentStack`1\" data-throw-if-not-resolved=\"false\"></xref> object for last in, first out (LIFO) behavior. You can use any collection class that implements the <xref href=\"System.Collections.Concurrent.IProducerConsumerCollection`1\" data-throw-if-not-resolved=\"false\"></xref> interface. The default collection type for <xref href=\"System.Collections.Concurrent.BlockingCollection`1\" data-throw-if-not-resolved=\"false\"></xref> is <xref href=\"System.Collections.Concurrent.ConcurrentQueue`1\" data-throw-if-not-resolved=\"false\"></xref>.</p>\n"
+  example:
+  - 
   syntax:
     content: public bool TryTake(out T item, int millisecondsTimeout)
     content.vb: Public Function TryTake(ByRef item As T, millisecondsTimeout As Integer) As Boolean
@@ -1271,10 +1955,20 @@ items:
       description: The item removed from the collection.
     - id: millisecondsTimeout
       type: System.Int32
-      description: The number of milliseconds to wait, or <see cref="!:System.Threading.Timeout.Infinite"></see> (-1) to wait indefinitely.
+      description: The number of milliseconds to wait, or <xref href="System.Threading.Timeout.Infinite" data-throw-if-not-resolved="false"></xref> (-1) to wait indefinitely.
     return:
       type: System.Boolean
       description: "true if an item could be removed from the collection within \nthe alloted time; otherwise, false."
+  exceptions:
+  - type: System.ObjectDisposedException
+    commentId: T:System.ObjectDisposedException
+    description: "\n<p>The <xref href=\"System.Collections.Concurrent.BlockingCollection`1\" data-throw-if-not-resolved=\"false\"></xref> has been disposed.</p>\n"
+  - type: System.ArgumentOutOfRangeException
+    commentId: T:System.ArgumentOutOfRangeException
+    description: "\n<p>\n<em>millisecondsTimeout</em> is a negative number other than -1, which represents an infinite time-out.</p>\n"
+  - type: System.InvalidOperationException
+    commentId: T:System.InvalidOperationException
+    description: "\n<p>The underlying collection was modified outside of this <xref href=\"System.Collections.Concurrent.BlockingCollection`1\" data-throw-if-not-resolved=\"false\"></xref> instance.</p>\n"
   modifiers.csharp:
   - public
   modifiers.vb:
@@ -1288,38 +1982,59 @@ items:
   langs:
   - csharp
   - vb
-  name: TryTake(out T, Int32, Threading.CancellationToken)
+  name: TryTake(out T, Int32, CancellationToken)
   fullName: System.Collections.Concurrent.BlockingCollection<T>.TryTake(out T, System.Int32, System.Threading.CancellationToken)
   type: Method
   source:
     remote:
-      path: src/System.Collections.Concurrent/ref/System.Collections.Concurrent.cs
+      path: src/System.Collections.Concurrent/src/System/Collections/Concurrent/BlockingCollection.cs
       branch: master
       repo: https://github.com/dotnet/corefx.git
     id: TryTake
-    path: src/System.Collections.Concurrent/ref/System.Collections.Concurrent.cs
-    startLine: 50
+    path: src/System.Collections.Concurrent/src/System/Collections/Concurrent/BlockingCollection.cs
+    startLine: 652
   assemblies:
   - System.Collections.Concurrent
   namespace: System.Collections.Concurrent
+  summary: "\n<p>Tries to remove an item from the <xref href=\"System.Collections.Concurrent.BlockingCollection`1\" data-throw-if-not-resolved=\"false\"></xref> in the specified time period while observing a cancellation token.</p>\n"
+  remarks: "\n<p>The order in which an item is removed depends on the type of collection used to create the <xref href=\"System.Collections.Concurrent.BlockingCollection`1\" data-throw-if-not-resolved=\"false\"></xref> instance. When you create a <xref href=\"System.Collections.Concurrent.BlockingCollection`1\" data-throw-if-not-resolved=\"false\"></xref> object, you can specify the type of collection to use. For example, you could specify a <xref href=\"System.Collections.Concurrent.ConcurrentQueue`1\" data-throw-if-not-resolved=\"false\"></xref> object for first in, first out (FIFO) behavior, or a <xref href=\"System.Collections.Concurrent.ConcurrentStack`1\" data-throw-if-not-resolved=\"false\"></xref> object for last in, first out (LIFO) behavior. You can use any collection class that implements the <xref href=\"System.Collections.Concurrent.IProducerConsumerCollection`1\" data-throw-if-not-resolved=\"false\"></xref> interface. The default collection type for <xref href=\"System.Collections.Concurrent.BlockingCollection`1\" data-throw-if-not-resolved=\"false\"></xref> is <xref href=\"System.Collections.Concurrent.ConcurrentQueue`1\" data-throw-if-not-resolved=\"false\"></xref>.</p>\n"
+  example:
+  - 
   syntax:
-    content: public bool TryTake(out T item, int millisecondsTimeout, Threading.CancellationToken cancellationToken)
-    content.vb: Public Function TryTake(ByRef item As T, millisecondsTimeout As Integer, cancellationToken As Threading.CancellationToken) As Boolean
+    content: public bool TryTake(out T item, int millisecondsTimeout, CancellationToken cancellationToken)
+    content.vb: Public Function TryTake(ByRef item As T, millisecondsTimeout As Integer, cancellationToken As CancellationToken) As Boolean
     parameters:
     - id: item
       type: '{T}'
+      description: The item removed from the collection.
     - id: millisecondsTimeout
       type: System.Int32
+      description: The number of milliseconds to wait, or <xref href="System.Threading.Timeout.Infinite" data-throw-if-not-resolved="false"></xref> (-1) to wait indefinitely.
     - id: cancellationToken
       type: System.Threading.CancellationToken
+      description: A cancellation token to observe.
     return:
       type: System.Boolean
+      description: "true if an item could be removed from the collection within \nthe alloted time; otherwise, false."
+  exceptions:
+  - type: System.OperationCanceledException
+    commentId: T:System.OperationCanceledException
+    description: "\n<p>The <xref href=\"System.Threading.CancellationToken\" data-throw-if-not-resolved=\"false\"></xref> has been canceled.</p>\n"
+  - type: System.ObjectDisposedException
+    commentId: T:System.ObjectDisposedException
+    description: "\n<p>The <xref href=\"System.Collections.Concurrent.BlockingCollection`1\" data-throw-if-not-resolved=\"false\"></xref> has been disposed or the underlying <xref href=\"System.Threading.CancellationTokenSource\" data-throw-if-not-resolved=\"false\"></xref> has been disposed.</p>\n"
+  - type: System.ArgumentOutOfRangeException
+    commentId: T:System.ArgumentOutOfRangeException
+    description: "\n<p>\n<em>millisecondsTimeout</em> is a negative number other than -1, which represents an infinite time-out.</p>\n"
+  - type: System.InvalidOperationException
+    commentId: T:System.InvalidOperationException
+    description: "\n<p>The underlying collection was modified outside this <xref href=\"System.Collections.Concurrent.BlockingCollection`1\" data-throw-if-not-resolved=\"false\"></xref> instance.</p>\n"
   modifiers.csharp:
   - public
   modifiers.vb:
   - Public
   fullName.vb: System.Collections.Concurrent.BlockingCollection(Of T).TryTake(ByRef T, System.Int32, System.Threading.CancellationToken)
-  name.vb: TryTake(ByRef T, Int32, Threading.CancellationToken)
+  name.vb: TryTake(ByRef T, Int32, CancellationToken)
 - uid: System.Collections.Concurrent.BlockingCollection`1.TryTake(`0@,System.TimeSpan)
   commentId: M:System.Collections.Concurrent.BlockingCollection`1.TryTake(`0@,System.TimeSpan)
   id: TryTake(`0@,System.TimeSpan)
@@ -1332,25 +2047,43 @@ items:
   type: Method
   source:
     remote:
-      path: src/System.Collections.Concurrent/ref/System.Collections.Concurrent.cs
+      path: src/System.Collections.Concurrent/src/System/Collections/Concurrent/BlockingCollection.cs
       branch: master
       repo: https://github.com/dotnet/corefx.git
     id: TryTake
-    path: src/System.Collections.Concurrent/ref/System.Collections.Concurrent.cs
-    startLine: 51
+    path: src/System.Collections.Concurrent/src/System/Collections/Concurrent/BlockingCollection.cs
+    startLine: 606
   assemblies:
   - System.Collections.Concurrent
   namespace: System.Collections.Concurrent
+  summary: "\n<p>Tries to remove an item from the <xref href=\"System.Collections.Concurrent.BlockingCollection`1\" data-throw-if-not-resolved=\"false\"></xref> in the specified time period.</p>\n"
+  remarks: "\n<p>The order in which an item is removed depends on the type of collection used to create the <xref href=\"System.Collections.Concurrent.BlockingCollection`1\" data-throw-if-not-resolved=\"false\"></xref> instance. When you create a <xref href=\"System.Collections.Concurrent.BlockingCollection`1\" data-throw-if-not-resolved=\"false\"></xref> object, you can specify the type of collection to use. For example, you could specify a <xref href=\"System.Collections.Concurrent.ConcurrentQueue`1\" data-throw-if-not-resolved=\"false\"></xref> object for first in, first out (FIFO) behavior, or a <xref href=\"System.Collections.Concurrent.ConcurrentStack`1\" data-throw-if-not-resolved=\"false\"></xref> object for last in, first out (LIFO) behavior. You can use any collection class that implements the <xref href=\"System.Collections.Concurrent.IProducerConsumerCollection`1\" data-throw-if-not-resolved=\"false\"></xref> interface. The default collection type for <xref href=\"System.Collections.Concurrent.BlockingCollection`1\" data-throw-if-not-resolved=\"false\"></xref> is <xref href=\"System.Collections.Concurrent.ConcurrentQueue`1\" data-throw-if-not-resolved=\"false\"></xref>.</p>\n"
   syntax:
     content: public bool TryTake(out T item, TimeSpan timeout)
     content.vb: Public Function TryTake(ByRef item As T, timeout As TimeSpan) As Boolean
     parameters:
     - id: item
       type: '{T}'
+      description: The item removed from the collection.
     - id: timeout
       type: System.TimeSpan
+      description: >
+        A <xref href="System.TimeSpan" data-throw-if-not-resolved="false"></xref> that represents the number of milliseconds
+
+        to wait, or a <xref href="System.TimeSpan" data-throw-if-not-resolved="false"></xref> that represents -1 milliseconds to wait indefinitely.
     return:
       type: System.Boolean
+      description: "true if an item could be removed from the collection within \nthe alloted time; otherwise, false."
+  exceptions:
+  - type: System.ObjectDisposedException
+    commentId: T:System.ObjectDisposedException
+    description: "\n<p>The <xref href=\"System.Collections.Concurrent.BlockingCollection`1\" data-throw-if-not-resolved=\"false\"></xref> has been disposed.</p>\n"
+  - type: System.ArgumentOutOfRangeException
+    commentId: T:System.ArgumentOutOfRangeException
+    description: "\n<p>\n<em>timeout</em> is a negative number other than -1 milliseconds, which represents an infinite time-out.</p>\n<p>-or- </p>\n<p>\n<em>timeout</em> is greater than <xref href=\"System.Int32.MaxValue\" data-throw-if-not-resolved=\"false\"></xref>.</p>\n"
+  - type: System.InvalidOperationException
+    commentId: T:System.InvalidOperationException
+    description: "\n<p>The underlying collection was modified outside of this <xref href=\"System.Collections.Concurrent.BlockingCollection`1\" data-throw-if-not-resolved=\"false\"></xref> instance.</p>\n"
   modifiers.csharp:
   - public
   modifiers.vb:
@@ -1378,6 +2111,10 @@ items:
   assemblies:
   - System.Collections.Concurrent
   namespace: System.Collections.Concurrent
+  summary: "\n<p>Tries to remove an item from any one of the specified <xref href=\"System.Collections.Concurrent.BlockingCollection`1\" data-throw-if-not-resolved=\"false\"></xref> instances.</p>\n"
+  remarks: "\n<p>A call to TryTakeFromAny may block until an item is available to be removed.</p>\n"
+  example:
+  - "\n<p>The following example shows how to use the <xref href=\"System.Collections.Concurrent.BlockingCollection`1.TryTakeFromAny(System.Collections.Concurrent.BlockingCollection{`0}[],`0@)\" data-throw-if-not-resolved=\"false\"></xref> method:</p>System.Collections.Concurrent.BlockingCollection#3"
   syntax:
     content: public static int TryTakeFromAny(BlockingCollection<T>[] collections, out T item)
     content.vb: Public Shared Function TryTakeFromAny(collections As BlockingCollection(Of T)(), ByRef item As T) As Integer
@@ -1391,6 +2128,22 @@ items:
     return:
       type: System.Int32
       description: "The index of the collection in the <em>collections</em> array from which \nthe item was removed, or -1 if an item could not be removed."
+  exceptions:
+  - type: System.ObjectDisposedException
+    commentId: T:System.ObjectDisposedException
+    description: "\n<p>At least one of the <xref href=\"System.Collections.Concurrent.BlockingCollection`1\" data-throw-if-not-resolved=\"false\"></xref> instances has been disposed.</p>\n"
+  - type: System.ArgumentNullException
+    commentId: T:System.ArgumentNullException
+    description: "\n<p>The <em>collections</em> argument is null.</p>\n"
+  - type: System.ArgumentOutOfRangeException
+    commentId: T:System.ArgumentOutOfRangeException
+    description: "\n<p>The count of <em>collections</em> is greater than the maximum size of 62 for STA and 63 for MTA.</p>\n"
+  - type: System.ArgumentException
+    commentId: T:System.ArgumentException
+    description: "\n<p>The <em>collections</em> argument is a 0-length array or contains a null element.</p>\n"
+  - type: System.InvalidOperationException
+    commentId: T:System.InvalidOperationException
+    description: "\n<p>At least one of the underlying collections was modified outside of its <xref href=\"System.Collections.Concurrent.BlockingCollection`1\" data-throw-if-not-resolved=\"false\"></xref> instance.</p>\n"
   modifiers.csharp:
   - public
   - static
@@ -1420,6 +2173,10 @@ items:
   assemblies:
   - System.Collections.Concurrent
   namespace: System.Collections.Concurrent
+  summary: "\n<p>Tries to remove an item from any one of the specified <xref href=\"System.Collections.Concurrent.BlockingCollection`1\" data-throw-if-not-resolved=\"false\"></xref> instances.</p>\n"
+  remarks: "\n<p>A call to TryTakeFromAny may block until an item is available to be removed.</p>\n"
+  example:
+  - 
   syntax:
     content: public static int TryTakeFromAny(BlockingCollection<T>[] collections, out T item, int millisecondsTimeout)
     content.vb: Public Shared Function TryTakeFromAny(collections As BlockingCollection(Of T)(), ByRef item As T, millisecondsTimeout As Integer) As Integer
@@ -1432,10 +2189,26 @@ items:
       description: The item removed from one of the collections.
     - id: millisecondsTimeout
       type: System.Int32
-      description: The number of milliseconds to wait, or <see cref="!:System.Threading.Timeout.Infinite"></see> (-1) to wait indefinitely.
+      description: The number of milliseconds to wait, or <xref href="System.Threading.Timeout.Infinite" data-throw-if-not-resolved="false"></xref> (-1) to wait indefinitely.
     return:
       type: System.Int32
       description: "The index of the collection in the <em>collections</em> array from which \nthe item was removed, or -1 if an item could not be removed."
+  exceptions:
+  - type: System.ObjectDisposedException
+    commentId: T:System.ObjectDisposedException
+    description: "\n<p>At least one of the <xref href=\"System.Collections.Concurrent.BlockingCollection`1\" data-throw-if-not-resolved=\"false\"></xref> instances has been disposed.</p>\n"
+  - type: System.ArgumentNullException
+    commentId: T:System.ArgumentNullException
+    description: "\n<p>The <em>collections</em> argument is null.</p>\n"
+  - type: System.ArgumentOutOfRangeException
+    commentId: T:System.ArgumentOutOfRangeException
+    description: "\n<p>\n<em>millisecondsTimeout</em> is a negative number other than -1, which represents an infinite time-out.</p>\n<p>-or-</p>\n<p>The count of <em>collections</em> is greater than the maximum size of 62 for STA and 63 for MTA.</p>\n"
+  - type: System.ArgumentException
+    commentId: T:System.ArgumentException
+    description: "\n<p>The <em>collections</em> argument is a 0-length array or contains a null element.</p>\n"
+  - type: System.InvalidOperationException
+    commentId: T:System.InvalidOperationException
+    description: "\n<p>At least one of the underlying collections was modified outside of its <xref href=\"System.Collections.Concurrent.BlockingCollection`1\" data-throw-if-not-resolved=\"false\"></xref> instance.</p>\n"
   modifiers.csharp:
   - public
   - static
@@ -1451,34 +2224,62 @@ items:
   langs:
   - csharp
   - vb
-  name: TryTakeFromAny(BlockingCollection<T>[], out T, Int32, Threading.CancellationToken)
+  name: TryTakeFromAny(BlockingCollection<T>[], out T, Int32, CancellationToken)
   fullName: System.Collections.Concurrent.BlockingCollection<T>.TryTakeFromAny(System.Collections.Concurrent.BlockingCollection<T>[], out T, System.Int32, System.Threading.CancellationToken)
   type: Method
   source:
     remote:
-      path: src/System.Collections.Concurrent/ref/System.Collections.Concurrent.cs
+      path: src/System.Collections.Concurrent/src/System/Collections/Concurrent/BlockingCollection.cs
       branch: master
       repo: https://github.com/dotnet/corefx.git
     id: TryTakeFromAny
-    path: src/System.Collections.Concurrent/ref/System.Collections.Concurrent.cs
-    startLine: 54
+    path: src/System.Collections.Concurrent/src/System/Collections/Concurrent/BlockingCollection.cs
+    startLine: 1324
   assemblies:
   - System.Collections.Concurrent
   namespace: System.Collections.Concurrent
+  summary: "\n<p>Tries to remove an item from any one of the specified <xref href=\"System.Collections.Concurrent.BlockingCollection`1\" data-throw-if-not-resolved=\"false\"></xref> instances.</p>\n"
+  remarks: "\n<p>A call to TryTakeFromAny may block until an item is available to be removed.</p>\n"
+  example:
+  - 
   syntax:
-    content: public static int TryTakeFromAny(BlockingCollection<T>[] collections, out T item, int millisecondsTimeout, Threading.CancellationToken cancellationToken)
-    content.vb: Public Shared Function TryTakeFromAny(collections As BlockingCollection(Of T)(), ByRef item As T, millisecondsTimeout As Integer, cancellationToken As Threading.CancellationToken) As Integer
+    content: public static int TryTakeFromAny(BlockingCollection<T>[] collections, out T item, int millisecondsTimeout, CancellationToken cancellationToken)
+    content.vb: Public Shared Function TryTakeFromAny(collections As BlockingCollection(Of T)(), ByRef item As T, millisecondsTimeout As Integer, cancellationToken As CancellationToken) As Integer
     parameters:
     - id: collections
       type: System.Collections.Concurrent.BlockingCollection`1[]
+      description: The array of collections.
     - id: item
       type: '{T}'
+      description: The item removed from one of the collections.
     - id: millisecondsTimeout
       type: System.Int32
+      description: The number of milliseconds to wait, or <xref href="System.Threading.Timeout.Infinite" data-throw-if-not-resolved="false"></xref> (-1) to wait indefinitely.
     - id: cancellationToken
       type: System.Threading.CancellationToken
+      description: A cancellation token to observe.
     return:
       type: System.Int32
+      description: "The index of the collection in the <em>collections</em> array from which \nthe item was removed, or -1 if an item could not be removed."
+  exceptions:
+  - type: System.OperationCanceledException
+    commentId: T:System.OperationCanceledException
+    description: "\n<p>If the <xref href=\"System.Threading.CancellationToken\" data-throw-if-not-resolved=\"false\"></xref> is canceled.</p>\n"
+  - type: System.InvalidOperationException
+    commentId: T:System.InvalidOperationException
+    description: "\n<p>At least one of the underlying collections was modified outside of its <xref href=\"System.Collections.Concurrent.BlockingCollection`1\" data-throw-if-not-resolved=\"false\"></xref> instance.</p>\n"
+  - type: System.ArgumentNullException
+    commentId: T:System.ArgumentNullException
+    description: "\n<p>The <em>collections</em> argument is null.</p>\n"
+  - type: System.ArgumentOutOfRangeException
+    commentId: T:System.ArgumentOutOfRangeException
+    description: "\n<p>\n<em>millisecondsTimeout</em> is a negative number other than -1, which represents an infinite time-out.</p>\n<p>-or-</p>\n<p>The count of <em>collections</em> is greater than the maximum size of 62 for STA and 63 for MTA.</p>\n"
+  - type: System.ArgumentException
+    commentId: T:System.ArgumentException
+    description: "\n<p>The <em>collections</em> argument is a 0-length array or contains a null element.</p>\n"
+  - type: System.ObjectDisposedException
+    commentId: T:System.ObjectDisposedException
+    description: "\n<p>At least one of the <xref href=\"System.Collections.Concurrent.BlockingCollection`1\" data-throw-if-not-resolved=\"false\"></xref> instances has been disposed.</p>\n"
   modifiers.csharp:
   - public
   - static
@@ -1486,7 +2287,7 @@ items:
   - Public
   - Shared
   fullName.vb: System.Collections.Concurrent.BlockingCollection(Of T).TryTakeFromAny(System.Collections.Concurrent.BlockingCollection(Of T)(), ByRef T, System.Int32, System.Threading.CancellationToken)
-  name.vb: TryTakeFromAny(BlockingCollection(Of T)(), ByRef T, Int32, Threading.CancellationToken)
+  name.vb: TryTakeFromAny(BlockingCollection(Of T)(), ByRef T, Int32, CancellationToken)
 - uid: System.Collections.Concurrent.BlockingCollection`1.TryTakeFromAny(System.Collections.Concurrent.BlockingCollection{`0}[],`0@,System.TimeSpan)
   commentId: M:System.Collections.Concurrent.BlockingCollection`1.TryTakeFromAny(System.Collections.Concurrent.BlockingCollection{`0}[],`0@,System.TimeSpan)
   id: TryTakeFromAny(System.Collections.Concurrent.BlockingCollection{`0}[],`0@,System.TimeSpan)
@@ -1499,27 +2300,54 @@ items:
   type: Method
   source:
     remote:
-      path: src/System.Collections.Concurrent/ref/System.Collections.Concurrent.cs
+      path: src/System.Collections.Concurrent/src/System/Collections/Concurrent/BlockingCollection.cs
       branch: master
       repo: https://github.com/dotnet/corefx.git
     id: TryTakeFromAny
-    path: src/System.Collections.Concurrent/ref/System.Collections.Concurrent.cs
-    startLine: 55
+    path: src/System.Collections.Concurrent/src/System/Collections/Concurrent/BlockingCollection.cs
+    startLine: 1260
   assemblies:
   - System.Collections.Concurrent
   namespace: System.Collections.Concurrent
+  summary: "\n<p>Tries to remove an item from any one of the specified <xref href=\"System.Collections.Concurrent.BlockingCollection`1\" data-throw-if-not-resolved=\"false\"></xref> instances.</p>\n"
+  remarks: "\n<p>A call to TryTakeFromAny may block until an item is available to be removed.</p>\n"
+  example:
+  - 
   syntax:
     content: public static int TryTakeFromAny(BlockingCollection<T>[] collections, out T item, TimeSpan timeout)
     content.vb: Public Shared Function TryTakeFromAny(collections As BlockingCollection(Of T)(), ByRef item As T, timeout As TimeSpan) As Integer
     parameters:
     - id: collections
       type: System.Collections.Concurrent.BlockingCollection`1[]
+      description: The array of collections.
     - id: item
       type: '{T}'
+      description: The item removed from one of the collections.
     - id: timeout
       type: System.TimeSpan
+      description: >
+        A <xref href="System.TimeSpan" data-throw-if-not-resolved="false"></xref> that represents the number of milliseconds
+
+        to wait, or a <xref href="System.TimeSpan" data-throw-if-not-resolved="false"></xref> that represents -1 milliseconds to wait indefinitely.
     return:
       type: System.Int32
+      description: "The index of the collection in the <em>collections</em> array from which \nthe item was removed, or -1 if an item could not be removed."
+  exceptions:
+  - type: System.ObjectDisposedException
+    commentId: T:System.ObjectDisposedException
+    description: "\n<p>At least one of the <xref href=\"System.Collections.Concurrent.BlockingCollection`1\" data-throw-if-not-resolved=\"false\"></xref> instances has been disposed.</p>\n"
+  - type: System.ArgumentNullException
+    commentId: T:System.ArgumentNullException
+    description: "\n<p>The <em>collections</em> argument is null.</p>\n"
+  - type: System.ArgumentOutOfRangeException
+    commentId: T:System.ArgumentOutOfRangeException
+    description: "\n<p>\n<em>timeout</em> is a negative number other than -1 milliseconds, which represents an infinite time-out -or- timeout is greater than <xref href=\"System.Int32.MaxValue\" data-throw-if-not-resolved=\"false\"></xref>.</p>\n<p>-or-</p>\n<p>The count of <em>collections</em> is greater than the maximum size of 62 for STA and 63 for MTA.</p>\n"
+  - type: System.ArgumentException
+    commentId: T:System.ArgumentException
+    description: "\n<p>The <em>collections</em> argument is a 0-length array or contains a null element.</p>\n"
+  - type: System.InvalidOperationException
+    commentId: T:System.InvalidOperationException
+    description: "\n<p>At least one of the underlying collections was modified outside of its <xref href=\"System.Collections.Concurrent.BlockingCollection`1\" data-throw-if-not-resolved=\"false\"></xref> instance.</p>\n"
   modifiers.csharp:
   - public
   - static
@@ -1565,21 +2393,257 @@ references:
     fullName: T
   - name: )
     fullName: )
+- uid: System.Collections.Generic.IEnumerable{{T}}
+  parent: System.Collections.Generic
+  definition: System.Collections.Generic.IEnumerable`1
+  name: IEnumerable<T>
+  fullName: System.Collections.Generic.IEnumerable<T>
+  fullname.vb: System.Collections.Generic.IEnumerable(Of T)
+  name.vb: IEnumerable(Of T)
+  spec.csharp:
+  - uid: System.Collections.Generic.IEnumerable`1
+    name: IEnumerable
+    fullName: System.Collections.Generic.IEnumerable
+  - name: <
+    fullName: <
+  - name: T
+    fullName: T
+  - name: '>'
+    fullName: '>'
+  spec.vb:
+  - uid: System.Collections.Generic.IEnumerable`1
+    name: IEnumerable
+    fullName: System.Collections.Generic.IEnumerable
+  - name: '(Of '
+    fullName: '(Of '
+  - name: T
+    fullName: T
+  - name: )
+    fullName: )
 - uid: System.Collections.ICollection
   parent: System.Collections
   isExternal: false
-  name: Collections.ICollection
+  name: ICollection
   fullName: System.Collections.ICollection
 - uid: System.Collections.IEnumerable
   parent: System.Collections
   isExternal: false
-  name: Collections.IEnumerable
+  name: IEnumerable
   fullName: System.Collections.IEnumerable
 - uid: System.IDisposable
   parent: System
   isExternal: false
   name: IDisposable
   fullName: System.IDisposable
+- uid: System.Object.ToString
+  parent: System.Object
+  isExternal: true
+  name: ToString()
+  fullName: System.Object.ToString()
+  spec.csharp:
+  - uid: System.Object.ToString
+    name: ToString
+    fullName: System.Object.ToString
+    isExternal: true
+  - name: (
+    fullName: (
+  - name: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.ToString
+    name: ToString
+    fullName: System.Object.ToString
+    isExternal: true
+  - name: (
+    fullName: (
+  - name: )
+    fullName: )
+- uid: System.Object.Equals(System.Object)
+  parent: System.Object
+  isExternal: true
+  name: Equals(Object)
+  fullName: System.Object.Equals(System.Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    fullName: )
+- uid: System.Object.Equals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  name: Equals(Object, Object)
+  fullName: System.Object.Equals(System.Object, System.Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    fullName: )
+- uid: System.Object.ReferenceEquals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  name: ReferenceEquals(Object, Object)
+  fullName: System.Object.ReferenceEquals(System.Object, System.Object)
+  spec.csharp:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    fullName: System.Object.ReferenceEquals
+    isExternal: true
+  - name: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    fullName: System.Object.ReferenceEquals
+    isExternal: true
+  - name: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    fullName: )
+- uid: System.Object.GetHashCode
+  parent: System.Object
+  isExternal: true
+  name: GetHashCode()
+  fullName: System.Object.GetHashCode()
+  spec.csharp:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    fullName: System.Object.GetHashCode
+    isExternal: true
+  - name: (
+    fullName: (
+  - name: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    fullName: System.Object.GetHashCode
+    isExternal: true
+  - name: (
+    fullName: (
+  - name: )
+    fullName: )
+- uid: System.Object.GetType
+  parent: System.Object
+  isExternal: true
+  name: GetType()
+  fullName: System.Object.GetType()
+  spec.csharp:
+  - uid: System.Object.GetType
+    name: GetType
+    fullName: System.Object.GetType
+    isExternal: true
+  - name: (
+    fullName: (
+  - name: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.GetType
+    name: GetType
+    fullName: System.Object.GetType
+    isExternal: true
+  - name: (
+    fullName: (
+  - name: )
+    fullName: )
+- uid: System.Object.MemberwiseClone
+  parent: System.Object
+  isExternal: true
+  name: MemberwiseClone()
+  fullName: System.Object.MemberwiseClone()
+  spec.csharp:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    fullName: System.Object.MemberwiseClone
+    isExternal: true
+  - name: (
+    fullName: (
+  - name: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    fullName: System.Object.MemberwiseClone
+    isExternal: true
+  - name: (
+    fullName: (
+  - name: )
+    fullName: )
 - uid: System
   isExternal: false
   name: System
@@ -1587,32 +2651,61 @@ references:
 - uid: System.Collections.Generic.IReadOnlyCollection`1
   parent: System.Collections.Generic
   isExternal: false
-  name: Generic.IReadOnlyCollection<>
-  fullName: System.Collections.Generic.IReadOnlyCollection<>
-  fullname.vb: System.Collections.Generic.IReadOnlyCollection(Of )
-  name.vb: Generic.IReadOnlyCollection(Of )
+  name: IReadOnlyCollection<T>
+  fullName: System.Collections.Generic.IReadOnlyCollection<T>
+  fullname.vb: System.Collections.Generic.IReadOnlyCollection(Of T)
+  name.vb: IReadOnlyCollection(Of T)
   spec.csharp:
   - uid: System.Collections.Generic.IReadOnlyCollection`1
-    name: Generic.IReadOnlyCollection
+    name: IReadOnlyCollection
     fullName: System.Collections.Generic.IReadOnlyCollection
   - name: <
     fullName: <
-  - {}
+  - name: T
+    fullName: T
   - name: '>'
     fullName: '>'
   spec.vb:
   - uid: System.Collections.Generic.IReadOnlyCollection`1
-    name: Generic.IReadOnlyCollection
+    name: IReadOnlyCollection
     fullName: System.Collections.Generic.IReadOnlyCollection
   - name: '(Of '
     fullName: '(Of '
-  - {}
+  - name: T
+    fullName: T
   - name: )
     fullName: )
 - uid: System.Collections.Generic
   isExternal: false
   name: System.Collections.Generic
   fullName: System.Collections.Generic
+- uid: System.Collections.Generic.IEnumerable`1
+  parent: System.Collections.Generic
+  isExternal: false
+  name: IEnumerable<T>
+  fullName: System.Collections.Generic.IEnumerable<T>
+  fullname.vb: System.Collections.Generic.IEnumerable(Of T)
+  name.vb: IEnumerable(Of T)
+  spec.csharp:
+  - uid: System.Collections.Generic.IEnumerable`1
+    name: IEnumerable
+    fullName: System.Collections.Generic.IEnumerable
+  - name: <
+    fullName: <
+  - name: T
+    fullName: T
+  - name: '>'
+    fullName: '>'
+  spec.vb:
+  - uid: System.Collections.Generic.IEnumerable`1
+    name: IEnumerable
+    fullName: System.Collections.Generic.IEnumerable
+  - name: '(Of '
+    fullName: '(Of '
+  - name: T
+    fullName: T
+  - name: )
+    fullName: )
 - uid: System.Collections
   isExternal: false
   name: System.Collections
@@ -1676,11 +2769,38 @@ references:
   isExternal: false
   name: Int32
   fullName: System.Int32
+- uid: System.Collections.Generic.IReadOnlyCollection{{T}}.Count
+  parent: System.Collections.Generic.IReadOnlyCollection{{T}}
+  definition: System.Collections.Generic.IReadOnlyCollection`1.Count
+  name: Count
+  fullName: System.Collections.Generic.IReadOnlyCollection<T>.Count
+  fullname.vb: System.Collections.Generic.IReadOnlyCollection(Of T).Count
+- uid: System.Collections.ICollection.Count
+  parent: System.Collections.ICollection
+  isExternal: false
+  name: Count
+  fullName: System.Collections.ICollection.Count
+- uid: System.Collections.Generic.IReadOnlyCollection`1.Count
+  parent: System.Collections.Generic.IReadOnlyCollection`1
+  isExternal: false
+  name: Count
+  fullName: System.Collections.Generic.IReadOnlyCollection<T>.Count
+  fullname.vb: System.Collections.Generic.IReadOnlyCollection(Of T).Count
 - uid: System.Boolean
   parent: System
   isExternal: false
   name: Boolean
   fullName: System.Boolean
+- uid: System.Collections.ICollection.IsSynchronized
+  parent: System.Collections.ICollection
+  isExternal: false
+  name: IsSynchronized
+  fullName: System.Collections.ICollection.IsSynchronized
+- uid: System.Collections.ICollection.SyncRoot
+  parent: System.Collections.ICollection
+  isExternal: false
+  name: SyncRoot
+  fullName: System.Collections.ICollection.SyncRoot
 - uid: '{T}'
   isExternal: false
   name: T
@@ -1688,7 +2808,7 @@ references:
 - uid: System.Threading.CancellationToken
   parent: System.Threading
   isExternal: false
-  name: Threading.CancellationToken
+  name: CancellationToken
   fullName: System.Threading.CancellationToken
 - uid: System.Threading
   isExternal: false
@@ -1740,17 +2860,60 @@ references:
     fullName: T
   - name: ()
     fullName: ()
-- uid: System.Collections.Generic.IEnumerable{{T}}
-  parent: System.Collections.Generic
-  definition: System.Collections.Generic.IEnumerable`1
-  name: Collections.Generic.IEnumerable<T>
-  fullName: System.Collections.Generic.IEnumerable<T>
-  fullname.vb: System.Collections.Generic.IEnumerable(Of T)
-  name.vb: Collections.Generic.IEnumerable(Of T)
+- uid: System.IDisposable.Dispose
+  parent: System.IDisposable
+  isExternal: false
+  name: Dispose()
+  fullName: System.IDisposable.Dispose()
   spec.csharp:
-  - uid: System.Collections.Generic.IEnumerable`1
-    name: Collections.Generic.IEnumerable
-    fullName: System.Collections.Generic.IEnumerable
+  - uid: System.IDisposable.Dispose
+    name: Dispose
+    fullName: System.IDisposable.Dispose
+  - name: (
+    fullName: (
+  - name: )
+    fullName: )
+  spec.vb:
+  - uid: System.IDisposable.Dispose
+    name: Dispose
+    fullName: System.IDisposable.Dispose
+  - name: (
+    fullName: (
+  - name: )
+    fullName: )
+- uid: System.Collections.Generic.IEnumerable{{T}}.GetEnumerator
+  parent: System.Collections.Generic.IEnumerable{{T}}
+  definition: System.Collections.Generic.IEnumerable`1.GetEnumerator
+  name: GetEnumerator()
+  fullName: System.Collections.Generic.IEnumerable<T>.GetEnumerator()
+  fullname.vb: System.Collections.Generic.IEnumerable(Of T).GetEnumerator()
+  spec.csharp:
+  - uid: System.Collections.Generic.IEnumerable`1.GetEnumerator
+    name: GetEnumerator
+    fullName: System.Collections.Generic.IEnumerable<T>.GetEnumerator
+  - name: (
+    fullName: (
+  - name: )
+    fullName: )
+  spec.vb:
+  - uid: System.Collections.Generic.IEnumerable`1.GetEnumerator
+    name: GetEnumerator
+    fullName: System.Collections.Generic.IEnumerable(Of T).GetEnumerator
+  - name: (
+    fullName: (
+  - name: )
+    fullName: )
+- uid: System.Collections.Generic.IEnumerator{{T}}
+  parent: System.Collections.Generic
+  definition: System.Collections.Generic.IEnumerator`1
+  name: IEnumerator<T>
+  fullName: System.Collections.Generic.IEnumerator<T>
+  fullname.vb: System.Collections.Generic.IEnumerator(Of T)
+  name.vb: IEnumerator(Of T)
+  spec.csharp:
+  - uid: System.Collections.Generic.IEnumerator`1
+    name: IEnumerator
+    fullName: System.Collections.Generic.IEnumerator
   - name: <
     fullName: <
   - name: T
@@ -1758,42 +2921,168 @@ references:
   - name: '>'
     fullName: '>'
   spec.vb:
-  - uid: System.Collections.Generic.IEnumerable`1
-    name: Collections.Generic.IEnumerable
-    fullName: System.Collections.Generic.IEnumerable
+  - uid: System.Collections.Generic.IEnumerator`1
+    name: IEnumerator
+    fullName: System.Collections.Generic.IEnumerator
   - name: '(Of '
     fullName: '(Of '
   - name: T
     fullName: T
   - name: )
     fullName: )
-- uid: System.Collections.Generic.IEnumerable`1
+- uid: System.Collections.Generic.IEnumerable`1.GetEnumerator
+  parent: System.Collections.Generic.IEnumerable`1
+  isExternal: false
+  name: GetEnumerator()
+  fullName: System.Collections.Generic.IEnumerable<T>.GetEnumerator()
+  fullname.vb: System.Collections.Generic.IEnumerable(Of T).GetEnumerator()
+  spec.csharp:
+  - uid: System.Collections.Generic.IEnumerable`1.GetEnumerator
+    name: GetEnumerator
+    fullName: System.Collections.Generic.IEnumerable<T>.GetEnumerator
+  - name: (
+    fullName: (
+  - name: )
+    fullName: )
+  spec.vb:
+  - uid: System.Collections.Generic.IEnumerable`1.GetEnumerator
+    name: GetEnumerator
+    fullName: System.Collections.Generic.IEnumerable(Of T).GetEnumerator
+  - name: (
+    fullName: (
+  - name: )
+    fullName: )
+- uid: System.Collections.Generic.IEnumerator`1
   parent: System.Collections.Generic
   isExternal: false
-  name: Collections.Generic.IEnumerable<>
-  fullName: System.Collections.Generic.IEnumerable<>
-  fullname.vb: System.Collections.Generic.IEnumerable(Of )
-  name.vb: Collections.Generic.IEnumerable(Of )
+  name: IEnumerator<T>
+  fullName: System.Collections.Generic.IEnumerator<T>
+  fullname.vb: System.Collections.Generic.IEnumerator(Of T)
+  name.vb: IEnumerator(Of T)
   spec.csharp:
-  - uid: System.Collections.Generic.IEnumerable`1
-    name: Collections.Generic.IEnumerable
-    fullName: System.Collections.Generic.IEnumerable
+  - uid: System.Collections.Generic.IEnumerator`1
+    name: IEnumerator
+    fullName: System.Collections.Generic.IEnumerator
   - name: <
     fullName: <
-  - {}
+  - name: T
+    fullName: T
   - name: '>'
     fullName: '>'
   spec.vb:
-  - uid: System.Collections.Generic.IEnumerable`1
-    name: Collections.Generic.IEnumerable
-    fullName: System.Collections.Generic.IEnumerable
+  - uid: System.Collections.Generic.IEnumerator`1
+    name: IEnumerator
+    fullName: System.Collections.Generic.IEnumerator
   - name: '(Of '
     fullName: '(Of '
-  - {}
+  - name: T
+    fullName: T
   - name: )
     fullName: )
+- uid: System.Collections.ICollection.CopyTo(System.Array,System.Int32)
+  parent: System.Collections.ICollection
+  isExternal: true
+  name: CopyTo(Array, Int32)
+  fullName: System.Collections.ICollection.CopyTo(System.Array, System.Int32)
+  spec.csharp:
+  - uid: System.Collections.ICollection.CopyTo(System.Array,System.Int32)
+    name: CopyTo
+    fullName: System.Collections.ICollection.CopyTo
+  - name: (
+    fullName: (
+  - uid: System.Array
+    name: Array
+    fullName: System.Array
+  - name: ', '
+    fullName: ', '
+  - uid: System.Int32
+    name: Int32
+    fullName: System.Int32
+    isExternal: true
+  - name: )
+    fullName: )
+  spec.vb:
+  - uid: System.Collections.ICollection.CopyTo(System.Array,System.Int32)
+    name: CopyTo
+    fullName: System.Collections.ICollection.CopyTo
+  - name: (
+    fullName: (
+  - uid: System.Array
+    name: Array
+    fullName: System.Array
+  - name: ', '
+    fullName: ', '
+  - uid: System.Int32
+    name: Int32
+    fullName: System.Int32
+    isExternal: true
+  - name: )
+    fullName: )
+- uid: System.Array
+  parent: System
+  isExternal: false
+  name: Array
+  fullName: System.Array
+- uid: System.Collections.IEnumerable.GetEnumerator
+  parent: System.Collections.IEnumerable
+  isExternal: false
+  name: GetEnumerator()
+  fullName: System.Collections.IEnumerable.GetEnumerator()
+  spec.csharp:
+  - uid: System.Collections.IEnumerable.GetEnumerator
+    name: GetEnumerator
+    fullName: System.Collections.IEnumerable.GetEnumerator
+  - name: (
+    fullName: (
+  - name: )
+    fullName: )
+  spec.vb:
+  - uid: System.Collections.IEnumerable.GetEnumerator
+    name: GetEnumerator
+    fullName: System.Collections.IEnumerable.GetEnumerator
+  - name: (
+    fullName: (
+  - name: )
+    fullName: )
+- uid: System.Collections.IEnumerator
+  parent: System.Collections
+  isExternal: false
+  name: IEnumerator
+  fullName: System.Collections.IEnumerator
 - uid: System.TimeSpan
   parent: System
   isExternal: false
   name: TimeSpan
   fullName: System.TimeSpan
+- uid: System.ArgumentNullException
+  isExternal: false
+  name: ArgumentNullException
+  fullName: System.ArgumentNullException
+- uid: System.ArgumentOutOfRangeException
+  isExternal: false
+  name: ArgumentOutOfRangeException
+  fullName: System.ArgumentOutOfRangeException
+- uid: System.ArgumentException
+  parent: System
+  isExternal: false
+  name: ArgumentException
+  fullName: System.ArgumentException
+- uid: System.ObjectDisposedException
+  isExternal: false
+  name: ObjectDisposedException
+  fullName: System.ObjectDisposedException
+- uid: System.NotSupportedException
+  parent: System
+  isExternal: false
+  name: NotSupportedException
+  fullName: System.NotSupportedException
+- uid: System.InvalidOperationException
+  parent: System
+  isExternal: false
+  name: InvalidOperationException
+  fullName: System.InvalidOperationException
+- uid: System.OperationCanceledException
+  parent: System
+  isExternal: false
+  name: OperationCanceledException
+  fullName: System.OperationCanceledException

@@ -15,12 +15,12 @@ items:
   type: Class
   source:
     remote:
-      path: src/Microsoft.Win32.Registry/src/Microsoft/Win32/SafeHandles/SafeRegistryHandle.cs
+      path: src/mscorlib/src/Microsoft/Win32/SafeHandles/SafeRegistryHandle.cs
       branch: master
-      repo: https://github.com/dotnet/corefx.git
+      repo: https://github.com/dotnet/coreclr.git
     id: SafeRegistryHandle
-    path: src/Microsoft.Win32.Registry/src/Microsoft/Win32/SafeHandles/SafeRegistryHandle.cs
-    startLine: 9
+    path: src/mscorlib/src/Microsoft/Win32/SafeHandles/SafeRegistryHandle.cs
+    startLine: 19
   assemblies:
   - Microsoft.Win32.Registry
   namespace: Microsoft.Win32.SafeHandles
@@ -29,15 +29,47 @@ items:
   example:
   - 
   syntax:
-    content: 'public sealed class SafeRegistryHandle : SafeHandle'
+    content: >-
+      [SecurityCritical]
+
+      public sealed class SafeRegistryHandle : SafeHandleZeroOrMinusOneIsInvalid, IDisposable
     content.vb: >-
+      <SecurityCritical>
+
       Public NotInheritable Class SafeRegistryHandle
-          Inherits SafeHandle
+          Inherits SafeHandleZeroOrMinusOneIsInvalid
+          Implements IDisposable
   see:
   - type: System.Security.SecurityCriticalAttribute
     commentId: T:System.Security.SecurityCriticalAttribute
   inheritance:
   - System.Object
+  - System.Runtime.ConstrainedExecution.CriticalFinalizerObject
+  - System.Runtime.InteropServices.SafeHandle
+  implements:
+  - System.IDisposable
+  inheritedMembers:
+  - System.Runtime.InteropServices.SafeHandle.handle
+  - System.Runtime.InteropServices.SafeHandle.SetHandle(System.IntPtr)
+  - System.Runtime.InteropServices.SafeHandle.DangerousGetHandle
+  - System.Runtime.InteropServices.SafeHandle.Close
+  - System.Runtime.InteropServices.SafeHandle.Dispose
+  - System.Runtime.InteropServices.SafeHandle.Dispose(System.Boolean)
+  - System.Runtime.InteropServices.SafeHandle.SetHandleAsInvalid
+  - System.Runtime.InteropServices.SafeHandle.DangerousAddRef(System.Boolean@)
+  - System.Runtime.InteropServices.SafeHandle.DangerousRelease
+  - System.Runtime.InteropServices.SafeHandle.IsClosed
+  - System.Object.ToString
+  - System.Object.Equals(System.Object)
+  - System.Object.Equals(System.Object,System.Object)
+  - System.Object.ReferenceEquals(System.Object,System.Object)
+  - System.Object.GetHashCode
+  - System.Object.GetType
+  - System.Object.MemberwiseClone
+  attributes:
+  - type: System.Security.SecurityCriticalAttribute
+    ctor: System.Security.SecurityCriticalAttribute.#ctor
+    arguments: []
   modifiers.csharp:
   - public
   - sealed
@@ -58,12 +90,12 @@ items:
   type: Constructor
   source:
     remote:
-      path: src/Microsoft.Win32.Registry/ref/Microsoft.Win32.Registry.cs
+      path: src/mscorlib/src/Microsoft/Win32/SafeHandles/SafeRegistryHandle.cs
       branch: master
-      repo: https://github.com/dotnet/corefx.git
+      repo: https://github.com/dotnet/coreclr.git
     id: .ctor
-    path: src/Microsoft.Win32.Registry/ref/Microsoft.Win32.Registry.cs
-    startLine: 103
+    path: src/mscorlib/src/Microsoft/Win32/SafeHandles/SafeRegistryHandle.cs
+    startLine: 24
   assemblies:
   - Microsoft.Win32.Registry
   namespace: Microsoft.Win32.SafeHandles
@@ -72,18 +104,26 @@ items:
   example:
   - 
   syntax:
-    content: public SafeRegistryHandle(IntPtr preexistingHandle, bool ownsHandle)
-    content.vb: Public Sub New(preexistingHandle As IntPtr, ownsHandle As Boolean)
+    content: >-
+      [SecurityCritical]
+
+      public SafeRegistryHandle(IntPtr preexistingHandle, bool ownsHandle)
+    content.vb: >-
+      <SecurityCritical>
+
+      Public Sub New(preexistingHandle As IntPtr, ownsHandle As Boolean)
     parameters:
     - id: preexistingHandle
       type: System.IntPtr
-      description: "\n<p>An object that represents the pre-existing handle to use.</p>\n"
     - id: ownsHandle
       type: System.Boolean
-      description: "\n<p>\n<strong>true</strong> to reliably release the handle during the finalization phase; <strong>false</strong> to prevent reliable release.</p>\n"
   see:
   - type: System.Security.SecurityCriticalAttribute
     commentId: T:System.Security.SecurityCriticalAttribute
+  attributes:
+  - type: System.Security.SecurityCriticalAttribute
+    ctor: System.Security.SecurityCriticalAttribute.#ctor
+    arguments: []
   modifiers.csharp:
   - public
   modifiers.vb:
@@ -100,20 +140,31 @@ items:
   type: Method
   source:
     remote:
-      path: src/Microsoft.Win32.Registry/src/Microsoft/Win32/SafeHandles/SafeRegistryHandle.cs
+      path: src/mscorlib/src/Microsoft/Win32/SafeHandles/SafeRegistryHandle.cs
       branch: master
-      repo: https://github.com/dotnet/corefx.git
+      repo: https://github.com/dotnet/coreclr.git
     id: ReleaseHandle
-    path: src/Microsoft.Win32.Registry/src/Microsoft/Win32/SafeHandles/SafeRegistryHandle.cs
-    startLine: 28
+    path: src/mscorlib/src/Microsoft/Win32/SafeHandles/SafeRegistryHandle.cs
+    startLine: 29
   assemblies:
   - Microsoft.Win32.Registry
   namespace: Microsoft.Win32.SafeHandles
   syntax:
-    content: protected override bool ReleaseHandle()
-    content.vb: Protected Overrides Function ReleaseHandle As Boolean
+    content: >-
+      [SecurityCritical]
+
+      protected override bool ReleaseHandle()
+    content.vb: >-
+      <SecurityCritical>
+
+      Protected Overrides Function ReleaseHandle As Boolean
     return:
       type: System.Boolean
+  overridden: System.Runtime.InteropServices.SafeHandle.ReleaseHandle
+  attributes:
+  - type: System.Security.SecurityCriticalAttribute
+    ctor: System.Security.SecurityCriticalAttribute.#ctor
+    arguments: []
   modifiers.csharp:
   - protected
   - override
@@ -132,21 +183,28 @@ items:
   type: Property
   source:
     remote:
-      path: src/Microsoft.Win32.Registry/src/Microsoft/Win32/SafeHandles/SafeRegistryHandle.cs
+      path: src/Microsoft.Win32.Registry/ref/Microsoft.Win32.Registry.Manual.cs
       branch: master
       repo: https://github.com/dotnet/corefx.git
     id: IsInvalid
-    path: src/Microsoft.Win32.Registry/src/Microsoft/Win32/SafeHandles/SafeRegistryHandle.cs
-    startLine: 21
+    path: src/Microsoft.Win32.Registry/ref/Microsoft.Win32.Registry.Manual.cs
+    startLine: 13
   assemblies:
   - Microsoft.Win32.Registry
   namespace: Microsoft.Win32.SafeHandles
   syntax:
-    content: public override bool IsInvalid { get; }
+    content: >-
+      public override bool IsInvalid
+
+      {
+          [SecurityCritical]
+          get;
+      }
     content.vb: Public Overrides ReadOnly Property IsInvalid As Boolean
     parameters: []
     return:
       type: System.Boolean
+  overridden: System.Runtime.InteropServices.SafeHandle.IsInvalid
   modifiers.csharp:
   - public
   - override
@@ -165,10 +223,446 @@ references:
   isExternal: false
   name: Object
   fullName: System.Object
+- uid: System.Runtime.ConstrainedExecution.CriticalFinalizerObject
+  parent: System.Runtime.ConstrainedExecution
+  isExternal: true
+  name: CriticalFinalizerObject
+  fullName: System.Runtime.ConstrainedExecution.CriticalFinalizerObject
+- uid: System.Runtime.InteropServices.SafeHandle
+  parent: System.Runtime.InteropServices
+  isExternal: false
+  name: SafeHandle
+  fullName: System.Runtime.InteropServices.SafeHandle
+- uid: System.IDisposable
+  parent: System
+  isExternal: false
+  name: IDisposable
+  fullName: System.IDisposable
+- uid: System.Runtime.InteropServices.SafeHandle.handle
+  parent: System.Runtime.InteropServices.SafeHandle
+  isExternal: false
+  name: handle
+  fullName: System.Runtime.InteropServices.SafeHandle.handle
+- uid: System.Runtime.InteropServices.SafeHandle.SetHandle(System.IntPtr)
+  parent: System.Runtime.InteropServices.SafeHandle
+  isExternal: true
+  name: SetHandle(IntPtr)
+  fullName: System.Runtime.InteropServices.SafeHandle.SetHandle(System.IntPtr)
+  spec.csharp:
+  - uid: System.Runtime.InteropServices.SafeHandle.SetHandle(System.IntPtr)
+    name: SetHandle
+    fullName: System.Runtime.InteropServices.SafeHandle.SetHandle
+  - name: (
+    fullName: (
+  - uid: System.IntPtr
+    name: IntPtr
+    fullName: System.IntPtr
+    isExternal: true
+  - name: )
+    fullName: )
+  spec.vb:
+  - uid: System.Runtime.InteropServices.SafeHandle.SetHandle(System.IntPtr)
+    name: SetHandle
+    fullName: System.Runtime.InteropServices.SafeHandle.SetHandle
+  - name: (
+    fullName: (
+  - uid: System.IntPtr
+    name: IntPtr
+    fullName: System.IntPtr
+    isExternal: true
+  - name: )
+    fullName: )
+- uid: System.Runtime.InteropServices.SafeHandle.DangerousGetHandle
+  parent: System.Runtime.InteropServices.SafeHandle
+  isExternal: false
+  name: DangerousGetHandle()
+  fullName: System.Runtime.InteropServices.SafeHandle.DangerousGetHandle()
+  spec.csharp:
+  - uid: System.Runtime.InteropServices.SafeHandle.DangerousGetHandle
+    name: DangerousGetHandle
+    fullName: System.Runtime.InteropServices.SafeHandle.DangerousGetHandle
+  - name: (
+    fullName: (
+  - name: )
+    fullName: )
+  spec.vb:
+  - uid: System.Runtime.InteropServices.SafeHandle.DangerousGetHandle
+    name: DangerousGetHandle
+    fullName: System.Runtime.InteropServices.SafeHandle.DangerousGetHandle
+  - name: (
+    fullName: (
+  - name: )
+    fullName: )
+- uid: System.Runtime.InteropServices.SafeHandle.Close
+  parent: System.Runtime.InteropServices.SafeHandle
+  isExternal: true
+  name: Close()
+  fullName: System.Runtime.InteropServices.SafeHandle.Close()
+  spec.csharp:
+  - uid: System.Runtime.InteropServices.SafeHandle.Close
+    name: Close
+    fullName: System.Runtime.InteropServices.SafeHandle.Close
+    isExternal: true
+  - name: (
+    fullName: (
+  - name: )
+    fullName: )
+  spec.vb:
+  - uid: System.Runtime.InteropServices.SafeHandle.Close
+    name: Close
+    fullName: System.Runtime.InteropServices.SafeHandle.Close
+    isExternal: true
+  - name: (
+    fullName: (
+  - name: )
+    fullName: )
+- uid: System.Runtime.InteropServices.SafeHandle.Dispose
+  parent: System.Runtime.InteropServices.SafeHandle
+  isExternal: false
+  name: Dispose()
+  fullName: System.Runtime.InteropServices.SafeHandle.Dispose()
+  spec.csharp:
+  - uid: System.Runtime.InteropServices.SafeHandle.Dispose
+    name: Dispose
+    fullName: System.Runtime.InteropServices.SafeHandle.Dispose
+  - name: (
+    fullName: (
+  - name: )
+    fullName: )
+  spec.vb:
+  - uid: System.Runtime.InteropServices.SafeHandle.Dispose
+    name: Dispose
+    fullName: System.Runtime.InteropServices.SafeHandle.Dispose
+  - name: (
+    fullName: (
+  - name: )
+    fullName: )
+- uid: System.Runtime.InteropServices.SafeHandle.Dispose(System.Boolean)
+  parent: System.Runtime.InteropServices.SafeHandle
+  isExternal: true
+  name: Dispose(Boolean)
+  fullName: System.Runtime.InteropServices.SafeHandle.Dispose(System.Boolean)
+  spec.csharp:
+  - uid: System.Runtime.InteropServices.SafeHandle.Dispose(System.Boolean)
+    name: Dispose
+    fullName: System.Runtime.InteropServices.SafeHandle.Dispose
+  - name: (
+    fullName: (
+  - uid: System.Boolean
+    name: Boolean
+    fullName: System.Boolean
+    isExternal: true
+  - name: )
+    fullName: )
+  spec.vb:
+  - uid: System.Runtime.InteropServices.SafeHandle.Dispose(System.Boolean)
+    name: Dispose
+    fullName: System.Runtime.InteropServices.SafeHandle.Dispose
+  - name: (
+    fullName: (
+  - uid: System.Boolean
+    name: Boolean
+    fullName: System.Boolean
+    isExternal: true
+  - name: )
+    fullName: )
+- uid: System.Runtime.InteropServices.SafeHandle.SetHandleAsInvalid
+  parent: System.Runtime.InteropServices.SafeHandle
+  isExternal: false
+  name: SetHandleAsInvalid()
+  fullName: System.Runtime.InteropServices.SafeHandle.SetHandleAsInvalid()
+  spec.csharp:
+  - uid: System.Runtime.InteropServices.SafeHandle.SetHandleAsInvalid
+    name: SetHandleAsInvalid
+    fullName: System.Runtime.InteropServices.SafeHandle.SetHandleAsInvalid
+  - name: (
+    fullName: (
+  - name: )
+    fullName: )
+  spec.vb:
+  - uid: System.Runtime.InteropServices.SafeHandle.SetHandleAsInvalid
+    name: SetHandleAsInvalid
+    fullName: System.Runtime.InteropServices.SafeHandle.SetHandleAsInvalid
+  - name: (
+    fullName: (
+  - name: )
+    fullName: )
+- uid: System.Runtime.InteropServices.SafeHandle.DangerousAddRef(System.Boolean@)
+  parent: System.Runtime.InteropServices.SafeHandle
+  isExternal: true
+  name: DangerousAddRef(Boolean)
+  fullName: System.Runtime.InteropServices.SafeHandle.DangerousAddRef(System.Boolean)
+  spec.csharp:
+  - uid: System.Runtime.InteropServices.SafeHandle.DangerousAddRef(System.Boolean@)
+    name: DangerousAddRef
+    fullName: System.Runtime.InteropServices.SafeHandle.DangerousAddRef
+  - name: (
+    fullName: (
+  - uid: System.Boolean
+    name: Boolean
+    fullName: System.Boolean
+    isExternal: true
+  - name: )
+    fullName: )
+  spec.vb:
+  - uid: System.Runtime.InteropServices.SafeHandle.DangerousAddRef(System.Boolean@)
+    name: DangerousAddRef
+    fullName: System.Runtime.InteropServices.SafeHandle.DangerousAddRef
+  - name: (
+    fullName: (
+  - uid: System.Boolean
+    name: Boolean
+    fullName: System.Boolean
+    isExternal: true
+  - name: )
+    fullName: )
+- uid: System.Runtime.InteropServices.SafeHandle.DangerousRelease
+  parent: System.Runtime.InteropServices.SafeHandle
+  isExternal: false
+  name: DangerousRelease()
+  fullName: System.Runtime.InteropServices.SafeHandle.DangerousRelease()
+  spec.csharp:
+  - uid: System.Runtime.InteropServices.SafeHandle.DangerousRelease
+    name: DangerousRelease
+    fullName: System.Runtime.InteropServices.SafeHandle.DangerousRelease
+  - name: (
+    fullName: (
+  - name: )
+    fullName: )
+  spec.vb:
+  - uid: System.Runtime.InteropServices.SafeHandle.DangerousRelease
+    name: DangerousRelease
+    fullName: System.Runtime.InteropServices.SafeHandle.DangerousRelease
+  - name: (
+    fullName: (
+  - name: )
+    fullName: )
+- uid: System.Runtime.InteropServices.SafeHandle.IsClosed
+  parent: System.Runtime.InteropServices.SafeHandle
+  isExternal: false
+  name: IsClosed
+  fullName: System.Runtime.InteropServices.SafeHandle.IsClosed
+- uid: System.Object.ToString
+  parent: System.Object
+  isExternal: true
+  name: ToString()
+  fullName: System.Object.ToString()
+  spec.csharp:
+  - uid: System.Object.ToString
+    name: ToString
+    fullName: System.Object.ToString
+    isExternal: true
+  - name: (
+    fullName: (
+  - name: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.ToString
+    name: ToString
+    fullName: System.Object.ToString
+    isExternal: true
+  - name: (
+    fullName: (
+  - name: )
+    fullName: )
+- uid: System.Object.Equals(System.Object)
+  parent: System.Object
+  isExternal: true
+  name: Equals(Object)
+  fullName: System.Object.Equals(System.Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    fullName: )
+- uid: System.Object.Equals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  name: Equals(Object, Object)
+  fullName: System.Object.Equals(System.Object, System.Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    fullName: )
+- uid: System.Object.ReferenceEquals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  name: ReferenceEquals(Object, Object)
+  fullName: System.Object.ReferenceEquals(System.Object, System.Object)
+  spec.csharp:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    fullName: System.Object.ReferenceEquals
+    isExternal: true
+  - name: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    fullName: System.Object.ReferenceEquals
+    isExternal: true
+  - name: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    fullName: )
+- uid: System.Object.GetHashCode
+  parent: System.Object
+  isExternal: true
+  name: GetHashCode()
+  fullName: System.Object.GetHashCode()
+  spec.csharp:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    fullName: System.Object.GetHashCode
+    isExternal: true
+  - name: (
+    fullName: (
+  - name: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    fullName: System.Object.GetHashCode
+    isExternal: true
+  - name: (
+    fullName: (
+  - name: )
+    fullName: )
+- uid: System.Object.GetType
+  parent: System.Object
+  isExternal: true
+  name: GetType()
+  fullName: System.Object.GetType()
+  spec.csharp:
+  - uid: System.Object.GetType
+    name: GetType
+    fullName: System.Object.GetType
+    isExternal: true
+  - name: (
+    fullName: (
+  - name: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.GetType
+    name: GetType
+    fullName: System.Object.GetType
+    isExternal: true
+  - name: (
+    fullName: (
+  - name: )
+    fullName: )
+- uid: System.Object.MemberwiseClone
+  parent: System.Object
+  isExternal: true
+  name: MemberwiseClone()
+  fullName: System.Object.MemberwiseClone()
+  spec.csharp:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    fullName: System.Object.MemberwiseClone
+    isExternal: true
+  - name: (
+    fullName: (
+  - name: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    fullName: System.Object.MemberwiseClone
+    isExternal: true
+  - name: (
+    fullName: (
+  - name: )
+    fullName: )
 - uid: System
   isExternal: false
   name: System
   fullName: System
+- uid: System.Runtime.ConstrainedExecution
+  isExternal: false
+  name: System.Runtime.ConstrainedExecution
+  fullName: System.Runtime.ConstrainedExecution
+- uid: System.Runtime.InteropServices
+  isExternal: false
+  name: System.Runtime.InteropServices
+  fullName: System.Runtime.InteropServices
 - uid: System.IntPtr
   parent: System
   isExternal: false
@@ -179,3 +673,29 @@ references:
   isExternal: false
   name: Boolean
   fullName: System.Boolean
+- uid: System.Runtime.InteropServices.SafeHandle.ReleaseHandle
+  parent: System.Runtime.InteropServices.SafeHandle
+  isExternal: false
+  name: ReleaseHandle()
+  fullName: System.Runtime.InteropServices.SafeHandle.ReleaseHandle()
+  spec.csharp:
+  - uid: System.Runtime.InteropServices.SafeHandle.ReleaseHandle
+    name: ReleaseHandle
+    fullName: System.Runtime.InteropServices.SafeHandle.ReleaseHandle
+  - name: (
+    fullName: (
+  - name: )
+    fullName: )
+  spec.vb:
+  - uid: System.Runtime.InteropServices.SafeHandle.ReleaseHandle
+    name: ReleaseHandle
+    fullName: System.Runtime.InteropServices.SafeHandle.ReleaseHandle
+  - name: (
+    fullName: (
+  - name: )
+    fullName: )
+- uid: System.Runtime.InteropServices.SafeHandle.IsInvalid
+  parent: System.Runtime.InteropServices.SafeHandle
+  isExternal: false
+  name: IsInvalid
+  fullName: System.Runtime.InteropServices.SafeHandle.IsInvalid

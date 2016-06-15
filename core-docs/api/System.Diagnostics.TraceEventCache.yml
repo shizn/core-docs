@@ -17,22 +17,30 @@ items:
   type: Class
   source:
     remote:
-      path: src/System.Diagnostics.TraceSource/src/System/Diagnostics/TraceEventCache.Windows.cs
+      path: src/System.Diagnostics.TraceSource/src/System/Diagnostics/TraceEventCache.cs
       branch: master
       repo: https://github.com/dotnet/corefx.git
     id: TraceEventCache
-    path: src/System.Diagnostics.TraceSource/src/System/Diagnostics/TraceEventCache.Windows.cs
-    startLine: 6
+    path: src/System.Diagnostics.TraceSource/src/System/Diagnostics/TraceEventCache.cs
+    startLine: 12
   assemblies:
   - System.Diagnostics.TraceSource
   namespace: System.Diagnostics
+  summary: "\n<p>Provides trace event data specific to a thread and a process.</p>\n"
+  remarks: "\n<p>The <xref href=\"System.Diagnostics.TraceEventCache\" data-throw-if-not-resolved=\"false\"></xref> class, designed as a performance optimization for trace listener calls, is of interest only to developers creating custom trace listeners. </p>\n<p>The <xref href=\"System.Diagnostics.TraceEventCache\" data-throw-if-not-resolved=\"false\"></xref> class is used as a parameter in tracing methods to accurately identify the source of a trace event. Examples of methods that use <xref href=\"System.Diagnostics.TraceEventCache\" data-throw-if-not-resolved=\"false\"></xref> are <xref href=\"System.Diagnostics.TraceListener.TraceEvent(System.Diagnostics.TraceEventCache,System.String,System.Diagnostics.TraceEventType,System.Int32,System.String)\" data-throw-if-not-resolved=\"false\"></xref>   and <xref href=\"System.Diagnostics.TraceFilter.ShouldTrace(System.Diagnostics.TraceEventCache,System.String,System.Diagnostics.TraceEventType,System.Int32,System.String,System.Object[],System.Object,System.Object[])\" data-throw-if-not-resolved=\"false\"></xref>. The <xref href=\"System.Diagnostics.TraceEventCache.LogicalOperationStack\" data-throw-if-not-resolved=\"false\"></xref> property contains data that can be used to correlate the trace with related traces.</p>\n"
   syntax:
-    content: 'public class TraceEventCache : object'
-    content.vb: >-
-      Public Class TraceEventCache
-          Inherits Object
+    content: public class TraceEventCache
+    content.vb: Public Class TraceEventCache
   inheritance:
   - System.Object
+  inheritedMembers:
+  - System.Object.ToString
+  - System.Object.Equals(System.Object)
+  - System.Object.Equals(System.Object,System.Object)
+  - System.Object.ReferenceEquals(System.Object,System.Object)
+  - System.Object.GetHashCode
+  - System.Object.GetType
+  - System.Object.MemberwiseClone
   modifiers.csharp:
   - public
   - class
@@ -60,6 +68,7 @@ items:
   assemblies:
   - System.Diagnostics.TraceSource
   namespace: System.Diagnostics
+  summary: "\n<p>Initializes a new instance of the <xref href=\"System.Diagnostics.TraceEventCache\" data-throw-if-not-resolved=\"false\"></xref> class. </p>\n"
   syntax:
     content: public TraceEventCache()
     content.vb: Public Sub New
@@ -88,12 +97,14 @@ items:
   assemblies:
   - System.Diagnostics.TraceSource
   namespace: System.Diagnostics
+  summary: "\n<p>Gets the date and time at which the event trace occurred.</p>\n"
+  remarks: "\n<p>The first time the property is accessed in an instance of the <xref href=\"System.Diagnostics.TraceEventCache\" data-throw-if-not-resolved=\"false\"></xref> class, the current time is returned. Subsequent queries of this property in that instance return that same <xref href=\"System.DateTime\" data-throw-if-not-resolved=\"false\"></xref> value, allowing it to be used as a timestamp.</p>\n"
   syntax:
     content: public DateTime DateTime { get; }
-    content.vb: Public ReadOnly Property DateTime As DateTime
+    content.vb: Public ReadOnly Property DateTime As Date
     parameters: []
     return:
-      type: DateTime
+      type: System.DateTime
   modifiers.csharp:
   - public
   - get
@@ -121,12 +132,17 @@ items:
   assemblies:
   - System.Diagnostics.TraceSource
   namespace: System.Diagnostics
+  summary: "\n<p>Gets the unique identifier of the current process.</p>\n"
+  remarks: "\n<p>Until the process terminates, the process identifier uniquely identifies the process throughout the system.</p>\n"
   syntax:
     content: public int ProcessId { get; }
     content.vb: Public ReadOnly Property ProcessId As Integer
     parameters: []
     return:
       type: System.Int32
+  see:
+  - type: System.Security.Permissions.SecurityPermission
+    commentId: T:System.Security.Permissions.SecurityPermission
   modifiers.csharp:
   - public
   - get
@@ -154,6 +170,8 @@ items:
   assemblies:
   - System.Diagnostics.TraceSource
   namespace: System.Diagnostics
+  summary: "\n<p>Gets a unique identifier for the current managed thread.  </p>\n"
+  remarks: "\n<p>The thread identifier is the value of the <xref href=\"System.Threading.Thread.ManagedThreadId\" data-throw-if-not-resolved=\"false\"></xref> property formatted as a string.</p>\n"
   syntax:
     content: public string ThreadId { get; }
     content.vb: Public ReadOnly Property ThreadId As String
@@ -187,6 +205,8 @@ items:
   assemblies:
   - System.Diagnostics.TraceSource
   namespace: System.Diagnostics
+  summary: "\n<p>Gets the current number of ticks in the timer mechanism.</p>\n"
+  remarks: "\n<p>The get accessor calls the <xref href=\"System.Diagnostics.Stopwatch.GetTimestamp\" data-throw-if-not-resolved=\"false\"></xref> method to get the timestamp. If the <xref href=\"System.Diagnostics.Stopwatch\" data-throw-if-not-resolved=\"false\"></xref> class uses a high-resolution performance counter, <xref href=\"System.Diagnostics.Stopwatch.GetTimestamp\" data-throw-if-not-resolved=\"false\"></xref> returns the current value of that counter. If the <xref href=\"System.Diagnostics.Stopwatch\" data-throw-if-not-resolved=\"false\"></xref> class uses the system timer, <xref href=\"System.Diagnostics.Stopwatch.GetTimestamp\" data-throw-if-not-resolved=\"false\"></xref> returns the <xref href=\"System.DateTime.Ticks\" data-throw-if-not-resolved=\"false\"></xref> property of <xref href=\"System.DateTime.Now\" data-throw-if-not-resolved=\"false\"></xref>.</p>\n"
   syntax:
     content: public long Timestamp { get; }
     content.vb: Public ReadOnly Property Timestamp As Long
@@ -209,6 +229,215 @@ references:
   isExternal: false
   name: Object
   fullName: System.Object
+- uid: System.Object.ToString
+  parent: System.Object
+  isExternal: true
+  name: ToString()
+  fullName: System.Object.ToString()
+  spec.csharp:
+  - uid: System.Object.ToString
+    name: ToString
+    fullName: System.Object.ToString
+    isExternal: true
+  - name: (
+    fullName: (
+  - name: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.ToString
+    name: ToString
+    fullName: System.Object.ToString
+    isExternal: true
+  - name: (
+    fullName: (
+  - name: )
+    fullName: )
+- uid: System.Object.Equals(System.Object)
+  parent: System.Object
+  isExternal: true
+  name: Equals(Object)
+  fullName: System.Object.Equals(System.Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    fullName: )
+- uid: System.Object.Equals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  name: Equals(Object, Object)
+  fullName: System.Object.Equals(System.Object, System.Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    fullName: )
+- uid: System.Object.ReferenceEquals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  name: ReferenceEquals(Object, Object)
+  fullName: System.Object.ReferenceEquals(System.Object, System.Object)
+  spec.csharp:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    fullName: System.Object.ReferenceEquals
+    isExternal: true
+  - name: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    fullName: System.Object.ReferenceEquals
+    isExternal: true
+  - name: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    fullName: )
+- uid: System.Object.GetHashCode
+  parent: System.Object
+  isExternal: true
+  name: GetHashCode()
+  fullName: System.Object.GetHashCode()
+  spec.csharp:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    fullName: System.Object.GetHashCode
+    isExternal: true
+  - name: (
+    fullName: (
+  - name: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    fullName: System.Object.GetHashCode
+    isExternal: true
+  - name: (
+    fullName: (
+  - name: )
+    fullName: )
+- uid: System.Object.GetType
+  parent: System.Object
+  isExternal: true
+  name: GetType()
+  fullName: System.Object.GetType()
+  spec.csharp:
+  - uid: System.Object.GetType
+    name: GetType
+    fullName: System.Object.GetType
+    isExternal: true
+  - name: (
+    fullName: (
+  - name: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.GetType
+    name: GetType
+    fullName: System.Object.GetType
+    isExternal: true
+  - name: (
+    fullName: (
+  - name: )
+    fullName: )
+- uid: System.Object.MemberwiseClone
+  parent: System.Object
+  isExternal: true
+  name: MemberwiseClone()
+  fullName: System.Object.MemberwiseClone()
+  spec.csharp:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    fullName: System.Object.MemberwiseClone
+    isExternal: true
+  - name: (
+    fullName: (
+  - name: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    fullName: System.Object.MemberwiseClone
+    isExternal: true
+  - name: (
+    fullName: (
+  - name: )
+    fullName: )
 - uid: System
   isExternal: false
   name: System

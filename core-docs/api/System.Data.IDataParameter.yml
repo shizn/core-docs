@@ -28,6 +28,10 @@ items:
   assemblies:
   - System.Data.Common
   namespace: System.Data
+  summary: "\n<p>Represents a parameter to a Command object, and optionally, its mapping to <xref href=\"System.Data.DataSet\" data-throw-if-not-resolved=\"false\"></xref> columns; and is implemented by .NET Framework data providers that access data sources.</p>\n"
+  remarks: "\n<p>The <xref href=\"System.Data.IDataParameter\" data-throw-if-not-resolved=\"false\"></xref> interface allows an inheriting class to implement a Parameter class, which represents a parameter to a Command object. For more information about Parameter classes, see Configuring Parameters and Parameter Data Types. </p>\n<p>An application does not create an instance of the <xref href=\"System.Data.IDataParameter\" data-throw-if-not-resolved=\"false\"></xref> interface directly, but creates an instance of a class that inherits <xref href=\"System.Data.IDataParameter\" data-throw-if-not-resolved=\"false\"></xref>.</p>\n<p>Classes that inherit <xref href=\"System.Data.IDataParameter\" data-throw-if-not-resolved=\"false\"></xref> must implement the inherited members, and typically define additional members to add provider-specific functionality. For example, the <xref href=\"System.Data.IDataParameter\" data-throw-if-not-resolved=\"false\"></xref> interface defines the <xref href=\"System.Data.IDataParameter.DbType\" data-throw-if-not-resolved=\"false\"></xref> property. In turn, the <xref href=\"System.Data.OleDb.OleDbParameter\" data-throw-if-not-resolved=\"false\"></xref> class inherits this property, and also defines the <xref href=\"System.Data.OleDb.OleDbParameter.OleDbType\" data-throw-if-not-resolved=\"false\"></xref> property.</p>\n"
+  example:
+  - "\n<p>The following example creates multiple instances of the derived class, <xref href=\"System.Data.SqlClient.SqlParameter\" data-throw-if-not-resolved=\"false\"></xref>, through the <xref href=\"System.Data.SqlClient.SqlParameterCollection\" data-throw-if-not-resolved=\"false\"></xref> collection within the <xref href=\"System.Data.SqlClient.SqlDataAdapter\" data-throw-if-not-resolved=\"false\"></xref>. These parameters are used to select data from the data source and place the data in the <xref href=\"System.Data.DataSet\" data-throw-if-not-resolved=\"false\"></xref>. This example assumes that a <xref href=\"System.Data.DataSet\" data-throw-if-not-resolved=\"false\"></xref> and a <xref href=\"System.Data.SqlClient.SqlDataAdapter\" data-throw-if-not-resolved=\"false\"></xref> have already been created with the appropriate schema, commands, and connection.</p>Classic WebData SqlParameter Example#1"
   syntax:
     content: public interface IDataParameter
     content.vb: Public Interface IDataParameter
@@ -58,12 +62,18 @@ items:
   assemblies:
   - System.Data.Common
   namespace: System.Data
+  summary: "\n<p>Gets or sets the <xref href=\"System.Data.DbType\" data-throw-if-not-resolved=\"false\"></xref> of the parameter.</p>\n"
+  remarks: "\n<p>The PrvDbType (where Prv represents the provider-specific prefix) and <xref href=\"System.Data.SqlClient.SqlParameter.DbType\" data-throw-if-not-resolved=\"false\"></xref> are linked. Therefore, setting the <xref href=\"System.Data.SqlClient.SqlParameter.DbType\" data-throw-if-not-resolved=\"false\"></xref> changes the PrvDbType to a supporting PrvDbType.</p>\n<p>For a list of the supported data types, see the appropriate .NET Framework data provider PrvDbType member. For more information, see DataAdapter Parameters.</p>\n"
   syntax:
     content: DbType DbType { get; set; }
     content.vb: Property DbType As DbType
     parameters: []
     return:
       type: System.Data.DbType
+  exceptions:
+  - type: System.ArgumentOutOfRangeException
+    commentId: T:System.ArgumentOutOfRangeException
+    description: "\n<p>The property was not set to a valid <xref href=\"System.Data.DbType\" data-throw-if-not-resolved=\"false\"></xref>. </p>\n"
   modifiers.csharp:
   - get
   - set
@@ -88,12 +98,20 @@ items:
   assemblies:
   - System.Data.Common
   namespace: System.Data
+  summary: "\n<p>Gets or sets a value indicating whether the parameter is input-only, output-only, bidirectional, or a stored procedure return value parameter.</p>\n"
+  remarks: "\n<p>If the <xref href=\"System.Data.ParameterDirection\" data-throw-if-not-resolved=\"false\"></xref> is output, and execution of the associated <xref href=\"System.Data.SqlClient.SqlCommand\" data-throw-if-not-resolved=\"false\"></xref> does not return a value, the <xref href=\"System.Data.IDataParameter\" data-throw-if-not-resolved=\"false\"></xref> contains a null value.</p>\n<p>After the last row from the last resultset is read, <strong>Output</strong>, <strong>InputOut</strong>, and <strong>ReturnValue</strong> parameters are updated.</p>\n"
+  example:
+  - "\n<p>The following example creates an instance of the implementing class, <xref href=\"System.Data.SqlClient.SqlParameter\" data-throw-if-not-resolved=\"false\"></xref>, and sets some of its properties.</p>Classic WebData SqlParameter.Direction Example#1"
   syntax:
     content: ParameterDirection Direction { get; set; }
     content.vb: Property Direction As ParameterDirection
     parameters: []
     return:
       type: System.Data.ParameterDirection
+  exceptions:
+  - type: System.ArgumentException
+    commentId: T:System.ArgumentException
+    description: "\n<p>The property was not set to one of the valid <xref href=\"System.Data.ParameterDirection\" data-throw-if-not-resolved=\"false\"></xref> values. </p>\n"
   modifiers.csharp:
   - get
   - set
@@ -118,12 +136,16 @@ items:
   assemblies:
   - System.Data.Common
   namespace: System.Data
+  summary: "\n<p>Gets a value indicating whether the parameter accepts null values.</p>\n"
+  remarks: "\n<p>Null values are handled using the <xref href=\"System.DBNull\" data-throw-if-not-resolved=\"false\"></xref> class.</p>\n"
+  example:
+  - "\n<p>The following example creates an instance of the implementing class, <xref href=\"System.Data.SqlClient.SqlParameter\" data-throw-if-not-resolved=\"false\"></xref>, and sets some of its properties.</p>Classic WebData SqlParameter.IsNullable Example#1"
   syntax:
-    content: Boolean IsNullable { get; }
+    content: bool IsNullable { get; }
     content.vb: ReadOnly Property IsNullable As Boolean
     parameters: []
     return:
-      type: Boolean
+      type: System.Boolean
   modifiers.csharp:
   - get
   modifiers.vb:
@@ -149,12 +171,16 @@ items:
   assemblies:
   - System.Data.Common
   namespace: System.Data
+  summary: "\n<p>Gets or sets the name of the <xref href=\"System.Data.IDataParameter\" data-throw-if-not-resolved=\"false\"></xref>.</p>\n"
+  remarks: "\n<p>The <xref href=\"System.Data.IDataParameter.ParameterName\" data-throw-if-not-resolved=\"false\"></xref> is specified in the form @paramname. You must set <xref href=\"System.Data.IDataParameter.ParameterName\" data-throw-if-not-resolved=\"false\"></xref> before executing a command that relies on parameters.</p>\n"
+  example:
+  - "\n<p>The following example creates an instance of the implementing class, <xref href=\"System.Data.SqlClient.SqlParameter\" data-throw-if-not-resolved=\"false\"></xref>, and sets some of its properties.</p>Classic WebData SqlParameter.ParameterName Example#1"
   syntax:
-    content: String ParameterName { get; set; }
+    content: string ParameterName { get; set; }
     content.vb: Property ParameterName As String
     parameters: []
     return:
-      type: String
+      type: System.String
   modifiers.csharp:
   - get
   - set
@@ -179,12 +205,16 @@ items:
   assemblies:
   - System.Data.Common
   namespace: System.Data
+  summary: "\n<p>Gets or sets the name of the source column that is mapped to the <xref href=\"System.Data.DataSet\" data-throw-if-not-resolved=\"false\"></xref> and used for loading or returning the <xref href=\"System.Data.IDataParameter.Value\" data-throw-if-not-resolved=\"false\"></xref>.</p>\n"
+  remarks: "\n<p>The link betwen the value of the <xref href=\"System.Data.IDataParameter\" data-throw-if-not-resolved=\"false\"></xref> and the <xref href=\"System.Data.DataTable\" data-throw-if-not-resolved=\"false\"></xref> may be bidirectional depending on the value of the <xref href=\"System.Data.IDataParameter.Direction\" data-throw-if-not-resolved=\"false\"></xref> property.</p>\n"
+  example:
+  - "\n<p>The following example creates an instance of the implementing class, <xref href=\"System.Data.SqlClient.SqlParameter\" data-throw-if-not-resolved=\"false\"></xref>, and sets some of its properties.</p>Classic WebData SqlParameter.SourceColumn Example#1"
   syntax:
-    content: String SourceColumn { get; set; }
+    content: string SourceColumn { get; set; }
     content.vb: Property SourceColumn As String
     parameters: []
     return:
-      type: String
+      type: System.String
   modifiers.csharp:
   - get
   - set
@@ -209,12 +239,20 @@ items:
   assemblies:
   - System.Data.Common
   namespace: System.Data
+  summary: "\n<p>Gets or sets the <xref href=\"System.Data.DataRowVersion\" data-throw-if-not-resolved=\"false\"></xref> to use when loading <xref href=\"System.Data.IDataParameter.Value\" data-throw-if-not-resolved=\"false\"></xref>.</p>\n"
+  remarks: "\n<p>This property is used by the <xref href=\"System.Data.IDbDataAdapter.UpdateCommand\" data-throw-if-not-resolved=\"false\"></xref> during the <xref href=\"System.Data.Common.DbDataAdapter.Update(System.Data.DataSet)\" data-throw-if-not-resolved=\"false\"></xref> to determine whether the original or current value is used for a parameter value. This allows primary keys to be updated. This property is ignored by the <xref href=\"System.Data.IDbDataAdapter.InsertCommand\" data-throw-if-not-resolved=\"false\"></xref> and <xref href=\"System.Data.IDbDataAdapter.DeleteCommand\" data-throw-if-not-resolved=\"false\"></xref>. This property is set to the version of the <xref href=\"System.Data.DataRow\" data-throw-if-not-resolved=\"false\"></xref> used by the <xref href=\"System.Data.DataRow.Item(System.Int32)\" data-throw-if-not-resolved=\"false\"></xref> property, or the <xref href=\"System.Data.DataRow.GetChildRows(System.String)\" data-throw-if-not-resolved=\"false\"></xref> method of the <xref href=\"System.Data.DataRow\" data-throw-if-not-resolved=\"false\"></xref> object.</p>\n"
+  example:
+  - "\n<p>The following example creates an instance of the implementing class, <xref href=\"System.Data.SqlClient.SqlParameter\" data-throw-if-not-resolved=\"false\"></xref>, and sets some of its properties.</p>Classic WebData SqlParameter.SourceVersion Example#1"
   syntax:
     content: DataRowVersion SourceVersion { get; set; }
     content.vb: Property SourceVersion As DataRowVersion
     parameters: []
     return:
       type: System.Data.DataRowVersion
+  exceptions:
+  - type: System.ArgumentException
+    commentId: T:System.ArgumentException
+    description: "\n<p>The property was not set one of the <xref href=\"System.Data.DataRowVersion\" data-throw-if-not-resolved=\"false\"></xref> values. </p>\n"
   modifiers.csharp:
   - get
   - set
@@ -239,6 +277,10 @@ items:
   assemblies:
   - System.Data.Common
   namespace: System.Data
+  summary: "\n<p>Gets or sets the value of the parameter.</p>\n"
+  remarks: "\n<p>For input parameters, the value is bound to the <xref href=\"System.Data.IDbCommand\" data-throw-if-not-resolved=\"false\"></xref> that is sent to the server. For output and return value parameters, the value is set on completion of the <xref href=\"System.Data.IDbCommand\" data-throw-if-not-resolved=\"false\"></xref> and after the <xref href=\"System.Data.IDataReader\" data-throw-if-not-resolved=\"false\"></xref> is closed.</p>\n<p>When sending a null parameter value to the server, the user must specify <strong>DBNull</strong>, not null. The null value in the system is an empty object that has no value. <strong>DBNull</strong> is used to represent null values.</p>\n<p>If the application specifies the database type, the bound value is converted to that type when the provider sends the data to the server. The provider attempts to convert any type of value if it supports the <xref href=\"System.IConvertible\" data-throw-if-not-resolved=\"false\"></xref> interface. Conversion errors may result if the specified type is not compatible with the value.</p>\n<p>The <xref href=\"System.Data.SqlClient.SqlParameter.Value\" data-throw-if-not-resolved=\"false\"></xref> property is overwritten by <xref href=\"System.Data.Common.DbDataAdapter.Update(System.Data.DataSet)\" data-throw-if-not-resolved=\"false\"></xref>.</p>\n"
+  example:
+  - "\n<p>The following example creates an instance of the implementing class, <xref href=\"System.Data.SqlClient.SqlParameter\" data-throw-if-not-resolved=\"false\"></xref>, and sets some of its properties.</p>Classic WebData SqlParameter.Value Example#1"
   syntax:
     content: object Value { get; set; }
     content.vb: Property Value As Object
@@ -287,3 +329,12 @@ references:
   isExternal: false
   name: Object
   fullName: System.Object
+- uid: System.ArgumentOutOfRangeException
+  isExternal: false
+  name: ArgumentOutOfRangeException
+  fullName: System.ArgumentOutOfRangeException
+- uid: System.ArgumentException
+  parent: System
+  isExternal: false
+  name: ArgumentException
+  fullName: System.ArgumentException

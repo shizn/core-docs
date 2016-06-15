@@ -20,23 +20,41 @@ items:
   type: Struct
   source:
     remote:
-      path: src/System.Threading.Tasks/ref/System.Threading.Tasks.cs
+      path: src/mscorlib/src/System/Runtime/CompilerServices/AsyncMethodBuilder.cs
       branch: master
-      repo: https://github.com/dotnet/corefx.git
+      repo: https://github.com/dotnet/coreclr.git
     id: AsyncTaskMethodBuilder
-    path: src/System.Threading.Tasks/ref/System.Threading.Tasks.cs
-    startLine: 50
+    path: src/mscorlib/src/System/Runtime/CompilerServices/AsyncMethodBuilder.cs
+    startLine: 423
   assemblies:
   - System.Threading.Tasks
   namespace: System.Runtime.CompilerServices
   summary: "\n<p>Represents a builder for asynchronous methods that returns a task and provides a parameter for the result.</p>\n"
   remarks: "\n<p>This type and its members are intended for use by the compiler.</p>\n"
   syntax:
-    content: public struct AsyncTaskMethodBuilder<TResult>
-    content.vb: Public Structure AsyncTaskMethodBuilder(Of TResult)
+    content: >-
+      [HostProtection(Synchronization = true, ExternalThreading = true)]
+
+      public struct AsyncTaskMethodBuilder<TResult>
+    content.vb: >-
+      <HostProtection(Synchronization:=True, ExternalThreading:=True)>
+
+      Public Structure AsyncTaskMethodBuilder(Of TResult)
     typeParameters:
     - id: TResult
-      description: "\n<p>The result to use to complete the task.</p>\n"
+  inheritedMembers:
+  - System.ValueType.Equals(System.Object)
+  - System.ValueType.GetHashCode
+  - System.ValueType.ToString
+  - System.Object.Equals(System.Object,System.Object)
+  - System.Object.ReferenceEquals(System.Object,System.Object)
+  - System.Object.GetType
+  attributes:
+  - type: System.Runtime.InteropServices.StructLayoutAttribute
+    ctor: System.Runtime.InteropServices.StructLayoutAttribute.#ctor(System.Runtime.InteropServices.LayoutKind)
+    arguments:
+    - type: System.Runtime.InteropServices.LayoutKind
+      value: 0
   modifiers.csharp:
   - public
   - struct
@@ -57,12 +75,12 @@ items:
   type: Property
   source:
     remote:
-      path: src/System.Threading.Tasks/ref/System.Threading.Tasks.cs
+      path: src/mscorlib/src/System/Runtime/CompilerServices/AsyncMethodBuilder.cs
       branch: master
-      repo: https://github.com/dotnet/corefx.git
+      repo: https://github.com/dotnet/coreclr.git
     id: Task
-    path: src/System.Threading.Tasks/ref/System.Threading.Tasks.cs
-    startLine: 53
+    path: src/mscorlib/src/System/Runtime/CompilerServices/AsyncMethodBuilder.cs
+    startLine: 572
   assemblies:
   - System.Threading.Tasks
   namespace: System.Runtime.CompilerServices
@@ -74,7 +92,7 @@ items:
     parameters: []
     return:
       type: System.Threading.Tasks.Task{{TResult}}
-      description: "\n<p>The task for this builder.</p>\n"
+      description: The <xref href="System.Threading.Tasks.Task`1" data-throw-if-not-resolved="false"></xref> representing the builder's asynchronous operation.
   modifiers.csharp:
   - public
   - get
@@ -94,12 +112,12 @@ items:
   type: Method
   source:
     remote:
-      path: src/System.Threading.Tasks/ref/System.Threading.Tasks.cs
+      path: src/mscorlib/src/System/Runtime/CompilerServices/AsyncMethodBuilder.cs
       branch: master
-      repo: https://github.com/dotnet/corefx.git
+      repo: https://github.com/dotnet/coreclr.git
     id: AwaitOnCompleted
-    path: src/System.Threading.Tasks/ref/System.Threading.Tasks.cs
-    startLine: 54
+    path: src/mscorlib/src/System/Runtime/CompilerServices/AsyncMethodBuilder.cs
+    startLine: 496
   assemblies:
   - System.Threading.Tasks
   namespace: System.Runtime.CompilerServices
@@ -110,15 +128,15 @@ items:
     parameters:
     - id: awaiter
       type: '{TAwaiter}'
-      description: "\n<p>The awaiter.</p>\n"
+      description: The awaiter.
     - id: stateMachine
       type: '{TStateMachine}'
-      description: "\n<p>The state machine.</p>\n"
+      description: The state machine.
     typeParameters:
     - id: TAwaiter
-      description: "\n<p>The type of the awaiter.</p>\n"
+      description: Specifies the type of the awaiter.
     - id: TStateMachine
-      description: "\n<p>The type of the state machine.</p>\n"
+      description: Specifies the type of the state machine.
   modifiers.csharp:
   - public
   modifiers.vb:
@@ -137,31 +155,37 @@ items:
   type: Method
   source:
     remote:
-      path: src/System.Threading.Tasks/ref/System.Threading.Tasks.cs
+      path: src/mscorlib/src/System/Runtime/CompilerServices/AsyncMethodBuilder.cs
       branch: master
-      repo: https://github.com/dotnet/corefx.git
+      repo: https://github.com/dotnet/coreclr.git
     id: AwaitUnsafeOnCompleted
-    path: src/System.Threading.Tasks/ref/System.Threading.Tasks.cs
-    startLine: 55
+    path: src/mscorlib/src/System/Runtime/CompilerServices/AsyncMethodBuilder.cs
+    startLine: 536
   assemblies:
   - System.Threading.Tasks
   namespace: System.Runtime.CompilerServices
   summary: "\n<p>Schedules the state machine to proceed to the next action when the specified awaiter completes. This method can be called from partially trusted code.</p>\n"
   syntax:
-    content: 'public void AwaitUnsafeOnCompleted<TAwaiter, TStateMachine>(ref TAwaiter awaiter, ref TStateMachine stateMachine)where TAwaiter : ICriticalNotifyCompletion where TStateMachine : IAsyncStateMachine'
-    content.vb: Public Sub AwaitUnsafeOnCompleted(Of TAwaiter As ICriticalNotifyCompletion, TStateMachine As IAsyncStateMachine)(ByRef awaiter As TAwaiter, ByRef stateMachine As TStateMachine)
+    content: >-
+      [SecuritySafeCritical]
+
+      public void AwaitUnsafeOnCompleted<TAwaiter, TStateMachine>(ref TAwaiter awaiter, ref TStateMachine stateMachine)where TAwaiter : ICriticalNotifyCompletion where TStateMachine : IAsyncStateMachine
+    content.vb: >-
+      <SecuritySafeCritical>
+
+      Public Sub AwaitUnsafeOnCompleted(Of TAwaiter As ICriticalNotifyCompletion, TStateMachine As IAsyncStateMachine)(ByRef awaiter As TAwaiter, ByRef stateMachine As TStateMachine)
     parameters:
     - id: awaiter
       type: '{TAwaiter}'
-      description: "\n<p>The awaiter.</p>\n"
+      description: The awaiter.
     - id: stateMachine
       type: '{TStateMachine}'
-      description: "\n<p>The state machine.</p>\n"
+      description: The state machine.
     typeParameters:
     - id: TAwaiter
-      description: "\n<p>The type of the awaiter.</p>\n"
+      description: Specifies the type of the awaiter.
     - id: TStateMachine
-      description: "\n<p>The type of the state machine.</p>\n"
+      description: Specifies the type of the state machine.
   modifiers.csharp:
   - public
   modifiers.vb:
@@ -180,12 +204,12 @@ items:
   type: Method
   source:
     remote:
-      path: src/System.Threading.Tasks/ref/System.Threading.Tasks.cs
+      path: src/mscorlib/src/System/Runtime/CompilerServices/AsyncMethodBuilder.cs
       branch: master
-      repo: https://github.com/dotnet/corefx.git
+      repo: https://github.com/dotnet/coreclr.git
     id: Create
-    path: src/System.Threading.Tasks/ref/System.Threading.Tasks.cs
-    startLine: 56
+    path: src/mscorlib/src/System/Runtime/CompilerServices/AsyncMethodBuilder.cs
+    startLine: 442
   assemblies:
   - System.Threading.Tasks
   namespace: System.Runtime.CompilerServices
@@ -196,7 +220,7 @@ items:
     content.vb: Public Shared Function Create As AsyncTaskMethodBuilder(Of TResult)
     return:
       type: System.Runtime.CompilerServices.AsyncTaskMethodBuilder`1
-      description: "\n<p>A new instance of the builder.</p>\n"
+      description: The initialized <xref href="System.Runtime.CompilerServices.AsyncTaskMethodBuilder" data-throw-if-not-resolved="false"></xref>.
   modifiers.csharp:
   - public
   - static
@@ -216,12 +240,12 @@ items:
   type: Method
   source:
     remote:
-      path: src/System.Threading.Tasks/ref/System.Threading.Tasks.cs
+      path: src/mscorlib/src/System/Runtime/CompilerServices/AsyncMethodBuilder.cs
       branch: master
-      repo: https://github.com/dotnet/corefx.git
+      repo: https://github.com/dotnet/coreclr.git
     id: SetException
-    path: src/System.Threading.Tasks/ref/System.Threading.Tasks.cs
-    startLine: 57
+    path: src/mscorlib/src/System/Runtime/CompilerServices/AsyncMethodBuilder.cs
+    startLine: 650
   assemblies:
   - System.Threading.Tasks
   namespace: System.Runtime.CompilerServices
@@ -233,7 +257,7 @@ items:
     parameters:
     - id: exception
       type: System.Exception
-      description: "\n<p>The exception to bind to the task.</p>\n"
+      description: The <xref href="System.Exception" data-throw-if-not-resolved="false"></xref> to use to fault the task.
   exceptions:
   - type: System.ArgumentNullException
     commentId: T:System.ArgumentNullException
@@ -258,12 +282,12 @@ items:
   type: Method
   source:
     remote:
-      path: src/System.Threading.Tasks/ref/System.Threading.Tasks.cs
+      path: src/mscorlib/src/System/Runtime/CompilerServices/AsyncMethodBuilder.cs
       branch: master
-      repo: https://github.com/dotnet/corefx.git
+      repo: https://github.com/dotnet/coreclr.git
     id: SetResult
-    path: src/System.Threading.Tasks/ref/System.Threading.Tasks.cs
-    startLine: 58
+    path: src/mscorlib/src/System/Runtime/CompilerServices/AsyncMethodBuilder.cs
+    startLine: 589
   assemblies:
   - System.Threading.Tasks
   namespace: System.Runtime.CompilerServices
@@ -275,7 +299,7 @@ items:
     parameters:
     - id: result
       type: '{TResult}'
-      description: "\n<p>The result to use to complete the task.</p>\n"
+      description: The result to use to complete the task.
   exceptions:
   - type: System.InvalidOperationException
     commentId: T:System.InvalidOperationException
@@ -297,12 +321,12 @@ items:
   type: Method
   source:
     remote:
-      path: src/System.Threading.Tasks/ref/System.Threading.Tasks.cs
+      path: src/mscorlib/src/System/Runtime/CompilerServices/AsyncMethodBuilder.cs
       branch: master
-      repo: https://github.com/dotnet/corefx.git
+      repo: https://github.com/dotnet/coreclr.git
     id: SetStateMachine
-    path: src/System.Threading.Tasks/ref/System.Threading.Tasks.cs
-    startLine: 59
+    path: src/mscorlib/src/System/Runtime/CompilerServices/AsyncMethodBuilder.cs
+    startLine: 484
   assemblies:
   - System.Threading.Tasks
   namespace: System.Runtime.CompilerServices
@@ -313,7 +337,7 @@ items:
     parameters:
     - id: stateMachine
       type: System.Runtime.CompilerServices.IAsyncStateMachine
-      description: "\n<p>The state machine instance to associate with the builder.</p>\n"
+      description: The heap-allocated state machine object.
   exceptions:
   - type: System.ArgumentNullException
     commentId: T:System.ArgumentNullException
@@ -338,26 +362,36 @@ items:
   type: Method
   source:
     remote:
-      path: src/System.Threading.Tasks/ref/System.Threading.Tasks.cs
+      path: src/mscorlib/src/System/Runtime/CompilerServices/AsyncMethodBuilder.cs
       branch: master
-      repo: https://github.com/dotnet/corefx.git
+      repo: https://github.com/dotnet/coreclr.git
     id: Start
-    path: src/System.Threading.Tasks/ref/System.Threading.Tasks.cs
-    startLine: 60
+    path: src/mscorlib/src/System/Runtime/CompilerServices/AsyncMethodBuilder.cs
+    startLine: 452
   assemblies:
   - System.Threading.Tasks
   namespace: System.Runtime.CompilerServices
   summary: "\n<p>Begins running the builder with the associated state machine.</p>\n"
   syntax:
-    content: 'public void Start<TStateMachine>(ref TStateMachine stateMachine)where TStateMachine : IAsyncStateMachine'
-    content.vb: Public Sub Start(Of TStateMachine As IAsyncStateMachine)(ByRef stateMachine As TStateMachine)
+    content: >-
+      [SecuritySafeCritical]
+
+      [DebuggerStepThrough]
+
+      public void Start<TStateMachine>(ref TStateMachine stateMachine)where TStateMachine : IAsyncStateMachine
+    content.vb: >-
+      <SecuritySafeCritical>
+
+      <DebuggerStepThrough>
+
+      Public Sub Start(Of TStateMachine As IAsyncStateMachine)(ByRef stateMachine As TStateMachine)
     parameters:
     - id: stateMachine
       type: '{TStateMachine}'
-      description: "\n<p>The state machine instance, passed by reference.</p>\n"
+      description: The state machine instance, passed by reference.
     typeParameters:
     - id: TStateMachine
-      description: "\n<p>The type of the state machine.</p>\n"
+      description: Specifies the type of the state machine.
   exceptions:
   - type: System.ArgumentNullException
     commentId: T:System.ArgumentNullException
@@ -373,6 +407,200 @@ references:
   isExternal: false
   name: System.Runtime.CompilerServices
   fullName: System.Runtime.CompilerServices
+- uid: System.ValueType.Equals(System.Object)
+  parent: System.ValueType
+  isExternal: true
+  name: Equals(Object)
+  fullName: System.ValueType.Equals(System.Object)
+  spec.csharp:
+  - uid: System.ValueType.Equals(System.Object)
+    name: Equals
+    fullName: System.ValueType.Equals
+  - name: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    fullName: )
+  spec.vb:
+  - uid: System.ValueType.Equals(System.Object)
+    name: Equals
+    fullName: System.ValueType.Equals
+  - name: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    fullName: )
+- uid: System.ValueType.GetHashCode
+  parent: System.ValueType
+  isExternal: false
+  name: GetHashCode()
+  fullName: System.ValueType.GetHashCode()
+  spec.csharp:
+  - uid: System.ValueType.GetHashCode
+    name: GetHashCode
+    fullName: System.ValueType.GetHashCode
+  - name: (
+    fullName: (
+  - name: )
+    fullName: )
+  spec.vb:
+  - uid: System.ValueType.GetHashCode
+    name: GetHashCode
+    fullName: System.ValueType.GetHashCode
+  - name: (
+    fullName: (
+  - name: )
+    fullName: )
+- uid: System.ValueType.ToString
+  parent: System.ValueType
+  isExternal: false
+  name: ToString()
+  fullName: System.ValueType.ToString()
+  spec.csharp:
+  - uid: System.ValueType.ToString
+    name: ToString
+    fullName: System.ValueType.ToString
+  - name: (
+    fullName: (
+  - name: )
+    fullName: )
+  spec.vb:
+  - uid: System.ValueType.ToString
+    name: ToString
+    fullName: System.ValueType.ToString
+  - name: (
+    fullName: (
+  - name: )
+    fullName: )
+- uid: System.Object.Equals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  name: Equals(Object, Object)
+  fullName: System.Object.Equals(System.Object, System.Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    fullName: )
+- uid: System.Object.ReferenceEquals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  name: ReferenceEquals(Object, Object)
+  fullName: System.Object.ReferenceEquals(System.Object, System.Object)
+  spec.csharp:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    fullName: System.Object.ReferenceEquals
+    isExternal: true
+  - name: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    fullName: System.Object.ReferenceEquals
+    isExternal: true
+  - name: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    fullName: )
+- uid: System.Object.GetType
+  parent: System.Object
+  isExternal: true
+  name: GetType()
+  fullName: System.Object.GetType()
+  spec.csharp:
+  - uid: System.Object.GetType
+    name: GetType
+    fullName: System.Object.GetType
+    isExternal: true
+  - name: (
+    fullName: (
+  - name: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.GetType
+    name: GetType
+    fullName: System.Object.GetType
+    isExternal: true
+  - name: (
+    fullName: (
+  - name: )
+    fullName: )
+- uid: System.ValueType
+  parent: System
+  isExternal: false
+  name: ValueType
+  fullName: System.ValueType
+- uid: System.Object
+  parent: System
+  isExternal: false
+  name: Object
+  fullName: System.Object
+- uid: System
+  isExternal: false
+  name: System
+  fullName: System
 - uid: System.Threading.Tasks.Task{{TResult}}
   parent: System.Threading.Tasks
   definition: System.Threading.Tasks.Task`1
@@ -403,26 +631,28 @@ references:
 - uid: System.Threading.Tasks.Task`1
   parent: System.Threading.Tasks
   isExternal: false
-  name: Threading.Tasks.Task<>
-  fullName: System.Threading.Tasks.Task<>
-  fullname.vb: System.Threading.Tasks.Task(Of )
-  name.vb: Threading.Tasks.Task(Of )
+  name: Task<TResult>
+  fullName: System.Threading.Tasks.Task<TResult>
+  fullname.vb: System.Threading.Tasks.Task(Of TResult)
+  name.vb: Task(Of TResult)
   spec.csharp:
   - uid: System.Threading.Tasks.Task`1
-    name: Threading.Tasks.Task
+    name: Task
     fullName: System.Threading.Tasks.Task
   - name: <
     fullName: <
-  - {}
+  - name: TResult
+    fullName: TResult
   - name: '>'
     fullName: '>'
   spec.vb:
   - uid: System.Threading.Tasks.Task`1
-    name: Threading.Tasks.Task
+    name: Task
     fullName: System.Threading.Tasks.Task
   - name: '(Of '
     fullName: '(Of '
-  - {}
+  - name: TResult
+    fullName: TResult
   - name: )
     fullName: )
 - uid: System.Threading.Tasks
@@ -469,10 +699,6 @@ references:
   isExternal: false
   name: Exception
   fullName: System.Exception
-- uid: System
-  isExternal: false
-  name: System
-  fullName: System
 - uid: '{TResult}'
   isExternal: false
   name: TResult

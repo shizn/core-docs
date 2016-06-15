@@ -13,12 +13,12 @@ items:
   type: Interface
   source:
     remote:
-      path: src/System.Threading.Tasks/ref/System.Threading.Tasks.cs
+      path: src/mscorlib/src/System/Runtime/CompilerServices/INotifyCompletion.cs
       branch: master
-      repo: https://github.com/dotnet/corefx.git
+      repo: https://github.com/dotnet/coreclr.git
     id: ICriticalNotifyCompletion
-    path: src/System.Threading.Tasks/ref/System.Threading.Tasks.cs
-    startLine: 106
+    path: src/mscorlib/src/System/Runtime/CompilerServices/INotifyCompletion.cs
+    startLine: 30
   assemblies:
   - System.Threading.Tasks
   namespace: System.Runtime.CompilerServices
@@ -48,24 +48,30 @@ items:
   type: Method
   source:
     remote:
-      path: src/System.Threading.Tasks/ref/System.Threading.Tasks.cs
+      path: src/mscorlib/src/System/Runtime/CompilerServices/INotifyCompletion.cs
       branch: master
-      repo: https://github.com/dotnet/corefx.git
+      repo: https://github.com/dotnet/coreclr.git
     id: UnsafeOnCompleted
-    path: src/System.Threading.Tasks/ref/System.Threading.Tasks.cs
-    startLine: 108
+    path: src/mscorlib/src/System/Runtime/CompilerServices/INotifyCompletion.cs
+    startLine: 36
   assemblies:
   - System.Threading.Tasks
   namespace: System.Runtime.CompilerServices
   summary: "\n<p>Schedules the continuation action that's invoked when the instance completes.</p>\n"
   remarks: "\n<p>Unlike OnCompleted, UnsafeOnCompleted doesn't have to propagate ExecutionContext information.</p>\n"
   syntax:
-    content: void UnsafeOnCompleted(Action continuation)
-    content.vb: Sub UnsafeOnCompleted(continuation As Action)
+    content: >-
+      [SecurityCritical]
+
+      void UnsafeOnCompleted(Action continuation)
+    content.vb: >-
+      <SecurityCritical>
+
+      Sub UnsafeOnCompleted(continuation As Action)
     parameters:
     - id: continuation
       type: System.Action
-      description: "\n<p>The action to invoke when the operation completes.</p>\n"
+      description: The action to invoke when the operation completes.
   exceptions:
   - type: System.ArgumentNullException
     commentId: T:System.ArgumentNullException
@@ -73,6 +79,10 @@ items:
   seealso:
   - type: System.Runtime.CompilerServices.INotifyCompletion
     commentId: T:System.Runtime.CompilerServices.INotifyCompletion
+  attributes:
+  - type: System.Security.SecurityCriticalAttribute
+    ctor: System.Security.SecurityCriticalAttribute.#ctor
+    arguments: []
 references:
 - uid: System.Runtime.CompilerServices
   isExternal: false
@@ -113,9 +123,14 @@ references:
   name: INotifyCompletion
   fullName: System.Runtime.CompilerServices.INotifyCompletion
 - uid: System.Action
+  parent: System
   isExternal: false
   name: Action
   fullName: System.Action
+- uid: System
+  isExternal: false
+  name: System
+  fullName: System
 - uid: System.ArgumentNullException
   isExternal: false
   name: ArgumentNullException

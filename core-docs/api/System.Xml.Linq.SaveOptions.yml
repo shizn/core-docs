@@ -24,9 +24,26 @@ items:
   assemblies:
   - System.Xml.XDocument
   namespace: System.Xml.Linq
+  summary: "\n<p>Specifies serialization options.</p>\n"
+  remarks: "\n<p>If you disable formatting when serializing, all insignificant white space in the XML tree is serialized as is. If you do not disable formatting, then all insignificant white space in the XML tree is discarded, and the XML is formatted (indented) as it is serialized.</p>\n<p>This type allows you to control how LINQ to XML handles white space when serializing. For more information, see Preserving White Space while Loading or Parsing XML and Preserving White Space While Serializing.</p>\n"
+  example:
+  - "\n<p>The following example shows two ways to serialize. The first preserves insignificant white space in the XML tree. The second serializes the <xref href=\"System.Xml.Linq.XElement\" data-throw-if-not-resolved=\"false\"></xref> with formatting.</p>\n<pre><code class=\"c#\">string str;\nXElement root = XElement.Parse(@\"<Root> <Child> Text </Child> </Root>\");\n\nroot.Save(\"Root.xml\", SaveOptions.DisableFormatting);\nstr = File.ReadAllText(\"Root.xml\");\nConsole.WriteLine(str);\n\nConsole.WriteLine(\"=====\");\n\nroot.Save(\"Root.xml\", SaveOptions.None);\nstr = File.ReadAllText(\"Root.xml\");\nConsole.WriteLine(str);</code></pre>\n<pre><code class=\"vb\">Dim str As String\nDim root As XElement = <Root><Child> Text </Child></Root>\n\nroot.Save(\"Root.xml\", SaveOptions.DisableFormatting)\nstr = File.ReadAllText(\"Root.xml\")\nConsole.WriteLine(str)\n\nConsole.WriteLine(\"=====\")\n\nroot.Save(\"Root.xml\", SaveOptions.None)\nstr = File.ReadAllText(\"Root.xml\")\nConsole.WriteLine(str)</code></pre>\n<p>This example produces the following output:</p>\n<pre><code><?xml version=\"1.0\" encoding=\"utf-8\"?><Root><Child> Text </Child></Root>\n=====\n<?xml version=\"1.0\" encoding=\"utf-8\"?>\n<Root>\n<Child> Text </Child>\n</Root></code></pre>\n"
   syntax:
-    content: 'public enum SaveOptions : int'
-    content.vb: Public Enum SaveOptions As Integer
+    content: >-
+      [Flags]
+
+      public enum SaveOptions
+    content.vb: >-
+      <Flags>
+
+      Public Enum SaveOptions
+  seealso:
+  - type: System.Xml.Linq.LoadOptions
+    commentId: T:System.Xml.Linq.LoadOptions
+  attributes:
+  - type: System.FlagsAttribute
+    ctor: System.FlagsAttribute.#ctor
+    arguments: []
   modifiers.csharp:
   - public
   - enum
@@ -54,9 +71,9 @@ items:
   assemblies:
   - System.Xml.XDocument
   namespace: System.Xml.Linq
+  summary: "\n<p>Preserve all insignificant white space while serializing.</p>\n"
   syntax:
-    content: DisableFormatting = null
-    content.vb: DisableFormatting = Nothing
+    content: DisableFormatting = 1
     return:
       type: System.Xml.Linq.SaveOptions
   modifiers.csharp:
@@ -86,9 +103,9 @@ items:
   assemblies:
   - System.Xml.XDocument
   namespace: System.Xml.Linq
+  summary: "\n<p>Format (indent) the XML while serializing.</p>\n"
   syntax:
-    content: None = null
-    content.vb: None = Nothing
+    content: None = 0
     return:
       type: System.Xml.Linq.SaveOptions
   modifiers.csharp:
@@ -118,9 +135,9 @@ items:
   assemblies:
   - System.Xml.XDocument
   namespace: System.Xml.Linq
+  summary: "\n<p>Remove the duplicate namespace declarations while serializing.</p>\n"
   syntax:
-    content: OmitDuplicateNamespaces = null
-    content.vb: OmitDuplicateNamespaces = Nothing
+    content: OmitDuplicateNamespaces = 2
     return:
       type: System.Xml.Linq.SaveOptions
   modifiers.csharp:

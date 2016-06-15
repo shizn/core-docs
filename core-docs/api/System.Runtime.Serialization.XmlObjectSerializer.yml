@@ -29,22 +29,44 @@ items:
   type: Class
   source:
     remote:
-      path: src/System.Private.DataContractSerialization/src/System/Runtime/Serialization/XmlObjectSerializer.cs
+      path: src/System.Runtime.Serialization.Xml/ref/System.Runtime.Serialization.Xml.cs
       branch: master
       repo: https://github.com/dotnet/corefx.git
     id: XmlObjectSerializer
-    path: src/System.Private.DataContractSerialization/src/System/Runtime/Serialization/XmlObjectSerializer.cs
-    startLine: 16
+    path: src/System.Runtime.Serialization.Xml/ref/System.Runtime.Serialization.Xml.cs
+    startLine: 59
   assemblies:
   - System.Runtime.Serialization.Xml
   namespace: System.Runtime.Serialization
+  summary: "\n<p>Provides the base class used to serialize objects as XML streams or documents. This class is abstract.</p>\n"
+  remarks: "\n<p>Extend the <xref href=\"System.Runtime.Serialization.XmlObjectSerializer\" data-throw-if-not-resolved=\"false\"></xref> to create your own serializer to serialize and deserialize objects. Both the <xref href=\"System.Runtime.Serialization.DataContractSerializer\" data-throw-if-not-resolved=\"false\"></xref> class and the <xref href=\"System.Runtime.Serialization.NetDataContractSerializer\" data-throw-if-not-resolved=\"false\"></xref> class inherit from the <xref href=\"System.Runtime.Serialization.XmlObjectSerializer\" data-throw-if-not-resolved=\"false\"></xref> and are used to serialize and deserialize objects that conform to data contract rules (objects created using the <xref href=\"System.Runtime.Serialization.DataContractAttribute\" data-throw-if-not-resolved=\"false\"></xref> and the <xref href=\"System.Runtime.Serialization.DataMemberAttribute\" data-throw-if-not-resolved=\"false\"></xref>).</p>\n"
+  example:
+  - "\n<p>The following example shows a method named <code>WriteObjectWithInstance</code> that includes an <xref href=\"System.Runtime.Serialization.XmlObjectSerializer\" data-throw-if-not-resolved=\"false\"></xref> as a parameter. The method serializes an object using either the <xref href=\"System.Runtime.Serialization.DataContractSerializer\" data-throw-if-not-resolved=\"false\"></xref> or <xref href=\"System.Runtime.Serialization.NetDataContractSerializer\" data-throw-if-not-resolved=\"false\"></xref> by calling the <xref href=\"System.Runtime.Serialization.XmlObjectSerializer.WriteObject(System.IO.Stream,System.Object)\" data-throw-if-not-resolved=\"false\"></xref> method.</p>XmlObjectSerializer#1"
   syntax:
-    content: 'public abstract class XmlObjectSerializer : object'
-    content.vb: >-
-      Public MustInherit Class XmlObjectSerializer
-          Inherits Object
+    content: public abstract class XmlObjectSerializer
+    content.vb: Public MustInherit Class XmlObjectSerializer
+  exceptions:
+  - type: System.Runtime.Serialization.InvalidDataContractException
+    commentId: T:System.Runtime.Serialization.InvalidDataContractException
+    description: "\n<p>the type being serialized does not conform to data contract rules. For example, the <xref href=\"System.Runtime.Serialization.DataContractAttribute\" data-throw-if-not-resolved=\"false\"></xref> attribute has not been applied to the type.</p>\n"
+  - type: System.Runtime.Serialization.SerializationException
+    commentId: T:System.Runtime.Serialization.SerializationException
+    description: "\n<p>there is a problem with the instance being serialized. </p>\n"
+  seealso:
+  - type: System.Runtime.Serialization.DataContractSerializer
+    commentId: T:System.Runtime.Serialization.DataContractSerializer
+  - type: System.Runtime.Serialization.NetDataContractSerializer
+    commentId: T:System.Runtime.Serialization.NetDataContractSerializer
   inheritance:
   - System.Object
+  inheritedMembers:
+  - System.Object.ToString
+  - System.Object.Equals(System.Object)
+  - System.Object.Equals(System.Object,System.Object)
+  - System.Object.ReferenceEquals(System.Object,System.Object)
+  - System.Object.GetHashCode
+  - System.Object.GetType
+  - System.Object.MemberwiseClone
   modifiers.csharp:
   - public
   - abstract
@@ -74,6 +96,10 @@ items:
   assemblies:
   - System.Runtime.Serialization.Xml
   namespace: System.Runtime.Serialization
+  summary: "\n<p>Initializes a new instance of the <xref href=\"System.Runtime.Serialization.XmlObjectSerializer\" data-throw-if-not-resolved=\"false\"></xref> class.  </p>\n"
+  remarks: "\n<p>This constructor is marked protected to allow derived classes to chain constructors.</p>\n"
+  example:
+  - 
   syntax:
     content: protected XmlObjectSerializer()
     content.vb: Protected Sub New
@@ -93,23 +119,27 @@ items:
   type: Method
   source:
     remote:
-      path: src/System.Private.DataContractSerialization/src/System/Runtime/Serialization/XmlObjectSerializer.cs
+      path: src/System.Runtime.Serialization.Xml/ref/System.Runtime.Serialization.Xml.cs
       branch: master
       repo: https://github.com/dotnet/corefx.git
     id: IsStartObject
-    path: src/System.Private.DataContractSerialization/src/System/Runtime/Serialization/XmlObjectSerializer.cs
-    startLine: 251
+    path: src/System.Runtime.Serialization.Xml/ref/System.Runtime.Serialization.Xml.cs
+    startLine: 62
   assemblies:
   - System.Runtime.Serialization.Xml
   namespace: System.Runtime.Serialization
+  summary: "\n<p>Gets a value that specifies whether the <xref href=\"System.Xml.XmlDictionaryReader\" data-throw-if-not-resolved=\"false\"></xref> is positioned over an XML element that can be read.</p>\n"
+  remarks: "\n<p>This method checks if the reader is positioned on an element to read, and returns <strong>true</strong> if the element is the top-level element for the object found in the XML stream or document. The <xref href=\"System.Runtime.Serialization.XmlObjectSerializer\" data-throw-if-not-resolved=\"false\"></xref> implementation determines when to return <strong>true</strong>. Implementations may check that they are positioned on an element or look for an expected element name. One implementation of the <xref href=\"System.Runtime.Serialization.XmlObjectSerializer\" data-throw-if-not-resolved=\"false\"></xref>, the <xref href=\"System.Runtime.Serialization.DataContractSerializer\" data-throw-if-not-resolved=\"false\"></xref>, checks that it is positioned on an element and also checks that the element name is the top level expected name for the type currently being deserialized. </p>\n<p>If needed, additional attributes in the XML stream can be read while positioned on the top level element before reading XML contents using the <see cref=\"Overload:System.Runtime.Serialization.XmlObjectSerializer.ReadObject\"></see> method.</p>\n"
   syntax:
     content: public abstract bool IsStartObject(XmlDictionaryReader reader)
     content.vb: Public MustOverride Function IsStartObject(reader As XmlDictionaryReader) As Boolean
     parameters:
     - id: reader
       type: System.Xml.XmlDictionaryReader
+      description: "\n<p>An <xref href=\"System.Xml.XmlDictionaryReader\" data-throw-if-not-resolved=\"false\"></xref> used to read the XML stream or document.</p>\n"
     return:
       type: System.Boolean
+      description: "\n<p>\n<strong>true</strong> if the reader can read the data; otherwise, <strong>false</strong>.</p>\n"
   modifiers.csharp:
   - public
   - abstract
@@ -137,14 +167,20 @@ items:
   assemblies:
   - System.Runtime.Serialization.Xml
   namespace: System.Runtime.Serialization
+  summary: "\n<p>Gets a value that specifies whether the <xref href=\"System.Xml.XmlReader\" data-throw-if-not-resolved=\"false\"></xref> is positioned over an XML element that can be read. </p>\n"
+  remarks: "\n<p>This method checks whether the reader is positioned on an element to read, and returns <strong>true</strong> if the element is the top-level element for the object found in the XML stream or document. To return <strong>true</strong>, the found element must have an expected name. The actual expected element name depends on the implementation of the serializer. </p>\n<p>With the <xref href=\"System.Runtime.Serialization.DataContractSerializer\" data-throw-if-not-resolved=\"false\"></xref>, the starting element is specified in the constructor of the extension class.  For an example, see the constructors for the <xref href=\"System.Runtime.Serialization.DataContractSerializer\" data-throw-if-not-resolved=\"false\"></xref> class. </p>\n"
+  example:
+  - 
   syntax:
     content: public virtual bool IsStartObject(XmlReader reader)
     content.vb: Public Overridable Function IsStartObject(reader As XmlReader) As Boolean
     parameters:
     - id: reader
       type: System.Xml.XmlReader
+      description: "\n<p>An <xref href=\"System.Xml.XmlReader\" data-throw-if-not-resolved=\"false\"></xref> used to read the XML stream or document.</p>\n"
     return:
       type: System.Boolean
+      description: "\n<p>\n<strong>true</strong> if the reader is positioned over the starting element; otherwise, <strong>false</strong>.</p>\n"
   modifiers.csharp:
   - public
   - virtual
@@ -158,7 +194,7 @@ items:
   langs:
   - csharp
   - vb
-  name: ReadObject(IO.Stream)
+  name: ReadObject(Stream)
   fullName: System.Runtime.Serialization.XmlObjectSerializer.ReadObject(System.IO.Stream)
   type: Method
   source:
@@ -172,14 +208,20 @@ items:
   assemblies:
   - System.Runtime.Serialization.Xml
   namespace: System.Runtime.Serialization
+  summary: "\n<p>Reads the XML stream or document with a <xref href=\"System.IO.Stream\" data-throw-if-not-resolved=\"false\"></xref> and returns the deserialized object.</p>\n"
+  remarks: "\n<p>This method is a virtual method, and has a default implementation that creates a dictionary reader to read the underlying stream and deserialize it. The default implementation assumes the stream is text or XML. </p>\n"
+  example:
+  - 
   syntax:
-    content: public virtual object ReadObject(IO.Stream stream)
-    content.vb: Public Overridable Function ReadObject(stream As IO.Stream) As Object
+    content: public virtual object ReadObject(Stream stream)
+    content.vb: Public Overridable Function ReadObject(stream As Stream) As Object
     parameters:
     - id: stream
       type: System.IO.Stream
+      description: "\n<p>A <xref href=\"System.IO.Stream\" data-throw-if-not-resolved=\"false\"></xref> used to read the XML stream or document.</p>\n"
     return:
       type: System.Object
+      description: "\n<p>The deserialized object.</p>\n"
   modifiers.csharp:
   - public
   - virtual
@@ -198,23 +240,29 @@ items:
   type: Method
   source:
     remote:
-      path: src/System.Private.DataContractSerialization/src/System/Runtime/Serialization/XmlObjectSerializer.cs
+      path: src/System.Runtime.Serialization.Xml/ref/System.Runtime.Serialization.Xml.cs
       branch: master
       repo: https://github.com/dotnet/corefx.git
     id: ReadObject
-    path: src/System.Private.DataContractSerialization/src/System/Runtime/Serialization/XmlObjectSerializer.cs
-    startLine: 232
+    path: src/System.Runtime.Serialization.Xml/ref/System.Runtime.Serialization.Xml.cs
+    startLine: 65
   assemblies:
   - System.Runtime.Serialization.Xml
   namespace: System.Runtime.Serialization
+  summary: "\n<p>Reads the XML document or stream with an <xref href=\"System.Xml.XmlDictionaryReader\" data-throw-if-not-resolved=\"false\"></xref> and returns the deserialized object.</p>\n"
+  remarks: "\n<p>This method is a virtual method, and has a default implementation that creates a dictionary reader to read the underlying stream and deserialize it. The default implementation assumes the stream is text or XML. </p>\n"
+  example:
+  - 
   syntax:
     content: public virtual object ReadObject(XmlDictionaryReader reader)
     content.vb: Public Overridable Function ReadObject(reader As XmlDictionaryReader) As Object
     parameters:
     - id: reader
       type: System.Xml.XmlDictionaryReader
+      description: "\n<p>An <xref href=\"System.Xml.XmlDictionaryReader\" data-throw-if-not-resolved=\"false\"></xref> used to read the XML document.</p>\n"
     return:
       type: System.Object
+      description: "\n<p>The deserialized object.</p>\n"
   modifiers.csharp:
   - public
   - virtual
@@ -233,25 +281,32 @@ items:
   type: Method
   source:
     remote:
-      path: src/System.Private.DataContractSerialization/src/System/Runtime/Serialization/XmlObjectSerializer.cs
+      path: src/System.Runtime.Serialization.Xml/ref/System.Runtime.Serialization.Xml.cs
       branch: master
       repo: https://github.com/dotnet/corefx.git
     id: ReadObject
-    path: src/System.Private.DataContractSerialization/src/System/Runtime/Serialization/XmlObjectSerializer.cs
-    startLine: 243
+    path: src/System.Runtime.Serialization.Xml/ref/System.Runtime.Serialization.Xml.cs
+    startLine: 66
   assemblies:
   - System.Runtime.Serialization.Xml
   namespace: System.Runtime.Serialization
+  summary: "\n<p>Reads the XML stream or document with an <xref href=\"System.Xml.XmlDictionaryReader\" data-throw-if-not-resolved=\"false\"></xref> and returns the deserialized object; it also enables you to specify whether the serializer can read the data before attempting to read it.</p>\n"
+  remarks: "\n<p>The <em>verifyObjectName</em> parameter uses the same code as the <see cref=\"Overload:System.Runtime.Serialization.XmlObjectSerializer.IsStartObject\"></see> method to determine whether the element is the start of the object.</p>\n"
+  example:
+  - 
   syntax:
     content: public abstract object ReadObject(XmlDictionaryReader reader, bool verifyObjectName)
     content.vb: Public MustOverride Function ReadObject(reader As XmlDictionaryReader, verifyObjectName As Boolean) As Object
     parameters:
     - id: reader
       type: System.Xml.XmlDictionaryReader
+      description: "\n<p>An <xref href=\"System.Xml.XmlDictionaryReader\" data-throw-if-not-resolved=\"false\"></xref> used to read the XML document.</p>\n"
     - id: verifyObjectName
       type: System.Boolean
+      description: "\n<p>\n<strong>true</strong> to check whether the enclosing XML element name and namespace correspond to the root name and root namespace; otherwise, <strong>false</strong> to skip the verification.</p>\n"
     return:
       type: System.Object
+      description: "\n<p>The deserialized object.</p>\n"
   modifiers.csharp:
   - public
   - abstract
@@ -279,14 +334,19 @@ items:
   assemblies:
   - System.Runtime.Serialization.Xml
   namespace: System.Runtime.Serialization
+  summary: "\n<p>Reads the XML document or stream with an <xref href=\"System.Xml.XmlReader\" data-throw-if-not-resolved=\"false\"></xref> and returns the deserialized object.</p>\n"
+  example:
+  - 
   syntax:
     content: public virtual object ReadObject(XmlReader reader)
     content.vb: Public Overridable Function ReadObject(reader As XmlReader) As Object
     parameters:
     - id: reader
       type: System.Xml.XmlReader
+      description: "\n<p>An <xref href=\"System.Xml.XmlReader\" data-throw-if-not-resolved=\"false\"></xref> used to read the XML stream or document.</p>\n"
     return:
       type: System.Object
+      description: "\n<p>The deserialized object.</p>\n"
   modifiers.csharp:
   - public
   - virtual
@@ -314,16 +374,23 @@ items:
   assemblies:
   - System.Runtime.Serialization.Xml
   namespace: System.Runtime.Serialization
+  summary: "\n<p>Reads the XML document or stream with an <xref href=\"System.Xml.XmlReader\" data-throw-if-not-resolved=\"false\"></xref> and returns the deserialized object; it also enables you to specify whether the serializer can read the data before attempting to read it.</p>\n"
+  remarks: "\n<p>The <em>verifyObjectName</em> parameter uses the same code as the <see cref=\"Overload:System.Runtime.Serialization.XmlObjectSerializer.IsStartObject\"></see> method to determine whether the element is the start of the object.</p>\n"
+  example:
+  - 
   syntax:
     content: public virtual object ReadObject(XmlReader reader, bool verifyObjectName)
     content.vb: Public Overridable Function ReadObject(reader As XmlReader, verifyObjectName As Boolean) As Object
     parameters:
     - id: reader
       type: System.Xml.XmlReader
+      description: "\n<p>An <xref href=\"System.Xml.XmlReader\" data-throw-if-not-resolved=\"false\"></xref> used to read the XML document or stream.</p>\n"
     - id: verifyObjectName
       type: System.Boolean
+      description: "\n<p>\n<strong>true</strong> to check whether the enclosing XML element name and namespace correspond to the root name and root namespace; <strong>false</strong> to skip the verification.</p>\n"
     return:
       type: System.Object
+      description: "\n<p>The deserialized object.</p>\n"
   modifiers.csharp:
   - public
   - virtual
@@ -342,21 +409,35 @@ items:
   type: Method
   source:
     remote:
-      path: src/System.Private.DataContractSerialization/src/System/Runtime/Serialization/XmlObjectSerializer.cs
+      path: src/System.Runtime.Serialization.Xml/ref/System.Runtime.Serialization.Xml.cs
       branch: master
       repo: https://github.com/dotnet/corefx.git
     id: WriteEndObject
-    path: src/System.Private.DataContractSerialization/src/System/Runtime/Serialization/XmlObjectSerializer.cs
-    startLine: 20
+    path: src/System.Runtime.Serialization.Xml/ref/System.Runtime.Serialization.Xml.cs
+    startLine: 69
   assemblies:
   - System.Runtime.Serialization.Xml
   namespace: System.Runtime.Serialization
+  summary: "\n<p>Writes the end of the object data as a closing XML element to the XML document or stream with an <xref href=\"System.Xml.XmlDictionaryWriter\" data-throw-if-not-resolved=\"false\"></xref>.</p>\n"
+  example:
+  - 
   syntax:
     content: public abstract void WriteEndObject(XmlDictionaryWriter writer)
     content.vb: Public MustOverride Sub WriteEndObject(writer As XmlDictionaryWriter)
     parameters:
     - id: writer
       type: System.Xml.XmlDictionaryWriter
+      description: "\n<p>An <xref href=\"System.Xml.XmlDictionaryWriter\" data-throw-if-not-resolved=\"false\"></xref> used to write the XML document or stream.</p>\n"
+  exceptions:
+  - type: System.Runtime.Serialization.InvalidDataContractException
+    commentId: T:System.Runtime.Serialization.InvalidDataContractException
+    description: "\n<p>the type being serialized does not conform to data contract rules. For example, the <xref href=\"System.Runtime.Serialization.DataContractAttribute\" data-throw-if-not-resolved=\"false\"></xref> attribute has not been applied to the type.</p>\n"
+  - type: System.Runtime.Serialization.SerializationException
+    commentId: T:System.Runtime.Serialization.SerializationException
+    description: "\n<p>there is a problem with the instance being serialized.</p>\n"
+  - type: System.ServiceModel.QuotaExceededException
+    commentId: T:System.ServiceModel.QuotaExceededException
+    description: "\n<p>the maximum number of objects to serialize has been exceeded. Check the <xref href=\"System.Runtime.Serialization.DataContractSerializer.MaxItemsInObjectGraph\" data-throw-if-not-resolved=\"false\"></xref> property.</p>\n"
   modifiers.csharp:
   - public
   - abstract
@@ -384,12 +465,26 @@ items:
   assemblies:
   - System.Runtime.Serialization.Xml
   namespace: System.Runtime.Serialization
+  summary: "\n<p>Writes the end of the object data as a closing XML element to the XML document or stream with an <xref href=\"System.Xml.XmlWriter\" data-throw-if-not-resolved=\"false\"></xref>.</p>\n"
+  example:
+  - 
   syntax:
     content: public virtual void WriteEndObject(XmlWriter writer)
     content.vb: Public Overridable Sub WriteEndObject(writer As XmlWriter)
     parameters:
     - id: writer
       type: System.Xml.XmlWriter
+      description: "\n<p>An <xref href=\"System.Xml.XmlWriter\" data-throw-if-not-resolved=\"false\"></xref> used to write the XML document or stream.</p>\n"
+  exceptions:
+  - type: System.Runtime.Serialization.InvalidDataContractException
+    commentId: T:System.Runtime.Serialization.InvalidDataContractException
+    description: "\n<p>the type being serialized does not conform to data contract rules. For example, the <xref href=\"System.Runtime.Serialization.DataContractAttribute\" data-throw-if-not-resolved=\"false\"></xref> attribute has not been applied to the type.</p>\n"
+  - type: System.Runtime.Serialization.SerializationException
+    commentId: T:System.Runtime.Serialization.SerializationException
+    description: "\n<p>there is a problem with the instance being serialized.</p>\n"
+  - type: System.ServiceModel.QuotaExceededException
+    commentId: T:System.ServiceModel.QuotaExceededException
+    description: "\n<p>the maximum number of objects to serialize has been exceeded. Check the <xref href=\"System.Runtime.Serialization.DataContractSerializer.MaxItemsInObjectGraph\" data-throw-if-not-resolved=\"false\"></xref> property.</p>\n"
   modifiers.csharp:
   - public
   - virtual
@@ -403,7 +498,7 @@ items:
   langs:
   - csharp
   - vb
-  name: WriteObject(IO.Stream, Object)
+  name: WriteObject(Stream, Object)
   fullName: System.Runtime.Serialization.XmlObjectSerializer.WriteObject(System.IO.Stream, System.Object)
   type: Method
   source:
@@ -417,14 +512,29 @@ items:
   assemblies:
   - System.Runtime.Serialization.Xml
   namespace: System.Runtime.Serialization
+  summary: "\n<p>Writes the complete content (start, content, and end) of the object to the XML document or stream with the specified <xref href=\"System.IO.Stream\" data-throw-if-not-resolved=\"false\"></xref>.</p>\n"
+  example:
+  - 
   syntax:
-    content: public virtual void WriteObject(IO.Stream stream, object graph)
-    content.vb: Public Overridable Sub WriteObject(stream As IO.Stream, graph As Object)
+    content: public virtual void WriteObject(Stream stream, object graph)
+    content.vb: Public Overridable Sub WriteObject(stream As Stream, graph As Object)
     parameters:
     - id: stream
       type: System.IO.Stream
+      description: "\n<p>A <xref href=\"System.IO.Stream\" data-throw-if-not-resolved=\"false\"></xref> used to write the XML document or stream.</p>\n"
     - id: graph
       type: System.Object
+      description: "\n<p>The object that contains the data to write to the stream.</p>\n"
+  exceptions:
+  - type: System.Runtime.Serialization.InvalidDataContractException
+    commentId: T:System.Runtime.Serialization.InvalidDataContractException
+    description: "\n<p>the type being serialized does not conform to data contract rules. For example, the <xref href=\"System.Runtime.Serialization.DataContractAttribute\" data-throw-if-not-resolved=\"false\"></xref> attribute has not been applied to the type.</p>\n"
+  - type: System.Runtime.Serialization.SerializationException
+    commentId: T:System.Runtime.Serialization.SerializationException
+    description: "\n<p>there is a problem with the instance being serialized.</p>\n"
+  - type: System.ServiceModel.QuotaExceededException
+    commentId: T:System.ServiceModel.QuotaExceededException
+    description: "\n<p>the maximum number of objects to serialize has been exceeded. Check the <xref href=\"System.Runtime.Serialization.DataContractSerializer.MaxItemsInObjectGraph\" data-throw-if-not-resolved=\"false\"></xref> property.</p>\n"
   modifiers.csharp:
   - public
   - virtual
@@ -443,23 +553,39 @@ items:
   type: Method
   source:
     remote:
-      path: src/System.Private.DataContractSerialization/src/System/Runtime/Serialization/XmlObjectSerializer.cs
+      path: src/System.Runtime.Serialization.Xml/ref/System.Runtime.Serialization.Xml.cs
       branch: master
       repo: https://github.com/dotnet/corefx.git
     id: WriteObject
-    path: src/System.Private.DataContractSerialization/src/System/Runtime/Serialization/XmlObjectSerializer.cs
-    startLine: 54
+    path: src/System.Runtime.Serialization.Xml/ref/System.Runtime.Serialization.Xml.cs
+    startLine: 72
   assemblies:
   - System.Runtime.Serialization.Xml
   namespace: System.Runtime.Serialization
+  summary: "\n<p>Writes the complete content (start, content, and end) of the object to the XML document or stream with the specified <xref href=\"System.Xml.XmlDictionaryWriter\" data-throw-if-not-resolved=\"false\"></xref>.</p>\n"
+  remarks: "\n<p>This is a virtual method and has a default implementation that calls the <see cref=\"Overload:System.Runtime.Serialization.XmlObjectSerializer.WriteStartObject\"></see>, <see cref=\"Overload:System.Runtime.Serialization.XmlObjectSerializer.WriteObjectContent\"></see>, and <see cref=\"Overload:System.Runtime.Serialization.XmlObjectSerializer.WriteEndObject\"></see> methods. Because of this, this method is intended to be the most commonly used method on a serializer. </p>\n"
+  example:
+  - 
   syntax:
     content: public virtual void WriteObject(XmlDictionaryWriter writer, object graph)
     content.vb: Public Overridable Sub WriteObject(writer As XmlDictionaryWriter, graph As Object)
     parameters:
     - id: writer
       type: System.Xml.XmlDictionaryWriter
+      description: "\n<p>An <xref href=\"System.Xml.XmlDictionaryWriter\" data-throw-if-not-resolved=\"false\"></xref> used to write the content to the XML document or stream.</p>\n"
     - id: graph
       type: System.Object
+      description: "\n<p>The object that contains the content to write.</p>\n"
+  exceptions:
+  - type: System.Runtime.Serialization.InvalidDataContractException
+    commentId: T:System.Runtime.Serialization.InvalidDataContractException
+    description: "\n<p>the type being serialized does not conform to data contract rules. For example, the <xref href=\"System.Runtime.Serialization.DataContractAttribute\" data-throw-if-not-resolved=\"false\"></xref> attribute has not been applied to the type.</p>\n"
+  - type: System.Runtime.Serialization.SerializationException
+    commentId: T:System.Runtime.Serialization.SerializationException
+    description: "\n<p>there is a problem with the instance being serialized.</p>\n"
+  - type: System.ServiceModel.QuotaExceededException
+    commentId: T:System.ServiceModel.QuotaExceededException
+    description: "\n<p>the maximum number of objects to serialize has been exceeded. Check the <xref href=\"System.Runtime.Serialization.DataContractSerializer.MaxItemsInObjectGraph\" data-throw-if-not-resolved=\"false\"></xref> property.</p>\n"
   modifiers.csharp:
   - public
   - virtual
@@ -487,14 +613,30 @@ items:
   assemblies:
   - System.Runtime.Serialization.Xml
   namespace: System.Runtime.Serialization
+  summary: "\n<p>Writes the complete content (start, content, and end) of the object to the XML document or stream with the specified <xref href=\"System.Xml.XmlWriter\" data-throw-if-not-resolved=\"false\"></xref>.</p>\n"
+  remarks: "\n<p>This is a virtual method, and has a default implementation that delegates writing to the <xref href=\"System.Runtime.Serialization.XmlObjectSerializer.WriteObject(System.Xml.XmlDictionaryWriter,System.Object)\" data-throw-if-not-resolved=\"false\"></xref> overload.</p>\n"
+  example:
+  - 
   syntax:
     content: public virtual void WriteObject(XmlWriter writer, object graph)
     content.vb: Public Overridable Sub WriteObject(writer As XmlWriter, graph As Object)
     parameters:
     - id: writer
       type: System.Xml.XmlWriter
+      description: "\n<p>An <xref href=\"System.Xml.XmlWriter\" data-throw-if-not-resolved=\"false\"></xref> used to write the XML document or stream.</p>\n"
     - id: graph
       type: System.Object
+      description: "\n<p>The object that contains the content to write.</p>\n"
+  exceptions:
+  - type: System.Runtime.Serialization.InvalidDataContractException
+    commentId: T:System.Runtime.Serialization.InvalidDataContractException
+    description: "\n<p>the type being serialized does not conform to data contract rules. For example, the <xref href=\"System.Runtime.Serialization.DataContractAttribute\" data-throw-if-not-resolved=\"false\"></xref> attribute has not been applied to the type.</p>\n"
+  - type: System.Runtime.Serialization.SerializationException
+    commentId: T:System.Runtime.Serialization.SerializationException
+    description: "\n<p>there is a problem with the instance being serialized.</p>\n"
+  - type: System.ServiceModel.QuotaExceededException
+    commentId: T:System.ServiceModel.QuotaExceededException
+    description: "\n<p>the maximum number of objects to serialize has been exceeded. Check the <xref href=\"System.Runtime.Serialization.DataContractSerializer.MaxItemsInObjectGraph\" data-throw-if-not-resolved=\"false\"></xref> property.</p>\n"
   modifiers.csharp:
   - public
   - virtual
@@ -513,23 +655,38 @@ items:
   type: Method
   source:
     remote:
-      path: src/System.Private.DataContractSerialization/src/System/Runtime/Serialization/XmlObjectSerializer.cs
+      path: src/System.Runtime.Serialization.Xml/ref/System.Runtime.Serialization.Xml.cs
       branch: master
       repo: https://github.com/dotnet/corefx.git
     id: WriteObjectContent
-    path: src/System.Private.DataContractSerialization/src/System/Runtime/Serialization/XmlObjectSerializer.cs
-    startLine: 19
+    path: src/System.Runtime.Serialization.Xml/ref/System.Runtime.Serialization.Xml.cs
+    startLine: 74
   assemblies:
   - System.Runtime.Serialization.Xml
   namespace: System.Runtime.Serialization
+  summary: "\n<p>Writes only the content of the object to the XML document or stream using the specified <xref href=\"System.Xml.XmlDictionaryWriter\" data-throw-if-not-resolved=\"false\"></xref>.</p>\n"
+  example:
+  - 
   syntax:
     content: public abstract void WriteObjectContent(XmlDictionaryWriter writer, object graph)
     content.vb: Public MustOverride Sub WriteObjectContent(writer As XmlDictionaryWriter, graph As Object)
     parameters:
     - id: writer
       type: System.Xml.XmlDictionaryWriter
+      description: "\n<p>An <xref href=\"System.Xml.XmlDictionaryWriter\" data-throw-if-not-resolved=\"false\"></xref> used to write the XML document or stream.</p>\n"
     - id: graph
       type: System.Object
+      description: "\n<p>The object that contains the content to write.</p>\n"
+  exceptions:
+  - type: System.Runtime.Serialization.InvalidDataContractException
+    commentId: T:System.Runtime.Serialization.InvalidDataContractException
+    description: "\n<p>the type being serialized does not conform to data contract rules. For example, the <xref href=\"System.Runtime.Serialization.DataContractAttribute\" data-throw-if-not-resolved=\"false\"></xref> attribute has not been applied to the type.</p>\n"
+  - type: System.Runtime.Serialization.SerializationException
+    commentId: T:System.Runtime.Serialization.SerializationException
+    description: "\n<p>there is a problem with the instance being serialized.</p>\n"
+  - type: System.ServiceModel.QuotaExceededException
+    commentId: T:System.ServiceModel.QuotaExceededException
+    description: "\n<p>the maximum number of objects to serialize has been exceeded. Check the <xref href=\"System.Runtime.Serialization.DataContractSerializer.MaxItemsInObjectGraph\" data-throw-if-not-resolved=\"false\"></xref> property.</p>\n"
   modifiers.csharp:
   - public
   - abstract
@@ -557,14 +714,29 @@ items:
   assemblies:
   - System.Runtime.Serialization.Xml
   namespace: System.Runtime.Serialization
+  summary: "\n<p>Writes only the content of the object to the XML document or stream with the specified <xref href=\"System.Xml.XmlWriter\" data-throw-if-not-resolved=\"false\"></xref>.</p>\n"
+  example:
+  - 
   syntax:
     content: public virtual void WriteObjectContent(XmlWriter writer, object graph)
     content.vb: Public Overridable Sub WriteObjectContent(writer As XmlWriter, graph As Object)
     parameters:
     - id: writer
       type: System.Xml.XmlWriter
+      description: "\n<p>An <xref href=\"System.Xml.XmlWriter\" data-throw-if-not-resolved=\"false\"></xref> used to write the XML document or stream.</p>\n"
     - id: graph
       type: System.Object
+      description: "\n<p>The object that contains the content to write.</p>\n"
+  exceptions:
+  - type: System.Runtime.Serialization.InvalidDataContractException
+    commentId: T:System.Runtime.Serialization.InvalidDataContractException
+    description: "\n<p>the type being serialized does not conform to data contract rules. For example, the <xref href=\"System.Runtime.Serialization.DataContractAttribute\" data-throw-if-not-resolved=\"false\"></xref> attribute has not been applied to the type.</p>\n"
+  - type: System.Runtime.Serialization.SerializationException
+    commentId: T:System.Runtime.Serialization.SerializationException
+    description: "\n<p>there is a problem with the instance being serialized.</p>\n"
+  - type: System.ServiceModel.QuotaExceededException
+    commentId: T:System.ServiceModel.QuotaExceededException
+    description: "\n<p>the maximum number of objects to serialize has been exceeded. Check the <xref href=\"System.Runtime.Serialization.DataContractSerializer.MaxItemsInObjectGraph\" data-throw-if-not-resolved=\"false\"></xref> property.</p>\n"
   modifiers.csharp:
   - public
   - virtual
@@ -583,23 +755,38 @@ items:
   type: Method
   source:
     remote:
-      path: src/System.Private.DataContractSerialization/src/System/Runtime/Serialization/XmlObjectSerializer.cs
+      path: src/System.Runtime.Serialization.Xml/ref/System.Runtime.Serialization.Xml.cs
       branch: master
       repo: https://github.com/dotnet/corefx.git
     id: WriteStartObject
-    path: src/System.Private.DataContractSerialization/src/System/Runtime/Serialization/XmlObjectSerializer.cs
-    startLine: 18
+    path: src/System.Runtime.Serialization.Xml/ref/System.Runtime.Serialization.Xml.cs
+    startLine: 76
   assemblies:
   - System.Runtime.Serialization.Xml
   namespace: System.Runtime.Serialization
+  summary: "\n<p>Writes the start of the object's data as an opening XML element using the specified <xref href=\"System.Xml.XmlDictionaryWriter\" data-throw-if-not-resolved=\"false\"></xref>.</p>\n"
+  example:
+  - 
   syntax:
     content: public abstract void WriteStartObject(XmlDictionaryWriter writer, object graph)
     content.vb: Public MustOverride Sub WriteStartObject(writer As XmlDictionaryWriter, graph As Object)
     parameters:
     - id: writer
       type: System.Xml.XmlDictionaryWriter
+      description: "\n<p>An <xref href=\"System.Xml.XmlDictionaryWriter\" data-throw-if-not-resolved=\"false\"></xref> used to write the XML document.</p>\n"
     - id: graph
       type: System.Object
+      description: "\n<p>The object to serialize.</p>\n"
+  exceptions:
+  - type: System.Runtime.Serialization.InvalidDataContractException
+    commentId: T:System.Runtime.Serialization.InvalidDataContractException
+    description: "\n<p>the type being serialized does not conform to data contract rules. For example, the <xref href=\"System.Runtime.Serialization.DataContractAttribute\" data-throw-if-not-resolved=\"false\"></xref> attribute has not been applied to the type.</p>\n"
+  - type: System.Runtime.Serialization.SerializationException
+    commentId: T:System.Runtime.Serialization.SerializationException
+    description: "\n<p>there is a problem with the instance being serialized.</p>\n"
+  - type: System.ServiceModel.QuotaExceededException
+    commentId: T:System.ServiceModel.QuotaExceededException
+    description: "\n<p>the maximum number of objects to serialize has been exceeded. Check the <xref href=\"System.Runtime.Serialization.DataContractSerializer.MaxItemsInObjectGraph\" data-throw-if-not-resolved=\"false\"></xref> property.</p>\n"
   modifiers.csharp:
   - public
   - abstract
@@ -627,14 +814,29 @@ items:
   assemblies:
   - System.Runtime.Serialization.Xml
   namespace: System.Runtime.Serialization
+  summary: "\n<p>Writes the start of the object's data as an opening XML element using the specified <xref href=\"System.Xml.XmlWriter\" data-throw-if-not-resolved=\"false\"></xref>.</p>\n"
+  example:
+  - 
   syntax:
     content: public virtual void WriteStartObject(XmlWriter writer, object graph)
     content.vb: Public Overridable Sub WriteStartObject(writer As XmlWriter, graph As Object)
     parameters:
     - id: writer
       type: System.Xml.XmlWriter
+      description: "\n<p>An <xref href=\"System.Xml.XmlWriter\" data-throw-if-not-resolved=\"false\"></xref> used to write the XML document.</p>\n"
     - id: graph
       type: System.Object
+      description: "\n<p>The object to serialize.</p>\n"
+  exceptions:
+  - type: System.Runtime.Serialization.InvalidDataContractException
+    commentId: T:System.Runtime.Serialization.InvalidDataContractException
+    description: "\n<p>the type being serialized does not conform to data contract rules. For example, the <xref href=\"System.Runtime.Serialization.DataContractAttribute\" data-throw-if-not-resolved=\"false\"></xref> attribute has not been applied to the type.</p>\n"
+  - type: System.Runtime.Serialization.SerializationException
+    commentId: T:System.Runtime.Serialization.SerializationException
+    description: "\n<p>there is a problem with the instance being serialized.</p>\n"
+  - type: System.ServiceModel.QuotaExceededException
+    commentId: T:System.ServiceModel.QuotaExceededException
+    description: "\n<p>the maximum number of objects to serialize has been exceeded. Check the <xref href=\"System.Runtime.Serialization.DataContractSerializer.MaxItemsInObjectGraph\" data-throw-if-not-resolved=\"false\"></xref> property.</p>\n"
   modifiers.csharp:
   - public
   - virtual
@@ -651,6 +853,215 @@ references:
   isExternal: false
   name: Object
   fullName: System.Object
+- uid: System.Object.ToString
+  parent: System.Object
+  isExternal: true
+  name: ToString()
+  fullName: System.Object.ToString()
+  spec.csharp:
+  - uid: System.Object.ToString
+    name: ToString
+    fullName: System.Object.ToString
+    isExternal: true
+  - name: (
+    fullName: (
+  - name: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.ToString
+    name: ToString
+    fullName: System.Object.ToString
+    isExternal: true
+  - name: (
+    fullName: (
+  - name: )
+    fullName: )
+- uid: System.Object.Equals(System.Object)
+  parent: System.Object
+  isExternal: true
+  name: Equals(Object)
+  fullName: System.Object.Equals(System.Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    fullName: )
+- uid: System.Object.Equals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  name: Equals(Object, Object)
+  fullName: System.Object.Equals(System.Object, System.Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    fullName: )
+- uid: System.Object.ReferenceEquals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  name: ReferenceEquals(Object, Object)
+  fullName: System.Object.ReferenceEquals(System.Object, System.Object)
+  spec.csharp:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    fullName: System.Object.ReferenceEquals
+    isExternal: true
+  - name: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    fullName: System.Object.ReferenceEquals
+    isExternal: true
+  - name: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    fullName: )
+- uid: System.Object.GetHashCode
+  parent: System.Object
+  isExternal: true
+  name: GetHashCode()
+  fullName: System.Object.GetHashCode()
+  spec.csharp:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    fullName: System.Object.GetHashCode
+    isExternal: true
+  - name: (
+    fullName: (
+  - name: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    fullName: System.Object.GetHashCode
+    isExternal: true
+  - name: (
+    fullName: (
+  - name: )
+    fullName: )
+- uid: System.Object.GetType
+  parent: System.Object
+  isExternal: true
+  name: GetType()
+  fullName: System.Object.GetType()
+  spec.csharp:
+  - uid: System.Object.GetType
+    name: GetType
+    fullName: System.Object.GetType
+    isExternal: true
+  - name: (
+    fullName: (
+  - name: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.GetType
+    name: GetType
+    fullName: System.Object.GetType
+    isExternal: true
+  - name: (
+    fullName: (
+  - name: )
+    fullName: )
+- uid: System.Object.MemberwiseClone
+  parent: System.Object
+  isExternal: true
+  name: MemberwiseClone()
+  fullName: System.Object.MemberwiseClone()
+  spec.csharp:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    fullName: System.Object.MemberwiseClone
+    isExternal: true
+  - name: (
+    fullName: (
+  - name: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    fullName: System.Object.MemberwiseClone
+    isExternal: true
+  - name: (
+    fullName: (
+  - name: )
+    fullName: )
 - uid: System
   isExternal: false
   name: System
@@ -677,7 +1088,7 @@ references:
 - uid: System.IO.Stream
   parent: System.IO
   isExternal: false
-  name: IO.Stream
+  name: Stream
   fullName: System.IO.Stream
 - uid: System.IO
   isExternal: false
@@ -693,3 +1104,12 @@ references:
   isExternal: false
   name: XmlWriter
   fullName: System.Xml.XmlWriter
+- uid: System.Runtime.Serialization.InvalidDataContractException
+  isExternal: false
+  name: InvalidDataContractException
+  fullName: System.Runtime.Serialization.InvalidDataContractException
+- uid: System.Runtime.Serialization.SerializationException
+  isExternal: false
+  name: SerializationException
+  fullName: System.Runtime.Serialization.SerializationException
+- uid: System.ServiceModel.QuotaExceededException
