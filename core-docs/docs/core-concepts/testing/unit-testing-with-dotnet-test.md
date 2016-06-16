@@ -48,7 +48,7 @@ make a modification to `project.json` so that you build a class library
 project. 
 
 * note: You can track [this issue](https://github.com/dotnet/cli/issues/2052)
-for other project types coming for the dotnet CLI, including class libraries.
+for other project types coming for the .NET Core SDK, including class libraries.
 Once this issue is addressed, you won't need to make these changes.
 
 Simply remove the `buildOptions` node that instructs the compiler
@@ -94,7 +94,7 @@ Once again, `dotnet new` creates a console application, and you'll need to modif
 ```
 
 * note: You can track [this issue](https://github.com/dotnet/cli/issues/2052)
-for other project types coming for the dotnet CLI, including class libraries.
+for other project types coming for the .NET Core SDK, including class libraries.
 Once this issue is addressed, you won't need to make these changes.
 
 The test project requires other packages to create and run unit tests.
@@ -103,12 +103,12 @@ package as dependencies to the project:
 
 ```json
 "dependencies": {
-    "Microsoft.NetCore.App": {
+    "Microsoft.NETCore.App": {
         "type": "platform",
         "version": "1.0.0-rc2-3002702"
     },
     "xunit": "2.1.0",
-    "dotnet-test-xunit": "1.0.0-rc2-build10015",
+    "dotnet-test-xunit": "1.0.0-rc2-build10025",
     "PrimeService": "1.0.0"
 }
 ```

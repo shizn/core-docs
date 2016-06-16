@@ -34,7 +34,7 @@ In addition, many collection classes contain the following features:
 
 *   **Synchronization for access from multiple threads** ([System.Collections](http://dotnet.github.io/api/System.Collections) classes only).
 
-    Non-generic collection types in the [System.Collections](http://dotnet.github.io/api/System.Collections) namespace provide some thread safety with synchronization; typically exposed through the `SyncRoot` and `IsSynchronized` members. These collections are not thread-safe by default. If you require scalable and efficient multi-threaded access to a collection, use one of the classes in the [System.Collections.Concurrent](http://dotnet.github.io/api/System.Collections.Concurrent.html) namespace or consider using an immutable collection. For more information, see [Thread-Safe Collections](thread-safeCollections.md).    
+    Non-generic collection types in the [System.Collections](http://dotnet.github.io/api/System.Collections) namespace provide some thread safety with synchronization; typically exposed through the `SyncRoot` and `IsSynchronized` members. These collections are not thread-safe by default. If you require scalable and efficient multi-threaded access to a collection, use one of the classes in the [System.Collections.Concurrent](http://dotnet.github.io/api/System.Collections.Concurrent.html) namespace or consider using an immutable collection. For more information, see [Thread-Safe Collections](thread-safe-collections.md).    
     
 ## Choosing a collection 
 
@@ -42,12 +42,12 @@ In general, you should use generic collections. The following table describes so
 
 I want to… | Generic collection option(s) | Non-generic collection option(s)
 ---------- | ---------------------------- | --------------------------------
-Store items as key/value pairs for quick look-up by key | [System.Collections.Generic.Dictionary&lt;TKey, TValue&gt;](http://dotnet.github.io/api/System.Collections.Generic.Dictionary%602.html) | [Hashtable](http://dotnet.github.io/api/System.Collections.Hashtable.html) (A collection of key/value pairs that are organize based on the hash code of the key.)
+Store items as key/value pairs for quick look-up by key | [System.Collections.Generic.Dictionary&lt;TKey, TValue&gt;](http://dotnet.github.io/api/System.Collections.Generic.Dictionary%602.html) | [Hashtable](http://dotnet.github.io/api/System.Collections.Hashtable.html)
 Access items by index | [System.Collections.Generic.List&lt;T&gt;](http://dotnet.github.io/api/System.Collections.Generic.List%601.html) | [System.Array](http://dotnet.github.io/api/System.Array.html), [System.Collections.ArrayList](http://dotnet.github.io/api/System.Collections.ArrayList.html)
 Use items first-in-first-out (FIFO) | [System.Collections.Generic.Queue&lt;T&gt;](http://dotnet.github.io/api/System.Collections.Generic.Queue%601.html) | [System.Collections.Queue](http://dotnet.github.io/api/System.Collections.Queue.html)
 Use data Last-In-First-Out (LIFO) | [System.Collections.Generic.Stack&lt;T&gt;](http://dotnet.github.io/api/System.Collections.Generic.Stack%601.html) | [System.Collections.Stack](http://dotnet.github.io/api/System.Collections.Stack.html)
 Access items sequentially | [System.Collections.Generic.LinkedList&lt;T&gt;](http://dotnet.github.io/api/System.Collections.Generic.LinkedList%601.html) | No recommendation
-Receive notifications when items are removed or added to the collection. (implements [INotifyPropertyChanged](http://dotnet.github.io/api/System.ComponentModel.INotifyPropertyChanged.html) and [System.Collections.Specialized.INotifyCollectionChanged](http://dotnet.github.io/api/System.Collections.Specialized.INotifyCollectionChanged.html)) | [System.Collections.ObjectModel.ObservableCollection&lt;T&gt;](http://dotnet.github.io/api/System.Collections.ObjectModel.ObservableCollection%601.html) | No recommendation
+Receive notifications when items are removed or added to the collection. (implements [INotifyPropertyChanged](http://dotnet.github.io/api/System.ComponentModel.INotifyPropertyChanged.html) and [INotifyCollectionChanged](http://dotnet.github.io/api/System.Collections.Specialized.INotifyCollectionChanged.html)) | [System.Collections.ObjectModel.ObservableCollection&lt;T&gt;](http://dotnet.github.io/api/System.Collections.ObjectModel.ObservableCollection%601.html) | No recommendation
 Use a sorted collection | [System.Collections.Generic.SortedList&lt;TKey, TValue&gt;](http://dotnet.github.io/api/System.Collections.Generic.SortedList%602.html) | [System.Collections.SortedList](http://dotnet.github.io/api/System.Collections.SortedList.html)
 Manage efficient storage and access of unique elements | [System.Collections.Generic.HashSet&lt;T&gt;](http://dotnet.github.io/api/System.Collections.Generic.HashSet%601.html), [System.Collections.Generic.SortedSet&lt;T&gt;](http://dotnet.github.io/api/System.Collections.Generic.SortedSet%601.html) | No recommendation
 
@@ -55,13 +55,13 @@ Manage efficient storage and access of unique elements | [System.Collections.Gen
 
 Title | Description
 ----- | -----------
-[Selecting a Collection Class](selectingaCollectionClass.md) | Describes the different collections and helps you select one for your scenario.
-[Commonly Used Collection Types](commonlyUsedCollectionTypes.md) | Describes commonly used generic and nongeneric collection types such as [System.Array](http://dotnet.github.io/api/System.Array.html), [System.Collections.Generic.List&lt;T&gt;](http://dotnet.github.io/api/System.Collections.Generic.List%601.html), and [System.Collections.Generic.Dictionary&lt;TKey, TValue&gt;](http://dotnet.github.io/api/System.Collections.Generic.Dictionary%602.html). 
-[When to Use Generic Collections](whentoUseGenericCollections.md) | Discusses the use of generic collection types.
-[Comparisons and Sorts Within Collections](comparisonsandSortsWithinCollections.md) | Discusses the use of equality comparisons and sorting comparisons in collections.
-[Sorted Collection Types](sortedCollectionTypes.md) | Describes sorted collections performance and characteristics.
-[Hashtable and Dictionary Collection Types](hashtableandDictionaryCollectionTypes.md) | Describes the features of generic and non-generic hash-based dictionary types.
-[Thread-Safe Collections](thread-safeCollections.md) | Describes collection types such as [System.Collections.Concurrent.BlockingCollection&lt;T&gt;](http://dotnet.github.io/api/System.Collections.Concurrent.BlockingCollection%601.html) and [System.Collections.Concurrent.ConcurrentBag&lt;T&gt;](http://dotnet.github.io/api/System.Collections.Concurrent.ConcurrentBag%601.html) that support safe and efficient concurrent access from multiple threads.
+[Selecting a Collection Class](selecting-a-collection-class.md) | Describes the different collections and helps you select one for your scenario.
+[Commonly Used Collection Types](commonly-used-collection-types.md) | Describes commonly used generic and nongeneric collection types such as [System.Array](http://dotnet.github.io/api/System.Array.html), [System.Collections.Generic.List&lt;T&gt;](http://dotnet.github.io/api/System.Collections.Generic.List%601.html), and [System.Collections.Generic.Dictionary&lt;TKey, TValue&gt;](http://dotnet.github.io/api/System.Collections.Generic.Dictionary%602.html). 
+[When to Use Generic Collections](when-to-use-generic-collections.md) | Discusses the use of generic collection types.
+[Comparisons and Sorts Within Collections](comparisons-and-sorts-within-collections.md) | Discusses the use of equality comparisons and sorting comparisons in collections.
+[Sorted Collection Types](sorted-collection-types.md) | Describes sorted collections performance and characteristics.
+[Hashtable and Dictionary Collection Types](hashtable-and-dictionary-collection-types.md) | Describes the features of generic and non-generic hash-based dictionary types.
+[Thread-Safe Collections](thread-safe-collections.md) | Describes collection types such as [System.Collections.Concurrent.BlockingCollection&lt;T&gt;](http://dotnet.github.io/api/System.Collections.Concurrent.BlockingCollection%601.html) and [System.Collections.Concurrent.ConcurrentBag&lt;T&gt;](http://dotnet.github.io/api/System.Collections.Concurrent.ConcurrentBag%601.html) that support safe and efficient concurrent access from multiple threads.
 
 ## Reference
 
